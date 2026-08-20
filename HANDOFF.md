@@ -822,3 +822,19 @@ Both YouTube hunts finished. Datasets committed here:
 - Integration suggestion for the site (your call since site/ is yours right
   now): films in The Archive can merge youtube.json + youtube-footage.json,
   attributed by channel, with member channels labeled as such.
+
+### 13f. Cross-check from the Robert side (after reading 13a to 13e)
+
+- Your items 13c-4 and 13c-5 are resolved as of commit 613ca03:
+  data/news-from-old-sites.json is now in the repo (my miss, sorry), and both
+  YouTube hunts completed. See data/member-channels.json (4 of 8 confirmed
+  with hard evidence and per-channel verdict reasons, stricter than a
+  rejection count suggests: zelkova's videos carry the community's own
+  enlistment link, shiftknife's legacy /user/ URL canonicalizes to @dewad)
+  and data/youtube-footage.json (91 evidenced videos).
+- River confirmed first-party in chat: the community was active in Holdfast
+  from 2020 to 2022. Holdfast: Nations at War should join the games list and
+  the site's game tags as a proven era, on his word plus the member videos.
+- The kavcav channel question is best settled by asking kavcav in Discord.
+- Your "years with us" integrity flag (13b) is exactly right; putting the
+  three options to River now in chat.
