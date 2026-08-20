@@ -18,6 +18,8 @@ const intakes = read('data/roster-announced.json');
 const groups = read('data/steam-groups.json');
 const images = read('data/images.json');
 const recovered = read('data/roster-from-images.json');
+const class2011 = read('data/enjin-members.json');
+const knownNames = new Set(read('data/known-names.json').map((n) => String(n).toLowerCase().replace(/[^a-z0-9]+/g, '')));
 
 const ERA_ORDER = ['21stPApubliclinebattlegroup','Midnightmercs','2ndColdstream','MidnightMercss','NoxViator','GoRoaRgg','2ndColdstreamOfficial','coldstreamgaming'];
 const ERA_SHORT = {
@@ -62,6 +64,10 @@ const DATA = {
       .map((n) => ({ name: n.name, tag: n.tag, rank: n.rank, known: n.known, sightings: n.sightings.length, note: n.note || null })),
     othersCount: recovered.summary.otherRegiments,
   },
+  class2011: class2011
+    .slice().sort((a, b) => String(a.joined).localeCompare(String(b.joined)))
+    .map((m) => ({ name: m.name, joined: m.joined, joinedRaw: m.joinedRaw, lastSeen: m.lastSeen, posts: m.posts,
+      known: knownNames.has(String(m.name).toLowerCase().replace(/[^a-z0-9]+/g, '')) })),
 };
 
 // Brand assets (brand/, supplied by River 2026-08-20). The badge banner is the
@@ -547,12 +553,18 @@ function historyView() {
 let rosterEra = 'lifers';
 function rosterView() {
   const chips = '<button class="chip' + (rosterEra === 'lifers' ? ' on' : '') + '" data-rera="lifers">Lifers · 2+ eras</button>'
+    + '<button class="chip' + (rosterEra === 'c2011' ? ' on' : '') + '" data-rera="c2011">Class of 2011</button>'
     + DATA.eraOrder.map((s) => '<button class="chip' + (rosterEra === s ? ' on' : '') + '" data-rera="' + s + '">' + esc(eraName(s)) + '</button>').join('')
     + '<button class="chip' + (rosterEra === 'recovered' ? ' on' : '') + '" data-rera="recovered">From the screenshots</button>';
   let body;
   if (rosterEra === 'lifers') {
     body = '<div class="grid-names">' + DATA.lifers.map((l) =>
       '<span class="nchip">' + esc(l.name) + '<span class="x">' + l.eras.length + ' ERAS</span></span>').join('') + '</div>';
+  } else if (rosterEra === 'c2011') {
+    body = '<div class="grid-names">' + DATA.class2011.map((m) =>
+      '<span class="nchip" title="last seen ' + esc(m.lastSeen || '?') + ' · ' + m.posts + ' posts">' + esc(m.name)
+      + '<span class="x">' + esc(m.joinedRaw || m.joined) + (m.known ? '' : ' · NEW') + '</span></span>').join('') + '</div>'
+      + '<div class="barnote">The oldest dated roster we have. These join dates come from the community\\'s original Midnight Mercenarys site member table, saved by the Wayback Machine. Hover a name for last-seen and post count. NEW means the name shows up nowhere else in the records.</div>';
   } else if (rosterEra === 'recovered') {
     body = '<div class="grid-names">' + DATA.recovered.members.map((m) =>
       '<span class="nchip"' + (m.note ? ' title="' + esc(m.note) + '"' : '') + '>' + esc((m.rank ? m.rank + ' ' : '') + m.name)
@@ -564,7 +576,7 @@ function rosterView() {
     body = '<div class="grid-names">' + names.map((n) => '<span class="nchip">' + esc(n) + '</span>').join('') + '</div>'
       + '<div class="barnote">this is whoever\\'s on the Steam group roll today. Steam doesn\\'t show join dates, so for dates check the <a href="#/board/enlist" style="color:var(--brass)">Enlistment Office</a></div>';
   }
-  const count = rosterEra === 'lifers' ? DATA.lifers.length : (DATA.rosterByEra[rosterEra] || []).length;
+  const count = rosterEra === 'lifers' ? DATA.lifers.length : rosterEra === 'c2011' ? DATA.class2011.length : rosterEra === 'recovered' ? DATA.recovered.members.length : (DATA.rosterByEra[rosterEra] || []).length;
   return '<div class="wrap solo"><main><div class="module"><div class="mhead"><h3>The Roster</h3><span class="sub">' + count + ' names</span></div>'
     + '<div class="chips">' + chips + '</div>' + body + '</div></main></div>';
 }
