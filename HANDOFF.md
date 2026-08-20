@@ -550,3 +550,41 @@ before adding it.
 
 Same rule as §8f: a matching handle is not proof. Verify content before any
 channel enters the scrape.
+
+### 8h. River's answers and the free-tier constraint (20 Aug 2026)
+
+**Domain confirmed: `coldstreamgaming.com`** with the m. The earlier
+"coldstreamgaing" was a typo. Nothing registered yet.
+
+**Raven is @zelkova1224, confirmed by River**, and he was the community's video
+guy. So the channel IS ours despite showing D&D content now. Caveat for
+whoever picks this up: his old uploads are not on the first page. YouTube
+ignores `?sort=da` and `?view=0&flow=grid`; both return the same 29 recent
+titles. Reaching the older videos needs **continuation-token pagination**
+against the channel's uploads playlist. Not yet built. Do not conclude the old
+videos are gone, they are just deeper than one page.
+
+**NEW CONSTRAINT: River wants everything free for now.**
+
+The chosen stack holds up. Verified 20 Aug 2026:
+
+| | Free tier | Our need |
+| --- | --- | --- |
+| Supabase | 500MB DB, 1GB files, 50k MAU, 500k edge calls, 2 projects | 249 members, ~5MB of archive JSON. Huge headroom |
+| Vercel Hobby | 100GB transfer, 1M edge requests, non-commercial | A community site qualifies |
+
+**The one trap: Supabase pauses a free project after 7 days with no API
+requests.** Data is retained, the project goes offline until manually resumed.
+Fine once members use the site daily, dangerous during a quiet build stretch.
+Mitigate with a scheduled ping (free cron) hitting a cheap endpoint. Build that
+in before the first quiet week, not after.
+
+**Only real cost is the domain**, roughly USD 10 to 15 a year. Until River wants
+it, ship on the `.vercel.app` address. Do not design anything that assumes a
+custom domain, and do not put a paid dependency in the critical path without
+asking him first.
+
+**Repo created:** `github.com/rivercs/coldstream-gaming-site`, empty, public,
+no README. Owned by **rivercs** rather than riverbusiness26 because that is the
+signed-in account, which also means Robert's side can push immediately with no
+invitation step. Transferable later if River wants both repos under one owner.
