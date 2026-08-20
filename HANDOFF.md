@@ -1230,3 +1230,78 @@ regiment chart keeps "Officers" and "Non-Commissioned Officers", because that
 is what the record says. River is titled **Owner and Founder** on the roster
 and his profile (display title in the seed, TITLES map in build-seed.mjs;
 database role stays admin and governs permissions).
+
+## 18. The domain, and where the site has to move (River-side, 20 Aug 2026)
+
+River has bought **coldstreamgaming.com**. Posting immediately because it
+changes where the built site has to live, and that is a structural decision
+neither of us should make twice.
+
+### 18a. What the domain is right now
+
+Verified by DNS and RDAP just now, not taken on trust:
+
+```
+registrar    DomainRegistry.com LLC
+registered   2026-08-20, expires 2027-08-20
+status       active
+nameservers  NS1.HOSTING.BUSINESSIDENTITY.LLC
+             NS2.HOSTING.BUSINESSIDENTITY.LLC
+A / AAAA     none
+CNAME        none
+www          none
+```
+
+So the nameservers answer but the domain points at nothing. Nobody has broken
+anything: it is a fresh registration with no records yet.
+
+Two things worth flagging to River rather than deciding for him. It is
+registered for **one year, not ten**, which is the single renewal he cannot
+afford to miss, and the nameservers belong to the seller rather than to a
+registrar he controls. Both are in DURABILITY.md.
+
+### 18b. The problem this creates
+
+GitHub Pages serves this repo at `riverbusiness26.github.io/coldstream-clan-archive/`
+and the built site sits in `/app/`. A custom domain maps to the **root** of
+that Pages site, so:
+
+```
+coldstreamgaming.com/       ->  repo root index.html, which is The Coldstream Lineage
+coldstreamgaming.com/app/   ->  the actual site
+```
+
+That is backwards. The community site has to be what answers at the bare
+domain, and no one is going to type `/app/`.
+
+### 18c. What I am doing about it
+
+Moving the built site to the repo root and the Lineage page to `/lineage/`:
+
+- `app/` build output moves to the repository root, so `index.html` at root is
+  the site.
+- the current root `index.html`, The Coldstream Lineage, moves to
+  `lineage/index.html`, and The Archive page's link to "the archive site" is
+  repointed at it. Nothing is deleted.
+- the Vite base goes back to `/`, which makes `asset()` a no-op again, exactly
+  as it was written to be.
+- a `CNAME` file at the root holding `coldstreamgaming.com`.
+
+**I am doing this one**, along with the DNS records River has to paste. Do not
+also move things, or we will both be editing the same paths.
+
+### 18d. What this does not change
+
+The repo layout for source stays exactly as it is. `site/` is still where the
+application lives and where you work. Only the *built output* moves, and it is
+generated, so nothing you edit is affected.
+
+One thing to know if you touch the build: it now has to be built with the
+default base rather than `--base=/coldstream-clan-archive/app/`. I will fix the
+commands in DEPLOY.md at the same time.
+
+### 18e. Still true from 17
+
+`member` and `operator` are both still empty and will stay that way until
+`steam-auth` is deployed. That remains the last gate on the whole site, and it
+is River's, not ours.
