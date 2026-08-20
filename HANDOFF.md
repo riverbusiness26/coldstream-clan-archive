@@ -621,3 +621,178 @@ this repo under `site/` so you can carry it forward. State:
 - Rules recap for the site code: no em dashes anywhere including comments,
   years never era counts, gaming community never club, every archived item
   labeled with its source.
+
+## 13. Session report and handover of the heavy lifting (River-side Claude, 20 Aug 2026)
+
+River asked me to brief you and hand you the heavy lifting, so this is the
+full state plus a prioritised list. Everything below is pushed to
+`origin/main`. Working tree clean at `4f09f8a`.
+
+### 13a. What I did
+
+Seven commits. The short version: Forums, Gallery, Enlist and The Archive were
+stubs or near-stubs and are now real, and the backend turned out never to have
+worked at all.
+
+- **The backend was dead and nobody had noticed.** `0001_init.sql` enabled row
+  level security and wrote every policy, but never granted the browser roles
+  the tables. Postgres checks the grant before it looks at a policy, so every
+  single table returned 401 and the site fell back to bundled seed data on
+  every page, which looks completely normal. Verified by hitting all nine
+  tables with the anon key: nine 401s, hint `GRANT SELECT ON ...`.
+  Fix is `site/db/0004_grants.sql`.
+- **Three policy holes**, only reachable once the grants land, in
+  `0005_forum_privacy.sql`: restricted boards were readable by any signed-in
+  member (`min_role_read is null or current_member_role() is not null`, which
+  only tests that you have an account); `thread_read` and `post_read` were both
+  `using (true)`, so staff threads and posts were readable straight off the
+  REST API by anyone at all, signed in or not; and nothing enforced
+  `min_role_post` or the thread lock. `member_role` is an enum declared
+  member/officer/admin so a plain `>=` is the rank test.
+- **The shoutbox never worked.** `send` called `rpc('post_shout')`, which does
+  not exist, then fell back to `insert({ body })` with no `author_id`, which
+  the schema rejects. The realtime handler read `payload.new.author_name`,
+  not a column on `shout`. And `shout` was never in the realtime publication,
+  so the channel could not fire regardless. Fixed, plus `0006_shoutbox.sql`.
+- **Steam sign-in would have broken on the first login.** The app routes on the
+  URL hash and Supabase returns the session in the hash too, so anyone
+  finishing sign-in got routed to a view called `access_token=...` and shown a
+  blank page. Also `steam-auth` called `createUser` on every login, which fails
+  by design for returning users, then recovered by scanning only the first page
+  of accounts. Both fixed. `DEPLOY.md` is the runbook.
+- **Forums**: board index with counts and last-post times, thread list, thread
+  view, new-thread composer, reply composer.
+- **Gallery**: the twelve recovered screenshots with date, the names legible in
+  each, and the source host, plus member uploads on Supabase Storage
+  (`0003_gallery_storage.sql`). Two of the twelve were narrow chat crops posted
+  as drama evidence with names blacked out by the original poster; they were
+  displacing two genuine screenshots, now restored. The captions were being cut
+  at the first full stop, which produced "Mount & Blade" nine times and one
+  that stopped mid-word. Curated picks and written captions now live in
+  `build-seed.mjs` so a rebuild cannot put the old ones back.
+- **The Archive**: all eight eras with founding date, announcement span, member
+  and event counts and top posters, plus all 32 films. The landing page's
+  "Everything else lives in The Archive" button was a promise the site did not
+  keep.
+- **Enlist**: checks the roster for the signed-in name first and says "you are
+  already on the roll, that is N years" rather than asking a 2012 member to
+  introduce themselves. Otherwise opens a thread on the enlist board.
+- **Rank ladder** on Members: twelve insignia recovered from the regiment's own
+  site, in the three tiers the album headers used. Colonel is deliberately
+  absent because no insignia for it survives.
+- **Roster**: announcement authorship added as a dating source; rank names
+  normalised (Rct and Recruit were counting as two ranks, as were Pte/Private
+  and Cpl/Corporal); a curated alias table so one person is one row.
+- **Mobile**: the Members page laid out at 577px on a 375px screen and zoomed
+  the whole site out. The roster table now scrolls in its own box, and
+  `.wrap > main` gets `min-width:0`, because grid items default to
+  `min-width:auto` and refuse to shrink below their content.
+
+Two build-pipeline traps I hit that will bite you too:
+
+- `build-seed.mjs` regenerates `src/seed/gallery.json`, so anything hand-edited
+  there is destroyed on the next run. Same trap for news: the builder wrote an
+  empty array over nine real items whenever `data/news-from-old-sites.json` was
+  absent, which is every machine except the one that produced it. It now keeps
+  what is already seeded and warns. **That file is still missing from `data/`.**
+- `img-manifest.json`'s `hash` field is sha1 of the URL, not of the bytes.
+  The vision result hashes match the manifest, not the image contents.
+
+### 13b. The thing that most needs your judgement
+
+**305 of 384 people on the roster have a "first year" that is not evidence.**
+
+`GROUP_YEAR` in `build-seed.mjs` maps each Steam group to its founding year and
+stamps that year on every member of that group's current member list. So the
+distribution (2011: 96, 2020: 81) is mostly an artefact. Someone who joined the
+Coldstream Gaming Steam group last month reads as 2020, which the site renders
+as "6 years with us".
+
+Only 68 people have a first year backed by a genuinely dated source (Enjin
+member table, forum post, or announcement authorship). 11 are undated.
+
+This matters more than any other item because "years with us" is the site's
+headline figure and River's whole stated purpose is a record people can be
+proud of and check. The per-row provenance is honest, it says "join date not
+recorded by Steam", but the big number on the row does not carry that caveat.
+I did not want to unilaterally change how the number is derived or presented,
+because it is the centrepiece and it is his call. Options as I see them:
+
+1. Show group-year-derived figures differently: "on the roll since 2020" rather
+   than "6 years with us", reserving the years figure for dated evidence.
+2. Keep the figure but mark it, e.g. a dotted underline meaning "earliest group
+   membership, not a recorded join date".
+3. Do the work in 13c and shrink the problem first.
+
+Ask River which he wants before changing it.
+
+### 13c. Heavy lifting, in the order I would do it
+
+1. **Mine the forum for real join dates.** `data/posts.json` is 885 posts, all
+   dated, with 127 distinct authors, and only 44 roster entries currently come
+   from `source: 'forum'`. This is the biggest untapped dating source we have.
+   Caveat that makes it real work rather than a script: topic 443 is a *public*
+   FSE thread, so a large share of those 127 are opponents, applicants and
+   passers-by, not members. **111 of the 127 are not on the roster at all.** You
+   cannot bulk-add them. Needs per-author adjudication against
+   `data/known-names.json`, the tag in the post text, and `memberGroup`.
+   Only 6 existing members would gain an earlier date, so the value here is
+   breadth of evidence and catching missing members, not moving dates.
+
+2. **2014 is not actually empty.** `eventStats` shows zero events in 2014 and
+   the Archive page says "no event announcements are on record for that year".
+   But 9 forum authors first posted in 2014 and the forum spread is
+   2012: 49, 2013: 34, 2014: 9, 2015: 33, 2016: 2. So the year was active and
+   the announcement feed simply missed it. This partly answers the section 8b
+   hypothesis. Worth a targeted dig, and the Archive copy should be corrected
+   once you know what actually happened.
+
+3. **Alias merging at scale.** I merged exactly one identity, River's, because
+   he stated it himself, and I put the attribution in the provenance so it is
+   visible. The `ALIASES` table in `build-seed.mjs` takes
+   `{ key, name, also[], steam_id64, why }` and every entry must carry a `why`.
+   There are certainly more duplicates across 384 rows (Steam name vs forum
+   handle vs in-game name), and `roster-from-images.json` has `alsoReadAs` data
+   that is a starting point. Do not guess. A wrong merge erases somebody from
+   their own community's record, which is worse than leaving them split.
+
+4. **Rebuild `news-from-old-sites.json`.** Nine items are baked into
+   `site/src/seed/news.json` but the source file is not in `data/`, so the
+   pipeline cannot reproduce them and nobody can extend them. The Home page
+   news module is the front page and it is thin. Captures are in
+   `data/enjin-capture/` and `data/raw-web/`.
+
+5. **The two YouTube hunts from section 12**, still unfinished: member channel
+   discovery, and the footage sweep including opponent regiment channels. Same
+   method notes as before, and the same adversarial identity check, given seven
+   of eight candidates were rejected last time.
+
+### 13d. Not worth doing yet
+
+- Live server trackers. Browsers cannot do UDP A2S, so it needs a poller on the
+  game server box, and there are no servers yet: all four are `TBA`. The page
+  is honest about being offline. Leave it.
+- Anything needing the `service_role` key or the bot token. Those are River's
+  to handle and neither of us should be touching them.
+
+### 13e. What is blocking River, not us
+
+1. Run `site/db/RUN_ME_next.sql` in the Supabase SQL editor. Nothing backend
+   works until this lands.
+2. Deploy `steam-auth`, **with `--no-verify-jwt`**. Edge functions verify a JWT
+   by default and Steam redirects back without one, so sign-in dies at the last
+   step with a 401 otherwise. Secrets are prefixed `SB_` because Supabase
+   reserves `SUPABASE_`.
+3. Vercel: Root Directory `site`, plus the two `VITE_` variables.
+
+### 13f. Verification caveat on everything I did
+
+My browser pane never composited a frame this session, so every check I ran was
+against the live DOM and measured layout, never a rendered image. That is
+reliable for structure, data and sizing, and it is how I caught the 577px
+mobile bug. But **I have not visually seen a single one of these pages.** If
+you can get a screenshot, that is worth doing before River shows anyone.
+
+Rules recap, unchanged: no em dashes anywhere including code comments, years
+never era counts, gaming community never club, every archived item labeled with
+its source, and never post to any Discord without asking him first.
