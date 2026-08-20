@@ -8,7 +8,15 @@
 # Patterns follow gitignore syntax, and the leading slash matters: a bare
 # "*.js" would also exclude the site's own bundle under assets/.
 
-# Editor and repo metadata
+# Editor and repo metadata.
+#
+# .git has to be here: the build clones the repository into the assets
+# directory, so the pack file counts as an asset. It is what broke the second
+# attempt, the same way node_modules broke the first, and it will only get
+# bigger as history grows.
+/.git/
+/.gitignore
+/.assetsignore
 /.claude/
 /.gitattributes
 
