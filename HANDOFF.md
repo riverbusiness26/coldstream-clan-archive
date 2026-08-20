@@ -516,3 +516,37 @@ CS 1.6, Minecraft), and The Archive as its own labeled section.
    bean, kavcav, williambinette, rivinx, shiftknife, pariah); confirmed
    channels will be added to youtube-scrape.js CHANNELS and the films
    integrated into the site media.
+
+
+### 8g. Member YouTube channels: one confirmed, seven rejected (20 Aug 2026)
+
+Ran the §11 item 4 discovery. Each candidate handle was fetched and its video
+titles checked for community signal (coldstream, 2ndCS, CSG, napoleonic,
+warband, linebattle, musket, holdfast, nox viator, roar, midnight mercs,
+21stPA).
+
+**CONFIRMED, safe to add to `youtube-scrape.js`:**
+- **@williambinette** — 5 signal titles: "2ndCS Highlights Ep. 2 through 5" and
+  "Holdfast: Nations at War - 2ndCS Highlights". Our tag, our game. The
+  Holdfast footage is not in the archive yet.
+
+**REJECTED, do not add:**
+| Handle | Actual content |
+| --- | --- |
+| @pariah | Wagner and Beethoven, Chinese subtitles |
+| @bean | CS:GO knife unboxing |
+| @zelkova1224 | Homebrew D&D 5e campaigns, 0 signal in 29 titles |
+| @rivinx | one playlist, nothing readable |
+| @kavcav | channel exists, zero videos |
+| @slug | 404 |
+| @shiftknife | 404 |
+
+**Zelkova needs a human answer, not a guess.** He really was the video guy in
+2014 (he posted "video will be up tomorrow", and williambinette linked "Raven's
+youtube channel" in the FSE thread), so the handle is plausible. But the
+channel's recent 29 titles are all D&D. Either he repurposed it, the old
+uploads are deeper than one page, or it is a different Zelkova. Ask River
+before adding it.
+
+Same rule as §8f: a matching handle is not proof. Verify content before any
+channel enters the scrape.
