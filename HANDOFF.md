@@ -1079,3 +1079,107 @@ deepen the record.
 
 The events calendar is still not started, and it is the other half of what
 makes a community site a place rather than a page.
+
+## 17. Status, the plan, and who is holding what (River-side, 20 Aug 2026)
+
+Posting this the moment it is true, because two of the four things below change
+what you should be doing right now.
+
+### 17a. The backend is live. Stop building against 401.
+
+**River has run `RUN_ME_next.sql`.** Verified against the anon key just now:
+eleven tables answer where every one of them used to 401.
+
+```
+board 6 · thread 0 · post 0 · member 0 · roster_entry 596
+gallery_item 0 · gallery_category 8 · shout 0
+server_status 4 · news_item 6 · operator 0
+```
+
+The gallery storage bucket exists. An earlier probe of mine said it did not;
+that was me reading the wrong endpoint. Asking for a missing file in `gallery`
+returns `NoSuchKey`, while a bucket that genuinely does not exist returns
+`Bucket not found`. Different errors, and I reported the first as the second.
+
+**The 0005 privacy work is provably doing its job**: seven boards were
+inserted, anon sees six, and the one missing is `staff`.
+
+`member` and `operator` are empty because nobody can sign in yet. Still to do,
+all River's: deploy `steam-auth` with `--no-verify-jwt`, create the operator
+account and run the `insert into operator` line, and add the site URL to
+Authentication > URL Configuration.
+
+The demo stores you built are still worth keeping. They are the offline path
+and they make the UI reviewable without a session.
+
+### 17b. The event counts on the site were wrong. Re-pull before you quote any.
+
+The site was showing **627 events** in its statistics while its own per-year
+bars added up to **362**, and the landing page led with **529** for the
+regiment years.
+
+None of the era-level event counts could be reproduced from the announcements.
+627 sits between my narrowest title match at 362 and my broadest at 689, and
+the regiment's real figure is **276**, not 529. The rule that produced the
+research file's numbers is not recoverable.
+
+Era `events` and `byYear` are now recomputed in `build-seed.mjs` by the same
+rule everything else uses: an announcement whose title announces an event.
+Ribbon, bars, totals and copy all agree at 362 now. Everything else on an era
+was checked and kept, because the announcement counts do reproduce exactly at
+1,210, and founding dates and member counts come from the group pages rather
+than the feed.
+
+**If you have anything in flight quoting 627 or 529, it is wrong.** Same for
+the two artifacts I published earlier, which I have not yet corrected.
+
+### 17c. What I am holding right now
+
+To avoid a third collision after the HANDOFF numbering clash and the gallery
+delete policies. Do not edit these without saying so:
+
+- `src/views/Gallery.tsx` — categories and video, landed
+- `src/views/Landing.tsx` — the era ribbon and honours bands, landed
+- `seed/build-seed.mjs` — era recount and the past-events seed, landed
+- `src/lib/gallery.ts`, `src/lib/asset.ts` — mine
+- `db/0009_gallery_categories.sql`, `db/0010_events.sql`
+- **`src/views/Events.tsx`** — in progress, not yet committed
+
+`0010_events.sql` is written but **not in `RUN_ME_next.sql` and not run**. I
+will fold it in once the view is built so River pastes once more, not twice.
+
+Free for you: Forums, Members, Home, Archive, Shoutbox, Discord, the admin
+panel, and everything in 16c.
+
+### 17d. The plan
+
+Written up for River as a roadmap. Four phases:
+
+- **Phase 0, switch on the backend.** Done as of today except sign-in.
+- **Phase 1, his three asks.** Gallery uploads with categories and video are
+  in. The admin panel is schema only: `operator` exists and there is no UI, and
+  that is the piece that makes the gallery actually work, because uploads land
+  unapproved and there is nowhere to approve them. The calendar is mine, in
+  progress.
+- **Phase 2, somewhere people come back to.** Member profiles, Discord posting
+  outward as well as reading in, server trackers when the boxes exist.
+- **Phase 3, deepen the record.** The 91 films you found, the forum mining,
+  the 2014 question, alias merging.
+
+Section 16c has the parity list in the order I would close it. The first two
+matter most and neither is claimed: **What's New**, an activity feed, which is
+the difference between a site people visit once and one they open daily; and
+**reactions**, because people who will never write a reply will still press a
+button.
+
+### 17e. What I would pick up if I were you
+
+The **admin panel**, starting with the gallery approval queue. It is Phase 1,
+it is the only thing standing between the gallery and actually working, River
+has asked for it directly, and the backend it needs is live as of an hour ago.
+
+Rules unchanged: no em dashes anywhere including code comments, years never era
+counts, gaming community never club, every archived item labeled with its
+source, and nothing posted to any Discord without asking River first. He has
+explicitly held the rules rewrite and the welcome sign, both drafted and
+sitting in CSG Test.
