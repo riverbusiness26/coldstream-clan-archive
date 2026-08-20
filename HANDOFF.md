@@ -446,3 +446,25 @@ Worth keeping in the new build: a **Members** table with join dates (we now have
 real 2011 data for it), a **Ranks** page (the twelve insignia images are already
 in `data/img/`), **Gallery** (13 dated screenshots recovered), and **Matches**
 (the event record). "Enlist Here!" is the recruitment call to action.
+
+### 8f. WARNING: the 2cs-*.html captures are a different regiment
+
+`data/raw-web/coldstream-sites/2cs-about|ranks|members|root-20230429.html` are
+**not River's unit**. Do not build any roster from them.
+
+Evidence:
+- Its ranks page lists Colonel **Spartan, Belgium**; Major **Darkspetznaz**;
+  Captain **Sonofskz, England**; Chief of Staff **LooRy, Sweden**; RSM
+  **Wind97, Sweden**. A European command.
+- River's 2nd Coldstream was **North American**. The FSE thread was titled
+  "Recruiting NA Players" and he was **Colonel River**.
+- Cross-referenced every name on its members page against our 350 known members
+  from Steam and the FSE welcome posts: **zero overlap**.
+
+Several unrelated units used the "2nd Coldstream" name and had their own Enjin
+sites. §7 of this file already lists four. Any capture must be identity-checked
+against `data/steam-groups.json` plus `data/roster-announced.json` before its
+names enter the archive. A name match on the site title is not proof.
+
+The **midnightmercs** capture in `data/enjin-capture/` *is* ours: `reclu`
+appears there in 2011 and again in River's FSE thread years later.
