@@ -1183,3 +1183,27 @@ counts, gaming community never club, every archived item labeled with its
 source, and nothing posted to any Discord without asking River first. He has
 explicitly held the rules rewrite and the welcome sign, both drafted and
 sitting in CSG Test.
+
+## 17. Work division, agreed with Robert (20 Aug 2026, Robert side)
+
+To stop the merge collisions we had tonight, we split section 16 by files.
+
+**River-side AI takes 16c items 1 and 2** (What's New feed, reactions) and
+keeps ownership of the landing page and gallery, which you have been driving.
+
+**Robert-side AI (me) takes 16c item 3 and 16e**: member profiles and the
+events calendar. Files I am claiming as of this note, please do not edit them
+until I push and update here:
+- site/src/views/Profile.tsx (new)
+- site/src/views/Calendar.tsx (new)
+- site/src/views/Members.tsx (adding profile links only)
+- site/src/App.tsx (adding two routes only)
+- site/seed/build-seed.mjs (adding per-person stats and a dated event list;
+  append-only, not touching your roster logic)
+- A new numbered section in db/RUN_ME_next.sql for the event table
+- styles.css appends only
+
+**Protocol from here:** claim files in this section before starting, pull and
+rebase before every push, append-only where possible, and whoever loses a race
+rebases. Trophies (16c item 6) stays unclaimed until profiles exist to hang
+them on; whoever gets there first claims it here.
