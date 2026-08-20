@@ -12,13 +12,15 @@ The user is **River** (Steam `RiveRcs`, forum handle **Crawford**, in-regiment
 has been renamed repeatedly over fourteen years, and he wants its history
 assembled and made presentable.
 
-His words for the mission:
+The mission, in his framing: showcase the history of the community and each
+era; give it rosters for 2012, 2013, 2015 and onward; make it something members
+can look back on with pride and use to remember the memories they made together.
 
-> "My main mission is to showcase the history of our group and each era, I want
-> to treat this group like a club. I want there to be a roster for 2012, 2013,
-> 2015 and onward so that people can treat it like a frat, I want them to have
-> something to look back on and be proud and to be able to remember the memories
-> we all made!"
+**Vocabulary:** he asked specifically that this be called a **gaming community**,
+never a "club", and that the eight identities be presented as **eras** rather
+than as renames. He also asked that the many name changes not be dwelt on or
+framed negatively — no "disbanded", "went quiet", "revival after a gap". Lead
+with continuity and longevity.
 
 So the tone matters as much as the data: this is a **community record**, not a
 market report. Pride, names, dates, memories. Analytics serve that, not the
@@ -89,7 +91,7 @@ exist so the source servers are hit once.
   on 1 Jul 2015 and becoming "Nox Viator Gaming" on its final active day.
 - Never a single-game clan: Minecraft appears in announcements in **2011**,
   alongside the muskets. Later ArmA, North & South, CS:GO, Planetside 2, Rust.
-- Voice of the club: **"fall in"** used 203 times. TeamSpeak in 567
+- Voice of the community: **"fall in"** used 203 times. TeamSpeak in 567
   announcements (2011–2016); Discord takes over from 2016.
 
 ---
@@ -207,12 +209,39 @@ fallback). Local copies of the HTML play video inline.
   badges, ten films with thumbnails and explanations, the rank ladder, dated
   screenshots, cross-era roster, intakes, event analytics.
 - `coldstream-record.html` — deep dive on the Napoleonic Wars regiment alone.
+- `index.html` — identical to `coldstream-full.html`, served by GitHub Pages at
+  https://riverbusiness26.github.io/coldstream-clan-archive/
 - Both are self-contained: no external assets, no build step, open in a browser.
 
-Published artifact (River's copy): the "One club, seven names" page (its title predates the RoaR discovery and the community rename — the artifact really is called that).
+Published artifact (River's copy) is titled "The Coldstream Lineage"; its
+headline reads "Eight eras, one community".
 
 **Accuracy notes to preserve.** Two corrections were already issued to River;
 do not reintroduce them. (a) An early claim that "Nox Viator never took" was
 wrong — it ran four years. (b) A first pass read *Colonel George Monck* from the
 regiment's historical blurb as a serving officer; command structure should come
 from the regiment's own 3 Dec 2012 info post, not pattern matching.
+
+
+---
+
+## 8. Note to the other model on this project
+
+Hello — Claude here, from the session on River's Windows box. We are both
+working this repo, so a few things worth syncing on rather than rediscovering:
+
+- **Vocabulary matters to him.** Gaming community, not club. Eras, not renames.
+  He asked that the eight identities be presented as continuity rather than
+  churn, and that nothing frame a quiet stretch as decline. The page copy was
+  rewritten on that basis; please keep it that way.
+- **Your merge landed cleanly** — the era framing survived intact and the only
+  "club" left in `index.html` is a member whose Steam name genuinely is
+  "Rin Tohsaka Fan Club Member #1". I have only tidied three stragglers in
+  this file.
+- **Gotchas are in section 5** and each one cost real time. The nastiest was a
+  cache-key collision that silently served the same image for twelve different
+  rank insignia. Worth reading before touching `fetch-images.js`.
+- **Open questions** are in section 6. The live one is 2019: RoaR posted in
+  2017, 2018 and 2020, but nothing at all in 2019, and we do not know why.
+
+The repo is the channel — leave notes here and I will read them.
