@@ -212,6 +212,14 @@ for (const e of entries) {
   e.person_key = c;
 }
 
+// A Steam group's member list carries the group's founding year, not a join
+// date, so it is not evidence of when somebody turned up. An announcement is
+// different: it files under the same source but its year comes from the post's
+// own timestamp. Excluding the whole source threw the strongest dated evidence
+// we have out with the weakest, and left the man who founded the community
+// with no year at all.
+const isGroupRoll = (e) => e.source === 'steam' && /^On the rolls of the/.test(e.source_detail || '');
+
 // ---- people summary for the roster page: group entries by person and
 // compute the years figure people are proud of.
 const people = {};
@@ -225,7 +233,7 @@ for (const e of entries) {
   // Years-with-us only counts from a genuinely dated record. Steam group
   // membership carries the group's founding year, not a join date, so it
   // never feeds datedYear (River's call, HANDOFF 13b option 1).
-  if (e.year && e.source !== 'steam' && (!p.datedYear || e.year < p.datedYear)) p.datedYear = e.year;
+  if (e.year && !isGroupRoll(e) && (!p.datedYear || e.year < p.datedYear)) p.datedYear = e.year;
   if (e.game && e.game !== 'GEN') p.games.add(e.game);
   if (e.rank_or_class) p.ranks.push(e.rank_or_class);
   if (e.steam_id64) p.steam_id64 = e.steam_id64;

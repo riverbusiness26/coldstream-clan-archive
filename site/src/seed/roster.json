@@ -6818,7 +6818,7 @@
    "key": "capitulatedmagik",
    "name": "Capitulated Magik",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2012,
    "games": [
     "NW",
     "CSGO"
@@ -6891,7 +6891,7 @@
    "key": "dominosman",
    "name": "dominos man",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7192,7 +7192,7 @@
    "key": "legitpavilion",
    "name": "LegitPavilion",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7279,7 +7279,7 @@
    "key": "noxvdavid",
    "name": "NoxV ' DaviD",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7342,7 +7342,7 @@
    "key": "rambo",
    "name": "Rambo",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2015,
    "games": [
     "NW",
     "CSGO"
@@ -7454,7 +7454,7 @@
    "key": "shu216",
    "name": "Shu216",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -7504,7 +7504,7 @@
    "key": "smoothbrain",
    "name": "Smooth Brain",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7708,7 +7708,7 @@
    "key": "vincentvintsansvin",
    "name": "Vincent vint sans vin",
    "firstYear": 2011,
-   "datedYear": null,
+   "datedYear": 2012,
    "games": [
     "NW",
     "CSGO"
@@ -8478,7 +8478,7 @@
    "key": "river",
    "name": "RiveR",
    "firstYear": 2012,
-   "datedYear": null,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -9566,7 +9566,7 @@
    "key": "tylery",
    "name": "TylerY",
    "firstYear": 2015,
-   "datedYear": null,
+   "datedYear": 2015,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -10020,7 +10020,7 @@
    "key": "patches",
    "name": "Patches",
    "firstYear": 2017,
-   "datedYear": null,
+   "datedYear": 2020,
    "games": [
     "NW",
     "CSGO"
