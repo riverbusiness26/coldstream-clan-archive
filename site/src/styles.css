@@ -321,3 +321,25 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .playmark::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-40%,-50%);border-left:11px solid var(--accent);border-top:7px solid transparent;border-bottom:7px solid transparent}
 .land-video.force iframe{display:block !important}
 .land-video.force .fallback{filter:blur(0);transform:none}
+
+/* ---- landing: the fifteen year ribbon ---- */
+.land-eras{max-width:1120px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(8,1fr);gap:10px;align-items:end}
+.lera{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.lera-bar{width:100%;height:120px;background:#131514;border:1px solid var(--line);display:flex;align-items:flex-end}
+.lera-bar span{display:block;width:100%;background:linear-gradient(180deg,#cfd3ce,#8d938e)}
+.lera-n{font:500 15px/1 var(--mono);color:#fff;font-variant-numeric:tabular-nums}
+.lera-year{font:bold 10.5px/1 var(--mono);letter-spacing:.1em;color:var(--accent)}
+.lera-name{font:400 10.5px/1.35 var(--body);color:var(--muted);text-align:center;overflow-wrap:anywhere}
+.land-erafoot{max-width:1120px;margin:16px auto 0;padding:0 20px;font:400 11px/1.7 var(--mono);color:var(--faint);text-align:center}
+@media (max-width:760px){
+  .land-eras{grid-template-columns:repeat(4,1fr);row-gap:20px}
+  .lera-bar{height:84px}
+}
+@media (max-width:420px){.land-eras{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- landing: honours ---- */
+.land-honours{max-width:1120px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.honour{background:var(--raised);border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);padding:18px;box-shadow:inset 3px 0 0 var(--accent)}
+.hfig{font:500 30px/1 var(--mono);color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.hname{margin-top:6px;font:bold 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.honour p{margin:10px 0 0;font-size:13px;line-height:1.7;color:#c6cac5}

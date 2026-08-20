@@ -39,12 +39,12 @@
    "members": 54,
    "namedMembers": 48,
    "announcements": 67,
-   "events": 7,
+   "events": 4,
    "first": "2011-07-01",
    "last": "2013-02-22",
    "byYear": {
-    "2011": 3,
-    "2012": 3,
+    "2011": 2,
+    "2012": 1,
     "2013": 1
    },
    "topAuthors": [
@@ -67,19 +67,19 @@
    "name": "2nd Coldstream Regiment of Footguards",
    "label": "2nd Coldstream Regiment of Footguards",
    "game": "Mount & Blade: Warband, Napoleonic Wars",
-   "note": "The regiment years. Rank structure, weekly drills, and more events called than every other stretch of the record put together. Second to None.",
+   "note": "The regiment years. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None.",
    "founded": "January 19, 2012",
    "foundedIso": "2012-01-19",
    "members": 90,
    "namedMembers": 77,
    "announcements": 822,
-   "events": 529,
+   "events": 276,
    "first": "2012-01-20",
    "last": "2015-10-29",
    "byYear": {
-    "2012": 310,
-    "2013": 142,
-    "2015": 77
+    "2012": 130,
+    "2013": 84,
+    "2015": 62
    },
    "topAuthors": [
     {
@@ -107,11 +107,11 @@
    "members": 101,
    "namedMembers": 82,
    "announcements": 126,
-   "events": 13,
+   "events": 9,
    "first": "2012-06-18",
    "last": "2013-09-11",
    "byYear": {
-    "2012": 11,
+    "2012": 7,
     "2013": 2
    },
    "topAuthors": [
@@ -140,12 +140,10 @@
    "members": 83,
    "namedMembers": 68,
    "announcements": 103,
-   "events": 1,
+   "events": 0,
    "first": "2013-11-03",
    "last": "2017-10-15",
-   "byYear": {
-    "2016": 1
-   },
+   "byYear": {},
    "topAuthors": [
     {
      "name": "RiveR",
@@ -172,12 +170,12 @@
    "members": 92,
    "namedMembers": 82,
    "announcements": 45,
-   "events": 33,
+   "events": 29,
    "first": "2017-10-24",
    "last": "2020-03-28",
    "byYear": {
     "2017": 6,
-    "2018": 27
+    "2018": 23
    },
    "topAuthors": [
     {
@@ -234,17 +232,15 @@
  ],
  "totals": {
   "announcements": 1210,
-  "events": 627,
-  "rebrands": 2
+  "events": 362
  },
  "eventsByYear": {
-  "2011": 29,
-  "2012": 324,
-  "2013": 145,
-  "2015": 77,
-  "2016": 1,
+  "2011": 28,
+  "2012": 138,
+  "2013": 87,
+  "2015": 62,
   "2017": 6,
-  "2018": 27,
+  "2018": 23,
   "2020": 18
  }
 }

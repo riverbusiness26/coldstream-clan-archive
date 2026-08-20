@@ -4,6 +4,7 @@
 // from the archives; nothing is stock.
 import { useEffect, useRef, useState } from 'react';
 import films from '../seed/films.json';
+import erasSeed from '../seed/eras.json';
 import { people, eventStats } from '../lib/data';
 import type { Me } from '../lib/auth';
 import { asset } from '../lib/asset';
@@ -71,8 +72,29 @@ function Big({ n, label }: { n: number; label: string }) {
   );
 }
 
+interface Era { slug: string; label: string; game: string; foundedIso: string | null; events: number; first: string | null; last: string | null }
+const ERAS = (erasSeed as unknown as { eras: Era[] }).eras;
+const PEAK = Math.max(...ERAS.map((e) => e.events), 1);
+
+// Honours. Every figure here is checkable: the thread view count is read off
+// the archived page itself, the event counts off the announcement record.
+const HONOURS: { fig: string; name: string; body: string }[] = [
+  { fig: '139,456', name: 'views on one thread',
+    body: 'The recruitment thread ran fifty nine pages over three and a half years, and a hundred and thirty nine thousand people looked in.' },
+  { fig: '276', name: 'events in one stretch',
+    body: 'Called by the 2nd Coldstream between 2012 and 2015, three quarters of every event the record holds.' },
+  { fig: 'ESEA', name: 'Open and Intermediate',
+    body: 'Two teams fielded in CS:GO, retake servers that stayed full, and 10 mans running on FACEIT.' },
+  { fig: 'RoaR', name: 'a skin in the Steam Workshop',
+    body: 'A creator built a USP, named it for the org, and handed it over.' },
+  { fig: '384', name: 'names on the roll',
+    body: 'Everyone the record remembers since 2011, each one traceable to the source it came from.' },
+  { fig: '2012', name: 'our own ground ever since',
+    body: '2ndColdstream_TDM was the first server. There has been one running under our name in some form ever since.' },
+];
+
 const HIGHLIGHTS: { title: string; body: string; tag: string }[] = [
-  { tag: 'NW', title: '529 events in one stretch', body: 'The 2nd Coldstream Regiment of Footguards called 529 events between 2012 and 2015, more than every other stretch of the record combined.' },
+  { tag: 'NW', title: '276 events in one stretch', body: 'The 2nd Coldstream Regiment of Footguards called 276 events between 2012 and 2015, more than every other stretch of the record put together.' },
   { tag: '2012', title: '"Fall in" · 203 times', body: 'The two words that started every event night. Counted across the announcement archive, they are the voice of the community.' },
   { tag: '2012', title: 'Thirty strong in one line', body: '"Very nice to see 30 of us there." One line from an April 2012 battle report, and the reason the roster runs so deep.' },
   { tag: 'CSGO', title: 'ESEA teams and packed retakes', body: 'The community fielded ESEA Open and Intermediate teams and ran retake servers that stayed full, with 10 mans on FACEIT.' },
@@ -180,6 +202,39 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
           <Big n={totalEvents} label="events on record" />
           <Big n={FILMS.length} label="films preserved" />
           <Big n={15} label="years running" />
+        </div>
+      </section>
+
+      <section className="land-band">
+        <h2>Fifteen Years</h2>
+        <div className="land-eras">
+          {ERAS.map((e) => (
+            <div className="lera" key={e.slug}>
+              <div className="lera-bar">
+                <span style={{ height: `${Math.max(3, Math.round((e.events / PEAK) * 100))}%` }} />
+              </div>
+              <div className="lera-n">{e.events || '·'}</div>
+              <div className="lera-year">{e.foundedIso ? e.foundedIso.slice(0, 4) : ''}</div>
+              <div className="lera-name">{e.label}</div>
+            </div>
+          ))}
+        </div>
+        <div className="land-erafoot">
+          Eight banners, one community. Bars are events called, counted from
+          1,210 archived announcements.
+        </div>
+      </section>
+
+      <section className="land-band alt">
+        <h2>Honours</h2>
+        <div className="land-honours">
+          {HONOURS.map((h) => (
+            <div className="honour" key={h.name}>
+              <div className="hfig">{h.fig}</div>
+              <div className="hname">{h.name}</div>
+              <p>{h.body}</p>
+            </div>
+          ))}
         </div>
       </section>
 

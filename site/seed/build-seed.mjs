@@ -146,6 +146,122 @@ const events = Object.entries(eventStats)
   .map(([k, n]) => ({ year: Number(k.split(':')[0]), game: k.split(':')[1], events: n }))
   .sort((a, b) => a.year - b.year || b.events - a.events);
 
+
+
+// ---- the eras, with their event counts recomputed here.
+//
+// The research pass counted events with a rule that is no longer recoverable:
+// it produced 627 across the eras and 529 for the regiment years, and neither
+// can be reproduced from the announcements by any rule that can be written
+// down. The site was showing 627 in its statistics while its own per-year bars
+// added up to 362, which is the kind of thing this whole archive exists to not
+// do. Events are counted here, once, by the same rule everything else uses:
+// an announcement whose title announces an event.
+//
+// Everything else on an era is kept from the research file and verified: the
+// announcement counts reproduce exactly, and founding dates and member counts
+// come from the group pages rather than the feed.
+const erasRaw = read('eras.json');
+const eraEvents = {};
+const eraByYear = {};
+for (const a of (Array.isArray(anns) ? anns : anns.announcements)) {
+  if (!EVENT_RX.test(a.title || '')) continue;
+  const y = yearOf(a.when);
+  eraEvents[a.group] = (eraEvents[a.group] || 0) + 1;
+  if (y) {
+    (eraByYear[a.group] ||= {});
+    eraByYear[a.group][y] = (eraByYear[a.group][y] || 0) + 1;
+  }
+}
+
+// Label, the games it played, and the line of context the numbers do not say.
+const ERA_NOTES = {
+  '21stPApubliclinebattlegroup': ['21stPA', 'Battlegrounds 2',
+    'Public linebattles in Battlegrounds 2. A server, a bugle, and the first thirty names on the roll.'],
+  'Midnightmercs': ['Midnight Mercs', 'Battlegrounds 2, Mount & Blade',
+    'The first banner the community flew over itself, with the regiment underneath it.'],
+  '2ndColdstream': ['2nd Coldstream Regiment of Footguards', 'Mount & Blade: Warband, Napoleonic Wars',
+    'The regiment years. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None.'],
+  'MidnightMercss': ['Midnight Mercenaries', 'multi-game',
+    'The community side of the same years, running wider than the one game the regiment played.'],
+  'NoxViator': ['Nox Viator', 'multi-game',
+    'The community through the middle years, with the 2nd Coldstream still the regiment inside it.'],
+  'GoRoaRgg': ['RoaR Gaming', 'Counter-Strike: Global Offensive',
+    'The esports years. Dedicated CS:GO retake servers, 10 mans on FACEIT, and teams fielded in ESEA Open and ESEA Intermediate. A creator on the Steam Workshop named a USP skin "RoaR" and gave it to the org.'],
+  '2ndColdstreamOfficial': ['2nd Coldstream Official', 'Mount & Blade: Warband, Napoleonic Wars',
+    'The regiment name back over the door, and the old lines forming up again.'],
+  'coldstreamgaming': ['Coldstream Gaming', 'multi-game',
+    'Where we are now. Every game we feel like playing, our own servers coming back online, and this site to hold the rest of it.'],
+};
+
+const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+const isoFromFounded = (founded) => {
+  const m = String(founded || '').match(/^(\w+) (\d+), (\d{4})$/);
+  if (!m) return null;
+  const mi = MONTHS_LONG.indexOf(m[1]);
+  if (mi < 0) return null;
+  return `${m[3]}-${String(mi + 1).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+};
+
+const erasOut = erasRaw.groups.map((g) => {
+  const [label, game, note] = ERA_NOTES[g.slug] || [g.name, '', ''];
+  return {
+    slug: g.slug, name: g.name, label, game, note,
+    founded: g.founded, foundedIso: isoFromFounded(g.founded),
+    members: g.members, namedMembers: g.namedMembers,
+    announcements: g.announcements,
+    events: eraEvents[g.slug] || 0,
+    first: g.first, last: g.last,
+    byYear: eraByYear[g.slug] || {},
+    topAuthors: (g.topAuthors || []).slice(0, 3),
+  };
+}).sort((a, b) => String(a.foundedIso).localeCompare(String(b.foundedIso)));
+
+writeFileSync('src/seed/eras.json', JSON.stringify({
+  eras: erasOut,
+  totals: {
+    announcements: erasOut.reduce((n, e) => n + e.announcements, 0),
+    events: erasOut.reduce((n, e) => n + e.events, 0),
+  },
+  eventsByYear: events.reduce((acc, e) => { acc[e.year] = (acc[e.year] || 0) + e.events; return acc; }, {}),
+}, null, 1));
+console.log(`eras: ${erasOut.length} | events recomputed: ${erasOut.reduce((n, e) => n + e.events, 0)} (research file said ${erasRaw.totals.events})`);
+
+// ---- the calendar's past, from the announcement record.
+//
+// 627 events were called between 2011 and 2020 and every one of them has a
+// date. They are seeded as bundled data rather than database rows because they
+// are archive, not diary: nobody can RSVP to 2012. The live table holds only
+// what is still to come.
+const MONTH_N = { Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6, Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12 };
+const whenToIso = (w) => {
+  // "Jul 8, 2020 @ 4:39pm"
+  const m = String(w || '').match(/^(\w{3})\s+(\d{1,2}),\s*(20\d\d)/);
+  if (!m) return null;
+  const mo = MONTH_N[m[1]];
+  if (!mo) return null;
+  return `${m[3]}-${String(mo).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+};
+
+const pastEvents = [];
+for (const a of (Array.isArray(anns) ? anns : anns.announcements)) {
+  if (!EVENT_RX.test(a.title || '')) continue;
+  const date = whenToIso(a.when);
+  if (!date) continue;
+  pastEvents.push({
+    date,
+    title: String(a.title || '').trim().slice(0, 160),
+    game: inferGame((a.title || '') + ' ' + (a.body || ''), a.group),
+    group: a.group,
+    by: (a.author || '').trim() || null,
+    source: `Steam group announcement, ${a.when}`,
+  });
+}
+pastEvents.sort((x, y) => y.date.localeCompare(x.date));
+writeFileSync('src/seed/events-past.json', JSON.stringify(pastEvents, null, 1));
+console.log(`past events: ${pastEvents.length} (${pastEvents.at(-1)?.date} to ${pastEvents[0]?.date})`);
+
 // ---- news from the old sites, extracted from Wayback captures.
 // The news items were extracted from Wayback captures in a separate pass and
 // the result is not in the archive's data directory. If the source file is not
