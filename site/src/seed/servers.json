@@ -1,0 +1,38 @@
+[
+ {
+  "server_key": "ttt",
+  "game": "GMOD",
+  "name": "Coldstream TTT",
+  "address": "TBA",
+  "online": false,
+  "players": 0,
+  "max_players": 24
+ },
+ {
+  "server_key": "css",
+  "game": "CSS",
+  "name": "Coldstream CS:S",
+  "address": "TBA",
+  "online": false,
+  "players": 0,
+  "max_players": 20
+ },
+ {
+  "server_key": "cs16",
+  "game": "CS16",
+  "name": "Coldstream 1.6",
+  "address": "TBA",
+  "online": false,
+  "players": 0,
+  "max_players": 20
+ },
+ {
+  "server_key": "mc",
+  "game": "MC",
+  "name": "Coldstream SMP",
+  "address": "TBA",
+  "online": false,
+  "players": 0,
+  "max_players": 20
+ }
+]

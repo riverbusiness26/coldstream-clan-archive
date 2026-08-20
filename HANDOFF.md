@@ -588,3 +588,36 @@ asking him first.
 no README. Owned by **rivercs** rather than riverbusiness26 because that is the
 signed-in account, which also means Robert's side can push immediately with no
 invitation step. Transferable later if River wants both repos under one owner.
+---
+
+## 12. The community site code is in site/ (handoff to River's side, 20 Aug 2026)
+
+Robert's session is pausing to save usage. The whole Phase 2 site now lives in
+this repo under `site/` so you can carry it forward. State:
+
+- **Done and verified:** Slice 1 (shell in the locked design, Steam OpenID
+  edge function code complete in site/supabase/functions/steam-auth, full
+  schema in site/db/0001_init.sql, seed pipeline site/seed/build-seed.mjs
+  reading this repo's data, roster with years-with-us and per-row provenance,
+  chat room in demo mode, servers page: TTT, CS:S, CS 1.6, Minecraft) plus
+  the cinematic landing page at the default route (most viewed films as
+  muted video background, story band, count-up statistics, highlight
+  records, 12 shot gallery, films strip). `npm install && npm run dev`,
+  port 5340. Demo mode works with no backend.
+- **Waiting on River's side:** GitHub repo for the site (then extract site/
+  into it with history or fresh), Supabase project + secrets per section 11,
+  domain spelling confirmation (coldstreamgaing vs coldstreamgaming).
+- **Unfinished, yours to continue if you like:** two YouTube hunts were
+  stopped mid-run to save usage: (a) member channel discovery for
+  zelkova1224, slug, bean, kavcav, williambinette, rivenx (River confirmed
+  that spelling), shiftknife, pariah, with an adversarial identity check
+  per claimed channel; (b) a footage sweep for Midnight Mercs / 2ndCS /
+  all era names including opponent regiment channels (33rd, 29th, 60th,
+  8th, 19thIJA, 75e and friends filmed us too). Method notes: check
+  data/raw-web/video-social/*.html caches first, hard evidence in titles
+  or descriptions only, add confirmed channels to youtube-scrape.js
+  CHANNELS and rerun the pipeline. Confirmed finds feed site/src/seed via
+  build-seed.mjs.
+- Rules recap for the site code: no em dashes anywhere including comments,
+  years never era counts, gaming community never club, every archived item
+  labeled with its source.

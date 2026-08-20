@@ -1,0 +1,77 @@
+[
+ {
+  "year": 2011,
+  "game": "BG2",
+  "events": 26
+ },
+ {
+  "year": 2011,
+  "game": "CSS",
+  "events": 1
+ },
+ {
+  "year": 2011,
+  "game": "GEN",
+  "events": 1
+ },
+ {
+  "year": 2012,
+  "game": "NW",
+  "events": 126
+ },
+ {
+  "year": 2012,
+  "game": "GEN",
+  "events": 6
+ },
+ {
+  "year": 2012,
+  "game": "NS",
+  "events": 5
+ },
+ {
+  "year": 2012,
+  "game": "RUST",
+  "events": 1
+ },
+ {
+  "year": 2013,
+  "game": "NW",
+  "events": 83
+ },
+ {
+  "year": 2013,
+  "game": "GEN",
+  "events": 3
+ },
+ {
+  "year": 2013,
+  "game": "NS",
+  "events": 1
+ },
+ {
+  "year": 2015,
+  "game": "NW",
+  "events": 62
+ },
+ {
+  "year": 2017,
+  "game": "CSGO",
+  "events": 4
+ },
+ {
+  "year": 2017,
+  "game": "GMOD",
+  "events": 2
+ },
+ {
+  "year": 2018,
+  "game": "CSGO",
+  "events": 23
+ },
+ {
+  "year": 2020,
+  "game": "NW",
+  "events": 18
+ }
+]
