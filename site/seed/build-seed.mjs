@@ -71,6 +71,32 @@ for (const n of rec.names.filter((x) => x.affiliation === 'member')) {
   });
 }
 
+// 5. Announcement authorship. Steam group membership carries no join date, so
+// for anyone who ran a group the earliest announcement they posted is a far
+// better first-year than the group's founding year. It only covers the handful
+// who actually posted, but for those it is the strongest date in the archive.
+const annsForAuthors = read('steam-announcements.json');
+const authored = {};
+for (const a of (Array.isArray(annsForAuthors) ? annsForAuthors : annsForAuthors.announcements)) {
+  const name = String(a.author || '').trim();
+  const y = yearOf(a.when);
+  if (!name || name === '[deleted]' || !y) continue;
+  const k = norm(name);
+  const e = (authored[k] ||= { name, first: y, last: y, n: 0, groups: new Set() });
+  e.n++;
+  if (y < e.first) e.first = y;
+  if (y > e.last) e.last = y;
+  e.groups.add(a.group);
+}
+for (const a of Object.values(authored)) {
+  add({
+    person_name: a.name, year: a.first, source: 'steam',
+    source_detail: `Posted ${a.n} announcement${a.n === 1 ? '' : 's'} to the community's Steam groups, `
+      + (a.first === a.last ? `in ${a.first}` : `${a.first} to ${a.last}`),
+    notes: `groups: ${[...a.groups].join(', ')}`,
+  });
+}
+
 // ---- events per year and per game, from the announcement record.
 const anns = read('steam-announcements.json');
 const EVENT_RX = /linebattle|line battle|event|scrim|match|tournament|10 man|groupfight|practice/i;
@@ -100,10 +126,20 @@ const events = Object.entries(eventStats)
   .sort((a, b) => a.year - b.year || b.events - a.events);
 
 // ---- news from the old sites, extracted from Wayback captures.
-let news = [];
+// The news items were extracted from Wayback captures in a separate pass and
+// the result is not in the archive's data directory. If the source file is not
+// here, keep whatever is already seeded rather than writing an empty list over
+// it: a rebuild on a machine without that file used to silently wipe the front
+// page, and an empty file looks exactly like "there was no news".
+let news = null;
 const newsFile = join(ARCHIVE, 'data', 'news-from-old-sites.json');
 if (existsSync(newsFile)) {
   news = JSON.parse(readFileSync(newsFile, 'utf8')).items || [];
+} else if (existsSync('src/seed/news.json')) {
+  news = JSON.parse(readFileSync('src/seed/news.json', 'utf8'));
+  console.warn(`news: ${newsFile} not found, keeping the ${news.length} already seeded`);
+} else {
+  news = [];
 }
 
 // ---- servers.
@@ -114,21 +150,62 @@ const servers = [
   { server_key: 'mc', game: 'MC', name: 'Coldstream SMP', address: 'TBA', online: false, players: 0, max_players: 20 },
 ];
 
+// ---- known aliases.
+//
+// One person can sit in the record under a Steam name, a forum handle and an
+// in-game name, and the archive has no way to know they are the same person.
+// Guessing would be worse than leaving them split, so this table only holds
+// identities somebody has actually confirmed, and each one carries who
+// confirmed it. Anything not listed here stays as separate rows.
+//
+// canonical key -> { name shown, the other keys, and where the link came from }
+const ALIASES = [
+  {
+    key: 'river',
+    name: 'RiveR',
+    also: ['rivercs', 'crawford', 'colonelriver', '2ndcscolcrawford', 'colcrawford'],
+    why: 'Identified by River himself: Steam RiveRcs, forum handle Crawford, in-game Colonel River',
+  },
+];
+
+const aliasOf = {};
+const aliasWhy = {};
+for (const a of ALIASES) {
+  aliasWhy[a.key] = a.why;
+  aliasOf[a.key] = a.key;
+  for (const k of a.also) aliasOf[k] = a.key;
+}
+const canonical = (k) => aliasOf[k] || k;
+const aliasName = Object.fromEntries(ALIASES.map((a) => [a.key, a.name]));
+
+// Fold the aliases into the entries themselves, so the database and the site
+// agree, and note on each folded row which name it was originally filed under.
+for (const e of entries) {
+  const c = canonical(e.person_key);
+  if (c === e.person_key) continue;
+  e.notes = [e.notes, `filed under "${e.person_name}"; ${aliasWhy[c]}`].filter(Boolean).join('. ');
+  e.person_key = c;
+}
+
 // ---- people summary for the roster page: group entries by person and
 // compute the years figure people are proud of.
 const people = {};
 for (const e of entries) {
-  const p = (people[e.person_key] ||= { name: e.person_name, firstYear: null, games: new Set(), ranks: [], steam_id64: null, entries: 0 });
+  const p = (people[e.person_key] ||= { name: e.person_name, firstYear: null, games: new Set(), ranks: [], steam_id64: null, entries: 0, aka: new Set() });
   p.entries++;
-  if (String(e.person_name).length > String(p.name).length) p.name = e.person_name;
+  if (aliasName[e.person_key]) p.name = aliasName[e.person_key];
+  else if (String(e.person_name).length > String(p.name).length) p.name = e.person_name;
+  p.aka.add(e.person_name);
   if (e.year && (!p.firstYear || e.year < p.firstYear)) p.firstYear = e.year;
   if (e.game && e.game !== 'GEN') p.games.add(e.game);
   if (e.rank_or_class) p.ranks.push(e.rank_or_class);
   if (e.steam_id64) p.steam_id64 = e.steam_id64;
 }
-const peopleOut = Object.values(people).map((p) => ({
+const peopleOut = Object.entries(people).map(([key, p]) => ({
+  key,
   name: p.name, firstYear: p.firstYear, games: [...p.games],
   rank: p.ranks[p.ranks.length - 1] || null, steam_id64: p.steam_id64, entries: p.entries,
+  aka: [...p.aka].filter((n) => n !== p.name),
 })).sort((a, b) => (a.firstYear || 9999) - (b.firstYear || 9999) || a.name.localeCompare(b.name));
 
 // ---- write
@@ -178,28 +255,79 @@ for (const ch of yt) {
 films.sort((a, b) => b.views - a.views);
 writeFileSync('src/seed/films.json', JSON.stringify(films, null, 1));
 
-// Gallery: export the best archived screenshots to public/gallery.
+// Gallery: the archived screenshots, exported to public/gallery.
+//
+// Picked by hand rather than by filter. An automatic pass over the vision
+// results pulls in the narrow chat crops that were posted as drama evidence,
+// with names blacked out by whoever posted them: they are screenshots by kind,
+// but they are not gallery pieces, and two of them displaced real ones.
+//
+// Captions are written. The automatic version cut the vision description at
+// the first full stop, which produced captions like "Mount & Blade" nine times
+// over and one that stopped mid-word.
+//
+// Keys are the sha1 of the original URL, which is what img-manifest records as
+// its hash, so a picture keeps the same filename across rebuilds.
 const { default: sharp } = await import('sharp');
 const manifest = JSON.parse(readFileSync(join(ARCHIVE, 'data', 'img-manifest.json'), 'utf8'));
 const vision = JSON.parse(readFileSync(join(ARCHIVE, 'data', 'vision-pass-result.json'), 'utf8'));
-const kindOf = Object.fromEntries(vision.allImages.map((i) => [i.hash, i]));
-const shots = manifest
-  .filter((m) => (kindOf[m.hash]?.kind === 'screenshot') && m.width >= 800)
-  .filter((m) => !/blackout|kill-feed \/ chat log/i.test(kindOf[m.hash]?.description || ''))
-  .sort((a, b) => b.width * b.height - a.width * a.height)
-  .slice(0, 12);
+const byUrl = Object.fromEntries(manifest.map((m) => [m.url, m]));
+const extracted = Object.fromEntries(vision.extraction.map((x) => [x.hash, x]));
+
+const PICKS = [
+  { u: 'http://images.akamai.steamusercontent.com/ugc/449582819873540392/D115A21BE458370B305DA32F3DD09300E9EAC7B4/',
+    cap: 'A French Guard line stands at attention, colours up, officer on the left.' },
+  { u: 'https://i.imgur.com/6x2u6mI.jpg', date: '2015-06',
+    cap: 'A training event where all nineteen players on the field wore the 2ndCS tag. The French side was empty.' },
+  { u: 'https://i.imgur.com/y6LcTwx.jpg', date: '2014-05',
+    cap: 'Down the firing line from the ranks. Posted with one word: "Soon".' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-30_00003.jpg',
+    cap: 'A single rank of redcoats stretched across the treeline, regimental colour flying at the centre.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-30_00004.jpg',
+    cap: 'Bayonets levelled, colour raised, the enemy line just visible on the right.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-12-01_00001-1.jpg',
+    cap: 'The line formed up inside the walls of the training fort.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-12-01_00002.jpg',
+    cap: 'Same session, same courtyard: the ranks at attention while two officers face them down.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-12-04_00005.jpg',
+    cap: 'Twenty men kneeling in a double line behind the palisade, one officer standing at the end.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-17_00004.jpg',
+    cap: 'End of round on Austria against France, two points apiece, with the regiment on the Austrian side.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-18_00002.jpg',
+    cap: 'Five to nothing on US1, and the whole Prussian side down.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-18_00001.jpg',
+    cap: 'The kill feed from that same November night on the public servers.' },
+  { u: 'http://i891.photobucket.com/albums/ac116/Ashton366/Pubstomp.png',
+    cap: 'Pubstomp. A full page of kill feed from a public server, with our tags running all the way down it.' },
+];
+
+// A Steam screenshot carries the day it was taken in its own filename.
+const dateFromName = (u) => {
+  const m = u.match(/\/(20\d\d)-([01]\d)-([0-3]\d)_\d/);
+  return m ? `${m[1]}-${m[2]}-${m[3]}` : null;
+};
+
 mkdirSync('public/gallery', { recursive: true });
 const galleryOut = [];
-for (const m of shots) {
-  const info = kindOf[m.hash];
-  const yearM = JSON.stringify(m.ctx || []).match(/(20\d\d)/);
+for (const pick of PICKS) {
+  const m = byUrl[pick.u];
+  if (!m) { console.warn('gallery: no manifest entry for', pick.u); continue; }
   const out = `gallery/${m.hash.slice(0, 10)}.jpg`;
-  await sharp(join(ARCHIVE, 'data/img', m.hash)).resize(1200, null, { withoutEnlargement: true })
-    .jpeg({ quality: 82 }).toFile(join('public', out));
+  await sharp(join(ARCHIVE, 'data/img', m.hash))
+    .resize(1600, null, { withoutEnlargement: true })
+    .jpeg({ quality: 84 }).toFile(join('public', out));
+  const meta = await sharp(join('public', out)).metadata();
+  const date = dateFromName(pick.u) ?? pick.date ?? null;
   galleryOut.push({
     src: '/' + out,
-    caption: String(info.description || '').split(/[.:]/)[0].slice(0, 110),
-    year: yearM ? Number(yearM[1]) : null,
+    w: meta.width, h: meta.height,
+    caption: pick.cap,
+    date,
+    year: date ? Number(date.slice(0, 4)) : null,
+    game: 'Mount & Blade: Warband, Napoleonic Wars',
+    // Everyone the vision passes could read in the shot, ours and theirs both.
+    who: (extracted[m.hash]?.confirmed ?? []).map((c) => c.name),
+    source: pick.u,
   });
 }
 writeFileSync('src/seed/gallery.json', JSON.stringify(galleryOut, null, 1));

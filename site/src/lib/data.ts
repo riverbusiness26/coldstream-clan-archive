@@ -7,7 +7,9 @@ import newsSeed from '../seed/news.json';
 import serversSeed from '../seed/servers.json';
 
 export interface Person {
+  key: string;
   name: string;
+  aka: string[];
   firstYear: number | null;
   games: string[];
   rank: string | null;

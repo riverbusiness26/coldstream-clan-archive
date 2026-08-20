@@ -1,7 +1,7 @@
 // The roster: the centrepiece. Every person in the record since 2011,
 // grouped by person, filterable by year and game, with years-with-us as the
 // headline figure and provenance one click away.
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { people, rosterEntries, yearsWithUs, GAME_NAMES } from '../lib/data';
 import type { Me } from '../lib/auth';
 
@@ -25,7 +25,9 @@ export default function Members({ me }: { me: Me | null }) {
   const rows = people.filter((p) =>
     (year === 'all' || String(p.firstYear) === year) &&
     (game === 'all' || p.games.includes(game)) &&
-    (!q || p.name.toLowerCase().includes(q.toLowerCase())),
+    // Searching an old handle should still find the person it belongs to.
+    (!q || p.name.toLowerCase().includes(q.toLowerCase())
+        || p.aka.some((a) => a.toLowerCase().includes(q.toLowerCase()))),
   );
 
   const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
@@ -58,12 +60,26 @@ export default function Members({ me }: { me: Me | null }) {
             <tbody>
               {rows.map((p) => {
                 const yrs = yearsWithUs(p.firstYear);
-                const key = norm(p.name);
-                const mine = !!me && (p.steam_id64 === me.steam_id64 || norm(me.display_name) === key);
+                // The key comes from the seed rather than being re-derived from
+                // the display name. Where two names have been confirmed as one
+                // person the key is the canonical one, and the entries under it
+                // were filed under a name that is no longer the one on show.
+                const key = p.key;
+                const mine = !!me && (
+                  p.steam_id64 === me.steam_id64
+                  || norm(me.display_name) === key
+                  || p.aka.some((a) => norm(a) === norm(me.display_name))
+                );
                 return (
-                  <>
-                    <tr key={key} className={mine ? 'me' : undefined}>
-                      <td><span className="rname">{p.name}</span>{mine && <span className="ryears"> · you</span>}</td>
+                  <Fragment key={key}>
+                    <tr className={mine ? 'me' : undefined}>
+                      <td>
+                        <span className="rname">{p.name}</span>
+                        {mine && <span className="ryears"> · you</span>}
+                        {p.aka.length > 0 && (
+                          <div className="raka">also on the record as {p.aka.join(', ')}</div>
+                        )}
+                      </td>
                       <td className="ryears">{yrs ? `${yrs} years · joined ${p.firstYear}` : 'on the roll'}</td>
                       <td>{p.rank ?? ''}</td>
                       <td>{p.games.map((g) => <span key={g} className="gtag">{g}</span>)}</td>
@@ -78,7 +94,7 @@ export default function Members({ me }: { me: Me | null }) {
                         </td>
                       </tr>
                     ))}
-                  </>
+                  </Fragment>
                 );
               })}
             </tbody>

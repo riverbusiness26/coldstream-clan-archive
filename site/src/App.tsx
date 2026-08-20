@@ -8,6 +8,7 @@ import Servers from './views/Servers';
 import Archive from './views/Archive';
 import Forums from './views/Forums';
 import Gallery from './views/Gallery';
+import Enlist from './views/Enlist';
 
 const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
@@ -90,16 +91,7 @@ export default function App() {
       {view === 'archive' && <Archive />}
       {view === 'forums' && <Forums me={me} signIn={signIn} />}
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
-      {view === 'enlist' && (
-        <div className="wrap solo"><main><div className="module">
-          <div className="mhead"><h3>Enlist Here</h3></div>
-          <div className="note" style={{ fontSize: 13 }}>
-            Sign in through Steam and you're in the door. If you've played with
-            us before, your record links up on its own. The enlistment board
-            for introductions opens with the forums.
-          </div>
-        </div></main></div>
-      )}
+      {view === 'enlist' && <Enlist me={me} signIn={signIn} />}
 
       <footer>
         <span><b>Coldstream Gaming</b> · est. 2011</span>

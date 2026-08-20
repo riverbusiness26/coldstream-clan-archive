@@ -272,3 +272,14 @@ footer b{color:var(--muted);font-weight:500}
 .dsc-more{font:400 11px/1.6 var(--mono);color:var(--faint);align-self:center}
 .dsc-foot{padding:12px 16px;border-top:1px solid var(--line);background:var(--raised);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .dsc-refresh{font:400 10px/1.4 var(--mono);color:var(--faint);letter-spacing:.06em}
+
+/* ---- enlist ---- */
+.welcome-back{margin:16px;padding:18px;background:#101311;border:1px solid var(--hi);box-shadow:inset 3px 0 0 var(--accent)}
+.wb-tag{font:bold 9.5px/1 var(--mono);letter-spacing:.18em;color:var(--accent)}
+.wb-name{margin-top:8px;font:bold 22px/1.2 var(--body);color:#fff}
+.wb-line{margin-top:8px;font-size:13.5px;line-height:1.7;color:#cbd0ca;max-width:66ch}
+.wb-line.dim{color:var(--faint);font-size:12.5px}
+.wb-line b{color:var(--accent);font-weight:bold}
+.wb-games{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.wb-games .gtag{margin-right:0}
+.raka{margin-top:3px;font:400 10.5px/1.5 var(--mono);color:var(--faint)}
