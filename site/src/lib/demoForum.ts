@@ -20,7 +20,7 @@ export interface DPost {
 const KEY = 'csg-demo-forum-v1';
 
 export const DEMO_BOARDS: DBoard[] = [
-  { id: 'b-ann', slug: 'announcements', name: 'Announcements', description: 'Official word from the staff. Everyone can read, staff post.', position: 0, min_role_read: null, min_role_post: 'officer' },
+  { id: 'b-ann', slug: 'announcements', name: 'Announcements', description: 'Official word from the staff. Everyone can read, staff post.', position: 0, min_role_read: null, min_role_post: 'moderator' },
   { id: 'b-gen', slug: 'general', name: 'General Discussion', description: 'The barracks. Anything and everything.', position: 1, min_role_read: null, min_role_post: 'member' },
   { id: 'b-enlist', slug: 'enlist', name: 'Enlist Here', description: 'New here? Introduce yourself and get on the roll.', position: 2, min_role_read: null, min_role_post: 'member' },
   { id: 'b-events', slug: 'events', name: 'Events and Matches', description: 'Sign-ups, results and scheduling for every game we run.', position: 3, min_role_read: null, min_role_post: 'member' },

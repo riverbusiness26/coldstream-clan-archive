@@ -9,7 +9,7 @@
 -- Approval itself is an update and is already covered by gallery_mod in 0007.
 -- What is here is removal.
 
--- Officers and admins may remove anything. An uploader may withdraw their own
+-- Moderators and admins may remove anything. An uploader may withdraw their own
 -- upload only while it is still pending, so an approved picture cannot be
 -- pulled out from under the community later.
 drop policy if exists gallery_remove on gallery_item;
@@ -17,7 +17,7 @@ drop policy if exists gallery_remove on gallery_item;
 drop policy if exists gallery_delete_mod on gallery_item;
 create policy gallery_delete_mod on gallery_item
   for delete using (
-    current_member_role() in ('officer','admin')
+    current_member_role() in ('moderator','admin')
     or is_operator()
   );
 
@@ -32,7 +32,7 @@ create policy gallery_object_delete on storage.objects
   for delete using (
     bucket_id = 'gallery'
     and (
-      current_member_role() in ('officer','admin')
+      current_member_role() in ('moderator','admin')
       or is_operator()
       or (storage.foldername(name))[1] = current_member_id()::text
     )

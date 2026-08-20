@@ -16,7 +16,7 @@
 --     locked thread. The UI hid those controls, which is not the same as the
 --     database refusing the write.
 --
--- member_role is an enum declared ('member', 'officer', 'admin'), so Postgres
+-- member_role is an enum declared ('member', 'moderator', 'admin'), so Postgres
 -- already orders it correctly and a plain >= comparison is the rank test.
 
 -- A board is visible when it is public, or when your role reaches its bar.
@@ -89,7 +89,7 @@ create policy post_edit_own on post for update
 
 -- Moderators need read access to what they moderate, so their update policies
 -- are left as they are in 0001: thread_mod and gallery_mod both already test
--- current_member_role() in ('officer','admin').
+-- current_member_role() in ('moderator','admin').
 
 -- Bumping last_post_at is what makes the board index meaningful. Doing it in a
 -- trigger keeps it honest whether the post came from the site or from SQL.

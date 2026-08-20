@@ -17,7 +17,7 @@ grant usage on schema public to anon, authenticated;
 
 -- Reading. The read policies in 0001 do the filtering: the staff board stays
 -- hidden, unapproved gallery items stay hidden from everyone but their own
--- uploader and the officers.
+-- uploader and the moderators.
 grant select on
   member, roster_entry, board, thread, post,
   gallery_item, shout, server_status, news_item
@@ -26,10 +26,10 @@ to anon, authenticated;
 -- Writing. Signed-in members only, and the insert policies pin every row to
 -- the member doing the writing.
 grant insert on thread, post, gallery_item, shout to authenticated;
-grant insert on news_item to authenticated;          -- policy limits to officers and admins
+grant insert on news_item to authenticated;          -- policy limits to moderators and admins
 
 -- Editing. post_edit_own covers your own posts; thread_mod and gallery_mod
--- limit the rest to officers and admins.
+-- limit the rest to moderators and admins.
 grant update on post, thread, gallery_item to authenticated;
 
 -- A member may keep their own display name and avatar current.

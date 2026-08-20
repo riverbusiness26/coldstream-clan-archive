@@ -60,11 +60,11 @@ create policy gallery_category_read on gallery_category for select using (true);
 
 drop policy if exists gallery_category_admin on gallery_category;
 create policy gallery_category_admin on gallery_category for all
-  using (current_member_role() in ('officer','admin') or is_operator())
-  with check (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator())
+  with check (current_member_role() in ('moderator','admin') or is_operator());
 
 -- Nobody may add to a locked category, whatever else they are allowed to do.
--- Officers can still unlock one if they mean to.
+-- Moderators can still unlock one if they mean to.
 drop policy if exists gallery_insert on gallery_item;
 create policy gallery_insert on gallery_item for insert
   with check (

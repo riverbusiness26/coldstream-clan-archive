@@ -50,8 +50,8 @@ create policy event_read on event for select using (true);
 
 drop policy if exists event_write on event;
 create policy event_write on event for all
-  using (current_member_role() in ('officer','admin') or is_operator())
-  with check (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator())
+  with check (current_member_role() in ('moderator','admin') or is_operator());
 
 drop policy if exists rsvp_read on event_rsvp;
 create policy rsvp_read on event_rsvp for select using (true);

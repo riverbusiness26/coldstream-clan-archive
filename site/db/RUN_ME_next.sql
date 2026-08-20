@@ -27,7 +27,7 @@ grant usage on schema public to anon, authenticated;
 
 -- Reading. The read policies in 0001 do the filtering: the staff board stays
 -- hidden, unapproved gallery items stay hidden from everyone but their own
--- uploader and the officers.
+-- uploader and the moderators.
 grant select on
   member, roster_entry, board, thread, post,
   gallery_item, shout, server_status, news_item
@@ -36,10 +36,10 @@ to anon, authenticated;
 -- Writing. Signed-in members only, and the insert policies pin every row to
 -- the member doing the writing.
 grant insert on thread, post, gallery_item, shout to authenticated;
-grant insert on news_item to authenticated;          -- policy limits to officers and admins
+grant insert on news_item to authenticated;          -- policy limits to moderators and admins
 
 -- Editing. post_edit_own covers your own posts; thread_mod and gallery_mod
--- limit the rest to officers and admins.
+-- limit the rest to moderators and admins.
 grant update on post, thread, gallery_item to authenticated;
 
 -- A member may keep their own display name and avatar current.
@@ -71,7 +71,7 @@ alter default privileges in schema public
 --     locked thread. The UI hid those controls, which is not the same as the
 --     database refusing the write.
 --
--- member_role is an enum declared ('member', 'officer', 'admin'), so Postgres
+-- member_role is an enum declared ('member', 'moderator', 'admin'), so Postgres
 -- already orders it correctly and a plain >= comparison is the rank test.
 
 -- A board is visible when it is public, or when your role reaches its bar.
@@ -144,7 +144,7 @@ create policy post_edit_own on post for update
 
 -- Moderators need read access to what they moderate, so their update policies
 -- are left as they are in 0001: thread_mod and gallery_mod both already test
--- current_member_role() in ('officer','admin').
+-- current_member_role() in ('moderator','admin').
 
 -- Bumping last_post_at is what makes the board index meaningful. Doing it in a
 -- trigger keeps it honest whether the post came from the site or from SQL.
@@ -217,7 +217,7 @@ create index if not exists shout_recent on shout(created_at desc);
 -- restricted: a signed-in member may only write inside a folder named after
 -- their own member id, so nobody can overwrite anyone else's uploads. The
 -- gallery_item row still starts unapproved, so uploading does not put an image
--- in front of the community until an officer clears it.
+-- in front of the community until a moderator clears it.
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
@@ -249,7 +249,7 @@ create policy gallery_object_delete on storage.objects
     bucket_id = 'gallery'
     and (
       (storage.foldername(name))[1] = current_member_id()::text
-      or current_member_role() in ('officer','admin')
+      or current_member_role() in ('moderator','admin')
     )
   );
 
@@ -263,7 +263,7 @@ create policy gallery_object_delete on storage.objects
 -- his Steam account. So an operator is a different thing from a member:
 --
 --   member   is an identity in the community. It comes from Steam, it sits on
---            the roster, it posts, and its role (member/officer/admin) governs
+--            the roster, it posts, and its role (member/moderator/admin) governs
 --            what it can do as a person in the community.
 --   operator is a key to the back door. It signs in with email and password,
 --            it is not on the roster, it does not post, and it exists only to
@@ -301,7 +301,7 @@ create policy operator_self on operator for select
   using (auth_user_id = auth.uid());
 
 -- ---------------------------------------------------------------- powers
--- Everywhere the schema already trusted an officer or admin, an operator is
+-- Everywhere the schema already trusted an moderator or admin, an operator is
 -- trusted too. These replace the 0001 policies rather than adding to them,
 -- because a table can be reached through any one policy that passes.
 
@@ -310,13 +310,13 @@ create policy gallery_read on gallery_item for select
   using (
     approved
     or uploader_id = current_member_id()
-    or current_member_role() in ('officer','admin')
+    or current_member_role() in ('moderator','admin')
     or is_operator()
   );
 
 drop policy if exists gallery_mod on gallery_item;
 create policy gallery_mod on gallery_item for update
-  using (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator());
 
 -- Deleting a gallery item is handled in 0008, not here. An earlier draft of
 -- this migration let an uploader delete their own item at any time, which
@@ -327,15 +327,15 @@ drop policy if exists gallery_remove on gallery_item;
 
 drop policy if exists thread_mod on thread;
 create policy thread_mod on thread for update
-  using (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator());
 
 drop policy if exists news_admin on news_item;
 create policy news_admin on news_item for insert
-  with check (current_member_role() in ('officer','admin') or is_operator());
+  with check (current_member_role() in ('moderator','admin') or is_operator());
 
 drop policy if exists news_edit on news_item;
 create policy news_edit on news_item for update
-  using (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator());
 
 -- Boards and servers had no write policies at all, so they could only be
 -- changed with raw SQL. The back end is the point where that stops.
@@ -426,7 +426,7 @@ grant insert, update, delete on board, server_status to authenticated;
 -- Approval itself is an update and is already covered by gallery_mod in 0007.
 -- What is here is removal.
 
--- Officers and admins may remove anything. An uploader may withdraw their own
+-- Moderators and admins may remove anything. An uploader may withdraw their own
 -- upload only while it is still pending, so an approved picture cannot be
 -- pulled out from under the community later.
 drop policy if exists gallery_remove on gallery_item;
@@ -434,7 +434,7 @@ drop policy if exists gallery_remove on gallery_item;
 drop policy if exists gallery_delete_mod on gallery_item;
 create policy gallery_delete_mod on gallery_item
   for delete using (
-    current_member_role() in ('officer','admin')
+    current_member_role() in ('moderator','admin')
     or is_operator()
   );
 
@@ -449,7 +449,7 @@ create policy gallery_object_delete on storage.objects
   for delete using (
     bucket_id = 'gallery'
     and (
-      current_member_role() in ('officer','admin')
+      current_member_role() in ('moderator','admin')
       or is_operator()
       or (storage.foldername(name))[1] = current_member_id()::text
     )
@@ -520,11 +520,11 @@ create policy gallery_category_read on gallery_category for select using (true);
 
 drop policy if exists gallery_category_admin on gallery_category;
 create policy gallery_category_admin on gallery_category for all
-  using (current_member_role() in ('officer','admin') or is_operator())
-  with check (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator())
+  with check (current_member_role() in ('moderator','admin') or is_operator());
 
 -- Nobody may add to a locked category, whatever else they are allowed to do.
--- Officers can still unlock one if they mean to.
+-- Moderators can still unlock one if they mean to.
 drop policy if exists gallery_insert on gallery_item;
 create policy gallery_insert on gallery_item for insert
   with check (
@@ -562,7 +562,7 @@ on conflict (slug) do update
 
 -- ------------------------------------------------------------------
 -- 0010_events
--- The events calendar. Officers post upcoming events; everyone reads them.
+-- The events calendar. Admins and moderators post upcoming events; everyone reads them.
 -- The historical record on the same page is seed data and needs no table.
 create table if not exists event (
   id uuid primary key default gen_random_uuid(),
@@ -578,10 +578,10 @@ drop policy if exists event_read on event;
 create policy event_read on event for select using (true);
 drop policy if exists event_post on event;
 create policy event_post on event for insert
-  with check (current_member_role() in ('officer','admin'));
+  with check (current_member_role() in ('moderator','admin'));
 drop policy if exists event_mod on event;
 create policy event_mod on event for update
-  using (current_member_role() in ('officer','admin'));
+  using (current_member_role() in ('moderator','admin'));
 drop policy if exists event_del on event;
 create policy event_del on event for delete
-  using (current_member_role() in ('officer','admin'));
+  using (current_member_role() in ('moderator','admin'));

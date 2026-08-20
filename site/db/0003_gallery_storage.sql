@@ -7,7 +7,7 @@
 -- restricted: a signed-in member may only write inside a folder named after
 -- their own member id, so nobody can overwrite anyone else's uploads. The
 -- gallery_item row still starts unapproved, so uploading does not put an image
--- in front of the community until an officer clears it.
+-- in front of the community until a moderator clears it.
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
@@ -39,6 +39,6 @@ create policy gallery_object_delete on storage.objects
     bucket_id = 'gallery'
     and (
       (storage.foldername(name))[1] = current_member_id()::text
-      or current_member_role() in ('officer','admin')
+      or current_member_role() in ('moderator','admin')
     )
   );

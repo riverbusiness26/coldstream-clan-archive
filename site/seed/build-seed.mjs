@@ -357,8 +357,13 @@ for (const e of entries) {
 // A confirmed Steam id beats anything inferred, and lets a signed-in member
 // match their own row by id rather than by whatever name they use today.
 for (const [k, id] of Object.entries(aliasSteam)) if (people[k]) people[k].steam_id64 = id;
+// Site titles, shown on the roster and the profile. Display only: the
+// database role still governs permissions.
+const TITLES = { river: 'Owner and Founder' };
+
 const peopleOut = Object.entries(people).map(([key, p]) => ({
   key,
+  title: TITLES[key] || null,
   name: p.name, firstYear: p.firstYear, datedYear: p.datedYear, games: [...p.games],
   rank: p.ranks[p.ranks.length - 1] || null, steam_id64: p.steam_id64, entries: p.entries,
   aka: [...p.aka].filter((n) => n !== p.name),

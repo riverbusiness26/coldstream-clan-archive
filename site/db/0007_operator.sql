@@ -5,7 +5,7 @@
 -- his Steam account. So an operator is a different thing from a member:
 --
 --   member   is an identity in the community. It comes from Steam, it sits on
---            the roster, it posts, and its role (member/officer/admin) governs
+--            the roster, it posts, and its role (member/moderator/admin) governs
 --            what it can do as a person in the community.
 --   operator is a key to the back door. It signs in with email and password,
 --            it is not on the roster, it does not post, and it exists only to
@@ -43,7 +43,7 @@ create policy operator_self on operator for select
   using (auth_user_id = auth.uid());
 
 -- ---------------------------------------------------------------- powers
--- Everywhere the schema already trusted an officer or admin, an operator is
+-- Everywhere the schema already trusted an moderator or admin, an operator is
 -- trusted too. These replace the 0001 policies rather than adding to them,
 -- because a table can be reached through any one policy that passes.
 
@@ -52,13 +52,13 @@ create policy gallery_read on gallery_item for select
   using (
     approved
     or uploader_id = current_member_id()
-    or current_member_role() in ('officer','admin')
+    or current_member_role() in ('moderator','admin')
     or is_operator()
   );
 
 drop policy if exists gallery_mod on gallery_item;
 create policy gallery_mod on gallery_item for update
-  using (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator());
 
 -- Deleting a gallery item is handled in 0008, not here. An earlier draft of
 -- this migration let an uploader delete their own item at any time, which
@@ -69,15 +69,15 @@ drop policy if exists gallery_remove on gallery_item;
 
 drop policy if exists thread_mod on thread;
 create policy thread_mod on thread for update
-  using (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator());
 
 drop policy if exists news_admin on news_item;
 create policy news_admin on news_item for insert
-  with check (current_member_role() in ('officer','admin') or is_operator());
+  with check (current_member_role() in ('moderator','admin') or is_operator());
 
 drop policy if exists news_edit on news_item;
 create policy news_edit on news_item for update
-  using (current_member_role() in ('officer','admin') or is_operator());
+  using (current_member_role() in ('moderator','admin') or is_operator());
 
 -- Boards and servers had no write policies at all, so they could only be
 -- changed with raw SQL. The back end is the point where that stops.

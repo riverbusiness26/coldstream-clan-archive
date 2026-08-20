@@ -1,4 +1,4 @@
-// Events: the calendar. Upcoming events on top (officer-posted; a demo store
+// Events: the calendar. Upcoming events on top (moderator-posted; a demo store
 // until the backend lands), and below it the part no other community site
 // has: the dated record of 362 real events back to 2011, straight from the
 // announcement archive.
@@ -33,7 +33,7 @@ export default function Calendar({ me }: { me: Me | null }) {
   const [details, setDetails] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
 
-  const canPost = me?.role === 'officer' || me?.role === 'admin';
+  const canPost = me?.role === 'moderator' || me?.role === 'admin';
 
   const loadUpcoming = () => {
     if (!supa) { setUpcoming(demoLoad().filter((u) => u.starts_at >= new Date().toISOString().slice(0, 10))); return; }
@@ -42,7 +42,7 @@ export default function Calendar({ me }: { me: Me | null }) {
       .order('starts_at')
       .then(({ data }) => setUpcoming(((data ?? []) as any[]).map((r) => ({
         id: r.id, title: r.title, game: r.game, starts_at: r.starts_at, details: r.details,
-        created_by_name: r.creator?.display_name ?? 'officer',
+        created_by_name: r.creator?.display_name ?? 'moderator',
       }))));
   };
   useEffect(loadUpcoming, []);
@@ -78,7 +78,7 @@ export default function Calendar({ me }: { me: Me | null }) {
             <h3>Upcoming Events</h3>
             {canPost
               ? <button className="btn sm" onClick={() => setComposing((v) => !v)}>{composing ? 'Cancel' : 'Post an event'}</button>
-              : <span className="sub">posted by officers</span>}
+              : <span className="sub">posted by admins and moderators</span>}
           </div>
 
           {composing && (
@@ -99,7 +99,7 @@ export default function Calendar({ me }: { me: Me | null }) {
           )}
 
           {upcoming.length === 0 && (
-            <div className="note">Nothing on the board yet. When an officer posts the next event it shows here, with the server details.</div>
+            <div className="note">Nothing on the board yet. When an admin or moderator posts the next event it shows here, with the server details.</div>
           )}
           {upcoming.map((u) => (
             <div className="prof-rec" key={u.id}>

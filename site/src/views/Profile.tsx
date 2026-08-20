@@ -11,7 +11,7 @@ import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 
 interface Person {
-  key: string; name: string; firstYear: number | null; datedYear: number | null;
+  key: string; title: string | null; name: string; firstYear: number | null; datedYear: number | null;
   games: string[]; rank: string | null; steam_id64: string | null; entries: number; aka: string[];
 }
 interface Entry {
@@ -67,6 +67,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
           </div>
           <div className="prof-head">
             <div className="prof-id">
+              {person.title && <div className="prof-title">{person.title}</div>}
               {person.rank && <div className="prof-rank">{person.rank}</div>}
               <div className="prof-games">{person.games.map((g) => <span key={g} className="gtag" title={GAME_NAMES[g] ?? g}>{g}</span>)}</div>
               {person.aka.length > 0 && <div className="meta">also on the record as: {person.aka.join(', ')}</div>}

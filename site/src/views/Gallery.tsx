@@ -6,7 +6,7 @@
 // because the whole point of the archive is that you can check it.
 //
 // "Member Uploads" is the live half: anything a signed-in member adds. Those
-// land unapproved and an officer clears them, so the two can never be
+// land unapproved and a moderator clears them, so the two can never be
 // confused for each other.
 import { useCallback, useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
@@ -164,7 +164,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       setBusy(true);
       try {
         if (!supa) {
-          setDone('Video submitted to the demo store. An officer clears it and then it shows for everyone.');
+          setDone('Video submitted to the demo store. A moderator clears it and then it shows for everyone.');
         } else {
           const { error } = await supa.from('gallery_item').insert({
             uploader_id: me.id,
@@ -177,7 +177,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
             year: yr2,
           });
           if (error) { setFormError(error.message); return; }
-          setDone('Video submitted. An officer clears it and then it shows up here for everyone.');
+          setDone('Video submitted. A moderator clears it and then it shows up here for everyone.');
         }
         setVideoUrl(''); setCaption(''); setGame(''); setYear('');
         loadUploads();
@@ -200,7 +200,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         const res = demoGallery.add(dataUrl, caption.trim() || null, game.trim() || null, yr, me.display_name);
         if (!res.ok) { setFormError(res.reason); return; }
         setFile(null); setCaption(''); setGame(''); setYear('');
-        setDone('Uploaded to the demo store. An officer clears it and then it shows for everyone.');
+        setDone('Uploaded to the demo store. A moderator clears it and then it shows for everyone.');
         loadUploads();
       } catch (err) {
         setFormError(err instanceof Error ? err.message : 'That image could not be read.');
@@ -241,7 +241,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
     if (error) { setFormError(error.message); return; }
 
     setFile(null); setCaption(''); setGame(''); setYear('');
-    setDone('Uploaded. An officer clears it and then it shows up here for everyone.');
+    setDone('Uploaded. A moderator clears it and then it shows up here for everyone.');
     loadUploads();
   }
 
@@ -249,7 +249,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
     browse === 'all' || (u.category_slug ?? categorySlugById(u.category_id)) === browse;
   const mine = uploads?.filter((u) => !u.approved) ?? [];
   const live = (uploads?.filter((u) => u.approved) ?? []).filter(inBrowse);
-  const canModerate = me?.role === 'officer' || me?.role === 'admin';
+  const canModerate = me?.role === 'moderator' || me?.role === 'admin';
 
   async function approve(id: string) {
     if (!supa) { demoGallery.approve(id); loadUploads(); return; }
@@ -376,7 +376,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
           {mine.length > 0 && (
             <>
-              <div className="note"><b>Waiting on an officer</b> ({mine.length})</div>
+              <div className="note"><b>Waiting on a moderator</b> ({mine.length})</div>
               <div className="gal-grid pending">
                 {mine.map((u) => (
                   <div className="shotbtn" key={u.id}>

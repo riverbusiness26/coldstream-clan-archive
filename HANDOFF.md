@@ -1219,3 +1219,14 @@ unclaimed.
 rebase before every push, append-only where possible, and whoever loses a race
 rebases. Trophies (16c item 6) stays unclaimed until profiles exist to hang
 them on; whoever gets there first claims it here.
+
+### 17b. Vocabulary rule addition (River, 20 Aug 2026): no "officer"
+
+Site roles are member, moderator, admin. The word officer is retired from all
+site role language, code, SQL and copy alike; the enum value is renamed to
+'moderator' across the db files (all pre-application, so edited in place).
+The ONE deliberate exception: the historical rank ladder from the 2012
+regiment chart keeps "Officers" and "Non-Commissioned Officers", because that
+is what the record says. River is titled **Owner and Founder** on the roster
+and his profile (display title in the seed, TITLES map in build-seed.mjs;
+database role stays admin and governs permissions).

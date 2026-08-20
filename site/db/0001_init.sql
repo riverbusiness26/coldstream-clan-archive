@@ -2,7 +2,7 @@
 -- Postgres on Supabase. Every table gets row level security; public reads
 -- where the content is public, writes gated by role.
 
-create type member_role as enum ('member', 'officer', 'admin');
+create type member_role as enum ('member', 'moderator', 'admin');
 create type roster_source as enum ('enjin', 'forum', 'steam', 'screenshot', 'manual');
 
 -- Accounts. One row per signed-in person, keyed to their Steam ID.
@@ -144,7 +144,7 @@ create policy roster_read on roster_entry for select using (true);
 create policy board_read on board for select using (min_role_read is null or current_member_role() is not null);
 create policy thread_read on thread for select using (true);
 create policy post_read on post for select using (deleted_at is null);
-create policy gallery_read on gallery_item for select using (approved or uploader_id = current_member_id() or current_member_role() in ('officer','admin'));
+create policy gallery_read on gallery_item for select using (approved or uploader_id = current_member_id() or current_member_role() in ('moderator','admin'));
 create policy shout_read on shout for select using (true);
 create policy server_read on server_status for select using (true);
 create policy news_read on news_item for select using (true);
@@ -163,10 +163,10 @@ create policy gallery_insert on gallery_item for insert
 create policy shout_insert on shout for insert
   with check (author_id = current_member_id());
 
--- Officers and admins moderate.
+-- Moderators and admins moderate.
 create policy thread_mod on thread for update
-  using (current_member_role() in ('officer','admin'));
+  using (current_member_role() in ('moderator','admin'));
 create policy gallery_mod on gallery_item for update
-  using (current_member_role() in ('officer','admin'));
+  using (current_member_role() in ('moderator','admin'));
 create policy news_admin on news_item for insert
-  with check (current_member_role() in ('officer','admin'));
+  with check (current_member_role() in ('moderator','admin'));

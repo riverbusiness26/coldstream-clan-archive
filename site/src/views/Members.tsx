@@ -87,7 +87,7 @@ export default function Members({ me }: { me: Me | null }) {
                           )}
                         </td>
                         <td className="ryears">{yrs ? `${yrs} years · joined ${p.datedYear}` : p.firstYear ? `on the roll since ${p.firstYear}` : 'on the roll'}</td>
-                        <td>{p.rank ?? ''}</td>
+                        <td>{(p as any).title ? <b className="ptitle">{(p as any).title}</b> : (p.rank ?? '')}</td>
                         <td>{p.games.map((g) => <span key={g} className="gtag">{g}</span>)}</td>
                         <td><button className="btn" style={{ padding: '4px 10px', fontSize: 10 }} onClick={() => setOpen(open === key ? null : key)}>record</button></td>
                       </tr>
