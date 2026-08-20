@@ -703,6 +703,9 @@ const html = `<title>The Coldstream Lineage</title>
 `;
 
 writeFileSync('coldstream-full.html', html);
+// index.html is the same page under the name GitHub Pages serves by default,
+// so publishing the repo publishes the archive with no extra configuration.
+writeFileSync('index.html', html);
 console.log(`Wrote coldstream-full.html (${(html.length / 1024).toFixed(1)} KB)`);
 console.log(`  featured films: ${FEATURED.filter((f) => findVideo(f.match)).length}/${FEATURED.length}`);
 console.log(`  eras ${c.eras.length}, lifers ${c.lifers.length}, intakes ${c.intakeYears.length}, archive ${c.videos.length}`);

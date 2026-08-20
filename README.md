@@ -25,6 +25,14 @@ No network access needed; open the file in any browser.
 | `data/*.json` | Every derived dataset. `community.json` is the merged one the pages read. |
 | `data/raw/`, `data/steam/`, `data/img/`, `data/youtube/` | Raw HTTP caches, so nothing needs re-fetching. |
 
+## Published page
+
+The repo root contains `index.html`, so enabling **GitHub Pages** (Settings →
+Pages → Deploy from branch → `main` / root) publishes the archive at
+`https://<user>.github.io/<repo>/` with no further setup. It is identical to
+`coldstream-full.html` and fully self-contained — every image is embedded, so
+there is nothing else to upload.
+
 ## Sources
 
 - FSE forum topic 443 — 885 posts, 59 pages (the Napoleonic Wars regiment)
