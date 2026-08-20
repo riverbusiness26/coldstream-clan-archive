@@ -1,0 +1,12 @@
+# Dependencies — reinstall with `npm install`
+node_modules/
+
+# OS noise
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Note: the built pages (coldstream-*.html) and the raw HTTP caches under data/
+# are deliberately committed. This is an archive — the scraped pages and the
+# downloaded images are the point, and several of the sources have already
+# started losing files. Everything here is reproducible from data/ alone.
