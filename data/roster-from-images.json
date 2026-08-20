@@ -1,0 +1,4807 @@
+{
+ "generated": "2026-08-20T03:48:54.131Z",
+ "sourceImages": [
+  {
+   "hash": "210325a830b2901999cd4fea859c3c2141e14e0a",
+   "kind": "screenshot",
+   "description": "In-game kill-feed / chat log screenshot (Mount & Blade: Warband style, parchment background) from a public server 'pubstomp'. Roughly 25 killer->victim lines plus chat. Many 2ndCS members (Crawford, Crazy, Lindsey, RivenX, williambinette, The_Legend) fighting [Cub]Inf players and randoms. A large 'Groupsy by Photobucket' watermark obscures parts of the middle and the last two lines are doubled/overlapping renders.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/Pubstomp.png",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "November 20, 2012, 06:44:06 pm",
+    "snippet": "Just moved the Roster to the 2nd Post. I'll be working to getting the schedule on there as well. Also here are some screenshots of us playing in US1. [spoiler] [img:http://i891.photobucket.com/albums/ac116/Ashton366/2012"
+   },
+   "confirmed": 35,
+   "unconfirmed": 3
+  },
+  {
+   "hash": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+   "kind": "screenshot",
+   "description": "In-game kill-feed / chat log screenshot (parchment background with 'Return' button, 1024x576) from the same Nov 2012 public-server session as image 210325a8 — the bottom third repeats that feed with red/green colored lines ghost-overlapping the grey list. Approximately 35 killer->victim lines plus chat banter about a trumpet. Large 'Groupsy by Photobucket' watermark across the middle.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-18_00001.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "November 20, 2012, 06:44:06 pm",
+    "snippet": "Just moved the Roster to the 2nd Post. I'll be working to getting the schedule on there as well. Also here are some screenshots of us playing in US1. [spoiler] [img:http://i891.photobucket.com/albums/ac116/Ashton366/2012"
+   },
+   "confirmed": 42,
+   "unconfirmed": 10
+  },
+  {
+   "hash": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+   "kind": "screenshot",
+   "description": "In-game scoreboard screenshot (Mount & Blade: Warband - Napoleonic Wars): Kaisertum Oesterreich (Austria, score 2, 2ndCS members on this side) vs Empire Francais (France, score 2, 10 players 9 alive 1 dead), each side listing Player Name / Kills / Deaths / Ping, plus a Spectators(3) section and bottom-left chat. Rain-soaked field map, match clock 8:39. 'Groupsy by Photobucket' watermark obscures one dead French player's name entirely and parts of others.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-17_00004.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "November 20, 2012, 06:44:06 pm",
+    "snippet": "Just moved the Roster to the 2nd Post. I'll be working to getting the schedule on there as well. Also here are some screenshots of us playing in US1. [spoiler] [img:http://i891.photobucket.com/albums/ac116/Ashton366/2012"
+   },
+   "confirmed": 20,
+   "unconfirmed": 4
+  },
+  {
+   "hash": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) end-of-round scoreboard, June 2015 training event. All 19 players on the United Kingdom side carry the 2ndCS clan tag; French side is empty. Redcoat soldiers visible in the background. Kills/deaths/ping shown per player.",
+   "url": "https://i.imgur.com/6x2u6mI.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "June 17, 2015, 02:43:26 am",
+    "snippet": "Decent turn out for a random training and our first \"get together\" in a year and a half. Let us push for 30 at our next meeting boys. [spoiler] [img:https://i.imgur.com/6x2u6mI.jpg] [close]"
+   },
+   "confirmed": 19,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "495931f6708906535e14b24422c44cd0919ca25d",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) scoreboard from a Nov 2012 public match on US1: Kaisertum Osterreich (score 5) vs Konigreich Preussen (score 0, 25 players all dead). Several 2ndCS members mixed with pub players. A large Photobucket 'Groupsy' watermark covers much of the board; roughly 8-10 rows (mostly on the Prussian side) are fully illegible under it and are not transcribed. The highlighted row (screenshot taker, Austrian side, red) is almost entirely obscured — appears to be a 2ndCS officer, likely Crawford who posted it, but unreadable.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-18_00002.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "November 20, 2012, 06:44:06 pm",
+    "snippet": "Just moved the Roster to the 2nd Post. I'll be working to getting the schedule on there as well. Also here are some screenshots of us playing in US1. [spoiler] [img:http://i891.photobucket.com/albums/ac116/Ashton366/2012"
+   },
+   "confirmed": 31,
+   "unconfirmed": 23
+  },
+  {
+   "hash": "5e8775785ec3963d58a7ebaa61370d52e0f5ffd7",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars in-game screenshot of a French Guard line formation (blue coats, white trousers, bearskins with red plumes) standing at attention in a grassy field, with an officer at left, a flag bearer carrying a French Napoleonic eagle standard, and drummer/fifer at right. Scoreboard shows Britain 86, France 76. No floating nametags visible over the soldiers; one chat line at bottom left.",
+   "url": "http://images.akamai.steamusercontent.com/ugc/449582819873540392/D115A21BE458370B305DA32F3DD09300E9EAC7B4/",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "July 19, 2015, 05:22:43 am",
+    "snippet": "Had fun dudes, thanks for coming [spoiler] [img:http://images.akamai.steamusercontent.com/ugc/449582819873540392/D115A21BE458370B305DA32F3DD09300E9EAC7B4/] [close]"
+   },
+   "confirmed": 1,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "601d61b83e43199d513d1671ae286b5ac2758c0a",
+   "kind": "rank-chart",
+   "description": "Full rank ladder chart for the 2nd Footguards, showing dark-maroon shoulder-board insignia for each rank in three tiers. Commissioned Officers: Col (gold star, 3 small stars above), Maj (oak leaf), Capt (double bar), Lt (gold bar), Ens (silver bar). Non-Commissioned Officers: CSM (4 chevrons), CSgt (3 chevrons + ball), Sgt (3 chevrons), Cpl (2 chevrons + ball). Enlisted: ChM (3 bars), Rgl (2 bars), Pte (1 bar), Cdt (plain), Rct (plain). No member names, ranks only.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/Ranks-6_zps703d0eb1.png",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "November 12, 2012, 10:15:52 pm",
+    "snippet": "[img:https://i.imgur.com/Y9nRAW7.jpg] Join for the virtual bloodshed, stay for the comradery [img:https://i.imgur.com/GZKOMfp.png] [spoiler] [/spoiler] [img:https://i.imgur.com/Nz5sk6z.png] [spoiler] Colonel River 2nd Co"
+   },
+   "confirmed": 0,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "74704fd9a553f3d4d676b4b9a2568f4bbac40d2b",
+   "kind": "badge-or-banner",
+   "description": "Fan-made promo graphic titled 'The Rivalry Begins' showing two Napoleonic-era game soldier renders facing off: at left a redcoat with musket and bayonet labeled 'Sergeant Zelkova' under a Coldstream Guards star badge; at right a dark-silhouetted officer figure labeled 'CAPTAIN HALL' under an 87th (Prince of Wales's Irish) regiment grenade badge marked '87'. Photobucket 'Groupsy' watermark across the middle.",
+   "url": "http://i1237.photobucket.com/albums/ff461/Zelkova1224/rivalry%20freindship%202_zpsfc67jv8a.png",
+   "context": {
+    "source": "forum",
+    "author": "Zelkova1224",
+    "date": "July 28, 2015, 07:05:44 am",
+    "snippet": "Stayed up late for this one and added something extra! To my friend in the 87th! [spoiler] [img:http://i1237.photobucket.com/albums/ff461/Zelkova1224/rivalry%20freindship%202_zpsfc67jv8a.png] [close]"
+   },
+   "confirmed": 2,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "9b78844c2349c3cf9b2dfe656e0f352a28e3df73",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband linebattle screenshot: a firing line of redcoats with bayonets leveled, a red British regimental colour (flag) raised behind them, and an enemy line visible in the distance right. Scoreboard top-left: UK 0 / France 0. A chat line at bottom-left reads '[2ndCS_LCpl_RogueBrody] have to relod' (verified under magnification). One faint floating nametag fragment ('...ND...', likely a 2nd-tag name) is visible near the flag but is illegible behind the Photobucket watermark.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-30_00004.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "December 01, 2012, 04:24:18 am",
+    "snippet": "Great event, we've got a linebattle tomorrow @ 4PM Central / 5PM Eastern as well. [spoiler] [img:http://i891.photobucket.com/albums/ac116/Ashton366/2012-11-30_00003.jpg] [img:http://i891.photobucket.com/albums/ac116/Asht"
+   },
+   "confirmed": 1,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars first-person-view screenshot (May 2014, captioned 'Soon'): a line of British redcoats on a grassy hillside aiming muskets/pistols to the right; a white-bearded officer in the foreground. Round red Footguards-style crown emblems float above two soldiers. Round timer top-right reads 56:09; flag counters show Britain 1, France 1. A green kill feed in the lower-left lists five kill events, which is where all names below were read.",
+   "url": "https://i.imgur.com/y6LcTwx.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "May 28, 2014, 10:40:29 am",
+    "snippet": "Soon [img:https://www.fsegames.eu/forum/Smileys/default/cool.gif] [spoiler] [img:https://i.imgur.com/y6LcTwx.jpg] [close]"
+   },
+   "confirmed": 8,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "ecef98634c342160c5e8d7066372d1925454107a",
+   "kind": "screenshot",
+   "description": "Cropped Mount & Blade kill-feed/chat screenshot (Feb 2013, from the 'NA Community can't be told no to a private linebattle' post). Most names and several whole lines are deliberately blacked out with solid bars; a 'Groupsy by photobucket' watermark also overlays the left side. One kill line and two crude chat messages remain partly readable.",
+   "url": "http://i891.photobucket.com/albums/ac116/Ashton366/screen3_zps5831d9a4.jpg",
+   "context": {
+    "source": "forum",
+    "author": "Crawford",
+    "date": "February 07, 2013, 12:09:41 am",
+    "snippet": "Seems the NA Community can't be told no to a private linebattle, or this happens. [spoiler] [img:http://i891.photobucket.com/albums/ac116/Ashton366/screen3_zps5831d9a4.jpg] [img:http://i891.photobucket.com/albums/ac116/A"
+   },
+   "confirmed": 3,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "38982a84fbf641a723e14dcf86856e994faac81c",
+   "kind": "screenshot",
+   "description": "Linebattle screenshot with an editor title banner reading '2nd Coldstream Guards' across the top: a column of red-coated guards with red-and-white checkered markers advancing along a dry hillside, viewed from behind a soldier. One floating nametag is readable over a mid-frame soldier (verified by crop/upscale): 2ndCS_A2_Rd_Gooner.",
+   "url": "https://i.ytimg.com/vi/6Wxj70lukgY/hqdefault.jpg",
+   "context": {
+    "source": "youtube-thumb",
+    "videoId": "6Wxj70lukgY",
+    "title": "2nd Coldstream Guards Line Battle 5/18 Part 2"
+   },
+   "confirmed": 1,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "6005620bb04a9723665b127420ac43deb4aceafa",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars first-person screenshot on a snowy map, bayonet-fixed musket in view, soldiers fighting mid-distance. A ~16-line kill feed occupies the upper left (killer -> weapon icon -> victim). Read from 6x/10x zoomed crops; text is heavily JPEG-degraded so certainty varies per name. Regiment tags visible in the feed include 2ndCS, 88thRG, 63e, 59th_IJA, 44staHM, 23rd (Highlanders), 9me... (Schutzen-like tag), and a GRE (grenadier) tag. A few lines were too destroyed to transcribe at all: a '05th_Spec_a...' vs '..._dragoons_...' line, a '2ndCS_Cpl_...' victim, a '44staHM_Maj_M...' killer, and a '44staHM_Mar_C...' victim cut off at the screen edge.",
+   "url": "https://i.ytimg.com/vi/pplW5xtwuWI/hqdefault.jpg",
+   "context": {
+    "source": "youtube-thumb",
+    "videoId": "pplW5xtwuWI",
+    "title": "Napoleonic Wars - December 13th Linebattle with the 2ndCS"
+   },
+   "confirmed": 10,
+   "unconfirmed": 46
+  },
+  {
+   "hash": "9040068cbb3439387adbf554bff381064368ded1",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars screenshot on a desert hill: the player follows a blue-coated soldier whose floating green nametag reads '2ndCS_Al_Pte_Zemohc'; ahead, a mixed melee of redcoats and dark-uniformed troops with one red/white checkered flag bearer. Two green kill-feed entries at bottom left are illegible even zoomed (one contains a lance icon). Timer at top right unreadable. Small compass/HUD bottom right.",
+   "url": "https://i.ytimg.com/vi/5BFDkRFNJtQ/hqdefault.jpg",
+   "context": {
+    "source": "youtube-thumb",
+    "videoId": "5BFDkRFNJtQ",
+    "title": "2nd Coldstream Guards Line Battle 4/24 Part 1"
+   },
+   "confirmed": 1,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "c93c74f3c875c488257dc00ac534be7d5a0be7d2",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) autumn map: view from behind a group of soldiers carrying red/white checkerboard round banners over their heads, marching through tan grass with red-leafed trees. A banner across the top of the HUD reads '2nd Coldstream Regiment'. One green floating nametag is legible over a player. Chat text lower-left is too small to read.",
+   "url": "https://i.ytimg.com/vi/QprdAebpgWY/hqdefault.jpg",
+   "context": {
+    "source": "youtube-thumb",
+    "videoId": "QprdAebpgWY",
+    "title": "Top Secret LB - 2nd Coldstream Regiment of Footguards"
+   },
+   "confirmed": 1,
+   "unconfirmed": 0
+  },
+  {
+   "hash": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) snow map: first-person view behind a soldier in blue with a black round hat holding a musket, watching a melee of dark-uniformed troops in the snow, bodies scattered. A dense ~18-line kill feed fills the left third of the frame; the text is small and only partially resolvable. Clan tags recurring in the feed appear to include 2ndCS, 89thRG, 59th_IJA, NeoSchla(?), and IstanSchla(?).",
+   "url": "https://i.ytimg.com/vi/KmNEvAvjOcA/hqdefault.jpg",
+   "context": {
+    "source": "youtube-thumb",
+    "videoId": "KmNEvAvjOcA",
+    "title": "Napoleonic Wars - December 6th/7th Linebattles with the 2ndCS"
+   },
+   "confirmed": 8,
+   "unconfirmed": 29
+  },
+  {
+   "hash": "dd6599d39a63063adb0925ba3a8772216d8d80ed",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) shot in a flowery green meadow: several soldiers carrying red/white checkerboard round banners, one clear green floating nametag over the player in the center. Chat lines top-left and a highlighted chat line at bottom are too small to read. Timer top-right.",
+   "url": "https://i.ytimg.com/vi/S1YrWEmgzfs/hqdefault.jpg",
+   "context": {
+    "source": "youtube-thumb",
+    "videoId": "S1YrWEmgzfs",
+    "title": "Thomas The Train!"
+   },
+   "confirmed": 1,
+   "unconfirmed": 0
+  }
+ ],
+ "names": [
+  {
+   "name": "?_Ma?_...alty (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 2/6/58. Under 'ucket' watermark; readable fragments '...Ma?_' and a tail like '...alty' (maybe 'Salty'). Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "?_S??????_? (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 3/6/67. Under 'psu' watermark; faint shapes suggest something like '9th_Scorpio_...' but unverifiable"
+    }
+   ]
+  },
+  {
+   "name": "??_Dr????er_?l?? (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 1 kill, rest obscured. Under 'our moments' watermark; fragments 'Dr...er' suggest something like '..._Dragoner_Ol...'. Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "?...nfu? (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 0/0/59. Start hidden under 'pace.' watermark; visible tail just before the Dead marker reads '...nfu' (e.g. '...Confu...'); tag pattern faintly resembles '1stEPI_A2_Sdt_'. Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "?4Q_???_G5_Will?? (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, bottom row clipped by panel edge, Dead, 0/2?/54. Fragments '...G5_Will...' (or G6); maybe a 'Willi...' name with a clan tag. Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "..._G?_Will...",
+   "rank": null,
+   "match": {
+    "status": "likely-known",
+    "as": "regwilliam",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "last visible Prussian row, dead; fragment reads like M??_..._G6_Will... (possibly ..._RM_G56_Willi); largely unreadable"
+    }
+   ]
+  },
+  {
+   "name": "..._Sdt_...nfu...",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussian column, dead; tag pattern like 1stEPI_.._Sdt_ with name fragment ending '...nfu' (possibly Confused); mostly hidden under 'pace.' watermark"
+    }
+   ]
+  },
+  {
+   "name": "...Dragoner_...",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussian column, dead; 'Dragoner' clearly part of the tag/name, rest unreadable under watermark"
+    }
+   ]
+  },
+  {
+   "name": "...MaL_...ty",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussian column, dead; middle of name reads 'MaL_' and ends in 'ty' (possibly ..._Casualty); start hidden under 'ucket' watermark"
+    }
+   ]
+  },
+  {
+   "name": "1st_9GAG_YOLO_Division",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "full player name; ~3/76 ping column"
+    }
+   ]
+  },
+  {
+   "name": "2ndCS_C?l_?(illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Austria, row 3 - the highlighted (likely screenshot-taker's) row: dark red text on a red-grey highlight bar, also under watermark. Only a '2ndCS_C' tag-prefix pattern is discernible (could be Cpl/Col/Cdt rank slot); rest unreadable. Marked Dead. Stats unreadable"
+    }
+   ]
+  },
+  {
+   "name": "2ndCS_C...",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Highlighted (selected) row, red/dead, Austrian column; name almost entirely illegible under blur - only a 2ndCS_ style prefix pattern discernible"
+    }
+   ]
+  },
+  {
+   "name": "42",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "player literally named '42', victim of 2ndCS_Col_Crawford in the top line which is cut off; confirmed fully in companion screenshot 24fa333e"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "player literally named '42', victim of 2ndCS_Col_Crawford"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead. Very short name mostly under watermark; looks like the digits '42'. 3/5/75"
+    }
+   ]
+  },
+  {
+   "name": "7th_S...",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussian column, dead; only the 7th_ regiment prefix and a few letter shapes visible under watermark"
+    }
+   ]
+  },
+  {
+   "name": "Akiyama",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "0/2/234; middle/end of name under watermark — looks like 'AkiyamaMio' or 'Akiyamaeho'; only 'Akiyama' prefix is reliable"
+    }
+   ]
+  },
+  {
+   "name": "AkiyamaMio",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "French team, 0/2/234. 'Akiyama' is clear; the last 2-3 characters are behind the photobucket watermark and look like 'Mio' or possibly '...ho'."
+    }
+   ]
+  },
+  {
+   "name": "Albon",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "victim reads ~9?_KF_Grb_Mr_Albon or Alban; heavily blurred"
+    }
+   ]
+  },
+  {
+   "name": "Annan",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag read as 2ndKCS (could be 2ndKGL or 2ndCS). Line 10 victim. Name could be Aznan/Roman."
+    }
+   ]
+  },
+  {
+   "name": "antysovereray",
+   "rank": "Spec",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Spec",
+     "note": "Tag read as 05st (blurry). Line 11 killer. Long lowercase name - could be antysowietowy/antysoveroty."
+    }
+   ]
+  },
+  {
+   "name": "antyxrovraty",
+   "rank": "Spec",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Spec",
+     "note": "Tag 01st (first char 0/O). Name blurred - approx antyxrovraty/antyxrowvaty. Killer in line 11 (long musket icon)."
+    }
+   ]
+  },
+  {
+   "name": "avoritian100",
+   "rank": "Rd",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Rd",
+     "note": "Tag read as 2ndKCS (could be 2ndKGL). Line 14 killer (green line). Ends in '100'; middle letters heavily blurred - could be avanturien100/mvornixon100. Rank token could be Rct/Kd."
+    }
+   ]
+  },
+  {
+   "name": "awsomticus100",
+   "rank": "Rd",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Rd",
+     "note": "Tag 2ndCS. Name blurred - possibly awsomtrum100/awsomeitem100; rank token Rd possibly Rct. Killer in line 14 (green line)."
+    }
+   ]
+  },
+  {
+   "name": "Bagrath",
+   "rank": "LtCol",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "LtCol",
+     "note": "tag 44staHM; could be Bugrath/Bagryth"
+    }
+   ]
+  },
+  {
+   "name": "Balian",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Ballion",
+   "rank": "Cad",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "ecef98634c342160c5e8d7066372d1925454107a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cad",
+     "note": "Full tag '7thRF_Cad_Ballion'; victim in the top kill line."
+    }
+   ]
+  },
+  {
+   "name": "Bank",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "2/1/58"
+    }
+   ]
+  },
+  {
+   "name": "Black_Jacques",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Killer on lines 12 and 16. Leading token unclear: reads like 'the'/'15e'/'13e' (e.g. the_Black_Jacques). Surname could be Jasques."
+    }
+   ]
+  },
+  {
+   "name": "Black_Scorpes",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 63e. Also readable as Black_Scorpee/Sourpes. Killer in lines 12 and 16."
+    }
+   ]
+  },
+  {
+   "name": "Blasian",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf; ghost-overlapped"
+    }
+   ]
+  },
+  {
+   "name": "Boberty",
+   "rank": "Maj",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Maj",
+     "note": "tag 66th_Dragoner; middle of name under 'Your people' watermark — reads approx 66th_Dragoner_Maj_Boberty"
+    }
+   ]
+  },
+  {
+   "name": "BobNLarry",
+   "rank": "Oberst",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Oberst",
+     "note": "tag 98H (98H_Oberst_BobNLarry); 3/3/70"
+    }
+   ]
+  },
+  {
+   "name": "Boston",
+   "rank": "Pfc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pfc",
+     "note": "Reads approximately '2ndCS_Pfc_Boston'; letters small."
+    }
+   ]
+  },
+  {
+   "name": "Brolund",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "partially under watermark"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "ghost-overlapped"
+    }
+   ]
+  },
+  {
+   "name": "Buggy",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag 2ndCS. Victim in line 8."
+    }
+   ]
+  },
+  {
+   "name": "Bugrib",
+   "rank": "LtCol",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "LtCol",
+     "note": "Tag 44etoiHM. Name blurred - possibly Bugatti/Bugyrib/Bugerib. Victim in line 7."
+    }
+   ]
+  },
+  {
+   "name": "Bugrith",
+   "rank": "LtCol",
+   "match": {
+    "status": "near-match",
+    "as": "Bogrith",
+    "via": "edit-distance-1"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "LtCol",
+     "note": "Tag 44etalHM. Line 7 victim. Name blurred - could be Bugreth/Jugrith."
+    }
+   ]
+  },
+  {
+   "name": "Ca...",
+   "rank": "Mar",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Mar",
+     "note": "Tag 44etalHM. Line 13 victim. Name starts 'Ca' then obscured by the foreground soldier."
+    }
+   ]
+  },
+  {
+   "name": "Caboose",
+   "rank": "RTC",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "RTC",
+     "note": "tag 1ad_GH_Brigade (1ad_GH_Brigade_RTC_Caboose); chat speaker of 'SURRENDER NOW' and 'is anybody recording this'"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "RTC",
+     "note": "Full string [1ad_GH_Brigade_RTC_Caboose]; tag 1ad_GH_Brigade; unclear whether RTC is a rank or part of the tag"
+    }
+   ]
+  },
+  {
+   "name": "Cake",
+   "rank": "Rct",
+   "match": {
+    "status": "likely-known",
+    "as": "FugginCupCakes",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 89thRG; France side, 8/2/57; chat '[89thRG_Rct_Cake] oh shit psy is here'"
+    }
+   ]
+  },
+  {
+   "name": "Capn_Crunch",
+   "rank": "Cdt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Capn_Crunch"
+    }
+   ]
+  },
+  {
+   "name": "CelticBreton",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag reads approximately _1st_Rddt_G95_CelticBreton; middle of tag partially obscured"
+    }
+   ]
+  },
+  {
+   "name": "Charl...",
+   "rank": "CGrd",
+   "match": {
+    "status": "likely-known",
+    "as": "Kid Charlemagne",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "CGrd",
+     "note": "tag 9th_CT (9th_CT_CGrd_Charl...), Prussian column, dead; name tail merges into the Dead label - possibly Charles/Charlie"
+    }
+   ]
+  },
+  {
+   "name": "Chas_Sk",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Partial only — name occluded by musket smoke after 'Chas_Sk'; preceding tag unreadable. Victim of PerfectAbyss."
+    }
+   ]
+  },
+  {
+   "name": "Chester",
+   "rank": "Polkovnik",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Polkovnik",
+     "note": "Reads 'NEC_7y_Polkovnik_Chester' — the token after NEC (read as '7y') is uncertain; killed by nilloc93."
+    }
+   ]
+  },
+  {
+   "name": "Cho_RasputinRetard",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJR. 'Rasputin' fairly clear; suffix ends '…tard' (Retard/Bstard); short middle token Cho/Chu."
+    }
+   ]
+  },
+  {
+   "name": "CHORGO",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag KING (KING_CHORGO); a second faded green copy overlaps the line above"
+    }
+   ]
+  },
+  {
+   "name": "Chose_Sk",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Victim on line 7, almost entirely obscured by a foreground model; only fragment '…Chose_Sk…' visible (possibly 'Chosen_Sky'). Tag not visible."
+    }
+   ]
+  },
+  {
+   "name": "ClearlyInvsible",
+   "rank": "Rct",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 29th, spelled as written (29th_Rct_ClearlyInvsible)"
+    }
+   ]
+  },
+  {
+   "name": "Collingwood",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Pte",
+     "note": "Full tag '87th_Foot_Pte_Collingwood'; killed by Uthred."
+    }
+   ]
+  },
+  {
+   "name": "Comrade_Greed",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Comrade_Kapitan",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "partially under watermark"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Prussian side, first letter partially obscured"
+    }
+   ]
+  },
+  {
+   "name": "Crawford",
+   "rank": "Col",
+   "match": {
+    "status": "known",
+    "as": "Crawford"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Col",
+     "note": "tag 2ndCS (2ndCS_Col_Crawford); appears as killer multiple times and once as victim"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Col",
+     "note": "tag 2ndCS; multiple kills"
+    },
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Col",
+     "note": "tag 2ndCS; row highlighted (screenshot taker); ~4/4/72"
+    },
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Col",
+     "note": "2ndCS_Col_Crawford, highlighted row (screenshot taker)"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Col",
+     "note": "Highlighted row under watermark, red text; tag pattern 2ndCS_Col_ barely visible; Crawford posted the screenshot — name itself not readable"
+    },
+    {
+     "image": "ecef98634c342160c5e8d7066372d1925454107a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": null,
+     "note": "Not a nametag — mentioned in a chat message ('fucking crawford'); matches forum poster Crawford."
+    }
+   ]
+  },
+  {
+   "name": "Crazy",
+   "rank": "Maj",
+   "match": {
+    "status": "known",
+    "as": "crazy"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Maj",
+     "note": "tag 2ndCS (2ndCS_Maj_Crazy)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Maj",
+     "note": "tag 2ndCS"
+    },
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Maj",
+     "note": "tag 2ndCS; Austria side, 8 kills 2 deaths ping 52"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Maj",
+     "note": "2ndCS_Maj_Crazy; likely the 'crazy' who replied in the thread"
+    }
+   ]
+  },
+  {
+   "name": "Crickwell",
+   "rank": "Hatcho",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Hatcho",
+     "note": "Tag 8th_IR; string reads '8th_IR_Hatcho_Crickwell' (bottom line, victim of McKnight). An earlier occluded victim line also starts '8th_IR_Hatcho_' and is likely the same player."
+    }
+   ]
+  },
+  {
+   "name": "Cyco_Tatertot",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Prussian side, marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "Darman74",
+   "rank": "Pte",
+   "match": {
+    "status": "known",
+    "as": "Darman74"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Darman74"
+    }
+   ]
+  },
+  {
+   "name": "Death",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Pte",
+     "note": "Reads approximately '2ndCS_Pte_Death'; also a possible '89thRG_Pte_Death' line — could be one or two players."
+    }
+   ]
+  },
+  {
+   "name": "Di??etta",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 0/0/7?. Reads like 'Dixiutta' or 'Dianetta'; edge of watermark crosses the name"
+    }
+   ]
+  },
+  {
+   "name": "Dinkldberf02",
+   "rank": "Pfc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pfc",
+     "note": "Tag 59NhRG. Only 'D…02' skeleton semi-legible; could be Dinkleberg02/Dinkldberf02."
+    }
+   ]
+  },
+  {
+   "name": "Dinoman",
+   "rank": "SoD",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "SoD",
+     "note": "Tag 60e. Line 3 killer. Name could be Dixoman; rank token could be Sdt."
+    }
+   ]
+  },
+  {
+   "name": "Dixieta",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussian column, dead; reads roughly D-i-x-?-e-t-a, middle letters uncertain under watermark edge"
+    }
+   ]
+  },
+  {
+   "name": "Dott",
+   "rank": "Cpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Cpl",
+     "note": "Full tag '87th_Foot_Cpl_Dott'; killed by Stalker."
+    }
+   ]
+  },
+  {
+   "name": "DownHere",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf; ghost-overlapped"
+    }
+   ]
+  },
+  {
+   "name": "DrByallYo",
+   "rank": "Kpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kpl",
+     "note": "Tag 9teSchle. Very blurred; approx DrB?a??Y?. Victim in line 5."
+    }
+   ]
+  },
+  {
+   "name": "DrBye",
+   "rank": "Kpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kpl",
+     "note": "tag ~9meSchlde; name truncated at screen edge (DrBye...)"
+    }
+   ]
+  },
+  {
+   "name": "DrByudYs",
+   "rank": "Kpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kpl",
+     "note": "Tag NewSchbb. Line 5 victim. Unusual name, heavily blurred."
+    }
+   ]
+  },
+  {
+   "name": "Drew",
+   "rank": "SgtMaj",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "SgtMaj",
+     "note": "tag 63e; appears twice as killer"
+    }
+   ]
+  },
+  {
+   "name": "DShields02",
+   "rank": "Pfc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pfc",
+     "note": "'BNhRG'-like tag; trailing '02' uncertain (could be 'GZ' or an apostrophe-year). Green line, victim of Rook."
+    }
+   ]
+  },
+  {
+   "name": "Eagle",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Victim on line 8, tag 59th_IJR; name mostly obscured, only trailing '…agle' visible."
+    }
+   ]
+  },
+  {
+   "name": "Erik_Von_Wulff",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Ferrri965",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "triple r as written"
+    }
+   ]
+  },
+  {
+   "name": "FightingSwordsman",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "5/2/166"
+    }
+   ]
+  },
+  {
+   "name": "Fuggy",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag 2ndKCS. Could be Fuggy/Juggy/Buggy."
+    }
+   ]
+  },
+  {
+   "name": "g00ber",
+   "rank": "Cpl",
+   "match": {
+    "status": "known",
+    "as": "g00ber"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cpl",
+     "note": "2ndCS_Cpl_g00ber, spelled with zeros"
+    }
+   ]
+  },
+  {
+   "name": "Gamerweazel",
+   "rank": "Cpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cpl",
+     "note": "tag 18e; end of name under watermark, reads approx 18e_Cpl_Gamerweazel"
+    }
+   ]
+  },
+  {
+   "name": "Gayle",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 8th_IR; middle (rank) token unreadable, only surname 'Gayle' legible. Victim of McKnight."
+    }
+   ]
+  },
+  {
+   "name": "Ge??erz?? (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 2/2/59. Under watermark; fragments like 'Ge..erz' (e.g. 'Gexxerz9'-like). Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "General...",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussian column, dead; fragment resembling 'General' visible, rest of the row unreadable under watermark"
+    }
+   ]
+  },
+  {
+   "name": "Glexy",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "tag [Cub]Inf; ghost-overlapped"
+    }
+   ]
+  },
+  {
+   "name": "Glory",
+   "rank": null,
+   "match": {
+    "status": "known",
+    "as": "Glory"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag [Cub]Inf_; killer of 2ndCS_Col_Crawford, readable only in the red duplicate render as '[Cub]Inf_Glory...' — full name uncertain, possibly longer (e.g. GloryDays)"
+    }
+   ]
+  },
+  {
+   "name": "Goobo_Sawyer",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJR. First token could be Goobo/Gordo/Gordon; 'Sawyer' fairly clear."
+    }
+   ]
+  },
+  {
+   "name": "Gooner",
+   "rank": "Rd",
+   "match": {
+    "status": "known",
+    "as": "Gooner"
+   },
+   "sightings": [
+    {
+     "image": "38982a84fbf641a723e14dcf86856e994faac81c",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Rd",
+     "note": "Full tag reads 2ndCS_A2_Rd_Gooner — clan tag 2ndCS, 'A2' likely a company/section marker. 'Gooner' is clearly legible; the 'Rd' segment (presumed rank abbreviation) is slightly uncertain at this resolution and could be 'Rct'."
+    }
+   ]
+  },
+  {
+   "name": "Grimreaper",
+   "rank": "Pte",
+   "match": {
+    "status": "known",
+    "as": "GrimReaper"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Grimreaper"
+    }
+   ]
+  },
+  {
+   "name": "Guaipeca",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "partially under watermark"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "also visible in kill-feed/chat at bottom left"
+    }
+   ]
+  },
+  {
+   "name": "Hall",
+   "rank": "Captain",
+   "match": {
+    "status": "likely-known",
+    "as": "HWMHall",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "74704fd9a553f3d4d676b4b9a2568f4bbac40d2b",
+     "kind": "badge-or-banner",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Captain",
+     "note": "Labeled 'CAPTAIN HALL' under the 87th regiment grenade badge - the friend in the 87th referenced in the post context."
+    }
+   ]
+  },
+  {
+   "name": "Hatcho_Cricketeer",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJR. 'Hatcho' moderately readable; surname could be Cricketeer/Crickwtell (right edge cut). Likely also the obscured 'Hatcho_…' victim on line 4."
+    }
+   ]
+  },
+  {
+   "name": "Heffron",
+   "rank": "PVT",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "PVT",
+     "note": "tag Nr2KFG (Nr2KFG_PVT_Heffron)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "PVT",
+     "note": "tag Nr2KFG"
+    }
+   ]
+  },
+  {
+   "name": "Hetming",
+   "rank": "Rct",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Rct",
+     "note": "Tag 23rd. Name very blurred - also readable as Natoning/Metwing. Victim in line 9."
+    }
+   ]
+  },
+  {
+   "name": "Hoknar",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "written [Cub]InfMalice_Hoknar (no underscore between Inf and Malice)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "written [Cub]InfMalice_Hoknar"
+    }
+   ]
+  },
+  {
+   "name": "Hosier",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "'2ndKCS'-like tag; barely legible — could be 'Hosler'/'Hoster' or a 'J…'-name. Victim of Pte_Death."
+    }
+   ]
+  },
+  {
+   "name": "HurT",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Reads '87th_inv_HurT' — middle token 'inv' and the capitalization 'HurT' are small; killed by Stalker."
+    }
+   ]
+  },
+  {
+   "name": "Idenk-hai",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Victim of the '...binette' line; overprinted, could be Idek-hai / Idrak-hai"
+    }
+   ]
+  },
+  {
+   "name": "ilya891",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "full string 30th_pltv_rdv_ilya891; 2/3/257"
+    }
+   ]
+  },
+  {
+   "name": "Imparat_Oroles",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "460 ping"
+    }
+   ]
+  },
+  {
+   "name": "James",
+   "rank": "Rct",
+   "match": {
+    "status": "known",
+    "as": "James"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS; last letters under watermark, reads 2ndCS_Rct_James"
+    },
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_James — font makes capital I vs J ambiguous ('Iames'/'James'); James most likely"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_James — capital I/J ambiguous in font"
+    },
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rgl",
+     "note": "Full string '87th_Foot_Rgl_James' — tag 87th_Foot. Line is faded (oldest feed entry); the rank token reads 'Rgl' but is slightly uncertain due to the fade. Name 'James' itself is clear."
+    },
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Nitohei",
+     "note": "Tag 59th_IJA. Rank token reads 'Nitobet/Nitohet' - almost certainly 'Nitohei' (IJA private 2nd class). Appears twice: killed 23rd victim in line 1 (faded), then killed by Dinoman in line 3."
+    }
+   ]
+  },
+  {
+   "name": "Japan",
+   "rank": "Kotet",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kotet",
+     "note": "Tag 59th_IJA. Rank token reads Kotet - possibly Kotei/Kohei (IJA-style token). Victim in line 15."
+    }
+   ]
+  },
+  {
+   "name": "JD",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "victim name in the bottom-left kill feed line 'Guaipeca [sabre] JD'; may be a truncated display name"
+    }
+   ]
+  },
+  {
+   "name": "Jeff",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "Tag NM (full string NM_Jeff)"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Austria, written 'NM_Jeff' (NM_ tag), Dead. Could read 'NM_leff' but J is the better fit. 1/3/54"
+    }
+   ]
+  },
+  {
+   "name": "Jimden",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag 2ndKCS. Victim line 3; could read Jimden/Newden/Nosden."
+    }
+   ]
+  },
+  {
+   "name": "JohnBrown",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "K?G_G?STOP?O (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead. Under watermark; blocky capitals reading roughly 'K?G_G?STOP?O'. Deaths ~3. Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "K?l??? (illegible)",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Austria, red Dead row under 'Your people' watermark; only a tall first letter (K/R/F) then ~5 letters. Ping ~106. Unresolvable"
+    }
+   ]
+  },
+  {
+   "name": "Katai_Jones",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 8th_IR; 'Katai' may be a rank token like Cho/Hatcho/Gecko; surname blurry — 'Jones' or possibly 'Jaques'. Victim of McKnight."
+    }
+   ]
+  },
+  {
+   "name": "Katiel_Japan",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJR. 'Japan' fairly clear; first token Katiel/Kotiel/Katist uncertain."
+    }
+   ]
+  },
+  {
+   "name": "kavcav",
+   "rank": "Pte",
+   "match": {
+    "status": "known",
+    "as": "kavcav"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_kavcav"
+    }
+   ]
+  },
+  {
+   "name": "Kelly",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "'2ndKCS'-like tag. Green line; killed Pte_Death."
+    }
+   ]
+  },
+  {
+   "name": "Kieran",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Kilroy",
+   "rank": "vol",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "vol",
+     "note": "faded top line reads ~23rd_Highlander_vol_Kilroy"
+    }
+   ]
+  },
+  {
+   "name": "KING_CHORGO",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "spectator, ping 52"
+    }
+   ]
+  },
+  {
+   "name": "King_Crusader",
+   "rank": "Pfc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Pfc",
+     "note": "Reads approximately '89thRG_Pfc_King_Crusader'; letters small."
+    }
+   ]
+  },
+  {
+   "name": "King_Dude_9000",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Kotat Japan",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "victim reads ~59th_IJA_Kotat_Japan; heavily blurred"
+    }
+   ]
+  },
+  {
+   "name": "Kotet_Japan",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJA. Line 15 victim. Could be Kotot_Japan/Kotei_Japan."
+    }
+   ]
+  },
+  {
+   "name": "Kwisak",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Lane",
+   "rank": "Mat",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Mat",
+     "note": "Tag read as 44etalHM (blurry; could be 44stalHM). Line 4 victim. First name token could be Nat."
+    }
+   ]
+  },
+  {
+   "name": "Lindsey",
+   "rank": "Rct",
+   "match": {
+    "status": "known",
+    "as": "Lindsey"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS; also chat line '[2ndCS_Rct_Lindsey] Sorry mane :(' and 'has killed a teammate!' notice"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_Lindsey, 8 kills"
+    }
+   ]
+  },
+  {
+   "name": "Lord_cuddle_bottoms",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "teamkill notice plus chat apology 'sorry, accendent' (sic)"
+    }
+   ]
+  },
+  {
+   "name": "m_dragoons_al...",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Line 11 victim. Starts 'm_dragoons_al' then obscured by the foreground soldier; remainder illegible."
+    }
+   ]
+  },
+  {
+   "name": "Malice_Hoknar",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "tag [Cub]Inf, written with no underscore after Inf: [Cub]InfMalice_Hoknar"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag [Cub]Inf_; partly behind watermark, could be Hokmar"
+    }
+   ]
+  },
+  {
+   "name": "Mandalore",
+   "rank": "Kapt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kapt",
+     "note": "Tag 1stesSchle. Blob reads 'Mand…e'; could be Mandalore/Mandare/Mandalara."
+    }
+   ]
+  },
+  {
+   "name": "Manolara",
+   "rank": "Kapt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kapt",
+     "note": "Same 'NmSchla'-like tag. Name could be 'Manolaia'. Musket-kill on 8th_IR_Cho_RasputinRetard (top line)."
+    }
+   ]
+  },
+  {
+   "name": "Manolaus",
+   "rank": "Kapt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kapt",
+     "note": "Top feed line reads approximately 'NeoSchla_Kapt_Manolaus'; spelling of name uncertain."
+    }
+   ]
+  },
+  {
+   "name": "Manole_Chucro",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "'_Chucro' ending is clear in the black render; first word overprinted — red copy suggests Manole / Manolo / Mangle"
+    }
+   ]
+  },
+  {
+   "name": "Manolo_Chucro",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "partially under watermark"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "ghost-overlapped red line"
+    }
+   ]
+  },
+  {
+   "name": "Maradona",
+   "rank": "Kapt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kapt",
+     "note": "Tag NewSchbb. Line 13 killer. Letterforms fit Maradona; could be Mandana/Marodara."
+    }
+   ]
+  },
+  {
+   "name": "marine_officer",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "Prussian side, partially obscured leading characters"
+    }
+   ]
+  },
+  {
+   "name": "marino_officer",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Prussia, Dead, 2/5/41. Lowercase; could be 'marine_officer' but the vowel reads as o"
+    }
+   ]
+  },
+  {
+   "name": "Marodere",
+   "rank": "Kapt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kapt",
+     "note": "Tag 9teSchle. Name also readable as Menodara/Maroderre. Killer in line 13."
+    }
+   ]
+  },
+  {
+   "name": "MarshalNey",
+   "rank": "LtCol",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "LtCol",
+     "note": "tag 88thRG; appears twice as killer (88thRG_LtCol_MarshalNey)"
+    }
+   ]
+  },
+  {
+   "name": "Master_Anal_Cockfist",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "MasterFox",
+   "rank": "Rkt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rkt",
+     "note": "Tag read as NewSchbb (blurry; could be NwSchbLn, possibly a Neuschwabenland-style clan). Line 4 killer. Rank could be Ab/Alt."
+    }
+   ]
+  },
+  {
+   "name": "Matiolog",
+   "rank": "Rot",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Rot",
+     "note": "Tag 23rd. Line 9 victim. Heavily blurred - could be Matiodog/Hatiwing; rank token could be Rct."
+    }
+   ]
+  },
+  {
+   "name": "McKnight",
+   "rank": "Vol",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Vol",
+     "note": "Appears in at least four kill-feed lines; tag reads approximately 'IstanSchla_Vol_McKnight' (clan-tag prefix uncertain)."
+    }
+   ]
+  },
+  {
+   "name": "Meme",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Green-line victim of Sawyer; 'NmSchla'-like tag, rank looks like 'Pte'. Name starts 'Meme' with ~4-6 further unreadable characters (e.g. 'Memeatles'-like)."
+    }
+   ]
+  },
+  {
+   "name": "Milosh",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Momohachimono",
+   "rank": "Maj",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Maj",
+     "note": "Tag 44etoiHM. Long heavily blurred name; also readable as Momohachimon/Mombachimomo. Killer in line 5."
+    }
+   ]
+  },
+  {
+   "name": "Monolace",
+   "rank": "Kapt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kapt",
+     "note": "reads ~9meSchlde_Kapt_Monolace or Monodace"
+    }
+   ]
+  },
+  {
+   "name": "Montanbechovo",
+   "rank": "Maj",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Maj",
+     "note": "Tag 44etalHM. Line 5 killer (green line, likely teamkill). Long name, heavily blurred - could be Montecheovo/Montechesovo."
+    }
+   ]
+  },
+  {
+   "name": "mountains100",
+   "rank": "Kpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Kpl",
+     "note": "tag 2ndCS; green feed line 2ndCS_Kpl_mountains100"
+    }
+   ]
+  },
+  {
+   "name": "Mr_Albon",
+   "rank": "Grb",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Grb",
+     "note": "Tag read as Bat_KF (blurry, could be BSt_KF). Line 16 victim. Name could be Mr_Alban; rank token could be Grd."
+    }
+   ]
+  },
+  {
+   "name": "Mr_Allson",
+   "rank": "Grb",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Grb",
+     "note": "Tag reads 9te_KF (possibly 9tel_KF/91st_KF). Name could be Alison/Adison/Nilson. Victim in line 16."
+    }
+   ]
+  },
+  {
+   "name": "Neo_Qc",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "nilloc93",
+   "rank": "Rkt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rkt",
+     "note": "Full string 00_Rkt_nilloc93 — tag 00 (two zeros or letter O's, reads as zeros), 'Rkt' treated as the rank/role token (likely rocketeer)."
+    }
+   ]
+  },
+  {
+   "name": "Nimation",
+   "rank": "Fus",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Fus",
+     "note": "Tag 1stesSchle. Could be 'Nimation' or 'Animation'; rank glyph Fus/Pos uncertain."
+    }
+   ]
+  },
+  {
+   "name": "Nipplestockings",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Prussian side, marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "Nitchel James",
+   "rank": null,
+   "match": {
+    "status": "likely-known",
+    "as": "James",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "tag 59th_IJA; appears 2-3 times as victim; could be Nitchel_Jones or Nitchet_James"
+    }
+   ]
+  },
+  {
+   "name": "Nitschet_James",
+   "rank": null,
+   "match": {
+    "status": "likely-known",
+    "as": "James",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJA (middle token could be IR/IJA). Appears twice: line 1 killer (grey) and line 3 victim. 'Nitschet' could be Nitschot/Nitachet."
+    }
+   ]
+  },
+  {
+   "name": "Nitschet_Ultio",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Tag 59th_IJA. Line 12 victim. Last token blurred - could be Ultia/Ulric."
+    }
+   ]
+  },
+  {
+   "name": "NM_Jeff",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "red text, marked Dead; rendering could be NM_JefF"
+    }
+   ]
+  },
+  {
+   "name": "NutSlap...",
+   "rank": "Cdt",
+   "match": {
+    "status": "likely-known",
+    "as": "nutslapper",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cdt",
+     "note": "tag 2ndCS (2ndCS_Cdt_NutSlap...) but listed on the Prussian side; tail merges with Dead label - possibly NutSlapper"
+    }
+   ]
+  },
+  {
+   "name": "ObertTheConqueror",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": null,
+     "note": "last visible Austrian row, dead; first letter could be O or Q (QbertTheConqueror possible)"
+    }
+   ]
+  },
+  {
+   "name": "Operator",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Prussian side, marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "Orbimacho",
+   "rank": "Cpt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Cpt",
+     "note": "Tag BatGRE. Line 9 killer (green line). Could be Orbimache/Orkimacho."
+    }
+   ]
+  },
+  {
+   "name": "Orkimedes",
+   "rank": "Cpt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Cpt",
+     "note": "GRE (grenadier) tag, digits before GRE blurred; green own-team melee-kill line"
+    }
+   ]
+  },
+  {
+   "name": "Osca32",
+   "rank": "Cdt",
+   "match": {
+    "status": "known",
+    "as": "Osca32"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Osca32"
+    }
+   ]
+  },
+  {
+   "name": "Panthere",
+   "rank": "cdm",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "cdm",
+     "note": "tag 7th_Scorpio (7th_Scorpio_cdm_Panthere); watermark crosses the middle of the string, tag could end differently (e.g. Scorpion)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "cdm",
+     "note": "Tag 7th_Scorpio; rank written lowercase 'cdm'"
+    }
+   ]
+  },
+  {
+   "name": "PerfectAbyss",
+   "rank": "Kht",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Kht",
+     "note": "Reads approximately 'NeoSchla_Kht_PerfectAbyss'; rank token uncertain."
+    }
+   ]
+  },
+  {
+   "name": "psy",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "not a nametag — referenced in chat only: 'oh shit psy is here'"
+    }
+   ]
+  },
+  {
+   "name": "Rabid_Canadian",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Ranulfr_Agdar",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "also probable author of the cut-off top chat line"
+    }
+   ]
+  },
+  {
+   "name": "RasputinRetard",
+   "rank": "Cho",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Cho",
+     "note": "Tag 8th_IR. Full string reads '8th_IR_Cho_RasputinRetard'."
+    }
+   ]
+  },
+  {
+   "name": "Raven",
+   "rank": "Sgt",
+   "match": {
+    "status": "known",
+    "as": "Raven"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Sgt",
+     "note": "2ndCS_Sgt_Raven"
+    }
+   ]
+  },
+  {
+   "name": "Reading_Rambo",
+   "rank": "Sgt",
+   "match": {
+    "status": "known",
+    "as": "Reading_Rambo"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Sgt",
+     "note": "2ndCS_Sgt_Reading_Rambo"
+    }
+   ]
+  },
+  {
+   "name": "reclu",
+   "rank": "Cpl",
+   "match": {
+    "status": "known",
+    "as": "reclu"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cpl",
+     "note": "tag 2ndCS, lowercase as written; 4/3/46"
+    },
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cpl",
+     "note": "2ndCS_Cpl_reclu, lowercase"
+    },
+    {
+     "image": "ecef98634c342160c5e8d7066372d1925454107a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Sgt",
+     "note": "Top kill line reads '2ndCS_S?t_reclu' — the rank token is partly covered by the watermark; 'Sgt' is the most likely reading. Clan tag 2ndCS."
+    }
+   ]
+  },
+  {
+   "name": "Remix",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Prussian side, marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "Revenge",
+   "rank": "Fus",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Fus",
+     "note": "tag ~9meSchlde"
+    }
+   ]
+  },
+  {
+   "name": "Richard_Brit",
+   "rank": null,
+   "match": {
+    "status": "likely-known",
+    "as": "Richard",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "no clan tag, 8 kills"
+    }
+   ]
+  },
+  {
+   "name": "Richard_F...",
+   "rank": "Rct",
+   "match": {
+    "status": "likely-known",
+    "as": "Richard",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS (2ndCS_Rct_Richard_F...), dead; surname after F obscured by watermark - possibly Fawkins/Hawkins-like"
+    }
+   ]
+  },
+  {
+   "name": "Richard_Hawkins",
+   "rank": "Rct",
+   "match": {
+    "status": "likely-known",
+    "as": "Richard",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS (2ndCS_Rct_Richard_Hawkins)"
+    }
+   ]
+  },
+  {
+   "name": "RivenX",
+   "rank": "Rct",
+   "match": {
+    "status": "known",
+    "as": "RivenX"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS (2ndCS_Rct_RivenX)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_RivenX, marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "Roger260",
+   "rank": "Cdt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Roger260, 8 kills"
+    },
+    {
+     "image": "c93c74f3c875c488257dc00ac534be7d5a0be7d2",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Rgl",
+     "note": "Full tag reads '2ndCS_B_Rgl_Roger260' — the 'Roger260' portion and the 2ndCS_B_ tag are clear; the rank token is small and could be 'Rgl' or 'Rct'."
+    }
+   ]
+  },
+  {
+   "name": "RogueBrody",
+   "rank": "LCpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "9b78844c2349c3cf9b2dfe656e0f352a28e3df73",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "LCpl",
+     "note": "From chat line '[2ndCS_LCpl_RogueBrody] have to relod'; clan tag 2ndCS"
+    }
+   ]
+  },
+  {
+   "name": "Roman",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag 2ndCS. First letter A/R - could be Aomen/Ronan. Victim in line 10."
+    }
+   ]
+  },
+  {
+   "name": "Rook",
+   "rank": "Rct",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "Reads '2ndCS_Rct_Rook'; appears more than once."
+    }
+   ]
+  },
+  {
+   "name": "Ruggy",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag 2ndCS. Line 8 victim."
+    }
+   ]
+  },
+  {
+   "name": "Sammy",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "-1 kills, 3 deaths, ping 128"
+    }
+   ]
+  },
+  {
+   "name": "Samuel",
+   "rank": "Cdt",
+   "match": {
+    "status": "known",
+    "as": "Samuel"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Samuel; also appears twice in chat log"
+    }
+   ]
+  },
+  {
+   "name": "Sar_Wilson",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "'BNhRG'-like tag; 'Sar' may be an extra rank token or part of the name ('…_Pte_Sar_Wilson'). Has a green 'has killed a teammate!' message and then a kill line on teammate King_Crusader."
+    }
+   ]
+  },
+  {
+   "name": "Sawyer",
+   "rank": "Gocho",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Gocho",
+     "note": "Reads approximately '59th_IJA_Gocho_Sawyer'; rank token is a Japanese-style rank abbreviation, uncertain."
+    }
+   ]
+  },
+  {
+   "name": "Schumann",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "0/1/74; middle vowel partly obscured, could be 'Schemann'"
+    }
+   ]
+  },
+  {
+   "name": "Scipio",
+   "rank": "Pte",
+   "match": {
+    "status": "known",
+    "as": "Scipio"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Scipio, 245 ping"
+    }
+   ]
+  },
+  {
+   "name": "Seamus_Connell",
+   "rank": "ChM",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "5e8775785ec3963d58a7ebaa61370d52e0f5ffd7",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "ChM",
+     "note": "From chat line '[[22nd]ChM_Seamus_Connell] can i get a promotion?' - clan tag [22nd], prefix ChM (likely Chef de Musique / musician-rank abbreviation in the 22nd)."
+    }
+   ]
+  },
+  {
+   "name": "Seego",
+   "rank": "Con",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Con",
+     "note": "Tag 6eYG; full string 6eYG_Con_Seego, shown in red with 'Dead' (3 kills / 5 deaths / 170 ping, Austrian team). Blur makes it possibly 'Sengo' or 'Scego'; the same name repeats in the red kill-feed line at bottom left."
+    }
+   ]
+  },
+  {
+   "name": "seismicGASBAG",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "Sengo",
+   "rank": "Con",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Con",
+     "note": "tag 6eYG (6eYG_Con_Sengo), marked Dead in red, 3/5/170; name could also read 'Scego'; also appears in a red chat kill line"
+    }
+   ]
+  },
+  {
+   "name": "Sethja8",
+   "rank": "Cpt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Cpt",
+     "note": "Tag VIe_4e_Cav (VIe_4e_Cav_Cpt_Sethja8); line is double-rendered green+dark and slightly offset; 'VIe' could be 'Vle', and 'Sethja8' could be Sethya8/Sethn8"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cpt",
+     "note": "Vle_4e_Cav_Cpt_Sethja8 — visiting 4e Cavalry regiment tag"
+    }
+   ]
+  },
+  {
+   "name": "Sethn8",
+   "rank": "Cpt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Cpt",
+     "note": "green overlapped line reads approx 4e_Cav_Cpt_Sethn8 (possible 'VMe' prefix ghosting); killed Spaghetti"
+    }
+   ]
+  },
+  {
+   "name": "Seveight",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "bottom-most overlapped line, killed 2ndCS_Maj_Crazy"
+    }
+   ]
+  },
+  {
+   "name": "Sir_Leopold",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "spectator, ping 42"
+    }
+   ]
+  },
+  {
+   "name": "Sir_Wololol",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Austrian side, 12 kills"
+    }
+   ]
+  },
+  {
+   "name": "slavko",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Line 11 victim; string starts 'm_dragoons_' (possibly ss_dragoons); remainder after 'slavko' obscured by foreground soldier - name incomplete."
+    }
+   ]
+  },
+  {
+   "name": "Snowball",
+   "rank": "BWO",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "BWO",
+     "note": "Tag BatGRE. Line 6 victim. Rank token blurry (BWO/8WO)."
+    }
+   ]
+  },
+  {
+   "name": "Sor_Wilson",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Tag 59NhRG. 'Wilson' clear; prefix could be Sor/Ser/Jor. Appears 3 times incl. the teamkill message and killing teammate King_Crusader."
+    }
+   ]
+  },
+  {
+   "name": "Soran",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "5/3/51"
+    }
+   ]
+  },
+  {
+   "name": "Soupex",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "reads 63e_Black_Soupex twice; 'Black' may be a company name; could be Soupes"
+    }
+   ]
+  },
+  {
+   "name": "Sowright",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Killer of 2ndCS_Maj_Crazy on the bottommost (colored, cut-off) line; could be Seawright — only the offset red copy is visible"
+    }
+   ]
+  },
+  {
+   "name": "Spaghetti",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "victim in overlapped bottom line"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "chat: 'I have a trumpet..' / 'Therefore we win.'"
+    }
+   ]
+  },
+  {
+   "name": "Spartank",
+   "rank": "2ndPvt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "2ndPvt",
+     "note": "tag IIIe_38e (IIIe_38e_2ndPvt_Spartank)"
+    }
+   ]
+  },
+  {
+   "name": "Stalker",
+   "rank": "Maj.Gen.",
+   "match": {
+    "status": "likely-known",
+    "as": "Netstalker",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Maj.Gen.",
+     "note": "Full tag '|51st|.Maj.Gen.Stalker'; appears three times in the kill feed as the killer."
+    }
+   ]
+  },
+  {
+   "name": "Strand",
+   "rank": "Cpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Cpl",
+     "note": "Tag 2ndCS (tag could be 2ndKS). Faded line 2 victim; name could be Straud/Stramil."
+    }
+   ]
+  },
+  {
+   "name": "Strauss",
+   "rank": "Cpl",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Cpl",
+     "note": "Tag 2ndCS. Line 2 victim. Very low legibility - candidates: Strauss/Btussl/Russel/BiussA."
+    }
+   ]
+  },
+  {
+   "name": "Suggy",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "tag 2ndCS; killed by 88thRG_LtCol_MarshalNey"
+    }
+   ]
+  },
+  {
+   "name": "That_Guy",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf ([Cub]Inf_That_Guy)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "tag [Cub]Inf"
+    }
+   ]
+  },
+  {
+   "name": "The_Helping_Friendly_Book",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "0/1/53; chat 'nice'"
+    }
+   ]
+  },
+  {
+   "name": "The_Legend",
+   "rank": "Cdt",
+   "match": {
+    "status": "likely-known",
+    "as": "LeGenD",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cdt",
+     "note": "tag 2ndCS (2ndCS_Cdt_The_Legend), killed by theman45"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cdt",
+     "note": "tag 2ndCS"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_The_Legend, 6 kills"
+    }
+   ]
+  },
+  {
+   "name": "TheBlockLord",
+   "rank": "Rct",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Rct",
+     "note": "Tag 2ndKCS. Name truncated/obscured at right edge; 'TheBlockL…' visible."
+    }
+   ]
+  },
+  {
+   "name": "TheConqueror",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "bottom Austrian row, red: '…TheConqueror' — first word of name unreadable under watermark (something like Olaf/Obert), marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "TheGuyontheCouch",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "also 'has killed a teammate!' notice and chat '[TheGuyontheCouch] sorry'"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "also 'has killed a teammate!' notice"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "theman45",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    }
+   ]
+  },
+  {
+   "name": "thetindog",
+   "rank": "Pte",
+   "match": {
+    "status": "known",
+    "as": "thetindog"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_thetindog, lowercase"
+    }
+   ]
+  },
+  {
+   "name": "ThreeCubed",
+   "rank": "Pte",
+   "match": {
+    "status": "known",
+    "as": "Three-Cubed"
+   },
+   "sightings": [
+    {
+     "image": "dd6599d39a63063adb0925ba3a8772216d8d80ed",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "Nametag reads '2ndCS_Pte_ThreeCubed' — clan tag 2ndCS."
+    }
+   ]
+  },
+  {
+   "name": "Tiago",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Austrian side, top scorer 16 kills, no clan tag"
+    }
+   ]
+  },
+  {
+   "name": "TisselTassler",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_TisselTassler"
+    }
+   ]
+  },
+  {
+   "name": "Toan",
+   "rank": "Shp",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Shp",
+     "note": "Tag read as BINARG/BINhRG (blurry). Line 10 killer and line 14 victim. Rank token unclear (Shp/Skp)."
+    }
+   ]
+  },
+  {
+   "name": "Toes",
+   "rank": "Shp",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Shp",
+     "note": "Tag 88NhRG. Rank token blurred - Shp, possibly Sgt/Skp. Killer in line 10, victim in line 14."
+    }
+   ]
+  },
+  {
+   "name": "Tom",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "reads 88thRG_Shp_Tom (twice); middle token unclear, maybe Shp"
+    }
+   ]
+  },
+  {
+   "name": "Ubu",
+   "rank": "Nitohei",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Nitohei",
+     "note": "Tag 59th_IJA. Short name blurred - could be Ultu/Uku. Rank token same 'Nitobet/Nitohei' pattern as James. Victim in line 12."
+    }
+   ]
+  },
+  {
+   "name": "Ultio",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "6005620bb04a9723665b127420ac43deb4aceafa",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "victim reads ~59th_IJA_Nit..._Ult...; heavily blurred"
+    }
+   ]
+  },
+  {
+   "name": "Uno",
+   "rank": "Maj",
+   "match": {
+    "status": "known",
+    "as": "UNO"
+   },
+   "sightings": [
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Maj",
+     "note": "2ndCS_Maj_Uno"
+    }
+   ]
+  },
+  {
+   "name": "Uruk-hai",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": null
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "ghost-overlapped"
+    }
+   ]
+  },
+  {
+   "name": "Uthred",
+   "rank": "Pvt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Pvt",
+     "note": "Full tag reads '8th_LL_B_Pvt_Uthred'; the clan tag could alternatively be '8th_LI_B' (LI = Light Infantry) — letters ambiguous at this size."
+    }
+   ]
+  },
+  {
+   "name": "Vadol",
+   "rank": "Sdt",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Sdt",
+     "note": "1stEPI_A2_Sdt_Vadol — name may be truncated by the Dead label"
+    }
+   ]
+  },
+  {
+   "name": "vicBi2",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": null,
+     "note": "Third spectator (ping ~36/56?); tiny name almost entirely hidden behind the 'Your space.' watermark - only faint glyphs visible, this reading is unreliable; do not treat as authoritative"
+    }
+   ]
+  },
+  {
+   "name": "VictoriaCross",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "kills/deaths obscured by watermark"
+    }
+   ]
+  },
+  {
+   "name": "Wafflles",
+   "rank": "Maj",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Maj",
+     "note": "Reads approximately '89thRG_Maj_Wafflles'; double-letter spelling uncertain."
+    }
+   ]
+  },
+  {
+   "name": "Warfighter",
+   "rank": "Pfc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pfc",
+     "note": "Tag 59NhRG. Possible trailing character after 'Warfighter' (Warfightert?)."
+    }
+   ]
+  },
+  {
+   "name": "WarfighterS",
+   "rank": "Pfc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pfc",
+     "note": "'BNhRG'-like tag; trailing character uncertain — 'WarfighterS', 'Warfighter5' or 'Warfighters'. His victim's name is fully occluded (only a '2ndKC?'-like tag visible)."
+    }
+   ]
+  },
+  {
+   "name": "Wibsey",
+   "rank": null,
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "Prussian side, marked Dead"
+    }
+   ]
+  },
+  {
+   "name": "William",
+   "rank": "LCpl",
+   "match": {
+    "status": "likely-known",
+    "as": "regwilliam",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "LCpl",
+     "note": "tag 29th_A (29th_A_LCpl_William); 8/4/39"
+    }
+   ]
+  },
+  {
+   "name": "williambinette",
+   "rank": "Rct",
+   "match": {
+    "status": "known",
+    "as": "williambinette"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS, lowercase as written (2ndCS_Rct_williambinette)"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "tag 2ndCS; ghost-overlapped in this shot, clear in companion shot 210325a8"
+    },
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_williambinette, lowercase"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_williambinette, lowercase"
+    }
+   ]
+  },
+  {
+   "name": "WillWight",
+   "rank": "CPsc",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "210325a830b2901999cd4fea859c3c2141e14e0a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "CPsc",
+     "note": "Tag 8th_CR (8th_CR_CPsc_WillWight); rank letters 'CPsc' small - could be CPse/Cpsc"
+    },
+    {
+     "image": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": null,
+     "note": "full string 8th_CR_CPsc_WillWight; line ghost-overlapped by green KING_CHORGO kill line"
+    }
+   ]
+  },
+  {
+   "name": "Wilson",
+   "rank": "Pte",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "unconfirmed",
+     "reads": "1/3",
+     "rank": "Pte",
+     "note": "Reads approximately '89thRG_Pte_Ser_Wilson'; middle token(s) unclear. A nearby system line appears to say '...Wilson has killed a teammate!' (uncertain)."
+    }
+   ]
+  },
+  {
+   "name": "Wuffles",
+   "rank": "Maj",
+   "match": {
+    "status": "new"
+   },
+   "sightings": [
+    {
+     "image": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/3",
+     "rank": "Maj",
+     "note": "Tag 59NhRG. Could be Wuffles/Wufflee/Waffles."
+    }
+   ]
+  },
+  {
+   "name": "Zelkova",
+   "rank": "Sergeant",
+   "match": {
+    "status": "likely-known",
+    "as": "Zelkova1224",
+    "via": "containment"
+   },
+   "sightings": [
+    {
+     "image": "74704fd9a553f3d4d676b4b9a2568f4bbac40d2b",
+     "kind": "badge-or-banner",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Sergeant",
+     "note": "Labeled 'Sergeant Zelkova' under the Coldstream Guards star badge; matches forum poster Zelkova1224."
+    }
+   ]
+  },
+  {
+   "name": "Zemohc",
+   "rank": "Cpl",
+   "match": {
+    "status": "known",
+    "as": "Zemohc"
+   },
+   "sightings": [
+    {
+     "image": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cpl",
+     "note": "tag 2ndCS; 3/3/38"
+    },
+    {
+     "image": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Zemohc"
+    },
+    {
+     "image": "495931f6708906535e14b24422c44cd0919ca25d",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "3/3",
+     "rank": "Cpl",
+     "note": "2ndCS_Cpl_Zemohc, 8 kills"
+    },
+    {
+     "image": "9040068cbb3439387adbf554bff381064368ded1",
+     "kind": "screenshot",
+     "bucket": "confirmed",
+     "reads": "2/2",
+     "rank": "Pte",
+     "note": "floating nametag '2ndCS_Al_Pte_Zemohc'; 'Al' likely a company designator within the 2ndCS tag"
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "images": 17,
+  "distinctNames": 235,
+  "new": 198,
+  "likely-known": 14,
+  "near-match": 1,
+  "known": 22,
+  "caveat": "Names read from images by a vision pass; each confirmed name agreed across >=2 independent transcriptions. Ranks are as shown in the image at that moment in time."
+ }
+}

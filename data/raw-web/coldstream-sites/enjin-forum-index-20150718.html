@@ -1,0 +1,1343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#">
+
+<head>
+	<script type="text/javascript">
+		try {
+			if(self.location.href != top.location.href) { 
+				top.location = self.location; 
+			} 
+		} catch ( ex ) {
+			// if we cannot access the top.location.href property then we are not in the top-frame, so reload till we are
+			top.location = self.location;
+		}
+	</script>
+	
+		<meta name="description" content="" >
+<meta name="keywords" content="" >
+<meta name="robots" content="INDEX, FOLLOW" >
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" ><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"VgYAWVVaGwoIVlhSDw=="};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o?o:e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({QJf3ax:[function(t,e){function n(t){function e(e,n,a){t&&t(e,n,a),a||(a={});for(var c=s(e),u=c.length,f=i(a,o,r),d=0;u>d;d++)c[d].apply(f,n);return f}function a(t,e){u[t]=s(t).concat(e)}function s(t){return u[t]||[]}function c(){return n(e)}var u={};return{on:a,emit:e,create:c,listeners:s,_events:u}}function r(){return{}}var o="nr@context",i=t("gos");e.exports=n()},{gos:"7eSDFh"}],ee:[function(t,e){e.exports=t("QJf3ax")},{}],3:[function(t){function e(t){try{i.console&&console.log(t)}catch(e){}}var n,r=t("ee"),o=t(1),i={};try{n=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(i.console=!0,-1!==n.indexOf("dev")&&(i.dev=!0),-1!==n.indexOf("nr_dev")&&(i.nrDev=!0))}catch(a){}i.nrDev&&r.on("internal-error",function(t){e(t.stack)}),i.dev&&r.on("fn-err",function(t,n,r){e(r.stack)}),i.dev&&(e("NR AGENT IN DEVELOPMENT MODE"),e("flags: "+o(i,function(t){return t}).join(", ")))},{1:20,ee:"QJf3ax"}],4:[function(t){function e(t,e,n,i,s){try{c?c-=1:r("err",[s||new UncaughtException(t,e,n)])}catch(u){try{r("ierr",[u,(new Date).getTime(),!0])}catch(f){}}return"function"==typeof a?a.apply(this,o(arguments)):!1}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function n(t){r("err",[t,(new Date).getTime()])}var r=t("handle"),o=t(6),i=t("ee"),a=window.onerror,s=!1,c=0;t("loader").features.err=!0,t(3),window.onerror=e;try{throw new Error}catch(u){"stack"in u&&(t(4),t(5),"addEventListener"in window&&t(1),window.XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.addEventListener&&window.XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.addEventListener&&!/CriOS/.test(navigator.userAgent)&&t(2),s=!0)}i.on("fn-start",function(){s&&(c+=1)}),i.on("fn-err",function(t,e,r){s&&(this.thrown=!0,n(r))}),i.on("fn-end",function(){s&&!this.thrown&&c>0&&(c-=1)}),i.on("internal-error",function(t){r("ierr",[t,(new Date).getTime(),!0])})},{1:5,2:8,3:3,4:7,5:6,6:21,ee:"QJf3ax",handle:"D5DuLP",loader:"G9z0Bl"}],5:[function(t,e){function n(t){i.inPlace(t,["addEventListener","removeEventListener"],"-",r)}function r(t){return t[1]}var o=(t(1),t("ee").create()),i=t(2)(o),a=t("gos");if(e.exports=o,n(window),"getPrototypeOf"in Object){for(var s=document;s&&!s.hasOwnProperty("addEventListener");)s=Object.getPrototypeOf(s);s&&n(s);for(var c=XMLHttpRequest.prototype;c&&!c.hasOwnProperty("addEventListener");)c=Object.getPrototypeOf(c);c&&n(c)}else XMLHttpRequest.prototype.hasOwnProperty("addEventListener")&&n(XMLHttpRequest.prototype);o.on("addEventListener-start",function(t){if(t[1]){var e=t[1];"function"==typeof e?this.wrapped=t[1]=a(e,"nr@wrapped",function(){return i(e,"fn-",null,e.name||"anonymous")}):"function"==typeof e.handleEvent&&i.inPlace(e,["handleEvent"],"fn-")}}),o.on("removeEventListener-start",function(t){var e=this.wrapped;e&&(t[1]=e)})},{1:21,2:22,ee:"QJf3ax",gos:"7eSDFh"}],6:[function(t,e){var n=(t(2),t("ee").create()),r=t(1)(n);e.exports=n,r.inPlace(window,["requestAnimationFrame","mozRequestAnimationFrame","webkitRequestAnimationFrame","msRequestAnimationFrame"],"raf-"),n.on("raf-start",function(t){t[0]=r(t[0],"fn-")})},{1:22,2:21,ee:"QJf3ax"}],7:[function(t,e){function n(t,e,n){t[0]=o(t[0],"fn-",null,n)}var r=(t(2),t("ee").create()),o=t(1)(r);e.exports=r,o.inPlace(window,["setTimeout","setInterval","setImmediate"],"setTimer-"),r.on("setTimer-start",n)},{1:22,2:21,ee:"QJf3ax"}],8:[function(t,e){function n(){u.inPlace(this,p,"fn-")}function r(t,e){u.inPlace(e,["onreadystatechange"],"fn-")}function o(t,e){return e}function i(t,e){for(var n in t)e[n]=t[n];return e}var a=t("ee").create(),s=t(1),c=t(2),u=c(a),f=c(s),d=window.XMLHttpRequest,p=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"];e.exports=a,window.XMLHttpRequest=function(t){var e=new d(t);try{a.emit("new-xhr",[],e),f.inPlace(e,["addEventListener","removeEventListener"],"-",o),e.addEventListener("readystatechange",n,!1)}catch(r){try{a.emit("internal-error",[r])}catch(i){}}return e},i(d,XMLHttpRequest),XMLHttpRequest.prototype=d.prototype,u.inPlace(XMLHttpRequest.prototype,["open","send"],"-xhr-",o),a.on("send-xhr-start",r),a.on("open-xhr-start",r)},{1:5,2:22,ee:"QJf3ax"}],9:[function(t){function e(t){var e=this.params,r=this.metrics;if(!this.ended){this.ended=!0;for(var i=0;c>i;i++)t.removeEventListener(s[i],this.listener,!1);if(!e.aborted){if(r.duration=(new Date).getTime()-this.startTime,4===t.readyState){e.status=t.status;var a=t.responseType,u="arraybuffer"===a||"blob"===a||"json"===a?t.response:t.responseText,f=n(u);if(f&&(r.rxSize=f),this.sameOrigin){var d=t.getResponseHeader("X-NewRelic-App-Data");d&&(e.cat=d.split(", ").pop())}}else e.status=0;r.cbTime=this.cbTime,o("xhr",[e,r,this.startTime])}}}function n(t){if("string"==typeof t&&t.length)return t.length;if("object"!=typeof t)return void 0;if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if("undefined"!=typeof FormData&&t instanceof FormData)return void 0;try{return JSON.stringify(t).length}catch(e){return void 0}}function r(t,e){var n=i(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}if(window.XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.addEventListener&&!/CriOS/.test(navigator.userAgent)){t("loader").features.xhr=!0;var o=t("handle"),i=t(2),a=t("ee"),s=["load","error","abort","timeout"],c=s.length,u=t(1);t(4),t(3),a.on("new-xhr",function(){this.totalCbs=0,this.called=0,this.cbTime=0,this.end=e,this.ended=!1,this.xhrGuids={}}),a.on("open-xhr-start",function(t){this.params={method:t[0]},r(this,t[1]),this.metrics={}}),a.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),a.on("send-xhr-start",function(t,e){var r=this.metrics,o=t[0],i=this;if(r&&o){var u=n(o);u&&(r.txSize=u)}this.startTime=(new Date).getTime(),this.listener=function(t){try{"abort"===t.type&&(i.params.aborted=!0),("load"!==t.type||i.called===i.totalCbs&&(i.onloadCalled||"function"!=typeof e.onload))&&i.end(e)}catch(n){try{a.emit("internal-error",[n])}catch(r){}}};for(var f=0;c>f;f++)e.addEventListener(s[f],this.listener,!1)}),a.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),a.on("xhr-load-added",function(t,e){var n=""+u(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),a.on("xhr-load-removed",function(t,e){var n=""+u(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),a.on("addEventListener-end",function(t,e){e instanceof XMLHttpRequest&&"load"===t[0]&&a.emit("xhr-load-added",[t[1],t[2]],e)}),a.on("removeEventListener-end",function(t,e){e instanceof XMLHttpRequest&&"load"===t[0]&&a.emit("xhr-load-removed",[t[1],t[2]],e)}),a.on("fn-start",function(t,e,n){e instanceof XMLHttpRequest&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=(new Date).getTime()))}),a.on("fn-end",function(t,e){this.xhrCbStart&&a.emit("xhr-cb-time",[(new Date).getTime()-this.xhrCbStart,this.onload,e],e)})}},{1:"XL7HBI",2:10,3:8,4:5,ee:"QJf3ax",handle:"D5DuLP",loader:"G9z0Bl"}],10:[function(t,e){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");return!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname),r.sameOrigin=!e.hostname||e.hostname===document.domain&&e.port===n.port&&e.protocol===n.protocol,r}},{}],11:[function(t,e){function n(t){return function(){r(t,[(new Date).getTime()].concat(i(arguments)))}}var r=t("handle"),o=t(1),i=t(2);"undefined"==typeof window.newrelic&&(newrelic=window.NREUM);var a=["setPageViewName","addPageAction","setCustomAttribute","finished","addToTrace","inlineHit","noticeError"];o(a,function(t,e){window.NREUM[e]=n("api-"+e)}),e.exports=window.NREUM},{1:20,2:21,handle:"D5DuLP"}],"7eSDFh":[function(t,e){function n(t,e,n){if(r.call(t,e))return t[e];var o=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:o,writable:!0,enumerable:!1}),o}catch(i){}return t[e]=o,o}var r=Object.prototype.hasOwnProperty;e.exports=n},{}],gos:[function(t,e){e.exports=t("7eSDFh")},{}],handle:[function(t,e){e.exports=t("D5DuLP")},{}],D5DuLP:[function(t,e){function n(t,e,n){return r.listeners(t).length?r.emit(t,e,n):(o[t]||(o[t]=[]),void o[t].push(e))}var r=t("ee").create(),o={};e.exports=n,n.ee=r,r.q=o},{ee:"QJf3ax"}],id:[function(t,e){e.exports=t("XL7HBI")},{}],XL7HBI:[function(t,e){function n(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:i(t,o,function(){return r++})}var r=1,o="nr@id",i=t("gos");e.exports=n},{gos:"7eSDFh"}],G9z0Bl:[function(t,e){function n(){var t=p.info=NREUM.info,e=u.getElementsByTagName("script")[0];if(t&&t.licenseKey&&t.applicationID&&e){s(d,function(e,n){e in t||(t[e]=n)});var n="https"===f.split(":")[0]||t.sslForHttp;p.proto=n?"https://":"http://",a("mark",["onload",i()]);var r=u.createElement("script");r.src=p.proto+t.agent,e.parentNode.insertBefore(r,e)}}function r(){"complete"===u.readyState&&o()}function o(){a("mark",["domContent",i()])}function i(){return(new Date).getTime()}var a=t("handle"),s=t(1),c=(t(2),window),u=c.document,f=(""+location).split("?")[0],d={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-632.min.js"},p=e.exports={offset:i(),origin:f,features:{}};u.addEventListener?(u.addEventListener("DOMContentLoaded",o,!1),c.addEventListener("load",n,!1)):(u.attachEvent("onreadystatechange",r),c.attachEvent("onload",n)),a("mark",["firstbyte",i()])},{1:20,2:11,handle:"D5DuLP"}],loader:[function(t,e){e.exports=t("G9z0Bl")},{}],20:[function(t,e){function n(t,e){var n=[],o="",i=0;for(o in t)r.call(t,o)&&(n[i]=e(o,t[o]),i+=1);return n}var r=Object.prototype.hasOwnProperty;e.exports=n},{}],21:[function(t,e){function n(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(0>o?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=n},{}],22:[function(t,e){function n(t){return!(t&&"function"==typeof t&&t.apply&&!t[i])}var r=t("ee"),o=t(1),i="nr@wrapper",a=Object.prototype.hasOwnProperty;e.exports=function(t){function e(t,e,r,a){function nrWrapper(){var n,i,s,u;try{i=this,n=o(arguments),s=r&&r(n,i)||{}}catch(d){f([d,"",[n,i,a],s])}c(e+"start",[n,i,a],s);try{return u=t.apply(i,n)}catch(p){throw c(e+"err",[n,i,p],s),p}finally{c(e+"end",[n,i,u],s)}}return n(t)?t:(e||(e=""),nrWrapper[i]=!0,u(t,nrWrapper),nrWrapper)}function s(t,r,o,i){o||(o="");var a,s,c,u="-"===o.charAt(0);for(c=0;c<r.length;c++)s=r[c],a=t[s],n(a)||(t[s]=e(a,u?s+o:o,i,s))}function c(e,n,r){try{t.emit(e,n,r)}catch(o){f([o,e,n,r])}}function u(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){f([r])}for(var o in t)a.call(t,o)&&(e[o]=t[o]);return e}function f(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=r),e.inPlace=s,e.flag=i,e}},{1:21,ee:"QJf3ax"}]},{},["G9z0Bl",4,9]);</script>
+<meta http-equiv="Content-Language" content="en-US" ><title>2nd Coldstream Guards - Forum</title>		
+<!--OpenGraph Protocol-->
+<meta property="og:title" content="2nd Coldstream Guards" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://Coldstream.enjin.com" />
+<meta property="og:image" content="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/avatar.png" />
+<meta property="og:description" content="We&#039;re more than just a regiment, we&#039;re a family." />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="2nd Coldstream" />
+
+	
+				
+				
+			
+	<link href="/forum" rel="canonical" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/js/library/markitup/skins/enjin/style.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/v2/css/mentions.input.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/forum.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/forum.labels.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://coldstream.enjin.com/assets/201507171479/themes/core/css/core.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/bbcode.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/styles.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/v2/css/system/user_tray.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/admin/theme/css/teamspeak/tree.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/modules/mumble.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://coldstream.enjin.com/assets/201507171479/merged/default_fonts.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://coldstream.enjin.com/assets/201507171479/themes/core/css/theme.php?theme=563459&amp;cache=201507171479-1435925724" media="screen" rel="stylesheet" type="text/css" >	<style type="text/css" media="screen">
+<!--
+
+-->
+</style>
+<style type="text/css" media="screen">
+<!--
+a.tag-regular,span.tag-regular{} a.tag-admin,span.tag-admin{} a.tag-untagged,span.tag-untagged{} a.tag-banned,span.tag-banned{} a.tag-online,span.tag-online{} a.tag-ts3online,span.tag-ts3online{} a.tag-minecraft_online,span.tag-minecraft_online{} a.tag-twitch_online,span.tag-twitch_online{} a.tag-twitch_users,span.tag-twitch_users{} a.tag-warned,span.tag-warned{} a.tag-punished,span.tag-punished{} a.tag-1369935,span.tag-1369935{} a.tag-1359291,span.tag-1359291{} a.tag-1359290,span.tag-1359290{} a.tag-1359289,span.tag-1359289{} 
+-->
+</style>	<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/merged/default_layout.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/core.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/markitup/sets/bbcode/set.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/modules/membersonline.js"></script>
+<script type="text/javascript">
+    //<!--
+    $(document).ready(function() {
+	new Module_MembersOnline(2717408, 0);	
+});
+    //-->
+</script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/v2/js/lib/underscore.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/v2/js/lib/mentions.input.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/v2/js/lib/caret.position.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/jquery.form.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/jquery.json.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/modules/forum.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+Forum.preset_id = "2717425";
+Forum.baseurl = "/forum/m/2717425";
+Forum.preferences = {"threads_per_page":35,"posts_per_page":10,"auto_subscribe":0};
+var forum;
+
+$(document).ready(function() {
+	forum = new Forum();
+	$('.m_forum a.link-mark-forum-read').click(forum.markForumRead);
+	$('.m_forum a.link-preferences').click(forum.preferences);
+});
+
+    //-->
+</script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/jstorage.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+    var current_session_user_id = 0;
+    Enjin_Core.site_id = 105125;
+
+        //-->
+</script>
+<script type="text/javascript">
+    //<!--
+    		var notification_count = {
+					};
+		$(document).ready(function(){
+					});
+	    //-->
+</script>
+	
+    <!-- Universal Google Analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        // enjin tracking
+        ga('create', 'UA-6028401-5', 'auto');
+        ga('send', 'pageview');
+
+        // custom website tracking
+            </script>
+        
+</head>
+
+<body class=" dark-theme"
+      data-dnsme-update-flag="">
+
+
+
+
+
+
+<div class="body-wrap-2"><div class="body-wrap-3">
+
+<div id="page">
+	<div class="page-outer-left"><!--  --></div>
+	<div class="page-outer-right"><!--  --></div>
+	<div id="page-wrap">
+		<div class="fixed_height_elem" id="above-site"><!--  --></div>
+		<div id="site-body">
+
+			<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+				<td id="section-header"
+		class="section-holder section-width-large"
+		style=""
+		data-width="1030"
+	>
+		<div class="section">
+<div id='enjin-bar'>
+
+	<div class='right'>
+
+		
+			<!-- Login / Register -->
+			<a href="/login" rel="nofollow">Login</a>
+						<span class='divider'>|</span><a href='/login/do/register' rel='nofollow'>Register</a>
+			
+		
+	</div>
+
+	<div class='left'>
+
+		<!-- Site name -->
+					<a href='/'>2nd Coldstream</a>
+		
+		<!-- Voice -->
+		
+		<!-- Site info -->
+		<span class='divider'>|</span><a href='/page/105125'>Site Info</a>
+		<!-- Admin dropdown / Upgrade site -->
+		
+		<!-- Social -->
+					<div id='enjin-bar-likes'>
+
+				<!-- Enjin forums / All other websites -->
+				<span class="fb-like-site"><fb:like href="http://coldstream.enjin.com" send="false" layout="button_count" width="100" show_faces="false"></fb:like></span><span class="gplus-like-site"><g:plusone size="medium" href="http://coldstream.enjin.com"></g:plusone></span>
+				<!-- Site likes -->
+				
+			</div>
+		
+	</div>
+</div>		      <div class=" container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+				<div class="special_container with-header with-footer first"><div class='m_header'>
+<div class='tl'></div><div class='tr'></div><div class='bl'></div><div class='br'></div>
+
+	<div style="height: 182px" class='holder'>
+		<object wmode="transparent" width="100%" height="182" flashvars="crossdomain=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2Fcrossdomain.xml&resourcesdomain=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fcrossdomain.xml&fontsbaseurl=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fheaders%2Ffonts&bgtype=image&bgcolor=0&alignment=center&height=182&numitems=0&bgtransparent=1&bg=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2F105125%2Fmodule_header%2F2717421%2Fbackground%2F2ndcshead.jpg" data="http://resources.guild-hosting.net/201507171479/themes/core/flash/header/v3/EnjinHeader.swf" type="application/x-shockwave-flash">
+			<param name="movie" value="http://resources.guild-hosting.net/201507171479/themes/core/flash/header/v3/EnjinHeader.swf">
+			<param name="wmode" value="transparent">
+			<param name="allowscriptaccess" value="always">
+			<param name="bgcolor" value="#000000">
+			<param name="scale" value="noscale">
+			<param name="flashvars" value="crossdomain=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2Fcrossdomain.xml&resourcesdomain=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fcrossdomain.xml&fontsbaseurl=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fheaders%2Ffonts&bgtype=image&bgcolor=0&alignment=center&height=182&numitems=0&bgtransparent=1&bg=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2F105125%2Fmodule_header%2F2717421%2Fbackground%2F2ndcshead.jpg">			
+		</object>
+	</div>
+
+</div></div>
+
+
+				      <div class=" container_spacer">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+				<div class="special_container with-header with-footer last"><div class='m_hmenu'>
+    <div class='bg left'><!--  --></div>
+    <div class='bg right'><!--  --></div>
+    <div class='buttons content'>
+                    <a href='/home'>
+                <div class='button first'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Home</div>
+                </div>
+            </a>
+                                <a href='/forum'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Forums</div>
+                </div>
+            </a>
+                                <a href='/gallery'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Gallery</div>
+                </div>
+            </a>
+                                <a href='/enlistment'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Enlist</div>
+                </div>
+            </a>
+                                <a href='/contactus'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Contact us</div>
+                </div>
+            </a>
+                                <a href='/schedule'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Schedule</div>
+                </div>
+            </a>
+                            <div class='cap'><!--  --></div>    </div>
+</div></div>
+
+
+		            		      <div class=" container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+				<td id="section-left"
+		class="section-holder section-width-small"
+		style="width: 220px;"
+		data-width="220"
+	>
+		<div class="section">		      <div class=" container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+									
+					<div class="container with-header with-footer first" data-container-id="4037250" data-start-collapsed="0">
+
+                    					  <div class=" container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">
+										
+                                        Login or Register                                    </div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                    
+					<div class="container_body">
+														
+                                                      <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                         						  
+						  <div class="container_content container-minimized" style="display: none;" >
+						  	Container minimized. <a href="#">Expand</a>
+						  </div>
+					      <div class="container_content container-maximized"  >
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										
+<div class='m_login loginform'>
+
+		
+	<form action='' method='post'>
+		<input type='hidden' name='m' value='2717404'>
+		<input type='hidden' name='do' value='login'>
+		
+					<div class='element_button'><div class='l'><!-- --></div><div class='r'><!-- --></div><input type='button' onclick="document.location.href='/login'" value='Login' tabindex='3'></div>
+			 
+			<span class='or'>or</span> <div class='element_button'><div class='l'><!-- --></div><div class='r'><!-- --></div><input type='button' value='Register' onClick='window.location = "/login/do/register";' tabindex='4'></div>
+						</form>
+</div>										        </div>
+										      </div><!-- module_content -->
+
+										
+
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+
+                                              <div class=" container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                      
+					</div><!-- .container -->
+				
+
+
+				      <div class=" container_spacer">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+									
+					<div class="container with-header with-footer" data-container-id="4037251" data-start-collapsed="0">
+
+                    					  <div class=" container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">
+										
+                                        Latest Threads                                    </div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                    
+					<div class="container_body">
+														
+                                                      <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                         						  
+						  <div class="container_content container-minimized" style="display: none;" >
+						  	Container minimized. <a href="#">Expand</a>
+						  </div>
+					      <div class="container_content container-maximized"  >
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										<div class="m_forumlatestthreads">
+                <div class="thread thread_first">
+                                                        <div  class="element_avatar simple small"><a  data-minitooltip="RiveR" data-minitooltip-userid="887776" href="http://Coldstream.enjin.com/profile/887776"><img src="http://assets-cloud.enjin.com/users/887776/avatar/small.1399990445.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                
+                <div class="post-info post-info-avatar">
+                    <div class="title"><a href="http://Coldstream.enjin.com/forum/m/2717425/viewthread/23141079-dayz-clan/post/last#last" class="">DayZ Clan?</a></div>
+                    <div class="info">
+                        7 hours ago                                                    <a href='/profile/887776'  class='element_username admin'>RiveR</a>  <span class="nameicons"><span class="icon_microtag" title="a" style="cursor: default; color: #000000; background-color: #FFFF00; border: 1px solid none; border-radius: 2px;">a</span></span>                                            </div>
+                                            <a class="forum" href="http://Coldstream.enjin.com/forum/m/2717425/viewforum/668383">General Gaming</a>
+                                    </div>
+            </div>
+                    <div class="thread">
+                                                        <div  class="element_avatar simple small"><a  data-minitooltip="Archer" data-minitooltip-userid="14078278" href="http://Coldstream.enjin.com/profile/14078278"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/small.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                
+                <div class="post-info post-info-avatar">
+                    <div class="title"><a href="http://Coldstream.enjin.com/forum/m/2717425/viewthread/23141815-any-other-anime-fans-in-here/post/last#last" class="">Any other anime fans in here?</a></div>
+                    <div class="info">
+                        17 hours ago                                                    <a href='/profile/14078278'  class='element_username'>Archer</a>                                             </div>
+                                            <a class="forum" href="http://Coldstream.enjin.com/forum/m/2717425/viewforum/1877801">Off-Topic</a>
+                                    </div>
+            </div>
+                    <div class="thread">
+                                                        <div  class="element_avatar simple small"><a  data-minitooltip="The Hungarian Noble" data-minitooltip-userid="3156098" href="http://Coldstream.enjin.com/profile/3156098"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/small.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                
+                <div class="post-info post-info-avatar">
+                    <div class="title"><a href="http://Coldstream.enjin.com/forum/m/2717425/viewthread/23029378-gaming-sundays/post/last#last" class="">Gaming Sundays</a> [Poll]</div>
+                    <div class="info">
+                        Fri at 02:10 am                                                    <a href='/profile/3156098'  class='element_username'>The Hungarian Noble</a>                                             </div>
+                                            <a class="forum" href="http://Coldstream.enjin.com/forum/m/2717425/viewforum/668383">General Gaming</a>
+                                    </div>
+            </div>
+                    <div class="thread">
+                                                        <div  class="element_avatar simple small"><a  data-minitooltip="Archer" data-minitooltip-userid="14078278" href="http://Coldstream.enjin.com/profile/14078278"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/small.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                
+                <div class="post-info post-info-avatar">
+                    <div class="title"><a href="http://Coldstream.enjin.com/forum/m/2717425/viewthread/22990351-skirmisher-detachment-signups/post/last#last" class="">Skirmisher Detachment Sign-Ups</a></div>
+                    <div class="info">
+                        Wed at 07:16 pm                                                    <a href='/profile/14078278'  class='element_username'>Archer</a>                                             </div>
+                                            <a class="forum" href="http://Coldstream.enjin.com/forum/m/2717425/viewforum/837453">Napoleonic Wars</a>
+                                    </div>
+            </div>
+                    <div class="thread thread_last">
+                                                        <div  class="element_avatar simple small"><a  data-minitooltip="Oosten" data-minitooltip-userid="2121018" href="http://Coldstream.enjin.com/profile/2121018"><img src="http://assets-cloud.enjin.com/users/2121018/avatar/small.1435299020.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                
+                <div class="post-info post-info-avatar">
+                    <div class="title"><a href="http://Coldstream.enjin.com/forum/m/2717425/viewthread/23079895-adventures-diapukes-oosten-part-1/post/last#last" class="">The adventures of Diapukes and Oosten ---- Part 1</a></div>
+                    <div class="info">
+                        Mon at 07:40 pm                                                    <a href='/profile/2121018'  class='element_username'>Oosten</a>                                             </div>
+                                            <a class="forum" href="http://Coldstream.enjin.com/forum/m/2717425/viewforum/1877801">Off-Topic</a>
+                                    </div>
+            </div>
+            </div>
+
+										        </div>
+										      </div><!-- module_content -->
+
+										
+
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+
+                                              <div class=" container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                      
+					</div><!-- .container -->
+				
+
+
+				      <div class=" container_spacer">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+									
+					<div class="container with-header last" data-container-id="4037252" data-start-collapsed="0">
+
+                    					  <div class=" container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">
+										
+                                        Top Posters                                    </div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                    
+					<div class="container_body">
+														
+                                                      <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                         						  
+						  <div class="container_content container-minimized" style="display: none;" >
+						  	Container minimized. <a href="#">Expand</a>
+						  </div>
+					      <div class="container_content container-maximized"  >
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										<div class="m_forumtopposter">
+	<div class="user user_first">
+		<div class="count">410 Posts</div>
+		<div  class="element_avatar simple small"><a  data-minitooltip="RiveR" data-minitooltip-userid="887776" href="http://Coldstream.enjin.com/profile/887776"><img src="http://assets-cloud.enjin.com/users/887776/avatar/small.1399990445.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>		<div class="username"><a href='/profile/887776'  class='element_username'>RiveR</a> </div>
+		<div class="clearing"><!--  --></div>		
+	</div>
+	<div class="user">
+		<div class="count">185 Posts</div>
+		<div  class="element_avatar simple small"><a  data-minitooltip="TylerY" data-minitooltip-userid="1369254" href="http://Coldstream.enjin.com/profile/1369254"><img src="http://assets-cloud.enjin.com/users/1369254/avatar/small.1400019356.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>		<div class="username"><a href='/profile/1369254'  class='element_username'>TylerY</a> </div>
+		<div class="clearing"><!--  --></div>		
+	</div>
+	<div class="user">
+		<div class="count">155 Posts</div>
+		<div  class="element_avatar simple small"><a  data-minitooltip="RivenX" data-minitooltip-userid="2657488" href="http://Coldstream.enjin.com/profile/2657488"><img src="http://assets-cloud.enjin.com/users/2657488/avatar/small.1400056316.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>		<div class="username"><a href='/profile/2657488'  class='element_username'>RivenX</a> </div>
+		<div class="clearing"><!--  --></div>		
+	</div>
+	<div class="user">
+		<div class="count">132 Posts</div>
+		<div  class="element_avatar simple small"><a  data-minitooltip="Jakarta" data-minitooltip-userid="1375865" href="http://Coldstream.enjin.com/profile/1375865"><img src="http://assets-cloud.enjin.com/users/1375865/avatar/small.1436763631.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>		<div class="username"><a href='/profile/1375865'  class='element_username'>Jakarta</a> </div>
+		<div class="clearing"><!--  --></div>		
+	</div>
+	<div class="user user_last">
+		<div class="count">119 Posts</div>
+		<div  class="element_avatar simple small"><a  data-minitooltip="ironhide650" data-minitooltip-userid="1376176" href="http://Coldstream.enjin.com/profile/1376176"><img src="http://assets-cloud.enjin.com/users/1376176/avatar/small.1400025902.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>		<div class="username"><a href='/profile/1376176'  class='element_username'>ironhide650</a> </div>
+		<div class="clearing"><!--  --></div>		
+	</div>
+</div>
+										        </div>
+										      </div><!-- module_content -->
+
+										
+
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+
+                                              <div class=" container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                      
+					</div><!-- .container -->
+				
+
+
+		            		      <div class=" container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+			<td class="section-divider"><div class="decorator-box"></div></td>
+				<td id="section-main"
+		class="section-holder section-width-large"
+		style=""
+		data-width="810"
+	>
+		<div class="section">		      <div class="fixed_height_elem container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+									
+					<div class="container with-header first" data-container-id="4037248" data-start-collapsed="0">
+
+                    					  <div class="fixed_height_elem container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">
+										
+                                        Main Forum                                    </div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                    
+					<div class="container_body">
+														
+                                                      <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                         						  
+						  <div class="container_content container-minimized" style="display: none;" >
+						  	Container minimized. <a href="#">Expand</a>
+						  </div>
+					      <div class="container_content container-maximized"  >
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										<div class='m_forum categories' data-preset-id="2717425" forum_id="" data-location="front_page" data-base-url="/forum/m/2717425">
+    
+    <div class="forum-notices-container">
+            
+    </div>
+	
+	<div class='breadcrumbs standard'>
+		<div class='left'><!-- --></div>
+		<div class='right'><!-- --></div>
+		<div class='text'><span class='mask'>Welcome to the 2nd Coldstream Forums</span></div>
+	</div>
+	<div class='breadcrumbs search' style='display: none;'>
+		<div class='left'><!-- --></div>
+		<div class='right'><!-- --></div>
+		<div class='text'>
+			<span class='mask'><a href='javascript:void(0);' onclick='forum.clearSearch();'>Forums</a>
+			&raquo; Search Results</span>
+		</div>
+	</div>
+	
+	<div class='forum-area forum-content'>
+        	
+			<div class='contentbox category first'>
+			
+			<div class='block-title'>
+				<div class='left'><!-- --></div>
+				<div class='right'><!-- --></div>
+				<div class='text'>
+                    <span class='mask '>
+                                                    
+                        Community                    </span>
+                </div>
+			</div>
+			
+			<div class='block-container '>
+				<div class='he l'><!--  --></div>
+				<div class='he r'><!--  --></div>
+				<div class='he tl'><!--  --></div>
+				<div class='he tr'><!--  --></div>
+				<div class='he bl'><!--  --></div>
+				<div class='he br'><!--  --></div>
+				
+				<table class='structure small-cells'>
+					<tr class='heading'>
+						<th class='h forum-icon'><span>Forum</span></th>
+						<th class='h forum'></th>
+						<th class='h alt alt1 threads'>Threads</th>
+						<th class='h alt alt2 posts'>Posts</th>
+						<th class='h latest'>Latest Posts</th>
+					</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-668382'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/668382'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/668382' 
+                                            class='forum-name '>
+                                                General Discussion <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    Discussion about general topics.                                </div>
+                                
+															</td>
+							
+							<td class='c threads alt alt1'>
+								91							</td>
+							
+							<td class='c posts alt alt2'>
+								1021							</td>
+							
+							<td class='c latest'>
+															    <div style="float:right;padding:0px 4px;">
+                                    <div  class="element_avatar simple small"><a  data-minitooltip="Diapukus" data-minitooltip-userid="13947099" href="http://Coldstream.enjin.com/profile/13947099"><img src="http://assets-cloud.enjin.com/users/13947099/avatar/small.1435890723.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                                </div>
+								<div><a href='/forum/m/2717425/viewthread/20773428-faces-nox-viator/post/last#last'>Faces of Nox Viator</a></div>
+																		<div class='posted'>By <a href='/profile/13947099'  class='element_username'>Diapukus</a>  Sat at 04:49 pm </div>
+																</td>
+													</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-668383'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/668383'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/668383' 
+                                            class='forum-name '>
+                                                General Gaming <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    Chat about anything gaming related, no matter what platform!                                </div>
+                                
+															</td>
+							
+							<td class='c threads alt alt1'>
+								73							</td>
+							
+							<td class='c posts alt alt2'>
+								438							</td>
+							
+							<td class='c latest'>
+															    <div style="float:right;padding:0px 4px;">
+                                    <div  class="element_avatar simple small"><a  data-minitooltip="RiveR" data-minitooltip-userid="887776" href="http://Coldstream.enjin.com/profile/887776"><img src="http://assets-cloud.enjin.com/users/887776/avatar/small.1399990445.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                                </div>
+								<div><a href='/forum/m/2717425/viewthread/23141079-dayz-clan/post/last#last'>DayZ Clan?</a></div>
+																		<div class='posted'>By <a href='/profile/887776'  class='element_username admin'>RiveR</a>  <span class="nameicons"><span class="icon_microtag" title="a" style="cursor: default; color: #000000; background-color: #FFFF00; border: 1px solid none; border-radius: 2px;">a</span></span> 7 hours ago </div>
+																</td>
+													</tr>
+									</table>
+			
+			</div>
+		</div>
+			<div class='contentbox category'>
+			
+			<div class='block-title'>
+				<div class='left'><!-- --></div>
+				<div class='right'><!-- --></div>
+				<div class='text'>
+                    <span class='mask '>
+                                                    
+                        Games                    </span>
+                </div>
+			</div>
+			
+			<div class='block-container '>
+				<div class='he l'><!--  --></div>
+				<div class='he r'><!--  --></div>
+				<div class='he tl'><!--  --></div>
+				<div class='he tr'><!--  --></div>
+				<div class='he bl'><!--  --></div>
+				<div class='he br'><!--  --></div>
+				
+				<table class='structure small-cells'>
+					<tr class='heading'>
+						<th class='h forum-icon'><span>Forum</span></th>
+						<th class='h forum'></th>
+						<th class='h alt alt1 threads'>Threads</th>
+						<th class='h alt alt2 posts'>Posts</th>
+						<th class='h latest'>Latest Posts</th>
+					</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-837453'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/837453'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/837453' 
+                                            class='forum-name '>
+                                                Napoleonic Wars <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    Have a itch to share your experiences shooting a musket and stabbing with a bayonet? Itch it here.                                </div>
+                                
+								                                    <div class='subforums'>
+                                                                                                                                    <span class="subforum-elem">
+                                                    <a href='/forum/m/2717425/viewforum/1222643' 
+                                                    class='subforum-1222643'>
+                                                            Announcements                                                    </a>
+                                                </span>
+                                                                                                                                                                                <span class="subforum-elem">
+                                                    <a href='/forum/m/2717425/viewforum/1222646' 
+                                                    class='subforum-1222646'>
+                                                            Information                                                    </a>
+                                                </span>
+                                                                                                                                                                                <span class="subforum-elem">
+                                                    <a href='/forum/m/2717425/viewforum/1222662' 
+                                                    class='subforum-1222662'>
+                                                            Media Team                                                    </a>
+                                                </span>
+                                                                                                                        </div>
+															</td>
+							
+							<td class='c threads alt alt1'>
+								81							</td>
+							
+							<td class='c posts alt alt2'>
+								417							</td>
+							
+							<td class='c latest'>
+															    <div style="float:right;padding:0px 4px;">
+                                    <div  class="element_avatar simple small"><a  data-minitooltip="Archer" data-minitooltip-userid="14078278" href="http://Coldstream.enjin.com/profile/14078278"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/small.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                                </div>
+								<div><a href='/forum/m/2717425/viewthread/22990351-skirmisher-detachment-signups/post/last#last'>Skirmisher Detachment Sig...</a></div>
+																		<div class='posted'>By <a href='/profile/14078278'  class='element_username'>Archer</a>  Wed at 02:16 pm </div>
+																</td>
+													</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-2409547'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/2409547'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/2409547' 
+                                            class='forum-name '>
+                                                Counter Strike: Global Offensive <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    Discuss all things about CS:GO here.                                </div>
+                                
+															</td>
+							
+							<td class='c threads alt alt1'>
+								4							</td>
+							
+							<td class='c posts alt alt2'>
+								15							</td>
+							
+							<td class='c latest'>
+															    <div style="float:right;padding:0px 4px;">
+                                    <div  class="element_avatar simple small"><a  data-minitooltip="Diapukus" data-minitooltip-userid="13947099" href="http://Coldstream.enjin.com/profile/13947099"><img src="http://assets-cloud.enjin.com/users/13947099/avatar/small.1435890723.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                                </div>
+								<div><a href='/forum/m/2717425/viewthread/22887157-2ndcs-csgo-server-up/post/last#last'>2ndCS CSGO server up</a></div>
+																		<div class='posted'>By <a href='/profile/13947099'  class='element_username'>Diapukus</a>  Jul 2, 15 </div>
+																</td>
+													</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-5677064'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/5677064'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/5677064' 
+                                            class='forum-name '>
+                                                Planetside 2 <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    Anything Planetside 2 related goes here.                                </div>
+                                
+															</td>
+							
+							<td class='c threads alt alt1'>
+								1							</td>
+							
+							<td class='c posts alt alt2'>
+								6							</td>
+							
+							<td class='c latest'>
+															    <div style="float:right;padding:0px 4px;">
+                                    <div  class="element_avatar simple small"><a  data-minitooltip="Zemohc" data-minitooltip-userid="1737881" href="http://Coldstream.enjin.com/profile/1737881"><img src="http://assets-cloud.enjin.com/users/1737881/avatar/small.1400036934.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                                </div>
+								<div><a href='/forum/m/2717425/viewthread/22747811-who-would-be-interested-into-getting-squad-together-some-night/post/last#last'>Who would be interested i...</a></div>
+																		<div class='posted'>By <a href='/profile/1737881'  class='element_username admin'>Zemohc</a>  <span class="nameicons"><span class="icon_microtag" title="a" style="cursor: default; color: #000000; background-color: #FFFF00; border: 1px solid none; border-radius: 2px;">a</span></span> Sat at 12:42 am </div>
+																</td>
+													</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-6029049'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/6029049'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/6029049' 
+                                            class='forum-name '>
+                                                Reign of Kings <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    All updates on our server and what we're currently building will be posted here.                                </div>
+                                
+															</td>
+							
+							<td class='c threads alt alt1'>
+								0							</td>
+							
+							<td class='c posts alt alt2'>
+								0							</td>
+							
+							<td class='c latest'>
+																<div>There are no new posts</div>
+															</td>
+													</tr>
+									</table>
+			
+			</div>
+		</div>
+			<div class='contentbox category'>
+			
+			<div class='block-title'>
+				<div class='left'><!-- --></div>
+				<div class='right'><!-- --></div>
+				<div class='text'>
+                    <span class='mask '>
+                                                    
+                        Miscellaneous                    </span>
+                </div>
+			</div>
+			
+			<div class='block-container '>
+				<div class='he l'><!--  --></div>
+				<div class='he r'><!--  --></div>
+				<div class='he tl'><!--  --></div>
+				<div class='he tr'><!--  --></div>
+				<div class='he bl'><!--  --></div>
+				<div class='he br'><!--  --></div>
+				
+				<table class='structure small-cells'>
+					<tr class='heading'>
+						<th class='h forum-icon'><span>Forum</span></th>
+						<th class='h forum'></th>
+						<th class='h alt alt1 threads'>Threads</th>
+						<th class='h alt alt2 posts'>Posts</th>
+						<th class='h latest'>Latest Posts</th>
+					</tr>
+					                    
+                                                                    
+                    
+						<tr class='row forum-1877801'>
+							                            
+                            <td class='c forum-icon alt alt2'>
+								<div class='cell'>
+                                    									<a href='/forum/m/2717425/viewforum/1877801'>
+								   	
+										<div class='icon read'><!--  --></div>
+									</a>
+								</div>
+							</td>
+							<td class='c forum'>
+								<div>
+                                                                            <a href='/forum/m/2717425/viewforum/1877801' 
+                                            class='forum-name '>
+                                                Off-Topic <span class="users-viewing"></span>
+                                        </a>
+                                                                    </div>
+                                
+								<div class='description'>
+                                    Anything that you'd like to discuss off-topic post it here                                </div>
+                                
+															</td>
+							
+							<td class='c threads alt alt1'>
+								7							</td>
+							
+							<td class='c posts alt alt2'>
+								32							</td>
+							
+							<td class='c latest'>
+															    <div style="float:right;padding:0px 4px;">
+                                    <div  class="element_avatar simple small"><a  data-minitooltip="Archer" data-minitooltip-userid="14078278" href="http://Coldstream.enjin.com/profile/14078278"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/small.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/small.png';" width="23" height="23"></a></div>                                </div>
+								<div><a href='/forum/m/2717425/viewthread/23141815-any-other-anime-fans-in-here/post/last#last'>Any other anime fans in h...</a></div>
+																		<div class='posted'>By <a href='/profile/14078278'  class='element_username'>Archer</a>  17 hours ago </div>
+																</td>
+													</tr>
+									</table>
+			
+			</div>
+		</div>
+	
+		<div class="main-rss-icon">
+			<a href="/forum/m/2717425/op/rss"><img src="http://resources.guild-hosting.net/201507171479/themes/core/images/icons/rss_icon.png" /></a>
+		</div>
+						<div class="clearing"><!--  --></div>
+		
+		<div class="forum-stats">
+			<div class="inner">
+				<div class="totals">
+                    Members: <span class='value'>443</span> 
+                    Threads: <span class='value'>257</span> 
+                    Posts: <span class='value'>1,929</span> 
+                    Views: <span class='value'>109,676</span>
+                </div>
+				<div class="members">Welcome to our latest member <a href='/profile/14078278'  class='element_username'>Archer</a>  <span class='value'>registered Wed at 03:15 am</span></div>
+							</div>
+		</div>
+	</div>
+</div>
+										        </div>
+										      </div><!-- module_content -->
+
+										
+
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+
+                                              <div class="fixed_height_elem container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                      
+					</div><!-- .container -->
+				
+
+
+				      <div class="fixed_height_elem container_spacer">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+									
+					<div class="container with-header last" data-container-id="4037249" data-start-collapsed="0">
+
+                    					  <div class="fixed_height_elem container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">
+										
+                                        Online Users                                    </div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                    
+					<div class="container_body">
+														
+                                                      <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                         						  
+						  <div class="container_content container-minimized" style="display: none;" >
+						  	Container minimized. <a href="#">Expand</a>
+						  </div>
+					      <div class="container_content container-maximized"  >
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										<div class="m_membersonline">
+			<div class="element_smalltitle">
+			<div class="left"><!--  --></div>
+			<div class="right"><!--  --></div>
+			<div class="title"><div class="mask">Online users (0)</div></div>
+		</div>
+		
+	<div style='padding-left: 5px;'>No users online.	
+	<div class="featured">
+		</div>
+	
+		
+	</div>
+
+										        </div>
+										      </div><!-- module_content -->
+
+										
+
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+
+                                              <div class="fixed_height_elem container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                      
+					</div><!-- .container -->
+				
+
+
+		            		      <div class="fixed_height_elem container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+				<td id="section-footer"
+		class="section-holder section-width-large"
+		style=""
+		data-width="1030"
+	>
+		<div class="section">            		      <div class=" container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	
+
+		</div><!-- #site-body -->
+
+		<div class="fixed_height_elem" id="page-footer">
+							<div class="left">
+					<a href='http://www.enjin.com/'>
+						Community website					</a>
+					by
+					<a href="http://www.enjin.com/">
+						<img src="http://resources.guild-hosting.net/201507171479/themes/core/images/efooter.png" alt="guild hosting" title="Enjin">
+					</a>
+				</div>
+				<div class="right">
+					&copy; 2015 Enjin
+				</div>
+					</div>
+
+  </div><!-- #page-wrap -->
+</div><!-- #page -->
+
+
+
+
+
+</div></div>
+
+
+
+
+
+
+<div id='global-search-box' class='element_popdown' style='display: none;'><div class='inner'>
+    <form action="/dashboard/search">
+	<div class='search-box-area'><div class='input-text global-search-box-input'><input type="text" name="keywords" style="width:512px" value="Search everything..." /></div><a class="icon"></a></div>
+	<div class='search-results hidden' style="border-top:1px solid #363636; margin-top:4px">
+	   <div class="loading"><center><img src="http://resources.guild-hosting.net/201507171479/themes/core/images/icons/search-loading.gif"></center></div>
+	   <div class="empty hidden">No matches found.</div>
+	   <div class="results hidden">
+	       <ul></ul>
+	       <div class='more'>
+                <div style="display:inline-block"><div class='element_button'><div class='l'><!-- --></div><div class='r'><!-- --></div><input type='submit' value='See more advanced results'></div></div>
+                <div style="display:inline-block;float:right;position:relative;top:11px;right:7px;">Displaying top <span class="count"></span> results</div>
+           </div>
+	   </div>
+	</div>
+</form>
+<div class='tab'><div></div></div></div></div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {	
+	
+	Enjin_Core.Announcements.init([]);
+	Enjin_Core.Reminders.init([]);
+});
+</script>
+<div id="site-announcements">
+	<a href="#">
+		<i class="icon-warning-sign icon"></i>
+		<span class="ann-tray-text"><span class="amount"></span> Notice<span class="plural">s</span></span>
+	</a>
+	<div class="site-announcement">
+		<div class="title-bar">
+			<div class="title ann-title"></div> 
+			<div class="close-wrapper"><a href="#" onclick="Enjin_Core.Announcements.close(true);return false;"><div class="close"></div></a></div>
+		</div>	
+		<div class="content"></div>
+		
+		<div class="nav-bar nav-bar-bottom">
+			<div class="nav">
+				<div class="announcements-nav">
+					<div class="element_button" onclick="Enjin_Core.Announcements.prev();return false;">
+	                    <div class="l"><!-- --></div>
+	                    <div class="r"><!-- --></div>
+	                    <input type="button" value="Prev" onclick="">
+	                </div>
+	                <div class="element_button" onclick="Enjin_Core.Announcements.next();return false;">
+	                    <div class="l"><!-- --></div>
+	                    <div class="r"><!-- --></div>
+	                    <input type="button" value="Next" onclick="">
+	                </div>
+					<div class="title title-bottom">Announcement <span class="index"></span> of <span class="total"></span></div>
+				</div>
+				
+				<div class="element_button btn-delete-ann">
+				    <div class="l"><!-- --></div>
+				    <div class="r"><!-- --></div>
+				    <input type="button" value="Delete Announcement" />
+				</div>
+				<div class="element_button btn-agree-terms">
+				    <div class="l"><!-- --></div>
+				    <div class="r"><!-- --></div>
+				    <input type="button" value="I Agree to the Terms" />
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="border"></div>
+</div>
+
+
+<div id="announcement-popup" class="element_popup element_popup_core element_popup_window warning-issued-popup" style="z-index: 20000; display: none;">
+    <div class="inner window-frame">
+        <div class="popup_window_title">
+        	<span class="title-text"></span>
+        	<div class="close-wrapper btn-delete-ann-x">
+        		<a href="#"><div class="close"></div></a>
+        	</div>
+        </div>
+        <div class="content">	        
+        	<div class="announcement-text">
+	        	
+        	</div>
+        	<div class="controls">
+	        	<div class="element_button prev"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Prev" onclick=""></div>
+		        <div class="element_button next"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Next" onclick=""></div>
+				
+				<div class="title title-bottom"><span class="index">1</span> of <span class="total">4</span> Announcement</div>
+
+	        	<div class="element_button btn-delete-ann"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Delete Announcement"></div>
+		        <div class="element_button btn-agree"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value=""></div>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="announcement-canvas-separator" style="z-index: 19999;height: 100% !important; display: none;">&nbsp;</div>
+<!-- 0.245s -->
+<!-- pusher part -->
+
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script><script type="text/javascript">var recaptcha_publickey = "6Le3_AUTAAAAALjgZgjXxE1mU9KxrYl_g9mWmNSd";</script><script type="text/javascript">var recaptcha_token = "dQuu3G43fPYAzGudif6gsIieXA0pscr56L0wvgmbE8SrF46HcqAu5t_MtSEZ7vJtJusw0tI-4Q10nn7EZaujQ0RyQg1Fx81zYSnzrlnGpjI";</script>
+<!-- Start Quantcast tag -->
+<script type="text/javascript">
+_qoptions={
+qacct:"p-e2f9QTuI7ynec"
+};
+</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js" async defer></script>
+<noscript>
+<img src="http://pixel.quantserve.com/pixel/p-e2f9QTuI7ynec.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+</noscript>
+<!-- End Quantcast tag -->
+
+
+
+<div id="fb-root"></div><script type="text/javascript">
+    //<!--
+    		(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  js.async = true;
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+    		(function() {
+			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			po.src = 'https://apis.google.com/js/plusone.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+		    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");    //-->
+</script><!-- webx03.enjin.com -->
+
+
+
+
+	
+		
+	
+	
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"b0a6eb3b0a","applicationID":"982908","transactionName":"M11QMURQC0JZW01YXQoXfApEXARdUUJcVXMHTFsKWB5P","queueTime":0,"applicationTime":246,"ttGuid":"","agentToken":"","atts":"HxpTRwxKGEw=","errorBeacon":"bam.nr-data.net","agent":"js-agent.newrelic.com\/nr-632.min.js"}</script><script type="text/javascript">
+//<![CDATA[
+(function() {
+var _analytics_scr = document.createElement('script');
+_analytics_scr.type = 'text/javascript'; _analytics_scr.async = true; _analytics_scr.src = '/_Incapsula_Resource?SWJIYLWA=2977d8d74f63d7f8fedbea018b7a1d05&ns=1';
+var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_elem.parentNode.insertBefore(_analytics_scr, _analytics_elem);
+})();
+// ]]>
+</script></body>
+
+</html>

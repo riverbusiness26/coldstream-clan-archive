@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated on Wed, 19 Aug 2026 21:22:09 -0700 -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <atom:link href="https://steamcommunity.com/groups/2ndCSG" rel="self" type="application/rss+xml" />
+    <title>2nd Coldstream Guards (NW) RSS Feed</title>
+    <link><![CDATA[https://steamcommunity.com/groups/2ndCSG]]></link>
+    <description><![CDATA[Events and Announcements for 2nd Coldstream Guards (NW)]]></description>
+    <language>en-us</language>
+    <generator>Steam Community RSS</generator>
+    <item>
+      <title>Linebattle at 7.00GMT BE THERE!</title>
+      <description>...</description>
+      <link><![CDATA[https://steamcommunity.com/groups/2ndCSG/announcements/detail/1694760631075386615]]></link>
+      <pubDate>Thu, 04 Jul 2013 16:34:45 +0000</pubDate>
+      <author>FearRipper</author>
+      <guid isPermaLink="true">https://steamcommunity.com/groups/2ndCSG/announcements/detail/1694760631075386615</guid>
+    </item>
+    <item>
+      <title>LB</title>
+      <description>Lb today at 7.00GMT!</description>
+      <link><![CDATA[https://steamcommunity.com/groups/2ndCSG/announcements/detail/1693634096712161685]]></link>
+      <pubDate>Thu, 27 Jun 2013 14:09:39 +0000</pubDate>
+      <author>FearRipper</author>
+      <guid isPermaLink="true">https://steamcommunity.com/groups/2ndCSG/announcements/detail/1693634096712161685</guid>
+    </item>
+  </channel>
+</rss>

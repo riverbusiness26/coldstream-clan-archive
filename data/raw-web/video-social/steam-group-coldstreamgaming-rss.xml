@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated on Wed, 19 Aug 2026 21:12:22 -0700 -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <atom:link href="https://steamcommunity.com/groups/coldstreamgaming" rel="self" type="application/rss+xml" />
+    <title>Coldstream Gaming RSS Feed</title>
+    <link><![CDATA[https://steamcommunity.com/groups/coldstreamgaming]]></link>
+    <description><![CDATA[Events and Announcements for Coldstream Gaming]]></description>
+    <language>en-us</language>
+    <generator>Steam Community RSS</generator>
+  </channel>
+</rss>

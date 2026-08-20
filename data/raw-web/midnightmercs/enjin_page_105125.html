@@ -1,0 +1,864 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#">
+
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta http-equiv="Content-Language" content="en-US" ><title>Midnight Mercenaries - Clan website - Site Info</title>		
+		
+		
+			<link href="/page/105125" rel="canonical" >
+<link href="http://resources.guild-hosting.net/807/themes/core/css/core.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/807/themes/core/css/bbcode.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/807/themes/core/css/styles.css" media="screen" rel="stylesheet" type="text/css" >
+<!--[if IE 7]> <link href="http://resources.guild-hosting.net/807/themes/core/css/ie7.css" media="screen" rel="stylesheet" type="text/css" ><![endif]-->
+<link href="http://resources.guild-hosting.net/807/themes/core/css/theme.php?theme=332&amp;cache=807-0" media="screen" rel="stylesheet" type="text/css" >	<style type="text/css" media="screen">
+<!--
+
+-->
+</style>	<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.autoresize.min.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/core.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.sparkline.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807//themes/core/js/library/guild-tabard.js"></script>
+<script type="text/javascript">
+    //<!--
+
+$(document).ready(function() {
+	$('#like-site-button').click(function(){
+		var likes = $(this).parent().siblings('.likes').children('span');
+
+		if($(this).hasClass('liked')) {
+			$(this).removeClass('liked').val('Like');
+			var cmd = 'unlike-site';
+			likes.text(parseInt(likes.text(), 10)-1);
+		}
+		else {
+			$(this).addClass('liked').val('Unlike');
+			var cmd = 'like-site';
+			likes.text(parseInt(likes.text(), 10)+1);
+		}
+		$.post('/ajax.php?s=site', {cmd: cmd, site_id: 105125});
+	});
+
+	$('.m_system-siteprofile .siteprofile-right .widget.hits .graph').sparkline([48,38,41,45,48,71,70,63,61,60,59,62,66,74,55,59,55,42,52,55,47,55,63,80,53,62,84,53,50,51,17], {
+		lineColor: "#006609",
+		fillColor: "#f5f5f5",
+		lineWidth: 1.8,
+		spotColor: false,
+		minSpotColor: false,
+		maxSpotColor: false,
+		chartRangeMin: 0,
+		height: '36px',
+		width: '100%'
+	});
+
+		// Render guild tabards
+	var tabards = $('.widget.guild canvas');
+	for ( var i = 0; i < tabards.length; i++ )
+	{
+		var tb = $(tabards[i]);
+		var tabard = new GuildTabard( tabards.get(i), {
+			 'ring': tb.attr('data-ring'),
+			 'bg': [ 0, tb.attr('data-bg') ],
+			 'border': [ tb.attr('data-border'), tb.attr('data-borderColor') ],
+			 'emblem': [ tb.attr('data-icon'), tb.attr('data-iconColor') ]
+		});
+	}
+});
+
+    //-->
+</script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/editor.inline.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/system/wall.system.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.expander.min.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/system/site.wall.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/ajaxupload.js"></script>
+<script type="text/javascript">
+    //<!--
+
+var url_getposts = '/page/105125/activity/index/m/0/site/105125/op/getposts';
+Enjin_Core.is_admin = 'false';
+
+$(document).ready(function() {
+	var wall = new Enjin_Wall_System($('#siteactivity-1169111056'), '/ajax.php?s=sitewall&wall_site_id=105125', {
+		user_id: null,
+		site_id: 105125	});
+});
+
+    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+
+	Enjin_Core.site_id = 105125;
+
+	var notification_count = {
+		};
+
+	
+	$(window).load(function(){
+		
+		$('body').applyTabIndex();
+	});
+	    //-->
+</script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.validate.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.error.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.ghostinput.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/807/themes/core/js/library/jquery.applytabindex.js"></script>
+	<!-- Google Analytics -->
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-6028401-5']);
+	  _gaq.push(['_trackPageview']);
+	  
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+
+</head>
+
+<body class=" light-theme">
+
+
+
+<div class='theme-editor-spacer'></div>
+
+
+<div class="body-wrap-2"><div class="body-wrap-3">
+
+<div id="page">
+	<div class="page-outer-left"><!--  --></div>
+	<div class="page-outer-right"><!--  --></div>
+	<div id="page-wrap">
+		<div id="above-site"><!--  --></div>
+		<div id="site-body">
+
+			<div><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+			<td id="section-header" class="section-holder" style="">
+		<div class="section">	<div id='enjin-bar'>
+		<div class='right'><a href="#" rel="nofollow" onclick="Enjin_Core.showLoginPopup({site_name:'Midnight Mercenaries'});return false;">Login</a><span class='divider'>|</span><a href='/login/do/register' rel='nofollow'>Register</a>		</div>
+		
+		<div class='left'>
+			<a href='/'>Midnight Mercenaries</a><span class='divider'>|</span><a href='/page/105125'>Site Info</a><div id='enjin-bar-likes'><span class="fb-like-site"><fb:like href="http://www.midnightmercs.enjin.com" send="false" layout="button_count" width="100" show_faces="false"></fb:like></span><span class="gplus-like-site"><g:plusone size="medium" href="http://www.midnightmercs.enjin.com"></g:plusone></span><a href="https://twitter.com/https://twitter.com/#!/MidnightMercs" class="twitter-follow-button" data-show-count="true"></a><a href="https://twitter.com/share" class="twitter-share-button twitter-like-site" data-url="https://twitter.com/%23%21/MidnightMercs"></a>						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>		</div>
+	</div>		      <div class="container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+		
+				<div class="special_container with-header first"><div class='m_header'>
+<div class='tl'></div><div class='tr'></div><div class='bl'></div><div class='br'></div>
+
+	<div style="height: 170px" class='holder'>
+		<object wmode="transparent" width="100%" height="170" flashvars="crossdomain=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2Fcrossdomain.xml&resourcesdomain=http%3A%2F%2Fresources.guild-hosting.net%2F807%2Fcrossdomain.xml&fontsbaseurl=http%3A%2F%2Fresources.guild-hosting.net%2F807%2Fheaders%2Ffonts&bgtype=color&bgcolor=16777215&alignment=left&height=170&numitems=3&bgtransparent=1&bg=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2F105125%2Fmodule_header%2F2717421%2Fbackground%2F&type_0=text&effect_0=color%3D52224&data_0=x%3D181%26y%3D95%26font%3DFontEvilDead%26color%3D0%26size%3D56%26effect%3Doutlineshadow%26style%3Dnormal%26text%3DMulti-Gaming%2BCommunity%26embed%3D1&type_1=text&effect_1=color%3D0&data_1=x%3D275%26y%3D10%26font%3DFontEvilDead%26color%3D52275%26size%3D66%26effect%3Doutlineshadow%26style%3Dnormal%26text%3DMidnight%2BMercs%26embed%3D1&type_2=image&data_2=x%3D0%26y%3D-6%26image_id%3Dimage_0%26filename%3DMMGaming.png%26url%3Dhttp%253A%252F%252Ffiles.enjin.com.s3.amazonaws.com%252F105125%252Fmodule_header%252F2717421%252Fimage_0%252FMMGaming.png" data="http://resources.guild-hosting.net/807/themes/core/flash/header/v3/EnjinHeader.swf" type="application/x-shockwave-flash">
+			<param name="movie" value="http://resources.guild-hosting.net/807/themes/core/flash/header/v3/EnjinHeader.swf">
+			<param name="wmode" value="transparent">
+			<param name="allowscriptaccess" value="always">
+			<param name="bgcolor" value="#000000">
+			<param name="scale" value="noscale">
+			<param name="flashvars" value="crossdomain=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2Fcrossdomain.xml&resourcesdomain=http%3A%2F%2Fresources.guild-hosting.net%2F807%2Fcrossdomain.xml&fontsbaseurl=http%3A%2F%2Fresources.guild-hosting.net%2F807%2Fheaders%2Ffonts&bgtype=color&bgcolor=16777215&alignment=left&height=170&numitems=3&bgtransparent=1&bg=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2F105125%2Fmodule_header%2F2717421%2Fbackground%2F&type_0=text&effect_0=color%3D52224&data_0=x%3D181%26y%3D95%26font%3DFontEvilDead%26color%3D0%26size%3D56%26effect%3Doutlineshadow%26style%3Dnormal%26text%3DMulti-Gaming%2BCommunity%26embed%3D1&type_1=text&effect_1=color%3D0&data_1=x%3D275%26y%3D10%26font%3DFontEvilDead%26color%3D52275%26size%3D66%26effect%3Doutlineshadow%26style%3Dnormal%26text%3DMidnight%2BMercs%26embed%3D1&type_2=image&data_2=x%3D0%26y%3D-6%26image_id%3Dimage_0%26filename%3DMMGaming.png%26url%3Dhttp%253A%252F%252Ffiles.enjin.com.s3.amazonaws.com%252F105125%252Fmodule_header%252F2717421%252Fimage_0%252FMMGaming.png">			
+		</object>
+	</div>
+
+</div></div>				
+				
+		
+				      <div class="container_spacer">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+		
+				<div class="special_container with-header last"><div class='m_hmenu'>
+	<div class='bg left'><!--  --></div>
+	<div class='bg right'><!--  --></div>
+	<div class='buttons content'>
+				<a href='/home'>
+			<div class='button first'>
+				<div class='b left'><!--  --></div>
+				<div class='b right'><!--  --></div>
+				<div class='b content'>Home</div>
+			</div>
+		</a>
+						<a href='/forum'>
+			<div class='button'>
+				<div class='b left'><!--  --></div>
+				<div class='b right'><!--  --></div>
+				<div class='b content'>Forums</div>
+			</div>
+		</a>
+						<a href='/gallery'>
+			<div class='button'>
+				<div class='b left'><!--  --></div>
+				<div class='b right'><!--  --></div>
+				<div class='b content'>Gallery</div>
+			</div>
+		</a>
+						<a href='/enlistment'>
+			<div class='button'>
+				<div class='b left'><!--  --></div>
+				<div class='b right'><!--  --></div>
+				<div class='b content'>Enlist in the Midnight Mercenaries Today!</div>
+			</div>
+		</a>
+						<a href='/schedule'>
+			<div class='button'>
+				<div class='b left'><!--  --></div>
+				<div class='b right'><!--  --></div>
+				<div class='b content'>Schedule</div>
+			</div>
+		</a>
+						<a href='http://midnightmercs.enjin.com/forum/m/2717425/viewforum/837452' target="_blank" onmouseover="Enjin_Core.dropdownMenu([['NW Division Youtube Channel','http://www.youtube.com/2ndColdstreamGuards',0],['Community Youtube Channel','http://youtube.com/MidnightMercenarys',0],['Twitter','https://twitter.com/#!/MidnightMercs',0],['Steam Group Page','http://steamcommunity.com/groups/Midnightmercs',0]], $(this).children('.button'));">
+			<div class='button'>
+				<div class='b left'><!--  --></div>
+				<div class='b right'><!--  --></div>
+				<div class='b content'>Media <span>&#9660;</span></div>
+			</div>
+		</a>
+						<div class='cap'><!--  --></div>	</div>
+</div></div>				
+				
+		
+		             
+		      <div class="container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                  
+            <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	<div><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+			<td id="section-main" class="section-holder" style="">
+		<div class="section">		      <div class="container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+		
+									<div class="container with-header first last">
+                        
+                                            
+					  <div class="container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">Site Info</div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                                            
+					  <div class="container_body">
+                          
+                           
+                            <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                                                     
+					      <div class="container_content">
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>
+					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">										
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										
+<div class='m_system-siteprofile'>
+	
+	<div class='siteprofile-wrapper'>
+		
+		<div class='tabbox siteprofile with-left-column with-right-column'>
+			<div class='content'>
+					<div class='block-wrap'>
+					<div class='block main'>
+						<div class='subsection activity activity-index'>
+							<div class='siteprofile-top'>
+								<div class='element_avatar simple large site-logo'><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></div>
+								<h1 class='site-name'>Midnight Mercenaries</h1>
+								<div class='site-description'>
+									<img class='country-flag' src='http://resources.guild-hosting.net/807/themes/core/images/flags/ZZ.gif'>
+									<a target="_parent" class='site-url' href="http://MidnightMercs.enjin.com">MidnightMercs.enjin.com</a>
+									&thinsp;-&thinsp; Hello, and welcome the the Midnight Mercenaries enjin. We&amp;#039;re a group con...								</div>
+								<div class='site-buttons'>
+																		<div class='element_button'><div class='l'></div><div class='r'></div><input type='button' value='Visit Website' onclick='document.location="http://MidnightMercs.enjin.com";'></div>
+								</div>
+							</div>
+
+							<div class='siteprofile-menu'>
+																	<a href='/page/105125/activity' class="selected">Activity</a>
+																	<a href='/page/105125/recruitment'>Recruitment</a>
+																	<a href='/page/105125/about'>About</a>
+																	<a href='/page/105125/games'>Games</a>
+																	<a href='/page/105125/members'>Members</a>
+															</div>
+
+							<div class='siteprofile-main'>
+								<div class='rightcolumn-border'></div>
+
+								<div class='siteprofile-right'>
+									
+									<div class='widget members'>
+										<div class='widget-title'>SITE MEMBERS<a target="_parent" href='/page/105125/members'>228 users</a></div>
+										<div class='widget-content'>
+											<div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/887776" data-minitooltip="Crawford"><img src="http://assets-cloud.enjin.com/users/887776/avatar/medium.1339120473.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/1486217" data-minitooltip="Gooner"><img src="http://assets-cloud.enjin.com/users/1486217/avatar/medium.1335627802.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/2185826" data-minitooltip="SovietOnion"><img src="http://assets-cloud.enjin.com/users/2185826/avatar/medium.1337880475.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/1369254" data-minitooltip="TylerY"><img src="http://assets-cloud.enjin.com/users/1369254/avatar/medium.1331582492.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/1240375" data-minitooltip="Joe6"><img src="http://assets-cloud.enjin.com/users/1240375/avatar/medium.1325232822.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/1375865" data-minitooltip="Jakarta"><img src="http://assets-cloud.enjin.com/users/1375865/avatar/medium.1337576021.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/763513" data-minitooltip="GrandiSlayer[KBC]"><img src="http://assets-cloud.enjin.com/users/763513/avatar/medium.1330393890.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/655094" data-minitooltip="HellStorm"><img src="http://assets-cloud.enjin.com/users/655094/avatar/medium.1337060130.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/1089338" data-minitooltip="Truenn"><img src="http://assets-cloud.enjin.com/users/1089338/avatar/medium.1325035931.png"></a></div><div class='element_avatar simple medium  '><a target="_parent"href="http://MidnightMercs.enjin.com/profile/1499160" data-minitooltip="Rebel_Peasant"><img src="http://assets-cloud.enjin.com/users/1499160/avatar/medium.1337717209.png"></a></div>																					</div>
+									</div>
+
+																		<div class='widget games'>
+										<div class='widget-title'>OUR GAMES<a target="_parent" href='/page/105125/games'>4 games</a></div>
+										<div class='widget-content'>
+											<a class="element_gamebox pc boxsmall"  href="/page/105125/games" data-minitooltip="Counter-Strike: Source (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/3/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"></a><a class="element_gamebox pc boxsmall"  href="/page/105125/games" data-minitooltip="Battlefield: Bad Company 2 (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/283/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"></a><a class="element_gamebox pc boxsmall"  href="/page/105125/games" data-minitooltip="Mount & Blade: Warband (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/298/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"></a><a class="element_gamebox pc boxsmall"  href="/page/105125/games" data-minitooltip="Day of Defeat: Source (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/106/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"></a>										</div>
+									</div>
+									
+									<div class='widget hits'>
+										<div class='widget-title'>SITE HITS</div>
+										<div class='widget-content'>
+											<div class='graph' style='height: 36px; border-color: #ffffff;'></div>
+											<div class='info'>
+												<span class='left'>TODAY: 17</span>
+												<span class='right'>UNIQUE HITS: 7,072</span>
+											</div>
+										</div>
+									</div>
+
+																		<div class='widget voice'>
+										<div class='widget-title'>VOICE SERVER</div>
+										<div class='widget-content'>
+											<a target="_parent" class='mumble-icon' href='mumble://central1.voice.enjin.com:60935/?version=1.2.0'></a>
+											<span>Mumble (0 users online)</span>
+											<a target="_parent" class='voice-link' href='mumble://central1.voice.enjin.com:60935/?version=1.2.0'>central1.voice.enjin.com:60935</a>
+										</div>
+									</div>
+																	</div>
+
+								<div class='siteprofile-content'>
+									
+<div class='m_sitewall element_wall' id='siteactivity-1169111056'>
+	
+	<div class='posts'>
+		<div class='wall-post user_joined first' data-post_id='105125-46574' data-timestamp='1341341795'>
+	<a target="_parent" name='post13413600000002721548'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2721548" data-minitooltip="Fistrake"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2721548' class='element_username'>Fistrake</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>21 hours ago</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46573' data-timestamp='1341321093'>
+	<a target="_parent" name='post13413312000002654910'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2654910" data-minitooltip="goldfish"><img src="http://assets-cloud.enjin.com/users/2654910/avatar/medium.1340642907.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2654910' class='element_username'>goldfish</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Tue at 13:11</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46572' data-timestamp='1341283194'>
+	<a target="_parent" name='post13413024000002716716'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2716716" data-minitooltip="Billy"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2716716' class='element_username'>Billy</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Tue at 2:39</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post donation' data-post_id='105125-46568' data-timestamp='1341173740'>
+	<a target="_parent" name='post13411737400002511592'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2511592" data-minitooltip="KnightErrant"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" href='/profile/2511592' class='element_username'>KnightErrant</a>&thinsp; donated <b>$40.00</b> to <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>.
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Sun at 20:15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post group user_joined' data-post_id='105125-46566' data-timestamp='1341117981'>
+	<a target="_parent" name='post13411296000002700685'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar medium simple'><img title='New users have joined the website' src='http://resources.guild-hosting.net/807/themes/core/images/transparent.gif'></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2700685' class='element_username'>nesvaran</a> and <a target="_parent" target="_parent" href='/profile/2701195' class='element_username'>Alexjnd</a> joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<span class='posted'>Sun at 4:46</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46564' data-timestamp='1341062633'>
+	<a target="_parent" name='post13410720000002692303'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2692303" data-minitooltip="trainbuddy"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2692303' class='element_username'>trainbuddy</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Sat at 13:23</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post forum_thread' data-post_id='3486533' data-timestamp='1341033250'>
+	<a target="_parent" name='post13410332500003486533'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/1369254" data-minitooltip="TylerY"><img src="http://assets-cloud.enjin.com/users/1369254/avatar/medium.1331582492.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" href='/profile/1369254' class='element_username'>TylerY</a>&thinsp;
+					created a new thread <a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3486533&preset=2717425'>Victoria 2 Steam Key</a> in the <a target="_parent" href='/ajax.php?s=redirect&cmd=forum-forum&preset=2717425&id=668383'>General Gaming</a> forum
+
+					<div class='summary'>Selling a Vicky 2 Steam key, reply if you are interested and we can negotiate a deal.
+
+Edit: also have a Sword of the Stars Complete steam key.</div>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Sat at 5:14</span>
+						<span class='comment-link'>
+							<span class='link'> &middot; <a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3486533&preset=2717425'>0 Replies</a> &middot; 34 Views</span>
+						</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46560' data-timestamp='1340942673'>
+	<a target="_parent" name='post13409568000002684667'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2684667" data-minitooltip="PaNcAkEs"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2684667' class='element_username'>PaNcAkEs</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Fri at 4:04</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post gallery' data-post_id='105125-186239' data-timestamp='1340922279'>
+	<a target="_parent" name='post13409222790000625251'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/1486217" data-minitooltip="Gooner"><img src="http://assets-cloud.enjin.com/users/1486217/avatar/medium.1335627802.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" href='/profile/1486217' class='element_username'>Gooner</a>&thinsp;
+					uploaded <b>7</b> images to <a target="_parent" href='/ajax.php?s=redirect&cmd=gallery-album&preset=2717418&id=66217'>5th Guards Tank Army</a>
+
+					<div class='images'>
+						<div class='main-image'>
+							<a target="_parent" href='/ajax.php?s=redirect&cmd=gallery-image&preset=2717418&id=625251'>
+								<img src='http://files-cloud.enjin.com/105125/module_gallery/thumb/625251.jpg'>
+							</a>
+						</div><div class='small-images'>
+							<a target="_parent" class='i2' href='/ajax.php?s=redirect&cmd=gallery-image&preset=2717418&id=625250'><img src='http://files-cloud.enjin.com/105125/module_gallery/thumb/625250.jpg'></a><a target="_parent" class='i3' href='/ajax.php?s=redirect&cmd=gallery-image&preset=2717418&id=625249'><img src='http://files-cloud.enjin.com/105125/module_gallery/thumb/625249.jpg'></a>						</div>					</div>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Thu at 22:24</span>
+											</div>
+				</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div><div class='wall-post group forum_thread_group' data-post_id='3466942' data-timestamp='1340855231' data-oldest='1340846685'>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar medium simple'><img title='Recent forum threads' src='http://resources.guild-hosting.net/807/themes/core/images/transparent.gif'></div></td>
+			<td class='post'>
+				<table>
+					<tr>
+						<th class='thread'>Recent new threads</th>
+						<th class='replies'>Replies</th>
+						<th class='forum'>Forum</th>
+					</tr>
+										<tr class=''>
+						<td><div class='element_avatar simple verysmall  '><a href="http://MidnightMercs.enjin.com/profile/1589978" data-minitooltip="Unibom8er"><img src="http://assets-cloud.enjin.com/users/1589978/avatar/small.1330485160.png"></a></div><a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3466942&preset=2717425'>Wanna meet Uni?</a></td>
+						<td class='replies'><a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3466942&preset=2717425'>2</a></td>
+						<td class='forum'><a target="_parent" href='/ajax.php?s=redirect&cmd=forum-forum&id=668382&preset=2717425'>General Discussion</a></td>
+					</tr>
+										<tr class=''>
+						<td><div class='element_avatar simple verysmall  '><a href="http://MidnightMercs.enjin.com/profile/655094" data-minitooltip="HellStorm"><img src="http://assets-cloud.enjin.com/users/655094/avatar/small.1337060130.png"></a></div><a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3465929&preset=2717425'>Rome Total War Barbarian Invasion League!</a></td>
+						<td class='replies'><a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3465929&preset=2717425'>12</a></td>
+						<td class='forum'><a target="_parent" href='/ajax.php?s=redirect&cmd=forum-forum&id=668383&preset=2717425'>General Gaming</a></td>
+					</tr>
+														</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post gallery' data-post_id='105125-186225' data-timestamp='1340826274'>
+	<a target="_parent" name='post13408262740000622847'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2657488" data-minitooltip="RivenX"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" href='/profile/2657488' class='element_username'>RivenX</a>&thinsp;
+					uploaded an image to <a target="_parent" href='/ajax.php?s=redirect&cmd=gallery-album&preset=2717418&id=49582'>2nd Coldstream Regiment</a>
+
+					<div class='images'>
+						<div class='main-image'>
+							<a target="_parent" href='/ajax.php?s=redirect&cmd=gallery-image&preset=2717418&id=622847'>
+								<img src='http://files-cloud.enjin.com/105125/module_gallery/thumb/622847.jpg'>
+							</a>
+						</div>					</div>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Wed at 19:44</span>
+											</div>
+				</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div><div class='wall-post forum_thread' data-post_id='3456227' data-timestamp='1340756680'>
+	<a target="_parent" name='post13407566800003456227'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2521540" data-minitooltip="AceXprt"><img src="http://assets-cloud.enjin.com/users/2521540/avatar/medium.1340756558.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" href='/profile/2521540' class='element_username'>AceXprt</a>&thinsp;
+					created a new thread <a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3456227&preset=2717425'>check out my pic!</a> in the <a target="_parent" href='/ajax.php?s=redirect&cmd=forum-forum&preset=2717425&id=668382'>General Discussion</a> forum
+
+					<div class='summary'>this is what happens when you drink too much and try to practice melee with a mop... lol</div>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jun 27, 12</span>
+						<span class='comment-link'>
+							<span class='link'> &middot; <a target="_parent" href='/ajax.php?s=redirect&cmd=forum-thread&id=3456227&preset=2717425'>1 Replies</a> &middot; 50 Views</span>
+						</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46552' data-timestamp='1340703074'>
+	<a target="_parent" name='post13407264000002661621'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2661621" data-minitooltip="bumbo"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2661621' class='element_username'>bumbo</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jun 26, 12</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46550' data-timestamp='1340659652'>
+	<a target="_parent" name='post13406688000002657488'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2657488" data-minitooltip="RivenX"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2657488' class='element_username'>RivenX</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jun 25, 12</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-46545' data-timestamp='1340498056'>
+	<a target="_parent" name='post13405248000002409990'></a>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar simple medium  '><a href="http://MidnightMercs.enjin.com/profile/2409990" data-minitooltip="Ataznpro"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png"></a></div></td>
+			<td class='post'>
+				<div class='post-content'>
+					<a target="_parent" target="_parent" href='/profile/2409990' class='element_username'>Ataznpro</a>&thinsp; joined <a target="_parent" href='http://MidnightMercs.enjin.com'>Midnight Mercenaries</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jun 24, 12</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+	</div>
+	<a class='wall-viewmore visible' href='javascript:void(0);' onclick='Enjin_Site_Wall.viewMorePosts(this);'>View more posts...</a>
+</div>								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+			</div>
+		</div>
+	
+	</div>
+
+</div>										        </div>
+										      </div><!-- module_content -->
+										      
+																				     
+										      
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+                      
+                       
+                        <div class="container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                                            
+					</div><!-- .container -->
+								
+				
+		
+		             
+		      <div class="container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                  
+            <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	<div><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+			<td id="section-footer" class="section-holder" style="">
+		<div class="section">             
+		      <div class="container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                  
+            <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	
+
+		</div><!-- #site-body -->
+
+		<div id="page-footer">
+
+		<div class="left"><a href='http://www.enjin.com/'>Clan website</a> by <a href="http://www.enjin.com/"><img src="http://resources.guild-hosting.net/807/themes/core/images/efooter.png" alt="guild hosting" title="Enjin"></a></div>
+		  <div class='right'>&copy; 2012 Enjin</div>		</div>
+
+  </div><!-- #page-wrap -->
+</div><!-- #page -->
+
+
+
+
+
+</div></div>
+
+
+
+
+<div id='quick-post-box' class='element_popdown' style='display: none;'><div class='inner'>
+	<div class='quick-post-title'>Quick wall post:</div>
+	<div class='wall-textarea input-textarea wall-post-input'><textarea style='height: 30px;'></textarea></div>
+
+	<div class='post-buttons'>
+		<div class='element_smallbutton wall-post-share'><div class='l'><!-- --></div><div class='r'><!-- --></div><input type='submit' value='Share'></div>
+		<div class='wall-post-access-box'><a class='wall-post-access' data-access='everyone' href='javascript:void(0);'>Public</a><div class='icon-locked'></div></div>
+	</div>
+<div class='tab'><div></div></div></div></div>
+
+<div id='global-search-box' class='element_popdown' style='display: none;'><div class='inner'>
+    <form action="/dashboard/search">
+	<div class='search-box-area'><div class='input-text global-search-box-input'><input type="text" name="keywords" style="width:512px" value="Search everything..." /></div><a class="icon"></a></div>
+	<div class='search-results hidden' style="border-top:1px solid #363636; margin-top:4px">
+	   <div class="loading"><center><img src="http://resources.guild-hosting.net/807/themes/core/images/icons/search-loading.gif"></center></div>
+	   <div class="empty hidden">No matches found.</div>
+	   <div class="results hidden">
+	       <ul></ul>
+	       <div class='more'>
+                <div style="display:inline-block"><div class='element_button'><div class='l'><!-- --></div><div class='r'><!-- --></div><input type='submit' value='See more advanced results'></div></div>
+                <div style="display:inline-block;float:right;position:relative;top:11px;right:7px;">Displaying top <span class="count"></span> results</div>
+           </div>
+	   </div>
+	</div>
+</form>
+<div class='tab'><div></div></div></div></div>
+
+<script type="text/javascript">
+$(document).ready(function() {	
+	Enjin_Core.Announcements.init([]);
+});
+</script>
+<div id="site-announcements"><a href="#"><div class='icon'></div></a>
+<div class="site-announcement">
+	<div class="title-bar">
+		<div class="title">Announcement <span class="index"></span> of <span class="total"></span></div>
+		<div class="close-wrapper"><a href="#" onclick="Enjin_Core.Announcements.close();return false;"><div class="close"></div></a></div>
+	</div>	
+	<div class="nav-bar">
+		<input type="button" class="delete" onclick="Enjin_Core.Announcements.remove();return false;" value="Delete"/>
+		<div class="nav"><div class="button-space"><input type="button" onclick="Enjin_Core.Announcements.prev();return false;" class="prev" value="Prev"/></div><div class="button-space"><input type="button" onclick="Enjin_Core.Announcements.next();return false;" class="next" value="Next"/></div></div>
+	</div>
+	<div class="content"></div>
+</div>
+<div class="border"></div>
+</div>
+
+
+
+
+<!-- 0.249s -->
+<!-- pusher part -->
+
+<!-- Start Quantcast tag -->
+<script type="text/javascript">
+_qoptions={
+qacct:"p-e2f9QTuI7ynec"
+};
+</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+<noscript>
+<img src="http://pixel.quantserve.com/pixel/p-e2f9QTuI7ynec.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+</noscript>
+<!-- End Quantcast tag -->
+
+
+<div id="fb-root"></div><script type="text/javascript">
+    //<!--
+		(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+		(function() {
+			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			po.src = 'https://apis.google.com/js/plusone.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+		    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");    //-->
+</script><!-- host5.enjin.com -->
+</body>
+
+</html>

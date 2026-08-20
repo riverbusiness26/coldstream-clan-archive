@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<script src="https://resources.enjin.com/1511306023/themes/v2/js/system/security.js" type="text/javascript"></script>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="robots" content="INDEX, FOLLOW">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="en-US"><title>Site Info - 2nd Coldstream</title>
+
+<meta property="og:title" content="Site Info - 2nd Coldstream" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://2ndColdstream.enjin.com" />
+<meta property="og:image" content="https://assets-cloud.enjin.com/users/2809400/avatar/avatar.1400063283.png" />
+<meta property="og:description" content="Website for the 2nd Coldstream regiment from the Mount &amp;amp; Blade: Warband (Napoleonic War) game." />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="2nd Coldstream" />
+<link href="/page/230591/about" rel="canonical">
+<link href="https://resources.enjin.com/1465083538/themes/core/js/library/markitup/skins/enjin/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://2ndcoldstream.enjin.com/assets/1512853484/themes/core/css/core.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://resources.enjin.com/1509365610/themes/core/css/bbcode.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://resources.enjin.com/1511306023/themes/core/css/styles.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://resources.enjin.com/1512853484/themes/v2/css/system/user_tray.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://resources.enjin.com/1492532467/admin/theme/css/teamspeak/tree.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://resources.enjin.com/1465083537/themes/core/css/modules/mumble.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://resources.enjin.com/1510770970/platform/react.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://2ndcoldstream.enjin.com/assets/1682351269/merged/default_fonts.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://2ndcoldstream.enjin.com/assets/202304241147/themes/core/css/theme.php?site_id=230591&amp;tag_ts=1682754648&amp;cache=202304241147-1463361046&amp;theme=3" media="screen" rel="stylesheet" type="text/css"> <style type="text/css" media="screen">
+<!--
+
+-->
+</style> <script type="text/javascript" src="https://resources.enjin.com/1682351269/merged/default_layout.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1664198859/themes/core/js/core.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1489581540/themes/core/js/library/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1511306023/themes/core/js/library/markitup/sets/bbcode/set.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1465083538/themes/core/js/library/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1465083538/themes/core/js/library/guild-tabard.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+$(document).ready(function() {
+	$('#like-site-button').click(function(){
+		var likes = $(this).parent().siblings('.likes').children('span');
+
+		if($(this).hasClass('liked')) {
+			$(this).removeClass('liked').val('Like');
+			var cmd = 'unlike-site';
+			likes.text(parseInt(likes.text(), 10)-1);
+		}
+		else {
+			$(this).addClass('liked').val('Unlike');
+			var cmd = 'like-site';
+			likes.text(parseInt(likes.text(), 10)+1);
+		}
+		$.post('/ajax.php?s=site', {cmd: cmd, site_id: 230591});
+	});
+
+	$('.m_system-siteprofile .siteprofile-right .widget.hits .graph').sparkline([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2], {
+		lineColor: "#a5e1ff",
+		fillColor: "#141414",
+		lineWidth: 1.8,
+		spotColor: false,
+		minSpotColor: false,
+		maxSpotColor: false,
+		chartRangeMin: 0,
+		height: '36px',
+		width: '100%'
+	});
+
+		// Render guild tabards
+	var tabards = $('.widget.guild canvas');
+	for ( var i = 0; i < tabards.length; i++ )
+	{
+		var tb = $(tabards[i]);
+		var tabard = new GuildTabard( tabards.get(i), {
+			 'ring': tb.attr('data-ring'),
+			 'bg': [ 0, tb.attr('data-bg') ],
+			 'border': [ tb.attr('data-border'), tb.attr('data-borderColor') ],
+			 'emblem': [ tb.attr('data-icon'), tb.attr('data-iconColor') ]
+		});
+	}
+});
+
+    //-->
+</script>
+<script type="text/javascript" src="https://resources.enjin.com/1465083538/themes/core/js/library/jstorage.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1465083538/themes/core/js/library/date.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+    var current_session_user_id = 0;
+    var current_session_csrf_token = "";
+	var current_page_id = 1978826;
+    Enjin_Core.site_id = 230591;
+
+        //-->
+</script>
+
+<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        // enjin tracking
+        ga('create', 'UA-6028401-5', 'auto');
+        ga('send', 'pageview');
+
+            </script>
+</head>
+<body class=" 
+    dark-theme fixed" data-dnsme-update-flag="">
+<div class="body-wrap-2"><div class="body-wrap-3">
+<div id="page">
+<div class="page-outer-left"></div>
+<div class="page-outer-right"></div>
+<div id="page-wrap">
+<div class="fixed_height_elem" id="above-site"></div>
+<div id="site-body">
+<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+<td class="section-border"><div class="decorator-box"></div></td>
+<td id="section-header" class="section-holder section-width-large" style="" data-width="1030">
+<div class="section">
+<div id='enjin-bar'>
+<div class='right'>
+
+<a href="/login" rel="nofollow">Login</a>
+<span class='divider'>|</span><a href='/login/do/register' rel='nofollow'>Register</a>
+</div>
+<div class='left'>
+
+<a href='/'>2nd Coldstream</a>
+
+
+<span class='divider'>|</span><a href='/page/230591'>Site Info</a>
+
+
+<div id='enjin-bar-likes'>
+
+<span class="fb-like-site"><fb:like href="http://2ndcoldstream.enjin.com" send="false" layout="button_count" width="100" show_faces="false"></fb:like></span><a href="https://twitter.com/share" class="twitter-share-button twitter-like-site" data-url="http://2ndcoldstream.enjin.com"></a>
+
+</div>
+</div>
+</div> <div class=" container_spacer first">
+<div class="left"></div>
+<div class="right"></div>
+</div><div class='clearing'></div>
+<div class="container with-header with-footer first" data-container-id="8544507" data-start-collapsed="0">
+<div class=" container_header">
+<div class="left"></div>
+<div class="right"></div>
+<div class="title">
+<span class="mask">
+ <div class="text">
+<div class="header_text_text">
+</div>
+</div>
+</span>
+</div>
+</div>
+<div class="container_body">
+<div class="container_left"></div>
+<div class="container_right"></div>
+<div class="container_left_top"></div>
+<div class="container_right_top"></div>
+<div class="container_left_bottom"></div>
+<div class="container_right_bottom"></div>
+<div class="container_content container-minimized" style="display: none;">
+Container minimized. <a href="javascript:;">Expand</a>
+</div>
+<div class="container_content container-maximized">
+<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div> <table class="container_table">
+<tr class="container_table_row">
+<td class="container_column leftmost rightmost" style="width: 100%">
+<div class="module module_first module_last">
+<div class="module_content">
+<div class="module_content_wrap">
+<div class='m_header'>
+<div class='tl'></div><div class='tr'></div><div class='bl'></div><div class='br'></div>
+<div class="header-container">
+<div class="header" style="background-image: url(https://resources.enjin.com/1509365610/headers/library/469.jpg); background-repeat: no-repeat; height: 102px; background-position: left center;"></div>
+<div class="text-nodes">
+</div>
+</div>
+</div> </div>
+</div>
+</div> </td>
+</tr>
+</table>
+</div>
+</div>
+<div class=" container_footer">
+<div class="left"></div>
+<div class="right"></div>
+</div>
+</div>
+<div class=" container_spacer">
+<div class="left"></div>
+<div class="right"></div>
+</div><div class='clearing'></div>
+<div class="special_container last"><div class='m_hmenu'>
+<div class='bg left'></div>
+<div class='bg right'></div>
+<div class='buttons content'>
+<a href='/home'>
+<div class='button first'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Home</div>
+</div>
+</a>
+<a href='/forum'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Forums</div>
+</div>
+</a>
+<a href='/members'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Members</div>
+</div>
+</a>
+<a href='/events'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Events</div>
+</div>
+</a>
+<a href='/gallery'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Gallery</div>
+</div>
+</a>
+<a href='/chat'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Chat Room</div>
+</div>
+</a>
+<a href='/ranks'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Ranks</div>
+</div>
+</a>
+<a href='/contact'>
+<div class='button'>
+<div class='b left'></div>
+<div class='b right'></div>
+<div class='b content'>Contact Us</div>
+</div>
+</a>
+<div class='cap'></div> </div>
+</div></div>
+<div class=" container_spacer last">
+<div class="left"></div>
+<div class="right"></div>
+<div class="middle"></div>
+</div>
+<div class='clearing'></div>
+</div>
+</td>
+<td class="section-border"><div class="decorator-box"></div></td>
+</tr>
+</table>
+</div><!-- -->
+<div class=""><table class="section-collection"><tr class="top">
+<td class="section-border"><div class="decorator-box"></div></td>
+<td id="section-main" class="section-holder section-width-large" style="" data-width="1030">
+<div class="section"> <div class="fixed_height_elem container_spacer first">
+<div class="left"></div>
+<div class="right"></div>
+</div><div class='clearing'></div>
+<div class="container with-header first last" data-container-id="1" data-start-collapsed="0">
+<div class="fixed_height_elem container_header">
+<div class="left"></div>
+<div class="right"></div>
+<div class="title">
+<span class="mask">
+<div class="text">
+<div class="header_text_text">
+Site Info </div>
+</div>
+</span>
+</div>
+</div>
+<div class="container_body">
+<div class="container_left"></div>
+<div class="container_right"></div>
+<div class="container_left_top"></div>
+<div class="container_right_top"></div>
+<div class="container_left_bottom"></div>
+<div class="container_right_bottom"></div>
+<div class="container_content container-minimized" style="display: none;">
+Container minimized. <a href="javascript:;">Expand</a>
+</div>
+<div class="container_content container-maximized">
+<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div> <table class="container_table">
+<tr class="container_table_row">
+<td class="container_column leftmost rightmost" style="width: 100%">
+<div class="module module_first module_last">
+<div class="module_content">
+<div class="module_content_wrap">
+<div class='m_system-siteprofile'>
+<div class='siteprofile-wrapper'>
+<div class='tabbox siteprofile with-left-column with-right-column'>
+<div class='content'>
+<div class='block-wrap'>
+<div class='block main'>
+<div class='subsection about about-index'>
+<div class='siteprofile-top'>
+<div class='element_avatar simple large site-logo'>
+<img src="https://assets-cloud.enjin.com/users/2809400/avatar/large.1400063283.png" width="73" height="73"> </div>
+<h1 class='site-name'>2nd Coldstream</h1>
+<div class='site-description'>
+<img class='country-flag' src='https://resources.enjin.com/1465083537/themes/core/images/flags/ZZ.gif'>
+<a target="_parent" class='site-url' href="http://2ndColdstream.enjin.com">2ndColdstream.enjin.com</a>
+&thinsp;-&thinsp; Website for the 2nd Coldstream regiment from the Mount &amp;amp; Blade: Warband (Nap... </div>
+<div class='site-buttons'>
+<div class='element_button'><div class='l'></div><div class='r'></div><input type='button' value='Visit Website' onclick='document.location="http://2ndColdstream.enjin.com";'></div>
+</div>
+</div>
+<div class='siteprofile-menu'>
+<a href='/page/230591/activity'>Activity</a>
+<a href='/page/230591/recruitment'>Recruitment</a>
+<a href='/page/230591/about' class="selected">About</a>
+<a href='/page/230591/games'>Games</a>
+<a href='/page/230591/members'>Members</a>
+</div>
+<div class='siteprofile-main'>
+<div class='rightcolumn-border'></div>
+<div class='siteprofile-right'>
+<div class='widget members'>
+<div class='widget-title'>SITE MEMBERS<a target="_parent" href='/page/230591/members'>35 users</a></div>
+<div class='widget-content'>
+<div class="element_avatar simple medium"><a data-minitooltip="Ibodar" data-minitooltip-userid="2809400" target="_parent" href="https://2ndColdstream.enjin.com/profile/2809400"><img src="https://assets-cloud.enjin.com/users/2809400/avatar/medium.1400063283.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="Steven" data-minitooltip-userid="2848760" target="_parent" href="https://2ndColdstream.enjin.com/profile/2848760"><img src="https://assets-cloud.enjin.com/users/2848760/avatar/medium.1400057895.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="Danijongo" data-minitooltip-userid="2846906" target="_parent" href="https://2ndColdstream.enjin.com/profile/2846906"><img src="https://assets-cloud.enjin.com/users/2846906/avatar/medium.1400061481.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="SonofSkz" data-minitooltip-userid="2847231" target="_parent" href="https://2ndColdstream.enjin.com/profile/2847231"><img src="https://resources.enjin.com/profile/images/avatar/medium.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="Titan Stocktaker" data-minitooltip-userid="2191307" target="_parent" href="https://2ndColdstream.enjin.com/profile/2191307"><img src="https://assets-cloud.enjin.com/users/2191307/avatar/medium.1400046556.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="Ragnar Oathsworn" data-minitooltip-userid="3050896" target="_parent" href="https://2ndColdstream.enjin.com/profile/3050896"><img src="https://assets-cloud.enjin.com/users/3050896/avatar/medium.1463266488.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="LolChicken" data-minitooltip-userid="3050836" target="_parent" href="https://2ndColdstream.enjin.com/profile/3050836"><img src="https://resources.enjin.com/profile/images/avatar/medium.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="Frankster" data-minitooltip-userid="2898743" target="_parent" href="https://2ndColdstream.enjin.com/profile/2898743"><img src="https://resources.enjin.com/profile/images/avatar/medium.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="Dovahkiin" data-minitooltip-userid="2871634" target="_parent" href="https://2ndColdstream.enjin.com/profile/2871634"><img src="https://resources.enjin.com/profile/images/avatar/medium.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div class="element_avatar simple medium"><a data-minitooltip="ollie/baratheon" data-minitooltip-userid="2864822" target="_parent" href="https://2ndColdstream.enjin.com/profile/2864822"><img src="https://resources.enjin.com/profile/images/avatar/medium.png" onerror="this.src='https://resources.enjin.com/profile/images/avatar/medium.png';" width="43" height="43"></a></div> </div>
+</div>
+<div class='widget games'>
+<div class='widget-title'>OUR GAMES</div>
+<div class='widget-content'>
+<a class="element_gamebox pc boxsmall" href="/page/230591/games" data-minitooltip="Mount & Blade: Warband (PC)"><img src="https://assets-cloud.enjin.com/gameboxes/298/boxsmall.jpg" onerror="this.src='https://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"></a> </div>
+</div>
+<div class='widget hits'>
+<div class='widget-title'>SITE HITS</div>
+<div class='widget-content'>
+<div class='graph' style='height: 36px; border-color: #424242;'></div>
+<div class='info'>
+<span class='left'>TODAY: 2</span>
+<span class='right'>UNIQUE HITS: 477</span>
+</div>
+</div>
+</div>
+</div>
+<div class='siteprofile-content'>
+<div class='site-about'>
+<p>Website for the 2nd Coldstream regiment from the Mount &amp;amp; Blade: Warband (Napoleonic War) game.</p>
+</div> </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div> </div>
+</div>
+</div> </td>
+</tr>
+</table>
+</div>
+</div>
+<div class="fixed_height_elem container_footer">
+<div class="left"></div>
+<div class="right"></div>
+</div>
+</div>
+<div class="fixed_height_elem container_spacer last">
+<div class="left"></div>
+<div class="right"></div>
+<div class="middle"></div>
+</div>
+<div class='clearing'></div>
+</div>
+</td>
+<td class="section-border"><div class="decorator-box"></div></td>
+</tr>
+</table>
+</div><!-- -->
+<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+<td class="section-border"><div class="decorator-box"></div></td>
+<td id="section-footer" class="section-holder section-width-large" style="" data-width="1030">
+<div class="section"> <div class=" container_spacer last">
+<div class="left"></div>
+<div class="right"></div>
+<div class="middle"></div>
+</div>
+<div class='clearing'></div>
+</div>
+</td>
+<td class="section-border"><div class="decorator-box"></div></td>
+</tr>
+</table>
+</div><!-- -->
+</div>
+<div class="fixed_height_elem" id="page-footer">
+<div class="left">
+<a href='https://www.enjin.com/'>
+Community website </a>
+by
+<a href="https://www.enjin.com/">
+<img src="https://resources.enjin.com/1465083537/themes/core/images/efooter.png" alt="guild hosting" title="enjin">
+</a>
+<a href="https://enjinx.io/">Cryptocurrency Explorer</a> </div>
+<div class="right">
+&copy; 2023 Enjin </div>
+</div>
+</div>
+</div>
+</div></div>
+<script type="text/javascript">
+$(document).ready(function() {	
+	
+	Enjin_Core.Announcements.init([]);
+	Enjin_Core.Reminders.init([]);
+});
+</script>
+<div id="site-announcements">
+<a href="#">
+<i class="icon-warning-sign icon"></i>
+<span class="ann-tray-text"><span class="amount"></span> <span class="singular">Notice</span><span class="plural">Notices</span></span>
+</a>
+<div class="site-announcement">
+<div class="title-bar">
+<div class="title ann-title"></div>
+<div class="close-wrapper"><a href="#" onclick="Enjin_Core.Announcements.close(true);return false;"><div class="close"></div></a></div>
+</div>
+<div class="content"></div>
+<div class="nav-bar nav-bar-bottom">
+<div class="nav">
+<div class="announcements-nav">
+<div class="element_button" onclick="Enjin_Core.Announcements.prev();return false;">
+<div class="l"><!-- --></div>
+<div class="r"><!-- --></div>
+<input type="button" value="Prev" onclick="">
+</div>
+ <div class="element_button" onclick="Enjin_Core.Announcements.next();return false;">
+<div class="l"><!-- --></div>
+<div class="r"><!-- --></div>
+<input type="button" value="Next" onclick="">
+</div>
+<div class="title title-bottom">Announcement <span class="index"></span> of <span class="total"></span></div>
+</div>
+<div class="element_button btn-delete-ann">
+<div class="l"><!-- --></div>
+<div class="r"><!-- --></div>
+<input type="button" value="Delete Announcement" />
+</div>
+<div class="element_button btn-agree-terms">
+<div class="l"><!-- --></div>
+<div class="r"><!-- --></div>
+<input type="button" value="I Agree to the Terms" />
+</div>
+</div>
+</div>
+</div>
+<div class="border"></div>
+</div>
+<div id="announcement-popup" class="element_popup element_popup_core element_popup_window warning-issued-popup" style="z-index: 20000; display: none;">
+<div class="inner window-frame">
+<div class="popup_window_title">
+<span class="title-text"></span>
+<div class="close-wrapper btn-delete-ann-x">
+<a href="#"><div class="close"></div></a>
+</div>
+</div>
+<div class="content">
+<div class="announcement-text">
+</div>
+<div class="controls">
+<div class="element_button prev"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Prev" onclick=""></div>
+<div class="element_button next"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Next" onclick=""></div>
+<div class="title title-bottom"><span class="index">1</span> of <span class="total">4</span> Announcement</div>
+<div class="element_button btn-delete-ann"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Delete Announcement"></div>
+<div class="element_button btn-agree"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value=""></div>
+</div>
+</div>
+</div>
+</div>
+<div class="announcement-canvas-separator">&nbsp;</div>
+
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script><script type="text/javascript">var recaptcha_publickey = "6LcLBBwUAAAAABpqgDjBkM0Ixb_WC8MJdAbylruG";</script>
+
+<script type="text/javascript">
+_qoptions={
+qacct:"p-e2f9QTuI7ynec"
+};
+</script>
+<script type="text/javascript" src="https://secure.quantserve.com/quant.js" async defer></script>
+<noscript>
+<img src="https://pixel.quantserve.com/pixel/p-e2f9QTuI7ynec.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+</noscript>
+
+
+<div id="fb-root"></div>
+<script>
+	$(window).load(function() {
+		$.getScript("https://resources.enjin.com/1556635273/themes/core/js/social.js");
+	});
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"></script>
+<script type="text/javascript" src="https://resources.enjin.com/1510770970/platform/react.js"></script>
+
+</body>
+</html>

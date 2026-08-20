@@ -1,0 +1,7 @@
+20140516234959 http://2ndcs.com/ 200
+20060228110314 http://www.2ndcs.com/robots.txt 200
+20071013081815 http://mail.2ndcs.com:80/webmail/ 200
+20071013081818 http://mail.2ndcs.com:80/webmail/src/login.php 200
+20071011030911 http://secondcity.2ndcs.com:80/webmail/ 200
+20071011030914 http://secondcity.2ndcs.com:80/webmail/src/login.php 200
+20071011030921 http://secondcity.2ndcs.com:80/webmail/src/webmail.php 200

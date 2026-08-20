@@ -1,0 +1,3020 @@
+{
+ "kindCounts": {
+  "insignia": 19,
+  "badge-or-banner": 22,
+  "screenshot": 48,
+  "other": 10,
+  "rank-chart": 1
+ },
+ "imagesClassified": 100,
+ "nameBearing": 17,
+ "totalConfirmed": 184,
+ "totalUnconfirmed": 115,
+ "extraction": [
+  {
+   "hash": "210325a830b2901999cd4fea859c3c2141e14e0a",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/210325a830b2901999cd4fea859c3c2141e14e0a.png",
+   "kind": "screenshot",
+   "description": "In-game kill-feed / chat log screenshot (Mount & Blade: Warband style, parchment background) from a public server 'pubstomp'. Roughly 25 killer->victim lines plus chat. Many 2ndCS members (Crawford, Crazy, Lindsey, RivenX, williambinette, The_Legend) fighting [Cub]Inf players and randoms. A large 'Groupsy by Photobucket' watermark obscures parts of the middle and the last two lines are doubled/overlapping renders.",
+   "legibility": "partial",
+   "other_text": "Chat: [1ad_GH_Brigade_RTC_Caboose] SURRENDER NOW; [2ndCS_Rct_Lindsey] Sorry mane :(; [TheGuyontheCouch] sorry; [1ad_GH_Brigade_RTC_Caboose] is anybody recording this. System: 2ndCS_Rct_Lindsey has killed a teammate!; TheGuyontheCouch has killed a teammate!. Bottom line doubled/illegible, partially reads '...where can i download it at'. Groupsy by Photobucket watermark.",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "Crawford",
+     "rank": "Col",
+     "note": "tag 2ndCS (2ndCS_Col_Crawford); appears as killer multiple times and once as victim",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Crazy",
+     "rank": "Maj",
+     "note": "tag 2ndCS (2ndCS_Maj_Crazy)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Lindsey",
+     "rank": "Rct",
+     "note": "tag 2ndCS; also chat line '[2ndCS_Rct_Lindsey] Sorry mane :(' and 'has killed a teammate!' notice",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "RivenX",
+     "rank": "Rct",
+     "note": "tag 2ndCS (2ndCS_Rct_RivenX)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "williambinette",
+     "rank": "Rct",
+     "note": "tag 2ndCS, lowercase as written (2ndCS_Rct_williambinette)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "The_Legend",
+     "rank": "Cdt",
+     "note": "tag 2ndCS (2ndCS_Cdt_The_Legend), killed by theman45",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "theman45",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "JohnBrown",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Heffron",
+     "rank": "PVT",
+     "note": "tag Nr2KFG (Nr2KFG_PVT_Heffron)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Rabid_Canadian",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "marine_officer",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Erik_Von_Wulff",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "That_Guy",
+     "rank": null,
+     "note": "tag [Cub]Inf ([Cub]Inf_That_Guy)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "WillWight",
+     "rank": "CPsc",
+     "note": "Tag 8th_CR (8th_CR_CPsc_WillWight); rank letters 'CPsc' small - could be CPse/Cpsc",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "KING_CHORGO",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Uruk-hai",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Blasian",
+     "rank": null,
+     "note": "tag [Cub]Inf",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "DownHere",
+     "rank": null,
+     "note": "tag [Cub]Inf",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Manolo_Chucro",
+     "rank": null,
+     "note": "partially under watermark",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Glexy",
+     "rank": null,
+     "note": "tag [Cub]Inf",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Brolund",
+     "rank": null,
+     "note": "partially under watermark",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Seveight",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Comrade_Greed",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Guaipeca",
+     "rank": null,
+     "note": "partially under watermark",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Master_Anal_Cockfist",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Panthere",
+     "rank": "cdm",
+     "note": "tag 7th_Scorpio (7th_Scorpio_cdm_Panthere); watermark crosses the middle of the string, tag could end differently (e.g. Scorpion)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sir_Wololol",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Boberty",
+     "rank": "Maj",
+     "note": "tag 66th_Dragoner; middle of name under 'Your people' watermark — reads approx 66th_Dragoner_Maj_Boberty",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Caboose",
+     "rank": "RTC",
+     "note": "tag 1ad_GH_Brigade (1ad_GH_Brigade_RTC_Caboose); chat speaker of 'SURRENDER NOW' and 'is anybody recording this'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "King_Dude_9000",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "TheGuyontheCouch",
+     "rank": null,
+     "note": "also 'has killed a teammate!' notice and chat '[TheGuyontheCouch] sorry'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Balian",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sethn8",
+     "rank": "Cpt",
+     "note": "green overlapped line reads approx 4e_Cav_Cpt_Sethn8 (possible 'VMe' prefix ghosting); killed Spaghetti",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "Spaghetti",
+     "rank": null,
+     "note": "victim in overlapped bottom line",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Malice_Hoknar",
+     "rank": null,
+     "note": "tag [Cub]Inf, written with no underscore after Inf: [Cub]InfMalice_Hoknar",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": [
+    {
+     "name": "42",
+     "rank": null,
+     "note": "player literally named '42', victim of 2ndCS_Col_Crawford in the top line which is cut off; confirmed fully in companion screenshot 24fa333e",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Hoknar",
+     "rank": null,
+     "note": "written [Cub]InfMalice_Hoknar (no underscore between Inf and Malice)",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Sethja8",
+     "rank": "Cpt",
+     "note": "Tag VIe_4e_Cav (VIe_4e_Cav_Cpt_Sethja8); line is double-rendered green+dark and slightly offset; 'VIe' could be 'Vle', and 'Sethja8' could be Sethya8/Sethn8",
+     "reads": 1,
+     "of": 3
+    }
+   ]
+  },
+  {
+   "hash": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/24fa333edcf14e3d1ff4d230dee9d8b9533f05e8.jpg",
+   "kind": "screenshot",
+   "description": "In-game kill-feed / chat log screenshot (parchment background with 'Return' button, 1024x576) from the same Nov 2012 public-server session as image 210325a8 — the bottom third repeats that feed with red/green colored lines ghost-overlapping the grey list. Approximately 35 killer->victim lines plus chat banter about a trumpet. Large 'Groupsy by Photobucket' watermark across the middle.",
+   "legibility": "partial",
+   "other_text": "Chat: [Spaghetti] I have a trumpet..; [Spaghetti] Therefore we win.; [1ad_GH_Brigade_RTC_Caboose] dont go in water; [Lord_cuddle_bottoms] sorry, accendent (sic). System: Lord_cuddle_bottoms has killed a teammate!; TheGuyontheCouch has killed a teammate!. Top chat line half cut off, reads approx '[Ranulfr_Agdar] oh cool we got a fife/mic now' (uncertain). 'Return' button bottom right. Groupsy by Photobucket watermark.",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "42",
+     "rank": null,
+     "note": "player literally named '42', victim of 2ndCS_Col_Crawford",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Ranulfr_Agdar",
+     "rank": null,
+     "note": "also probable author of the cut-off top chat line",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Kieran",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Tiago",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Spaghetti",
+     "rank": null,
+     "note": "chat: 'I have a trumpet..' / 'Therefore we win.'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Richard_Brit",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Erik_Von_Wulff",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "ClearlyInvsible",
+     "rank": "Rct",
+     "note": "tag 29th, spelled as written (29th_Rct_ClearlyInvsible)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Lord_cuddle_bottoms",
+     "rank": null,
+     "note": "teamkill notice plus chat apology 'sorry, accendent' (sic)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Caboose",
+     "rank": "RTC",
+     "note": "Full string [1ad_GH_Brigade_RTC_Caboose]; tag 1ad_GH_Brigade; unclear whether RTC is a rank or part of the tag",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Richard_Hawkins",
+     "rank": "Rct",
+     "note": "tag 2ndCS (2ndCS_Rct_Richard_Hawkins)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Imparat_Oroles",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Spartank",
+     "rank": "2ndPvt",
+     "note": "tag IIIe_38e (IIIe_38e_2ndPvt_Spartank)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "James",
+     "rank": "Rct",
+     "note": "tag 2ndCS; last letters under watermark, reads 2ndCS_Rct_James",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Neo_Qc",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sir_Wololol",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Kwisak",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "TheGuyontheCouch",
+     "rank": null,
+     "note": "also 'has killed a teammate!' notice",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Milosh",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Panthere",
+     "rank": "cdm",
+     "note": "Tag 7th_Scorpio; rank written lowercase 'cdm'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Gamerweazel",
+     "rank": "Cpl",
+     "note": "tag 18e; end of name under watermark, reads approx 18e_Cpl_Gamerweazel",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Crawford",
+     "rank": "Col",
+     "note": "tag 2ndCS; multiple kills",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Comrade_Kapitan",
+     "rank": null,
+     "note": "partially under watermark",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "theman45",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "The_Legend",
+     "rank": "Cdt",
+     "note": "tag 2ndCS",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "JohnBrown",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Heffron",
+     "rank": "PVT",
+     "note": "tag Nr2KFG",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Rabid_Canadian",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Crazy",
+     "rank": "Maj",
+     "note": "tag 2ndCS",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Hoknar",
+     "rank": null,
+     "note": "written [Cub]InfMalice_Hoknar",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "marine_officer",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Lindsey",
+     "rank": "Rct",
+     "note": "tag 2ndCS",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "That_Guy",
+     "rank": null,
+     "note": "tag [Cub]Inf",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "WillWight",
+     "rank": null,
+     "note": "full string 8th_CR_CPsc_WillWight; line ghost-overlapped by green KING_CHORGO kill line",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "RivenX",
+     "rank": "Rct",
+     "note": "tag 2ndCS",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "KING_CHORGO",
+     "rank": null,
+     "note": null,
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "williambinette",
+     "rank": "Rct",
+     "note": "tag 2ndCS; ghost-overlapped in this shot, clear in companion shot 210325a8",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Blasian",
+     "rank": null,
+     "note": "tag [Cub]Inf; ghost-overlapped",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "DownHere",
+     "rank": null,
+     "note": "tag [Cub]Inf; ghost-overlapped",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Manolo_Chucro",
+     "rank": null,
+     "note": "ghost-overlapped red line",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "Brolund",
+     "rank": null,
+     "note": "ghost-overlapped",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Jeff",
+     "rank": null,
+     "note": "Tag NM (full string NM_Jeff)",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": [
+    {
+     "name": "NM_Jeff",
+     "rank": null,
+     "note": null,
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Uruk-hai",
+     "rank": null,
+     "note": "ghost-overlapped",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Glexy",
+     "rank": null,
+     "note": "tag [Cub]Inf; ghost-overlapped",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Seveight",
+     "rank": null,
+     "note": "bottom-most overlapped line, killed 2ndCS_Maj_Crazy",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "CHORGO",
+     "rank": null,
+     "note": "Tag KING (KING_CHORGO); a second faded green copy overlaps the line above",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Malice_Hoknar",
+     "rank": null,
+     "note": "Tag [Cub]Inf_; partly behind watermark, could be Hokmar",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Idenk-hai",
+     "rank": null,
+     "note": "Victim of the '...binette' line; overprinted, could be Idek-hai / Idrak-hai",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Manole_Chucro",
+     "rank": null,
+     "note": "'_Chucro' ending is clear in the black render; first word overprinted — red copy suggests Manole / Manolo / Mangle",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Glory",
+     "rank": null,
+     "note": "Tag [Cub]Inf_; killer of 2ndCS_Col_Crawford, readable only in the red duplicate render as '[Cub]Inf_Glory...' — full name uncertain, possibly longer (e.g. GloryDays)",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Sowright",
+     "rank": null,
+     "note": "Killer of 2ndCS_Maj_Crazy on the bottommost (colored, cut-off) line; could be Seawright — only the offset red copy is visible",
+     "reads": 1,
+     "of": 3
+    }
+   ]
+  },
+  {
+   "hash": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/2be252508c1e2ca574c77558cac7eacf8c86accb.jpg",
+   "kind": "screenshot",
+   "description": "In-game scoreboard screenshot (Mount & Blade: Warband - Napoleonic Wars): Kaisertum Oesterreich (Austria, score 2, 2ndCS members on this side) vs Empire Francais (France, score 2, 10 players 9 alive 1 dead), each side listing Player Name / Kills / Deaths / Ping, plus a Spectators(3) section and bottom-left chat. Rain-soaked field map, match clock 8:39. 'Groupsy by Photobucket' watermark obscures one dead French player's name entirely and parts of others.",
+   "legibility": "partial",
+   "other_text": "Kaisertum Oesterreich — Score: 2; Empire Francais (10 Players, 9 Alive, 1 Dead) — Score: 2; column headers Player Name / Kills / Deaths / Ping; Spectators(3) — third spectator's name hidden under 'Your space.' watermark; one dead French player (0/1/67, red 'Dead') fully hidden under watermark; match clock 8:39; chat: '[The_Helping_Friendly_Book] nice', '[89thRG_Rct_Cake] oh shit psy is here'. Groupsy by Photobucket watermark.",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "Crazy",
+     "rank": "Maj",
+     "note": "tag 2ndCS; Austria side, 8 kills 2 deaths ping 52",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "reclu",
+     "rank": "Cpl",
+     "note": "tag 2ndCS, lowercase as written; 4/3/46",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Crawford",
+     "rank": "Col",
+     "note": "tag 2ndCS; row highlighted (screenshot taker); ~4/4/72",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Zemohc",
+     "rank": "Cpl",
+     "note": "tag 2ndCS; 3/3/38",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "BobNLarry",
+     "rank": "Oberst",
+     "note": "tag 98H (98H_Oberst_BobNLarry); 3/3/70",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "ilya891",
+     "rank": null,
+     "note": "full string 30th_pltv_rdv_ilya891; 2/3/257",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "VictoriaCross",
+     "rank": null,
+     "note": "kills/deaths obscured by watermark",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "1st_9GAG_YOLO_Division",
+     "rank": null,
+     "note": "full player name; ~3/76 ping column",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Cake",
+     "rank": "Rct",
+     "note": "tag 89thRG; France side, 8/2/57; chat '[89thRG_Rct_Cake] oh shit psy is here'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "William",
+     "rank": "LCpl",
+     "note": "tag 29th_A (29th_A_LCpl_William); 8/4/39",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "FightingSwordsman",
+     "rank": null,
+     "note": "5/2/166",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Soran",
+     "rank": null,
+     "note": "5/3/51",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Bank",
+     "rank": null,
+     "note": "2/1/58",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "The_Helping_Friendly_Book",
+     "rank": null,
+     "note": "0/1/53; chat 'nice'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Schumann",
+     "rank": null,
+     "note": "0/1/74; middle vowel partly obscured, could be 'Schemann'",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sammy",
+     "rank": null,
+     "note": "-1 kills, 3 deaths, ping 128",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sir_Leopold",
+     "rank": null,
+     "note": "spectator, ping 42",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "KING_CHORGO",
+     "rank": null,
+     "note": "spectator, ping 52",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Seego",
+     "rank": "Con",
+     "note": "Tag 6eYG; full string 6eYG_Con_Seego, shown in red with 'Dead' (3 kills / 5 deaths / 170 ping, Austrian team). Blur makes it possibly 'Sengo' or 'Scego'; the same name repeats in the red kill-feed line at bottom left.",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "AkiyamaMio",
+     "rank": null,
+     "note": "French team, 0/2/234. 'Akiyama' is clear; the last 2-3 characters are behind the photobucket watermark and look like 'Mio' or possibly '...ho'.",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": [
+    {
+     "name": "Sengo",
+     "rank": "Con",
+     "note": "tag 6eYG (6eYG_Con_Sengo), marked Dead in red, 3/5/170; name could also read 'Scego'; also appears in a red chat kill line",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Akiyama",
+     "rank": null,
+     "note": "0/2/234; middle/end of name under watermark — looks like 'AkiyamaMio' or 'Akiyamaeho'; only 'Akiyama' prefix is reliable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "psy",
+     "rank": null,
+     "note": "not a nametag — referenced in chat only: 'oh shit psy is here'",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "vicBi2",
+     "rank": null,
+     "note": "Third spectator (ping ~36/56?); tiny name almost entirely hidden behind the 'Your space.' watermark - only faint glyphs visible, this reading is unreliable; do not treat as authoritative",
+     "reads": 1,
+     "of": 3
+    }
+   ]
+  },
+  {
+   "hash": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/2f2f6869d3082d496a3e8acb6d9c800a5879a35f.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) end-of-round scoreboard, June 2015 training event. All 19 players on the United Kingdom side carry the 2ndCS clan tag; French side is empty. Redcoat soldiers visible in the background. Kills/deaths/ping shown per player.",
+   "legibility": "clear",
+   "other_text": "United Kingdom (19 Players, 19 Alive, 0 Dead) Score: 27 | Empire Francais (0 Players, 0 Alive, 0 Dead) Score: 35. Chat log: [2ndCS_Cdt_Samuel] aw / [2ndCS_Cdt_Roger260] :( / [2ndCS_Pte_Grimreaper] lol / [2ndCS_Cdt_Samuel] Raven.",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "Roger260",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Roger260, 8 kills",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "g00ber",
+     "rank": "Cpl",
+     "note": "2ndCS_Cpl_g00ber, spelled with zeros",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "kavcav",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_kavcav",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Grimreaper",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Grimreaper",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Capn_Crunch",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Capn_Crunch",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Raven",
+     "rank": "Sgt",
+     "note": "2ndCS_Sgt_Raven",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "TisselTassler",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_TisselTassler",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "reclu",
+     "rank": "Cpl",
+     "note": "2ndCS_Cpl_reclu, lowercase",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Zemohc",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Zemohc",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Darman74",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Darman74",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Scipio",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_Scipio, 245 ping",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "thetindog",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_thetindog, lowercase",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Osca32",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Osca32",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "williambinette",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_williambinette, lowercase",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Uno",
+     "rank": "Maj",
+     "note": "2ndCS_Maj_Uno",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Reading_Rambo",
+     "rank": "Sgt",
+     "note": "2ndCS_Sgt_Reading_Rambo",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Samuel",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_Samuel; also appears twice in chat log",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Crawford",
+     "rank": "Col",
+     "note": "2ndCS_Col_Crawford, highlighted row (screenshot taker)",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "James",
+     "rank": "Pte",
+     "note": "2ndCS_Pte_James — font makes capital I vs J ambiguous ('Iames'/'James'); James most likely",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "495931f6708906535e14b24422c44cd0919ca25d",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/495931f6708906535e14b24422c44cd0919ca25d.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) scoreboard from a Nov 2012 public match on US1: Kaisertum Osterreich (score 5) vs Konigreich Preussen (score 0, 25 players all dead). Several 2ndCS members mixed with pub players. A large Photobucket 'Groupsy' watermark covers much of the board; roughly 8-10 rows (mostly on the Prussian side) are fully illegible under it and are not transcribed. The highlighted row (screenshot taker, Austrian side, red) is almost entirely obscured — appears to be a 2ndCS officer, likely Crawford who posted it, but unreadable.",
+   "legibility": "partial",
+   "other_text": "Kaisertum Osterreich — Score: 5 (15 Alive, 10 Dead) | Konigreich Preussen — Score: 0 (25 Players, 0 Alive, 25 Dead). Photobucket 'Groupsy — by photobucket — Your people. Your moments. Your space.' watermark across the board; several additional Prussian-side rows and two Austrian-side rows fully illegible.",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "Tiago",
+     "rank": null,
+     "note": "Austrian side, top scorer 16 kills, no clan tag",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sir_Wololol",
+     "rank": null,
+     "note": "Austrian side, 12 kills",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "RivenX",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_RivenX, marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Zemohc",
+     "rank": "Cpl",
+     "note": "2ndCS_Cpl_Zemohc, 8 kills",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Lindsey",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_Lindsey, 8 kills",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Richard_Brit",
+     "rank": null,
+     "note": "no clan tag, 8 kills",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "williambinette",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_williambinette, lowercase",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Richard_F...",
+     "rank": "Rct",
+     "note": "tag 2ndCS (2ndCS_Rct_Richard_F...), dead; surname after F obscured by watermark - possibly Fawkins/Hawkins-like",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "The_Legend",
+     "rank": "Cdt",
+     "note": "2ndCS_Cdt_The_Legend, 6 kills",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sethja8",
+     "rank": "Cpt",
+     "note": "Vle_4e_Cav_Cpt_Sethja8 — visiting 4e Cavalry regiment tag",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Crazy",
+     "rank": "Maj",
+     "note": "2ndCS_Maj_Crazy; likely the 'crazy' who replied in the thread",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "CelticBreton",
+     "rank": null,
+     "note": "tag reads approximately _1st_Rddt_G95_CelticBreton; middle of tag partially obscured",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Guaipeca",
+     "rank": null,
+     "note": "also visible in kill-feed/chat at bottom left",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Ferrri965",
+     "rank": null,
+     "note": "triple r as written",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "James",
+     "rank": "Rct",
+     "note": "2ndCS_Rct_James — capital I/J ambiguous in font",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "seismicGASBAG",
+     "rank": null,
+     "note": null,
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "TheGuyontheCouch",
+     "rank": null,
+     "note": "marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "NM_Jeff",
+     "rank": null,
+     "note": "red text, marked Dead; rendering could be NM_JefF",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "Imparat_Oroles",
+     "rank": null,
+     "note": "460 ping",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Charl...",
+     "rank": "CGrd",
+     "note": "tag 9th_CT (9th_CT_CGrd_Charl...), Prussian column, dead; name tail merges into the Dead label - possibly Charles/Charlie",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "marine_officer",
+     "rank": null,
+     "note": "Prussian side, partially obscured leading characters",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "Comrade_Kapitan",
+     "rank": null,
+     "note": "Prussian side, first letter partially obscured",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Remix",
+     "rank": null,
+     "note": "Prussian side, marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "NutSlap...",
+     "rank": "Cdt",
+     "note": "tag 2ndCS (2ndCS_Cdt_NutSlap...) but listed on the Prussian side; tail merges with Dead label - possibly NutSlapper",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Operator",
+     "rank": null,
+     "note": "Prussian side, marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Nipplestockings",
+     "rank": null,
+     "note": "Prussian side, marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Wibsey",
+     "rank": null,
+     "note": "Prussian side, marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Vadol",
+     "rank": "Sdt",
+     "note": "1stEPI_A2_Sdt_Vadol — name may be truncated by the Dead label",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Cyco_Tatertot",
+     "rank": null,
+     "note": "Prussian side, marked Dead",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "ObertTheConqueror",
+     "rank": null,
+     "note": "last visible Austrian row, dead; first letter could be O or Q (QbertTheConqueror possible)",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "JD",
+     "rank": null,
+     "note": "victim name in the bottom-left kill feed line 'Guaipeca [sabre] JD'; may be a truncated display name",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": [
+    {
+     "name": "42",
+     "rank": null,
+     "note": "Prussia, Dead. Very short name mostly under watermark; looks like the digits '42'. 3/5/75",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Crawford",
+     "rank": "Col",
+     "note": "Highlighted row under watermark, red text; tag pattern 2ndCS_Col_ barely visible; Crawford posted the screenshot — name itself not readable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "TheConqueror",
+     "rank": null,
+     "note": "bottom Austrian row, red: '…TheConqueror' — first word of name unreadable under watermark (something like Olaf/Obert), marked Dead",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "2ndCS_C...",
+     "rank": null,
+     "note": "Highlighted (selected) row, red/dead, Austrian column; name almost entirely illegible under blur - only a 2ndCS_ style prefix pattern discernible",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "7th_S...",
+     "rank": null,
+     "note": "Prussian column, dead; only the 7th_ regiment prefix and a few letter shapes visible under watermark",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "General...",
+     "rank": null,
+     "note": "Prussian column, dead; fragment resembling 'General' visible, rest of the row unreadable under watermark",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "...MaL_...ty",
+     "rank": null,
+     "note": "Prussian column, dead; middle of name reads 'MaL_' and ends in 'ty' (possibly ..._Casualty); start hidden under 'ucket' watermark",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "...Dragoner_...",
+     "rank": null,
+     "note": "Prussian column, dead; 'Dragoner' clearly part of the tag/name, rest unreadable under watermark",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Dixieta",
+     "rank": null,
+     "note": "Prussian column, dead; reads roughly D-i-x-?-e-t-a, middle letters uncertain under watermark edge",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "..._Sdt_...nfu...",
+     "rank": null,
+     "note": "Prussian column, dead; tag pattern like 1stEPI_.._Sdt_ with name fragment ending '...nfu' (possibly Confused); mostly hidden under 'pace.' watermark",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "..._G?_Will...",
+     "rank": null,
+     "note": "last visible Prussian row, dead; fragment reads like M??_..._G6_Will... (possibly ..._RM_G56_Willi); largely unreadable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "2ndCS_C?l_?(illegible)",
+     "rank": null,
+     "note": "Austria, row 3 - the highlighted (likely screenshot-taker's) row: dark red text on a red-grey highlight bar, also under watermark. Only a '2ndCS_C' tag-prefix pattern is discernible (could be Cpl/Col/Cdt rank slot); rest unreadable. Marked Dead. Stats unreadable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "K?l??? (illegible)",
+     "rank": null,
+     "note": "Austria, red Dead row under 'Your people' watermark; only a tall first letter (K/R/F) then ~5 letters. Ping ~106. Unresolvable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Jeff",
+     "rank": null,
+     "note": "Austria, written 'NM_Jeff' (NM_ tag), Dead. Could read 'NM_leff' but J is the better fit. 1/3/54",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "?_S??????_? (illegible)",
+     "rank": null,
+     "note": "Prussia, Dead, 3/6/67. Under 'psu' watermark; faint shapes suggest something like '9th_Scorpio_...' but unverifiable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Ge??erz?? (illegible)",
+     "rank": null,
+     "note": "Prussia, Dead, 2/2/59. Under watermark; fragments like 'Ge..erz' (e.g. 'Gexxerz9'-like). Unresolvable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "marino_officer",
+     "rank": null,
+     "note": "Prussia, Dead, 2/5/41. Lowercase; could be 'marine_officer' but the vowel reads as o",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "?_Ma?_...alty (illegible)",
+     "rank": null,
+     "note": "Prussia, Dead, 2/6/58. Under 'ucket' watermark; readable fragments '...Ma?_' and a tail like '...alty' (maybe 'Salty'). Unresolvable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "??_Dr????er_?l?? (illegible)",
+     "rank": null,
+     "note": "Prussia, Dead, 1 kill, rest obscured. Under 'our moments' watermark; fragments 'Dr...er' suggest something like '..._Dragoner_Ol...'. Unresolvable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "K?G_G?STOP?O (illegible)",
+     "rank": null,
+     "note": "Prussia, Dead. Under watermark; blocky capitals reading roughly 'K?G_G?STOP?O'. Deaths ~3. Unresolvable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Di??etta",
+     "rank": null,
+     "note": "Prussia, Dead, 0/0/7?. Reads like 'Dixiutta' or 'Dianetta'; edge of watermark crosses the name",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "?...nfu? (illegible)",
+     "rank": null,
+     "note": "Prussia, Dead, 0/0/59. Start hidden under 'pace.' watermark; visible tail just before the Dead marker reads '...nfu' (e.g. '...Confu...'); tag pattern faintly resembles '1stEPI_A2_Sdt_'. Unresolvable",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "?4Q_???_G5_Will?? (illegible)",
+     "rank": null,
+     "note": "Prussia, bottom row clipped by panel edge, Dead, 0/2?/54. Fragments '...G5_Will...' (or G6); maybe a 'Willi...' name with a clan tag. Unresolvable",
+     "reads": 1,
+     "of": 3
+    }
+   ]
+  },
+  {
+   "hash": "5e8775785ec3963d58a7ebaa61370d52e0f5ffd7",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/5e8775785ec3963d58a7ebaa61370d52e0f5ffd7.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars in-game screenshot of a French Guard line formation (blue coats, white trousers, bearskins with red plumes) standing at attention in a grassy field, with an officer at left, a flag bearer carrying a French Napoleonic eagle standard, and drummer/fifer at right. Scoreboard shows Britain 86, France 76. No floating nametags visible over the soldiers; one chat line at bottom left.",
+   "legibility": "clear",
+   "other_text": "Chat: '[[22nd]ChM_Seamus_Connell] can i get a promotion?'; team scores 86 (British flag) / 76 (French flag); French standard bears battle-honor place names (partially legible game asset: Vienne, Berlin, Madrid, Moscou, Warsovie, Le Caire...).",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "Seamus_Connell",
+     "rank": "ChM",
+     "note": "From chat line '[[22nd]ChM_Seamus_Connell] can i get a promotion?' - clan tag [22nd], prefix ChM (likely Chef de Musique / musician-rank abbreviation in the 22nd).",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "601d61b83e43199d513d1671ae286b5ac2758c0a",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/601d61b83e43199d513d1671ae286b5ac2758c0a.png",
+   "kind": "rank-chart",
+   "description": "Full rank ladder chart for the 2nd Footguards, showing dark-maroon shoulder-board insignia for each rank in three tiers. Commissioned Officers: Col (gold star, 3 small stars above), Maj (oak leaf), Capt (double bar), Lt (gold bar), Ens (silver bar). Non-Commissioned Officers: CSM (4 chevrons), CSgt (3 chevrons + ball), Sgt (3 chevrons), Cpl (2 chevrons + ball). Enlisted: ChM (3 bars), Rgl (2 bars), Pte (1 bar), Cdt (plain), Rct (plain). No member names, ranks only.",
+   "legibility": "clear",
+   "other_text": "Commissioned Officers: Col, Maj, Capt, Lt, Ens / Non-Commissioned Officers: CSM, CSgt, Sgt, Cpl / Enlisted: ChM, Rgl, Pte, Cdt, Rct; each insignia reads '2ND FOOTGUARDS'",
+   "readCount": 2,
+   "confirmed": [],
+   "unconfirmed": []
+  },
+  {
+   "hash": "74704fd9a553f3d4d676b4b9a2568f4bbac40d2b",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/74704fd9a553f3d4d676b4b9a2568f4bbac40d2b.png",
+   "kind": "badge-or-banner",
+   "description": "Fan-made promo graphic titled 'The Rivalry Begins' showing two Napoleonic-era game soldier renders facing off: at left a redcoat with musket and bayonet labeled 'Sergeant Zelkova' under a Coldstream Guards star badge; at right a dark-silhouetted officer figure labeled 'CAPTAIN HALL' under an 87th (Prince of Wales's Irish) regiment grenade badge marked '87'. Photobucket 'Groupsy' watermark across the middle.",
+   "legibility": "clear",
+   "other_text": "The Rivalry Begins; '87' on the grenade badge",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "Zelkova",
+     "rank": "Sergeant",
+     "note": "Labeled 'Sergeant Zelkova' under the Coldstream Guards star badge; matches forum poster Zelkova1224.",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Hall",
+     "rank": "Captain",
+     "note": "Labeled 'CAPTAIN HALL' under the 87th regiment grenade badge - the friend in the 87th referenced in the post context.",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "9b78844c2349c3cf9b2dfe656e0f352a28e3df73",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/9b78844c2349c3cf9b2dfe656e0f352a28e3df73.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband linebattle screenshot: a firing line of redcoats with bayonets leveled, a red British regimental colour (flag) raised behind them, and an enemy line visible in the distance right. Scoreboard top-left: UK 0 / France 0. A chat line at bottom-left reads '[2ndCS_LCpl_RogueBrody] have to relod' (verified under magnification). One faint floating nametag fragment ('...ND...', likely a 2nd-tag name) is visible near the flag but is illegible behind the Photobucket watermark.",
+   "legibility": "partial",
+   "other_text": "Chat: '[2ndCS_LCpl_RogueBrody] have to relod'; Scoreboard: UK 0 / France 0",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "RogueBrody",
+     "rank": "LCpl",
+     "note": "From chat line '[2ndCS_LCpl_RogueBrody] have to relod'; clan tag 2ndCS",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/e962d8ebdccdf4411b1e8b8f271b3f87f8b49532.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars first-person-view screenshot (May 2014, captioned 'Soon'): a line of British redcoats on a grassy hillside aiming muskets/pistols to the right; a white-bearded officer in the foreground. Round red Footguards-style crown emblems float above two soldiers. Round timer top-right reads 56:09; flag counters show Britain 1, France 1. A green kill feed in the lower-left lists five kill events, which is where all names below were read.",
+   "legibility": "partial",
+   "other_text": "Round timer: 56:09; score counter 0; flag counters Britain 1 / France 1. Kill feed (killer -> victim): |51st|.Maj.Gen.Stalker -> 87th_Foot_Kg_James (faded); 8th_LL_B_Pvt_Uthred -> 87th_Foot_Pte_Collingwood; |51st|.Maj.Gen.Stalker -> 87th_inv_HurT; 00_Rkt_nilloc93 -> NEC_7y_Polkovnik_Chester; |51st|.Maj.Gen.Stalker -> 87th_Foot_Cpl_Dott.",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "Stalker",
+     "rank": "Maj.Gen.",
+     "note": "Full tag '|51st|.Maj.Gen.Stalker'; appears three times in the kill feed as the killer.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "James",
+     "rank": "Rgl",
+     "note": "Full string '87th_Foot_Rgl_James' — tag 87th_Foot. Line is faded (oldest feed entry); the rank token reads 'Rgl' but is slightly uncertain due to the fade. Name 'James' itself is clear.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Uthred",
+     "rank": "Pvt",
+     "note": "Full tag reads '8th_LL_B_Pvt_Uthred'; the clan tag could alternatively be '8th_LI_B' (LI = Light Infantry) — letters ambiguous at this size.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Collingwood",
+     "rank": "Pte",
+     "note": "Full tag '87th_Foot_Pte_Collingwood'; killed by Uthred.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "HurT",
+     "rank": null,
+     "note": "Reads '87th_inv_HurT' — middle token 'inv' and the capitalization 'HurT' are small; killed by Stalker.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "nilloc93",
+     "rank": "Rkt",
+     "note": "Full string 00_Rkt_nilloc93 — tag 00 (two zeros or letter O's, reads as zeros), 'Rkt' treated as the rank/role token (likely rocketeer).",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Chester",
+     "rank": "Polkovnik",
+     "note": "Reads 'NEC_7y_Polkovnik_Chester' — the token after NEC (read as '7y') is uncertain; killed by nilloc93.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Dott",
+     "rank": "Cpl",
+     "note": "Full tag '87th_Foot_Cpl_Dott'; killed by Stalker.",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "ecef98634c342160c5e8d7066372d1925454107a",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/ecef98634c342160c5e8d7066372d1925454107a.jpg",
+   "kind": "screenshot",
+   "description": "Cropped Mount & Blade kill-feed/chat screenshot (Feb 2013, from the 'NA Community can't be told no to a private linebattle' post). Most names and several whole lines are deliberately blacked out with solid bars; a 'Groupsy by photobucket' watermark also overlays the left side. One kill line and two crude chat messages remain partly readable.",
+   "legibility": "partial",
+   "other_text": "Readable chat text (sender names redacted with black bars): '] fucking crawford' and a second line ending '... sucks dick'. Top kill line: 2ndCS_S?t_reclu -> 7thRF_Cad_Ballion. Several other lines fully blacked out.",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "reclu",
+     "rank": "Sgt",
+     "note": "Top kill line reads '2ndCS_S?t_reclu' — the rank token is partly covered by the watermark; 'Sgt' is the most likely reading. Clan tag 2ndCS.",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "Ballion",
+     "rank": "Cad",
+     "note": "Full tag '7thRF_Cad_Ballion'; victim in the top kill line.",
+     "reads": 2,
+     "of": 2
+    },
+    {
+     "name": "crawford",
+     "rank": null,
+     "note": "Not a nametag — mentioned in a chat message ('fucking crawford'); matches forum poster Crawford.",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "38982a84fbf641a723e14dcf86856e994faac81c",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/38982a84fbf641a723e14dcf86856e994faac81c.jpg",
+   "kind": "screenshot",
+   "description": "Linebattle screenshot with an editor title banner reading '2nd Coldstream Guards' across the top: a column of red-coated guards with red-and-white checkered markers advancing along a dry hillside, viewed from behind a soldier. One floating nametag is readable over a mid-frame soldier (verified by crop/upscale): 2ndCS_A2_Rd_Gooner.",
+   "legibility": "partial",
+   "other_text": "Title overlay: '2nd Coldstream Guards'. Round timer top-right approx 5:40. Small bottom-right HUD text illegible.",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "Gooner",
+     "rank": "Rd",
+     "note": "Full tag reads 2ndCS_A2_Rd_Gooner — clan tag 2ndCS, 'A2' likely a company/section marker. 'Gooner' is clearly legible; the 'Rd' segment (presumed rank abbreviation) is slightly uncertain at this resolution and could be 'Rct'.",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "6005620bb04a9723665b127420ac43deb4aceafa",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/6005620bb04a9723665b127420ac43deb4aceafa.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars first-person screenshot on a snowy map, bayonet-fixed musket in view, soldiers fighting mid-distance. A ~16-line kill feed occupies the upper left (killer -> weapon icon -> victim). Read from 6x/10x zoomed crops; text is heavily JPEG-degraded so certainty varies per name. Regiment tags visible in the feed include 2ndCS, 88thRG, 63e, 59th_IJA, 44staHM, 23rd (Highlanders), 9me... (Schutzen-like tag), and a GRE (grenadier) tag. A few lines were too destroyed to transcribe at all: a '05th_Spec_a...' vs '..._dragoons_...' line, a '2ndCS_Cpl_...' victim, a '44staHM_Maj_M...' killer, and a '44staHM_Mar_C...' victim cut off at the screen edge.",
+   "legibility": "partial",
+   "other_text": "Kill feed regiment tags: 2ndCS, 88thRG, 63e, 59th_IJA, 44staHM, 23rd Highlanders, 9meSchlde(?), ?GRE, 05th, dragoons. Small two-flag scoreboard top left; timer top right unreadable. Four feed lines wholly untranscribable (see description).",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "MarshalNey",
+     "rank": "LtCol",
+     "note": "tag 88thRG; appears twice as killer (88thRG_LtCol_MarshalNey)",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Drew",
+     "rank": "SgtMaj",
+     "note": "tag 63e; appears twice as killer",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Dinoman",
+     "rank": "SoD",
+     "note": "Tag 60e. Line 3 killer. Name could be Dixoman; rank token could be Sdt.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "MasterFox",
+     "rank": "Rkt",
+     "note": "Tag read as NewSchbb (blurry; could be NwSchbLn, possibly a Neuschwabenland-style clan). Line 4 killer. Rank could be Ab/Alt.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Snowball",
+     "rank": "BWO",
+     "note": "Tag BatGRE. Line 6 victim. Rank token blurry (BWO/8WO).",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Orkimedes",
+     "rank": "Cpt",
+     "note": "GRE (grenadier) tag, digits before GRE blurred; green own-team melee-kill line",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "Lane",
+     "rank": "Mat",
+     "note": "Tag read as 44etalHM (blurry; could be 44stalHM). Line 4 victim. First name token could be Nat.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Revenge",
+     "rank": "Fus",
+     "note": "tag ~9meSchlde",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Kilroy",
+     "rank": "vol",
+     "note": "faded top line reads ~23rd_Highlander_vol_Kilroy",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Ca...",
+     "rank": "Mar",
+     "note": "Tag 44etalHM. Line 13 victim. Name starts 'Ca' then obscured by the foreground soldier.",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": [
+    {
+     "name": "Suggy",
+     "rank": "Pte",
+     "note": "tag 2ndCS; killed by 88thRG_LtCol_MarshalNey",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "mountains100",
+     "rank": "Kpl",
+     "note": "tag 2ndCS; green feed line 2ndCS_Kpl_mountains100",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Tom",
+     "rank": null,
+     "note": "reads 88thRG_Shp_Tom (twice); middle token unclear, maybe Shp",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Nitchel James",
+     "rank": null,
+     "note": "tag 59th_IJA; appears 2-3 times as victim; could be Nitchel_Jones or Nitchet_James",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Bagrath",
+     "rank": "LtCol",
+     "note": "tag 44staHM; could be Bugrath/Bagryth",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "DrBye",
+     "rank": "Kpl",
+     "note": "tag ~9meSchlde; name truncated at screen edge (DrBye...)",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Soupex",
+     "rank": null,
+     "note": "reads 63e_Black_Soupex twice; 'Black' may be a company name; could be Soupes",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Ultio",
+     "rank": null,
+     "note": "victim reads ~59th_IJA_Nit..._Ult...; heavily blurred",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Monolace",
+     "rank": "Kapt",
+     "note": "reads ~9meSchlde_Kapt_Monolace or Monodace",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Kotat Japan",
+     "rank": null,
+     "note": "victim reads ~59th_IJA_Kotat_Japan; heavily blurred",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Albon",
+     "rank": null,
+     "note": "victim reads ~9?_KF_Grb_Mr_Albon or Alban; heavily blurred",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Nitschet_James",
+     "rank": null,
+     "note": "Tag 59th_IJA (middle token could be IR/IJA). Appears twice: line 1 killer (grey) and line 3 victim. 'Nitschet' could be Nitschot/Nitachet.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Strauss",
+     "rank": "Cpl",
+     "note": "Tag 2ndCS. Line 2 victim. Very low legibility - candidates: Strauss/Btussl/Russel/BiussA.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Montanbechovo",
+     "rank": "Maj",
+     "note": "Tag 44etalHM. Line 5 killer (green line, likely teamkill). Long name, heavily blurred - could be Montecheovo/Montechesovo.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "DrByudYs",
+     "rank": "Kpl",
+     "note": "Tag NewSchbb. Line 5 victim. Unusual name, heavily blurred.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Bugrith",
+     "rank": "LtCol",
+     "note": "Tag 44etalHM. Line 7 victim. Name blurred - could be Bugreth/Jugrith.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Ruggy",
+     "rank": "Pte",
+     "note": "Tag 2ndCS. Line 8 victim.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Orbimacho",
+     "rank": "Cpt",
+     "note": "Tag BatGRE. Line 9 killer (green line). Could be Orbimache/Orkimacho.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Matiolog",
+     "rank": "Rot",
+     "note": "Tag 23rd. Line 9 victim. Heavily blurred - could be Matiodog/Hatiwing; rank token could be Rct.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Toan",
+     "rank": "Shp",
+     "note": "Tag read as BINARG/BINhRG (blurry). Line 10 killer and line 14 victim. Rank token unclear (Shp/Skp).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Annan",
+     "rank": "Pte",
+     "note": "Tag read as 2ndKCS (could be 2ndKGL or 2ndCS). Line 10 victim. Name could be Aznan/Roman.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "antysovereray",
+     "rank": "Spec",
+     "note": "Tag read as 05st (blurry). Line 11 killer. Long lowercase name - could be antysowietowy/antysoveroty.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "m_dragoons_al...",
+     "rank": null,
+     "note": "Line 11 victim. Starts 'm_dragoons_al' then obscured by the foreground soldier; remainder illegible.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Black_Jacques",
+     "rank": null,
+     "note": "Killer on lines 12 and 16. Leading token unclear: reads like 'the'/'15e'/'13e' (e.g. the_Black_Jacques). Surname could be Jasques.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Nitschet_Ultio",
+     "rank": null,
+     "note": "Tag 59th_IJA. Line 12 victim. Last token blurred - could be Ultia/Ulric.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Maradona",
+     "rank": "Kapt",
+     "note": "Tag NewSchbb. Line 13 killer. Letterforms fit Maradona; could be Mandana/Marodara.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "avoritian100",
+     "rank": "Rd",
+     "note": "Tag read as 2ndKCS (could be 2ndKGL). Line 14 killer (green line). Ends in '100'; middle letters heavily blurred - could be avanturien100/mvornixon100. Rank token could be Rct/Kd.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Kotet_Japan",
+     "rank": null,
+     "note": "Tag 59th_IJA. Line 15 victim. Could be Kotot_Japan/Kotei_Japan.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Mr_Albon",
+     "rank": "Grb",
+     "note": "Tag read as Bat_KF (blurry, could be BSt_KF). Line 16 victim. Name could be Mr_Alban; rank token could be Grd.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "James",
+     "rank": "Nitohei",
+     "note": "Tag 59th_IJA. Rank token reads 'Nitobet/Nitohet' - almost certainly 'Nitohei' (IJA private 2nd class). Appears twice: killed 23rd victim in line 1 (faded), then killed by Dinoman in line 3.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Strand",
+     "rank": "Cpl",
+     "note": "Tag 2ndCS (tag could be 2ndKS). Faded line 2 victim; name could be Straud/Stramil.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Momohachimono",
+     "rank": "Maj",
+     "note": "Tag 44etoiHM. Long heavily blurred name; also readable as Momohachimon/Mombachimomo. Killer in line 5.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "DrByallYo",
+     "rank": "Kpl",
+     "note": "Tag 9teSchle. Very blurred; approx DrB?a??Y?. Victim in line 5.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Bugrib",
+     "rank": "LtCol",
+     "note": "Tag 44etoiHM. Name blurred - possibly Bugatti/Bugyrib/Bugerib. Victim in line 7.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Buggy",
+     "rank": "Pte",
+     "note": "Tag 2ndCS. Victim in line 8.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Hetming",
+     "rank": "Rct",
+     "note": "Tag 23rd. Name very blurred - also readable as Natoning/Metwing. Victim in line 9.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Toes",
+     "rank": "Shp",
+     "note": "Tag 88NhRG. Rank token blurred - Shp, possibly Sgt/Skp. Killer in line 10, victim in line 14.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Roman",
+     "rank": "Pte",
+     "note": "Tag 2ndCS. First letter A/R - could be Aomen/Ronan. Victim in line 10.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "antyxrovraty",
+     "rank": "Spec",
+     "note": "Tag 01st (first char 0/O). Name blurred - approx antyxrovraty/antyxrowvaty. Killer in line 11 (long musket icon).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "slavko",
+     "rank": null,
+     "note": "Line 11 victim; string starts 'm_dragoons_' (possibly ss_dragoons); remainder after 'slavko' obscured by foreground soldier - name incomplete.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Black_Scorpes",
+     "rank": null,
+     "note": "Tag 63e. Also readable as Black_Scorpee/Sourpes. Killer in lines 12 and 16.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Ubu",
+     "rank": "Nitohei",
+     "note": "Tag 59th_IJA. Short name blurred - could be Ultu/Uku. Rank token same 'Nitobet/Nitohei' pattern as James. Victim in line 12.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Marodere",
+     "rank": "Kapt",
+     "note": "Tag 9teSchle. Name also readable as Menodara/Maroderre. Killer in line 13.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "awsomticus100",
+     "rank": "Rd",
+     "note": "Tag 2ndCS. Name blurred - possibly awsomtrum100/awsomeitem100; rank token Rd possibly Rct. Killer in line 14 (green line).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Japan",
+     "rank": "Kotet",
+     "note": "Tag 59th_IJA. Rank token reads Kotet - possibly Kotei/Kohei (IJA-style token). Victim in line 15.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Mr_Allson",
+     "rank": "Grb",
+     "note": "Tag reads 9te_KF (possibly 9tel_KF/91st_KF). Name could be Alison/Adison/Nilson. Victim in line 16.",
+     "reads": 1,
+     "of": 3
+    }
+   ]
+  },
+  {
+   "hash": "9040068cbb3439387adbf554bff381064368ded1",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/9040068cbb3439387adbf554bff381064368ded1.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars screenshot on a desert hill: the player follows a blue-coated soldier whose floating green nametag reads '2ndCS_Al_Pte_Zemohc'; ahead, a mixed melee of redcoats and dark-uniformed troops with one red/white checkered flag bearer. Two green kill-feed entries at bottom left are illegible even zoomed (one contains a lance icon). Timer at top right unreadable. Small compass/HUD bottom right.",
+   "legibility": "partial",
+   "other_text": "bottom-left kill feed (2 green lines) illegible",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "Zemohc",
+     "rank": "Pte",
+     "note": "floating nametag '2ndCS_Al_Pte_Zemohc'; 'Al' likely a company designator within the 2ndCS tag",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "c93c74f3c875c488257dc00ac534be7d5a0be7d2",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/c93c74f3c875c488257dc00ac534be7d5a0be7d2.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) autumn map: view from behind a group of soldiers carrying red/white checkerboard round banners over their heads, marching through tan grass with red-leafed trees. A banner across the top of the HUD reads '2nd Coldstream Regiment'. One green floating nametag is legible over a player. Chat text lower-left is too small to read.",
+   "legibility": "partial",
+   "other_text": "Top HUD banner: '2nd Coldstream Regiment'. Timer top-right: '44:02'. Lower-left chat lines illegible.",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "Roger260",
+     "rank": "Rgl",
+     "note": "Full tag reads '2ndCS_B_Rgl_Roger260' — the 'Roger260' portion and the 2ndCS_B_ tag are clear; the rank token is small and could be 'Rgl' or 'Rct'.",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  },
+  {
+   "hash": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/d3d6c47b78316b471d6baccce95fb2a20801a13a.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) snow map: first-person view behind a soldier in blue with a black round hat holding a musket, watching a melee of dark-uniformed troops in the snow, bodies scattered. A dense ~18-line kill feed fills the left third of the frame; the text is small and only partially resolvable. Clan tags recurring in the feed appear to include 2ndCS, 89thRG, 59th_IJA, NeoSchla(?), and IstanSchla(?).",
+   "legibility": "partial",
+   "other_text": "Several additional kill-feed lines are present but too small to transcribe (victims with 59th_IJA tags among them). Clan tags observed (some uncertain): 2ndCS, 89thRG, 59th_IJA, NeoSchla, IstanSchla.",
+   "readCount": 3,
+   "confirmed": [
+    {
+     "name": "McKnight",
+     "rank": "Vol",
+     "note": "Appears in at least four kill-feed lines; tag reads approximately 'IstanSchla_Vol_McKnight' (clan-tag prefix uncertain).",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Rook",
+     "rank": "Rct",
+     "note": "Reads '2ndCS_Rct_Rook'; appears more than once.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "King_Crusader",
+     "rank": "Pfc",
+     "note": "Reads approximately '89thRG_Pfc_King_Crusader'; letters small.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Sawyer",
+     "rank": "Gocho",
+     "note": "Reads approximately '59th_IJA_Gocho_Sawyer'; rank token is a Japanese-style rank abbreviation, uncertain.",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "Death",
+     "rank": "Pte",
+     "note": "Reads approximately '2ndCS_Pte_Death'; also a possible '89thRG_Pte_Death' line — could be one or two players.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "PerfectAbyss",
+     "rank": "Kht",
+     "note": "Reads approximately 'NeoSchla_Kht_PerfectAbyss'; rank token uncertain.",
+     "reads": 3,
+     "of": 3
+    },
+    {
+     "name": "Wuffles",
+     "rank": "Maj",
+     "note": "Tag 59NhRG. Could be Wuffles/Wufflee/Waffles.",
+     "reads": 2,
+     "of": 3
+    },
+    {
+     "name": "TheBlockLord",
+     "rank": "Rct",
+     "note": "Tag 2ndKCS. Name truncated/obscured at right edge; 'TheBlockL…' visible.",
+     "reads": 2,
+     "of": 3
+    }
+   ],
+   "unconfirmed": [
+    {
+     "name": "Wilson",
+     "rank": "Pte",
+     "note": "Reads approximately '89thRG_Pte_Ser_Wilson'; middle token(s) unclear. A nearby system line appears to say '...Wilson has killed a teammate!' (uncertain).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Manolaus",
+     "rank": "Kapt",
+     "note": "Top feed line reads approximately 'NeoSchla_Kapt_Manolaus'; spelling of name uncertain.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Boston",
+     "rank": "Pfc",
+     "note": "Reads approximately '2ndCS_Pfc_Boston'; letters small.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Wafflles",
+     "rank": "Maj",
+     "note": "Reads approximately '89thRG_Maj_Wafflles'; double-letter spelling uncertain.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Sor_Wilson",
+     "rank": "Pte",
+     "note": "Tag 59NhRG. 'Wilson' clear; prefix could be Sor/Ser/Jor. Appears 3 times incl. the teamkill message and killing teammate King_Crusader.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Mandalore",
+     "rank": "Kapt",
+     "note": "Tag 1stesSchle. Blob reads 'Mand…e'; could be Mandalore/Mandare/Mandalara.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Cho_RasputinRetard",
+     "rank": null,
+     "note": "Tag 59th_IJR. 'Rasputin' fairly clear; suffix ends '…tard' (Retard/Bstard); short middle token Cho/Chu.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Dinkldberf02",
+     "rank": "Pfc",
+     "note": "Tag 59NhRG. Only 'D…02' skeleton semi-legible; could be Dinkleberg02/Dinkldberf02.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Jimden",
+     "rank": "Pte",
+     "note": "Tag 2ndKCS. Victim line 3; could read Jimden/Newden/Nosden.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Hatcho_Cricketeer",
+     "rank": null,
+     "note": "Tag 59th_IJR. 'Hatcho' moderately readable; surname could be Cricketeer/Crickwtell (right edge cut). Likely also the obscured 'Hatcho_…' victim on line 4.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Warfighter",
+     "rank": "Pfc",
+     "note": "Tag 59NhRG. Possible trailing character after 'Warfighter' (Warfightert?).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Goobo_Sawyer",
+     "rank": null,
+     "note": "Tag 59th_IJR. First token could be Goobo/Gordo/Gordon; 'Sawyer' fairly clear.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Nimation",
+     "rank": "Fus",
+     "note": "Tag 1stesSchle. Could be 'Nimation' or 'Animation'; rank glyph Fus/Pos uncertain.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Katiel_Japan",
+     "rank": null,
+     "note": "Tag 59th_IJR. 'Japan' fairly clear; first token Katiel/Kotiel/Katist uncertain.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Fuggy",
+     "rank": "Pte",
+     "note": "Tag 2ndKCS. Could be Fuggy/Juggy/Buggy.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Chose_Sk",
+     "rank": null,
+     "note": "Victim on line 7, almost entirely obscured by a foreground model; only fragment '…Chose_Sk…' visible (possibly 'Chosen_Sky'). Tag not visible.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Eagle",
+     "rank": null,
+     "note": "Victim on line 8, tag 59th_IJR; name mostly obscured, only trailing '…agle' visible.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Manolara",
+     "rank": "Kapt",
+     "note": "Same 'NmSchla'-like tag. Name could be 'Manolaia'. Musket-kill on 8th_IR_Cho_RasputinRetard (top line).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "RasputinRetard",
+     "rank": "Cho",
+     "note": "Tag 8th_IR. Full string reads '8th_IR_Cho_RasputinRetard'.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Crickwell",
+     "rank": "Hatcho",
+     "note": "Tag 8th_IR; string reads '8th_IR_Hatcho_Crickwell' (bottom line, victim of McKnight). An earlier occluded victim line also starts '8th_IR_Hatcho_' and is likely the same player.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Katai_Jones",
+     "rank": null,
+     "note": "Tag 8th_IR; 'Katai' may be a rank token like Cho/Hatcho/Gecko; surname blurry — 'Jones' or possibly 'Jaques'. Victim of McKnight.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Gayle",
+     "rank": null,
+     "note": "Tag 8th_IR; middle (rank) token unreadable, only surname 'Gayle' legible. Victim of McKnight.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Sar_Wilson",
+     "rank": "Pte",
+     "note": "'BNhRG'-like tag; 'Sar' may be an extra rank token or part of the name ('…_Pte_Sar_Wilson'). Has a green 'has killed a teammate!' message and then a kill line on teammate King_Crusader.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "WarfighterS",
+     "rank": "Pfc",
+     "note": "'BNhRG'-like tag; trailing character uncertain — 'WarfighterS', 'Warfighter5' or 'Warfighters'. His victim's name is fully occluded (only a '2ndKC?'-like tag visible).",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "DShields02",
+     "rank": "Pfc",
+     "note": "'BNhRG'-like tag; trailing '02' uncertain (could be 'GZ' or an apostrophe-year). Green line, victim of Rook.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Kelly",
+     "rank": "Pte",
+     "note": "'2ndKCS'-like tag. Green line; killed Pte_Death.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Hosier",
+     "rank": "Pte",
+     "note": "'2ndKCS'-like tag; barely legible — could be 'Hosler'/'Hoster' or a 'J…'-name. Victim of Pte_Death.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Chas_Sk",
+     "rank": null,
+     "note": "Partial only — name occluded by musket smoke after 'Chas_Sk'; preceding tag unreadable. Victim of PerfectAbyss.",
+     "reads": 1,
+     "of": 3
+    },
+    {
+     "name": "Meme",
+     "rank": null,
+     "note": "Green-line victim of Sawyer; 'NmSchla'-like tag, rank looks like 'Pte'. Name starts 'Meme' with ~4-6 further unreadable characters (e.g. 'Memeatles'-like).",
+     "reads": 1,
+     "of": 3
+    }
+   ]
+  },
+  {
+   "hash": "dd6599d39a63063adb0925ba3a8772216d8d80ed",
+   "path": "C:/Users/rwf32/AppData/Local/Temp/claude/C--Users-rwf32-corrosion-survey-platform/e2cc9f40-cf49-4fbe-b0d7-54e281eafce0/scratchpad/imgview/dd6599d39a63063adb0925ba3a8772216d8d80ed.jpg",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) shot in a flowery green meadow: several soldiers carrying red/white checkerboard round banners, one clear green floating nametag over the player in the center. Chat lines top-left and a highlighted chat line at bottom are too small to read. Timer top-right.",
+   "legibility": "partial",
+   "other_text": "Timer top-right reads approximately '47:45' (uncertain). Top-left and bottom chat lines are illegible; the bottom line appears to mention '2ndCS' (uncertain).",
+   "readCount": 2,
+   "confirmed": [
+    {
+     "name": "ThreeCubed",
+     "rank": "Pte",
+     "note": "Nametag reads '2ndCS_Pte_ThreeCubed' — clan tag 2ndCS.",
+     "reads": 2,
+     "of": 2
+    }
+   ],
+   "unconfirmed": []
+  }
+ ],
+ "allImages": [
+  {
+   "hash": "15b3e562af66e27565469a1b51275c00a1ed11bf",
+   "kind": "insignia",
+   "description": "Tiny 16x16 icon of the Coldstream Guards' Order of the Garter star badge (silver rayed star with red cross center). Filename hint: TSColdstreamGuards-1.png. Too small for any legible text.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "162292fe38891f4cd775653ad6554541196fe15e",
+   "kind": "insignia",
+   "description": "Tiny 16x16 icon showing a single gold/yellow vertical bar on a dark background — a miniature rank pip. Filename hint: TSEnsign.png (Ensign rank icon), posted in a promotion/welcome thread. No legible text at this size.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "16ff2d7a81e287e52ea01e22506676ed1bba92d4",
+   "kind": "insignia",
+   "description": "Lieutenant rank insignia: tall maroon shoulder-board-style plaque with silver border, a gold diamond at the top and a single vertical gold bar in the middle, labeled '2ND FOOTGUARDS' on the board and 'LT' beneath it. 'Groupsy by Photobucket' watermark baked into the image.",
+   "other_text": "2ND FOOTGUARDS; LT",
+   "legibility": "clear"
+  },
+  {
+   "hash": "190c136d3ae09b9ced3ffb57cdc1cca963b073ae",
+   "kind": "insignia",
+   "description": "Corporal rank insignia: tall maroon shoulder-board-style plaque with silver border, a gold diamond at the top and three horizontal silver bars in the middle, labeled '2ND FOOTGUARDS' on the board and 'CPL' beneath it. 'Groupsy by Photobucket' watermark baked into the image.",
+   "other_text": "2ND FOOTGUARDS; CPL",
+   "legibility": "clear"
+  },
+  {
+   "hash": "1b574aa4f665b6535bffdbbbfb5127c046a6d8c8",
+   "kind": "badge-or-banner",
+   "description": "Wide recruitment/header banner: blackletter title '2nd Coldstream Regiment of Footguards' over a golden-lit English countryside photo of hedged green fields, with the Coldstream Guards' Garter star (silver rayed star, red St George's cross, blue garter ring) centered. The garter ring carries the Order of the Garter motto, partially readable.",
+   "other_text": "2nd Coldstream Regiment of Footguards; motto on star (partially visible): HONI SOIT QUI MAL Y PENSE",
+   "legibility": "clear"
+  },
+  {
+   "hash": "1cf13f09caebcacdd9b592e6ad51495385ac1320",
+   "kind": "badge-or-banner",
+   "description": "Forum section-header graphic: the single word 'Contact' in dark red blackletter type on a white background. Used as a heading in the regiment's recruitment thread.",
+   "other_text": "Contact",
+   "legibility": "clear"
+  },
+  {
+   "hash": "210325a830b2901999cd4fea859c3c2141e14e0a",
+   "kind": "screenshot",
+   "description": "In-game kill-feed / chat log screenshot (Mount & Blade: Warband style, parchment background) from a public server 'pubstomp'. Roughly 25 killer->victim lines plus chat. Many 2ndCS members (Crawford, Crazy, Lindsey, RivenX, williambinette, The_Legend) fighting [Cub]Inf players and randoms. A large 'Groupsy by Photobucket' watermark obscures parts of the middle and the last two lines are doubled/overlapping renders.",
+   "other_text": "Chat: [1ad_GH_Brigade_RTC_Caboose] SURRENDER NOW; [2ndCS_Rct_Lindsey] Sorry mane :(; [TheGuyontheCouch] sorry; [1ad_GH_Brigade_RTC_Caboose] is anybody recording this. System: 2ndCS_Rct_Lindsey has killed a teammate!; TheGuyontheCouch has killed a teammate!. Bottom line doubled/illegible, partially reads '...where can i download it at'. Groupsy by Photobucket watermark.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "212c9b3ad504f73df776c46d818d671e5677eb29",
+   "kind": "badge-or-banner",
+   "description": "Forum section-header graphic: the single word 'Rules' in dark red serif type on a white background, with a 'Groupsy by Photobucket' watermark over it. Headed the regiment's rules post (rule text was in the forum post body, not the image).",
+   "other_text": "Rules",
+   "legibility": "clear"
+  },
+  {
+   "hash": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+   "kind": "screenshot",
+   "description": "In-game kill-feed / chat log screenshot (parchment background with 'Return' button, 1024x576) from the same Nov 2012 public-server session as image 210325a8 — the bottom third repeats that feed with red/green colored lines ghost-overlapping the grey list. Approximately 35 killer->victim lines plus chat banter about a trumpet. Large 'Groupsy by Photobucket' watermark across the middle.",
+   "other_text": "Chat: [Spaghetti] I have a trumpet..; [Spaghetti] Therefore we win.; [1ad_GH_Brigade_RTC_Caboose] dont go in water; [Lord_cuddle_bottoms] sorry, accendent (sic). System: Lord_cuddle_bottoms has killed a teammate!; TheGuyontheCouch has killed a teammate!. Top chat line half cut off, reads approx '[Ranulfr_Agdar] oh cool we got a fife/mic now' (uncertain). 'Return' button bottom right. Groupsy by Photobucket watermark.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+   "kind": "screenshot",
+   "description": "In-game scoreboard screenshot (Mount & Blade: Warband - Napoleonic Wars): Kaisertum Oesterreich (Austria, score 2, 2ndCS members on this side) vs Empire Francais (France, score 2, 10 players 9 alive 1 dead), each side listing Player Name / Kills / Deaths / Ping, plus a Spectators(3) section and bottom-left chat. Rain-soaked field map, match clock 8:39. 'Groupsy by Photobucket' watermark obscures one dead French player's name entirely and parts of others.",
+   "other_text": "Kaisertum Oesterreich — Score: 2; Empire Francais (10 Players, 9 Alive, 1 Dead) — Score: 2; column headers Player Name / Kills / Deaths / Ping; Spectators(3) — third spectator's name hidden under 'Your space.' watermark; one dead French player (0/1/67, red 'Dead') fully hidden under watermark; match clock 8:39; chat: '[The_Helping_Friendly_Book] nice', '[89thRG_Rct_Cake] oh shit psy is here'. Groupsy by Photobucket watermark.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "2d9c4873c0735985540ccb2e57f1d785ee131b70",
+   "kind": "other",
+   "description": "Tiny 16x11 United States flag icon, used inline in forum recruitment posts to mark a member's country (context: next to 'Recruit GloryHonor'). No text in the image itself.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "2f2f6869d3082d496a3e8acb6d9c800a5879a35f",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) end-of-round scoreboard, June 2015 training event. All 19 players on the United Kingdom side carry the 2ndCS clan tag; French side is empty. Redcoat soldiers visible in the background. Kills/deaths/ping shown per player.",
+   "other_text": "United Kingdom (19 Players, 19 Alive, 0 Dead) Score: 27 | Empire Francais (0 Players, 0 Alive, 0 Dead) Score: 35. Chat log: [2ndCS_Cdt_Samuel] aw / [2ndCS_Cdt_Roger260] :( / [2ndCS_Pte_Grimreaper] lol / [2ndCS_Cdt_Samuel] Raven.",
+   "legibility": "clear"
+  },
+  {
+   "hash": "39a1ef1f1a920cb9d62ce0f72edda2489ffed1ab",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red epaulette-style shoulder board with a gold diamond at top and two silver bars (H-shaped device), labeled '2ND FOOTGUARDS' with 'CAPT' beneath. Captain rank insignia for the regiment. Photobucket 'Groupsy' watermark overlays the middle.",
+   "other_text": "2ND FOOTGUARDS / CAPT",
+   "legibility": "clear"
+  },
+  {
+   "hash": "3c415628d02e89d684d62dc4044f84f61f95d8a0",
+   "kind": "badge-or-banner",
+   "description": "Section header banner from the regiment's recruitment thread: the single word 'History' in ornate dark-red blackletter/gothic lettering on a white background.",
+   "other_text": "History",
+   "legibility": "clear"
+  },
+  {
+   "hash": "409c71f99d99e890f6d18baea3b50a04d473974f",
+   "kind": "other",
+   "description": "Digital artwork (not in-game): a zombie/undead Napoleonic-era British redcoat foot guard in shako and crossbelts holding a musket with bayonet, posed over a green Da Vinci-anatomical-sketch style background. Posted as a joke ('picture of me'). Background handwriting is decorative mirror-script and illegible; no player names.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "42c5b7c3b68812c65c4bc16d0f96958c0045a5d8",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red shoulder board with a gold diamond at top and one vertical silver bar, labeled '2ND FOOTGUARDS' with 'ENS' beneath. Ensign rank insignia. Photobucket 'Groupsy' watermark overlays the middle.",
+   "other_text": "2ND FOOTGUARDS / ENS",
+   "legibility": "clear"
+  },
+  {
+   "hash": "491afa829d215309f384591f95c3fe1f6835a2b5",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red shoulder board with a gold diamond at top, a silver roundel, and three gold chevrons, labeled '2ND FOOTGUARDS' with 'CSGT' beneath. Colour Serjeant rank insignia (source filename: CsgtColourSerjeant.png). Photobucket 'Groupsy' watermark overlays the middle.",
+   "other_text": "2ND FOOTGUARDS / CSGT",
+   "legibility": "clear"
+  },
+  {
+   "hash": "495931f6708906535e14b24422c44cd0919ca25d",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) scoreboard from a Nov 2012 public match on US1: Kaisertum Osterreich (score 5) vs Konigreich Preussen (score 0, 25 players all dead). Several 2ndCS members mixed with pub players. A large Photobucket 'Groupsy' watermark covers much of the board; roughly 8-10 rows (mostly on the Prussian side) are fully illegible under it and are not transcribed. The highlighted row (screenshot taker, Austrian side, red) is almost entirely obscured — appears to be a 2ndCS officer, likely Crawford who posted it, but unreadable.",
+   "other_text": "Kaisertum Osterreich — Score: 5 (15 Alive, 10 Dead) | Konigreich Preussen — Score: 0 (25 Players, 0 Alive, 25 Dead). Photobucket 'Groupsy — by photobucket — Your people. Your moments. Your space.' watermark across the board; several additional Prussian-side rows and two Austrian-side rows fully illegible.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "511cf045732cc5185858ee9520886649afb5cd0c",
+   "kind": "other",
+   "description": "Tiny 16x11 Australian flag icon, used inline in forum welcome posts to mark a new member's country. No text in the image itself.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "523e03e2613918b836de681746a7ef3b2948ffa6",
+   "kind": "screenshot",
+   "description": "Narrow cropped strip of in-game chat (two lines) posted as drama evidence in a Jan 2013 linebattle thread. The speaker's name is deliberately blacked out with a censor box in both lines; only the clan tag and rank prefix remain: '[1stFKI]Gfr_'. No recoverable player name.",
+   "other_text": "[[1stFKI]Gfr_(name censored)] yeah, you wont LB us because youll lose. / [[1stFKI]Gfr_(name censored)] not because \"we're trolls\" — clan tag rendering slightly obscured by watermark, could be [1st.FKI]; Gfr = Gefreiter rank prefix. Photobucket 'Groupsy' watermark overlays the left edge.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "584bc0a0a48d851b99fc02399f7f709f0682e4aa",
+   "kind": "badge-or-banner",
+   "description": "Forum thread section header banner: the word 'History' in large dark-red serif lettering on white, overlaid with a 'Groupsy by photobucket' watermark. Matches the other section headers in the clan's forum thread.",
+   "other_text": "History (watermark: 'Groupsy by photobucket - Your people. Your moments. Your space.')",
+   "legibility": "clear"
+  },
+  {
+   "hash": "58e7c5d4c08a9cf8dd8438720eab0fafeed59a64",
+   "kind": "insignia",
+   "description": "Single rank insignia: a tall dark-maroon shoulder-board style badge with a gold diamond at the top and silver text '2ND FOOTGUARDS' near the bottom. Labeled 'Rct' (Recruit) beneath the badge. Photobucket 'Groupsy' watermark across the middle.",
+   "other_text": "2ND FOOTGUARDS; Rct",
+   "legibility": "clear"
+  },
+  {
+   "hash": "5cc043b44c27b15562a6f287a6028cf441786cfb",
+   "kind": "other",
+   "description": "Tiny 16x11 Canadian flag icon (red maple leaf on white with red bars), used in forum posts to mark a member's nationality. No text in the image.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "5e8775785ec3963d58a7ebaa61370d52e0f5ffd7",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars in-game screenshot of a French Guard line formation (blue coats, white trousers, bearskins with red plumes) standing at attention in a grassy field, with an officer at left, a flag bearer carrying a French Napoleonic eagle standard, and drummer/fifer at right. Scoreboard shows Britain 86, France 76. No floating nametags visible over the soldiers; one chat line at bottom left.",
+   "other_text": "Chat: '[[22nd]ChM_Seamus_Connell] can i get a promotion?'; team scores 86 (British flag) / 76 (French flag); French standard bears battle-honor place names (partially legible game asset: Vienne, Berlin, Madrid, Moscou, Warsovie, Le Caire...).",
+   "legibility": "clear"
+  },
+  {
+   "hash": "5ffac880896e4b3bb6363515bda69f0f6ca9240f",
+   "kind": "screenshot",
+   "description": "Narrow crop of in-game chat with three '*DEAD*' chat lines; the speaker names have been deliberately blacked out with solid bars before posting, so no player names are recoverable. Photobucket watermark overlays the left side.",
+   "other_text": "*DEAD* [name redacted] Im gonna giv your ts to everyone / *DEAD* [name redacted] have fun / *DEAD* [name redacted] good day",
+   "legibility": "partial"
+  },
+  {
+   "hash": "601d61b83e43199d513d1671ae286b5ac2758c0a",
+   "kind": "rank-chart",
+   "description": "Full rank ladder chart for the 2nd Footguards, showing dark-maroon shoulder-board insignia for each rank in three tiers. Commissioned Officers: Col (gold star, 3 small stars above), Maj (oak leaf), Capt (double bar), Lt (gold bar), Ens (silver bar). Non-Commissioned Officers: CSM (4 chevrons), CSgt (3 chevrons + ball), Sgt (3 chevrons), Cpl (2 chevrons + ball). Enlisted: ChM (3 bars), Rgl (2 bars), Pte (1 bar), Cdt (plain), Rct (plain). No member names, ranks only.",
+   "other_text": "Commissioned Officers: Col, Maj, Capt, Lt, Ens / Non-Commissioned Officers: CSM, CSgt, Sgt, Cpl / Enlisted: ChM, Rgl, Pte, Cdt, Rct; each insignia reads '2ND FOOTGUARDS'",
+   "legibility": "clear"
+  },
+  {
+   "hash": "628f23f14d5846ce77ee64b29282540ff5a374cd",
+   "kind": "badge-or-banner",
+   "description": "Forum section header banner: the word 'Enlisted' in large black small-caps lettering on white, with a Photobucket 'Groupsy' watermark. Section divider for the enlisted ranks portion of the thread.",
+   "other_text": "Enlisted",
+   "legibility": "clear"
+  },
+  {
+   "hash": "63e58aa57d83ba5c01b10e4bf15b557ed4d4a6aa",
+   "kind": "badge-or-banner",
+   "description": "Forum section header banner: the word 'Ranks' in large dark-red serif lettering on white, same style as the 'History' header, with Photobucket 'Groupsy' watermark.",
+   "other_text": "Ranks",
+   "legibility": "clear"
+  },
+  {
+   "hash": "648c3f4e1e1887f7db2668b06b50e40560d9f6d8",
+   "kind": "other",
+   "description": "Meme image: still from The Simpsons of Homer Simpson snuggled in a bed under an orange comforter, with a white subtitle caption. Posted as a joke reply; no member names.",
+   "other_text": "Ahhh. I'm just a big toasty cinnamon bun. I never want to leave this bed.",
+   "legibility": "clear"
+  },
+  {
+   "hash": "74704fd9a553f3d4d676b4b9a2568f4bbac40d2b",
+   "kind": "badge-or-banner",
+   "description": "Fan-made promo graphic titled 'The Rivalry Begins' showing two Napoleonic-era game soldier renders facing off: at left a redcoat with musket and bayonet labeled 'Sergeant Zelkova' under a Coldstream Guards star badge; at right a dark-silhouetted officer figure labeled 'CAPTAIN HALL' under an 87th (Prince of Wales's Irish) regiment grenade badge marked '87'. Photobucket 'Groupsy' watermark across the middle.",
+   "other_text": "The Rivalry Begins; '87' on the grenade badge",
+   "legibility": "clear"
+  },
+  {
+   "hash": "780283fab4009c41efb700cbd7419eeaf7b64f37",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red shoulder-board-style plate with a gold diamond at top, a silver star, and three gold chevrons; labeled '2ND FOOTGUARDS' on the plate and 'RSM' beneath. Per the source URL this is the Regimental Serjeant Major rank. Photobucket 'Groupsy' watermark overlays the middle.",
+   "other_text": "2ND FOOTGUARDS; RSM (Regimental Serjeant Major per source filename)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "7a32547d7466af0a095e7173417ddf607c4c16e1",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband training screenshot: a double line of about 20 kneeling/crouched redcoat soldiers on a grass field inside a wooden palisade, with one standing officer at the right end. Scoreboard top-left shows UK flag 0 and France flag 0. Faint floating nametags exist above some heads but are completely obscured by the large Photobucket 'Groupsy' watermark even under magnification; none are readable.",
+   "other_text": "Scoreboard: UK 0 / France 0 (flag icons)",
+   "legibility": "none"
+  },
+  {
+   "hash": "7b46eb6c728d450e41c97d81bc62d728e4fd984a",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red plate with a gold diamond at top and no chevrons, labeled '2ND FOOTGUARDS' with 'PTE' beneath (Private, per source filename 'PtePrivate.png'). Photobucket watermark overlays the middle.",
+   "other_text": "2ND FOOTGUARDS; PTE (Private)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "86385ed68d4bbdfa07527226906cb27fe01a1d5b",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red plate with a gold diamond at top and one gold bar/stripe, labeled '2ND FOOTGUARDS' with 'RGL' beneath (Regular, per source filename 'RglRegular.png'). Photobucket watermark overlays the middle.",
+   "other_text": "2ND FOOTGUARDS; RGL (Regular)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "873ddeeb80b818a80fef0e48724de1f8886da1df",
+   "kind": "insignia",
+   "description": "Tiny 16x16 TeamSpeak rank icon: a single gold diamond/lozenge on transparent background. Source filename 'TSCadet.png' indicates it is the Cadet TS rank icon. No text in the image.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "89d7781aba1d09fadc631439248b4288391ae552",
+   "kind": "other",
+   "description": "Tiny 16x11 national-flag icon: horizontal tricolor with a wide yellow top band, then blue, then red — most likely the flag of Colombia (yellow occupying the top half); at this size Ecuador/Venezuela cannot be fully ruled out. Used in 'welcome new members' forum posts to mark a member's country. No text.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "9425ef1ea0fe0890b1c79e48b868c1f89883d955",
+   "kind": "badge-or-banner",
+   "description": "Section-header banner graphic: the single word 'Ranks' in large dark-red blackletter/Old English script on a white background. Used as a heading in the regiment's forum recruitment thread.",
+   "other_text": "Ranks",
+   "legibility": "clear"
+  },
+  {
+   "hash": "9b2f099ff5dc98a64b9c6ca3d49e41edae9b7ff5",
+   "kind": "other",
+   "description": "Tiny 16x11 national-flag icon: the United Kingdom Union Jack (matches source filename 'UKFlag.png'). Used in 'welcome new members' posts to mark a member's country. No text.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "9b78844c2349c3cf9b2dfe656e0f352a28e3df73",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband linebattle screenshot: a firing line of redcoats with bayonets leveled, a red British regimental colour (flag) raised behind them, and an enemy line visible in the distance right. Scoreboard top-left: UK 0 / France 0. A chat line at bottom-left reads '[2ndCS_LCpl_RogueBrody] have to relod' (verified under magnification). One faint floating nametag fragment ('...ND...', likely a 2nd-tag name) is visible near the flag but is illegible behind the Photobucket watermark.",
+   "other_text": "Chat: '[2ndCS_LCpl_RogueBrody] have to relod'; Scoreboard: UK 0 / France 0",
+   "legibility": "partial"
+  },
+  {
+   "hash": "a0823da42403b8601e48f6d16971bb1ce15b185f",
+   "kind": "insignia",
+   "description": "Tiny 16x16 TeamSpeak rank icon: a single gold chevron pointing upward on transparent background. Source filename 'TSPrivate.png' indicates it is the Private TS rank icon. No text in the image.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "a47f4d1f8e1ddfc12ff14ace7aa43801b71eab8e",
+   "kind": "insignia",
+   "description": "Tiny 16x16 icon, per URL a TeamSpeak rank icon named 'TSCaptain'. Appears to be a small grey/silver bar or chevron badge; far too small to make out any detail or text.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "a52a49b4ef5e61dd3dd7b5959e711884b72c24c3",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) in-game screenshot: a long single-rank line of British redcoat infantry with a red regimental colour flying in the center, on a grassy tree-lined field. Score indicators top-left show a British flag with 0 and a French flag with 0. A large Photobucket 'Groupsy' watermark covers the image. No floating player nametags are visible over any soldier.",
+   "other_text": "Scoreboard: British flag 0 / French flag 0. Watermark (not original content): 'Groupsy by photobucket - Your people. Your moments. Your space.'",
+   "legibility": "partial"
+  },
+  {
+   "hash": "a602fe7bfddbcabcee58e293d46bf3358851293e",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red shoulder-board with silver border, gold diamond at top, three gold chevrons in the middle, '2ND FOOTGUARDS' at the bottom of the board, and the rank abbreviation 'Sjt' (Serjeant) below the board. Photobucket 'Groupsy' watermark overlaid.",
+   "other_text": "2ND FOOTGUARDS; Sjt (Serjeant)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "ac671e39df624752c692216673eb9009008280e2",
+   "kind": "other",
+   "description": "Photograph of a heavily rusted, gutted 1940s-era pickup truck (pale blue paint mostly consumed by rust) sitting on grass in front of trees and a shed. Posted as a joke ('rust level ='); a stock DeviantArt photo, not club content. No text in the image.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "b0c8ca84e8601a35755680d9b67e016dbd443fe8",
+   "kind": "insignia",
+   "description": "Single rank badge: dark red shoulder-board with silver border, gold diamond at top, a row of three silver stars, a large gold oak-leaf emblem in the middle, '2ND FOOTGUARDS' at the bottom of the board, and the rank abbreviation 'LtCol' (Lieutenant Colonel) below. Photobucket 'Groupsy' watermark overlaid.",
+   "other_text": "2ND FOOTGUARDS; LtCol (Lieutenant Colonel)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "b11c0f5c7073cc1efdd1fd50face93af36c3f052",
+   "kind": "insignia",
+   "description": "Tiny 16x16 icon, per URL a TeamSpeak rank icon named 'TSRecruit'. Appears as a small round/oval grey badge; far too small to make out any detail or text.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "ba2a459fa4a679cfb38e3fa61e63f8787c124a3f",
+   "kind": "badge-or-banner",
+   "description": "Clickable forum banner for the unit's YouTube channel: large text '2nd Coldstream' and 'Youtube Channel' with a red YouTube play button, overlaid on an in-game screenshot of British redcoat infantry standing in ranks on grass. Photobucket 'Groupsy' watermark overlaid. No player nametags visible in the underlying screenshot.",
+   "other_text": "2nd Coldstream Youtube Channel",
+   "legibility": "clear"
+  },
+  {
+   "hash": "c91f82eff5d9b6c68b9abe6ecd156b3bc1f05dbd",
+   "kind": "badge-or-banner",
+   "description": "Forum section-header graphic: the single word 'Enlist' in dark red blackletter/gothic script on a white background. Part of the unit's recruitment thread layout.",
+   "other_text": "Enlist",
+   "legibility": "clear"
+  },
+  {
+   "hash": "ca018956ce84932481a0460d80477788b20257b2",
+   "kind": "badge-or-banner",
+   "description": "Forum section-header graphic: the word 'Officers' in large black text on a white background, with a Photobucket 'Groupsy' watermark on the left. Header for the officers section of the roster/rules thread; no names appear in the graphic itself.",
+   "other_text": "Officers",
+   "legibility": "clear"
+  },
+  {
+   "hash": "cab53460ec0cf84d55f7f602d0469c223b39ea39",
+   "kind": "badge-or-banner",
+   "description": "Forum section-header graphic: the words 'Contact Us' in large dark red serif text on a white background, with a Photobucket 'Groupsy' watermark overlaid.",
+   "other_text": "Contact Us",
+   "legibility": "clear"
+  },
+  {
+   "hash": "cb8cd6807b95ecd17510f7429084d646203e6bf6",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars screenshot of a British redcoat line formation (roughly 15-20 soldiers) standing on grass inside a walled fort/training map, viewed from the front. UK and French flag counters in the top-left HUD both read 0. A large 'Groupsy by photobucket' watermark covers the center of the image, directly over the formation.",
+   "other_text": "Watermark: 'Groupsy by photobucket — Your people. Your moments. Your space.' No player nametags are visible over the soldiers (formation is distant and the watermark covers it).",
+   "legibility": "none"
+  },
+  {
+   "hash": "d053c36edf11614dd1597247183e408edeae49ab",
+   "kind": "screenshot",
+   "description": "Very narrow cropped strip (1024x73) of in-game chat from Mount & Blade. Every speaker name has been deliberately blacked out with solid bars before posting. Lines are prefixed '*DEAD*'. Only the message text right of the bars is readable.",
+   "other_text": "Readable chat text: '*DEAD* [name redacted] You guys we're long gone when all your meleers joined' and '*DEAD* [name redacted] get over it'. All speaker names are redacted with black bars.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "d4333a62280e62a985268d7327ab4f3c8c6805f2",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars screenshot from the same December 2012 training session as the companion image: a redcoat line formation stands at attention in a fort courtyard while two officers/NCOs in red stand facing them in the left foreground. UK and French flag counters top-left both read 0. Large 'Groupsy by photobucket' watermark across the middle.",
+   "other_text": "Watermark: 'Groupsy by photobucket — Your people. Your moments. Your space.' No legible player nametags (soldiers are distant; watermark overlays the line).",
+   "legibility": "none"
+  },
+  {
+   "hash": "d62db239d11f9b656faf46f2ed38d01fa6d7713c",
+   "kind": "other",
+   "description": "Christmas greeting wallpaper (not game content): a stylized gold Christmas tree with a white star and swirling ribbon on a deep red background, with 'Merry Christmas' in white script below. Posted by the 87th Royal Irish Fusiliers as a holiday greeting to the 2nd CS per the forum context. A tiny cursive signature in the bottom-right corner is too small to read.",
+   "other_text": "Merry Christmas (tiny illegible cursive credit line in bottom-right corner)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "e50e5c227ffb3b5e4582f9cb7404de9c1cc80983",
+   "kind": "badge-or-banner",
+   "description": "Community/alliance banner: a massed crowd of Napoleonic redcoat soldiers with muskets and bayonets rendered above a thin dark-red rule, over the title 'The Seventh Coalition' in large black serif small-caps on a white background. Posted July 2015 announcing 'This regiment is now part of' this group.",
+   "other_text": "THE SEVENTH COALITION",
+   "legibility": "clear"
+  },
+  {
+   "hash": "e5a62a485449a10d0015fee0369c26b64663fbd4",
+   "kind": "badge-or-banner",
+   "description": "Section-header banner graphic in large black text reading 'Non-Commissioned Officers' (the C of 'Commissioned' is partly obscured by a 'Groupsy by photobucket' watermark). Used as a heading in the regiment's December 2012 roster/rules thread. No member names.",
+   "other_text": "NON-COMMISSIONED OFFICERS",
+   "legibility": "clear"
+  },
+  {
+   "hash": "e962d8ebdccdf4411b1e8b8f271b3f87f8b49532",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Napoleonic Wars first-person-view screenshot (May 2014, captioned 'Soon'): a line of British redcoats on a grassy hillside aiming muskets/pistols to the right; a white-bearded officer in the foreground. Round red Footguards-style crown emblems float above two soldiers. Round timer top-right reads 56:09; flag counters show Britain 1, France 1. A green kill feed in the lower-left lists five kill events, which is where all names below were read.",
+   "other_text": "Round timer: 56:09; score counter 0; flag counters Britain 1 / France 1. Kill feed (killer -> victim): |51st|.Maj.Gen.Stalker -> 87th_Foot_Kg_James (faded); 8th_LL_B_Pvt_Uthred -> 87th_Foot_Pte_Collingwood; |51st|.Maj.Gen.Stalker -> 87th_inv_HurT; 00_Rkt_nilloc93 -> NEC_7y_Polkovnik_Chester; |51st|.Maj.Gen.Stalker -> 87th_Foot_Cpl_Dott.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "ecef98634c342160c5e8d7066372d1925454107a",
+   "kind": "screenshot",
+   "description": "Cropped Mount & Blade kill-feed/chat screenshot (Feb 2013, from the 'NA Community can't be told no to a private linebattle' post). Most names and several whole lines are deliberately blacked out with solid bars; a 'Groupsy by photobucket' watermark also overlays the left side. One kill line and two crude chat messages remain partly readable.",
+   "other_text": "Readable chat text (sender names redacted with black bars): '] fucking crawford' and a second line ending '... sucks dick'. Top kill line: 2ndCS_S?t_reclu -> 7thRF_Cad_Ballion. Several other lines fully blacked out.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "fa9ac549cfa5238f7547c040b51020312b8988ca",
+   "kind": "badge-or-banner",
+   "description": "Section-header banner graphic reading 'Apply to Join' in large dark-red serif lettering with a beveled/embossed effect on a white background, partially overlaid by a 'Groupsy by photobucket' watermark. Used as a heading in the regiment's December 2012 recruitment/rules thread. No names.",
+   "other_text": "Apply to Join",
+   "legibility": "clear"
+  },
+  {
+   "hash": "fb1d6555c78cd5359cf12fbbc0a66c76996a4d24",
+   "kind": "insignia",
+   "description": "Single rank insignia: a tall dark-red shoulder-board-style badge with silver border, a gold diamond gem at the top, three horizontal silver bars in the middle (partly hidden behind a 'Groupsy by photobucket' watermark), the unit text '2ND FOOTGUARDS' in silver near the bottom, and the rank abbreviation 'CHM' in dark-red capitals beneath the badge. Source filename 'ChmChosenMan.png' indicates CHM = Chosen Man.",
+   "other_text": "2ND FOOTGUARDS / CHM (Chosen Man rank, per source filename)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "159bd5a2eea6a0b8f546904d64cee6d32835c877",
+   "kind": "badge-or-banner",
+   "description": "Group logo on a black background: two metallic chrome letter M's arranged diagonally with two green quarter-circle segments filling the opposite corners. Matches the Midnight Mercs 'MM' monogram. No member names.",
+   "other_text": "MM (monogram, two stylized letter M's)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "15a20adcfdf9f918558c1fda33a4de49b2a8f7c2",
+   "kind": "other",
+   "description": "Illustrated artwork of a uniformed commander figure in a dark blue military uniform with a mirrored chrome faceplate helmet and a red cape (strongly resembles Cobra Commander from G.I. Joe), standing against an orange sky filled with black aircraft/vehicles. No text anywhere in the image.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "1d53355d2890631d1f0c34f648892322767fc6e2",
+   "kind": "badge-or-banner",
+   "description": "Community logo on a light grey background: a blue abstract knot/loop emblem with a solid blue circle above it, over the wordmark 'NOXVIATOR' in dark blue capitals with small dot separators flanking the emblem, and 'GAMING COMMUNITY' in smaller grey capitals beneath. Group name only, no member names.",
+   "other_text": "NOXVIATOR / GAMING COMMUNITY",
+   "legibility": "clear"
+  },
+  {
+   "hash": "33baa41dd440c34a53c0ca815223dc09c68f9183",
+   "kind": "badge-or-banner",
+   "description": "Esports-style logo on a bright yellow background with a faint larger watermark of the same mark: a snarling bear head in black and yellow above the word 'RoaR' (capital R's at each end, red serifs/accents). Matches the 'GoRoaRgg' group context. No member names.",
+   "other_text": "RoaR",
+   "legibility": "clear"
+  },
+  {
+   "hash": "47096878c8049eb99b3e745c206f352e663b2294",
+   "kind": "badge-or-banner",
+   "description": "Civil War-style regimental color on a dark navy field: an arc/circle of white stars in the upper left surrounding the text '21 PA.', a US federal eagle emblem in the center clutching arrows and an olive branch, script lettering 'Public' at top right and 'Lineballe Group' — reads as 'Linebattle Group' — in script across the bottom. This is the 21st PA public linebattle group emblem. No individual member names.",
+   "other_text": "21 PA. / Public / Linebattle Group",
+   "legibility": "clear"
+  },
+  {
+   "hash": "d144fbd4c2da8d896892adc8de85fdc084e86c85",
+   "kind": "badge-or-banner",
+   "description": "Midnight Mercs official Steam group avatar: the same chrome double-M monogram with green quarter-circles on black, with a header line in green pixel-style text reading ':]MM[: Official Steam Group' (the MM is wrapped in bracket decorations, exact punctuation around the brackets is stylized) and a footer URL 'WWW.MIDNIGHTMERCS.ENJIN.COM'. No member names.",
+   "other_text": ":]MM[: Official Steam Group / WWW.MIDNIGHTMERCS.ENJIN.COM (bracket decoration around 'MM' is stylized; rest of text clear)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "d838997d91a4f2ce1f54965716e4dc348861bc4e",
+   "kind": "badge-or-banner",
+   "description": "Retro pixel-art avatar: a night-time synthwave city skyline in purples and blues inside a circular frame, with a horizontal banner across the middle carrying the letters 'CSG' in blocky pixel capitals. Consistent with 'coldstreamgaming' (CSG) group context. No member names.",
+   "other_text": "CSG",
+   "legibility": "clear"
+  },
+  {
+   "hash": "d85545b05b694f4747daabe1c7dbf6891d3bcc63",
+   "kind": "insignia",
+   "description": "Photograph of the Coldstream Guards cap star (Order of the Garter star): a silver multi-pointed star with a central red St George's cross on white, ringed by a dark blue garter band carrying the Order's motto. The curved motto text is partially readable as 'HONI SOIT QUI MAL Y PENSE' (standard Garter motto; individual letters are small and partly obscured at the bottom of the band). No member names.",
+   "other_text": "HONI SOIT QUI MAL Y PENSE (Garter motto on the band; partially legible in this photo)",
+   "legibility": "partial"
+  },
+  {
+   "hash": "037d192a73933f7ffe73166eaace619a5210bdbb",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband character-creation (face editor) screen showing a mustachioed soldier in a black shako with a red-and-blue uniform, framed portrait on the left and a column of face-morph sliders on the right.",
+   "other_text": "UI buttons: Skin, Beard, Hair, Randomize, Reset, Done. Right-hand slider labels (Face Width etc.) too small to read reliably. No player names anywhere in the image.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "086dd1ae6254dabc633d1d3ab31fce47ae97616d",
+   "kind": "screenshot",
+   "description": "In-game screenshot: a firing line of blue-coated infantry (white crossbelts, bicorne/tricorne-style hats) kneeling and aiming muskets to the left on a grassy hilltop, a small wooden building in the distance. Matches the '21st Regiment of Pennsylvania Tribute' context.",
+   "other_text": "No visible text, HUD, or nametags.",
+   "legibility": "none"
+  },
+  {
+   "hash": "0bce0ee703039f0ae6c44ea6cb4b97408203e7e2",
+   "kind": "screenshot",
+   "description": "Napoleonic Wars in-game screenshot: two red-coated soldiers with muskets seen from behind in a green forested valley; a round orange banner marker with a crown emblem floats mid-left; UK and French flag icons with team counts in the top-left HUD.",
+   "other_text": "Round timer top-right: 13:06. A faint green chat line at bottom-left is present but illegible at thumbnail resolution.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "1571251881b09bb1c556ee8d55b59afb86b4e9d2",
+   "kind": "screenshot",
+   "description": "In-game screenshot from an elevated angle: a small military camp of canvas tents arranged around a rocky clearing, with two soldier figures standing in the middle and a low canvas awning at the top. Matches the 'I wanna be like you' Coldstream short context.",
+   "other_text": "No visible text or nametags.",
+   "legibility": "none"
+  },
+  {
+   "hash": "1584d111e4becc637ee0be86d362d7cc4e97fa37",
+   "kind": "screenshot",
+   "description": "Siege-event screenshot: a crowd of red-coated guards massed on a stone courtyard/rampart with red-and-white checkered banner markers overhead; UK and French flag HUD icons top-left. A large multi-line block of green chat text fills the lower-left, but even cropped and upscaled it is destroyed by JPEG compression — no player names could be recovered and none were guessed.",
+   "other_text": "Chat block and round timer present but fully illegible at thumbnail resolution.",
+   "legibility": "none"
+  },
+  {
+   "hash": "2412d8d8efaa37762f4e175d2700465df36e93d6",
+   "kind": "screenshot",
+   "description": "Desert-map screenshot ('Desert Walk'): red-coated soldiers with muskets walking across open sand toward distant figures; two red-and-white checkered spawn/flag markers on the horizon; UK and French flag icons top-left.",
+   "other_text": "Round timer top-right: 14:14. No nametags or chat visible.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "297493adb17c750c32b29c6b9b031e8b24e7c0b3",
+   "kind": "screenshot",
+   "description": "Linebattle screenshot: blue-coated infantry charging up a grassy hill with red-and-white checkered markers over several soldiers; two blue-uniformed players in the foreground; French and Belgian-style flag icons with an orange round emblem in the top-left HUD.",
+   "other_text": "Round timer top-right: 9:10. No legible nametags or chat.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "38982a84fbf641a723e14dcf86856e994faac81c",
+   "kind": "screenshot",
+   "description": "Linebattle screenshot with an editor title banner reading '2nd Coldstream Guards' across the top: a column of red-coated guards with red-and-white checkered markers advancing along a dry hillside, viewed from behind a soldier. One floating nametag is readable over a mid-frame soldier (verified by crop/upscale): 2ndCS_A2_Rd_Gooner.",
+   "other_text": "Title overlay: '2nd Coldstream Guards'. Round timer top-right approx 5:40. Small bottom-right HUD text illegible.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "38ddec4b0c3a44443f880949c667228ee175f356",
+   "kind": "screenshot",
+   "description": "In-game screenshot: two red-coated guards from behind on a scrubby plain with pine trees, an orange round banner marker ahead; UK and French flag HUD icons top-left. A single red kill-feed line at lower-left starts with what appears to be a clan-tagged name but is unreadable even after crop/upscale — not guessed.",
+   "other_text": "Watermark top-center: www.Bandicam.com. Round timer top-right illegible. Red kill-feed line illegible.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "3e3190c1bea7d8bd7def60d3f4467ad0c21f7b67",
+   "kind": "screenshot",
+   "description": "Linebattle screenshot ('Royal Charge' context): a rank of red-coated guards seen from behind, red-and-white checkered markers over their heads, firing into musket smoke among tall pine trees; UK/French flag icons and an orange round emblem in the top-left HUD.",
+   "other_text": "No legible text; HUD elements too small to read.",
+   "legibility": "none"
+  },
+  {
+   "hash": "3e32cc393c581f9cc694569751d39a1bf58a4d03",
+   "kind": "screenshot",
+   "description": "In-house linebattle screenshot: a line of blue-coated soldiers with red-trimmed shakos seen from behind on a fenced green field, red-and-white checkered markers over two of them; UK/French flag icons and an orange round emblem top-left. A faint red kill-feed line at lower-left is unreadable even after crop/upscale — not guessed.",
+   "other_text": "Kill-feed line and HUD numerals present but illegible at thumbnail resolution.",
+   "legibility": "none"
+  },
+  {
+   "hash": "4a0e6b2887ff0cf128de53f75524d8415f87d4ff",
+   "kind": "screenshot",
+   "description": "Faction-select menu screenshot (Holdfast: Nations At War style UI) on a grassy plains map. Two faction cards: BRITAIN (crossed Union Jacks) and PRUSSIA (black/white Prussian flags), each with an Enlist button and a small player count that is too small to read. A round-end banner is partially visible behind the SELECT FACTION overlay. No player names anywhere in the image.",
+   "other_text": "SELECT FACTION | HARDCORE ARMY ASSAULT - GRASSY PLAINS 3 (L) | BRITAIN | PRUSSIA (center crest and right card) | Enlist (x2) | Game Mode Info | Spectate | Free Roam Camera | Settings | faded banner behind overlay reads approximately 'The Prussians Are Victorious' (partially obscured)",
+   "legibility": "clear"
+  },
+  {
+   "hash": "4d709e3391da465326f5e2d2a7da50abb30e9b2b",
+   "kind": "screenshot",
+   "description": "Faction-select menu screenshot (Holdfast: Nations At War style UI) on a snowy plains map. Two faction cards: FRANCE (tricolor flags) and RUSSIA (Russian flags), each with an Enlist button and a tiny unreadable player count. An Auto Join option sits between the cards. No player names anywhere in the image.",
+   "other_text": "SELECT FACTION | HARDCORE ARMY ASSAULT - SNOWY PLAINS 4 (L) | FRANCE | RUSSIA | Enlist (x2) | Auto Join | Game Mode Info | Spectate | Free Roam Camera | Settings",
+   "legibility": "clear"
+  },
+  {
+   "hash": "504e02032e30d3a3565de21198d18877c8eb89a8",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars screenshot on a snowy pine map. A line of British redcoats seen from behind, several with red/white checkered flag markers over their heads (checkered markers, not nametags). Banner at top reads '2nd Coldstream Guards'. A block of green/red chat or kill-feed lines sits on the left edge, but even at 12x zoom the JPEG compression makes every name unreadable - only fragments like '_MdB_', 'vondedodl', 'Ty..er', 'Cdt_Thom' can be half-seen and none can be responsibly transcribed. Round timer 50:13 top right.",
+   "other_text": "2nd Coldstream Guards (top banner) | 50:13 (round timer) | left-edge chat/kill feed present but illegible (fragments only: _MdB_, vondedodl?, Ty?er, Cdt_Thom?)",
+   "legibility": "partial"
+  },
+  {
+   "hash": "6005620bb04a9723665b127420ac43deb4aceafa",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars first-person screenshot on a snowy map, bayonet-fixed musket in view, soldiers fighting mid-distance. A ~16-line kill feed occupies the upper left (killer -> weapon icon -> victim). Read from 6x/10x zoomed crops; text is heavily JPEG-degraded so certainty varies per name. Regiment tags visible in the feed include 2ndCS, 88thRG, 63e, 59th_IJA, 44staHM, 23rd (Highlanders), 9me... (Schutzen-like tag), and a GRE (grenadier) tag. A few lines were too destroyed to transcribe at all: a '05th_Spec_a...' vs '..._dragoons_...' line, a '2ndCS_Cpl_...' victim, a '44staHM_Maj_M...' killer, and a '44staHM_Mar_C...' victim cut off at the screen edge.",
+   "other_text": "Kill feed regiment tags: 2ndCS, 88thRG, 63e, 59th_IJA, 44staHM, 23rd Highlanders, 9meSchlde(?), ?GRE, 05th, dragoons. Small two-flag scoreboard top left; timer top right unreadable. Four feed lines wholly untranscribable (see description).",
+   "legibility": "partial"
+  },
+  {
+   "hash": "78ba91240b909fe6efe3b90dd8cc26d11006fecc",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars screenshot: a small group of five or six soldiers standing on a green hilly field under a cloudy blue sky, viewed from a distance. A French tricolor HUD flag icon sits at top left. No nametags are visible over the soldiers at this distance and no other text is legible.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "80e1b3faf261643d723006068febd2534b47e431",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars third-person screenshot: a soldier in a dark shako with musket and fixed bayonet advances across an open field; several skirmishers with red/white checkered head markers run nearby, casualties on the ground mid-distance. British and French HUD flag icons top left. A multi-line green kill feed sits at bottom left but is completely dissolved into the grass by JPEG compression - zero characters recoverable even at 6x zoom. Timer at top right is also unreadable.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "8c8126d98bc02883a62545c0a819df801d5ac9fc",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars screenshot on a desert map: a firing line of British redcoats seen from behind, most wearing large red/white checkered head markers, volley smoke ahead and an enemy group in the far distance. HUD shows a Union Jack and a red faction flag at top left, each with a score of 0. Round timer 57:21 at top right. No player nametags visible.",
+   "other_text": "57:21 (round timer) | team scores 0 / 0 by the two faction flags",
+   "legibility": "partial"
+  },
+  {
+   "hash": "8d0d9fb13b38f068bb2930e43961e9bcfa960e75",
+   "kind": "screenshot",
+   "description": "First-person screenshot buried in dense green ferns/bushes (hiding in foliage), matching the 'Zombie Game' context. British/Russian HUD flag icons top left. One white chat line runs along the bottom left; at 12x zoom only fragments survive - the sender name is unreadable (starts like 'F...RJS_..._Pte_...') and the message reads approximately 'lol, we/we'll be ... enough'. No name can be responsibly transcribed. A small HUD element bottom right.",
+   "other_text": "chat line fragments only: sender tag contains '_Pte_'; message ~'lol we will be ... though/enough'",
+   "legibility": "partial"
+  },
+  {
+   "hash": "9040068cbb3439387adbf554bff381064368ded1",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars screenshot on a desert hill: the player follows a blue-coated soldier whose floating green nametag reads '2ndCS_Al_Pte_Zemohc'; ahead, a mixed melee of redcoats and dark-uniformed troops with one red/white checkered flag bearer. Two green kill-feed entries at bottom left are illegible even zoomed (one contains a lance icon). Timer at top right unreadable. Small compass/HUD bottom right.",
+   "other_text": "bottom-left kill feed (2 green lines) illegible",
+   "legibility": "partial"
+  },
+  {
+   "hash": "979aee28ff95dd6fd4ed98406d17454d17d56355",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband Napoleonic Wars first-person screenshot: reloading a musket while facing a distant line of cavalry and infantry on grassy hills, white unit marker icons over a group at center. Several green and red kill-feed lines sit at bottom left but are completely unrecoverable at this resolution - no characters readable even at 6x zoom. HUD flag icon and health bar top left; timer top right unreadable.",
+   "other_text": null,
+   "legibility": "none"
+  },
+  {
+   "hash": "98ba7538ebfc96cbf6232a02be29a3e4abb7d11c",
+   "kind": "screenshot",
+   "description": "Top-down screenshot from what looks like Battle Grounds 2 (Source mod) matching the 'Zombie Game / 21stPA' context: a cobblestone path through grass with several dark soldier models prone/crawling. Yellow HUD text top right shows team scores 'Americans : 0' and 'British : 0' (second team name slightly blurred) plus a map name that is mostly unreadable ('Map: b?_st...') and a small counter (~'0:34'). A blue chat box at bottom right contains white text that is fully illegible. No player names recoverable.",
+   "other_text": "Americans : 0 | British : 0 (probable) | Map: b?_st... (map name unreadable) | small counter ~0:34 | blue chat box illegible",
+   "legibility": "partial"
+  },
+  {
+   "hash": "a1651e8975452185e1cfff55c928ee3b4643b24a",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) in-game shot: third-person view behind a French officer in blue with a bicorne pom-pom, sword drawn, charging past a fallen British redcoat on a dirt path in green hills. Several bodies and dropped muskets on the ground. Faint chat/kill-feed text in the lower-left corner.",
+   "other_text": "Chat lines in lower-left are too small to resolve at 480x360; one line appears to reference '2ndCS' and another appears to end '...will begin in 5 seconds' (both uncertain). No readable player nametags.",
+   "legibility": "none"
+  },
+  {
+   "hash": "ab28ad3bf19e3119b329d29f2f983cc70eee3e67",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) melee/charge on a scrubby hillside map: dark-uniformed infantry (band/pioneer style) charging with muskets, several muzzle-flash/fire effects among a clump of soldiers mid-frame. Player in first-person behind a shako-wearing soldier. Green chat text lower-left, health/flag HUD top-left.",
+   "other_text": "Chat/kill-feed text in lower-left is present but entirely too small to read. No readable floating nametags.",
+   "legibility": "none"
+  },
+  {
+   "hash": "b0f80e8b0610f222143a78927d0b867b71a75d93",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) siege event: first-person musket view from a rooftop/wall overlooking a whitewashed town square with a breached brick wall and many soldiers fighting below. A long multi-line kill feed fills the left side. British and French flag indicators top-left; a small cursive watermark top-right.",
+   "other_text": "Kill feed has roughly 15 lines but the text is too small to transcribe reliably; recurring clan-tag shapes resemble '2ndCS_...' and '89e_Arty_...' (uncertain). Cursive watermark top-right is illegible.",
+   "legibility": "none"
+  },
+  {
+   "hash": "b33ab8908b8e148508fa63a8ea4c81295214d533",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) desert map: a line of British redcoats with black shakos viewed from behind, muskets shouldered, facing distant dunes and palm trees. Round orange/red crown-badge rank icons float above four soldiers' heads (badge icons, not text nametags). Round timer top-right.",
+   "other_text": "Round timer top-right reads approximately '15:36' (uncertain). The floating markers are rank-badge icons with no readable text; no player names visible.",
+   "legibility": "none"
+  },
+  {
+   "hash": "c93c74f3c875c488257dc00ac534be7d5a0be7d2",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) autumn map: view from behind a group of soldiers carrying red/white checkerboard round banners over their heads, marching through tan grass with red-leafed trees. A banner across the top of the HUD reads '2nd Coldstream Regiment'. One green floating nametag is legible over a player. Chat text lower-left is too small to read.",
+   "other_text": "Top HUD banner: '2nd Coldstream Regiment'. Timer top-right: '44:02'. Lower-left chat lines illegible.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "d3d6c47b78316b471d6baccce95fb2a20801a13a",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) snow map: first-person view behind a soldier in blue with a black round hat holding a musket, watching a melee of dark-uniformed troops in the snow, bodies scattered. A dense ~18-line kill feed fills the left third of the frame; the text is small and only partially resolvable. Clan tags recurring in the feed appear to include 2ndCS, 89thRG, 59th_IJA, NeoSchla(?), and IstanSchla(?).",
+   "other_text": "Several additional kill-feed lines are present but too small to transcribe (victims with 59th_IJA tags among them). Clan tags observed (some uncertain): 2ndCS, 89thRG, 59th_IJA, NeoSchla, IstanSchla.",
+   "legibility": "partial"
+  },
+  {
+   "hash": "dc2d8dc27b54ec70e0d7e8d28fe73386627b8136",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) line battle melee on a grassy hill with a wooden fence: mixed British/French soldiers fighting hand-to-hand, one small red/white checkerboard banner visible above the scrum. First-person musket in the foreground. A few green chat/kill lines lower-left, all too small to read. Timer top-right illegible.",
+   "other_text": "Green chat/kill-feed lines in lower-left are present but unreadable at this resolution. No readable nametags.",
+   "legibility": "none"
+  },
+  {
+   "hash": "dd6599d39a63063adb0925ba3a8772216d8d80ed",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) shot in a flowery green meadow: several soldiers carrying red/white checkerboard round banners, one clear green floating nametag over the player in the center. Chat lines top-left and a highlighted chat line at bottom are too small to read. Timer top-right.",
+   "other_text": "Timer top-right reads approximately '47:45' (uncertain). Top-left and bottom chat lines are illegible; the bottom line appears to mention '2ndCS' (uncertain).",
+   "legibility": "partial"
+  },
+  {
+   "hash": "f0cd0873c95b03340fe8b6448c879a168191c3a5",
+   "kind": "screenshot",
+   "description": "Mount & Blade: Warband (Napoleonic Wars) desert map: a column of French line infantry in blue coats with tall black shakos seen from behind, one drummer at left, large red/white checkerboard round banners floating above two soldiers. Timer top-right. No text nametags visible.",
+   "other_text": "Timer top-right reads approximately '58:47'. The floating checkerboard circles are regimental banner icons, not nametags; no readable player names.",
+   "legibility": "none"
+  },
+  {
+   "hash": "f1380f85a41c705084b780253038a8cb28b158e7",
+   "kind": "screenshot",
+   "description": "PlanetSide 2 in-game screenshot (not Napoleonic Wars): two Terran Republic soldiers in red/black armor standing close to the first-person player, who is holding a carbine. HUD shows a minimap bottom-left, an objective banner reading approximately 'CAPTURE WHISPERING PASS', squad list, and an ammo counter. A tiny nametag over the right-hand soldier is illegible.",
+   "other_text": "Objective HUD reads approximately 'CAPTURE / WHISPERING PASS' with a countdown near '11:30' (both uncertain). Ammo counter reads approximately '36/2xx'. One floating player nametag visible top-center-right but too small to read.",
+   "legibility": "partial"
+  }
+ ],
+ "critique": "**Completeness critique — vision extraction pass**\n\n**(1) Images deserving another attempt, in priority order:**\n\n- **495931f6 (scoreboard, got 31) — highest value.** I re-read it: the \"Groupsy\" watermark is semi-transparent, and the \"fully illegible\" Prussian rows visibly bleed through at native resolution. I could already partially read `9th_CT_CGrd_Charl…`, `2ndCS_Cdt_NutSlap…`, `1stEPI_A2_Sdt_Vadol…`, `Cyco_Tatertot`, `Nipplestockings`, `Operator`, `Remix`, `Wibsey`, `AJO_…_Will…` in the right column. The highlighted taker's row reads `2ndCS_C?l_Craw…` — consistent with Crawford and likely confirmable. Technique: crop the right column, 2-3x upscale, levels/contrast to suppress the white overlay. Expect 8-12 new names.\n- **6005620b (snow kill feed, got 10).** Under-extracted. The feed is ~28 lines, and at native scale I can partially read far more than 10 (e.g. `88thRG_LtCol_MarshalNey`, `63e_SoD_Diroman`, `44staHM_Maj_Lane`, `StatGRE_B3PO_Snowball`, `NeoSchla_Cpt_Orkimedes`, `2ndCS_Kpl_moersteiner100`, `9te_Black_Soupas`, `88thRG_Stg_Tom`). Re-read with tiled thirds (top/mid/bottom of feed) rather than whole-frame zoom.\n- **d3d6c47b (snow kill feed, got 8).** Same situation: ~18 lines, many partially readable at native scale (`NeoSchla_Kapt_Marcolaco`, `2ndCS_Rct_Rook`, `59th_IJA_Cho_RasputinRetard`, `IstanSchla_Vol_McKnight`, `89thRG_Pfc_King_Crusader`…). Same tiled-crop technique. Bonus: 6005620b and d3d6c47b share tags (59th_IJA, NeoSchla, IstanSchla, 89thRG) — likely the same event; cross-referencing between the two can confirm uncertain readings.\n- **2be25250 (scoreboard, got 20).** Two targeted crops: the one obscured dead-French row (name bleeds under watermark) and the Spectators section — it says Spectators(3) but only Sir_Leopold and KING_CHORGO were read; row 3 is behind \"Your space.\"\n- **210325a8 / 24fa333e (medium).** The doubled/ghosted overlapping lines might deghost by color-channel separation (red/green colored lines vs grey list) — worth one attempt only.\n\n**Not worth another attempt:** ecef9863 (deliberate solid blackout bars — information destroyed, not degraded), 9b78844c and 9040068c (already zoomed; fragments are below recoverable resolution), 38982a84, c93c74f3, dd6599d3 (low-res video frames; chat text is ~5px tall — upscaling cannot create information; the single nametag each was already captured), e962d8eb (8 names from 5 kill events ≈ ceiling).\n\n**(2) Systematic blind spots:**\n\n- **Watermark treated as a stop condition.** The Photobucket overlay is translucent, not opaque; the pass gave up on rows a contrast-adjusted crop would recover. This affects every \"Groupsy\"-watermarked scoreboard.\n- **No line-count vs names-got audit.** Scoreboards state their own row counts (\"25 Players\", \"Spectators(3)\"); kill feeds have countable lines. Nothing reconciled visible-line count against transcribed count, which is exactly how 2be25250's third spectator and 6005620b's ~18 unread lines slipped through. Add \"N rows visible / M transcribed\" per image.\n- **Thin confirmation coverage:** only 17/100 images got multi-read; 115 names rest on a single read. At minimum, re-run the highest-yield single-read images once.\n- **No cross-image reconciliation:** same-session images (the two snow maps; the two Nov 2012 pubstomp feeds) weren't used to confirm each other's uncertain names.\n- **Unverifiable from the facts given:** whether the 10 \"other\" and 22 \"badge-or-banner\" images were checked for incidental names (signatures, dedication text, forum captions).\n\n**(3) Zero-yield roster/rank images:** Verified. 601d61b8 is a pure insignia ladder — 14 \"2nd Footguards\" shoulder boards labeled Col through Rct, no member names anywhere in the image. Truly nameless; correctly zero. The transcription's description matches the image exactly."
+}

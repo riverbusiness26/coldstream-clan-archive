@@ -1,0 +1,1040 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:fb="http://ogp.me/ns/fb#">
+
+<head>
+	<script type="text/javascript">
+		try {
+			if(self.location.href != top.location.href) { 
+				top.location = self.location; 
+			} 
+		} catch ( ex ) {
+			// if we cannot access the top.location.href property then we are not in the top-frame, so reload till we are
+			top.location = self.location;
+		}
+	</script>
+	
+		<meta name="description" content="" >
+<meta name="keywords" content="" >
+<meta name="robots" content="INDEX, FOLLOW" >
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta http-equiv="Content-Language" content="en-US" ><title>2nd Coldstream Guards - Site Info</title>		
+<!--OpenGraph Protocol-->
+<meta property="og:title" content="2nd Coldstream Guards" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://Coldstream.enjin.com" />
+<meta property="og:image" content="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/avatar.png" />
+<meta property="og:description" content="We&#039;re more than just a regiment, we&#039;re a family." />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="2nd Coldstream" />
+
+	
+				
+				
+			
+	<link href="/page/105125" rel="canonical" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/js/library/markitup/skins/enjin/style.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://coldstream.enjin.com/assets/201507171479/themes/core/css/core.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/bbcode.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/styles.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/v2/css/system/user_tray.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/admin/theme/css/teamspeak/tree.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://resources.guild-hosting.net/201507171479/themes/core/css/modules/mumble.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://coldstream.enjin.com/assets/201507171479/merged/default_fonts.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="http://coldstream.enjin.com/assets/201507171479/themes/core/css/theme.php?theme=563459&amp;cache=201507171479-1435925724" media="screen" rel="stylesheet" type="text/css" >	<style type="text/css" media="screen">
+<!--
+
+-->
+</style>
+<style type="text/css" media="screen">
+<!--
+a.tag-regular,span.tag-regular{} a.tag-admin,span.tag-admin{} a.tag-untagged,span.tag-untagged{} a.tag-banned,span.tag-banned{} a.tag-online,span.tag-online{} a.tag-ts3online,span.tag-ts3online{} a.tag-minecraft_online,span.tag-minecraft_online{} a.tag-twitch_online,span.tag-twitch_online{} a.tag-twitch_users,span.tag-twitch_users{} a.tag-warned,span.tag-warned{} a.tag-punished,span.tag-punished{} a.tag-1369935,span.tag-1369935{} a.tag-1359291,span.tag-1359291{} a.tag-1359290,span.tag-1359290{} a.tag-1359289,span.tag-1359289{} 
+-->
+</style>	<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/merged/default_layout.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/core.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/markitup/sets/bbcode/set.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479//themes/core/js/library/guild-tabard.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+$(document).ready(function() {
+	$('#like-site-button').click(function(){
+		var likes = $(this).parent().siblings('.likes').children('span');
+
+		if($(this).hasClass('liked')) {
+			$(this).removeClass('liked').val('Like');
+			var cmd = 'unlike-site';
+			likes.text(parseInt(likes.text(), 10)-1);
+		}
+		else {
+			$(this).addClass('liked').val('Unlike');
+			var cmd = 'like-site';
+			likes.text(parseInt(likes.text(), 10)+1);
+		}
+		$.post('/ajax.php?s=site', {cmd: cmd, site_id: 105125});
+	});
+
+	$('.m_system-siteprofile .siteprofile-right .widget.hits .graph').sparkline([16,10,19,10,9,12,11,17,16,10,11,13,7,24,20,27,23,20,17,15,18,27,31,21,14,15,16,17,14,16], {
+		lineColor: "#ccb88f",
+		fillColor: "#141414",
+		lineWidth: 1.8,
+		spotColor: false,
+		minSpotColor: false,
+		maxSpotColor: false,
+		chartRangeMin: 0,
+		height: '36px',
+		width: '100%'
+	});
+
+		// Render guild tabards
+	var tabards = $('.widget.guild canvas');
+	for ( var i = 0; i < tabards.length; i++ )
+	{
+		var tb = $(tabards[i]);
+		var tabard = new GuildTabard( tabards.get(i), {
+			 'ring': tb.attr('data-ring'),
+			 'bg': [ 0, tb.attr('data-bg') ],
+			 'border': [ tb.attr('data-border'), tb.attr('data-borderColor') ],
+			 'emblem': [ tb.attr('data-icon'), tb.attr('data-iconColor') ]
+		});
+	}
+});
+
+    //-->
+</script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/editor.inline.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/system/wall.system.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/jquery.expander.min.js"></script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/system/site.wall.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+var url_getposts = '/page/105125/activity/index/m/0/site/105125/op/getposts';
+Enjin_Core.is_admin = 'false';
+
+$(document).ready(function() {
+	var wall = new Enjin_Wall_System($('#siteactivity-1091032182'), '/ajax.php?s=sitewall&wall_site_id=105125', {
+		user_id: null,
+		site_id: 105125	});
+});
+
+    //-->
+</script>
+<script type="text/javascript" src="http://resources.guild-hosting.net/201507171479/themes/core/js/library/jstorage.js"></script>
+<script type="text/javascript">
+    //<!--
+    
+    var current_session_user_id = 0;
+    Enjin_Core.site_id = 105125;
+
+        //-->
+</script>
+<script type="text/javascript">
+    //<!--
+    		var notification_count = {
+					};
+		$(document).ready(function(){
+					});
+	    //-->
+</script>
+	
+    <!-- Universal Google Analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        // enjin tracking
+        ga('create', 'UA-6028401-5', 'auto');
+        ga('send', 'pageview');
+
+        // custom website tracking
+            </script>
+        
+</head>
+
+<body class=" dark-theme"
+      data-dnsme-update-flag="">
+
+
+
+
+
+
+<div class="body-wrap-2"><div class="body-wrap-3">
+
+<div id="page">
+	<div class="page-outer-left"><!--  --></div>
+	<div class="page-outer-right"><!--  --></div>
+	<div id="page-wrap">
+		<div class="fixed_height_elem" id="above-site"><!--  --></div>
+		<div id="site-body">
+
+			<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+				<td id="section-header"
+		class="section-holder section-width-large"
+		style=""
+		data-width="1030"
+	>
+		<div class="section">
+<div id='enjin-bar'>
+
+	<div class='right'>
+
+		
+			<!-- Login / Register -->
+			<a href="/login" rel="nofollow">Login</a>
+						<span class='divider'>|</span><a href='/login/do/register' rel='nofollow'>Register</a>
+			
+		
+	</div>
+
+	<div class='left'>
+
+		<!-- Site name -->
+					<a href='/'>2nd Coldstream</a>
+		
+		<!-- Voice -->
+		
+		<!-- Site info -->
+		<span class='divider'>|</span><a href='/page/105125'>Site Info</a>
+		<!-- Admin dropdown / Upgrade site -->
+		
+		<!-- Social -->
+					<div id='enjin-bar-likes'>
+
+				<!-- Enjin forums / All other websites -->
+				<span class="fb-like-site"><fb:like href="http://coldstream.enjin.com" send="false" layout="button_count" width="100" show_faces="false"></fb:like></span><span class="gplus-like-site"><g:plusone size="medium" href="http://coldstream.enjin.com"></g:plusone></span>
+				<!-- Site likes -->
+				
+			</div>
+		
+	</div>
+</div>		      <div class=" container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+				<div class="special_container with-header with-footer first"><div class='m_header'>
+<div class='tl'></div><div class='tr'></div><div class='bl'></div><div class='br'></div>
+
+	<div style="height: 182px" class='holder'>
+		<object wmode="transparent" width="100%" height="182" flashvars="crossdomain=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2Fcrossdomain.xml&resourcesdomain=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fcrossdomain.xml&fontsbaseurl=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fheaders%2Ffonts&bgtype=image&bgcolor=0&alignment=center&height=182&numitems=0&bgtransparent=1&bg=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2F105125%2Fmodule_header%2F2717421%2Fbackground%2F2ndcshead.jpg" data="http://resources.guild-hosting.net/201507171479/themes/core/flash/header/v3/EnjinHeader.swf" type="application/x-shockwave-flash">
+			<param name="movie" value="http://resources.guild-hosting.net/201507171479/themes/core/flash/header/v3/EnjinHeader.swf">
+			<param name="wmode" value="transparent">
+			<param name="allowscriptaccess" value="always">
+			<param name="bgcolor" value="#000000">
+			<param name="scale" value="noscale">
+			<param name="flashvars" value="crossdomain=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2Fcrossdomain.xml&resourcesdomain=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fcrossdomain.xml&fontsbaseurl=http%3A%2F%2Fcoldstream.enjin.com%2Fassets%2F201507171479%2Fheaders%2Ffonts&bgtype=image&bgcolor=0&alignment=center&height=182&numitems=0&bgtransparent=1&bg=http%3A%2F%2Ffiles.enjin.com.s3.amazonaws.com%2F105125%2Fmodule_header%2F2717421%2Fbackground%2F2ndcshead.jpg">			
+		</object>
+	</div>
+
+</div></div>
+
+
+				      <div class=" container_spacer">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+				<div class="special_container with-header with-footer last"><div class='m_hmenu'>
+    <div class='bg left'><!--  --></div>
+    <div class='bg right'><!--  --></div>
+    <div class='buttons content'>
+                    <a href='/home'>
+                <div class='button first'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Home</div>
+                </div>
+            </a>
+                                <a href='/forum'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Forums</div>
+                </div>
+            </a>
+                                <a href='/gallery'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Gallery</div>
+                </div>
+            </a>
+                                <a href='/enlistment'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Enlist</div>
+                </div>
+            </a>
+                                <a href='/contactus'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Contact us</div>
+                </div>
+            </a>
+                                <a href='/schedule'>
+                <div class='button'>
+                    <div class='b left'><!--  --></div>
+                    <div class='b right'><!--  --></div>
+                    <div class='b content'>Schedule</div>
+                </div>
+            </a>
+                            <div class='cap'><!--  --></div>    </div>
+</div></div>
+
+
+		            		      <div class=" container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	<div class=""><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+				<td id="section-main"
+		class="section-holder section-width-large"
+		style=""
+		data-width="1030"
+	>
+		<div class="section">		      <div class="fixed_height_elem container_spacer first">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		      </div><div class='clearing'><!--  --></div>
+
+									
+					<div class="container with-header first last" data-container-id="1" data-start-collapsed="0">
+
+                    					  <div class="fixed_height_elem container_header">
+					    <div class="left"></div>
+					    <div class="right"></div>
+					    					    <div class="title">
+							<span class="mask">
+								<div class="text">
+									<div class="header_text_text">
+										
+                                        Site Info                                    </div>
+								</div>
+							</span>
+						</div><!-- .title -->
+					    					  </div>
+                    
+					<div class="container_body">
+														
+                                                      <div class="container_left"><!--  --></div>
+                            <div class="container_right"><!--  --></div>
+                            <div class="container_left_top"><!--  --></div>
+                            <div class="container_right_top"><!--  --></div>
+                            <div class="container_left_bottom"><!--  --></div>
+                            <div class="container_right_bottom"><!--  --></div>
+                         						  
+						  <div class="container_content container-minimized" style="display: none;" >
+						  	Container minimized. <a href="#">Expand</a>
+						  </div>
+					      <div class="container_content container-maximized"  >
+					      	<div class="container_inner_l"></div><div class="container_inner_r"></div><div class="container_inner_tl"></div><div class="container_inner_tr"></div><div class="container_inner_bl"></div><div class="container_inner_br"></div>					          <table class="container_table">
+					            <tr class="container_table_row">
+																				<td class="container_column leftmost rightmost" style="width: 100%">
+										<div class="module module_first module_last">
+										      <div class="module_content">
+										        <div class="module_content_wrap">
+										
+<div class='m_system-siteprofile'>
+	
+	<div class='siteprofile-wrapper'>
+		
+		<div class='tabbox siteprofile with-left-column with-right-column'>
+			<div class='content'>
+					<div class='block-wrap'>
+					<div class='block main'>
+						<div class='subsection activity activity-index'>
+							<div class='siteprofile-top'>
+								<div class='element_avatar simple large site-logo'>
+                                    <img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/large.png" width="73" height="73">                                </div>
+								<h1 class='site-name'>2nd Coldstream</h1>
+								<div class='site-description'>
+									<img class='country-flag' src='http://resources.guild-hosting.net/201507171479/themes/core/images/flags/US.gif'>
+									<a target="_parent" class='site-url' href="http://Coldstream.enjin.com">Coldstream.enjin.com</a>
+									&thinsp;-&thinsp; We&#039;re more than just a regiment, we&#039;re a family.								</div>
+								<div class='site-buttons'>
+																		<div class='element_button'><div class='l'></div><div class='r'></div><input type='button' value='Visit Website' onclick='document.location="http://Coldstream.enjin.com";'></div>
+								</div>
+							</div>
+
+							<div class='siteprofile-menu'>
+																	<a href='/page/105125/activity' class="selected">Activity</a>
+																	<a href='/page/105125/recruitment'>Recruitment</a>
+																	<a href='/page/105125/about'>About</a>
+																	<a href='/page/105125/games'>Games</a>
+																	<a href='/page/105125/members'>Members</a>
+															</div>
+
+							<div class='siteprofile-main'>
+								<div class='rightcolumn-border'></div>
+
+								<div class='siteprofile-right'>
+									
+									<div class='widget members'>
+										<div class='widget-title'>SITE MEMBERS<a target="_parent" href='/page/105125/members'>443 users</a></div>
+										<div class='widget-content'>
+											<div  class="element_avatar simple medium"><a  data-minitooltip="RiveR" data-minitooltip-userid="887776" target="_parent" href="http://Coldstream.enjin.com/profile/887776"><img src="http://assets-cloud.enjin.com/users/887776/avatar/medium.1399990445.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="TylerY" data-minitooltip-userid="1369254" target="_parent" href="http://Coldstream.enjin.com/profile/1369254"><img src="http://assets-cloud.enjin.com/users/1369254/avatar/medium.1400019356.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="RivenX" data-minitooltip-userid="2657488" target="_parent" href="http://Coldstream.enjin.com/profile/2657488"><img src="http://assets-cloud.enjin.com/users/2657488/avatar/medium.1400056316.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="Jakarta" data-minitooltip-userid="1375865" target="_parent" href="http://Coldstream.enjin.com/profile/1375865"><img src="http://assets-cloud.enjin.com/users/1375865/avatar/medium.1436763631.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="ironhide650" data-minitooltip-userid="1376176" target="_parent" href="http://Coldstream.enjin.com/profile/1376176"><img src="http://assets-cloud.enjin.com/users/1376176/avatar/medium.1400025902.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="Regnier" data-minitooltip-userid="1240375" target="_parent" href="http://Coldstream.enjin.com/profile/1240375"><img src="http://assets-cloud.enjin.com/users/1240375/avatar/medium.1435340957.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="SovietOnion" data-minitooltip-userid="2185826" target="_parent" href="http://Coldstream.enjin.com/profile/2185826"><img src="http://assets-cloud.enjin.com/users/2185826/avatar/medium.1400039846.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="George" data-minitooltip-userid="655094" target="_parent" href="http://Coldstream.enjin.com/profile/655094"><img src="http://assets-cloud.enjin.com/users/655094/avatar/medium.1399977699.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="Zemohc" data-minitooltip-userid="1737881" target="_parent" href="http://Coldstream.enjin.com/profile/1737881"><img src="http://assets-cloud.enjin.com/users/1737881/avatar/medium.1400036934.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div><div  class="element_avatar simple medium"><a  data-minitooltip="Grandislayer the Red Wizard" data-minitooltip-userid="763513" target="_parent" href="http://Coldstream.enjin.com/profile/763513"><img src="http://assets-cloud.enjin.com/users/763513/avatar/medium.1399997025.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>																					</div>
+									</div>
+
+																		<div class='widget games'>
+										<div class='widget-title'>OUR GAMES</div>
+										<div class='widget-content'>
+											<a class="element_gamebox pc boxsmall"  href="/page/105125/games" data-minitooltip="Minecraft (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/6207/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"></a><a class="element_gamebox pc boxsmall"  href="/page/105125/recruitment?gid=72700-0" data-minitooltip="Planetside 2 (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/72700/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"><div class="element_gamebox_recruiting">Recruiting</div></a><a class="element_gamebox pc boxsmall"  href="/page/105125/recruitment?gid=73299-0" data-minitooltip="Reign of Kings (PC)"><img src="http://assets-cloud.enjin.com/gameboxes/73299/boxsmall.jpg" onerror="this.src='http://assets-cloud.enjin.com/gameboxes/default/boxsmall.jpg'; this.onerror=null;"><div class="element_gamebox_recruiting">Recruiting</div></a>										</div>
+									</div>
+									
+									<div class='widget hits'>
+										<div class='widget-title'>SITE HITS</div>
+										<div class='widget-content'>
+											<div class='graph' style='height: 36px; border-color: #0f0f0f;'></div>
+											<div class='info'>
+												<span class='left'>TODAY: 16</span>
+												<span class='right'>UNIQUE HITS: 27,525</span>
+											</div>
+										</div>
+									</div>
+
+																	</div>
+
+								<div class='siteprofile-content'>
+									
+<div class='m_sitewall element_wall' id='siteactivity-1091032182'>
+	
+	<div class='posts'>
+		<div class='wall-post group forum_thread_group' data-post_id='23141815' data-timestamp='1437065620' data-oldest='1437063375'>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar medium simple'><img title='Recent forum threads' src='http://resources.guild-hosting.net/201507171479/themes/core/images/transparent.gif'></div></td>
+			<td class='post'>
+				<table>
+					<tr>
+						<th class='thread'>Recent new threads</th>
+						<th class='replies'>Replies</th>
+						<th class='forum'>Forum</th>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="Letholdus101" data-minitooltip-userid="10247772" href="http://Coldstream.enjin.com/profile/10247772"><img src="http://assets-cloud.enjin.com/users/10247772/avatar/tiny.1437065307.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23141815&preset=2717425'>
+                                Any other anime fans in here?                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=23141815&preset=2717425'>1</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=1877801&preset=2717425'>Off-Topic</a></td>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="Letholdus101" data-minitooltip-userid="10247772" href="http://Coldstream.enjin.com/profile/10247772"><img src="http://assets-cloud.enjin.com/users/10247772/avatar/tiny.1437065307.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23141079&preset=2717425'>
+                                DayZ Clan?                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=23141079&preset=2717425'>2</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=668383&preset=2717425'>General Gaming</a></td>
+					</tr>
+														</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-49894' data-timestamp='1436948111' data-post-type="user_joined">
+	<a name='post14369760000014078278'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Archer" data-minitooltip-userid="14078278" href="http://Coldstream.enjin.com/profile/14078278"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/14078278'  class='element_username'>Archer</a> &thinsp; registered to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Wed at 8:15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-49891' data-timestamp='1436868088' data-post-type="user_joined">
+	<a name='post14368896000014068438'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Major_Problem" data-minitooltip-userid="14068438" href="http://Coldstream.enjin.com/profile/14068438"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/14068438'  class='element_username'>Major_Problem</a> &thinsp; registered to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Tue at 10:01</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post forum_thread' data-post_id='23079895' data-timestamp='1436816404' data-post-type="forum_thread">
+	<a name='post14368164040023079895'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Oosten" data-minitooltip-userid="2121018" href="http://Coldstream.enjin.com/profile/2121018"><img src="http://assets-cloud.enjin.com/users/2121018/avatar/medium.1435299020.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/2121018'  class='element_username'>Oosten</a> &thinsp;
+					created a new thread <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23079895&preset=2717425'>The adventures of Diapukes and Oosten ---- Part 1</a> in the <a href='/ajax.php?s=redirect&cmd=forum-forum&preset=2717425&id=1877801'>Off-Topic</a> forum
+
+					
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Mon at 19:40</span>
+						<span class='comment-link'>
+							<span class='link'> &middot; <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23079895&preset=2717425'>0 Replies</a> &middot; 20 Views</span>
+						</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post forum_thread' data-post_id='23029378' data-timestamp='1436581834' data-post-type="forum_thread">
+	<a name='post14365818340023029378'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="The Hungarian Noble" data-minitooltip-userid="3156098" href="http://Coldstream.enjin.com/profile/3156098"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/3156098'  class='element_username'>The Hungarian Noble</a> &thinsp;
+					created a new thread <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23029378&preset=2717425'>Gaming Sundays</a> in the <a href='/ajax.php?s=redirect&cmd=forum-forum&preset=2717425&id=668383'>General Gaming</a> forum
+
+					
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 11, 15</span>
+						<span class='comment-link'>
+							<span class='link'> &middot; <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23029378&preset=2717425'>10 Replies</a> &middot; 121 Views</span>
+						</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-49880' data-timestamp='1436547394' data-post-type="user_joined">
+	<a name='post14365728000014028446'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="ebecht" data-minitooltip-userid="14028446" href="http://Coldstream.enjin.com/profile/14028446"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/14028446'  class='element_username'>ebecht</a> &thinsp; registered to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 10, 15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post group forum_thread_group' data-post_id='23025486' data-timestamp='1436566490' data-oldest='1436556802'>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar medium simple'><img title='Recent forum threads' src='http://resources.guild-hosting.net/201507171479/themes/core/images/transparent.gif'></div></td>
+			<td class='post'>
+				<table>
+					<tr>
+						<th class='thread'>Recent new threads</th>
+						<th class='replies'>Replies</th>
+						<th class='forum'>Forum</th>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="The Hungarian Noble" data-minitooltip-userid="3156098" href="http://Coldstream.enjin.com/profile/3156098"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/small.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23025486&preset=2717425'>
+                                Armored Warfare Early access                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=23025486&preset=2717425'>0</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=668383&preset=2717425'>General Gaming</a></td>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="RiveR" data-minitooltip-userid="887776" href="http://Coldstream.enjin.com/profile/887776"><img src="http://assets-cloud.enjin.com/users/887776/avatar/tiny.1399990445.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=23022716&preset=2717425'>
+                                Coldstream Gaming Night - Poll                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=23022716&preset=2717425'>1</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=668383&preset=2717425'>General Gaming</a></td>
+					</tr>
+														</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-49878' data-timestamp='1436487601' data-post-type="user_joined">
+	<a name='post14365152000002585524'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="doughboy" data-minitooltip-userid="2585524" href="http://Coldstream.enjin.com/profile/2585524"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/2585524'  class='element_username'>doughboy</a> &thinsp; registered to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 10, 15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-49875' data-timestamp='1436404356' data-post-type="user_joined">
+	<a name='post14364288000014017377'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Papa Smurf" data-minitooltip-userid="14017377" href="http://Coldstream.enjin.com/profile/14017377"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/14017377'  class='element_username'>Papa Smurf</a> &thinsp; registered to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 9, 15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post donation' data-post_id='105125-49875' data-timestamp='1436404749' data-post-type="donation">
+	<a name='post14364047490013947099'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Diapukus" data-minitooltip-userid="13947099" href="http://Coldstream.enjin.com/profile/13947099"><img src="http://assets-cloud.enjin.com/users/13947099/avatar/medium.1435890723.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/13947099'  class='element_username'>Diapukus</a> &thinsp; donated <b>$100.00</b> to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>.
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 9, 15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post group forum_thread_group' data-post_id='22990351' data-timestamp='1436404013' data-oldest='1436403766'>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar medium simple'><img title='Recent forum threads' src='http://resources.guild-hosting.net/201507171479/themes/core/images/transparent.gif'></div></td>
+			<td class='post'>
+				<table>
+					<tr>
+						<th class='thread'>Recent new threads</th>
+						<th class='replies'>Replies</th>
+						<th class='forum'>Forum</th>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="Oosten" data-minitooltip-userid="2121018" href="http://Coldstream.enjin.com/profile/2121018"><img src="http://assets-cloud.enjin.com/users/2121018/avatar/tiny.1435299020.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=22990351&preset=2717425'>
+                                Skirmisher Detachment Sign-Ups                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=22990351&preset=2717425'>3</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=837453&preset=2717425'>Napoleonic Wars</a></td>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="reclu" data-minitooltip-userid="1655635" href="http://Coldstream.enjin.com/profile/1655635"><img src="http://assets-cloud.enjin.com/users/1655635/avatar/tiny.1400026808.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=22990290&preset=2717425'>
+                                Artillery Detachment                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=22990290&preset=2717425'>1</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=837453&preset=2717425'>Napoleonic Wars</a></td>
+					</tr>
+														</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post user_joined' data-post_id='105125-49871' data-timestamp='1436307149' data-post-type="user_joined">
+	<a name='post14363136000014003952'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Ranger" data-minitooltip-userid="14003952" href="http://Coldstream.enjin.com/profile/14003952"><img src="http://files.enjin.com.s3.amazonaws.com/105125/site_logo/medium.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/14003952'  class='element_username'>Ranger</a> &thinsp; registered to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 7, 15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post group forum_thread_group' data-post_id='22953400' data-timestamp='1436236079' data-oldest='1436235369'>
+	<table>
+		<tr>
+			<td class='avatar'><div class='element_avatar medium simple'><img title='Recent forum threads' src='http://resources.guild-hosting.net/201507171479/themes/core/images/transparent.gif'></div></td>
+			<td class='post'>
+				<table>
+					<tr>
+						<th class='thread'>Recent new threads</th>
+						<th class='replies'>Replies</th>
+						<th class='forum'>Forum</th>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="TylerY" data-minitooltip-userid="1369254" href="http://Coldstream.enjin.com/profile/1369254"><img src="http://assets-cloud.enjin.com/users/1369254/avatar/tiny.1400019356.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=22953400&preset=2717425'>
+                                Tabletop Simulator                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=22953400&preset=2717425'>0</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=668383&preset=2717425'>General Gaming</a></td>
+					</tr>
+										<tr class=''>
+						<td>
+                            <div  class="element_avatar simple tiny"><a  data-minitooltip="TylerY" data-minitooltip-userid="1369254" href="http://Coldstream.enjin.com/profile/1369254"><img src="http://assets-cloud.enjin.com/users/1369254/avatar/tiny.1400019356.png" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/tiny.png';" width="16" height="16"></a></div>                            <a href='/ajax.php?s=redirect&cmd=forum-thread&id=22953221&preset=2717425'>
+                                atWar (Afterwind)                            </a>
+                        </td>
+						<td class='replies'><a href='/ajax.php?s=redirect&cmd=forum-thread&id=22953221&preset=2717425'>1</a></td>
+						<td class='forum'><a href='/ajax.php?s=redirect&cmd=forum-forum&id=668383&preset=2717425'>General Gaming</a></td>
+					</tr>
+														</table>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post forum_thread' data-post_id='22943759' data-timestamp='1436201550' data-post-type="forum_thread">
+	<a name='post14362015500022943759'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="williambinette" data-minitooltip-userid="2475781" href="http://Coldstream.enjin.com/profile/2475781"><img src="http://assets-cloud.enjin.com/users/2475781/avatar/medium.1435291697.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/2475781'  class='element_username'>williambinette</a> &thinsp;
+					created a new thread <a href='/ajax.php?s=redirect&cmd=forum-thread&id=22943759&preset=2717425'>What TV Shows Do You Watch?</a> in the <a href='/ajax.php?s=redirect&cmd=forum-forum&preset=2717425&id=668382'>General Discussion</a> forum
+
+					
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 6, 15</span>
+						<span class='comment-link'>
+							<span class='link'> &middot; <a href='/ajax.php?s=redirect&cmd=forum-thread&id=22943759&preset=2717425'>1 Replies</a> &middot; 9 Views</span>
+						</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class='wall-post donation' data-post_id='105125-49868' data-timestamp='1436201481' data-post-type="donation">
+	<a name='post14362014810013834104'></a>
+	<table>
+		<tr>
+			<td class='avatar'>
+                <div  class="element_avatar simple medium"><a  data-minitooltip="Ben" data-minitooltip-userid="13834104" href="http://Coldstream.enjin.com/profile/13834104"><img src="http://assets-cloud.enjin.com/users/13834104/avatar/medium.1436157489.jpeg" onerror="this.src='http://resources.guild-hosting.net/201507171479/profile/images/avatar/medium.png';" width="43" height="43"></a></div>            </td>
+			<td class='post'>
+				<div class='post-content'>
+					<a href='/profile/13834104'  class='element_username'>Ben</a> &thinsp; donated <b>$15.00</b> to <a href='http://Coldstream.enjin.com'>2nd Coldstream</a>.
+
+					<div class='footer'>
+						<div class='status-icon'></div>
+						<span class='posted'>Jul 6, 15</span>
+					</div>
+									</div>
+				<div class='comments'>
+	<div class='triangle'></div>
+	</div>			</td>
+		</tr>
+	</table>
+</div>
+	</div>
+	<a class='wall-viewmore visible' href='javascript:void(0);' onclick='Enjin_Site_Wall.viewMorePosts(this);'>View more posts...</a>
+</div>								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+			</div>
+		</div>
+	
+	</div>
+
+</div>										        </div>
+										      </div><!-- module_content -->
+
+										
+
+										</div><!-- .module -->									</td>
+					            </tr>
+					          </table>
+					      </div><!-- .container_content -->
+					  </div><!-- .container_body -->
+
+                                              <div class="fixed_height_elem container_footer">
+                            <div class="left"><!--  --></div>
+                            <div class="right"><!--  --></div>
+                                                    </div>
+                      
+					</div><!-- .container -->
+				
+
+
+		            		      <div class="fixed_height_elem container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	<div class="fixed_height_elem"><table class="section-collection"><tr class="top">
+			<td class="section-border"><div class="decorator-box"></div></td>
+				<td id="section-footer"
+		class="section-holder section-width-large"
+		style=""
+		data-width="1030"
+	>
+		<div class="section">            		      <div class=" container_spacer last">
+		        <div class="left"><!--  --></div>
+		        <div class="right"><!--  --></div>
+		        <div class="middle"><!--  --></div>
+		      </div>
+                        <div class='clearing'><!--  --></div>
+		</div><!-- .section -->
+	</td>
+		<td class="section-border"><div class="decorator-box"></div></td>
+	</tr>
+</table><!-- .section-collection -->
+</div><!-- -->
+	
+
+		</div><!-- #site-body -->
+
+		<div class="fixed_height_elem" id="page-footer">
+							<div class="left">
+					<a href='http://www.enjin.com/'>
+						Community website					</a>
+					by
+					<a href="http://www.enjin.com/">
+						<img src="http://resources.guild-hosting.net/201507171479/themes/core/images/efooter.png" alt="guild hosting" title="Enjin">
+					</a>
+				</div>
+				<div class="right">
+					&copy; 2015 Enjin
+				</div>
+					</div>
+
+  </div><!-- #page-wrap -->
+</div><!-- #page -->
+
+
+
+
+
+</div></div>
+
+
+
+
+
+
+<div id='global-search-box' class='element_popdown' style='display: none;'><div class='inner'>
+    <form action="/dashboard/search">
+	<div class='search-box-area'><div class='input-text global-search-box-input'><input type="text" name="keywords" style="width:512px" value="Search everything..." /></div><a class="icon"></a></div>
+	<div class='search-results hidden' style="border-top:1px solid #363636; margin-top:4px">
+	   <div class="loading"><center><img src="http://resources.guild-hosting.net/201507171479/themes/core/images/icons/search-loading.gif"></center></div>
+	   <div class="empty hidden">No matches found.</div>
+	   <div class="results hidden">
+	       <ul></ul>
+	       <div class='more'>
+                <div style="display:inline-block"><div class='element_button'><div class='l'><!-- --></div><div class='r'><!-- --></div><input type='submit' value='See more advanced results'></div></div>
+                <div style="display:inline-block;float:right;position:relative;top:11px;right:7px;">Displaying top <span class="count"></span> results</div>
+           </div>
+	   </div>
+	</div>
+</form>
+<div class='tab'><div></div></div></div></div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {	
+	
+	Enjin_Core.Announcements.init([]);
+	Enjin_Core.Reminders.init([]);
+});
+</script>
+<div id="site-announcements">
+	<a href="#">
+		<i class="icon-warning-sign icon"></i>
+		<span class="ann-tray-text"><span class="amount"></span> Notice<span class="plural">s</span></span>
+	</a>
+	<div class="site-announcement">
+		<div class="title-bar">
+			<div class="title ann-title"></div> 
+			<div class="close-wrapper"><a href="#" onclick="Enjin_Core.Announcements.close(true);return false;"><div class="close"></div></a></div>
+		</div>	
+		<div class="content"></div>
+		
+		<div class="nav-bar nav-bar-bottom">
+			<div class="nav">
+				<div class="announcements-nav">
+					<div class="element_button" onclick="Enjin_Core.Announcements.prev();return false;">
+	                    <div class="l"><!-- --></div>
+	                    <div class="r"><!-- --></div>
+	                    <input type="button" value="Prev" onclick="">
+	                </div>
+	                <div class="element_button" onclick="Enjin_Core.Announcements.next();return false;">
+	                    <div class="l"><!-- --></div>
+	                    <div class="r"><!-- --></div>
+	                    <input type="button" value="Next" onclick="">
+	                </div>
+					<div class="title title-bottom">Announcement <span class="index"></span> of <span class="total"></span></div>
+				</div>
+				
+				<div class="element_button btn-delete-ann">
+				    <div class="l"><!-- --></div>
+				    <div class="r"><!-- --></div>
+				    <input type="button" value="Delete Announcement" />
+				</div>
+				<div class="element_button btn-agree-terms">
+				    <div class="l"><!-- --></div>
+				    <div class="r"><!-- --></div>
+				    <input type="button" value="I Agree to the Terms" />
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="border"></div>
+</div>
+
+
+<div id="announcement-popup" class="element_popup element_popup_core element_popup_window warning-issued-popup" style="z-index: 20000; display: none;">
+    <div class="inner window-frame">
+        <div class="popup_window_title">
+        	<span class="title-text"></span>
+        	<div class="close-wrapper btn-delete-ann-x">
+        		<a href="#"><div class="close"></div></a>
+        	</div>
+        </div>
+        <div class="content">	        
+        	<div class="announcement-text">
+	        	
+        	</div>
+        	<div class="controls">
+	        	<div class="element_button prev"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Prev" onclick=""></div>
+		        <div class="element_button next"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Next" onclick=""></div>
+				
+				<div class="title title-bottom"><span class="index">1</span> of <span class="total">4</span> Announcement</div>
+
+	        	<div class="element_button btn-delete-ann"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value="Delete Announcement"></div>
+		        <div class="element_button btn-agree"><div class="l"><!-- --></div><div class="r"><!-- --></div><input type="button" value=""></div>
+			</div>
+        </div>
+    </div>
+</div>
+<div class="announcement-canvas-separator" style="z-index: 19999;height: 100% !important; display: none;">&nbsp;</div>
+<!-- 0.257s -->
+<!-- pusher part -->
+
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script><script type="text/javascript">var recaptcha_publickey = "6Le3_AUTAAAAALjgZgjXxE1mU9KxrYl_g9mWmNSd";</script><script type="text/javascript">var recaptcha_token = "dQuu3G43fPYAzGudif6gsIieXA0pscr56L0wvgmbE8QMC1zCmnXzVrxpp9n9869WJusw0tI-4Q10nn7EZaujQ07pImgU_GuZxSZOamf12CM";</script>
+<!-- Start Quantcast tag -->
+<script type="text/javascript">
+_qoptions={
+qacct:"p-e2f9QTuI7ynec"
+};
+</script>
+<script type="text/javascript" src="http://edge.quantserve.com/quant.js" async defer></script>
+<noscript>
+<img src="http://pixel.quantserve.com/pixel/p-e2f9QTuI7ynec.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+</noscript>
+<!-- End Quantcast tag -->
+
+
+
+<div id="fb-root"></div><script type="text/javascript">
+    //<!--
+    		(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  js.async = true;
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+    		(function() {
+			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			po.src = 'https://apis.google.com/js/plusone.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+		    //-->
+</script>
+<script type="text/javascript">
+    //<!--
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");    //-->
+</script><!-- webx08.enjin.com -->
+
+
+
+
+	
+		
+	
+	
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+var _analytics_scr = document.createElement('script');
+_analytics_scr.type = 'text/javascript'; _analytics_scr.async = true; _analytics_scr.src = '/_Incapsula_Resource?SWJIYLWA=2977d8d74f63d7f8fedbea018b7a1d05&ns=1';
+var _analytics_elem = document.getElementsByTagName('script')[0]; _analytics_elem.parentNode.insertBefore(_analytics_scr, _analytics_elem);
+})();
+// ]]>
+</script></body>
+
+</html>
