@@ -263,21 +263,23 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
             {threads === null && <div className="note">Loading.</div>}
             {threads?.length === 0 && <div className="note">No threads here yet. Be the first.</div>}
             {threads && threads.length > 0 && (
-              <table className="ftable">
-                <thead><tr><th>Thread</th><th>Started by</th><th>Last post</th></tr></thead>
-                <tbody>
-                  {threads.map((t) => (
-                    <tr key={t.id}>
-                      <td>
-                        {t.pinned && <span className="pin">PINNED</span>}
-                        <button className="lnk strong" onClick={() => loadPosts(t)}>{t.title}</button>
-                      </td>
-                      <td className="dim">{one(t.author)?.display_name ?? 'unknown'}</td>
-                      <td className="dim">{when(t.last_post_at)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="tscroll">
+                <table className="ftable">
+                  <thead><tr><th>Thread</th><th>Started by</th><th>Last post</th></tr></thead>
+                  <tbody>
+                    {threads.map((t) => (
+                      <tr key={t.id}>
+                        <td>
+                          {t.pinned && <span className="pin">PINNED</span>}
+                          <button className="lnk strong" onClick={() => loadPosts(t)}>{t.title}</button>
+                        </td>
+                        <td className="dim">{one(t.author)?.display_name ?? 'unknown'}</td>
+                        <td className="dim">{when(t.last_post_at)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </main>
@@ -302,25 +304,27 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
           )}
 
           {boards && boards.length > 0 && (
-            <table className="ftable boards">
-              <thead><tr><th>Board</th><th>Threads</th><th>Last post</th></tr></thead>
-              <tbody>
-                {boards.map((b) => {
-                  const c = counts[b.id];
-                  return (
-                    <tr key={b.id}>
-                      <td>
-                        <button className="lnk strong" onClick={() => loadThreads(b)}>{b.name}</button>
-                        {b.min_role_read && <span className="pin">STAFF</span>}
-                        {b.description && <div className="bdesc">{b.description}</div>}
-                      </td>
-                      <td className="dim num">{c?.threads ?? 0}</td>
-                      <td className="dim">{c?.last ? when(c.last) : 'never'}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="tscroll">
+              <table className="ftable boards">
+                <thead><tr><th>Board</th><th>Threads</th><th>Last post</th></tr></thead>
+                <tbody>
+                  {boards.map((b) => {
+                    const c = counts[b.id];
+                    return (
+                      <tr key={b.id}>
+                        <td>
+                          <button className="lnk strong" onClick={() => loadThreads(b)}>{b.name}</button>
+                          {b.min_role_read && <span className="pin">STAFF</span>}
+                          {b.description && <div className="bdesc">{b.description}</div>}
+                        </td>
+                        <td className="dim num">{c?.threads ?? 0}</td>
+                        <td className="dim">{c?.last ? when(c.last) : 'never'}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </main>

@@ -189,17 +189,19 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
             <div className="note">Nobody has posted here yet. Go on then.</div>
           )}
           {intros && intros.length > 0 && (
-            <table className="ftable">
-              <thead><tr><th>Thread</th><th>Who</th></tr></thead>
-              <tbody>
-                {intros.map((t) => (
-                  <tr key={t.id}>
-                    <td><a className="lnk strong" href="#/forums">{t.title}</a></td>
-                    <td className="dim">{one(t.author)?.display_name ?? 'member'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="tscroll">
+              <table className="ftable">
+                <thead><tr><th>Thread</th><th>Who</th></tr></thead>
+                <tbody>
+                  {intros.map((t) => (
+                    <tr key={t.id}>
+                      <td><a className="lnk strong" href="#/forums">{t.title}</a></td>
+                      <td className="dim">{one(t.author)?.display_name ?? 'member'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </main>

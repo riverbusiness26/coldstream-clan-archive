@@ -58,52 +58,54 @@ export default function Members({ me }: { me: Me | null }) {
               value={q} onChange={(e) => setQ(e.target.value)}
             />
           </div>
-          <table className="rtable">
-            <thead>
-              <tr><th>Member</th><th>With us</th><th>Rank / class</th><th>Games</th><th></th></tr>
-            </thead>
-            <tbody>
-              {rows.map((p) => {
-                const yrs = yearsWithUs(p.firstYear);
-                // The key comes from the seed rather than being re-derived from
-                // the display name. Where two names have been confirmed as one
-                // person the key is the canonical one, and the entries under it
-                // were filed under a name that is no longer the one on show.
-                const key = p.key;
-                const mine = !!me && (
-                  p.steam_id64 === me.steam_id64
-                  || norm(me.display_name) === key
-                  || p.aka.some((a) => norm(a) === norm(me.display_name))
-                );
-                return (
-                  <Fragment key={key}>
-                    <tr className={mine ? 'me' : undefined}>
-                      <td>
-                        <span className="rname">{p.name}</span>
-                        {mine && <span className="ryears"> · you</span>}
-                        {p.aka.length > 0 && (
-                          <div className="raka">also on the record as {p.aka.join(', ')}</div>
-                        )}
-                      </td>
-                      <td className="ryears">{yrs ? `${yrs} years · joined ${p.firstYear}` : 'on the roll'}</td>
-                      <td>{p.rank ?? ''}</td>
-                      <td>{p.games.map((g) => <span key={g} className="gtag">{g}</span>)}</td>
-                      <td><button className="btn" style={{ padding: '4px 10px', fontSize: 10 }} onClick={() => setOpen(open === key ? null : key)}>record</button></td>
-                    </tr>
-                    {open === key && rosterEntries.filter((e) => e.person_key === key).map((e, i) => (
-                      <tr key={key + i}>
-                        <td colSpan={5} className="meta" style={{ paddingLeft: 32 }}>
-                          <span className="gtag">{e.game}</span>
-                          {e.rank_or_class ? `${e.rank_or_class} · ` : ''}{e.year ?? 'undated'}
-                          <span className="prov">source: {e.source_detail}{e.notes ? ` (${e.notes})` : ''}</span>
+          <div className="tscroll">
+            <table className="rtable">
+              <thead>
+                <tr><th>Member</th><th>With us</th><th>Rank / class</th><th>Games</th><th></th></tr>
+              </thead>
+              <tbody>
+                {rows.map((p) => {
+                  const yrs = yearsWithUs(p.firstYear);
+                  // The key comes from the seed rather than being re-derived from
+                  // the display name. Where two names have been confirmed as one
+                  // person the key is the canonical one, and the entries under it
+                  // were filed under a name that is no longer the one on show.
+                  const key = p.key;
+                  const mine = !!me && (
+                    p.steam_id64 === me.steam_id64
+                    || norm(me.display_name) === key
+                    || p.aka.some((a) => norm(a) === norm(me.display_name))
+                  );
+                  return (
+                    <Fragment key={key}>
+                      <tr className={mine ? 'me' : undefined}>
+                        <td>
+                          <span className="rname">{p.name}</span>
+                          {mine && <span className="ryears"> · you</span>}
+                          {p.aka.length > 0 && (
+                            <div className="raka">also on the record as {p.aka.join(', ')}</div>
+                          )}
                         </td>
+                        <td className="ryears">{yrs ? `${yrs} years · joined ${p.firstYear}` : 'on the roll'}</td>
+                        <td>{p.rank ?? ''}</td>
+                        <td>{p.games.map((g) => <span key={g} className="gtag">{g}</span>)}</td>
+                        <td><button className="btn" style={{ padding: '4px 10px', fontSize: 10 }} onClick={() => setOpen(open === key ? null : key)}>record</button></td>
                       </tr>
-                    ))}
-                  </Fragment>
-                );
-              })}
-            </tbody>
-          </table>
+                      {open === key && rosterEntries.filter((e) => e.person_key === key).map((e, i) => (
+                        <tr key={key + i}>
+                          <td colSpan={5} className="meta" style={{ paddingLeft: 32 }}>
+                            <span className="gtag">{e.game}</span>
+                            {e.rank_or_class ? `${e.rank_or_class} · ` : ''}{e.year ?? 'undated'}
+                            <span className="prov">source: {e.source_detail}{e.notes ? ` (${e.notes})` : ''}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
           <div className="note">
             Years are counted from a member's earliest dated record in the archives.
             Every row's source is one click away under "record". Sign in through
