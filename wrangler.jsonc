@@ -1,0 +1,14 @@
+{
+  // Cloudflare Workers static assets. The site is plain files, so there is no
+  // Worker script: Cloudflare serves the assets directly.
+  //
+  // The assets directory is the repository root because the built site lives
+  // there, which also lets GitHub Pages serve the same files as a free mirror.
+  // .assetsignore is what keeps node_modules and the research data out of the
+  // upload; without it wrangler tries to publish the entire repo.
+  "name": "coldstream-clan-archive",
+  "compatibility_date": "2026-08-20",
+  "assets": {
+    "directory": "./"
+  }
+}

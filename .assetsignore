@@ -1,0 +1,38 @@
+# What Cloudflare must NOT publish as part of the website.
+#
+# The built site lives at the repository root so that GitHub Pages can serve it
+# too, which means the assets directory is the whole repo, and without this
+# wrangler uploads all 3,308 files. That is how the first build failed: it hit
+# node_modules/workerd/bin/workerd at 144 MiB against a 25 MiB per-asset limit.
+#
+# Patterns follow gitignore syntax, and the leading slash matters: a bare
+# "*.js" would also exclude the site's own bundle under assets/.
+
+# Editor and repo metadata
+/.claude/
+/.gitattributes
+
+# Toolchain and dependencies
+/node_modules/
+/site/
+/package.json
+/package-lock.json
+/wrangler.jsonc
+/.github/
+
+# The research archive: source data, not the website. It stays in git and is
+# published through the site's own pages rather than served raw.
+/data/
+/brand/
+/backup/
+
+# Scraper and build scripts that live at the root
+/*.js
+/*.mjs
+
+# Project documentation
+/*.md
+
+# Earlier generated pages, superseded by the site itself. Kept in git, not served.
+/coldstream-*.html
+/thumb-compare.png
