@@ -11,19 +11,31 @@ import { asset } from '../lib/asset';
 interface Film { id: string; title: string; views: number; viewsText: string; published: string; channel: string }
 
 const FILMS = films as Film[];
-// The hero background: the most watched film in the archive, and the best
-// looking footage we have.
-const HERO_FILM = FILMS[0];
 
-// Seconds to skip at the head of each background film. These old uploads open
-// on smoke, title cards and intro sequences that fight the hero text, so each
-// starts once the actual footage does. Tune per video id; anything unlisted
-// uses the default.
-const BG_START_DEFAULT = 10;
-const BG_START_AT: Record<string, number> = {
-  '8AU7hzl8w5M': 18, // Friday LB Highlights, opens on a long smoke intro
-};
-const startAt = (id: string) => BG_START_AT[id] ?? BG_START_DEFAULT;
+// The hero background is a curated sequence, not a single film. Each segment
+// was scrubbed by hand to a moment worth watching, and the player double
+// buffers: the next film starts hidden a few seconds early, crossfades in,
+// and only then is the old one unmounted, so there is never a black flash or
+// a buffering spinner. Timestamps were verified against the actual videos.
+const SEGMENTS = [
+  // Friday LB Highlights: skip the smoke intro, hold the opening volley while
+  // the kill feed fills, and hand over on the film's own scene cut at 0:40.
+  { id: '8AU7hzl8w5M', start: 18, dur: 22, title: "2nd Coldstream's Friday LB Highlights" },
+  // RWL Week 1 vs 3eVolt: the advance onto their backs, kills pouring in,
+  // ending right on the "won the round!" banner at 5:30.
+  { id: 'gS2xlbD6b4k', start: 300, dur: 34, title: 'RWL Week 1 · 2ndCS vs 3eVolt' },
+  // vs the 8th Regiment of Foot, October 2012: close quarters in the trees.
+  { id: 'OnesY-EczqY', start: 45, dur: 35, title: 'vs the 8th Regiment of Foot, 2012' },
+];
+// Preview escape hatch: ?fullmotion overrides the reduced-motion guard so
+// the sequence can be checked on machines with animations turned off. Real
+// visitors with reduced motion set get the still poster, as they should.
+const FORCE_MOTION = new URLSearchParams(location.search).has('fullmotion');
+const PRELOAD_S = 7;   // next film starts buffering this many seconds early
+const FADE_MS = 1400;  // matches the iframe opacity transition in styles.css
+
+const segSrc = (seg: { id: string; start: number; dur: number }) =>
+  `https://www.youtube-nocookie.com/embed/${seg.id}?autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&start=${seg.start}&end=${seg.start + seg.dur + 30}`;
 
 function useCountUp(target: number, ms = 1200) {
   const [v, setV] = useState(0);
@@ -70,31 +82,62 @@ const HIGHLIGHTS: { title: string; body: string; tag: string }[] = [
 
 export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   const [bgReady, setBgReady] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [nextUp, setNextUp] = useState<number | null>(null);
+  const [live, setLive] = useState(0); // which segment the caption names
+  const [nonce, setNonce] = useState(0); // bumped to resync after a hidden tab
   const totalEvents = eventStats.reduce((n, e) => n + e.events, 0);
 
-  // One film, mounted once. The hero used to rotate through four every 24
-  // seconds, but each switch remounted the iframe, which made YouTube reload
-  // the player: a black flash, then buffering, every time. A single steady
-  // background reads as intentional instead of glitchy, and it is lighter.
-  const bg = HERO_FILM;
+  // The sequence: preload the next segment hidden, crossfade it in on cue,
+  // then unmount the old player. Background tabs throttle timers, so a
+  // visibility return restarts the current segment cleanly instead of
+  // resuming mid-drift.
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches && !FORCE_MOTION) return;
+    const seg = SEGMENTS[current];
+    const t1 = setTimeout(() => setNextUp((current + 1) % SEGMENTS.length), (seg.dur - PRELOAD_S) * 1000);
+    const t2 = setTimeout(() => setLive((current + 1) % SEGMENTS.length), seg.dur * 1000);
+    const t3 = setTimeout(() => {
+      setCurrent((current + 1) % SEGMENTS.length);
+      setNextUp(null);
+    }, seg.dur * 1000 + FADE_MS);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [current, nonce]);
+
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState === 'visible') {
+        setNextUp(null);
+        setNonce((n) => n + 1);
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
+
+  const slots: { seg: number; on: boolean }[] = [{ seg: current, on: true }];
+  if (nextUp !== null) slots.push({ seg: nextUp, on: live === nextUp });
 
   return (
     <div className="land">
       <section className="land-hero">
         {/* Loads as a soft blurred field, then pulls into focus once the video
             is genuinely playing. The poster sits underneath so the hero never
-            shows a black box while YouTube buffers, and both layers sharpen
-            together so the handover is invisible. */}
-        <div className={`land-video${bgReady ? ' ready' : ''}`} aria-hidden="true">
+            shows a black box while YouTube buffers. After that, segments
+            crossfade: the later sibling paints on top of the earlier one. */}
+        <div className={`land-video${bgReady ? ' ready' : ''}${FORCE_MOTION ? ' force' : ''}`} aria-hidden="true">
           <img className="fallback" src={asset('/hero-fallback.jpg')} alt="" />
-          <iframe
-            className={bgReady ? 'ready' : ''}
-            src={`https://www.youtube-nocookie.com/embed/${bg.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${bg.id}&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&start=${startAt(bg.id)}`}
-            allow="autoplay; encrypted-media"
-            tabIndex={-1}
-            title=""
-            onLoad={() => setTimeout(() => setBgReady(true), 1900)}
-          />
+          {slots.map((slot) => (
+            <iframe
+              key={`${slot.seg}-${nonce}`}
+              className={(slot.seg === current ? bgReady : slot.on) ? 'ready' : ''}
+              src={segSrc(SEGMENTS[slot.seg])}
+              allow="autoplay; encrypted-media"
+              tabIndex={-1}
+              title=""
+              onLoad={slot.seg === current && !bgReady ? () => setTimeout(() => setBgReady(true), 1900) : undefined}
+            />
+          ))}
         </div>
         <div className="land-scrim" />
         <div className="land-hero-in">
@@ -106,7 +149,7 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
             <button className="btn" onClick={() => go('members')}>The Roster</button>
             {!me && <button className="btn" onClick={signIn}>Sign in through Steam</button>}
           </div>
-          <div className="land-nowplaying">background: {bg.title} · {bg.viewsText}</div>
+          <div className="land-nowplaying">background: {SEGMENTS[live].title}</div>
         </div>
       </section>
 
