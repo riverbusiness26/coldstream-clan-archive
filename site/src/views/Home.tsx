@@ -2,6 +2,7 @@
 // server strip. A noticeboard, not a marketing page.
 import { news, people, eventStats, servers, GAME_NAMES } from '../lib/data';
 import Shoutbox from '../components/Shoutbox';
+import Discord from '../components/Discord';
 import type { Me } from '../lib/auth';
 
 export default function Home({ me, go }: { me: Me | null; go: (v: string) => void }) {
@@ -62,6 +63,7 @@ export default function Home({ me, go }: { me: Me | null; go: (v: string) => voi
         </main>
         <aside>
           <Shoutbox me={me} />
+          <Discord />
           <div className="module">
             <div className="mhead"><h3>The Numbers</h3></div>
             <div className="stats">

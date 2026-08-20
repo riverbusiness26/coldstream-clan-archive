@@ -253,3 +253,22 @@ footer b{color:var(--muted);font-weight:500}
   .era-events{grid-column:2;text-align:left}
   .era-body{padding-left:16px}
 }
+
+/* ---- discord panel ---- */
+.dsc-voice{padding:10px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.dsc-chan-name{font:400 10.5px/1.4 var(--mono);letter-spacing:.08em;color:var(--faint);text-transform:uppercase}
+.dsc-chan-who{margin-top:5px;display:flex;flex-wrap:wrap;gap:6px}
+.dsc-mini{display:inline-flex;align-items:center;gap:6px;background:var(--raised);border:1px solid var(--line);padding:4px 8px 4px 4px;font:400 11.5px/1 var(--body);color:var(--ink)}
+.dsc-mini img{width:18px;height:18px;border-radius:50%}
+.dsc-list{padding:12px 16px;display:flex;flex-wrap:wrap;gap:7px}
+.dsc-who{display:inline-flex;align-items:center;gap:7px;font:400 12px/1 var(--body);color:var(--muted);position:relative;padding-left:4px}
+.dsc-who img{width:22px;height:22px;border-radius:50%;border:1px solid var(--line)}
+.dsc-who::before{content:'';position:absolute;left:0;bottom:1px;width:7px;height:7px;border-radius:50%;background:var(--faint);box-shadow:0 0 0 2px var(--panel);z-index:1}
+.dsc-who.s-online::before{background:#3ba55d}
+.dsc-who.s-idle::before{background:#d9a125}
+.dsc-who.s-dnd::before{background:#d64545}
+.dsc-name{max-width:14ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsc-game{font:400 10px/1 var(--mono);color:var(--faint);max-width:12ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsc-more{font:400 11px/1.6 var(--mono);color:var(--faint);align-self:center}
+.dsc-foot{padding:12px 16px;border-top:1px solid var(--line);background:var(--raised);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dsc-refresh{font:400 10px/1.4 var(--mono);color:var(--faint);letter-spacing:.06em}
