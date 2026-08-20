@@ -76,18 +76,17 @@ const STAR = toUri(await sharp('brand/coldstream-guards-star.jpg')
 
 // ------------------------------------------------------------------- the page
 const html = `<title>Coldstream Gaming</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
-    --ground:#14110d; --panel:#1b1712; --raised:#241e17; --line:#3a3128;
-    --ink:#ece4d3; --muted:#a3968a; --faint:#6e6357;
-    --scarlet:#c62f42; --scarlet-deep:#8e1f2f; --brass:#c9a35c;
-    --disp:"Cinzel","Times New Roman",serif;
-    --body:"Alegreya Sans","Segoe UI",system-ui,sans-serif;
-    --mono:"IBM Plex Mono",Consolas,monospace;
+    --ground:#3e4637; --panel:#4c5844; --raised:#586350; --line:#282e22; --hi:#889180;
+    --ink:#dee7da; --muted:#aab69e; --faint:#828d72;
+    --scarlet:#c4b550; --scarlet-deep:#8f8a3a; --brass:#c8bc64;
+    --disp:"Tahoma","Verdana","Segoe UI",sans-serif;
+    --body:"Tahoma","Verdana","Segoe UI",sans-serif;
+    --mono:"Courier New",Courier,monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--ground) radial-gradient(1200px 500px at 50% -120px,#221b13,var(--ground)) no-repeat;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:13px;line-height:1.6}
   a{color:inherit;text-decoration:none}
   img{max-width:100%}
   button{font-family:var(--body)}
@@ -95,11 +94,11 @@ const html = `<title>Coldstream Gaming</title>
 
   .ribbon{position:fixed;top:14px;right:-44px;z-index:50;transform:rotate(38deg);background:var(--brass);color:#1a1408;font:600 11px/1 var(--mono);letter-spacing:.12em;padding:6px 48px;box-shadow:0 2px 10px rgba(0,0,0,.5);pointer-events:none}
 
-  .estbar{background:#0d0a07;border-bottom:1px solid var(--line);font:400 11.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em}
+  .estbar{background:#333a2c;border-bottom:1px solid var(--line);font:400 11.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em}
   .estbar .in{max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between}
   .estbar b{color:var(--brass);font-weight:500}
 
-  header.mast{background:linear-gradient(180deg,#1d1812,#151109);border-bottom:1px solid var(--line)}
+  header.mast{background:linear-gradient(180deg,#525f47,#3c4433);border-bottom:1px solid var(--line)}
   .mast .in{max-width:1120px;margin:0 auto;padding:18px 20px 0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .crest{height:56px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
   .wordmark{flex:1 1 auto;min-width:220px}
@@ -116,7 +115,7 @@ const html = `<title>Coldstream Gaming</title>
 
   .hero{position:relative;border-bottom:1px solid var(--line);overflow:hidden}
   .hero .bg{position:absolute;inset:0;background:url("${HERO}") center 42%/cover no-repeat}
-  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.15) 0%,rgba(20,17,13,.2) 52%,rgba(20,17,13,.9) 80%,var(--ground) 100%)}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(62,70,55,.1) 0%,rgba(62,70,55,.16) 52%,rgba(62,70,55,.92) 80%,var(--ground) 100%)}
   .hero .in{position:relative;max-width:1120px;margin:0 auto;padding:min(38vw,440px) 20px 30px;text-align:center}
   .hero p{margin:0 auto;max-width:56ch;color:#d6cdbc;font-size:17.5px;text-shadow:0 1px 8px rgba(0,0,0,.8)}
   .hero .cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
@@ -263,6 +262,32 @@ const html = `<title>Coldstream Gaming</title>
   .heritage img{width:72px;height:auto;border-radius:6px;flex:none}
   footer{max-width:1120px;margin:44px auto 0;padding:22px 20px 34px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font:400 11.5px/1.7 var(--mono);color:var(--faint)}
   footer b{color:var(--muted);font-weight:500}
+
+  /* ---- OG Steam VGUI skin overrides ---- */
+  .module,.srv,.svcrec,.vid,.fico,.tl img,.era img,.heritage img,.nchip,.chip,.pill,
+  .btn-red,.btn-ghost,.steam-btn,.pager button,.shout-in input,.shout-in button{border-radius:0}
+  .module{border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);box-shadow:none;background:var(--panel)}
+  .mhead{background:linear-gradient(180deg,#5c6b51,#414a38);border-bottom:1px solid var(--line)}
+  .mhead h3{font:bold 12px/1 var(--body);letter-spacing:.1em;color:#e6e9d2;text-transform:uppercase}
+  .btn-red,.btn-ghost,.steam-btn,.chip,.pager button,.shout-in button{background:linear-gradient(180deg,#5a6749,#47523a);border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);color:var(--ink);font:bold 12px var(--body)}
+  .btn-red{background:linear-gradient(180deg,#6d7c52,#4d5a3c);color:#f0edcb}
+  .btn-red:hover,.btn-ghost:hover,.steam-btn:hover,.chip:hover{filter:brightness(1.12);color:#fff}
+  .btn-red:active,.btn-ghost:active,.steam-btn:active,.chip:active,.pager button:active{border-color:var(--line) var(--hi) var(--hi) var(--line)}
+  .chip.on{background:#39412e;border-color:var(--line) var(--hi) var(--hi) var(--line);color:#e8e26f}
+  .steam-btn{color:#dfe8f5}
+  nav.main a{font:bold 12px/1 var(--body)}
+  nav.main a.on{color:#e8e26f;border-color:#c4b550}
+  .wordmark h1{font:bold clamp(20px,3vw,28px)/1.05 var(--body);letter-spacing:.04em}
+  .post h4{font:bold 15px/1.35 var(--body)}
+  .fname,.srv-name,.tl h4{font-weight:bold}
+  .srv{background:var(--raised);border:1px solid;border-color:var(--line) var(--hi) var(--hi) var(--line)}
+  .shout-in input{background:#333a2c;border:1px solid;border-color:var(--line) var(--hi) var(--hi) var(--line)}
+  .stats,.bars{background:var(--panel)}
+  .stat{background:var(--raised)}
+  .dot{background:#8bc53f;box-shadow:0 0 4px rgba(139,197,63,.7)}
+  .dot.idle{background:#c4b550}
+  .bar .col{background:linear-gradient(180deg,#9db054,#6d7c3c)}
+  .ribbon{background:#c4b550;color:#2a2f1c}
 </style>
 
 <div class="ribbon">DESIGN&nbsp;PREVIEW</div>
