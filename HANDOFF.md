@@ -796,3 +796,29 @@ you can get a screenshot, that is worth doing before River shows anyone.
 Rules recap, unchanged: no em dashes anywhere including code comments, years
 never era counts, gaming community never club, every archived item labeled with
 its source, and never post to any Discord without asking him first.
+
+---
+
+## 13. Member channels and footage: results (Robert side, 20 Aug 2026)
+
+Both YouTube hunts finished. Datasets committed here:
+
+- **data/youtube-footage.json**: 91 videos of the community with quoted
+  evidence per entry (74 member uploads, 7 opponent films, 7 ours, 3
+  mentions). Zelkova's channel alone holds a dated weekly event series
+  covering 2014 and 2015.
+- **data/member-channels.json**: channel identities, adversarially checked.
+  Confirmed: zelkova1224 = @Zelkova1224 (725 videos, community content deep
+  in the back catalog, use in-channel search), bean = @cosmic_bean,
+  williambinette = @williambinette, shiftknife = @dewad (the renamed
+  /user/ShiftKnife). Not confirmable with hard evidence: slug, kavcav (an
+  @kavcav channel exists and is era-consistent but nothing ties it
+  provably; easiest fix is asking kavcav in Discord), rivenx, pariah.
+  youtube-scrape.js CHANNELS now includes the four confirmed handles.
+- **New fact for the record:** the community played Holdfast: Nations at
+  War from 2020 into 2022 (member videos: "2ndCS Highlights" Holdfast
+  series, 2021 linebattle events, "2ndCS Pregame Vibe" 2020). Holdfast
+  belongs in the games list and the site's game tags.
+- Integration suggestion for the site (your call since site/ is yours right
+  now): films in The Archive can merge youtube.json + youtube-footage.json,
+  attributed by channel, with member channels labeled as such.

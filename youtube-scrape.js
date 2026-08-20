@@ -3,7 +3,12 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const CHANNELS = ['Official21stPA', '2ndColdstreamGuards'];
+const CHANNELS = ['Official21stPA', '2ndColdstreamGuards',
+  // member channels confirmed 2026-08-20 (see data/member-channels.json).
+  // Note: @Zelkova1224 has 725 videos; the /videos page only surfaces recent
+  // uploads, so its 2014-2015 community series needs an in-channel search
+  // (/@Zelkova1224/search?query=coldstream) to enumerate fully.
+  'Zelkova1224', 'cosmic_bean', 'williambinette', 'dewad'];
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
 const CACHE = 'data/youtube';

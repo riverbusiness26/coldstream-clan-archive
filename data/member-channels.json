@@ -1,0 +1,254 @@
+{
+ "confirmed": [
+  {
+   "member": "zelkova1224",
+   "found": true,
+   "handle": "@Zelkova1224",
+   "channel_url": "https://www.youtube.com/@Zelkova1224",
+   "evidence": [
+    "Channel handle exactly matches the distinctive member name (canonical /@Zelkova1224, channel id UC4wARtb4vfPWTc9NvhDAmdw, display name 'Zelkova Koti Moon')",
+    "2015-era community videos: '2nd Coldstream Guards Linebattle: 6/25/15', '7/10/15', '7/24/15', 'Native Event: 6/24/15, 7/1/15, 7/8/15', 'Siege Event: 6/20/15' — exact era and unit named in the task",
+    "'NW Commander Battle w/ 2ndCS Ep 1' and 'Ep 2' — 2ndCS named directly in titles; video descriptions contain '2ndCS enlist here: http://www.coldstream.enjin.com/enlistment' (recruitment link, proving membership not spectatorship)",
+    "Continued community involvement: Holdfast: Nations at War linebattle events 'w/ 2nd Coldstream Guards' dated 5/25/2020 through 6/13/2021",
+    "Mount & Blade Warband: Napoleonic Wars Commander Battle VODs (2021) — era-consistent Warband content",
+    "Not one of the already-archived channels (@Official21stPA, @2ndColdstreamGuards)"
+   ],
+   "sample_videos": [
+    {
+     "id": "xhSX2F3MPng",
+     "title": "2nd Coldstream Guards Linebattle: 6/25/15"
+    },
+    {
+     "id": "Qy7-6jCwR_w",
+     "title": "2nd Coldstream Guards Linebattle: 7/10/15"
+    },
+    {
+     "id": "p8kdfM6ewws",
+     "title": "2nd Coldstream Guards Linebattle: 7/24/15"
+    },
+    {
+     "id": "o_MEzp313x8",
+     "title": "2nd Coldstream Guards Siege Event: 6/20/15"
+    },
+    {
+     "id": "RDZeIEBqzAY",
+     "title": "2nd Coldstream Guards Native Event: 6/24/15"
+    },
+    {
+     "id": "OBTInqZImMU",
+     "title": "NW Commander Battle w/ 2ndCS Ep 1"
+    },
+    {
+     "id": "We3YMfhV-rQ",
+     "title": "NW Commander Battle W/ 2ndCS Ep 2"
+    },
+    {
+     "id": "3cK4hdlmlio",
+     "title": "Holdfast: Nations at War|Linebattle Event|2nd Coldstream Guards (1/24/21)"
+    }
+   ],
+   "video_count_estimate": 725,
+   "notes": "Channel is active and large (725 videos); recent uploads are D&D 5e campaign episodes, so the community-relevant Warband/Coldstream content is buried deep in the back catalog. Verified via in-channel search (youtube.com/@zelkova1224/search?query=warband) rather than the /videos listing, which only surfaces recent uploads. The 2ndCS enlistment URL in video descriptions (coldstream.enjin.com/enlistment) is the strongest membership proof. More community videos likely exist beyond the 8 sampled; an in-channel search for 'coldstream' or '2ndCS' during archiving would catch them all.",
+   "verdict": "confirmed",
+   "verdict_reason": "Independently verified in-browser: channel UC4wARtb4vfPWTc9NvhDAmdw (@Zelkova1224, \"Zelkova Koti Moon\") hosts dated 2015 2nd Coldstream Guards linebattle/siege/native event recordings, and its own video descriptions prove membership: \"2nd Coldstream Guards Linebattle: 6/25/15\" (xhSX2F3MPng) carries the unit's recruitment link \"If you wish to join the 2nd Coldstream go to this website and enlist. http://coldstream.enjin.com/enlistment\", and \"NW Commander Battle w/ 2ndCS Ep 1\" (OBTInqZImMU, 2014) says he \"had some fun with the regrouped 2ndCS\". Continued 2nd Coldstream Holdfast content through 2021 corroborated via Steam. Not a same-name collision and not one of the already-archived channels. Minor correction to the researcher's evidence: the enjin enlistment link is in the 2015 linebattle descriptions, not the NW Commander Battle descriptions."
+  },
+  {
+   "member": "bean",
+   "found": true,
+   "handle": "@cosmic_bean",
+   "channel_url": "https://www.youtube.com/@cosmic_bean",
+   "evidence": [
+    "Channel display name is exactly \"Bean\" (channelId UChnQ7__3iqchbACNtxZxQUg)",
+    "Video \"2ndCS Pregame Vibe\" (lmmwi3bLa00, published 2020-10-02) explicitly names the community tag 2ndCS",
+    "Surrounding uploads are era-consistent community game clips: \"Fifed\", \"Trench Vibes\", \"Cannon\", \"Melee\", \"Barrel\", \"Rocket man\", \"1st SPACE Melee Finale\" (Holdfast/Napoleonic-style event footage, 2020-2022, matching the community's post-Warband Holdfast era)",
+    "Found via YouTube search for \"2ndCS\", where this channel appears alongside the archived @2ndColdstreamGuards channel and known member channels (williambinette, Zelkova1224, ironhide650)"
+   ],
+   "sample_videos": [
+    {
+     "id": "lmmwi3bLa00",
+     "title": "2ndCS Pregame Vibe"
+    },
+    {
+     "id": "yoMSlAf8yp8",
+     "title": "Trench Vibes"
+    },
+    {
+     "id": "9y8f2OO1FOU",
+     "title": "Fifed"
+    },
+    {
+     "id": "HNCbq807KiM",
+     "title": "Melee"
+    },
+    {
+     "id": "3__ujicWR28",
+     "title": "Cannon"
+    },
+    {
+     "id": "dtlO4F1qrBM",
+     "title": "Barrel"
+    },
+    {
+     "id": "GpDUu24giGo",
+     "title": "1st SPACE Melee Finale"
+    },
+    {
+     "id": "dLFrjqOK5Dw",
+     "title": "Joined"
+    }
+   ],
+   "video_count_estimate": 31,
+   "notes": "31 total uploads. One video explicitly names 2ndCS; the rest are short gameplay clips consistent with the community's Holdfast/musket-game era (2020-2022), not 2011-2016 Warband footage. Ruled out generic bean channels with no community content: @bean (CS:GO case openings), Bean Paste @TrafficCone9 (generic NW pub footage, no regiment ties), Bean Baron @beanbaron4836 (L4D2 Cold Stream campaign, unrelated), Beanbag - CrowsNestGaming, Dinklebean. Direct handle https://www.youtube.com/@bean is NOT the member.",
+   "verdict": "confirmed",
+   "verdict_reason": "Independently verified via YouTube oEmbed: video lmmwi3bLa00 \"2ndCS Pregame Vibe\" is authored by \"Bean\" at @cosmic_bean, and channelId UChnQ7__3iqchbACNtxZxQUg resolves to \"Bean - YouTube\". The 2ndCS community tag appears in the channel's own video title, and sibling uploads (\"Trench Vibes\", \"Fifed\", \"Cannon\", \"1st SPACE Melee Finale\", 2020-2022) are Holdfast/Napoleonic linebattle event footage matching the community's post-Warband era. No alternate meaning of 2ndCS found; channel is not one of the excluded archive channels."
+  },
+  {
+   "member": "williambinette",
+   "found": true,
+   "handle": "@williambinette",
+   "channel_url": "https://www.youtube.com/@williambinette",
+   "evidence": [
+    "Channel handle exactly matches the distinctive member name: canonicalBaseUrl /@williambinette, channel title 'williambinette'",
+    "Five videos explicitly naming the community: '2ndCS Highlights Ep. 1' through 'Ep. 5', three titled 'Holdfast: Nations at War - 2ndCS Highlights'",
+    "Era-consistent Napoleonic community content: 'Russian Special Forces Circa 1805', 'The First Russian Paratrooper', 'some pubbin'"
+   ],
+   "sample_videos": [
+    {
+     "id": "cN03hWu8Kxc",
+     "title": "Holdfast: Nations at War - 2ndCS Highlights Ep. 1"
+    },
+    {
+     "id": "NkNJkNi3WoU",
+     "title": "Holdfast: Nations at War - 2ndCS Highlights Ep. 2"
+    },
+    {
+     "id": "OkvXE5g1FTk",
+     "title": "Holdfast: Nations at War - 2ndCS Highlights Ep. 3"
+    },
+    {
+     "id": "VAKKlKZoxYg",
+     "title": "2ndCS Highlights Ep. 4"
+    },
+    {
+     "id": "nOOYHgwdA7M",
+     "title": "2ndCS Highlights Ep. 5"
+    },
+    {
+     "id": "OTrunYSM7ls",
+     "title": "Russian Special Forces Circa 1805"
+    },
+    {
+     "id": "xuNMQZZTDxs",
+     "title": "The First Russian Paratrooper"
+    },
+    {
+     "id": "Ncp6N2H7uck",
+     "title": "some pubbin"
+    }
+   ],
+   "video_count_estimate": 13,
+   "notes": "Channel has 7 subscribers and roughly 13 videos (13 unique video ids found on the /videos page). Content is 2ndCS gaming highlights (Holdfast: Nations at War, the community's successor game to Warband Napoleonic Wars) plus unrelated recent marching band clips (Ballard 2026). Not one of the archived channels (@Official21stPA, @2ndColdstreamGuards). Evidence gathered by fetching the /videos page directly and parsing the embedded JSON; WebSearch did not surface the channel.",
+   "verdict": "confirmed",
+   "verdict_reason": "Verified first-hand in the browser: channel @williambinette (UCaMm5MDlJq2YSAHEGbeyIhg) hosts all five 2ndCS Highlights videos; Ep. 1's description says \"Some highlights of the 2ndCS.\" with creator keyword tags \"2ndCS\" and \"Holdfast\", and \"Russian Special Forces Circa 1805\" is tagged \"Mount and Blade: Warband\" / \"Napoleonic Wars\" / \"NW\" — matching the community's Warband-to-Holdfast history. Not generic content and not a same-name stranger; handle and channel title match the member name."
+  },
+  {
+   "member": "shiftknife",
+   "found": true,
+   "handle": "@dewad",
+   "channel_url": "https://www.youtube.com/@dewad",
+   "evidence": [
+    "Legacy URL youtube.com/user/ShiftKnife resolves to this channel (now renamed dewad, channel id UC910TlMy9WmKfxnRLsSlrhg); the Steam group Operation: Gaming links this exact /user/ShiftKnife URL as a member's channel",
+    "Video 'Napoleonic Wars Linebattle - 2nd Coldstream' with description: 'A battle I partook in, playing as a member of the 2nd Coldstream.' - direct first-person statement of 2ndCS membership",
+    "Multiple Mount and Blade: Warband mod videos (Bear Force II series), era-consistent Warband content",
+    "Channel search for 'coldstream', 'linebattle', and 'napoleonic' within the channel all return the 2nd Coldstream linebattle video"
+   ],
+   "sample_videos": [
+    {
+     "id": "-RTg5Jyw_1A",
+     "title": "Napoleonic Wars Linebattle - 2nd Coldstream"
+    },
+    {
+     "id": "c1wSY2BuQbM",
+     "title": "BEAR FORCE II: Rest in Peace..."
+    },
+    {
+     "id": "2-h8QZGStdc",
+     "title": "BEAR FORCE II: 3rd Republic Legion"
+    },
+    {
+     "id": "mLIyaPW3CIc",
+     "title": "BEAR FORCE II: First Galactic Campaign - Battle of Kashyyyk"
+    },
+    {
+     "id": "CsBt29XyD5Q",
+     "title": "BEAR FORCE II: First Galactic Campaign - Outer Rim Sieges"
+    },
+    {
+     "id": "zCGHksiV6NQ",
+     "title": "ARMA 2: Sakhe Security"
+    }
+   ],
+   "video_count_estimate": 234,
+   "notes": "The direct handle @shiftknife is a 404. The real channel was found via the legacy username URL youtube.com/user/ShiftKnife (discovered through the Operation: Gaming Steam group, an ARMA community ShiftKnife later joined), which redirects to the channel now handled @dewad (also uses the name deewad). Channel stats: 234 videos, 281 subscribers. Current channel keywords are ARMA/Tarkov/PUBG; the Warband-era content (2nd Coldstream linebattle, Bear Force II) is older material found via in-channel search. The key evidence video (-RTg5Jyw_1A) names 2nd Coldstream in its title and states first-person membership in its description.",
+   "verdict": "confirmed",
+   "verdict_reason": "Verified firsthand: legacy URL youtube.com/user/ShiftKnife canonicalizes to channel UC910TlMy9WmKfxnRLsSlrhg (now named \"dewad\", handle @dewad), and that channel's video \"Napoleonic Wars Linebattle - 2nd Coldstream\" (id -RTg5Jyw_1A, uploaded ~13 years ago, era-consistent) carries the description \"A battle I partook in, playing as a member of the 2nd Coldstream.\" — a direct first-person statement of 2ndCS membership read from the live page, not generic content. Since YouTube legacy usernames are unique, the ShiftKnife identity is tied to this exact channel, ruling out a same-name different person. Channel is not one of the already-archived ones."
+  }
+ ],
+ "unconfirmed": [],
+ "notFound": [
+  {
+   "member": "slug",
+   "found": false,
+   "notes": "No channel could be tied to this community member with hard evidence. The direct handle https://www.youtube.com/@slug returns 404, as do legacy URLs /user/slug and /c/slug. YouTube and web searches combining \"slug\" with 2ndCS, 2nd Coldstream, Coldstream, linebattle, warband, Napoleonic Wars, Midnight Mercs, Battlegrounds 2, and 21stPA surfaced no channel named slug with community content. Existing handle variants checked (@slugg \"Slugg\", @TheSlug \"The Slug\", @SlugYT \"Slug Yt\", @slug1 \"Football editz\", @xslug \"Stefano A\") contain zero Warband, Napoleonic, linebattle, or Coldstream content on their videos pages. Searches of 2ndCS-era content show uploads only from the already-archived 2ndColdstreamGuards channel plus members \"Zelkova Koti Moon\" and \"BrutallStatic\", neither named slug. Given the generic name and the strict evidence rule, reporting not found rather than guessing."
+  },
+  {
+   "member": "kavcav",
+   "found": false,
+   "handle": "@kavcav",
+   "channel_url": "https://www.youtube.com/@kavcav",
+   "evidence": [],
+   "sample_videos": [],
+   "video_count_estimate": 0,
+   "notes": "The exact-handle channel @kavcav (\"Kav Cav\", UCJxyP4BpuzQNj8D3nJL6fuA) exists and is era-consistent by join date (Feb 1, 2013, 2 subscribers), but it has ZERO uploads (\"This channel doesn't have any content\") and its only public playlist (\"playlist\") contains modern music videos, no Warband/2ndCS/linebattle content, so the strict evidence rule fails. Two other candidates checked and rejected: channel literally titled \"kavcav\" (@νικτορ, UClcrb7usuHd0GuFZFnX1BtQ, Brazil, joined Apr 2022, 73 subs, no public videos) and \"kavcav tsechunheibilly\" (unrelated person). Steam profile steamcommunity.com/id/kavcav (76561198023741772) confirms membership in group 2ndColdstream (\"Coldstream Regiment of Footguards\") but links no YouTube channel, has no aliases and no profile comments. Web searches for kavcav plus community keywords returned nothing. Likely the member either never uploaded or uploads under an unrelated alias; @kavcav is plausibly theirs (distinctive handle, 2013 join) but cannot be confirmed. Side finding possibly useful: \"Zelkova Koti Moon\" is another channel with many 2nd Coldstream Guards linebattle videos from 2015 (e.g. u2KneHE-9-s \"2nd Coldstream Guards Linebattle: 7/31/15\")."
+  },
+  {
+   "member": "rivinx",
+   "found": false,
+   "notes": "Identity confirmed but no qualifying YouTube channel found. Hard identity trail: (1) FSE forum thread \"2nd (Coldstream) Regiment of Foot Guards\" (fsegames.eu/forum/index.php?topic=443.60) lists \"Recruit RivenX\" with a US flag in the 2012 roster, matching the hint. (2) MytholCommunity YouTube channel (2012) has videos \"Terraria: with RivenX and greenboyk\" Parts 1-3 and \"I44 Coop I: With SwamanII & RivenX\" whose description says they \"pull out the most advanced tactics the 21st can give\" (ties RivenX to the 21st / 21stPA era); the Terraria descriptions link RivenX's Steam profile steamcommunity.com/id/RivenX (steamID64 76561198053430966, member since Nov 2011, still named RivenX). Candidate channels, all failing the strict evidence rule: (a) youtube.com/@rivinx (UCYS6j8rezaaLrBB4JpbwTgw, channel name \"Rivinx\") — exact handle match to the current community name, but ZERO uploads; only a Favorites playlist of 2011-2012 music videos (Katy Perry E.T./Firework/Wide Awake, Imagine Dragons Radioactive). Era-consistent personal account, likely his, but nothing to archive and no Warband/community content. (b) youtube.com/@MrRivenX (UCuU2pOckEQ4uRolHmH7BdSw, channel name \"RivenX\", joined Aug 22 2013) — 8 short clips from Dec 2024-Aug 2025 (Arma 3, truck sim); the \"Arma 3\" video (fOzBu5tAAkI) description reads \"I lost the audio when saving this clip so I found a song from Warband\" and uses the Warband track Five Armies. Suggestive (name + Warband familiarity + Arma matching the community's current games) but no 2ndCS/Coldstream naming and no 2011-2016 Warband footage, so it does not meet the found=true bar. (c) youtube.com/@rivenx (CS:GO, Thai) and youtube.com/user/rivenx (@rivenx3160, Transformers clips) — unrelated. Also checked: rivinx Twitch (Dota streamer since 2016, no YouTube link, no community link), Coldstream Gaming Steam group member list (contains \"RiveR\" at /id/rivercs, US, member since Jul 2011 — possibly him under a newer name, profile has no YouTube link), all 44 uploads of the two archived community channels (no \"riven\" in titles or descriptions), commenters on community videos (none named riven*), and YouTube channel-filtered searches for both spellings. Recommend asking the member directly; @MrRivenX is the best guess if a human can verify.",
+   "evidence": [
+    "FSE forum topic 443 page 60: roster line 'Recruit RivenX' (US flag) in the 2nd Coldstream Regiment of Foot Guards thread",
+    "MytholCommunity (2012): 'I44 Coop I: With SwamanII & RivenX - Part 1 - The Landing' description: 'the most advanced tactics the 21st can give'",
+    "MytholCommunity Terraria videos link RivenX's Steam: steamcommunity.com/id/RivenX (created Nov 2011)",
+    "@MrRivenX (channel name 'RivenX') Arma 3 clip description: 'I found a song from Warband' - suggestive but not conclusive",
+    "@rivinx handle exists with 2011-2012-era favorites but zero uploads and no community content"
+   ],
+   "sample_videos": [
+    {
+     "id": "A8tuPz1VT3Q",
+     "title": "I44 Coop I: With SwamanII & RivenX - Part 1 - The Landing (MytholCommunity, 2012 - features the member, not his channel)"
+    },
+    {
+     "id": "eq5I_ziDxk8",
+     "title": "Terraria: with RivenX and greenboyk - Part 1 - Getting Started (MytholCommunity, 2012 - features the member, not his channel)"
+    },
+    {
+     "id": "fOzBu5tAAkI",
+     "title": "Arma 3 (@MrRivenX candidate channel - description references a song from Warband)"
+    }
+   ],
+   "video_count_estimate": 0
+  },
+  {
+   "member": "pariah",
+   "found": false,
+   "notes": "The member is real and verifiable: an Enjin user \"Pariah\" (profile id 894814) posted on the 2012 Midnight Mercs forum (midnightmercs.enjin.com, archived on Wayback July 2012; seen as poster in threads such as \"For Warhammer 40000 fans only please\" and \"ArmA Armed Assault\"). The Midnight Mercs Steam group (MidnightMercss) confirms the community lineage with its announcement \"Our website is now www.2ndCS.com\". However, no YouTube channel could be tied to this person. The direct handle youtube.com/@Pariah (UC28JUgZpf7h5FU85peg8PKQ) is a classical music channel (Beethoven/Wagner/Mahler with Chinese subtitles) with zero community content. A YouTube channel-filter search for \"pariah\" surfaced roughly 20 candidate channels (@Pariah-l4u, @PariahGaming, @pariahclan, @Pariah6950, @findthepariah, @PariahDaOne, @PariahWasOne, @Pariahss1, @pariah3167, @MortisPariah, @PariahDisciple, Pariah Productions, etc.); each was inspected and none contains Warband/Napoleonic Wars/2ndCS/Coldstream/linebattle/21stPA/Battlegrounds content. @Pariah-l4u (UCpo61eB6OImPFnfdOL8KxTA), which YouTube surfaces for \"pariah coldstream warband\", has only 45 videos, all CK3/RimWorld/Valheim from recent years, and its uploads playlist contains no community keywords. Enumerating the owners of 2ndCS/2nd Coldstream linebattle videos across multiple searches (2ndColdstreamGuards, Zelkova Koti Moon, Skzjr, dewad, williambinette, ironhide650, CrazyKillerGaming1, DeltaRanger7474, MOVIE_1000, cosmic_bean, HxC4Lyfe08, Gijs Walravens) shows no Pariah-named uploader. The Wayback captures of the Midnight Mercs forum do not include the thread pages containing Pariah's actual posts or his profile page, so no channel link is recoverable from there. Per the strict rule (generic name, no community content on any candidate), this is a not-found.",
+   "evidence": [
+    "Wayback capture of midnightmercs.enjin.com forum (July 2012) shows poster \"Pariah\" (enjin profile/894814) in General Discussion and General Gaming forums",
+    "Steam group MidnightMercss announcement: \"Our website is now www.2ndCS.com! Hop on and come chat\" confirming Midnight Mercs is the 2ndCS community",
+    "youtube.com/@Pariah is a classical music channel (Beethoven, Wagner, Mahler uploads) with no Warband content",
+    "No Pariah-named channel appears among uploaders of any 2ndCS/2nd Coldstream linebattle video found in YouTube search"
+   ],
+   "sample_videos": []
+  }
+ ]
+}
