@@ -1,0 +1,122 @@
+[
+ {
+  "abbr": "LtCol",
+  "name": "Lieutenant Colonel",
+  "tier": "Officers",
+  "file": "LtColLieutenantColonel.png",
+  "src": "/ranks/ltcol.png",
+  "w": 202,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/LtColLieutenantColonel.png"
+ },
+ {
+  "abbr": "Cpt",
+  "name": "Captain",
+  "tier": "Officers",
+  "file": "CptCaptain.png",
+  "src": "/ranks/cpt.png",
+  "w": 195,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/CptCaptain.png"
+ },
+ {
+  "abbr": "Lt",
+  "name": "Lieutenant",
+  "tier": "Officers",
+  "file": "LtLieutenant.png",
+  "src": "/ranks/lt.png",
+  "w": 170,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/LtLieutenant.png"
+ },
+ {
+  "abbr": "Ens",
+  "name": "Ensign",
+  "tier": "Officers",
+  "file": "EnsEnsign.png",
+  "src": "/ranks/ens.png",
+  "w": 193,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/EnsEnsign.png"
+ },
+ {
+  "abbr": "RSM",
+  "name": "Regimental Serjeant Major",
+  "tier": "Non-Commissioned Officers",
+  "file": "RsmRegimentalSerjeantMajor.png",
+  "src": "/ranks/rsm.png",
+  "w": 184,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/RsmRegimentalSerjeantMajor.png"
+ },
+ {
+  "abbr": "CSgt",
+  "name": "Colour Serjeant",
+  "tier": "Non-Commissioned Officers",
+  "file": "CsgtColourSerjeant.png",
+  "src": "/ranks/csgt.png",
+  "w": 170,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/CsgtColourSerjeant.png"
+ },
+ {
+  "abbr": "Sjt",
+  "name": "Serjeant",
+  "tier": "Non-Commissioned Officers",
+  "file": "SjtSerjeant.png",
+  "src": "/ranks/sjt.png",
+  "w": 186,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/SjtSerjeant.png"
+ },
+ {
+  "abbr": "Cpl",
+  "name": "Corporal",
+  "tier": "Non-Commissioned Officers",
+  "file": "CplCorporal.png",
+  "src": "/ranks/cpl.png",
+  "w": 192,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/CplCorporal.png"
+ },
+ {
+  "abbr": "ChM",
+  "name": "Chosen Man",
+  "tier": "Enlisted",
+  "file": "ChmChosenMan.png",
+  "src": "/ranks/chm.png",
+  "w": 195,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/ChmChosenMan.png"
+ },
+ {
+  "abbr": "Rgl",
+  "name": "Regular",
+  "tier": "Enlisted",
+  "file": "RglRegular.png",
+  "src": "/ranks/rgl.png",
+  "w": 174,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/RglRegular.png"
+ },
+ {
+  "abbr": "Pte",
+  "name": "Private",
+  "tier": "Enlisted",
+  "file": "PtePrivate.png",
+  "src": "/ranks/pte.png",
+  "w": 182,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/PtePrivate.png"
+ },
+ {
+  "abbr": "Rct",
+  "name": "Recruit",
+  "tier": "Enlisted",
+  "file": "RctRecruit.png",
+  "src": "/ranks/rct.png",
+  "w": 186,
+  "h": 420,
+  "source": "http://i891.photobucket.com/albums/ac116/Ashton366/RctRecruit.png"
+ }
+]

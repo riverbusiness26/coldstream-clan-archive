@@ -26,8 +26,29 @@ const GROUP_YEAR = {
   '2ndColdstreamOfficial': 2020, 'coldstreamgaming': 2020,
 };
 
+// Ranks reach the record both spelled out and abbreviated depending on which
+// source they came from, so "Rct" and "Recruit" were counting as two different
+// ranks. Everything resolves to the full name the regiment used.
+const RANK_NAMES = {
+  col: 'Colonel', ltcol: 'Lieutenant Colonel', maj: 'Major',
+  cpt: 'Captain', capt: 'Captain', lt: 'Lieutenant', ens: 'Ensign',
+  rsm: 'Regimental Serjeant Major', csgt: 'Colour Serjeant', cgrd: 'Colour Serjeant',
+  sjt: 'Serjeant', sgt: 'Serjeant',
+  cpl: 'Corporal', kpl: 'Corporal', lcpl: 'Lance Corporal',
+  chm: 'Chosen Man', rgl: 'Regular', pte: 'Private', pvt: 'Private',
+  rct: 'Recruit', cdt: 'Cadet', cad: 'Cadet',
+};
+const rankName = (r) => {
+  if (!r) return null;
+  const k = norm(r);
+  if (RANK_NAMES[k]) return RANK_NAMES[k];
+  // Already spelled out: keep it, but in one consistent casing.
+  const full = Object.values(RANK_NAMES).find((v) => norm(v) === k);
+  return full ?? String(r).trim();
+};
+
 const entries = [];
-const add = (e) => entries.push({ game: 'GEN', rank_or_class: null, year: null, steam_id64: null, notes: null, ...e, person_key: norm(e.person_name) });
+const add = (e) => entries.push({ game: 'GEN', rank_or_class: null, year: null, steam_id64: null, notes: null, ...e, rank_or_class: rankName(e.rank_or_class), person_key: norm(e.person_name) });
 
 // 1. Enjin member table: the oldest dated joins we have.
 for (const m of read('enjin-members.json')) {
@@ -338,4 +359,42 @@ for (const pick of PICKS) {
   });
 }
 writeFileSync('src/seed/gallery.json', JSON.stringify(galleryOut, null, 1));
+
+// ---- the rank ladder.
+//
+// The regiment's own rank insignia, recovered from its site. Twelve ranks in
+// three tiers, which is exactly the three section headers that sat alongside
+// them in the same album: Officers, Non-Commissioned Officers, Enlisted.
+//
+// Colonel is not here. River held it and there is no insignia for it in the
+// archive, so rather than draw one, the ladder shows what survives.
+const RANKS = [
+  { abbr: 'LtCol', name: 'Lieutenant Colonel', tier: 'Officers', file: 'LtColLieutenantColonel.png' },
+  { abbr: 'Cpt', name: 'Captain', tier: 'Officers', file: 'CptCaptain.png' },
+  { abbr: 'Lt', name: 'Lieutenant', tier: 'Officers', file: 'LtLieutenant.png' },
+  { abbr: 'Ens', name: 'Ensign', tier: 'Officers', file: 'EnsEnsign.png' },
+  { abbr: 'RSM', name: 'Regimental Serjeant Major', tier: 'Non-Commissioned Officers', file: 'RsmRegimentalSerjeantMajor.png' },
+  { abbr: 'CSgt', name: 'Colour Serjeant', tier: 'Non-Commissioned Officers', file: 'CsgtColourSerjeant.png' },
+  { abbr: 'Sjt', name: 'Serjeant', tier: 'Non-Commissioned Officers', file: 'SjtSerjeant.png' },
+  { abbr: 'Cpl', name: 'Corporal', tier: 'Non-Commissioned Officers', file: 'CplCorporal.png' },
+  { abbr: 'ChM', name: 'Chosen Man', tier: 'Enlisted', file: 'ChmChosenMan.png' },
+  { abbr: 'Rgl', name: 'Regular', tier: 'Enlisted', file: 'RglRegular.png' },
+  { abbr: 'Pte', name: 'Private', tier: 'Enlisted', file: 'PtePrivate.png' },
+  { abbr: 'Rct', name: 'Recruit', tier: 'Enlisted', file: 'RctRecruit.png' },
+];
+
+mkdirSync('public/ranks', { recursive: true });
+const ranksOut = [];
+for (const r of RANKS) {
+  const m = manifest.find((x) => x.url.endsWith('/' + r.file));
+  if (!m) { console.warn('ranks: no image for', r.file); continue; }
+  const out = `ranks/${r.abbr.toLowerCase()}.png`;
+  await sharp(join(ARCHIVE, 'data/img', m.hash))
+    .resize(null, 420, { withoutEnlargement: true })
+    .png({ compressionLevel: 9 }).toFile(join('public', out));
+  const rm = await sharp(join('public', out)).metadata();
+  ranksOut.push({ ...r, src: '/' + out, w: rm.width, h: rm.height, source: m.url });
+}
+writeFileSync('src/seed/ranks.json', JSON.stringify(ranksOut, null, 1));
+console.log(`ranks: ${ranksOut.length} of ${RANKS.length}`);
 console.log(`films: ${films.length} (top: ${films[0]?.title} · ${films[0]?.viewsText}) | gallery: ${galleryOut.length}`);

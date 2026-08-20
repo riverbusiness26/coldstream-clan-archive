@@ -6217,7 +6217,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Pte",
+   "rank_or_class": "Private",
    "year": null,
    "steam_id64": null,
    "notes": "also read as Annan, Anssen",
@@ -6228,7 +6228,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Pte",
+   "rank_or_class": "Private",
    "year": null,
    "steam_id64": null,
    "notes": "also read as Suggy",
@@ -6239,7 +6239,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Col",
+   "rank_or_class": "Colonel",
    "year": null,
    "steam_id64": null,
    "notes": "filed under \"Crawford\"; Identified by River himself: Steam RiveRcs, forum handle Crawford, in-game Colonel River",
@@ -6250,7 +6250,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Maj",
+   "rank_or_class": "Major",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6261,7 +6261,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6272,7 +6272,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6283,7 +6283,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Kpl",
+   "rank_or_class": "Corporal",
    "year": null,
    "steam_id64": null,
    "notes": "also read as avacentzen100",
@@ -6294,7 +6294,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Pte",
+   "rank_or_class": "Private",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6305,7 +6305,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Cdt",
+   "rank_or_class": "Cadet",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6316,7 +6316,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Cpl",
+   "rank_or_class": "Corporal",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6327,7 +6327,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6338,7 +6338,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6349,7 +6349,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "LCpl",
+   "rank_or_class": "Lance Corporal",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6360,7 +6360,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6371,7 +6371,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Cpl",
+   "rank_or_class": "Corporal",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6382,7 +6382,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Cdt",
+   "rank_or_class": "Cadet",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -6393,7 +6393,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": "also read as TheBlockL...",
@@ -6404,7 +6404,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Rct",
+   "rank_or_class": "Recruit",
    "year": null,
    "steam_id64": null,
    "notes": "also read as wilhambinette",
@@ -6415,7 +6415,7 @@
   },
   {
    "game": "NW",
-   "rank_or_class": "Cpl",
+   "rank_or_class": "Corporal",
    "year": null,
    "steam_id64": null,
    "notes": null,
@@ -7294,7 +7294,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Cpl",
+   "rank": "Corporal",
    "steam_id64": "76561198012303081",
    "entries": 4,
    "aka": []
@@ -7969,7 +7969,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 2,
    "aka": []
@@ -8043,7 +8043,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 2,
    "aka": []
@@ -8315,7 +8315,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 3,
    "aka": []
@@ -8327,7 +8327,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Col",
+   "rank": "Colonel",
    "steam_id64": "76561198044997257",
    "entries": 5,
    "aka": [
@@ -8650,7 +8650,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 2,
    "aka": [
@@ -9195,7 +9195,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Maj",
+   "rank": "Major",
    "steam_id64": null,
    "entries": 2,
    "aka": []
@@ -9349,7 +9349,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Cpl",
+   "rank": "Corporal",
    "steam_id64": null,
    "entries": 2,
    "aka": []
@@ -10881,7 +10881,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Pte",
+   "rank": "Private",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10893,7 +10893,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Pte",
+   "rank": "Private",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10905,7 +10905,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Kpl",
+   "rank": "Corporal",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10917,7 +10917,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Pte",
+   "rank": "Private",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10929,7 +10929,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Cdt",
+   "rank": "Cadet",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10941,7 +10941,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10953,7 +10953,7 @@
    "games": [
     "NW"
    ],
-   "rank": "LCpl",
+   "rank": "Lance Corporal",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10965,7 +10965,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10977,7 +10977,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Cpl",
+   "rank": "Corporal",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -10989,7 +10989,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Cdt",
+   "rank": "Cadet",
    "steam_id64": null,
    "entries": 1,
    "aka": []
@@ -11001,7 +11001,7 @@
    "games": [
     "NW"
    ],
-   "rank": "Rct",
+   "rank": "Recruit",
    "steam_id64": null,
    "entries": 1,
    "aka": []

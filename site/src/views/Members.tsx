@@ -4,6 +4,7 @@
 import { Fragment, useMemo, useState } from 'react';
 import { people, rosterEntries, yearsWithUs, GAME_NAMES } from '../lib/data';
 import type { Me } from '../lib/auth';
+import Ranks from '../components/Ranks';
 
 export default function Members({ me }: { me: Me | null }) {
   const [year, setYear] = useState<string>('all');
@@ -32,9 +33,13 @@ export default function Members({ me }: { me: Me | null }) {
 
   const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
 
+  // Ranks somebody on the roster actually held, so the ladder marks them.
+  const held = useMemo(() => new Set(people.map((p) => p.rank).filter(Boolean) as string[]), []);
+
   return (
     <div className="wrap solo">
       <main>
+        <Ranks held={held} />
         <div className="module">
           <div className="mhead"><h3>Members</h3><span className="sub">{rows.length} of {people.length} on the roll since 2011</span></div>
           <div className="chips">
