@@ -16,16 +16,19 @@ and is not.
 Supabase dashboard → **SQL Editor** → **New query** → paste the whole of
 `db/RUN_ME_next.sql` → **Run**. Safe to run more than once.
 
-Six migrations, and the order in that file matters:
+Nine migrations, and the order in that file matters:
 
 | file | what it does |
 | --- | --- |
+| `0000_role_rename` | renames the `officer` role to `moderator` on a database that already has it. **Has to stay first**: everything after it names `moderator`, and a database created before the rename would reject that and fail the whole script. Does nothing on a fresh one. |
 | `0004_grants` | grants the browser roles access to the tables. `0001` switched on row level security and wrote every policy but never granted the tables, and Postgres checks the grant *before* the policy, so everything 401'd. |
 | `0005_forum_privacy` | restricted boards were readable by any signed-in member, and thread and post reads were `using (true)` so staff threads were readable straight off the REST API. |
 | `0006_shoutbox` | puts `shout` in the realtime publication and trims the log to 200 lines. |
 | `0003_gallery_storage` | creates the `gallery` bucket and its policies. No manual bucket step needed. |
 | `0007_operator` | the separate back end login. |
 | `0008_gallery_moderation` | who may remove a gallery item, and from storage. |
+| `0009_gallery_categories` | gallery categories and video submissions. |
+| `0010_events` | the events calendar and RSVPs. |
 
 Check it worked, from anywhere:
 
@@ -77,7 +80,7 @@ Three function secrets. **Supabase reserves any name starting with
 | --- | --- |
 | `SITE_URL` | the site's public address, e.g. `https://coldstream.vercel.app` |
 | `SB_URL` | `https://zcpbpcktinlqnxmqddzc.supabase.co` |
-| `SB_SERVICE_ROLE_KEY` | Settings → API → `service_role`. **This one bypasses row level security entirely.** It belongs in this secret and nowhere else: not in the repo, not in Vercel, not in a chat window. |
+| `SB_SERVICE_ROLE_KEY` | Settings → API. This project uses the newer key format, so it is the **secret** key starting `sb_secret_...`, the one behind a Reveal button, not the publishable one. **It bypasses row level security entirely.** It belongs here and in the GitHub backup secret, and nowhere else: not in the repo, not in Vercel, not in a chat window. |
 
 Then:
 
@@ -113,7 +116,7 @@ After signing in through Steam once:
 update member set role = 'admin' where steam_id64 = '76561198044997257';
 ```
 
-Promote others the same way with `'officer'`.
+Promote others the same way with `'moderator'`. There are three roles: member, moderator and admin.
 
 ---
 
@@ -122,8 +125,10 @@ Promote others the same way with `'officer'`.
 - **`sb_publishable_...`** (anon) is public by design. It ships inside the
   site's JavaScript, it belongs in Vercel, and every request it makes is still
   gated by row level security. It is not a secret.
-- **`service_role`** is the opposite. It ignores row level security completely.
-  It goes in the edge function secret in step 3 and nowhere else.
+- **`sb_secret_...`** (service role) is the opposite. It ignores row level
+  security completely. It goes in exactly two places: the edge function secret
+  in step 3, and the `SUPABASE_SERVICE_ROLE_KEY` repository secret that the
+  nightly backup uses. Nowhere else.
 
 ---
 
@@ -131,17 +136,12 @@ Promote others the same way with `'officer'`.
 
 - **The storage bucket** is created by `0003` in step 1.
 - **Realtime** for the shoutbox is switched on by `0006` in step 1.
+- **Nightly backups**: `.github/workflows/backup-database.yml` exports every
+  table to `backup/*.json` in the repo. Needs the repository secret above.
+  See `DURABILITY.md`.
 - **Keeping the project awake**: `.github/workflows/supabase-keepalive.yml`
   reads one row every three days. A free project pauses after seven days idle.
   If it ever goes red with a 401, step 1 has not been run.
-
----
-
-## Not built yet
-
-The events calendar has no tables. `event` and `event_rsvp` are specified in
-`HANDOFF.md` section 15c and are not in any migration, so do not go looking for
-them in the dashboard.
 
 ---
 
