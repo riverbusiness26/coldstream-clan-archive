@@ -413,3 +413,28 @@ create policy gallery_object_delete on storage.objects
     )
   );
 
+
+-- ------------------------------------------------------------------
+-- 0004_gallery_moderation
+-- Officers approve or remove pending uploads. Approval was already covered
+-- by gallery_mod (update); removal needs delete policies: officers can
+-- delete any item, an uploader can withdraw their own while it is pending.
+drop policy if exists gallery_delete_mod on gallery_item;
+create policy gallery_delete_mod on gallery_item
+  for delete using (current_member_role() in ('officer','admin'));
+
+drop policy if exists gallery_delete_own_pending on gallery_item;
+create policy gallery_delete_own_pending on gallery_item
+  for delete using (uploader_id = current_member_id() and not approved);
+
+-- Storage side of a removal: officers may delete gallery objects, and an
+-- uploader may delete objects in their own folder.
+drop policy if exists gallery_object_delete on storage.objects;
+create policy gallery_object_delete on storage.objects
+  for delete using (
+    bucket_id = 'gallery'
+    and (
+      current_member_role() in ('officer','admin')
+      or (storage.foldername(name))[1] = current_member_id()::text
+    )
+  );

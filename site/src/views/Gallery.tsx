@@ -13,6 +13,8 @@ import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import { one } from '../lib/rel';
 import shotsSeed from '../seed/gallery.json';
+import { compressImage, compressToDataUrl } from '../lib/image';
+import { demoGallery } from '../lib/demoGallery';
 
 interface Shot {
   src: string;
@@ -70,7 +72,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   const [done, setDone] = useState<string | null>(null);
 
   const loadUploads = useCallback(() => {
-    if (!supa) { setUploads([]); return; }
+    if (!supa) { setUploads(demoGallery.list() as unknown as Upload[]); return; }
     supa
       .from('gallery_item')
       .select('*, uploader:member(display_name)')
@@ -90,7 +92,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   }, [light]);
 
   const publicUrl = (k: string) =>
-    supa ? supa.storage.from(BUCKET).getPublicUrl(k).data.publicUrl : '';
+    k.startsWith('data:') ? k : supa ? supa.storage.from(BUCKET).getPublicUrl(k).data.publicUrl : '';
 
   function pick(f: File | null) {
     setFormError(null);
@@ -112,7 +114,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   async function upload() {
     setFormError(null);
     if (!file) { setFormError('Choose an image first.'); return; }
-    if (!supa || !me) return;
+    if (!me) return;
 
     const yr = year.trim() ? Number(year.trim()) : null;
     if (yr !== null && (!Number.isInteger(yr) || yr < 2011 || yr > new Date().getFullYear())) {
@@ -120,13 +122,30 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       return;
     }
 
-    setBusy(true);
-    const ext = (file.name.split('.').pop() ?? 'jpg').toLowerCase().slice(0, 4);
-    const key = `${me.id}/${crypto.randomUUID()}.${ext}`;
+    if (!supa) {
+      setBusy(true);
+      try {
+        const dataUrl = await compressToDataUrl(file);
+        const res = demoGallery.add(dataUrl, caption.trim() || null, game.trim() || null, yr, me.display_name);
+        if (!res.ok) { setFormError(res.reason); return; }
+        setFile(null); setCaption(''); setGame(''); setYear('');
+        setDone('Uploaded to the demo store. An officer clears it and then it shows for everyone.');
+        loadUploads();
+      } catch (err) {
+        setFormError(err instanceof Error ? err.message : 'That image could not be read.');
+      } finally {
+        setBusy(false);
+      }
+      return;
+    }
 
-    const up = await supa.storage.from(BUCKET).upload(key, file, {
+    setBusy(true);
+    const squeezed = await compressImage(file);
+    const key = `${me.id}/${crypto.randomUUID()}.${squeezed.ext}`;
+
+    const up = await supa.storage.from(BUCKET).upload(key, squeezed.blob, {
       cacheControl: '31536000',
-      contentType: file.type,
+      contentType: squeezed.type,
     });
     if (up.error) {
       setBusy(false);
@@ -155,6 +174,19 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
   const mine = uploads?.filter((u) => !u.approved) ?? [];
   const live = uploads?.filter((u) => u.approved) ?? [];
+  const canModerate = me?.role === 'officer' || me?.role === 'admin';
+
+  async function approve(id: string) {
+    if (!supa) { demoGallery.approve(id); loadUploads(); return; }
+    await supa.from('gallery_item').update({ approved: true }).eq('id', id);
+    loadUploads();
+  }
+  async function reject(id: string, key: string) {
+    if (!supa) { demoGallery.remove(id); loadUploads(); return; }
+    await supa.from('gallery_item').delete().eq('id', id);
+    await supa.storage.from(BUCKET).remove([key]);
+    loadUploads();
+  }
 
   return (
     <div className="wrap solo">
@@ -246,6 +278,12 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                   <div className="shotbtn" key={u.id}>
                     <img src={publicUrl(u.storage_key)} alt={u.caption ?? ''} loading="lazy" />
                     <span className="shotyear">held</span>
+                    {canModerate && (
+                      <span className="modrow">
+                        <button className="btn sm" onClick={() => approve(u.id)}>Approve</button>
+                        <button className="btn sm" onClick={() => reject(u.id, u.storage_key)}>Remove</button>
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
