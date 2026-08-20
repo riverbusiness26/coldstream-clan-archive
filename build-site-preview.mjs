@@ -29,11 +29,47 @@ const ERA_SHORT = {
   'coldstreamgaming':'Coldstream Gaming',
 };
 
+// ---- game tagging: every announcement, server and film carries a game tag.
+// First-seen years come from the archives: Minecraft/CS:S/MW2/KF/L4D2/GMod
+// game nights all appear in 2011 announcements; ArmA 2 / Rome TW / TF2 /
+// Iron Front / N&S in 2012; CS:GO recruiting Feb 2013; DayZ/Rift/H&G 2013;
+// RoaR ran CS:GO retakes, ESEA and FACEIT from 2017.
+const GAMES = [
+  ['BG2','Battlegrounds 2', 2011], ['NW','Mount & Blade: Warband', 2011],
+  ['MC','Minecraft', 2011], ['CSS','Counter-Strike: Source', 2011],
+  ['CS16','Counter-Strike 1.6', 2011], ['MW2','Modern Warfare 2', 2011],
+  ['KF','Killing Floor', 2011], ['L4D2','Left 4 Dead 2', 2011],
+  ['GMOD',"Garry's Mod", 2011], ['ARMA','ArmA 2', 2012],
+  ['RTW','Rome: Total War', 2012], ['TF2','Team Fortress 2', 2012],
+  ['IF44','Iron Front 1944', 2012], ['NS','North & South', 2012],
+  ['CSGO','CS:GO', 2013], ['DAYZ','DayZ', 2013],
+  ['PS2','Planetside 2', 2013], ['RUST','Rust', 2014],
+];
+const ERA_GAME = { '21stPApubliclinebattlegroup':'BG2', '2ndColdstream':'NW', '2ndColdstreamOfficial':'NW', 'GoRoaRgg':'CSGO' };
+const inferGame = (text, group) => {
+  const t = ' ' + String(text).toLowerCase() + ' ';
+  const K = [
+    ['minecraft','MC'], ['project mansion','MC'], ['project minecraft','MC'],
+    ['cs:go','CSGO'], ['csgo','CSGO'], ['global offensive','CSGO'], ['retake','CSGO'], ['esea','CSGO'], ['faceit','CSGO'], ['10 man','CSGO'],
+    ['counter-strike: source','CSS'], ['cs:s','CSS'], [' css ','CSS'],
+    ['1.6','CS16'],
+    ['north & south','NS'], ['north and south','NS'],
+    ['arma','ARMA'], ['rust','RUST'], ['planetside','PS2'], ['dayz','DAYZ'],
+    ['trouble in terrorist','GMOD'], [' ttt ','GMOD'], ['gmod','GMOD'], ["garry's",'GMOD'],
+    ['rome','RTW'], ['team fortress','TF2'], [' tf2 ','TF2'],
+    ['iron front','IF44'], ['killing floor','KF'], ['left 4 dead','L4D2'], [' l4d','L4D2'],
+    ['musket','NW'], ['napoleonic','NW'], ['warband','NW'], ['groupfight','NW'],
+  ];
+  for (const [k, g] of K) if (t.includes(k)) return g;
+  return ERA_GAME[group] || 'GEN';
+};
+
 // ------------------------------------------------------------- assemble DATA
 const parseWhen = (w) => { const d = new Date(String(w||'').split('@')[0].trim()); return isNaN(d) ? 0 : d.getTime(); };
 const anns = (Array.isArray(annsRaw) ? annsRaw : annsRaw.announcements)
   .map((a) => ({ id: a.id, t: a.title, w: a.when, a: a.author, g: a.group,
     b: String(a.body || '').replace(/\s+/g, ' ').trim().slice(0, 1200), ts: parseWhen(a.when) }))
+  .map((a) => ({ ...a, gm: inferGame(a.t + ' ' + a.b, a.g) }))
   .sort((x, y) => y.ts - x.ts);
 
 const forumPosts = posts.map((p) => ({ n: p.replyNo, a: p.author, d: p.date,
@@ -44,7 +80,9 @@ const rosterByEra = {};
 for (const g of groupsArr) rosterByEra[g.slug] = (g.members || []).map((m) => m.name);
 
 const videos = community.videos.map((v) => ({ id: v.videoId, t: v.title, vw: v.views,
-  p: v.published, thumb: (images.youtube && (images.youtube[v.videoId] || {}).uri) || '' }));
+  p: v.published, gm: /21st|tribute|militia/i.test(v.title) ? 'BG2' : inferGame(v.title, '2ndColdstream'),
+  thumb: (images.youtube && (images.youtube[v.videoId] || {}).uri) || '' }));
+
 
 const DATA = {
   totals: community.totals,
@@ -53,6 +91,7 @@ const DATA = {
     first: e.first, last: e.last, headline: e.headline || '', summary: e.summary || '',
     short: ERA_SHORT[e.slug] || e.name })),
   eraOrder: ERA_ORDER, eraShort: ERA_SHORT,
+  games: GAMES,
   anns, forumPosts, intakes,
   intakeYears: community.intakeYears,
   lifers: community.lifers,
@@ -84,9 +123,9 @@ const STAR = toUri(await sharp('brand/coldstream-guards-star.jpg')
 const html = `<title>Coldstream Gaming</title>
 <style>
   :root{
-    --ground:#3e4637; --panel:#4c5844; --raised:#586350; --line:#282e22; --hi:#889180;
-    --ink:#dee7da; --muted:#aab69e; --faint:#828d72;
-    --scarlet:#c4b550; --scarlet-deep:#8f8a3a; --brass:#c8bc64;
+    --ground:#1a1c1b; --panel:#232624; --raised:#2c302e; --line:#101211; --hi:#4b514d;
+    --ink:#e9ebe7; --muted:#a2a8a2; --faint:#6f7570;
+    --scarlet:#dfe2dd; --scarlet-deep:#9aa09b; --brass:#cfd3ce;
     --disp:"Tahoma","Verdana","Segoe UI",sans-serif;
     --body:"Tahoma","Verdana","Segoe UI",sans-serif;
     --mono:"Courier New",Courier,monospace;
@@ -100,11 +139,11 @@ const html = `<title>Coldstream Gaming</title>
 
   .ribbon{position:fixed;top:14px;right:-44px;z-index:50;transform:rotate(38deg);background:var(--brass);color:#1a1408;font:600 11px/1 var(--mono);letter-spacing:.12em;padding:6px 48px;box-shadow:0 2px 10px rgba(0,0,0,.5);pointer-events:none}
 
-  .estbar{background:#333a2c;border-bottom:1px solid var(--line);font:400 11.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em}
+  .estbar{background:#131514;border-bottom:1px solid var(--line);font:400 11.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em}
   .estbar .in{max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between}
   .estbar b{color:var(--brass);font-weight:500}
 
-  header.mast{background:linear-gradient(180deg,#525f47,#3c4433);border-bottom:1px solid var(--line)}
+  header.mast{background:linear-gradient(180deg,#2b2f2d,#1e2120);border-bottom:1px solid var(--line)}
   .mast .in{max-width:1120px;margin:0 auto;padding:18px 20px 0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .crest{height:56px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
   .wordmark{flex:1 1 auto;min-width:220px}
@@ -121,7 +160,7 @@ const html = `<title>Coldstream Gaming</title>
 
   .hero{position:relative;border-bottom:1px solid var(--line);overflow:hidden}
   .hero .bg{position:absolute;inset:0;background:url("${HERO}") center 42%/cover no-repeat}
-  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(62,70,55,.1) 0%,rgba(62,70,55,.16) 52%,rgba(62,70,55,.92) 80%,var(--ground) 100%)}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,28,27,.12) 0%,rgba(26,28,27,.18) 52%,rgba(26,28,27,.93) 80%,var(--ground) 100%)}
   .hero .in{position:relative;max-width:1120px;margin:0 auto;padding:min(38vw,440px) 20px 30px;text-align:center}
   .hero p{margin:0 auto;max-width:56ch;color:#d6cdbc;font-size:17.5px;text-shadow:0 1px 8px rgba(0,0,0,.8)}
   .hero .cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
@@ -269,20 +308,22 @@ const html = `<title>Coldstream Gaming</title>
   footer{max-width:1120px;margin:44px auto 0;padding:22px 20px 34px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font:400 11.5px/1.7 var(--mono);color:var(--faint)}
   footer b{color:var(--muted);font-weight:500}
 
+  .gtag{display:inline-block;font:bold 10px/1 var(--mono);letter-spacing:.04em;border:1px solid var(--hi);padding:2px 5px;margin-right:7px;color:var(--muted);vertical-align:1px;white-space:nowrap}
   /* ---- OG Steam VGUI skin overrides ---- */
   .module,.srv,.svcrec,.vid,.fico,.tl img,.era img,.heritage img,.nchip,.chip,.pill,
   .btn-red,.btn-ghost,.steam-btn,.pager button,.shout-in input,.shout-in button{border-radius:0}
   .module{border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);box-shadow:none;background:var(--panel)}
-  .mhead{background:linear-gradient(180deg,#5c6b51,#414a38);border-bottom:1px solid var(--line)}
-  .mhead h3{font:bold 12px/1 var(--body);letter-spacing:.1em;color:#e6e9d2;text-transform:uppercase}
-  .btn-red,.btn-ghost,.steam-btn,.chip,.pager button,.shout-in button{background:linear-gradient(180deg,#5a6749,#47523a);border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);color:var(--ink);font:bold 12px var(--body)}
-  .btn-red{background:linear-gradient(180deg,#6d7c52,#4d5a3c);color:#f0edcb}
-  .btn-red:hover,.btn-ghost:hover,.steam-btn:hover,.chip:hover{filter:brightness(1.12);color:#fff}
+  .mhead{background:linear-gradient(180deg,#3a3f3c,#242826);border-bottom:1px solid var(--line)}
+  .mhead h3{font:bold 12px/1 var(--body);letter-spacing:.1em;color:#eceeea;text-transform:uppercase}
+  .btn-red,.btn-ghost,.steam-btn,.chip,.pager button,.shout-in button{background:linear-gradient(180deg,#3f4441,#2e3230);border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);color:var(--ink);font:bold 12px var(--body)}
+  .btn-red{background:linear-gradient(180deg,#d9dcd7,#aeb3ae);color:#181a19}
+  .btn-red:hover{filter:brightness(1.05)}
+  .x-unused:hover,.btn-ghost:hover,.steam-btn:hover,.chip:hover{filter:brightness(1.12);color:#fff}
   .btn-red:active,.btn-ghost:active,.steam-btn:active,.chip:active,.pager button:active{border-color:var(--line) var(--hi) var(--hi) var(--line)}
-  .chip.on{background:#39412e;border-color:var(--line) var(--hi) var(--hi) var(--line);color:#e8e26f}
+  .chip.on{background:#111312;border-color:var(--line) var(--hi) var(--hi) var(--line);color:#f2f4f0}
   .steam-btn{color:#dfe8f5}
   nav.main a{font:bold 12px/1 var(--body)}
-  nav.main a.on{color:#e8e26f;border-color:#c4b550}
+  nav.main a.on{color:#fff;border-color:#e9ebe7}
   .wordmark h1{font:bold clamp(20px,3vw,28px)/1.05 var(--body);letter-spacing:.04em}
   .post h4{font:bold 15px/1.35 var(--body)}
   .fname,.srv-name,.tl h4{font-weight:bold}
@@ -291,9 +332,9 @@ const html = `<title>Coldstream Gaming</title>
   .stats,.bars{background:var(--panel)}
   .stat{background:var(--raised)}
   .dot{background:#8bc53f;box-shadow:0 0 4px rgba(139,197,63,.7)}
-  .dot.idle{background:#c4b550}
-  .bar .col{background:linear-gradient(180deg,#9db054,#6d7c3c)}
-  .ribbon{background:#c4b550;color:#2a2f1c}
+  .dot.idle{background:#9aa09b}
+  .bar .col{background:linear-gradient(180deg,#cfd3ce,#8d938e)}
+  .ribbon{background:#dfe2dd;color:#181a19}
 </style>
 
 <div class="ribbon">DESIGN&nbsp;PREVIEW</div>
@@ -308,7 +349,7 @@ const html = `<title>Coldstream Gaming</title>
     <img class="crest" src="${LOGO}" alt="CSG globe logo">
     <div class="wordmark">
       <h1>COLDSTREAM <span class="red">GAMING</span></h1>
-      <p>GAMING COMMUNITY &nbsp;·&nbsp; EST. 2011</p>
+      <p>MULTI-GAMING COMMUNITY &nbsp;·&nbsp; EST. 2011</p>
     </div>
     <span id="auth-slot"></span>
   </div>
@@ -404,12 +445,15 @@ function homeView() {
   const latest = DATA.anns.filter((a) => a.ts > 0).slice(0, 4);
   const news = '<div class="module"><div class="mhead"><h3>Latest News</h3><span class="sub">from the announcement feed</span></div>'
     + latest.map((a) => '<article class="post"><h4><a href="#/thread/ann/' + a.id + '">' + esc(a.t) + '</a></h4>'
-      + '<div class="meta"><span class="tag">' + esc(eraName(a.g).toUpperCase()) + '</span>posted by <b>' + esc(a.a) + '</b> · ' + esc(a.w) + '</div>'
+      + '<div class="meta"><span class="gtag">' + a.gm + '</span><span class="tag">' + esc(eraName(a.g).toUpperCase()) + '</span>posted by <b>' + esc(a.a) + '</b> · ' + esc(a.w) + '</div>'
       + (a.b && a.b !== '.' ? '<p>' + esc(a.b.slice(0, 220)) + (a.b.length > 220 ? '…' : '') + '</p>' : '') + '</article>').join('')
     + '</div>';
+  const gamesMod = '<div class="module"><div class="mhead"><h3>Games We Play</h3><span class="sub">everything on the record since 2011</span></div><div class="grid-names">'
+    + DATA.games.map((g) => '<span class="nchip"><span class="gtag">' + g[0] + '</span>' + esc(g[1]) + '<span class="x">SINCE ' + g[2] + '</span></span>').join('')
+    + '</div></div>';
   const forums = '<div class="module"><div class="mhead"><h3>The Forums</h3><span class="sub">click a board to browse</span></div><table class="forum">'
     + boardRows() + '</table></div>';
-  return heroHTML() + '<div class="wrap"><main>' + news + forums + '</main>' + sidebar() + '</div>';
+  return heroHTML() + '<div class="wrap"><main>' + news + gamesMod + forums + '</main>' + sidebar() + '</div>';
 }
 
 function boardRows() {
@@ -439,14 +483,14 @@ function forumsView() {
 
 function serversView() {
   const S = [
-    { game: 'Garry\\'s Mod', name: 'Coldstream TTT', slots: '24 slots', blurb: 'Trouble in Terrorist Town. Trust nobody, especially whoever\\'s camping the tester.', status: 'coming soon' },
-    { game: 'Counter-Strike: Source', name: 'Coldstream CS:S', slots: '20 slots', blurb: 'Classic Source. Our first CS:S scrim was November 2011, so this one\\'s overdue.', status: 'coming soon' },
-    { game: 'Counter-Strike 1.6', name: 'Coldstream 1.6', slots: '20 slots', blurb: 'The old warhorse. Original maps, original movement, no crosshair excuses.', status: 'coming soon' },
-    { game: 'Minecraft', name: 'Coldstream SMP', slots: '20 slots', blurb: 'Simple survival, nothing fancy. The first community Minecraft server went up in 2011 alongside the muskets. Project Mansion walked so this could run.', status: 'coming soon' },
+    { game: 'Garry\\'s Mod', code: 'GMOD', name: 'Coldstream TTT', slots: '24 slots', blurb: 'Trouble in Terrorist Town. Trust nobody, especially whoever\\'s camping the tester.', status: 'coming soon' },
+    { code: 'CSS', game: 'Counter-Strike: Source', name: 'Coldstream CS:S', slots: '20 slots', blurb: 'Classic Source. Our first CS:S scrim was November 2011, so this one\\'s overdue.', status: 'coming soon' },
+    { code: 'CS16', game: 'Counter-Strike 1.6', name: 'Coldstream 1.6', slots: '20 slots', blurb: 'The old warhorse. Original maps, original movement, no crosshair excuses.', status: 'coming soon' },
+    { code: 'MC', game: 'Minecraft', name: 'Coldstream SMP', slots: '20 slots', blurb: 'Simple survival, nothing fancy. The first community Minecraft server went up in 2011 alongside the muskets. Project Mansion walked so this could run.', status: 'coming soon' },
   ];
   const pill = (s) => '<span class="pill' + (s === 'coming soon' ? ' hot' : '') + '">' + s.toUpperCase() + '</span>';
   const cards = S.map((s) =>
-    '<div class="srv"><div class="srv-top"><span class="srv-game">' + s.game + '</span>' + pill(s.status) + '</div>'
+    '<div class="srv"><div class="srv-top"><span class="srv-game"><span class="gtag">' + s.code + '</span>' + s.game + '</span>' + pill(s.status) + '</div>'
     + '<div class="srv-name">' + s.name + '</div>'
     + '<div class="srv-meta">' + s.slots + ' · address TBA</div>'
     + '<p>' + s.blurb + '</p></div>').join('');
@@ -463,7 +507,7 @@ function paradeView() {
   const PP = 20, pages = Math.max(1, Math.ceil(pool.length / PP));
   paradePage = Math.min(paradePage, pages - 1);
   const rows = pool.slice(paradePage * PP, paradePage * PP + PP).map((a) =>
-    '<tr class="rowlink" data-thread="ann/' + a.id + '"><td><div class="fname">' + esc(a.t) + '</div>'
+    '<tr class="rowlink" data-thread="ann/' + a.id + '"><td><div class="fname"><span class="gtag">' + a.gm + '</span>' + esc(a.t) + '</div>'
     + '<div class="meta">by <b>' + esc(a.a) + '</b> · ' + esc(a.w || annYear(a)) + ' · ' + esc(eraName(a.g)) + '</div></td></tr>').join('');
   const chips = ['all', ...DATA.eraOrder].map((s) =>
     '<button class="chip' + (paradeFilter === s ? ' on' : '') + '" data-filter="' + s + '">' + (s === 'all' ? 'All eras' : esc(eraName(s))) + '</button>').join('');
@@ -511,7 +555,7 @@ function archiveView() {
   const grid = DATA.videos.map((v) =>
     '<a class="vid" href="https://www.youtube.com/watch?v=' + encodeURIComponent(v.id) + '" target="_blank" rel="noopener">'
     + (v.thumb ? '<img src="' + v.thumb + '" alt="" loading="lazy">' : '')
-    + '<div class="vt">' + esc(v.t) + '</div><div class="vm">' + esc(v.vw || '') + (v.p ? ' · ' + esc(v.p) : '') + '</div></a>').join('');
+    + '<div class="vt">' + esc(v.t) + '</div><div class="vm"><span class="gtag">' + v.gm + '</span>' + esc(v.vw || '') + (v.p ? ' · ' + esc(v.p) : '') + '</div></a>').join('');
   return '<div class="wrap solo"><main><div class="crumb"><a href="#/forums">Forums</a> / The Archive</div>'
     + '<div class="module"><div class="mhead"><h3>✦ The Archive</h3><span class="sub">' + DATA.videos.length + ' films still up · links open on YouTube</span></div>'
     + '<div class="media-grid">' + grid + '</div></div></main></div>';
@@ -530,7 +574,7 @@ function annThread(id) {
   const a = DATA.anns.find((x) => x.id === id);
   if (!a) return forumsView();
   return '<div class="wrap solo"><main><div class="crumb"><a href="#/forums">Forums</a> / <a href="#/board/parade">The Parade Ground</a> / thread</div>'
-    + '<div class="module"><div class="mhead"><h3>' + esc(a.t) + '</h3><span class="sub">' + esc(eraName(a.g)) + '</span></div>'
+    + '<div class="module"><div class="mhead"><h3>' + esc(a.t) + '</h3><span class="sub">[' + a.gm + '] · ' + esc(eraName(a.g)) + '</span></div>'
     + '<div class="fpost"><div class="fpa"><div class="n">' + esc(a.a) + '</div><div class="g">OFFICER</div><div class="d">' + esc(a.w || '') + '</div></div>'
     + '<div class="fpb">' + esc(a.b && a.b !== '.' ? a.b : '(the original announcement body was a bare event call)') + '</div></div></div></main></div>';
 }
