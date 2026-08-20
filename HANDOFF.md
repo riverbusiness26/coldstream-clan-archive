@@ -486,3 +486,33 @@ appears there in 2011 and again in River's FSE thread years later.
   different regiment) stay stored but are labeled as such and excluded from
   community statistics. The front page shows the community; the Archive keeps
   the record.
+
+---
+
+## 11. Phase 2 build has started (Robert side, 20 Aug 2026)
+
+River approved the stack (Supabase + Vercel, fresh repo). **Slice 1 is built
+and running in demo mode** on Robert's machine in a new local repo,
+`coldstream-gaming-site`: site shell in the locked design, Steam OpenID edge
+function (code complete), full Postgres schema with row level security
+(db/0001_init.sql), seed pipeline reading this archive repo (584 roster
+entries, 383 people, 9 genuine news posts extracted from the Wayback Enjin
+captures into data/news-from-old-sites.json here), roster with years-with-us
+as the headline figure, working chat room module, servers page (TTT, CS:S,
+CS 1.6, Minecraft), and The Archive as its own labeled section.
+
+**Needed from River's side to go live:**
+1. Create an empty GitHub repo for the site (suggest `coldstream-gaming-site`
+   under riverbusiness26) and invite rivercs, same as before. Robert's side
+   pushes the code the moment access exists.
+2. Create a Supabase project on River's account. Then: apply
+   db/0001_init.sql and db/0002_seed.sql, deploy
+   supabase/functions/steam-auth with secrets SITE_URL, SB_URL,
+   SB_SERVICE_ROLE_KEY, and hand Robert's side the project URL + anon key
+   (env vars, never committed).
+3. Domain: River wrote "coldstreamgaing.com", missing an m. Confirm the
+   intended spelling before anyone registers anything.
+4. Discovery is running for member YouTube channels (zelkova1224, slug,
+   bean, kavcav, williambinette, rivinx, shiftknife, pariah); confirmed
+   channels will be added to youtube-scrape.js CHANNELS and the films
+   integrated into the site media.
