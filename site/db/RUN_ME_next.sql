@@ -2,8 +2,9 @@
 -- Dashboard > SQL Editor > New query > paste > Run.
 -- It is safe to run more than once.
 --
--- Order matters: grants first, then the policies that depend on them.
--- 0007 replaces several policies from 0001, so it has to come after them.
+-- Order matters. Grants come first because a policy is only checked after
+-- the grant. 0007 and 0008 replace policies created by 0001 and 0003, so
+-- they have to come after them or the earlier one wins.
 
 -- ==============================================================
 -- 0004_grants
@@ -206,6 +207,54 @@ create trigger shout_trim after insert on shout
 create index if not exists shout_recent on shout(created_at desc);
 
 -- ==============================================================
+-- 0003_gallery_storage
+-- ==============================================================
+-- Storage for member gallery uploads.
+--
+-- Run this after 0001_init.sql. It creates the public bucket the Gallery page
+-- writes to and the policies that decide who may write into it.
+--
+-- Reads are public because the images are meant to be seen. Writes are
+-- restricted: a signed-in member may only write inside a folder named after
+-- their own member id, so nobody can overwrite anyone else's uploads. The
+-- gallery_item row still starts unapproved, so uploading does not put an image
+-- in front of the community until an officer clears it.
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'gallery', 'gallery', true, 8388608,
+  array['image/jpeg','image/png','image/webp','image/gif']
+)
+on conflict (id) do update
+  set public = excluded.public,
+      file_size_limit = excluded.file_size_limit,
+      allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists gallery_object_read on storage.objects;
+create policy gallery_object_read on storage.objects
+  for select using (bucket_id = 'gallery');
+
+-- The first path segment must be the uploader's own member id.
+drop policy if exists gallery_object_write on storage.objects;
+create policy gallery_object_write on storage.objects
+  for insert to authenticated
+  with check (
+    bucket_id = 'gallery'
+    and (storage.foldername(name))[1] = current_member_id()::text
+  );
+
+drop policy if exists gallery_object_delete on storage.objects;
+create policy gallery_object_delete on storage.objects
+  for delete to authenticated
+  using (
+    bucket_id = 'gallery'
+    and (
+      (storage.foldername(name))[1] = current_member_id()::text
+      or current_member_role() in ('officer','admin')
+    )
+  );
+
+-- ==============================================================
 -- 0007_operator
 -- ==============================================================
 -- A separate back end login, kept apart from the community's Steam accounts.
@@ -270,13 +319,12 @@ drop policy if exists gallery_mod on gallery_item;
 create policy gallery_mod on gallery_item for update
   using (current_member_role() in ('officer','admin') or is_operator());
 
+-- Deleting a gallery item is handled in 0008, not here. An earlier draft of
+-- this migration let an uploader delete their own item at any time, which
+-- quietly beat the more careful rule in 0008 that they may only withdraw one
+-- while it is still pending: permissive policies are OR'd, so the loosest one
+-- wins and the stricter one looks like it is working when it is not.
 drop policy if exists gallery_remove on gallery_item;
-create policy gallery_remove on gallery_item for delete
-  using (
-    uploader_id = current_member_id()
-    or current_member_role() in ('officer','admin')
-    or is_operator()
-  );
 
 drop policy if exists thread_mod on thread;
 create policy thread_mod on thread for update
@@ -366,75 +414,45 @@ grant insert, update, delete on board, server_status to authenticated;
 -- values ('00000000-0000-0000-0000-000000000000', 'River');
 
 -- ==============================================================
--- 0003_gallery_storage
+-- 0008_gallery_moderation
 -- ==============================================================
--- Storage for member gallery uploads.
+-- Gallery moderation. Run after 0007.
 --
--- Run this after 0001_init.sql. It creates the public bucket the Gallery page
--- writes to and the policies that decide who may write into it.
+-- Written by the other session and inlined straight into RUN_ME_next.sql,
+-- which meant it was not reproducible from the db/ directory and would be lost
+-- the next time the bundle was regenerated. Same content, now a real file, with
+-- one thing added: the operator from 0007 can do these too, or the back end
+-- cannot moderate the gallery it is supposed to be moderating.
 --
--- Reads are public because the images are meant to be seen. Writes are
--- restricted: a signed-in member may only write inside a folder named after
--- their own member id, so nobody can overwrite anyone else's uploads. The
--- gallery_item row still starts unapproved, so uploading does not put an image
--- in front of the community until an officer clears it.
+-- Approval itself is an update and is already covered by gallery_mod in 0007.
+-- What is here is removal.
 
-insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values (
-  'gallery', 'gallery', true, 8388608,
-  array['image/jpeg','image/png','image/webp','image/gif']
-)
-on conflict (id) do update
-  set public = excluded.public,
-      file_size_limit = excluded.file_size_limit,
-      allowed_mime_types = excluded.allowed_mime_types;
+-- Officers and admins may remove anything. An uploader may withdraw their own
+-- upload only while it is still pending, so an approved picture cannot be
+-- pulled out from under the community later.
+drop policy if exists gallery_remove on gallery_item;
 
-drop policy if exists gallery_object_read on storage.objects;
-create policy gallery_object_read on storage.objects
-  for select using (bucket_id = 'gallery');
-
--- The first path segment must be the uploader's own member id.
-drop policy if exists gallery_object_write on storage.objects;
-create policy gallery_object_write on storage.objects
-  for insert to authenticated
-  with check (
-    bucket_id = 'gallery'
-    and (storage.foldername(name))[1] = current_member_id()::text
-  );
-
-drop policy if exists gallery_object_delete on storage.objects;
-create policy gallery_object_delete on storage.objects
-  for delete to authenticated
-  using (
-    bucket_id = 'gallery'
-    and (
-      (storage.foldername(name))[1] = current_member_id()::text
-      or current_member_role() in ('officer','admin')
-    )
-  );
-
-
--- ------------------------------------------------------------------
--- 0004_gallery_moderation
--- Officers approve or remove pending uploads. Approval was already covered
--- by gallery_mod (update); removal needs delete policies: officers can
--- delete any item, an uploader can withdraw their own while it is pending.
 drop policy if exists gallery_delete_mod on gallery_item;
 create policy gallery_delete_mod on gallery_item
-  for delete using (current_member_role() in ('officer','admin'));
+  for delete using (
+    current_member_role() in ('officer','admin')
+    or is_operator()
+  );
 
 drop policy if exists gallery_delete_own_pending on gallery_item;
 create policy gallery_delete_own_pending on gallery_item
   for delete using (uploader_id = current_member_id() and not approved);
 
--- Storage side of a removal: officers may delete gallery objects, and an
--- uploader may delete objects in their own folder.
+-- The storage side of a removal. Deleting the row without the object leaves
+-- the bucket filling up with files nothing points at.
 drop policy if exists gallery_object_delete on storage.objects;
 create policy gallery_object_delete on storage.objects
   for delete using (
     bucket_id = 'gallery'
     and (
       current_member_role() in ('officer','admin')
+      or is_operator()
       or (storage.foldername(name))[1] = current_member_id()::text
     )
   );
+

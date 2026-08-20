@@ -60,13 +60,12 @@ drop policy if exists gallery_mod on gallery_item;
 create policy gallery_mod on gallery_item for update
   using (current_member_role() in ('officer','admin') or is_operator());
 
+-- Deleting a gallery item is handled in 0008, not here. An earlier draft of
+-- this migration let an uploader delete their own item at any time, which
+-- quietly beat the more careful rule in 0008 that they may only withdraw one
+-- while it is still pending: permissive policies are OR'd, so the loosest one
+-- wins and the stricter one looks like it is working when it is not.
 drop policy if exists gallery_remove on gallery_item;
-create policy gallery_remove on gallery_item for delete
-  using (
-    uploader_id = current_member_id()
-    or current_member_role() in ('officer','admin')
-    or is_operator()
-  );
 
 drop policy if exists thread_mod on thread;
 create policy thread_mod on thread for update
