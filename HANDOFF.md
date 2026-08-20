@@ -1,4 +1,4 @@
-# Coldstream Gaming — club history project
+# Coldstream Gaming — gaming community archive
 
 **Brief for whoever picks this up next.** Read this first; it is written for a
 fresh session with no prior context.
@@ -20,7 +20,7 @@ His words for the mission:
 > something to look back on and be proud and to be able to remember the memories
 > we all made!"
 
-So the tone matters as much as the data: this is a **club yearbook**, not a
+So the tone matters as much as the data: this is a **community record**, not a
 market report. Pride, names, dates, memories. Analytics serve that, not the
 other way round.
 
@@ -71,7 +71,7 @@ exist so the source servers are hit once.
 | `data/steam-groups.json` | 8 groups: metadata + named member rosters (496 names, 315 distinct people) |
 | `data/steam-announcements.json` | 1,210 announcements across all groups (title, date, author, body) |
 | `data/youtube.json` | 2 channels, 32 videos with titles and view counts |
-| `data/club.json` | **The merged dataset.** Eras, lifers, intakes, events by year, videos. Page builders read this. |
+| `data/community.json` | **The merged dataset.** Eras, lifers, intakes, events by year, videos. Page builders read this. |
 | `data/images.json` | 99 images as base64 data URIs (2.99 MB) — rank insignia, banners, screenshots, group badges, video thumbnails |
 | `data/dossier.json` | Forum-only analysis: timeline, title changes, milestones, activity by year |
 | `data/raw/`, `data/steam/`, `data/img/`, `data/youtube/` | Raw HTTP caches (~31 MB). Re-runs read these and make no network calls. |
@@ -115,7 +115,7 @@ node steam-announcements.js  # -> data/steam-announcements.json
 node extract-eras.js         # -> data/eras.json
 node youtube-scrape.js       # -> data/youtube.json
 
-node build-club.js           # merges everything -> data/club.json
+node build-community.js           # merges everything -> data/community.json
 node fetch-images.js         # downloads + embeds images -> data/images.json
 node build-full-page.js      # -> coldstream-full.html   (the main deliverable)
 node build-page.js           # -> coldstream-record.html (forum-only deep dive)
@@ -123,7 +123,7 @@ node build-page.js           # -> coldstream-record.html (forum-only deep dive)
 
 **To add a new Steam group:** append its slug to the `GROUPS` array in
 `steam-scrape.js`, then re-run `steam-scrape.js` → `steam-announcements.js` →
-`extract-eras.js` → `build-club.js` → `fetch-images.js` → `build-full-page.js`.
+`extract-eras.js` → `build-community.js` → `fetch-images.js` → `build-full-page.js`.
 Everything already cached is skipped.
 
 ---
@@ -203,13 +203,13 @@ fallback). Local copies of the HTML play video inline.
 
 ## 7. Deliverables so far
 
-- `coldstream-full.html` — the main illustrated page: seven eras with group
+- `coldstream-full.html` — the main illustrated page: eight eras with group
   badges, ten films with thumbnails and explanations, the rank ladder, dated
   screenshots, cross-era roster, intakes, event analytics.
 - `coldstream-record.html` — deep dive on the Napoleonic Wars regiment alone.
 - Both are self-contained: no external assets, no build step, open in a browser.
 
-Published artifact (River's copy): the "One club, seven names" page.
+Published artifact (River's copy): the "One club, seven names" page (its title predates the RoaR discovery and the community rename — the artifact really is called that).
 
 **Accuracy notes to preserve.** Two corrections were already issued to River;
 do not reintroduce them. (a) An early claim that "Nox Viator never took" was

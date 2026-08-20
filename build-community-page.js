@@ -1,7 +1,7 @@
-// Renders the club history page from data/club.json.
+// Renders the community history page from data/community.json.
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const c = JSON.parse(readFileSync('data/club.json', 'utf8'));
+const c = JSON.parse(readFileSync('data/community.json', 'utf8'));
 
 const esc = (s) =>
   String(s ?? '')
@@ -341,8 +341,8 @@ const html = `<title>The Coldstream Lineage</title>
 
 <div class="wrap">
   <header class="top">
-    <p class="kicker">Club history · 2011 to now</p>
-    <h1>One club,<br />seven names</h1>
+    <p class="kicker">Community history · 2011 to now</p>
+    <h1>Eight eras,<br />one community</h1>
     <p class="standfirst">
       From a public linebattle group in April 2011 to Coldstream Gaming today — the same people, renamed
       again and again. <strong>${c.totals.distinctPeople} people</strong> passed through;
@@ -361,13 +361,13 @@ const html = `<title>The Coldstream Lineage</title>
 
   <section id="eras">
     <h2>The eras</h2>
-    <p class="lede">Seven Steam groups, in the order they were founded. Colour marks the brand family — Coldstream in scarlet, Midnight Mercs in indigo, Nox Viator in violet, the 21st in Union blue.</p>
+    <p class="lede">Eight Steam groups, in the order they were founded. Colour marks the brand family — Coldstream in scarlet, Midnight Mercs in indigo, Nox Viator in violet, the 21st in Union blue.</p>
     <div class="eras">${eraCards}</div>
   </section>
 
   <section id="core">
     <h2>The ones who stayed</h2>
-    <p class="lede">${c.totals.lifers} people appear in more than one era's group. This is the club's real membership — the part that survived every rename.</p>
+    <p class="lede">${c.totals.lifers} people appear in more than one era's group. This is the community's real membership — the part that survived every rename.</p>
     ${liferBlocks}
   </section>
 
@@ -430,7 +430,7 @@ const html = `<title>The Coldstream Lineage</title>
   <section id="sources">
     <h2>Where this comes from, and what it misses</h2>
     <div class="col">
-      <p>Seven Steam groups (membership, founding dates, and every announcement across ${c.totals.announcements.toLocaleString()} posts), the FSE forum thread (${c.totals.forumPosts} posts over 59 pages), and two YouTube channels. Everything was fetched once and cached, then analysed offline.</p>
+      <p>Eight Steam groups (membership, founding dates, and every announcement across ${c.totals.announcements.toLocaleString()} posts), the FSE forum thread (${c.totals.forumPosts} posts over 59 pages), and two YouTube channels. Everything was fetched once and cached, then analysed offline.</p>
       <p><strong>Known gaps.</strong> Steam does not publish the date a member joined a group, so per-era rosters are a snapshot of who is in the group <em>today</em>, not who was there at the time. Members with private profiles do not appear at all — that is why named rosters run short of the member counts. The RoaR Gaming era (from October 2017) has not been scraped. The TaleWorlds forum thread is behind a bot challenge and was left alone.</p>
       <p><strong>Event counts</strong> are announcements that call an event, not confirmed attendance. They are a good measure of how busy an era was, not of how many people turned up.</p>
     </div>
@@ -442,6 +442,6 @@ const html = `<title>The Coldstream Lineage</title>
 </div>
 `;
 
-writeFileSync('coldstream-club.html', html);
-console.log(`Wrote coldstream-club.html (${(html.length / 1024).toFixed(1)} KB)`);
+writeFileSync('coldstream-community.html', html);
+console.log(`Wrote coldstream-community.html (${(html.length / 1024).toFixed(1)} KB)`);
 console.log(`  ${c.eras.length} eras, ${c.lifers.length} lifers, ${c.intakeYears.length} intake years, ${c.videos.length} videos`);

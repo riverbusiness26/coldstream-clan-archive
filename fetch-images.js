@@ -40,7 +40,7 @@ async function download(url) {
 
 // ---------------------------------------------------------------- sources
 const posts = JSON.parse(readFileSync('data/posts.json', 'utf8'));
-const club = JSON.parse(readFileSync('data/club.json', 'utf8'));
+const community = JSON.parse(readFileSync('data/community.json', 'utf8'));
 
 const forumUrls = new Set();
 for (const p of posts) {
@@ -62,7 +62,7 @@ for (const f of readdirSync('data/steam').filter((x) => x.endsWith('.members.xml
 }
 
 const ytThumbs = {};
-for (const v of club.videos) ytThumbs[v.videoId] = `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`;
+for (const v of community.videos) ytThumbs[v.videoId] = `https://i.ytimg.com/vi/${v.videoId}/hqdefault.jpg`;
 
 // ---------------------------------------------------------------- encode
 // Category drives the target width, so a rank pip is not stored at banner size.

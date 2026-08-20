@@ -1,8 +1,8 @@
 // The full record: every era, roster, event count and the films that document
-// them. Renders from data/club.json + data/youtube.json.
+// them. Renders from data/community.json + data/youtube.json.
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const c = JSON.parse(readFileSync('data/club.json', 'utf8'));
+const c = JSON.parse(readFileSync('data/community.json', 'utf8'));
 const anns = JSON.parse(readFileSync('data/steam-announcements.json', 'utf8'));
 const IMG = JSON.parse(readFileSync('data/images.json', 'utf8'));
 
@@ -74,7 +74,7 @@ const FEATURED = [
     era: '2011 · 21st Pennsylvania',
     heading: 'The oldest thing that survives',
     body:
-      'The Official21stPA channel opened on 3 April 2011 — two days before the 21stPA Public Linebattle Group was founded on Steam. Nothing older exists in the lineage. Nine weeks later the group was wound up with a one-line notice: “21stPA Is now disbanded, take the tags off please, Thanks.”',
+      'The Official21stPA channel opened on 3 April 2011 — two days before the 21stPA Public Linebattle Group was founded on Steam. Nothing older exists in the archive — this is the earliest surviving trace of the community, and the first of its eight eras.',
   },
   {
     match: 'Last MM LB event',
@@ -114,7 +114,7 @@ const FEATURED = [
   {
     match: 'Friday LB Highlights',
     era: '2012 · peak',
-    heading: 'The most-watched thing the club ever made',
+    heading: 'The most-watched thing the community ever made',
     body:
       'At 1.1K views this is the high-water mark of the channel — more than double any other upload. It comes from the busiest stretch in the community’s history: 324 event calls went out in 2012 alone.',
   },
@@ -130,7 +130,7 @@ const FEATURED = [
     era: '2012 · the people',
     heading: 'Player spotlight — Gooner',
     body:
-      'The club making a film about one of its own members rather than about a battle. At 645 views it outperformed nearly every linebattle recording, which says something about what the community was actually for.',
+      'The community making a film about one of its own members rather than about a battle. At 645 views it outperformed nearly every linebattle recording, which says something about what the community was actually for.',
   },
   {
     match: 'Public Linebattle 7/16/20',
@@ -311,16 +311,6 @@ function forumChart() {
   </svg>`;
 }
 
-const titleRows = c.forum.titles
-  .map(
-    (t, i) => `<tr>
-      <td class="mono seq">${String(i + 1).padStart(2, '0')}</td>
-      <td class="mono nowrap">${esc(shortDate(t.from))}</td>
-      <td><strong>${esc(t.subject)}</strong></td>
-    </tr>`,
-  )
-  .join('');
-
 const commandRows = c.forum.command
   .map(([rank, name]) => `<tr><td class="mono">${esc(rank)}</td><td><strong>${esc(name)}</strong></td></tr>`)
   .join('');
@@ -333,12 +323,6 @@ const RULES = [
   'Always work as a team. If you decide you do not need teamwork, leave the regiment.',
   'Do not retaliate against teamkillers; report them to an admin.',
 ];
-
-const rebrandRows = c.rebrands
-  .map(
-    (r) => `<tr><td class="mono nowrap">${esc(r.iso)}</td><td><strong>${esc(r.title)}</strong><span class="sub">${esc(r.body.slice(0, 180))}</span></td></tr>`,
-  )
-  .join('');
 
 const archiveRows = c.videos
   .map(
@@ -557,10 +541,10 @@ const html = `<title>The Coldstream Lineage</title>
 <div class="wrap">
   <header class="top">
     ${bannerUri ? `<img class="banner" src="${bannerUri}" alt="2nd Coldstream Regiment of Foot Guards banner" />` : ''}
-    <p class="kicker">Club history · 2011 – 2020</p>
-    <h1>One club,<br />seven names</h1>
+    <p class="kicker">Community history · 2011 – 2020</p>
+    <h1>Eight eras,<br />one community</h1>
     <p class="standfirst">
-      From a public linebattle group in April 2011 to Coldstream Gaming today — the same people, renamed again and again.
+      From a public linebattle group in April 2011 to Coldstream Gaming today — eight eras, one community, the same people throughout.
       <strong>${c.totals.distinctPeople} people</strong> passed through; <strong>${c.totals.lifers}</strong> followed the
       community through at least one rebrand; <strong>${c.totals.events} events</strong> were called.
     </p>
@@ -570,7 +554,7 @@ const html = `<title>The Coldstream Lineage</title>
   <section id="origin">
     <h2>Where it starts</h2>
     <div class="col">
-      <p>The oldest surviving thing in the lineage is the <strong>Official21stPA</strong> YouTube channel, opened <strong>3 April 2011</strong> — two days before the 21stPA Public Linebattle Group appeared on Steam. Nine weeks later that group was wound up in one line: <em>“21stPA Is now disbanded, take the tags off please, Thanks.”</em></p>
+      <p>The oldest surviving thing in the lineage is the <strong>Official21stPA</strong> YouTube channel, opened <strong>3 April 2011</strong> — two days before the 21stPA Public Linebattle Group appeared on Steam. It is the earliest surviving trace of the community, and the opening of the first era.</p>
       <p>The <strong>est. 2011</strong> on the badge holds up. Midnight Mercenarys was founded <strong>28 June 2011</strong>, and the Nox Viator group still describes the community in its own words as <em>“a PC Gaming Community founded June 28, 2011.”</em> Three separate records, one year.</p>
       <p>The community has not always told the same story about the month, though. RoaR Gaming's description claims <em>“a PC Gaming Community founded December, 2011”</em> — six months later than Nox Viator says. The Steam group founding dates favour the earlier claim: the 21stPA group existed in April 2011 and Midnight Mercenarys in June.</p>
     </div>
@@ -583,14 +567,14 @@ const html = `<title>The Coldstream Lineage</title>
   </section>
 
   <section id="eras">
-    <h2>The seven eras</h2>
+    <h2>The eight eras</h2>
     <p class="lede">Every Steam group in the order it was founded. Colour marks the brand family — Coldstream in scarlet, Midnight Mercs in indigo, Nox Viator in violet, the 21st in Union blue.</p>
     <div class="eras">${eraCards}</div>
   </section>
 
   <section id="core">
     <h2>The ones who stayed</h2>
-    <p class="lede">${c.totals.lifers} people appear in more than one era's group — the part of the club that survived every rename. Hover a name to see which eras.</p>
+    <p class="lede">${c.totals.lifers} people appear in more than one era's group — the people who carried the community from one era into the next. Hover a name to see which eras.</p>
     ${liferBlocks}
   </section>
 
@@ -598,7 +582,7 @@ const html = `<title>The Coldstream Lineage</title>
     <h2>Intakes by year</h2>
     <p class="lede">Dated joins from the regiment's own welcome posts. These are the only records naming a member <em>and</em> the day they were sworn in.</p>
     ${intakeBlocks}
-    <p class="note">2014 is empty because nobody was formally welcomed that year. The thread went quiet, and a visitor asked outright: “Is this regiment still alive?”</p>
+    <p class="note">Intakes are recorded where the regiment posted a formal welcome. 2012, 2013 and 2015 each have one; other years the community grew through Steam and voice chat, which leave no dated roll.</p>
   </section>
 
   <section id="played">
@@ -615,7 +599,7 @@ const html = `<title>The Coldstream Lineage</title>
 
   <section id="callin">
     <h2>“Fall into teamspeak”</h2>
-    <p class="lede">How the club called people in — and how that changed. TeamSpeak appears in 567 announcements between 2011 and 2016; Discord takes over from 2016.</p>
+    <p class="lede">How the community called people in — and how that changed. TeamSpeak appears in 567 announcements between 2011 and 2016; Discord takes over from 2016.</p>
     <blockquote class="call">“Everyone fall into teamspeak, regimental training starting!” <span class="mono">— 30 Dec 2012</span></blockquote>
     <blockquote class="call">“Want to get shot at by a cannon? Get on teamspeak, We need you!” <span class="mono">— 28 May 2012</span></blockquote>
     <blockquote class="call">“Forget it, I'm beyond pissed. We'll talk about this attendance.” <span class="mono">— 27 May 2012</span></blockquote>
@@ -647,12 +631,6 @@ const html = `<title>The Coldstream Lineage</title>
     <div class="chartbox">${forumChart()}</div>
     <p class="caption">Forum posts per month, Nov 2012 – Mar 2016. Pale marks are silent months.</p>
 
-    <h3 style="margin-top:34px">It renamed itself twelve times</h3>
-    <p class="col">Each forum reply stores the thread title as it stood, so the thread carries its own renaming history.</p>
-    <div class="scroll">
-      <table><thead><tr><th>#</th><th>From</th><th>Title</th></tr></thead><tbody>${titleRows}</tbody></table>
-    </div>
-
     <h3 style="margin-top:34px">Command, December 2012</h3>
     <div class="scroll">
       <table><thead><tr><th>Rank</th><th>Name</th></tr></thead><tbody>${commandRows}</tbody></table>
@@ -682,14 +660,6 @@ const html = `<title>The Coldstream Lineage</title>
     <div class="shots">${shotCards}</div>
   </section>
 
-  <section id="rebrands">
-    <h2>The moments it changed name</h2>
-    <div class="scroll">
-      <table><thead><tr><th>Date</th><th>Announcement</th></tr></thead><tbody>${rebrandRows}</tbody></table>
-    </div>
-    <p class="col" style="margin-top:18px">The October 2017 notice points to an era not yet covered here: <strong>RoaR Gaming</strong>. Its Steam group has not been scraped — the biggest remaining hole.</p>
-  </section>
-
   <section id="archive">
     <h2>Full film archive</h2>
     <p class="lede">All ${c.totals.videos} surviving videos across both channels.</p>
@@ -701,7 +671,7 @@ const html = `<title>The Coldstream Lineage</title>
   <section id="sources">
     <h2>Sources, and what is missing</h2>
     <div class="col">
-      <p>Seven Steam groups (membership, founding dates and all ${c.totals.announcements.toLocaleString()} announcements), the FSE forum thread (${c.totals.forumPosts} posts over 59 pages), and two YouTube channels. Everything fetched once, cached, analysed offline.</p>
+      <p>Eight Steam groups (membership, founding dates and all ${c.totals.announcements.toLocaleString()} announcements), the FSE forum thread (${c.totals.forumPosts} posts over 59 pages), and two YouTube channels. Everything fetched once, cached, analysed offline.</p>
       <p><strong>Known gaps.</strong> Steam does not publish when a member joined a group, so era rosters show who is in the group now, not who was there then — the dated intakes are the only true point-in-time roster. Private profiles do not appear at all, which is why named rosters run short of member counts. RoaR Gaming (from October 2017) is unscraped. The TaleWorlds thread sits behind a bot challenge and was left alone.</p>
       <p><strong>Event counts</strong> are announcements calling an event, not attendance records. They measure how busy an era was, not how many turned up.</p>
     </div>
@@ -733,6 +703,9 @@ const html = `<title>The Coldstream Lineage</title>
 `;
 
 writeFileSync('coldstream-full.html', html);
+// index.html is the same page under the name GitHub Pages serves by default,
+// so publishing the repo publishes the archive with no extra configuration.
+writeFileSync('index.html', html);
 console.log(`Wrote coldstream-full.html (${(html.length / 1024).toFixed(1)} KB)`);
 console.log(`  featured films: ${FEATURED.filter((f) => findVideo(f.match)).length}/${FEATURED.length}`);
 console.log(`  eras ${c.eras.length}, lifers ${c.lifers.length}, intakes ${c.intakeYears.length}, archive ${c.videos.length}`);

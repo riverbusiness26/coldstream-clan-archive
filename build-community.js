@@ -1,5 +1,5 @@
 // Merges every source — Steam groups, Steam announcements, the FSE forum
-// thread and the YouTube channels — into one club history dataset.
+// thread and the YouTube channels — into one community history dataset.
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const groups = JSON.parse(readFileSync('data/steam-groups.json', 'utf8'));
@@ -15,17 +15,17 @@ const statsBySlug = new Map(eras.groups.map((g) => [g.slug, g]));
 // ---------------------------------------------------------------- eras
 const ERA_NOTES = {
   '21stPApubliclinebattlegroup':
-    'The oldest surviving group in the lineage. A public linebattle host for the 21st Pennsylvania, wound up after three months.',
+    'Where it starts. A public linebattle host for the 21st Pennsylvania, and the earliest record the community still has.',
   Midnightmercs:
     'The first Midnight Mercs group — the community proper, rather than a single regiment.',
   '2ndColdstream':
-    'The Napoleonic Wars regiment. By far the busiest era: this one group ran more events than every other combined.',
+    'The Napoleonic Wars regiment, and the busiest era by a distance — this one group ran more events than every other combined.',
   MidnightMercss:
     'Midnight Mercs relaunched as an explicitly multi-gaming community, running alongside the regiment.',
   NoxViator:
-    'The community hub through the middle years. Ran almost no events itself — it was the home, not the unit — and rebranded to RoaR Gaming in October 2017.',
+    'The home base through the middle years — the place everyone gathered between games, rather than a unit that fielded its own events.',
   '2ndColdstreamOfficial':
-    'The 2020 revival, running public linebattles again after a four-year gap.',
+    'Coldstream back on the field, running public linebattles through spring and summer 2020.',
   GoRoaRgg:
     'RoaR Gaming — the 2017 rebrand out of Nox Viator, and the era that carried the community through the late 2010s.',
   coldstreamgaming:
@@ -56,7 +56,7 @@ const eraList = groups
 
 // ---------------------------------------------------------------- the core
 // Someone who turns up in several groups has followed the community across
-// rebrands. That is the club's real membership.
+// rebrands. That is the community's real membership.
 const people = new Map();
 for (const g of groups) {
   for (const m of g.members) {
@@ -101,7 +101,7 @@ const videos = youtube.flatMap((c) =>
   c.videos.map((v) => ({ ...v, channel: c.handle })),
 );
 
-const club = {
+const community = {
   generated: '2026-08-19',
   origin: {
     earliestGroup: eraList[0]?.name,
@@ -143,10 +143,10 @@ const club = {
   },
 };
 
-writeFileSync('data/club.json', JSON.stringify(club, null, 2));
+writeFileSync('data/community.json', JSON.stringify(community, null, 2));
 
 console.log('CLUB DATASET');
-console.log(JSON.stringify(club.totals, null, 2));
+console.log(JSON.stringify(community.totals, null, 2));
 console.log('\nERAS IN ORDER');
 for (const e of eraList) {
   console.log(
