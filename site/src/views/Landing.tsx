@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import films from '../seed/films.json';
 import { people, eventStats } from '../lib/data';
 import type { Me } from '../lib/auth';
+import { asset } from '../lib/asset';
 
 interface Film { id: string; title: string; views: number; viewsText: string; published: string; channel: string }
 
@@ -85,7 +86,7 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
             shows a black box while YouTube buffers, and both layers sharpen
             together so the handover is invisible. */}
         <div className={`land-video${bgReady ? ' ready' : ''}`} aria-hidden="true">
-          <img className="fallback" src="/hero-fallback.jpg" alt="" />
+          <img className="fallback" src={asset('/hero-fallback.jpg')} alt="" />
           <iframe
             className={bgReady ? 'ready' : ''}
             src={`https://www.youtube-nocookie.com/embed/${bg.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${bg.id}&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&start=${startAt(bg.id)}`}
@@ -97,7 +98,7 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
         </div>
         <div className="land-scrim" />
         <div className="land-hero-in">
-          <img className="land-logo" src="/logo.png?v=2" alt="Coldstream Gaming" />
+          <img className="land-logo" src={asset('/logo.png?v=2')} alt="Coldstream Gaming" />
           <h1>COLDSTREAM GAMING</h1>
           <p className="land-sub">A gaming community, est. 2011. Fifteen years of battles, servers and names worth remembering.</p>
           <div className="land-cta">

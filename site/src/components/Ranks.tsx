@@ -5,6 +5,7 @@
 // so it sits above the roster without pushing it down the screen.
 import { useState } from 'react';
 import ranksSeed from '../seed/ranks.json';
+import { asset } from '../lib/asset';
 
 interface Rank {
   abbr: string;
@@ -47,7 +48,7 @@ export default function Ranks({ held }: { held?: Set<string> }) {
                 <div className="rank-row">
                   {rows.map((r) => (
                     <figure className={'rank' + (held?.has(r.name) ? ' held' : '')} key={r.abbr}>
-                      <img src={r.src} alt={`${r.name} insignia`} width={r.w} height={r.h} />
+                      <img src={asset(r.src)} alt={`${r.name} insignia`} width={r.w} height={r.h} />
                       <figcaption>
                         <span className="rank-abbr">{r.abbr}</span>
                         <span className="rank-name">{r.name}</span>

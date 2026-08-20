@@ -15,6 +15,7 @@ import { one } from '../lib/rel';
 import shotsSeed from '../seed/gallery.json';
 import { compressImage, compressToDataUrl } from '../lib/image';
 import { demoGallery } from '../lib/demoGallery';
+import { asset } from '../lib/asset';
 
 interface Shot {
   src: string;
@@ -205,7 +206,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
             {SHOTS.map((s) => (
               <button className="shotbtn" key={s.src} onClick={() => setLight(s)}
                 aria-label={`Open: ${s.caption}`}>
-                <img src={s.src} alt={s.caption} loading="lazy" width={s.w} height={s.h} />
+                <img src={asset(s.src)} alt={s.caption} loading="lazy" width={s.w} height={s.h} />
                 <span className="shotyear">{s.date ? s.date.slice(0, 4) : 'undated'}</span>
                 {s.who.length > 0 && <span className="shotwho">{s.who.length} {s.who.length === 1 ? "name" : "names"}</span>}
               </button>
@@ -294,7 +295,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
       {light && (
         <div className="lightbox" onClick={() => setLight(null)} role="dialog" aria-modal="true">
-          <img src={light.src} alt={light.caption} onClick={(e) => e.stopPropagation()} />
+          <img src={asset(light.src)} alt={light.caption} onClick={(e) => e.stopPropagation()} />
           <div className="lightcap" onClick={(e) => e.stopPropagation()}>
             <div className="lcap-main">{light.caption}</div>
             <div className="lcap-meta">{shownDate(light.date)} · {light.game}</div>

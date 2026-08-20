@@ -4,6 +4,7 @@ import { news, people, eventStats, servers, GAME_NAMES } from '../lib/data';
 import Shoutbox from '../components/Shoutbox';
 import Discord from '../components/Discord';
 import type { Me } from '../lib/auth';
+import { asset } from '../lib/asset';
 
 export default function Home({ me, go }: { me: Me | null; go: (v: string) => void }) {
   const totalEvents = eventStats.reduce((n, e) => n + e.events, 0);
@@ -12,7 +13,7 @@ export default function Home({ me, go }: { me: Me | null; go: (v: string) => voi
   return (
     <>
       <section className="hero">
-        <img className="bg" src="/banner.jpg" alt="" />
+        <img className="bg" src={asset('/banner.jpg')} alt="" />
         <div className="scrim" />
         <div className="in">
           <p>

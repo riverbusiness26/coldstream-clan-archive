@@ -9,6 +9,7 @@ import Archive from './views/Archive';
 import Forums from './views/Forums';
 import Gallery from './views/Gallery';
 import Enlist from './views/Enlist';
+import { asset } from './lib/asset';
 
 const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
@@ -77,7 +78,7 @@ export default function App() {
       </div></div>
       <header className="mast">
         <div className="in">
-          <img className="crest" src="/logo.png?v=2" alt="CSG globe logo" />
+          <img className="crest" src={asset('/logo.png?v=2')} alt="CSG globe logo" />
           <div className="wordmark">
             <h1>COLDSTREAM GAMING</h1>
             <p>MULTI-GAMING COMMUNITY · EST. 2011</p>
