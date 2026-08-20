@@ -411,3 +411,38 @@ lineage rather than an assumption.
 Caveats: this is one paginated page of one capture, so it is a slice, not the
 whole roster. The nav also references a **33rd Regiment**, which is a name the
 project has not accounted for yet. Worth asking River about.
+
+### 8d. The 33rd, answered by River
+
+The **33rd Regiment** was a short-lived unit run **after the 21stPA**, still in
+**Battlegrounds 2**, before the group concluded the BG2 community was dying and
+moved to the Mount and Musket side of things.
+
+That resolves the structure of the Enjin capture. **Midnight Mercenaries was the
+community, and the 33rd was its regiment** — the same arrangement Nox Viator and
+the 2nd Coldstream had later, and Coldstream Gaming has now. The community
+outlives the unit inside it every time. That is a far better spine for the site
+than a list of names, and it matches how River wants the story told.
+
+Working order of the early period:
+
+1. **21stPA**, Battlegrounds 2, from April 2011
+2. **33rd Regiment**, Battlegrounds 2, brief, after the 21stPA
+3. Move off BG2 as that community thinned out
+4. **Midnight Mercenaries**, community, founded June 2011, hosting the 33rd's forums
+5. **Mount and Musket**, then **Napoleonic Wars** and the 2nd Coldstream from Jan 2012
+
+Note the overlap: MM was founded in June 2011 while BG2 was still in play, so
+these are not clean sequential blocks. Do not present them as a tidy timeline.
+
+### 8e. Enjin site structure, for the rebuild
+
+The captured nav is the module set to reproduce:
+
+**Home · 33rd Regiment's Forums · Members · Gallery · Enlist Here! · Chat Room ·
+Ranks · Matches**
+
+Worth keeping in the new build: a **Members** table with join dates (we now have
+real 2011 data for it), a **Ranks** page (the twelve insignia images are already
+in `data/img/`), **Gallery** (13 dated screenshots recovered), and **Matches**
+(the event record). "Enlist Here!" is the recruitment call to action.
