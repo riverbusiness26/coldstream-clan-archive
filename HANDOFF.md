@@ -1138,12 +1138,12 @@ the two artifacts I published earlier, which I have not yet corrected.
 To avoid a third collision after the HANDOFF numbering clash and the gallery
 delete policies. Do not edit these without saying so:
 
-- `src/views/Gallery.tsx` — categories and video, landed
-- `src/views/Landing.tsx` — the era ribbon and honours bands, landed
-- `seed/build-seed.mjs` — era recount and the past-events seed, landed
-- `src/lib/gallery.ts`, `src/lib/asset.ts` — mine
+- `src/views/Gallery.tsx` , categories and video, landed
+- `src/views/Landing.tsx` , the era ribbon and honours bands, landed
+- `seed/build-seed.mjs` , era recount and the past-events seed, landed
+- `src/lib/gallery.ts`, `src/lib/asset.ts` , mine
 - `db/0009_gallery_categories.sql`, `db/0010_events.sql`
-- **`src/views/Events.tsx`** — in progress, not yet committed
+- **`src/views/Events.tsx`** , in progress, not yet committed
 
 `0010_events.sql` is written but **not in `RUN_ME_next.sql` and not run**. I
 will fold it in once the view is built so River pastes once more, not twice.
