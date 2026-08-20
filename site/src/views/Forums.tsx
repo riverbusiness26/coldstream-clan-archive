@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import { one } from '../lib/rel';
+import { demoForum } from '../lib/demoForum';
 
 interface Board {
   id: string;
@@ -63,7 +64,7 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
 
   // ---- board index ----
   useEffect(() => {
-    if (!supa) { setBoards([]); return; }
+    if (!supa) { setBoards(demoForum.boards()); setCounts(demoForum.counts()); return; }
     const sb = supa;
     sb.from('board').select('*').order('position').then(({ data, error: e }) => {
       if (e) { setError(e.message); return; }
@@ -85,7 +86,7 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
     setOpenBoard(board);
     setOpenThread(null);
     setThreads(null);
-    if (!supa) { setThreads([]); return; }
+    if (!supa) { setThreads(demoForum.threads(board.id) as unknown as Thread[]); return; }
     supa
       .from('thread')
       .select('*, author:member(display_name)')
@@ -102,7 +103,7 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
   const loadPosts = useCallback((thread: Thread) => {
     setOpenThread(thread);
     setPosts(null);
-    if (!supa) { setPosts([]); return; }
+    if (!supa) { setPosts(demoForum.posts(thread.id) as unknown as Post[]); return; }
     supa
       .from('post')
       .select('*, author:member(display_name, avatar_url)')
@@ -117,7 +118,13 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
   async function reply() {
     setFormError(null);
     if (!replyBody.trim()) { setFormError('Write something first.'); return; }
-    if (!supa || !openThread || !me) return;
+    if (!openThread || !me) return;
+    if (!supa) {
+      demoForum.reply(openThread.id, replyBody.trim(), { display_name: me.display_name, avatar_url: me.avatar_url });
+      setReplyBody('');
+      loadPosts(openThread);
+      return;
+    }
 
     setBusy(true);
     const { error } = await supa
@@ -133,7 +140,13 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
     setFormError(null);
     if (!draftTitle.trim()) { setFormError('Give the thread a title.'); return; }
     if (!draftBody.trim()) { setFormError('Write something in the first post.'); return; }
-    if (!supa || !openBoard || !me) return;
+    if (!openBoard || !me) return;
+    if (!supa) {
+      demoForum.createThread(openBoard.id, draftTitle.trim(), draftBody.trim(), { display_name: me.display_name, avatar_url: me.avatar_url });
+      setDraftTitle(''); setDraftBody(''); setComposing(false);
+      loadThreads(openBoard);
+      return;
+    }
 
     setBusy(true);
     const { data: t, error: e1 } = await supa
@@ -300,7 +313,7 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
           {error && <div className="note">Could not load the boards: {error}</div>}
           {boards === null && <div className="note">Loading.</div>}
           {boards?.length === 0 && !error && (
-            <div className="note">No boards yet. They appear here once the backend is connected.</div>
+            <div className="note">No boards yet.</div>
           )}
 
           {boards && boards.length > 0 && (
