@@ -45,26 +45,56 @@ jobs:
           fi
           mkdir -p backup
           TABLES="member roster_entry board thread post gallery_category gallery_item shout server_status news_item operator event event_rsvp"
+
+          # PostgREST caps a response at db.max_rows, which defaults to 1000 on
+          # Supabase. A backup that silently stops at a thousand rows is worse
+          # than no backup, because it looks like it worked. So every table is
+          # pulled a page at a time until a short page comes back, and the
+          # pages are joined here rather than trusting one request.
           for t in $TABLES; do
-            code=$(curl -s -o "backup/$t.json" -w '%{http_code}' \
-              -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
-              "$SUPABASE_URL/rest/v1/$t?select=*")
-            if [ "$code" = "200" ]; then
-              n=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('backup/$t.json','utf8')).length)}catch(e){console.log('?')}")
-              echo "  $t: $n rows"
-            else
-              # A table that does not exist yet is not a failure. A table that
-              # exists and refuses is, so leave nothing misleading behind.
-              echo "  $t: HTTP $code (skipped)"
-              rm -f "backup/$t.json"
-            fi
+            node - "$SUPABASE_URL" "$KEY" "$t" <<'JS'
+              const [url, key, table] = process.argv.slice(2);
+              const fs = require('fs');
+              const PAGE = 1000;
+              (async () => {
+                const all = [];
+                for (let from = 0; ; from += PAGE) {
+                  const res = await fetch(`${url}/rest/v1/${table}?select=*`, {
+                    headers: {
+                      apikey: key,
+                      Authorization: `Bearer ${key}`,
+                      Range: `${from}-${from + PAGE - 1}`,
+                    },
+                  });
+                  if (!res.ok) {
+                    // A table that does not exist yet is not a failure. One
+                    // that exists and refuses is, so leave nothing misleading.
+                    //
+                    // Set exitCode and return rather than calling exit(): tearing
+                    // the process down while a fetch is still settling trips a
+                    // libuv assertion and reports a crash instead of a skip, which
+                    // would abort the whole backup over a table we expect to be
+                    // missing until the calendar migration is run.
+                    console.log(`  ${table}: HTTP ${res.status} (skipped)`);
+                    try { fs.unlinkSync(`backup/${table}.json`); } catch {}
+                    if (res.status !== 404) process.exitCode = 1;
+                    return;
+                  }
+                  const page = await res.json();
+                  all.push(...page);
+                  if (page.length < PAGE) break;
+                }
+                fs.writeFileSync(`backup/${table}.json`, JSON.stringify(all, null, 1));
+                console.log(`  ${table}: ${all.length} rows`);
+              })();
+JS
           done
 
       - name: Commit if anything changed
         run: |
           git config user.name  "coldstream-backup"
           git config user.email "backup@users.noreply.github.com"
-          git add backup
+          git add -A backup || true
           if git diff --staged --quiet; then
             echo "no changes"
           else
