@@ -221,3 +221,35 @@ footer b{color:var(--muted);font-weight:500}
 .lcap-who{font:400 11px/1.7 var(--mono);color:var(--faint);max-width:88ch;text-align:left}
 .lcap-who b{color:var(--accent);font-weight:500}
 .lcap-src{font:400 10.5px/1.4 var(--mono);color:var(--faint);letter-spacing:.06em}
+
+/* ---- the eras ---- */
+.ilink{color:var(--accent);text-decoration:underline}
+.mono{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.eras{list-style:none;margin:0;padding:0}
+.era{border-bottom:1px solid var(--line)}
+.era:last-child{border-bottom:0}
+.era-head{width:100%;background:none;border:0;padding:13px 16px;display:grid;grid-template-columns:52px minmax(0,1fr) 120px 110px;align-items:center;gap:14px;text-align:left;color:inherit}
+.era-head:hover{background:#1c1f1e}
+.era.open .era-head{background:#101311;box-shadow:inset 3px 0 0 var(--accent)}
+.era-year{font:500 15px/1 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.era-mid{min-width:0;display:flex;flex-direction:column;gap:3px}
+.era-name{font:bold 14px/1.3 var(--body);color:var(--ink)}
+.era-game{font:400 10.5px/1.4 var(--mono);color:var(--faint);letter-spacing:.04em}
+.era-bar{height:6px;background:#131514;border:1px solid var(--line);display:block}
+.era-fill{display:block;height:100%;background:linear-gradient(90deg,#8d938e,#cfd3ce)}
+.era-events{font:400 11px/1.4 var(--mono);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.era-body{padding:4px 16px 18px 82px;background:#101311}
+.era-note{margin:0 0 14px;max-width:72ch;font-size:13.5px;line-height:1.75;color:#cbd0ca}
+.era-facts{margin:0 0 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px 18px}
+.era-facts div{min-width:0}
+.era-facts dt{font:400 9.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.era-facts dd{margin:2px 0 0;font:400 12.5px/1.5 var(--body);color:var(--ink)}
+.era-who{font:400 11.5px/1.8 var(--mono);color:var(--faint);max-width:80ch}
+.era-who b{color:var(--accent);font-weight:500;letter-spacing:.06em}
+.era-prov{margin-top:10px;font:400 10.5px/1.5 var(--mono);color:var(--faint)}
+@media (max-width:760px){
+  .era-head{grid-template-columns:44px minmax(0,1fr);gap:10px}
+  .era-bar{display:none}
+  .era-events{grid-column:2;text-align:left}
+  .era-body{padding-left:16px}
+}

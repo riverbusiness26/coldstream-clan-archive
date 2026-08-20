@@ -1,0 +1,250 @@
+{
+ "eras": [
+  {
+   "slug": "21stPApubliclinebattlegroup",
+   "name": "21stPA Public Linebattle Group",
+   "label": "21stPA",
+   "game": "Battlegrounds 2",
+   "note": "Public linebattles in Battlegrounds 2. A server, a bugle, and the first thirty names on the roll.",
+   "founded": "April 5, 2011",
+   "foundedIso": "2011-04-05",
+   "members": 30,
+   "namedMembers": 27,
+   "announcements": 28,
+   "events": 26,
+   "first": "2011-04-09",
+   "last": "2011-07-16",
+   "byYear": {
+    "2011": 26
+   },
+   "topAuthors": [
+    {
+     "name": "dominos man",
+     "n": 26
+    },
+    {
+     "name": "LegitPavilion",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "slug": "Midnightmercs",
+   "name": "Midnight Mercenarys",
+   "label": "Midnight Mercs",
+   "game": "Battlegrounds 2, Mount & Blade",
+   "note": "The first banner the community flew over itself, with the regiment underneath it.",
+   "founded": "June 28, 2011",
+   "foundedIso": "2011-06-28",
+   "members": 54,
+   "namedMembers": 48,
+   "announcements": 67,
+   "events": 7,
+   "first": "2011-07-01",
+   "last": "2013-02-22",
+   "byYear": {
+    "2011": 3,
+    "2012": 3,
+    "2013": 1
+   },
+   "topAuthors": [
+    {
+     "name": "dominos man",
+     "n": 28
+    },
+    {
+     "name": "RiveR",
+     "n": 28
+    },
+    {
+     "name": "NoxV ' DaviD",
+     "n": 9
+    }
+   ]
+  },
+  {
+   "slug": "2ndColdstream",
+   "name": "2nd Coldstream Regiment of Footguards",
+   "label": "2nd Coldstream Regiment of Footguards",
+   "game": "Mount & Blade: Warband, Napoleonic Wars",
+   "note": "The regiment years. Rank structure, weekly drills, and more events called than every other stretch of the record put together. Second to None.",
+   "founded": "January 19, 2012",
+   "foundedIso": "2012-01-19",
+   "members": 90,
+   "namedMembers": 77,
+   "announcements": 822,
+   "events": 529,
+   "first": "2012-01-20",
+   "last": "2015-10-29",
+   "byYear": {
+    "2012": 310,
+    "2013": 142,
+    "2015": 77
+   },
+   "topAuthors": [
+    {
+     "name": "RiveR",
+     "n": 672
+    },
+    {
+     "name": "Capitulated Magik",
+     "n": 61
+    },
+    {
+     "name": "NoxV ' DaviD",
+     "n": 58
+    }
+   ]
+  },
+  {
+   "slug": "MidnightMercss",
+   "name": "Midnight Mercenaries Multi-Gaming Community",
+   "label": "Midnight Mercenaries",
+   "game": "multi-game",
+   "note": "The community side of the same years, running wider than the one game the regiment played.",
+   "founded": "June 13, 2012",
+   "foundedIso": "2012-06-13",
+   "members": 101,
+   "namedMembers": 82,
+   "announcements": 126,
+   "events": 13,
+   "first": "2012-06-18",
+   "last": "2013-09-11",
+   "byYear": {
+    "2012": 11,
+    "2013": 2
+   },
+   "topAuthors": [
+    {
+     "name": "RiveR",
+     "n": 113
+    },
+    {
+     "name": "NoxV ' DaviD",
+     "n": 10
+    },
+    {
+     "name": "Smooth Brain",
+     "n": 3
+    }
+   ]
+  },
+  {
+   "slug": "NoxViator",
+   "name": "Nox Viator Gaming",
+   "label": "Nox Viator",
+   "game": "multi-game",
+   "note": "The community through the middle years, with the 2nd Coldstream still the regiment inside it.",
+   "founded": "October 27, 2013",
+   "foundedIso": "2013-10-27",
+   "members": 83,
+   "namedMembers": 68,
+   "announcements": 103,
+   "events": 1,
+   "first": "2013-11-03",
+   "last": "2017-10-15",
+   "byYear": {
+    "2016": 1
+   },
+   "topAuthors": [
+    {
+     "name": "RiveR",
+     "n": 98
+    },
+    {
+     "name": "dominos man",
+     "n": 3
+    },
+    {
+     "name": "Capitulated Magik",
+     "n": 1
+    }
+   ]
+  },
+  {
+   "slug": "GoRoaRgg",
+   "name": "RoaR Gaming Community",
+   "label": "RoaR Gaming",
+   "game": "Counter-Strike: Global Offensive",
+   "note": "The esports years. Dedicated CS:GO retake servers, 10 mans on FACEIT, and teams fielded in ESEA Open and ESEA Intermediate. A creator on the Steam Workshop named a USP skin \"RoaR\" and gave it to the org.",
+   "founded": "October 13, 2017",
+   "foundedIso": "2017-10-13",
+   "members": 92,
+   "namedMembers": 82,
+   "announcements": 45,
+   "events": 33,
+   "first": "2017-10-24",
+   "last": "2020-03-28",
+   "byYear": {
+    "2017": 6,
+    "2018": 27
+   },
+   "topAuthors": [
+    {
+     "name": "RiveR",
+     "n": 43
+    },
+    {
+     "name": "Patches",
+     "n": 2
+    }
+   ]
+  },
+  {
+   "slug": "2ndColdstreamOfficial",
+   "name": "2nd Coldstream Guard",
+   "label": "2nd Coldstream Official",
+   "game": "Mount & Blade: Warband, Napoleonic Wars",
+   "note": "The regiment name back over the door, and the old lines forming up again.",
+   "founded": "April 7, 2020",
+   "foundedIso": "2020-04-07",
+   "members": 101,
+   "namedMembers": 86,
+   "announcements": 19,
+   "events": 18,
+   "first": "2020-04-15",
+   "last": "2020-07-08",
+   "byYear": {
+    "2020": 18
+   },
+   "topAuthors": [
+    {
+     "name": "RiveR",
+     "n": 19
+    }
+   ]
+  },
+  {
+   "slug": "coldstreamgaming",
+   "name": "Coldstream Gaming",
+   "label": "Coldstream Gaming",
+   "game": "multi-game",
+   "note": "Where we are now. Every game we feel like playing, our own servers coming back online, and this site to hold the rest of it.",
+   "founded": "November 21, 2020",
+   "foundedIso": "2020-11-21",
+   "members": 28,
+   "namedMembers": 26,
+   "announcements": 0,
+   "events": 0,
+   "first": null,
+   "last": null,
+   "byYear": {},
+   "topAuthors": []
+  }
+ ],
+ "totals": {
+  "announcements": 1210,
+  "events": 627,
+  "rebrands": 2
+ },
+ "eventsByYear": {
+  "2011": 29,
+  "2012": 324,
+  "2013": 145,
+  "2015": 77,
+  "2016": 1,
+  "2017": 6,
+  "2018": 27,
+  "2020": 18
+ }
+}
