@@ -1,6 +1,6 @@
 // The shoutbox. Realtime over Supabase when configured; a local demo feed
-// otherwise so the module can be reviewed.
-import { useEffect, useRef, useState } from 'react';
+// otherwise so the module can be reviewed without a backend.
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 
@@ -13,33 +13,97 @@ const seedShouts: Shout[] = [
   { id: 's4', t: '21:11', name: 'kavcav', body: 'retakes after, usual lobby' },
 ];
 
-const hhmm = (d: Date) => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+const hhmm = (d: Date) =>
+  `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+
+const LIMIT = 100;
+
+// An embedded relation comes back as an object for a to-one link, but the
+// client types it as an array, and PostgREST will hand back either shape
+// depending on how it reads the foreign key. Take whichever arrives.
+interface Row {
+  id: string;
+  body: string;
+  created_at: string;
+  author_id: string;
+  author?: { display_name: string } | { display_name: string }[] | null;
+}
+
+function authorName(r: Row): string | null {
+  const a = Array.isArray(r.author) ? r.author[0] : r.author;
+  return a?.display_name ?? null;
+}
 
 export default function Shoutbox({ me }: { me: Me | null }) {
   const [shouts, setShouts] = useState<Shout[]>(DEMO ? seedShouts : []);
   const [text, setText] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
+
+  // A realtime INSERT payload carries the shout's own columns and nothing
+  // else, so it has an author_id and no display name. Rather than a round trip
+  // per message, names are cached as they are seen and looked up on a miss.
+  const names = useRef<Map<string, string>>(new Map());
+
+  const nameFor = useCallback(async (authorId: string) => {
+    const hit = names.current.get(authorId);
+    if (hit) return hit;
+    if (!supa) return 'member';
+    const { data } = await supa
+      .from('member').select('display_name').eq('id', authorId).single();
+    const n = (data?.display_name as string | undefined) ?? 'member';
+    names.current.set(authorId, n);
+    return n;
+  }, []);
 
   useEffect(() => {
     if (!supa) return;
     const sb = supa;
+    let live = true;
+
     sb.from('shout')
-      .select('id, body, created_at, member:author_id(display_name)')
-      .order('created_at', { ascending: true }).limit(100)
-      .then(({ data }) => {
-        if (data) setShouts(data.map((r: any) => ({
-          id: r.id, body: r.body, name: r.member?.display_name ?? '?', t: hhmm(new Date(r.created_at)),
+      .select('id, body, created_at, author_id, author:member(display_name)')
+      .order('created_at', { ascending: false })
+      .limit(LIMIT)
+      .then(({ data, error: e }) => {
+        if (!live) return;
+        if (e) { setError(e.message); return; }
+        const rows = (data ?? []) as unknown as Row[];
+        for (const r of rows) {
+          const n = authorName(r);
+          if (n) names.current.set(r.author_id, n);
+        }
+        // Newest first off the wire, oldest first on screen.
+        setShouts(rows.reverse().map((r) => ({
+          id: r.id,
+          body: r.body,
+          name: authorName(r) ?? 'member',
+          t: hhmm(new Date(r.created_at)),
         })));
       });
+
     const ch = sb.channel('shouts')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'shout' }, (payload: any) => {
-        setShouts((s) => [...s.slice(-99), {
-          id: payload.new.id, body: payload.new.body, name: payload.new.author_name ?? 'member', t: hhmm(new Date()),
-        }]);
-      })
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'shout' },
+        async (payload) => {
+          const row = payload.new as {
+            id: string; body: string; author_id: string; created_at: string;
+          };
+          const name = await nameFor(row.author_id);
+          if (!live) return;
+          setShouts((s) =>
+            // The sender already echoed their own line locally.
+            s.some((x) => x.id === row.id)
+              ? s
+              : [...s.slice(-(LIMIT - 1)), {
+                id: row.id, body: row.body, name, t: hhmm(new Date(row.created_at)),
+              }],
+          );
+        })
       .subscribe();
-    return () => { sb.removeChannel(ch); };
-  }, []);
+
+    return () => { live = false; sb.removeChannel(ch); };
+  }, [nameFor]);
 
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
@@ -48,20 +112,40 @@ export default function Shoutbox({ me }: { me: Me | null }) {
   const send = async () => {
     const body = text.trim();
     if (!body || !me) return;
+    setError(null);
     setText('');
+
     if (DEMO) {
-      setShouts((s) => [...s, { id: String(Date.now()), name: me.display_name, body, t: hhmm(new Date()) }]);
+      setShouts((s) => [...s, {
+        id: String(Date.now()), name: me.display_name, body, t: hhmm(new Date()),
+      }]);
       return;
     }
-    await supa!.rpc('post_shout', { p_body: body }).then(async (r) => {
-      if (r.error) await supa!.from('shout').insert({ body });
-    });
+
+    const { data, error: e } = await supa!
+      .from('shout')
+      .insert({ author_id: me.id, body })
+      .select('id, created_at')
+      .single();
+
+    // Put the text back rather than losing it to a failed send.
+    if (e || !data) { setError(e?.message ?? 'Could not send that.'); setText(body); return; }
+
+    names.current.set(me.id, me.display_name);
+    // Echo straight away; realtime skips it because the id is already here.
+    setShouts((s) => s.some((x) => x.id === data.id) ? s : [...s.slice(-(LIMIT - 1)), {
+      id: data.id, body, name: me.display_name, t: hhmm(new Date(data.created_at)),
+    }]);
   };
 
   return (
     <div className="module">
-      <div className="mhead"><h3>Chat Room</h3><span className="sub">{DEMO ? 'demo, local only' : 'live'}</span></div>
+      <div className="mhead">
+        <h3>Chat Room</h3>
+        <span className="sub">{DEMO ? 'demo, local only' : 'live'}</span>
+      </div>
       <div className="shout-log" ref={logRef}>
+        {shouts.length === 0 && <div className="note">Quiet in here. Say something.</div>}
         {shouts.map((s) => (
           <div className="shout" key={s.id}>
             <span className="t">{s.t}</span>
@@ -69,6 +153,7 @@ export default function Shoutbox({ me }: { me: Me | null }) {
           </div>
         ))}
       </div>
+      {error && <div className="ferr" style={{ padding: '8px 16px' }}>{error}</div>}
       <div className="shout-in">
         <input
           value={text}
@@ -78,7 +163,7 @@ export default function Shoutbox({ me }: { me: Me | null }) {
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') send(); }}
         />
-        <button className="btn" disabled={!me} onClick={send}>Send</button>
+        <button className="btn" disabled={!me || !text.trim()} onClick={send}>Send</button>
       </div>
     </div>
   );

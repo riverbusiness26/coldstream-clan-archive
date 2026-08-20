@@ -3,7 +3,7 @@
 -- It is safe to run more than once.
 
 -- ==============================================================
--- 0004: role grants (this is the one that fixes the 401s)
+-- 0004_grants
 -- ==============================================================
 -- Role grants. Run this once, in the Supabase SQL editor.
 --
@@ -48,7 +48,7 @@ alter default privileges in schema public
   grant select on tables to anon, authenticated;
 
 -- ==============================================================
--- 0005: forum privacy and write rules
+-- 0005_forum_privacy
 -- ==============================================================
 -- Forum privacy and write rules. Run after 0004_grants.sql.
 --
@@ -158,7 +158,52 @@ create trigger post_bumps_thread after insert on post
   for each row execute function bump_thread();
 
 -- ==============================================================
--- 0003: storage bucket for gallery uploads
+-- 0006_shoutbox
+-- ==============================================================
+-- Shoutbox: realtime delivery and trimming. Run after 0005.
+--
+-- 0001 said the shoutbox was "delivered over realtime; old rows trimmed by a
+-- scheduled job", but neither existed. Without the table in the realtime
+-- publication the browser subscribes to a channel that never fires, so a
+-- shout only appears for the person who sent it until someone reloads.
+
+-- Deliver inserts to subscribed browsers.
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'shout'
+  ) then
+    execute 'alter publication supabase_realtime add table public.shout';
+  end if;
+end
+$$;
+
+-- The payload needs the author id so the browser can put a name to the line.
+alter table shout replica identity full;
+
+-- The shoutbox is a chat room, not a record. Keep the last 200 lines and let
+-- the rest go. Doing it on insert means there is no scheduled job to forget
+-- about, and at this volume the cost is not worth measuring.
+create or replace function trim_shouts() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  delete from shout
+  where id in (
+    select id from shout order by created_at desc offset 200
+  );
+  return null;
+end;
+$$;
+
+drop trigger if exists shout_trim on shout;
+create trigger shout_trim after insert on shout
+  for each statement execute function trim_shouts();
+
+create index if not exists shout_recent on shout(created_at desc);
+
+-- ==============================================================
+-- 0003_gallery_storage
 -- ==============================================================
 -- Storage for member gallery uploads.
 --
@@ -204,3 +249,4 @@ create policy gallery_object_delete on storage.objects
       or current_member_role() in ('officer','admin')
     )
   );
+

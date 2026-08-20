@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
+import { one } from '../lib/rel';
 import shotsSeed from '../seed/gallery.json';
 
 interface Shot {
@@ -33,7 +34,7 @@ interface Upload {
   year: number | null;
   approved: boolean;
   created_at: string;
-  uploader?: { display_name: string } | null;
+  uploader?: { display_name: string } | { display_name: string }[] | null;
 }
 
 const SHOTS = shotsSeed as Shot[];
@@ -231,7 +232,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                   target="_blank" rel="noopener">
                   <img src={publicUrl(u.storage_key)} alt={u.caption ?? ''} loading="lazy" />
                   {u.year && <span className="shotyear">{u.year}</span>}
-                  <span className="shotwho">{u.uploader?.display_name ?? 'member'}</span>
+                  <span className="shotwho">{one(u.uploader)?.display_name ?? 'member'}</span>
                 </a>
               ))}
             </div>

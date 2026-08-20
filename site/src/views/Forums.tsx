@@ -6,6 +6,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
+import { one } from '../lib/rel';
 
 interface Board {
   id: string;
@@ -25,7 +26,7 @@ interface Thread {
   locked: boolean;
   created_at: string;
   last_post_at: string;
-  author?: { display_name: string } | null;
+  author?: { display_name: string } | { display_name: string }[] | null;
 }
 
 interface Post {
@@ -33,7 +34,7 @@ interface Post {
   body: string;
   created_at: string;
   edited_at: string | null;
-  author?: { display_name: string; avatar_url: string | null } | null;
+  author?: { display_name: string; avatar_url: string | null } | { display_name: string; avatar_url: string | null }[] | null;
 }
 
 function when(iso: string) {
@@ -172,18 +173,21 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
             </div>
             {posts === null && <div className="note">Loading.</div>}
             {posts?.length === 0 && <div className="note">Nothing in this thread yet.</div>}
-            {posts?.map((p) => (
-              <article className="fpost" key={p.id}>
-                <div className="fpost-who">
-                  {p.author?.avatar_url
-                    ? <img className="fav" src={p.author.avatar_url} alt="" />
-                    : <span className="fav ph" aria-hidden="true" />}
-                  <span className="fname">{p.author?.display_name ?? 'unknown'}</span>
-                  <span className="fwhen">{when(p.created_at)}</span>
-                </div>
-                <div className="fbody">{p.body}</div>
-              </article>
-            ))}
+            {posts?.map((p) => {
+              const a = one(p.author);
+              return (
+                <article className="fpost" key={p.id}>
+                  <div className="fpost-who">
+                    {a?.avatar_url
+                      ? <img className="fav" src={a.avatar_url} alt="" />
+                      : <span className="fav ph" aria-hidden="true" />}
+                    <span className="fname">{a?.display_name ?? 'unknown'}</span>
+                    <span className="fwhen">{when(p.created_at)}</span>
+                  </div>
+                  <div className="fbody">{p.body}</div>
+                </article>
+              );
+            })}
 
             {openThread.locked ? (
               <div className="note">This thread is locked. Nobody can add to it.</div>
@@ -268,7 +272,7 @@ export default function Forums({ me, signIn }: { me: Me | null; signIn: () => vo
                         {t.pinned && <span className="pin">PINNED</span>}
                         <button className="lnk strong" onClick={() => loadPosts(t)}>{t.title}</button>
                       </td>
-                      <td className="dim">{t.author?.display_name ?? 'unknown'}</td>
+                      <td className="dim">{one(t.author)?.display_name ?? 'unknown'}</td>
                       <td className="dim">{when(t.last_post_at)}</td>
                     </tr>
                   ))}
