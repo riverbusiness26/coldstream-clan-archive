@@ -1,19 +1,28 @@
 // The front door: a cinematic landing page. Most viewed films run muted in
 // the background, the history rides up front, then statistics, highlights,
-// a screenshot gallery, and the films themselves. Everything on it comes
+// and the films themselves. Everything on it comes
 // from the archives; nothing is stock.
 import { useEffect, useRef, useState } from 'react';
 import films from '../seed/films.json';
-import gallery from '../seed/gallery.json';
 import { people, eventStats } from '../lib/data';
 import type { Me } from '../lib/auth';
 
 interface Film { id: string; title: string; views: number; viewsText: string; published: string; channel: string }
-interface Shot { src: string; caption: string; year: number | null }
 
 const FILMS = films as Film[];
-const GALLERY = gallery as Shot[];
-const BG_FILMS = FILMS.slice(0, 4);
+// The hero background: the most watched film in the archive, and the best
+// looking footage we have.
+const HERO_FILM = FILMS[0];
+
+// Seconds to skip at the head of each background film. These old uploads open
+// on smoke, title cards and intro sequences that fight the hero text, so each
+// starts once the actual footage does. Tune per video id; anything unlisted
+// uses the default.
+const BG_START_DEFAULT = 10;
+const BG_START_AT: Record<string, number> = {
+  '8AU7hzl8w5M': 18, // Friday LB Highlights, opens on a long smoke intro
+};
+const startAt = (id: string) => BG_START_AT[id] ?? BG_START_DEFAULT;
 
 function useCountUp(target: number, ms = 1200) {
   const [v, setV] = useState(0);
@@ -59,34 +68,32 @@ const HIGHLIGHTS: { title: string; body: string; tag: string }[] = [
 ];
 
 export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
-  const [bgIdx, setBgIdx] = useState(0);
-  const [light, setLight] = useState<Shot | null>(null);
+  const [bgReady, setBgReady] = useState(false);
   const totalEvents = eventStats.reduce((n, e) => n + e.events, 0);
 
-  useEffect(() => {
-    const t = setInterval(() => setBgIdx((i) => (i + 1) % BG_FILMS.length), 24000);
-    return () => clearInterval(t);
-  }, []);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLight(null); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
-
-  const bg = BG_FILMS[bgIdx];
+  // One film, mounted once. The hero used to rotate through four every 24
+  // seconds, but each switch remounted the iframe, which made YouTube reload
+  // the player: a black flash, then buffering, every time. A single steady
+  // background reads as intentional instead of glitchy, and it is lighter.
+  const bg = HERO_FILM;
 
   return (
     <div className="land">
       <section className="land-hero">
-        <div className="land-video" aria-hidden="true">
+        {/* Loads as a soft blurred field, then pulls into focus once the video
+            is genuinely playing. The poster sits underneath so the hero never
+            shows a black box while YouTube buffers, and both layers sharpen
+            together so the handover is invisible. */}
+        <div className={`land-video${bgReady ? ' ready' : ''}`} aria-hidden="true">
+          <img className="fallback" src="/hero-fallback.jpg" alt="" />
           <iframe
-            key={bg.id}
-            src={`https://www.youtube-nocookie.com/embed/${bg.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${bg.id}&modestbranding=1&playsinline=1&rel=0`}
+            className={bgReady ? 'ready' : ''}
+            src={`https://www.youtube-nocookie.com/embed/${bg.id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${bg.id}&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&start=${startAt(bg.id)}`}
             allow="autoplay; encrypted-media"
             tabIndex={-1}
             title=""
+            onLoad={() => setTimeout(() => setBgReady(true), 1900)}
           />
-          <img className="fallback" src="/hero-fallback.jpg" alt="" />
         </div>
         <div className="land-scrim" />
         <div className="land-hero-in">
@@ -146,18 +153,6 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
       </section>
 
       <section className="land-band alt">
-        <h2>From the Field</h2>
-        <div className="land-gallery">
-          {GALLERY.map((g) => (
-            <button className="shotbtn" key={g.src} onClick={() => setLight(g)}>
-              <img src={g.src} alt={g.caption} loading="lazy" />
-              {g.year && <span className="shotyear">{g.year}</span>}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="land-band">
         <h2>The Films</h2>
         <div className="land-films">
           {FILMS.slice(0, 8).map((f) => (
@@ -173,12 +168,6 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
         </div>
       </section>
 
-      {light && (
-        <div className="lightbox" onClick={() => setLight(null)} role="dialog" aria-label={light.caption}>
-          <img src={light.src} alt={light.caption} />
-          <div className="lightcap">{light.caption}{light.year ? ` · ${light.year}` : ''}</div>
-        </div>
-      )}
     </div>
   );
 }

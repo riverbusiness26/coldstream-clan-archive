@@ -121,11 +121,14 @@ footer b{color:var(--muted);font-weight:500}
 /* ---- landing page ---- */
 .land h2{max-width:1120px;margin:0 auto 18px;padding:0 20px;font:bold 15px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
 .land-hero{position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--line)}
-.land-video{position:absolute;inset:0}
-.land-video iframe{position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(100vh,56.25vw);transform:translate(-50%,-50%);border:0;pointer-events:none}
-.land-video .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
-.land-scrim{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(26,28,27,.35) 0%,rgba(26,28,27,.78) 78%,var(--ground) 100%)}
-.land-hero-in{position:relative;text-align:center;padding:40px 20px}
+.land-video{position:absolute;inset:0;z-index:0}
+.land-video iframe{position:absolute;top:50%;left:50%;width:max(100vw,177.78vh);height:max(100vh,56.25vw);transform:translate(-50%,-50%);border:0;pointer-events:none;z-index:1;opacity:0;transition:opacity 1.4s ease}
+.land-video iframe.ready{opacity:1}
+.land-video .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:blur(22px) saturate(1.15);transform:scale(1.1);transition:filter 2200ms cubic-bezier(.22,.61,.24,1),transform 2600ms cubic-bezier(.22,.61,.24,1)}
+.land-video.ready .fallback{filter:blur(0) saturate(1);transform:scale(1)}
+@media (prefers-reduced-motion:reduce){.land-video iframe{display:none}.land-video .fallback{z-index:1;filter:none;transform:none;transition:none}}
+.land-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,rgba(26,28,27,.35) 0%,rgba(26,28,27,.78) 78%,var(--ground) 100%)}
+.land-hero-in{position:relative;z-index:2;text-align:center;padding:40px 20px}
 .land-logo{height:110px;filter:drop-shadow(0 4px 18px rgba(0,0,0,.7))}
 .land-hero-in h1{margin:16px 0 8px;font:bold clamp(28px,5vw,46px)/1.05 var(--body);letter-spacing:.08em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
 .land-sub{margin:0 auto;max-width:52ch;color:#d3d7d2;font-size:15.5px;text-shadow:0 1px 8px rgba(0,0,0,.85)}
