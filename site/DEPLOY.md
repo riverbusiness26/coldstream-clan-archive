@@ -153,3 +153,39 @@ node seed/build-seed.mjs ../
 
 Writes `src/seed/*.json`, the gallery images under `public/gallery`, the rank
 insignia under `public/ranks`, and `db/0002_seed.sql`.
+
+## Cloudflare Pages (the long-term home)
+
+The site is Cloudflare-ready: a plain `npm run build` in `site/` produces a
+root-base bundle in `site/dist/` (verified locally, all assets resolve from
+`/`). Hash routing means no redirect rules are needed.
+
+### One-time setup, about five minutes, on River's Cloudflare account
+
+1. cloudflare.com, create the free account (or sign in).
+2. Dashboard: **Workers & Pages** then **Create** then **Pages** then
+   **Connect to Git**. Authorize GitHub and pick
+   `riverbusiness26/coldstream-clan-archive`.
+3. Build settings:
+   - Project name: `coldstreamgaming` (this becomes the free domain:
+     **https://coldstreamgaming.pages.dev**)
+   - Production branch: `main`
+   - Root directory: `site`
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+4. Deploy. Every push to main redeploys on its own from then on.
+
+### When the real domain is bought
+
+Buy `coldstreamgaming.com` on the same Cloudflare account (Registrar, at
+cost). Then Pages project, **Custom domains**, add the domain: DNS is wired
+for you because domain and site live in one dashboard. Nothing about the
+build changes.
+
+### Backend note
+
+The Pages build runs in demo mode until the Supabase env vars are set:
+project settings, **Environment variables**, add `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_ANON_KEY` (values at the top of this file), then redeploy.
+Do that only after RUN_ME_next.sql has been applied, otherwise the live
+site shows backend errors instead of the working demo.
