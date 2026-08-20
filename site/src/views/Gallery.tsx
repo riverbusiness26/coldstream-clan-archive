@@ -16,6 +16,7 @@ import shotsSeed from '../seed/gallery.json';
 import { compressImage, compressToDataUrl } from '../lib/image';
 import { demoGallery } from '../lib/demoGallery';
 import { asset } from '../lib/asset';
+import { CATEGORIES, categoryBySlug, youtubeId, youtubeThumb, youtubeWatch } from '../lib/gallery';
 
 interface Shot {
   src: string;
@@ -31,7 +32,11 @@ interface Shot {
 
 interface Upload {
   id: string;
-  storage_key: string;
+  storage_key: string | null;
+  category_id: string | null;
+  category_slug?: string | null;
+  media_type: 'image' | 'video';
+  video_id: string | null;
   caption: string | null;
   game: string | null;
   year: number | null;
@@ -67,6 +72,11 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   const [file, setFile] = useState<File | null>(null);
   const [caption, setCaption] = useState('');
   const [game, setGame] = useState('');
+  const [cat, setCat] = useState<string>(CATEGORIES[0].slug);
+  const [browse, setBrowse] = useState<string>('all');
+  const [mode, setMode] = useState<'image' | 'video'>('image');
+  const [videoUrl, setVideoUrl] = useState('');
+  const [catIds, setCatIds] = useState<Record<string, string>>({});
   const [year, setYear] = useState('');
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -84,6 +94,23 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
   useEffect(() => { loadUploads(); }, [loadUploads]);
 
+  // Slug to id, so an insert can name a category the database recognises.
+  // Demo mode has no ids and does not need them.
+  useEffect(() => {
+    if (!supa) return;
+    supa.from('gallery_category').select('id, slug').then(({ data }) => {
+      if (!data) return;
+      setCatIds(Object.fromEntries((data as { id: string; slug: string }[]).map((c) => [c.slug, c.id])));
+    });
+  }, []);
+
+  const catId = (slug: string): string | null => catIds[slug] ?? null;
+  const categorySlugById = (id: string | null): string | null => {
+    if (!id) return null;
+    const hit = Object.entries(catIds).find(([, v]) => v === id);
+    return hit ? hit[0] : null;
+  };
+
   // Escape closes the lightbox, same as clicking the backdrop.
   useEffect(() => {
     if (!light) return;
@@ -92,8 +119,14 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
     return () => window.removeEventListener('keydown', onKey);
   }, [light]);
 
-  const publicUrl = (k: string) =>
-    k.startsWith('data:') ? k : supa ? supa.storage.from(BUCKET).getPublicUrl(k).data.publicUrl : '';
+  const publicUrl = (k: string | null) =>
+    !k ? '' : k.startsWith('data:') ? k : supa ? supa.storage.from(BUCKET).getPublicUrl(k).data.publicUrl : '';
+
+  // The thumbnail for any item, whichever kind it is.
+  const thumbOf = (u: Upload) =>
+    u.media_type === 'video' && u.video_id ? youtubeThumb(u.video_id) : publicUrl(u.storage_key);
+  const linkOf = (u: Upload) =>
+    u.media_type === 'video' && u.video_id ? youtubeWatch(u.video_id) : publicUrl(u.storage_key);
 
   function pick(f: File | null) {
     setFormError(null);
@@ -114,8 +147,45 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
   async function upload() {
     setFormError(null);
-    if (!file) { setFormError('Choose an image first.'); return; }
     if (!me) return;
+
+    const chosen = categoryBySlug(cat);
+    if (!chosen) { setFormError('Pick a category.'); return; }
+    if (chosen.locked) { setFormError('That category is a record, not a noticeboard. Pick another.'); return; }
+    if (chosen.accepts !== 'both' && chosen.accepts !== mode) {
+      setFormError(`${chosen.name} only takes ${chosen.accepts === 'video' ? 'videos' : 'images'}.`);
+      return;
+    }
+
+    if (mode === 'video') {
+      const vid = youtubeId(videoUrl);
+      if (!vid) { setFormError('That does not look like a YouTube link. Paste the address from the browser bar.'); return; }
+      const yr2 = year.trim() ? Number(year.trim()) : null;
+      setBusy(true);
+      try {
+        if (!supa) {
+          setDone('Video submitted to the demo store. An officer clears it and then it shows for everyone.');
+        } else {
+          const { error } = await supa.from('gallery_item').insert({
+            uploader_id: me.id,
+            media_type: 'video',
+            video_id: vid,
+            storage_key: null,
+            category_id: catId(cat),
+            caption: caption.trim() || null,
+            game: game.trim() || null,
+            year: yr2,
+          });
+          if (error) { setFormError(error.message); return; }
+          setDone('Video submitted. An officer clears it and then it shows up here for everyone.');
+        }
+        setVideoUrl(''); setCaption(''); setGame(''); setYear('');
+        loadUploads();
+      } finally { setBusy(false); }
+      return;
+    }
+
+    if (!file) { setFormError('Choose an image first.'); return; }
 
     const yr = year.trim() ? Number(year.trim()) : null;
     if (yr !== null && (!Number.isInteger(yr) || yr < 2011 || yr > new Date().getFullYear())) {
@@ -161,6 +231,8 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
     const { error } = await supa.from('gallery_item').insert({
       uploader_id: me.id,
       storage_key: key,
+      media_type: 'image',
+      category_id: catId(cat),
       caption: caption.trim() || null,
       game: game.trim() || null,
       year: yr,
@@ -173,8 +245,10 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
     loadUploads();
   }
 
+  const inBrowse = (u: Upload) =>
+    browse === 'all' || (u.category_slug ?? categorySlugById(u.category_id)) === browse;
   const mine = uploads?.filter((u) => !u.approved) ?? [];
-  const live = uploads?.filter((u) => u.approved) ?? [];
+  const live = (uploads?.filter((u) => u.approved) ?? []).filter(inBrowse);
   const canModerate = me?.role === 'officer' || me?.role === 'admin';
 
   async function approve(id: string) {
@@ -182,10 +256,10 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
     await supa.from('gallery_item').update({ approved: true }).eq('id', id);
     loadUploads();
   }
-  async function reject(id: string, key: string) {
+  async function reject(id: string, key: string | null) {
     if (!supa) { demoGallery.remove(id); loadUploads(); return; }
     await supa.from('gallery_item').delete().eq('id', id);
-    await supa.storage.from(BUCKET).remove([key]);
+    if (key) await supa.storage.from(BUCKET).remove([key]);
     loadUploads();
   }
 
@@ -217,8 +291,19 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         <div className="module">
           <div className="mhead">
             <h3>Member Uploads</h3>
-            <span className="sub">{live.length} posted</span>
+            <span className="sub">{live.length} in {browse === 'all' ? 'all categories' : categoryBySlug(browse)?.name}</span>
           </div>
+          <div className="chips">
+            <button className={'chip' + (browse === 'all' ? ' on' : '')}
+              onClick={() => setBrowse('all')}>Everything</button>
+            {CATEGORIES.filter((c) => !c.locked).map((c) => (
+              <button key={c.slug} className={'chip' + (browse === c.slug ? ' on' : '')}
+                onClick={() => setBrowse(c.slug)}>{c.name}</button>
+            ))}
+          </div>
+          {browse !== 'all' && (
+            <div className="note">{categoryBySlug(browse)?.description}</div>
+          )}
 
           {!me && (
             <div className="compose">
@@ -232,8 +317,24 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
           {me && (
             <div className="compose">
-              <input className="inp" type="file" accept="image/*"
-                onChange={(e) => pick(e.target.files?.[0] ?? null)} />
+              <div className="seg">
+                <button className={'segbtn' + (mode === 'image' ? ' on' : '')}
+                  onClick={() => { setMode('image'); setFormError(null); }}>Screenshot</button>
+                <button className={'segbtn' + (mode === 'video' ? ' on' : '')}
+                  onClick={() => { setMode('video'); setFormError(null); }}>Video</button>
+              </div>
+              <select className="inp" value={cat} onChange={(e) => { setCat(e.target.value); setFormError(null); }}>
+                {CATEGORIES.filter((c) => !c.locked)
+                  .filter((c) => c.accepts === 'both' || c.accepts === mode)
+                  .map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+              </select>
+              {mode === 'video' ? (
+                <input className="inp" placeholder="Paste a YouTube link"
+                  value={videoUrl} onChange={(e) => { setVideoUrl(e.target.value); setFormError(null); }} />
+              ) : (
+                <input className="inp" type="file" accept="image/*"
+                  onChange={(e) => pick(e.target.files?.[0] ?? null)} />
+              )}
               <input className="inp" placeholder="What is happening in it?" value={caption}
                 onChange={(e) => setCaption(e.target.value)} maxLength={200} />
               <div className="fieldrow">
@@ -244,8 +345,9 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
               </div>
               {formError && <div className="ferr">{formError}</div>}
               {done && <div className="fok">{done}</div>}
-              <button className="btn primary sm" onClick={upload} disabled={busy || !file}>
-                {busy ? 'Uploading' : 'Upload'}
+              <button className="btn primary sm" onClick={upload}
+                disabled={busy || (mode === 'image' ? !file : !videoUrl.trim())}>
+                {busy ? (mode === 'video' ? 'Submitting' : 'Uploading') : (mode === 'video' ? 'Submit video' : 'Upload')}
               </button>
             </div>
           )}
@@ -261,9 +363,10 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
           {live.length > 0 && (
             <div className="gal-grid">
               {live.map((u) => (
-                <a className="shotbtn" key={u.id} href={publicUrl(u.storage_key)}
+                <a className="shotbtn" key={u.id} href={linkOf(u)}
                   target="_blank" rel="noopener">
-                  <img src={publicUrl(u.storage_key)} alt={u.caption ?? ''} loading="lazy" />
+                  <img src={thumbOf(u)} alt={u.caption ?? ''} loading="lazy" />
+                  {u.media_type === 'video' && <span className="playmark" aria-hidden="true" />}
                   {u.year && <span className="shotyear">{u.year}</span>}
                   <span className="shotwho">{one(u.uploader)?.display_name ?? 'member'}</span>
                 </a>
@@ -277,7 +380,8 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
               <div className="gal-grid pending">
                 {mine.map((u) => (
                   <div className="shotbtn" key={u.id}>
-                    <img src={publicUrl(u.storage_key)} alt={u.caption ?? ''} loading="lazy" />
+                    <img src={thumbOf(u)} alt={u.caption ?? ''} loading="lazy" />
+                    {u.media_type === 'video' && <span className="playmark" aria-hidden="true" />}
                     <span className="shotyear">held</span>
                     {canModerate && (
                       <span className="modrow">
