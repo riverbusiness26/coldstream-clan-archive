@@ -166,3 +166,58 @@ footer b{color:var(--muted);font-weight:500}
 .lightbox{position:fixed;inset:0;z-index:60;background:rgba(10,11,10,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:zoom-out;padding:24px}
 .lightbox img{max-width:min(1100px,94vw);max-height:80vh;border:1px solid var(--hi)}
 .lightcap{font:400 12px/1.5 var(--mono);color:var(--muted);max-width:80ch;text-align:center}
+
+/* ---- forums ---- */
+.crumbs{max-width:1120px;margin:0 0 14px;font:400 11.5px/1.6 var(--mono);color:var(--faint)}
+.crumbs .here{color:var(--muted)}
+.lnk{background:none;border:0;padding:0;color:var(--muted);font:inherit;text-align:left}
+.lnk:hover{color:#fff;text-decoration:underline}
+.lnk.strong{font:bold 13.5px/1.4 var(--body);color:var(--ink)}
+.btn.sm{padding:6px 12px;font-size:11px}
+
+.ftable{width:100%;border-collapse:collapse}
+.ftable th{font:bold 10.5px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:left;padding:9px 16px;border-bottom:1px solid var(--line);background:#1e2120}
+.ftable td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.ftable tbody tr:nth-child(even) td{background:rgba(0,0,0,.14)}
+.ftable tbody tr:hover td{background:#1c1f1e}
+.ftable tr:last-child td{border-bottom:0}
+.ftable td.dim{font:400 11.5px/1.6 var(--mono);color:var(--faint);white-space:nowrap}
+.ftable td.num{font-variant-numeric:tabular-nums;text-align:right;width:1%}
+.ftable th:nth-child(2),.ftable th:nth-child(3){white-space:nowrap}
+.bdesc{margin-top:3px;font:400 11.5px/1.6 var(--mono);color:var(--faint);max-width:70ch}
+.pin{display:inline-block;font:bold 9.5px/1 var(--mono);letter-spacing:.1em;border:1px solid var(--hi);padding:3px 6px;margin-right:8px;color:var(--accent);vertical-align:2px}
+
+.compose{padding:14px 16px;border-bottom:1px solid var(--line);background:var(--raised);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.inp{width:100%;background:#131514;border:1px solid;border-color:var(--line) var(--hi) var(--hi) var(--line);color:var(--ink);font:400 13px/1.6 var(--body);padding:9px 11px}
+.inp::placeholder{color:var(--faint)}
+.inp.ta{resize:vertical;min-height:96px}
+.ferr{font:400 11.5px/1.5 var(--mono);color:#e0a0a0}
+
+.fpost{padding:16px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px}
+.fpost:last-child{border-bottom:0}
+.fpost:nth-child(even){background:rgba(0,0,0,.14)}
+.fpost-who{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.fav{width:56px;height:56px;object-fit:cover;border:1px solid var(--hi);display:block}
+.fav.ph{background:linear-gradient(180deg,#3a3f3c,#242826)}
+.fname{font:bold 13px/1.3 var(--body);color:var(--ink);overflow-wrap:anywhere}
+.fwhen{font:400 10.5px/1.4 var(--mono);color:var(--faint)}
+.fbody{white-space:pre-wrap;overflow-wrap:anywhere;color:#cbd0ca;font-size:13.5px;line-height:1.75}
+@media (max-width:640px){.fpost{grid-template-columns:1fr;gap:10px}.fpost-who{flex-direction:row;align-items:center;gap:9px}.fav{width:34px;height:34px}}
+
+/* ---- gallery ---- */
+.gal-grid{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.gal-grid.pending{opacity:.62}
+.gal-grid .shotbtn{display:block;width:100%}
+.gal-grid .shotbtn img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.shotwho{position:absolute;bottom:8px;left:8px;background:rgba(16,18,17,.85);color:var(--muted);font:400 10px/1 var(--mono);letter-spacing:.06em;padding:4px 7px;max-width:calc(100% - 90px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fieldrow{display:flex;gap:10px;width:100%}
+.fieldrow .inp:first-child{flex:1 1 auto}
+.fieldrow .inp:last-child{flex:0 0 90px}
+.fok{font:400 11.5px/1.5 var(--mono);color:#9ec48a}
+.inp[type=file]{padding:7px 9px;font:400 12px var(--mono);color:var(--muted)}
+.lightcap{display:flex;flex-direction:column;gap:7px;cursor:auto}
+.lcap-main{font:400 14px/1.6 var(--body);color:var(--ink)}
+.lcap-meta{font:400 11px/1.4 var(--mono);color:var(--muted);letter-spacing:.05em}
+.lcap-who{font:400 11px/1.7 var(--mono);color:var(--faint);max-width:88ch;text-align:left}
+.lcap-who b{color:var(--accent);font-weight:500}
+.lcap-src{font:400 10.5px/1.4 var(--mono);color:var(--faint);letter-spacing:.06em}

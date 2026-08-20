@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { supa, DEMO, STEAM_LOGIN_URL } from './supa';
 
 export interface Me {
+  id: string;
   display_name: string;
   avatar_url: string | null;
   steam_id64: string;
@@ -21,7 +22,7 @@ export function useAuth() {
       const { data: { session } } = await sb.auth.getSession();
       if (!session) { setMe(null); return; }
       const { data } = await sb.from('member')
-        .select('display_name, avatar_url, steam_id64, role')
+        .select('id, display_name, avatar_url, steam_id64, role')
         .eq('auth_user_id', session.user.id).single();
       setMe(data as Me | null);
     };
@@ -32,7 +33,7 @@ export function useAuth() {
 
   const signIn = () => {
     if (DEMO) {
-      setMe({ display_name: 'RiveRcs', avatar_url: null, steam_id64: '76561198044997257', role: 'admin' });
+      setMe({ id: '00000000-0000-0000-0000-000000000001', display_name: 'RiveRcs', avatar_url: null, steam_id64: '76561198044997257', role: 'admin' });
       return;
     }
     window.location.href = STEAM_LOGIN_URL!;

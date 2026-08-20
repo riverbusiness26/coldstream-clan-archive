@@ -1,5 +1,4 @@
 // Site shell: masthead, the Enjin era module set in the nav, hash routing.
-// Boards marked "soon" are the next slices; nothing here is decoration.
 import { useEffect, useState } from 'react';
 import { useAuth } from './lib/auth';
 import Home from './views/Home';
@@ -7,12 +6,14 @@ import Landing from './views/Landing';
 import Members from './views/Members';
 import Servers from './views/Servers';
 import Archive from './views/Archive';
+import Forums from './views/Forums';
+import Gallery from './views/Gallery';
 
 const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
-  ['forums', 'Forums', false],
+  ['forums', 'Forums', true],
   ['members', 'Members', true],
-  ['gallery', 'Gallery', false],
+  ['gallery', 'Gallery', true],
   ['enlist', 'Enlist Here', true],
   ['servers', 'Servers', true],
   ['archive', 'The Archive', true],
@@ -38,12 +39,6 @@ export default function App() {
   }, []);
   const go = (v: string) => { location.hash = '#/' + v; window.scrollTo(0, 0); };
 
-  const soon = (name: string) => (
-    <div className="wrap solo"><main><div className="module">
-      <div className="mhead"><h3>{name}</h3><span className="sub">next slice</span></div>
-      <div className="note">This board is part of the build plan and lands after the roster slice is approved.</div>
-    </div></main></div>
-  );
 
   if (view === 'landing') {
     return (
@@ -93,8 +88,8 @@ export default function App() {
       {view === 'members' && <Members me={me} />}
       {view === 'servers' && <Servers />}
       {view === 'archive' && <Archive />}
-      {view === 'forums' && soon('Forums')}
-      {view === 'gallery' && soon('Gallery')}
+      {view === 'forums' && <Forums me={me} signIn={signIn} />}
+      {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       {view === 'enlist' && (
         <div className="wrap solo"><main><div className="module">
           <div className="mhead"><h3>Enlist Here</h3></div>
