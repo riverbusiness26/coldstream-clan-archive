@@ -307,3 +307,5 @@ footer b{color:var(--muted);font-weight:500}
    roster table drag the whole page past the width of a phone even once the
    table had its own scroll box. */
 .wrap > main, .wrap > aside{min-width:0}
+.film-grid{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.film-grid .film img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}

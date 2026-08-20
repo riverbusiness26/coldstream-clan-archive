@@ -6,6 +6,20 @@
 import { useState } from 'react';
 import { eventStats } from '../lib/data';
 import erasSeed from '../seed/eras.json';
+import filmsSeed from '../seed/films.json';
+
+interface Film {
+  id: string;
+  title: string;
+  views: number;
+  viewsText: string;
+  published: string;
+  channel: string;
+  channelUrl: string;
+}
+
+const FILMS = filmsSeed as Film[];
+const CHANNELS = [...new Set(FILMS.map((f) => f.channel))];
 
 interface Era {
   slug: string;
@@ -171,6 +185,40 @@ export default function Archive() {
               <span key={g.game} style={{ marginRight: 16 }}>
                 <span className="gtag">{g.game}</span>{g.events} events
               </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="module">
+          <div className="mhead">
+            <h3>The Films</h3>
+            <span className="sub">
+              all {FILMS.length}, most watched first
+            </span>
+          </div>
+          <div className="note">
+            Everything still standing on the community's own YouTube channels:{' '}
+            {CHANNELS.map((c, i) => {
+              const f = FILMS.find((x) => x.channel === c)!;
+              return (
+                <span key={c}>
+                  {i > 0 && ', '}
+                  <a className="ilink" href={f.channelUrl} target="_blank" rel="noopener">{c}</a>
+                </span>
+              );
+            })}. Ages are the ones YouTube gives, which are relative and rounded
+            down, so a film marked thirteen years old was posted around 2013.
+          </div>
+          <div className="film-grid">
+            {FILMS.map((f) => (
+              <a className="film" key={f.id}
+                href={`https://www.youtube.com/watch?v=${f.id}`}
+                target="_blank" rel="noopener">
+                <img src={`https://i.ytimg.com/vi/${f.id}/hqdefault.jpg`}
+                  alt="" loading="lazy" width={480} height={360} />
+                <div className="ft">{f.title}</div>
+                <div className="fm">{f.viewsText}{f.published ? ` · ${f.published}` : ''}</div>
+              </a>
             ))}
           </div>
         </div>
