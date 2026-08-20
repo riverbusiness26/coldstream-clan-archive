@@ -559,3 +559,29 @@ on conflict (slug) do update
       accepts = excluded.accepts,
       locked = excluded.locked;
 
+
+-- ------------------------------------------------------------------
+-- 0010_events
+-- The events calendar. Officers post upcoming events; everyone reads them.
+-- The historical record on the same page is seed data and needs no table.
+create table if not exists event (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  game text,
+  starts_at timestamptz not null,
+  details text,
+  created_by uuid references member(id) default current_member_id(),
+  created_at timestamptz not null default now()
+);
+alter table event enable row level security;
+drop policy if exists event_read on event;
+create policy event_read on event for select using (true);
+drop policy if exists event_post on event;
+create policy event_post on event for insert
+  with check (current_member_role() in ('officer','admin'));
+drop policy if exists event_mod on event;
+create policy event_mod on event for update
+  using (current_member_role() in ('officer','admin'));
+drop policy if exists event_del on event;
+create policy event_del on event for delete
+  using (current_member_role() in ('officer','admin'));

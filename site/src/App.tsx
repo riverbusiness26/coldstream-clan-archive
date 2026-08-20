@@ -4,6 +4,8 @@ import { useAuth } from './lib/auth';
 import Home from './views/Home';
 import Landing from './views/Landing';
 import Members from './views/Members';
+import Profile from './views/Profile';
+import Calendar from './views/Calendar';
 import Servers from './views/Servers';
 import Archive from './views/Archive';
 import Forums from './views/Forums';
@@ -17,6 +19,7 @@ const NAV: [string, string, boolean][] = [
   ['members', 'Members', true],
   ['gallery', 'Gallery', true],
   ['enlist', 'Enlist Here', true],
+  ['events', 'Events', true],
   ['servers', 'Servers', true],
   ['archive', 'The Archive', true],
 ];
@@ -95,13 +98,15 @@ export default function App() {
         </div>
         <nav className="main">
           {NAV.map(([k, label]) => (
-            <a key={k} href={'#/' + k} className={view === k ? 'on' : undefined}>{label}</a>
+            <a key={k} href={'#/' + k} className={view === k || (k === 'members' && view.startsWith('member/')) ? 'on' : undefined}>{label}</a>
           ))}
         </nav>
       </header>
 
       {view === 'home' && <Home me={me} go={go} />}
       {view === 'members' && <Members me={me} />}
+      {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
+      {view === 'events' && <Calendar me={me} />}
       {view === 'servers' && <Servers />}
       {view === 'archive' && <Archive />}
       {view === 'forums' && <Forums me={me} signIn={signIn} />}

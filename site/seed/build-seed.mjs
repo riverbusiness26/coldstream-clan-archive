@@ -526,3 +526,54 @@ for (const r of RANKS) {
 writeFileSync('src/seed/ranks.json', JSON.stringify(ranksOut, null, 1));
 console.log(`ranks: ${ranksOut.length} of ${RANKS.length}`);
 console.log(`films: ${films.length} (top: ${films[0]?.title} · ${films[0]?.viewsText}) | gallery: ${galleryOut.length}`);
+
+// ---- per-person profile stats and the dated event list (Robert side,
+// HANDOFF 17). Append-only: reads the structures above, adds two seed files.
+{
+  const galleryShots = JSON.parse(readFileSync('src/seed/gallery.json', 'utf8'));
+  const annsAll = (Array.isArray(anns) ? anns : anns.announcements);
+
+  // forum posts and announcements authored, keyed by normalized name
+  const postCounts = {};
+  for (const p of read('posts.json')) { const k = norm(p.author); postCounts[k] = (postCounts[k] || 0) + 1; }
+  const annCounts = {};
+  for (const a of annsAll) { const k = norm(a.author); annCounts[k] = (annCounts[k] || 0) + 1; }
+
+  // screenshots each person appears in
+  const shotIndex = {};
+  galleryShots.forEach((s, i) => {
+    for (const w of s.who || []) (shotIndex[norm(w)] ||= []).push(i);
+  });
+
+  const profileStats = {};
+  for (const p of Object.values(people)) {
+    const k = norm(p.name);
+    const akaKeys = [...new Set([k, ...[...(p.aka || [])].map(norm)])];
+    let fp = 0, ac = 0; const shots = new Set();
+    for (const kk of akaKeys) {
+      fp += postCounts[kk] || 0;
+      ac += annCounts[kk] || 0;
+      for (const i of shotIndex[kk] || []) shots.add(i);
+    }
+    if (fp || ac || shots.size) profileStats[k] = { forumPosts: fp, announcements: ac, shots: [...shots] };
+  }
+  writeFileSync('src/seed/profile-stats.json', JSON.stringify(profileStats, null, 1));
+
+  // the dated event record for the calendar
+  const eventList = [];
+  for (const a of annsAll) {
+    if (!EVENT_RX.test(a.title || '')) continue;
+    const d = new Date(String(a.when || '').split('@')[0].trim());
+    if (isNaN(d)) continue;
+    eventList.push({
+      date: d.toISOString().slice(0, 10),
+      title: String(a.title).slice(0, 140),
+      game: inferGame((a.title || '') + ' ' + (a.body || ''), a.group),
+      author: a.author || null,
+      group: a.group,
+    });
+  }
+  eventList.sort((x, y) => x.date.localeCompare(y.date));
+  writeFileSync('src/seed/event-record.json', JSON.stringify(eventList, null, 1));
+  console.log(`profile stats: ${Object.keys(profileStats).length} people | event record: ${eventList.length} dated events`);
+}

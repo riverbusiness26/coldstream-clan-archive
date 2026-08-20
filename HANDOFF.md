@@ -1203,6 +1203,18 @@ until I push and update here:
 - A new numbered section in db/RUN_ME_next.sql for the event table
 - styles.css appends only
 
+**Update, same day:** profiles and calendar are DONE and pushed; the file
+claims above are RELEASED. What landed: #/member/<key> profile pages (years
+line under the dated-evidence rule, stat tiles for records, forum posts,
+events called, screenshots the person appears in via the gallery who lists,
+service record with per-row provenance, aka display from your alias table),
+roster names now link to profiles, an Events nav item with the calendar
+(officer-posted upcoming events, demo store until backend, event table as
+RUN_ME_next.sql section 0010) over the 362 dated events from the archive,
+grouped by year and month. One data fix on the way: alias stat double count
+(River read as 1,946 events called; the real figure is 973). Trophies remain
+unclaimed.
+
 **Protocol from here:** claim files in this section before starting, pull and
 rebase before every push, append-only where possible, and whoever loses a race
 rebases. Trophies (16c item 6) stays unclaimed until profiles exist to hang

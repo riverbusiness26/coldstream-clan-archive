@@ -80,7 +80,7 @@ export default function Members({ me }: { me: Me | null }) {
                     <Fragment key={key}>
                       <tr className={mine ? 'me' : undefined}>
                         <td>
-                          <span className="rname">{p.name}</span>
+                          <a className="rname plink" href={'#/member/' + encodeURIComponent(p.key)}>{p.name}</a>
                           {mine && <span className="ryears"> · you</span>}
                           {p.aka.length > 0 && (
                             <div className="raka">also on the record as {p.aka.join(', ')}</div>

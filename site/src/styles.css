@@ -343,3 +343,17 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .hfig{font:500 30px/1 var(--mono);color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .hname{margin-top:6px;font:bold 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .honour p{margin:10px 0 0;font-size:13px;line-height:1.7;color:#c6cac5}
+
+/* ---- member profiles and the events calendar ---- */
+.plink:hover{color:#fff;text-decoration:underline}
+.prof-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,380px);gap:16px;padding:16px;align-items:start}
+@media (max-width:700px){.prof-head{grid-template-columns:1fr}}
+.prof-rank{font:bold 15px var(--body);color:var(--accent)}
+.prof-games{margin:8px 0}
+.prof-stats{border:1px solid var(--line)}
+.prof-rec{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;padding:9px 16px;border-bottom:1px solid var(--line)}
+.prof-rec:last-child{border-bottom:0}
+.prof-year{font:bold 12px var(--mono);color:var(--accent);min-width:38px}
+.prof-what{font:bold 13px var(--body)}
+.prof-rec .prov{flex-basis:100%;margin-top:0;padding-left:48px}
+.cal-month{padding:10px 16px;background:linear-gradient(180deg,#2f3431,#262a28);border-top:1px solid var(--hi);border-bottom:1px solid var(--line);font:bold 11px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
