@@ -1,0 +1,827 @@
+<title>The Coldstream Lineage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<style>
+  :root {
+    --ground: #eef0f3;
+    --raised: #f8f9fb;
+    --sunk: #e4e7ec;
+    --ink: #14181e;
+    --ink-soft: #3d4854;
+    --muted: #6b7683;
+    --rule: #d2d8e0;
+    --rule-soft: #e2e6ec;
+
+    --scarlet: #b00f28;
+    --union: #35547e;
+    --midnight: #2f3568;
+    --nox: #5a4788;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1318;
+      --raised: #161b22;
+      --sunk: #1b212a;
+      --ink: #e8ecf1;
+      --ink-soft: #b2bcc8;
+      --muted: #7b8694;
+      --rule: #262e39;
+      --rule-soft: #1d242c;
+
+      --scarlet: #e5384f;
+      --union: #7ba3d8;
+      --midnight: #8a92e0;
+      --nox: #a48ce0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1318;
+    --raised: #161b22;
+    --sunk: #1b212a;
+    --ink: #e8ecf1;
+    --ink-soft: #b2bcc8;
+    --muted: #7b8694;
+    --rule: #262e39;
+    --rule-soft: #1d242c;
+
+    --scarlet: #e5384f;
+    --union: #7ba3d8;
+    --midnight: #8a92e0;
+    --nox: #a48ce0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: Newsreader, Georgia, serif;
+    font-size: 17.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .nowrap { white-space: nowrap; }
+  .dim { color: var(--muted); }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px 100px; }
+  .col { max-width: 66ch; }
+
+  header.top { padding: 60px 0 26px; border-bottom: 2px solid var(--ink); margin-bottom: 12px; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--scarlet); margin: 0 0 16px;
+  }
+  h1 {
+    font-family: "Saira Condensed", "Arial Narrow", sans-serif;
+    font-weight: 700; font-size: clamp(42px, 8vw, 82px); line-height: .94;
+    margin: 0 0 14px; letter-spacing: -.015em; text-wrap: balance;
+  }
+  .standfirst { font-size: clamp(18px, 2.3vw, 21px); color: var(--ink-soft); margin: 0; max-width: 60ch; }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 34px 0 0; }
+  .stat { background: var(--raised); padding: 13px 15px; }
+  .stat dt { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 3px; }
+  .stat dd { margin: 0; font-family: "Saira Condensed", sans-serif; font-weight: 700; font-size: 25px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+
+  section { margin: 74px 0 0; }
+  h2 { font-family: "Saira Condensed", sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 40px); line-height: 1.02; margin: 0 0 8px; text-wrap: balance; }
+  h3 { font-family: "Saira Condensed", sans-serif; font-weight: 700; font-size: 20px; margin: 0 0 8px; }
+  .lede { color: var(--ink-soft); margin: 0 0 28px; max-width: 66ch; }
+  p { margin: 0 0 15px; }
+  a { color: var(--scarlet); }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--scarlet); outline-offset: 3px; }
+
+  /* ---------- era spine ---------- */
+  .eras { display: flex; flex-direction: column; gap: 18px; }
+  .era { display: grid; grid-template-columns: 6px 1fr; background: var(--raised); border: 1px solid var(--rule); }
+  .era-rail { background: var(--accent, var(--scarlet)); }
+  .era-scarlet { --accent: var(--scarlet); }
+  .era-union { --accent: var(--union); }
+  .era-midnight { --accent: var(--midnight); }
+  .era-nox { --accent: var(--nox); }
+  .era-main { padding: 20px 24px 18px; }
+  .era-founded { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent, var(--scarlet)); margin: 0 0 4px; font-weight: 500; }
+  .era-name { font-size: clamp(22px, 3vw, 30px); margin: 0 0 2px; }
+  .era-family { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+  .era-note { color: var(--ink-soft); margin: 0 0 10px; max-width: 62ch; }
+  .era-headline { font-style: italic; color: var(--muted); margin: 0 0 12px; font-size: 15.5px; }
+  .era-stats { display: flex; flex-wrap: wrap; gap: 26px; margin: 14px 0 12px; padding: 12px 0; border-top: 1px solid var(--rule-soft); border-bottom: 1px solid var(--rule-soft); }
+  .era-stats div { min-width: 90px; }
+  .era-stats dt { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 2px; }
+  .era-stats dd { margin: 0; font-family: "Saira Condensed", sans-serif; font-weight: 700; font-size: 27px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .era-span { font-size: 12.5px; color: var(--muted); margin: 0 0 6px; }
+  .era-posters { font-size: 14px; color: var(--ink-soft); margin: 0 0 12px; }
+  .label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  details { border-top: 1px solid var(--rule-soft); padding-top: 10px; }
+  summary { cursor: pointer; font-family: "Saira Condensed", sans-serif; font-weight: 600; font-size: 16px; color: var(--ink-soft); }
+  details[open] summary { margin-bottom: 10px; }
+
+  ul.names { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 1px 14px; font-size: 14.5px; }
+  ul.names li { padding: 2px 0; border-bottom: 1px solid var(--rule-soft); }
+  ul.names.wide { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+
+  /* ---------- lifers ---------- */
+  .tier { margin: 0 0 26px; }
+  .tier-head { display: flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 10px; }
+  .tier-n { color: var(--scarlet); font-size: 20px; font-weight: 500; }
+  .tier-count { margin-left: auto; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+  /* ---------- intakes ---------- */
+  .intake { margin: 0 0 24px; }
+  .intake-head { display: flex; align-items: baseline; gap: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 10px; }
+  .intake-head .year { font-family: "Saira Condensed", sans-serif; font-weight: 700; font-size: 26px; }
+  .intake-head .count { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-left: auto; }
+  ul.muster { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px 20px; }
+  ul.muster li { display: flex; align-items: baseline; gap: 10px; padding: 3px 0; border-bottom: 1px solid var(--rule-soft); }
+  .rank { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); min-width: 66px; }
+  .who { font-weight: 600; }
+  .when { margin-left: auto; font-size: 11.5px; color: var(--muted); }
+
+  /* ---------- chart ---------- */
+  .chartbox { border: 1px solid var(--rule); background: var(--raised); padding: 18px 14px 6px; }
+  .chartbox svg { width: 100%; height: 220px; display: block; }
+  .ebar { fill: var(--scarlet); }
+  .ebar-zero { fill: var(--rule); }
+  .ebar-val { fill: var(--ink-soft); font-size: 11px; }
+  .axis { stroke: var(--rule); stroke-width: 1; }
+  .tick { fill: var(--muted); font-size: 11px; }
+  .caption { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
+
+  /* ---------- tables ---------- */
+  .scroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--raised); }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  th { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--rule); }
+  tbody tr:last-child td { border-bottom: none; }
+  td .sub { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .note { border-left: 3px solid var(--scarlet); padding: 4px 0 4px 16px; color: var(--ink-soft); }
+
+  footer { margin-top: 80px; padding-top: 22px; border-top: 2px solid var(--ink); font-size: 13.5px; color: var(--muted); }
+
+  @media (max-width: 620px) {
+    .era-main { padding: 16px 16px 14px; }
+    .era-stats { gap: 18px; }
+    body { font-size: 16.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="kicker">Club history · 2011 to now</p>
+    <h1>One club,<br />seven names</h1>
+    <p class="standfirst">
+      From a public linebattle group in April 2011 to Coldstream Gaming today — the same people, renamed
+      again and again. <strong>267 people</strong> passed through;
+      <strong>82</strong> of them followed the community through at least one rebrand.
+    </p>
+    <dl class="stats"><div class="stat"><dt>Eras</dt><dd>7</dd></div><div class="stat"><dt>Years</dt><dd>2011–2020</dd></div><div class="stat"><dt>People</dt><dd>267</dd></div><div class="stat"><dt>Followed a rebrand</dt><dd>82</dd></div><div class="stat"><dt>Events run</dt><dd>594</dd></div><div class="stat"><dt>Announcements</dt><dd>1,165</dd></div><div class="stat"><dt>Forum posts</dt><dd>885</dd></div><div class="stat"><dt>Videos</dt><dd>32</dd></div></dl>
+  </header>
+
+  <section id="origin">
+    <h2>Where it starts</h2>
+    <div class="col">
+      <p>The oldest thing still standing is the <strong>21stPA Public Linebattle Group</strong>, founded <strong>April 5, 2011</strong> — two days after the Official21stPA YouTube channel opened on 3 April 2011. Nine weeks later it was wound up: <em>"21stPA Is now disbanded, take the tags off please, Thanks."</em></p>
+      <p>The <strong>est. 2011</strong> on the badge is not a rounding. Midnight Mercenarys was founded <strong>June 28, 2011</strong>, and the Nox Viator group still describes the community in its own words as <em>"a PC Gaming Community founded June 28, 2011"</em>. Three independent records agree.</p>
+    </div>
+  </section>
+
+  <section id="eras">
+    <h2>The eras</h2>
+    <p class="lede">Seven Steam groups, in the order they were founded. Colour marks the brand family — Coldstream in scarlet, Midnight Mercs in indigo, Nox Viator in violet, the 21st in Union blue.</p>
+    <div class="eras"><article class="era era-union">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">April 5, 2011</p>
+        <h3 class="era-name">21stPA Public Linebattle Group</h3>
+        <p class="era-family mono">21st Pennsylvania</p>
+        <p class="era-note">The oldest surviving group in the lineage. A public linebattle host for the 21st Pennsylvania, wound up after three months.</p>
+        <p class="era-headline">“A linebattling group that is free to the public.”</p>
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>30</dd></div>
+          <div><dt>Events run</dt><dd>26</dd></div>
+          <div><dt>Announcements</dt><dd>28</dd></div>
+        </dl>
+        <p class="era-span mono">2011-04-09 → 2011-07-16</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> dominos man <span class="dim">26</span> · LegitPavilion <span class="dim">2</span></p>
+        <details>
+          <summary>Roster — 27 named</summary>
+          <ul class="names"><li>Bates Troy</li><li>buttchug</li><li>Firestreak</li><li>harry885</li><li>Sgt.Willy</li><li>El Dialectico</li><li>Obscure Nerd</li><li>Pockets</li><li>Robtimus Prime</li><li>Shyguy71</li><li>Sir Smokes</li><li>BonJ</li><li>not yet</li><li>shotmaster</li><li>Truenn</li><li>Gorf</li><li>⛧𝕸𝖚𝖗𝕸𝖚𝖗⛧</li><li>DJ Disturbed Soviet</li><li>TheUltimateSheepz</li><li>Kaiser Reed</li><li>DSPGamingREAL</li><li>WelcomER</li><li>Tony the Tiger</li><li>NoChatterOnWire</li><li>Dimeybagz</li><li>PACOTHETACO</li><li>.:]MM[:. | Midnight Mercenaries</li></ul>
+        </details>
+      </div>
+    </article><article class="era era-midnight">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">June 28, 2011</p>
+        <h3 class="era-name">Midnight Mercenarys</h3>
+        <p class="era-family mono">Midnight Mercs</p>
+        <p class="era-note">The first Midnight Mercs group — the community proper, rather than a single regiment.</p>
+        
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>54</dd></div>
+          <div><dt>Events run</dt><dd>7</dd></div>
+          <div><dt>Announcements</dt><dd>67</dd></div>
+        </dl>
+        <p class="era-span mono">2011-07-01 → 2013-02-22</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> dominos man <span class="dim">28</span> · RiveR <span class="dim">28</span> · NoxV ' DaviD <span class="dim">9</span></p>
+        <details>
+          <summary>Roster — 48 named</summary>
+          <ul class="names"><li>Smooth Brain</li><li>Capitulated Magik</li><li>NoxV ' DaviD</li><li>.:]MM[:. Craw-Daddy</li><li>Firestreak</li><li>Letho McGrady</li><li>Mr.Funsocks</li><li>Umami 自殺</li><li>Chow Mein Cowboy</li><li>Claude</li><li>Huggy Bear</li><li>King_Meech</li><li>Med!c</li><li>Rambo</li><li>Risen</li><li>Robert_Baratheon</li><li>swisha</li><li>Teabbagins</li><li>The Water Chicken</li><li>thetindog</li><li>Timmy9000</li><li>Vincent vint sans vin</li><li>Blaboon</li><li>BonJ</li><li>Grim</li><li>Jizzypants</li><li>Shu216</li><li>Springtime</li><li>StevensGB</li><li>ThiccDaddyD</li><li>Tmoney</li><li>Truenn</li><li>Gorf</li><li>Muntron</li><li>SickboiChox</li><li>GrimReaper</li><li>Khari Whitehead</li><li>Jables</li><li>DSPGamingREAL</li><li>AgentOfChaos</li><li>Blakeagl</li><li>76561198027926849</li><li>Yetipicklez</li><li>=EXO=Ahern.T</li><li>TangledThePorno</li><li>The Chosen One</li><li>Barrett.</li><li>.:]MM[:.Smuggler</li></ul>
+        </details>
+      </div>
+    </article><article class="era era-scarlet">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">January 19, 2012</p>
+        <h3 class="era-name">2nd Coldstream Regiment of Footguards</h3>
+        <p class="era-family mono">Coldstream</p>
+        <p class="era-note">The Napoleonic Wars regiment. By far the busiest era: this one group ran more events than every other combined.</p>
+        
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>90</dd></div>
+          <div><dt>Events run</dt><dd>529</dd></div>
+          <div><dt>Announcements</dt><dd>822</dd></div>
+        </dl>
+        <p class="era-span mono">2012-01-20 → 2015-10-29</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> RiveR <span class="dim">672</span> · Capitulated Magik <span class="dim">61</span> · NoxV ' DaviD <span class="dim">58</span></p>
+        <details>
+          <summary>Roster — 77 named</summary>
+          <ul class="names"><li>Letho McGrady</li><li>Pontiff_Scrunglus</li><li>Umami 自殺</li><li>1989 Tiananmen Square</li><li>600PING&amp;ADream CRAZY CONFIDENT</li><li>Capitulated Magik</li><li>Crow368</li><li>Huggy Bear</li><li>kavcav</li><li>Kid Charlemagne</li><li>King_Meech</li><li>Rambo</li><li>Robert_Baratheon</li><li>Smash Meatchunk</li><li>swisha</li><li>Teabbagins</li><li>The Lone Spoon</li><li>The Water Chicken</li><li>thetindog</li><li>Timmy9000</li><li>TruckingGoose</li><li>Venomous Affliction</li><li>Vincent vint sans vin</li><li>[2ndCS] g00ber</li><li>[H.E.] ✟ GrandEmperorVandheer ✟</li><li>Alice_Reverie</li><li>Blaboon</li><li>Grim</li><li>jihad joe</li><li>Jizzypants</li><li>Mike12096</li><li>Mosquito Joe</li><li>noob1322</li><li>Oogenheim</li><li>REBEL</li><li>Rin Tohsaka Fan Club Member #1</li><li>Shu216</li><li>Staic</li><li>Stoic Sin</li><li>TheBigH</li><li>Toad</li><li>Gorf</li><li>Muntron</li><li>NoxV ' DaviD</li><li>Smooth Brain</li><li>Shawarma Pizza</li><li>GrimReaper</li><li>Jables</li><li>reclu</li><li>Lt.Speirs</li><li>dlpz2005</li><li>SeÑor Girth</li><li>Ironhide650</li><li>Number4</li><li>AgentOfChaos</li><li>Blakeagl</li><li>76561198027926849</li><li>ZarR Inspired</li><li>Vive le QC</li><li>Moz</li><li>=EXO=Ahern.T</li><li>Alexjnd</li><li>Trabzon</li><li>TangledThePorno</li><li>The Chosen One</li><li>.:]MM[:.Smuggler</li><li>Siwi</li><li>VizoFromThe0</li><li>Tortuga</li><li>YureiKuzi</li><li>Crawdaddy</li><li>caeden1</li><li>n2deep</li><li>Mishap</li><li>STOUTY</li><li>metrofc820</li><li>Zucc</li></ul>
+        </details>
+      </div>
+    </article><article class="era era-midnight">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">June 13, 2012</p>
+        <h3 class="era-name">Midnight Mercenaries Multi-Gaming Community</h3>
+        <p class="era-family mono">Midnight Mercs</p>
+        <p class="era-note">Midnight Mercs relaunched as an explicitly multi-gaming community, running alongside the regiment.</p>
+        
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>101</dd></div>
+          <div><dt>Events run</dt><dd>13</dd></div>
+          <div><dt>Announcements</dt><dd>126</dd></div>
+        </dl>
+        <p class="era-span mono">2012-06-18 → 2013-09-11</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> RiveR <span class="dim">113</span> · NoxV ' DaviD <span class="dim">10</span> · Smooth Brain <span class="dim">3</span></p>
+        <details>
+          <summary>Roster — 82 named</summary>
+          <ul class="names"><li>Smooth Brain</li><li>NoxV ' DaviD</li><li>.:]MM[:. | Midnight Mercenaries</li><li>Firestreak</li><li>Letho McGrady</li><li>Pontiff_Scrunglus</li><li>Umami 自殺</li><li>1989 Tiananmen Square</li><li>1TruNub</li><li>bonsaiperson</li><li>Cut67</li><li>FugginCupCakes</li><li>Greenboyk</li><li>kavcav</li><li>LucifersFang620</li><li>Metal Fan</li><li>Rambo</li><li>Scarface</li><li>Smash Meatchunk</li><li>The Water Chicken</li><li>thetindog</li><li>Timmy9000</li><li>transonic</li><li>Venomous Affliction</li><li>Vincent vint sans vin</li><li>Xaco</li><li>Alice_Reverie</li><li>Blaboon</li><li>Grim</li><li>jihad joe</li><li>Jizzypants</li><li>Oogenheim</li><li>Orca</li><li>Shu216</li><li>Springtime</li><li>StevensGB</li><li>Stoic Sin</li><li>TheBigH</li><li>Truenn</li><li>Valkyrie</li><li>wych</li><li>Your Local Recruiter</li><li>Gorf</li><li>Muntron</li><li>Crusha2583</li><li>BIGBADBOB</li><li>Shawarma Pizza</li><li>SickboiChox</li><li>GrimReaper</li><li>Ass Blast USA</li><li>MrCreepyPasta</li><li>Suru_Nall€</li><li>/420th/ Enoch_45</li><li>ProxxYe</li><li>SeÑor Girth</li><li>Ironhide650</li><li>TheHonorableMelonDefender</li><li>AgentOfChaos</li><li>Blakeagl</li><li>Cody Fields</li><li>Comrad V. Zheitsev</li><li>Yetipicklez</li><li>Moz</li><li>=EXO=Ahern.T</li><li>Alexjnd</li><li>TangledThePorno</li><li>I COOMED I SAW I CONQUERED</li><li>The Chosen One</li><li>Goatsby</li><li>Spiderman9</li><li>SHARKE BYTE</li><li>.:]MM[:.Smuggler</li><li>VizoFromThe0</li><li>TutsTheFruits</li><li>Tortuga</li><li>KapitalChrispy</li><li>Grim</li><li>Soul</li><li>Crawdaddy</li><li>caeden1</li><li>Mishap</li><li>metrofc820</li></ul>
+        </details>
+      </div>
+    </article><article class="era era-nox">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">October 27, 2013</p>
+        <h3 class="era-name">Nox Viator Gaming</h3>
+        <p class="era-family mono">Nox Viator</p>
+        <p class="era-note">The community hub through the middle years. Ran almost no events itself — it was the home, not the unit — and rebranded to RoaR Gaming in October 2017.</p>
+        <p class="era-headline">“Sed domi maneas paresque nobis novem continuas fututiones”</p>
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>83</dd></div>
+          <div><dt>Events run</dt><dd>1</dd></div>
+          <div><dt>Announcements</dt><dd>103</dd></div>
+        </dl>
+        <p class="era-span mono">2013-11-03 → 2017-10-15</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> RiveR <span class="dim">98</span> · dominos man <span class="dim">3</span> · Capitulated Magik <span class="dim">1</span></p>
+        <details>
+          <summary>Roster — 68 named</summary>
+          <ul class="names"><li>Alice_Reverie</li><li>Letho McGrady</li><li>Pontiff_Scrunglus</li><li>Pr0mise</li><li>Umami 自殺</li><li>00th_Thundersnow</li><li>:/</li><li>Arjay</li><li>BigPapaOink</li><li>Capitulated Magik</li><li>Go B</li><li>kavcav</li><li>korrupt_</li><li>Rambo</li><li>SKANKSPANKER</li><li>Snuff Laflare</li><li>swisha</li><li>thetindog</li><li>Timmy9000</li><li>Vincent vint sans vin</li><li>[2ndCS] g00ber</li><li>Blaboon</li><li>Diapukus</li><li>Grim</li><li>jihad joe</li><li>Lenni-</li><li>Oogenheim</li><li>Pro-Pain</li><li>Rin Tohsaka Fan Club Member #1</li><li>Shu216</li><li>Springtime</li><li>the dark side</li><li>Toad</li><li>Truenn</li><li>Gorf</li><li>Muntron</li><li>Uno ;)</li><li>NoxV ' DaviD</li><li>Smooth Brain</li><li>Grant</li><li>mac</li><li>Suru_Nall€</li><li>reclu</li><li>BlastoidCyst</li><li>UNO</li><li>SeÑor Girth</li><li>Ironhide650</li><li>Vive le QC</li><li>=EXO=Ahern.T</li><li>VizoFromThe0</li><li>LeGenD</li><li>Nobody™</li><li>Crawdaddy</li><li>caeden1</li><li>n2deep</li><li>[♥] Toxin</li><li>sisterfister</li><li>phaze LOOT.Farm</li><li>ziokret😼💫</li><li>{UnwantedAnal}dildobeans</li><li>RiveR</li><li>aTRAiN</li><li>Grimpeeper</li><li>Sohma</li><li>flame</li><li>VAC Detector (VAC Banned)</li><li>Jason</li><li>Tennessee Muir</li></ul>
+        </details>
+      </div>
+    </article><article class="era era-scarlet">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">April 7, 2020</p>
+        <h3 class="era-name">2nd Coldstream Guard</h3>
+        <p class="era-family mono">Coldstream</p>
+        <p class="era-note">The 2020 revival, running public linebattles again after a four-year gap.</p>
+        
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>101</dd></div>
+          <div><dt>Events run</dt><dd>18</dd></div>
+          <div><dt>Announcements</dt><dd>19</dd></div>
+        </dl>
+        <p class="era-span mono">2020-04-15 → 2020-07-08</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> RiveR <span class="dim">19</span></p>
+        <details>
+          <summary>Roster — 86 named</summary>
+          <ul class="names"><li>RiveR</li><li>Patches</li><li>freefroger</li><li>issythepup</li><li>Nice</li><li>Rokey</li><li>A Perfect Name</li><li>Alfred</li><li>Capitulated Magik</li><li>Chadius Maximus</li><li>CloneEngineer</li><li>DaddyWalrus</li><li>DoctorPlague_SCP-049</li><li>DVST</li><li>Einbert Alstein</li><li>EricBloodaxe</li><li>hockeybob8</li><li>Kaavale</li><li>KrakenNWhackin</li><li>Kre8 (Starz)</li><li>Kriegbrah</li><li>MrScat</li><li>PooPooPeePee</li><li>rumzy</li><li>Sir Larry</li><li>th3fork</li><li>thetindog</li><li>Timmy9000</li><li>[2ndCS] g00ber</li><li>[H.E.] ✟ GrandEmperorVandheer ✟</li><li>Alice_Reverie</li><li>Andres</li><li>Blaboon</li><li>Blue</li><li>Brammers1968</li><li>BritishTsar</li><li>Brodo Swaggins</li><li>Bullup31</li><li>Bumper</li><li>Commando</li><li>Docb9110</li><li>Evatco5</li><li>freelyboy</li><li>Fritzel</li><li>Hobospider96</li><li>Hypnotoad</li><li>Juliuscheesar</li><li>Karta</li><li>keb</li><li>lemonysucc</li><li>LordM0ld</li><li>MagnumD</li><li>maj</li><li>Meegul</li><li>Mosquito Joe</li><li>Night Haunter</li><li>nugget</li><li>Oogenheim</li><li>Pvt.Panda</li><li>Snafu the serb</li><li>Thunder Dragon Emperor Joe Biden</li><li>VeusDolt</li><li>Winstar</li><li>Winter</li><li>UNO</li><li>Ironhide650</li><li>Bean</li><li>Roomayne</li><li>Pigeon Milk</li><li>garethpyoung</li><li>Lord Neville Shortbottom</li><li>war.tiger</li><li>Red Center</li><li>daleparky1012</li><li>Shell</li><li>Bob The Builder</li><li>Thauma</li><li>Hawaiian_Punch</li><li>Cedrick Highsmith</li><li>ceasejm</li><li>R𝟙p𝕡𝟛ℝ -Hn</li><li>MrFredeuc23</li><li>Azino3</li><li>upstartpizza</li><li>RAILER69</li><li>Dartharris</li></ul>
+        </details>
+      </div>
+    </article><article class="era era-scarlet">
+      <div class="era-rail" aria-hidden="true"></div>
+      <div class="era-main">
+        <p class="era-founded mono">November 21, 2020</p>
+        <h3 class="era-name">Coldstream Gaming</h3>
+        <p class="era-family mono">Coldstream</p>
+        <p class="era-note">The current banner: Coldstream Gaming, a multi-game community carrying the est. 2011 date.</p>
+        <p class="era-headline">“❄️Coldstream Gaming EST. 2011”</p>
+        <dl class="era-stats">
+          <div><dt>Members</dt><dd>28</dd></div>
+          <div><dt>Events run</dt><dd>0</dd></div>
+          <div><dt>Announcements</dt><dd>0</dd></div>
+        </dl>
+        <p class="era-span mono">no announcements logged</p>
+        <p class="era-posters"><span class="mono label">Posted by</span> —</p>
+        <details>
+          <summary>Roster — 26 named</summary>
+          <ul class="names"><li>RiveR</li><li>Jeremybriz</li><li>MedTek</li><li>Mushroom Buddy</li><li>Spencer-1</li><li>DaddyWalrus</li><li>HECTORLEADZ</li><li>Kre8 (Starz)</li><li>MrScat</li><li>Saerl</li><li>Timmy9000</li><li>[2ndCS] g00ber</li><li>Andres</li><li>Bumper</li><li>Commando</li><li>Consul</li><li>Karta</li><li>Lazo91</li><li>MagnumD</li><li>Oogenheim</li><li>Patches</li><li>Plain and Unlucky</li><li>dominos man</li><li>Ironhide650</li><li>Bean</li><li>Roomayne</li></ul>
+        </details>
+      </div>
+    </article></div>
+  </section>
+
+  <section id="core">
+    <h2>The ones who stayed</h2>
+    <p class="lede">82 people appear in more than one era's group. This is the club's real membership — the part that survived every rename.</p>
+    <div class="tier">
+      <h3 class="tier-head"><span class="tier-n mono">6</span> eras <span class="tier-count mono">1 person</span></h3>
+      <ul class="names wide"><li title="2nd Coldstream Guard · Coldstream Gaming · Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Timmy9000</li></ul>
+    </div><div class="tier">
+      <h3 class="tier-head"><span class="tier-n mono">5</span> eras <span class="tier-count mono">5 people</span></h3>
+      <ul class="names wide"><li title="2nd Coldstream Guard · Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Blaboon</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 21stPA Public Linebattle Group · 2nd Coldstream Regiment of Footguards">Gorf</li><li title="2nd Coldstream Guard · Coldstream Gaming · Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Ironhide650</li><li title="2nd Coldstream Guard · Coldstream Gaming · Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Oogenheim</li><li title="2nd Coldstream Guard · Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">thetindog</li></ul>
+    </div><div class="tier">
+      <h3 class="tier-head"><span class="tier-n mono">4</span> eras <span class="tier-count mono">14 people</span></h3>
+      <ul class="names wide"><li title="2nd Coldstream Guard · Coldstream Gaming · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">[2ndCS] g00ber</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">=EXO=Ahern.T</li><li title="2nd Coldstream Guard · Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Alice_Reverie</li><li title="2nd Coldstream Guard · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Capitulated Magik</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Grim</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Letho McGrady</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Muntron</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">NoxV ' DaviD</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Rambo</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Shu216</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Smooth Brain</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 21stPA Public Linebattle Group">Truenn</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Umami 自殺</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Vincent vint sans vin</li></ul>
+    </div><div class="tier">
+      <h3 class="tier-head"><span class="tier-n mono">3</span> eras <span class="tier-count mono">18 people</span></h3>
+      <ul class="names wide"><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">.:]MM[:.Smuggler</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">AgentOfChaos</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">Blakeagl</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">caeden1</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Crawdaddy</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 21stPA Public Linebattle Group">Firestreak</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">GrimReaper</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">jihad joe</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">Jizzypants</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">kavcav</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Pontiff_Scrunglus</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">SeÑor Girth</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · Nox Viator Gaming">Springtime</li><li title="Midnight Mercenarys · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">swisha</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">TangledThePorno</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">The Chosen One</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">The Water Chicken</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">VizoFromThe0</li></ul>
+    </div><div class="tier">
+      <h3 class="tier-head"><span class="tier-n mono">2</span> eras <span class="tier-count mono">44 people</span></h3>
+      <ul class="names wide"><li title="Midnight Mercenaries Multi-Gaming Community · 21stPA Public Linebattle Group">.:]MM[:. | Midnight Mercenaries</li><li title="2nd Coldstream Guard · 2nd Coldstream Regiment of Footguards">[H.E.] ✟ GrandEmperorVandheer ✟</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">1989 Tiananmen Square</li><li title="Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">76561198027926849</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Alexjnd</li><li title="2nd Coldstream Guard · Coldstream Gaming">Andres</li><li title="2nd Coldstream Guard · Coldstream Gaming">Bean</li><li title="Midnight Mercenarys · 21stPA Public Linebattle Group">BonJ</li><li title="2nd Coldstream Guard · Coldstream Gaming">Bumper</li><li title="2nd Coldstream Guard · Coldstream Gaming">Commando</li><li title="2nd Coldstream Guard · Coldstream Gaming">DaddyWalrus</li><li title="Midnight Mercenarys · 21stPA Public Linebattle Group">DSPGamingREAL</li><li title="Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">Huggy Bear</li><li title="Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">Jables</li><li title="2nd Coldstream Guard · Coldstream Gaming">Karta</li><li title="Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">King_Meech</li><li title="2nd Coldstream Guard · Coldstream Gaming">Kre8 (Starz)</li><li title="2nd Coldstream Guard · Coldstream Gaming">MagnumD</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">metrofc820</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Mishap</li><li title="2nd Coldstream Guard · 2nd Coldstream Regiment of Footguards">Mosquito Joe</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Moz</li><li title="2nd Coldstream Guard · Coldstream Gaming">MrScat</li><li title="Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">n2deep</li><li title="2nd Coldstream Guard · Coldstream Gaming">Patches</li><li title="Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">reclu</li><li title="Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Rin Tohsaka Fan Club Member #1</li><li title="2nd Coldstream Guard · Coldstream Gaming">RiveR</li><li title="Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">Robert_Baratheon</li><li title="2nd Coldstream Guard · Coldstream Gaming">Roomayne</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Shawarma Pizza</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys">SickboiChox</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Smash Meatchunk</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys">StevensGB</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Stoic Sin</li><li title="Midnight Mercenaries Multi-Gaming Community · Nox Viator Gaming">Suru_Nall€</li><li title="Midnight Mercenarys · 2nd Coldstream Regiment of Footguards">Teabbagins</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">TheBigH</li><li title="Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Toad</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Tortuga</li><li title="2nd Coldstream Guard · Nox Viator Gaming">UNO</li><li title="Midnight Mercenaries Multi-Gaming Community · 2nd Coldstream Regiment of Footguards">Venomous Affliction</li><li title="Nox Viator Gaming · 2nd Coldstream Regiment of Footguards">Vive le QC</li><li title="Midnight Mercenaries Multi-Gaming Community · Midnight Mercenarys">Yetipicklez</li></ul>
+    </div>
+  </section>
+
+  <section id="intakes">
+    <h2>Intakes by year</h2>
+    <p class="lede">Dated joins, taken from the regiment's own welcome posts on the FSE forum. These are the only records that name a member <em>and</em> the day they joined.</p>
+    <div class="intake">
+      <h3 class="intake-head"><span class="year mono">2012</span><span class="count mono">15 joined</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">GloryHonor</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Mint</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">RivenX</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">WilliamBinette</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Baron</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Joseph4Lakers</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Scattman</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Finbar</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Richard</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">James</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Lindsey</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">BattleJesus</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Poosoo</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Scipio</span>
+              <span class="mono when">November 19, 2012</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Ralof</span>
+              <span class="mono when">November 20, 2012</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="year mono">2013</span><span class="count mono">7 joined</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">SonOfAGun</span>
+              <span class="mono when">February 09, 2013</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Samuel</span>
+              <span class="mono when">February 09, 2013</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">PotPie</span>
+              <span class="mono when">February 09, 2013</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Cut67</span>
+              <span class="mono when">March 17, 2013</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">MrCanada</span>
+              <span class="mono when">March 17, 2013</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">BigH</span>
+              <span class="mono when">March 17, 2013</span>
+            </li><li>
+              <span class="rank mono">Recruit</span>
+              <span class="who">Evoke</span>
+              <span class="mono when">March 17, 2013</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="year mono">2015</span><span class="count mono">22 joined</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Osca32</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Cheddarbob8365</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">CaptainCrunch</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Swiss</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">CheesyG</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Snickers</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Ulmnh</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">REBEL</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Captain</span>
+              <span class="who">Crazy</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Lieutenant</span>
+              <span class="who">JihadJoe</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">thetindog</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">Zemohc</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">Darman74</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">Raven</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">Joe</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">Netstalker</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Private</span>
+              <span class="who">Ironhide650</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Reserve</span>
+              <span class="who">Jakarta</span>
+              <span class="mono when">June 15, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">beanbean</span>
+              <span class="mono when">June 16, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Scholar</span>
+              <span class="mono when">June 16, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">CrazyRussianMan</span>
+              <span class="mono when">June 16, 2015</span>
+            </li><li>
+              <span class="rank mono">Cadet</span>
+              <span class="who">Carrie</span>
+              <span class="mono when">June 16, 2015</span>
+            </li>
+      </ul>
+    </div>
+    <p class="note" style="margin-top:20px">The 2014 gap is real: nobody was formally welcomed that year. The forum thread went quiet, and a visitor asked outright, “Is this regiment still alive?”</p>
+  </section>
+
+  <section id="events">
+    <h2>Events run</h2>
+    <p class="lede">594 event calls across 1,165 Steam announcements — linebattles, sieges, tournaments, game nights and practices.</p>
+    <div class="chartbox"><svg viewBox="0 0 900 220" role="img" aria-label="Events per year, peaking at 324 in 2012">
+    <line class="axis" x1="44" x2="890" y1="180" y2="180" />
+    <g>
+        <rect class="ebar" x="60.9" y="165.1" width="50.8" height="14.9" rx="1"><title>2011: 29 events</title></rect>
+        <text class="ebar-val mono" x="86.3" y="159.1" text-anchor="middle">29</text>
+        <text class="tick mono" x="86.3" y="200" text-anchor="middle">2011</text>
+      </g><g>
+        <rect class="ebar" x="145.5" y="14.0" width="50.8" height="166.0" rx="1"><title>2012: 324 events</title></rect>
+        <text class="ebar-val mono" x="170.9" y="8.0" text-anchor="middle">324</text>
+        <text class="tick mono" x="170.9" y="200" text-anchor="middle">2012</text>
+      </g><g>
+        <rect class="ebar" x="230.1" y="105.7" width="50.8" height="74.3" rx="1"><title>2013: 145 events</title></rect>
+        <text class="ebar-val mono" x="255.5" y="99.7" text-anchor="middle">145</text>
+        <text class="tick mono" x="255.5" y="200" text-anchor="middle">2013</text>
+      </g><g>
+        <rect class="ebar ebar-zero" x="314.7" y="180.0" width="50.8" height="0.0" rx="1"><title>2014: 0 events</title></rect>
+        
+        <text class="tick mono" x="340.1" y="200" text-anchor="middle">2014</text>
+      </g><g>
+        <rect class="ebar" x="399.3" y="140.5" width="50.8" height="39.5" rx="1"><title>2015: 77 events</title></rect>
+        <text class="ebar-val mono" x="424.7" y="134.5" text-anchor="middle">77</text>
+        <text class="tick mono" x="424.7" y="200" text-anchor="middle">2015</text>
+      </g><g>
+        <rect class="ebar" x="483.9" y="177.0" width="50.8" height="3.0" rx="1"><title>2016: 1 events</title></rect>
+        <text class="ebar-val mono" x="509.3" y="171.0" text-anchor="middle">1</text>
+        <text class="tick mono" x="509.3" y="200" text-anchor="middle">2016</text>
+      </g><g>
+        <rect class="ebar ebar-zero" x="568.5" y="180.0" width="50.8" height="0.0" rx="1"><title>2017: 0 events</title></rect>
+        
+        <text class="tick mono" x="593.9" y="200" text-anchor="middle">2017</text>
+      </g><g>
+        <rect class="ebar ebar-zero" x="653.1" y="180.0" width="50.8" height="0.0" rx="1"><title>2018: 0 events</title></rect>
+        
+        <text class="tick mono" x="678.5" y="200" text-anchor="middle">2018</text>
+      </g><g>
+        <rect class="ebar ebar-zero" x="737.7" y="180.0" width="50.8" height="0.0" rx="1"><title>2019: 0 events</title></rect>
+        
+        <text class="tick mono" x="763.1" y="200" text-anchor="middle">2019</text>
+      </g><g>
+        <rect class="ebar" x="822.3" y="170.8" width="50.8" height="9.2" rx="1"><title>2020: 18 events</title></rect>
+        <text class="ebar-val mono" x="847.7" y="164.8" text-anchor="middle">18</text>
+        <text class="tick mono" x="847.7" y="200" text-anchor="middle">2020</text>
+      </g>
+  </svg></div>
+    <p class="caption">Event announcements per year. 2014 and 2017–2019 are blank in this data, not necessarily in life — see the note on sources below.</p>
+
+    <div class="scroll" style="margin-top:26px">
+      <table>
+        <thead><tr><th>Era</th><th>Events</th><th>Announcements</th><th>Active span</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>21stPA Public Linebattle Group</strong></td>
+            <td class="mono">26</td>
+            <td class="mono">28</td>
+            <td class="mono nowrap">2011-04-09 → 2011-07-16</td>
+          </tr><tr>
+            <td><strong>Midnight Mercenarys</strong></td>
+            <td class="mono">7</td>
+            <td class="mono">67</td>
+            <td class="mono nowrap">2011-07-01 → 2013-02-22</td>
+          </tr><tr>
+            <td><strong>2nd Coldstream Regiment of Footguards</strong></td>
+            <td class="mono">529</td>
+            <td class="mono">822</td>
+            <td class="mono nowrap">2012-01-20 → 2015-10-29</td>
+          </tr><tr>
+            <td><strong>Midnight Mercenaries Multi-Gaming Community</strong></td>
+            <td class="mono">13</td>
+            <td class="mono">126</td>
+            <td class="mono nowrap">2012-06-18 → 2013-09-11</td>
+          </tr><tr>
+            <td><strong>Nox Viator Gaming</strong></td>
+            <td class="mono">1</td>
+            <td class="mono">103</td>
+            <td class="mono nowrap">2013-11-03 → 2017-10-15</td>
+          </tr><tr>
+            <td><strong>2nd Coldstream Guard</strong></td>
+            <td class="mono">18</td>
+            <td class="mono">19</td>
+            <td class="mono nowrap">2020-04-15 → 2020-07-08</td>
+          </tr><tr>
+            <td><strong>Coldstream Gaming</strong></td>
+            <td class="mono">0</td>
+            <td class="mono">0</td>
+            <td class="mono nowrap">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">The Napoleonic Wars regiment ran more events than every other era combined — 529 of 594.</p>
+  </section>
+
+  <section id="rebrands">
+    <h2>The moments it changed name</h2>
+    <p class="lede">Announcements that mark the end of one era and the start of the next.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Date</th><th>Announcement</th></tr></thead>
+        <tbody><tr>
+      <td class="mono nowrap">2011-06-27</td>
+      <td><strong>21stPA Is now disbanded, take the tags off please, Thanks.</strong><span class="sub">.</span></td>
+    </tr><tr>
+      <td class="mono nowrap">2017-10-15</td>
+      <td><strong>Community Rebrand to RoaR Gaming</strong><span class="sub">For those of you who haven't been around lately or just didn't notice, we've rebranded! Make sure to join our new group and keep up with the timez, that's where all of th</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+    <p class="col" style="margin-top:18px">The October 2017 notice points to an era this dataset does not yet cover: <strong>RoaR Gaming</strong>. Its Steam group is a separate page that has not been scraped — the most obvious next gap to fill.</p>
+  </section>
+
+  <section id="film">
+    <h2>On film</h2>
+    <p class="lede">32 surviving videos across two channels, including league matches and the last Mount &amp; Musket linebattle.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Video</th><th>Views</th><th>Channel</th></tr></thead>
+        <tbody><tr>
+      <td><a href="https://www.youtube.com/watch?v=ZypEBUL_hs4" target="_blank" rel="noopener noreferrer">21st Regiment of Pennsylvania Tribute</a></td>
+      <td class="mono nowrap">420 views</td>
+      <td class="mono nowrap">Official21stPA</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=dqgcg0if-3U" target="_blank" rel="noopener noreferrer">The 21stPA Fooling around with militia!</a></td>
+      <td class="mono nowrap">217 views</td>
+      <td class="mono nowrap">Official21stPA</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=ThhbfRP95w8" target="_blank" rel="noopener noreferrer">Last MM LB event - 2nd Coldstream Regiment of Footguards (Part 1)</a></td>
+      <td class="mono nowrap">105 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=5BFDkRFNJtQ" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards Line Battle 4/24 Part 1</a></td>
+      <td class="mono nowrap">387 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=RuAc4eGRGB4" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards Line Battle 4/24 part 2</a></td>
+      <td class="mono nowrap">107 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=mXLLat87tEw" target="_blank" rel="noopener noreferrer">To be a 2nd Coldstream Footguard</a></td>
+      <td class="mono nowrap">370 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=6Wxj70lukgY" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards Line Battle 5/18 Part 2</a></td>
+      <td class="mono nowrap">123 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=nVZdFPGsuMc" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards Line Battle 5/18 Part 1</a></td>
+      <td class="mono nowrap">349 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=gS2xlbD6b4k" target="_blank" rel="noopener noreferrer">RWL Week 1 | 2ndCS vs 3eVolt</a></td>
+      <td class="mono nowrap">426 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=77iUN2tPUQo" target="_blank" rel="noopener noreferrer">2nd Coldstream Regiment of Footguards (Part 2)</a></td>
+      <td class="mono nowrap">126 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=GvXcBXDYnN8" target="_blank" rel="noopener noreferrer">In-Clan LB British part 3</a></td>
+      <td class="mono nowrap">12 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=5R6w6Q6LDFs" target="_blank" rel="noopener noreferrer">In-Clan LB British Part 2</a></td>
+      <td class="mono nowrap">19 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=tn2QMjThRZo" target="_blank" rel="noopener noreferrer">In-Clan LB British Part 1</a></td>
+      <td class="mono nowrap">50 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=_xUDIwgBAL8" target="_blank" rel="noopener noreferrer">In-Clan LB French POV</a></td>
+      <td class="mono nowrap">73 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=l9-1sNTaCBY" target="_blank" rel="noopener noreferrer">Tuesday Siege Event 5-22 Part 1</a></td>
+      <td class="mono nowrap">148 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=QprdAebpgWY" target="_blank" rel="noopener noreferrer">Top Secret LB - 2nd Coldstream Regiment of Footguards</a></td>
+      <td class="mono nowrap">138 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=upI-8mNDfAA" target="_blank" rel="noopener noreferrer">Tuesday Siege Event 5-22 Part 2</a></td>
+      <td class="mono nowrap">252 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=tfK1U75rrQQ" target="_blank" rel="noopener noreferrer">Coldstream Player Spotlight - Gooner</a></td>
+      <td class="mono nowrap">645 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=OnesY-EczqY" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards vs. 8th Regiment of Foot 10/20/2012</a></td>
+      <td class="mono nowrap">740 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=qcT_Hf-vs3I" target="_blank" rel="noopener noreferrer">Napoleonic Wars - 2nd Coldstream In-house Linebattle</a></td>
+      <td class="mono nowrap">180 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=vAjnlJOR1w0" target="_blank" rel="noopener noreferrer">Napoleonic Wars - 2nd Coldstream &quot;Desert Walk&quot;</a></td>
+      <td class="mono nowrap">263 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=5Js0Cj68x20" target="_blank" rel="noopener noreferrer">Napoleonic Wars - 2nd Coldstream's &quot;Royal Charge&quot;</a></td>
+      <td class="mono nowrap">218 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=KmNEvAvjOcA" target="_blank" rel="noopener noreferrer">Napoleonic Wars - December 6th/7th Linebattles with the 2ndCS</a></td>
+      <td class="mono nowrap">181 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=pplW5xtwuWI" target="_blank" rel="noopener noreferrer">Napoleonic Wars - December 13th Linebattle with the 2ndCS</a></td>
+      <td class="mono nowrap">200 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=8AU7hzl8w5M" target="_blank" rel="noopener noreferrer">Napoleonic Wars - 2nd Coldstream's Friday LB Highlights</a></td>
+      <td class="mono nowrap">1.1K views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=RBaa8iO0tv4" target="_blank" rel="noopener noreferrer">Coldstream Short - I wanna be like you</a></td>
+      <td class="mono nowrap">305 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=QgziRNt4nnM" target="_blank" rel="noopener noreferrer">Zombie Game - 2nd Coldstream Regiment of Footguards (NA)</a></td>
+      <td class="mono nowrap">120 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=GLeRrAidr_A" target="_blank" rel="noopener noreferrer">2nd Coldstream Guard Montage</a></td>
+      <td class="mono nowrap">212 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=S1YrWEmgzfs" target="_blank" rel="noopener noreferrer">Thomas The Train!</a></td>
+      <td class="mono nowrap">123 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=84rV0sXDZtA" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards - Official Public Linebattle 7/16/20</a></td>
+      <td class="mono nowrap">25 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=kwokOGLWLdU" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards - Official Public Linebattle 7/15/20</a></td>
+      <td class="mono nowrap">29 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr><tr>
+      <td><a href="https://www.youtube.com/watch?v=vOk5eMxv7Dc" target="_blank" rel="noopener noreferrer">2nd Coldstream Guards - After Hours 7/15/20</a></td>
+      <td class="mono nowrap">31 views</td>
+      <td class="mono nowrap">2ndColdstreamGuards</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2>Where this comes from, and what it misses</h2>
+    <div class="col">
+      <p>Seven Steam groups (membership, founding dates, and every announcement across 1,165 posts), the FSE forum thread (885 posts over 59 pages), and two YouTube channels. Everything was fetched once and cached, then analysed offline.</p>
+      <p><strong>Known gaps.</strong> Steam does not publish the date a member joined a group, so per-era rosters are a snapshot of who is in the group <em>today</em>, not who was there at the time. Members with private profiles do not appear at all — that is why named rosters run short of the member counts. The RoaR Gaming era (from October 2017) has not been scraped. The TaleWorlds forum thread is behind a bot challenge and was left alone.</p>
+      <p><strong>Event counts</strong> are announcements that call an event, not confirmed attendance. They are a good measure of how busy an era was, not of how many people turned up.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Compiled 19 August 2026 from public Steam, FSE forum and YouTube records. Built for River.</p>
+  </footer>
+</div>

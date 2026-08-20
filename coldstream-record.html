@@ -1,0 +1,1836 @@
+<title>Coldstream Regimental Record</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<style>
+  :root {
+    --ground: #eceef1;
+    --raised: #f6f7f9;
+    --ink: #171b21;
+    --ink-soft: #414b57;
+    --muted: #6d7885;
+    --rule: #cfd5dd;
+    --rule-soft: #dfe4ea;
+    --scarlet: #b00f28;
+    --brass: #8a6d2f;
+    --bar: #2f3944;
+    --bar-zero: #c6ccd4;
+    --shadow: 0 1px 2px rgba(16, 20, 25, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #101419;
+      --raised: #161b22;
+      --ink: #e7ebf0;
+      --ink-soft: #b3bdc9;
+      --muted: #7d8896;
+      --rule: #262e38;
+      --rule-soft: #1e252d;
+      --scarlet: #e2364f;
+      --brass: #c2a05c;
+      --bar: #93a2b3;
+      --bar-zero: #232b34;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #101419;
+    --raised: #161b22;
+    --ink: #e7ebf0;
+    --ink-soft: #b3bdc9;
+    --muted: #7d8896;
+    --rule: #262e38;
+    --rule-soft: #1e252d;
+    --scarlet: #e2364f;
+    --brass: #c2a05c;
+    --bar: #93a2b3;
+    --bar-zero: #232b34;
+    --shadow: none;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: Spectral, Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .num { text-align: right; }
+  .nowrap { white-space: nowrap; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+  .col { max-width: 68ch; }
+
+  /* ---------- masthead ---------- */
+  header.masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: 56px 0 20px;
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--scarlet);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: "Saira Condensed", "Arial Narrow", sans-serif;
+    font-weight: 700;
+    font-size: clamp(38px, 7vw, 68px);
+    line-height: .96;
+    letter-spacing: -.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .motto {
+    font-family: Spectral, Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 2.4vw, 22px);
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+  }
+  .motto b { font-style: normal; font-weight: 600; color: var(--brass); }
+  .source-line { font-size: 14px; color: var(--muted); margin: 0; }
+  .source-line a { color: var(--ink-soft); }
+
+  /* ---------- stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 34px 0 0;
+  }
+  .stat { background: var(--raised); padding: 14px 16px; }
+  .stat dt {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 4px;
+  }
+  .stat dd {
+    margin: 0;
+    font-family: "Saira Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- sections ---------- */
+  section { margin: 68px 0 0; scroll-margin-top: 24px; }
+  h2 {
+    font-family: "Saira Condensed", sans-serif;
+    font-weight: 700;
+    font-size: clamp(26px, 3.6vw, 36px);
+    line-height: 1.05;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .lede { color: var(--ink-soft); margin: 0 0 26px; }
+  h3 {
+    font-family: "Saira Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 21px;
+    margin: 34px 0 10px;
+  }
+  p { margin: 0 0 16px; }
+  a { color: var(--scarlet); }
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--scarlet); outline-offset: 3px; }
+
+  /* ---------- chart ---------- */
+  .ledger {
+    border: 1px solid var(--rule);
+    background: var(--raised);
+    padding: 20px 16px 8px;
+    margin: 0 0 20px;
+  }
+  .ledger svg { width: 100%; height: 260px; display: block; }
+  .bar { fill: var(--bar); }
+  .bar-zero { fill: var(--bar-zero); }
+  .grid { stroke: var(--rule); stroke-width: 1; }
+  .tick {
+    fill: var(--muted);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+  }
+  .caption { font-size: 13.5px; color: var(--muted); margin: 0 0 30px; }
+
+  /* ---------- tables ---------- */
+  .scroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--raised); }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  th {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td .sub { display: block; font-size: 13px; color: var(--muted); }
+  .excerpt { color: var(--ink-soft); font-size: 14px; min-width: 260px; }
+  .blurb { color: var(--muted); font-size: 13.5px; font-style: italic; }
+  .tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--muted);
+    border: 1px solid var(--rule);
+    padding: 1px 5px;
+    white-space: nowrap;
+  }
+
+  /* ---------- muster ---------- */
+  .intake { margin: 0 0 26px; }
+  .intake-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .intake-head .date { font-size: 14px; font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+  .intake-head .count {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  ul.muster { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 2px 18px; }
+  ul.muster li { display: flex; align-items: baseline; gap: 9px; padding: 3px 0; }
+  .rank {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-left: 2px solid var(--rule);
+    padding-left: 7px;
+    min-width: 86px;
+  }
+  .rank-captain, .rank-lieutenant { color: var(--brass); border-left-color: var(--brass); }
+  .rank-private, .rank-reserve { border-left-color: var(--muted); }
+  .rank-cadet, .rank-recruit { border-left-color: var(--rule); }
+  .who { font-weight: 600; }
+  .country { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+  /* ---------- milestones ---------- */
+  ol.milestones { list-style: none; margin: 0; padding: 0; }
+  ol.milestones > li {
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  ol.milestones > li:first-child { border-top: 1px solid var(--rule); }
+  .ms-date { font-size: 13px; color: var(--muted); padding-top: 3px; }
+  .ms-body h4 { font-family: "Saira Condensed", sans-serif; font-size: 19px; margin: 0 0 6px; font-weight: 700; }
+  .quote {
+    margin: 0 0 6px;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--scarlet);
+    padding-left: 12px;
+    font-size: 15px;
+  }
+  .attr { font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* ---------- promotions ---------- */
+  .trail { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .step .mono { font-size: 13px; }
+  .step .sub { font-size: 12px; }
+  .arrow { color: var(--muted); }
+
+  /* ---------- rules ---------- */
+  ol.titles { list-style: none; margin: 0; padding: 0; }
+  ol.titles li {
+    display: grid;
+    grid-template-columns: 34px 150px 1fr;
+    gap: 14px;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  ol.titles li:last-child { border-bottom: none; }
+  .seq { color: var(--scarlet); font-size: 12px; }
+  .t-date { font-size: 13px; color: var(--muted); }
+  .t-name { font-weight: 600; font-size: 15.5px; }
+  td.zero { color: var(--muted); }
+
+  ol.rules { margin: 0; padding-left: 22px; }
+  ol.rules li { margin: 0 0 9px; padding-left: 6px; }
+  ol.rules li::marker { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--scarlet); }
+
+  details {
+    border: 1px solid var(--rule);
+    background: var(--raised);
+    padding: 12px 16px;
+    margin: 16px 0 0;
+  }
+  summary {
+    cursor: pointer;
+    font-family: "Saira Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  details[open] summary { margin-bottom: 12px; }
+
+  ul.links { list-style: none; margin: 0; padding: 0; }
+  ul.links li { padding: 7px 0; border-bottom: 1px solid var(--rule-soft); }
+  ul.links li:last-child { border-bottom: none; }
+  ul.vids { columns: 3 120px; gap: 14px; list-style: none; margin: 0; padding: 0; font-size: 13px; }
+
+  .note {
+    border-left: 3px solid var(--brass);
+    padding: 2px 0 2px 16px;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+
+  footer {
+    margin-top: 76px;
+    padding-top: 22px;
+    border-top: 2px solid var(--ink);
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    ol.milestones > li { grid-template-columns: 1fr; gap: 6px; }
+    ol.titles li { grid-template-columns: 30px 1fr; row-gap: 2px; }
+    ol.titles .t-name { grid-column: 1 / -1; }
+    .ledger { padding: 14px 8px 4px; }
+    body { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Regimental record · reconstructed from the forum archive</p>
+    <h1>2nd (Coldstream)<br />Regiment of Foot Guards</h1>
+    <p class="motto"><b>Nulli Secundus</b> — Second to None</p>
+    <p class="source-line">
+      Every figure below comes from all 59 pages of
+      <a href="https://www.fsegames.eu/forum/index.php?topic=443.0" target="_blank" rel="noopener noreferrer">FSE topic 443</a>,
+      the regiment's recruitment thread for <em>Mount &amp; Blade: Warband — Napoleonic Wars</em>,
+      scraped and parsed in full on 19 August 2026.
+    </p>
+    <dl class="stats"><div class="stat"><dt>Posts read</dt><dd>885</dd></div><div class="stat"><dt>Forum pages</dt><dd>59</dd></div><div class="stat"><dt>People who posted</dt><dd>127</dd></div><div class="stat"><dt>Members announced</dt><dd>44</dd></div><div class="stat"><dt>Thread views</dt><dd>139,456</dd></div><div class="stat"><dt>Span</dt><dd>Nov 2012 – Mar 2016</dd></div></dl>
+  </header>
+
+  <section id="rhythm">
+    <h2>A regiment that came and went</h2>
+    <p class="lede col">The thread ran three and a half years, but not continuously. Activity arrives in bursts separated by months of silence — and the members knew it. "Yearly revive I see," one outsider posted in 2016.</p>
+
+    <div class="ledger"><svg viewBox="0 0 1000 260" role="img" aria-label="Posts per month from November 2012 to March 2016, peaking at 214 in December 2012" preserveAspectRatio="none">
+    <line class="grid" x1="46" x2="988" y1="216.0" y2="216.0" />
+        <text class="tick" x="38" y="220.0" text-anchor="end">0</text><line class="grid" x1="46" x2="988" y1="116.0" y2="116.0" />
+        <text class="tick" x="38" y="120.0" text-anchor="end">107</text><line class="grid" x1="46" x2="988" y1="16.0" y2="16.0" />
+        <text class="tick" x="38" y="20.0" text-anchor="end">214</text><rect class="bar" x="49.7" y="96.4" width="15.6" height="119.6" rx="1"><title>Nov 2012: 128 posts</title></rect><rect class="bar" x="72.7" y="16.0" width="15.6" height="200.0" rx="1"><title>Dec 2012: 214 posts</title></rect><rect class="bar" x="95.6" y="138.4" width="15.6" height="77.6" rx="1"><title>Jan 2013: 83 posts</title></rect><rect class="bar" x="118.6" y="167.4" width="15.6" height="48.6" rx="1"><title>Feb 2013: 52 posts</title></rect><rect class="bar" x="141.6" y="181.4" width="15.6" height="34.6" rx="1"><title>Mar 2013: 37 posts</title></rect><rect class="bar" x="164.6" y="210.4" width="15.6" height="5.6" rx="1"><title>Apr 2013: 6 posts</title></rect><rect class="bar bar-zero" x="187.5" y="216.0" width="15.6" height="0.0" rx="1"><title>May 2013: 0 posts</title></rect><rect class="bar" x="210.5" y="206.7" width="15.6" height="9.3" rx="1"><title>Jun 2013: 10 posts</title></rect><rect class="bar" x="233.5" y="204.8" width="15.6" height="11.2" rx="1"><title>Jul 2013: 12 posts</title></rect><rect class="bar" x="256.5" y="182.4" width="15.6" height="33.6" rx="1"><title>Aug 2013: 36 posts</title></rect><rect class="bar" x="279.4" y="198.2" width="15.6" height="17.8" rx="1"><title>Sep 2013: 19 posts</title></rect><rect class="bar" x="302.4" y="214.0" width="15.6" height="2.0" rx="1"><title>Oct 2013: 2 posts</title></rect><rect class="bar" x="325.4" y="208.5" width="15.6" height="7.5" rx="1"><title>Nov 2013: 8 posts</title></rect><rect class="bar" x="348.4" y="214.0" width="15.6" height="2.0" rx="1"><title>Dec 2013: 2 posts</title></rect><rect class="bar" x="371.3" y="213.2" width="15.6" height="2.8" rx="1"><title>Jan 2014: 3 posts</title></rect><rect class="bar bar-zero" x="394.3" y="216.0" width="15.6" height="0.0" rx="1"><title>Feb 2014: 0 posts</title></rect><rect class="bar" x="417.3" y="212.3" width="15.6" height="3.7" rx="1"><title>Mar 2014: 4 posts</title></rect><rect class="bar bar-zero" x="440.3" y="216.0" width="15.6" height="0.0" rx="1"><title>Apr 2014: 0 posts</title></rect><rect class="bar" x="463.2" y="214.0" width="15.6" height="2.0" rx="1"><title>May 2014: 1 post</title></rect><rect class="bar bar-zero" x="486.2" y="216.0" width="15.6" height="0.0" rx="1"><title>Jun 2014: 0 posts</title></rect><rect class="bar" x="509.2" y="209.5" width="15.6" height="6.5" rx="1"><title>Jul 2014: 7 posts</title></rect><rect class="bar bar-zero" x="532.2" y="216.0" width="15.6" height="0.0" rx="1"><title>Aug 2014: 0 posts</title></rect><rect class="bar" x="555.1" y="199.2" width="15.6" height="16.8" rx="1"><title>Sep 2014: 18 posts</title></rect><rect class="bar bar-zero" x="578.1" y="216.0" width="15.6" height="0.0" rx="1"><title>Oct 2014: 0 posts</title></rect><rect class="bar bar-zero" x="601.1" y="216.0" width="15.6" height="0.0" rx="1"><title>Nov 2014: 0 posts</title></rect><rect class="bar bar-zero" x="624.1" y="216.0" width="15.6" height="0.0" rx="1"><title>Dec 2014: 0 posts</title></rect><rect class="bar bar-zero" x="647.0" y="216.0" width="15.6" height="0.0" rx="1"><title>Jan 2015: 0 posts</title></rect><rect class="bar bar-zero" x="670.0" y="216.0" width="15.6" height="0.0" rx="1"><title>Feb 2015: 0 posts</title></rect><rect class="bar bar-zero" x="693.0" y="216.0" width="15.6" height="0.0" rx="1"><title>Mar 2015: 0 posts</title></rect><rect class="bar bar-zero" x="716.0" y="216.0" width="15.6" height="0.0" rx="1"><title>Apr 2015: 0 posts</title></rect><rect class="bar bar-zero" x="738.9" y="216.0" width="15.6" height="0.0" rx="1"><title>May 2015: 0 posts</title></rect><rect class="bar" x="761.9" y="129.1" width="15.6" height="86.9" rx="1"><title>Jun 2015: 93 posts</title></rect><rect class="bar" x="784.9" y="113.2" width="15.6" height="102.8" rx="1"><title>Jul 2015: 110 posts</title></rect><rect class="bar" x="807.9" y="190.8" width="15.6" height="25.2" rx="1"><title>Aug 2015: 27 posts</title></rect><rect class="bar bar-zero" x="830.8" y="216.0" width="15.6" height="0.0" rx="1"><title>Sep 2015: 0 posts</title></rect><rect class="bar bar-zero" x="853.8" y="216.0" width="15.6" height="0.0" rx="1"><title>Oct 2015: 0 posts</title></rect><rect class="bar bar-zero" x="876.8" y="216.0" width="15.6" height="0.0" rx="1"><title>Nov 2015: 0 posts</title></rect><rect class="bar bar-zero" x="899.8" y="216.0" width="15.6" height="0.0" rx="1"><title>Dec 2015: 0 posts</title></rect><rect class="bar bar-zero" x="922.7" y="216.0" width="15.6" height="0.0" rx="1"><title>Jan 2016: 0 posts</title></rect><rect class="bar bar-zero" x="945.7" y="216.0" width="15.6" height="0.0" rx="1"><title>Feb 2016: 0 posts</title></rect><rect class="bar" x="968.7" y="203.9" width="15.6" height="12.1" rx="1"><title>Mar 2016: 13 posts</title></rect><text class="tick" x="57.5" y="236" text-anchor="middle">2012</text><text class="tick" x="103.4" y="236" text-anchor="middle">2013</text><text class="tick" x="379.1" y="236" text-anchor="middle">2014</text><text class="tick" x="654.9" y="236" text-anchor="middle">2015</text><text class="tick" x="930.6" y="236" text-anchor="middle">2016</text>
+  </svg></div>
+    <p class="caption">Posts per month, November 2012 – March 2016. Pale marks are months with no posts at all. Peak: 214 posts in December 2012.</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Period</th><th>Era</th><th class="num">Posts</th></tr></thead>
+        <tbody><tr>
+    <td class="mono nowrap">2012-11 → 2013-03</td>
+    <td><strong>Formation</strong><span class="sub">Thread opens, first intake, weekly linebattles</span></td>
+    <td class="mono num">514</td>
+  </tr><tr>
+    <td class="mono nowrap">2013-04 → 2013-12</td>
+    <td><strong>Thinning out</strong><span class="sub">Attendance falls away through the year</span></td>
+    <td class="mono num">95</td>
+  </tr><tr>
+    <td class="mono nowrap">2014-01 → 2014-12</td>
+    <td><strong>Dormant</strong><span class="sub">Occasional bumps; “is this regiment still alive?”</span></td>
+    <td class="mono num">33</td>
+  </tr><tr>
+    <td class="mono nowrap">2015-06 → 2015-08</td>
+    <td><strong>Relaunch</strong><span class="sub">Eight cadets sworn in, veterans return</span></td>
+    <td class="mono num">230</td>
+  </tr><tr>
+    <td class="mono nowrap">2016-03 → 2016-03</td>
+    <td><strong>Last bump</strong><span class="sub">A final thread revival</span></td>
+    <td class="mono num">13</td>
+  </tr></tbody>
+      </table>
+    </div>
+
+    <p class="note" style="margin-top:22px">
+      Asked in 2016 why the regiment kept disappearing, its founder answered plainly:
+      "We come and go as we please, you've got to be insane to actually play this game 3-4 times a week for several years."
+    </p>
+  </section>
+
+  <section id="muster">
+    <h2>Muster roll</h2>
+    <p class="lede col">44 members were formally announced in the thread, grouped here by the intake that welcomed them. Rank and nationality are taken from the announcement posts themselves.</p>
+    <div class="intake">
+      <h3 class="intake-head"><span class="mono date">November 19, 2012</span><span class="count">14 named</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">GloryHonor</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Mint</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">RivenX</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">WilliamBinette</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Baron</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Joseph4Lakers</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Scattman</span>
+              <span class="mono country">Canada</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Finbar</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Richard</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">James</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Lindsey</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">BattleJesus</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Poosoo</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Scipio</span>
+              <span class="mono country">United States</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="mono date">November 20, 2012</span><span class="count">1 named</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Ralof</span>
+              <span class="mono country">United States</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="mono date">February 09, 2013</span><span class="count">3 named</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">SonOfAGun</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Samuel</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">PotPie</span>
+              <span class="mono country">United States</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="mono date">March 17, 2013</span><span class="count">4 named</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Cut67</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">MrCanada</span>
+              <span class="mono country">Canada</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">BigH</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-recruit">Recruit</span>
+              <span class="who">Evoke</span>
+              <span class="mono country">United States</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="mono date">June 15, 2015</span><span class="count">18 named</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Osca32</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Cheddarbob8365</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">CaptainCrunch</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Swiss</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">CheesyG</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Snickers</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Ulmnh</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">REBEL</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-captain">Captain</span>
+              <span class="who">Crazy</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-lieutenant">Lieutenant</span>
+              <span class="who">JihadJoe</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">thetindog</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">Zemohc</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">Darman74</span>
+              <span class="mono country">Canada</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">Raven</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">Joe</span>
+              <span class="mono country">—</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">Netstalker</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-private">Private</span>
+              <span class="who">Ironhide650</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-reserve">Reserve</span>
+              <span class="who">Jakarta</span>
+              <span class="mono country">United States</span>
+            </li>
+      </ul>
+    </div><div class="intake">
+      <h3 class="intake-head"><span class="mono date">June 16, 2015</span><span class="count">4 named</span></h3>
+      <ul class="muster">
+        <li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">beanbean</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Scholar</span>
+              <span class="mono country">United States</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">CrazyRussianMan</span>
+              <span class="mono country">United Kingdom</span>
+            </li><li>
+              <span class="rank rank-cadet">Cadet</span>
+              <span class="who">Carrie</span>
+              <span class="mono country">Australia</span>
+            </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="command">
+    <h2>Command</h2>
+    <p class="lede col">The regiment published its command structure on 3 December 2012, alongside its standing orders.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Rank</th><th>Name</th></tr></thead>
+        <tbody><tr><td class="mono">Lieutenant Colonel</td><td><strong>Thomas</strong></td></tr><tr><td class="mono">Captain</td><td><strong>Crawford</strong></td></tr><tr><td class="mono">Lieutenant</td><td><strong>Crazy</strong></td></tr><tr><td class="mono">Regimental Serjeant-Major</td><td><strong>Richardson</strong></td></tr></tbody>
+      </table>
+    </div>
+
+    <h3>Recorded promotions</h3>
+    <p class="col">Only four members appear in the thread at more than one rank. Crawford — posting later as <em>Colonel River</em> — founded the regiment and stayed with it to the last post.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Member</th><th>Rank over time</th></tr></thead>
+        <tbody><tr>
+      <td><strong>Crazy</strong></td>
+      <td class="trail"><span class="step"><span class="mono">Lieutenant</span><span class="sub">December 03, 2012</span></span><span class="arrow" aria-hidden="true">→</span><span class="step"><span class="mono">Captain</span><span class="sub">June 15, 2015</span></span></td>
+    </tr><tr>
+      <td><strong>James</strong></td>
+      <td class="trail"><span class="step"><span class="mono">Recruit</span><span class="sub">November 19, 2012</span></span><span class="arrow" aria-hidden="true">→</span><span class="step"><span class="mono">Private</span><span class="sub">June 15, 2015</span></span></td>
+    </tr><tr>
+      <td><strong>Samuel</strong></td>
+      <td class="trail"><span class="step"><span class="mono">Recruit</span><span class="sub">February 09, 2013</span></span><span class="arrow" aria-hidden="true">→</span><span class="step"><span class="mono">Cadet</span><span class="sub">June 16, 2015</span></span></td>
+    </tr><tr>
+      <td><strong>Scipio</strong></td>
+      <td class="trail"><span class="step"><span class="mono">Recruit</span><span class="sub">November 19, 2012</span></span><span class="arrow" aria-hidden="true">→</span><span class="step"><span class="mono">Private</span><span class="sub">June 15, 2015</span></span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="orders">
+    <h2>Standing orders</h2>
+    <p class="lede col">Six rules, posted 3 December 2012 and unchanged thereafter.</p>
+    <ol class="rules"><li>Never teamkill; if it was an accident, apologise at once.</li><li>When permission to speak is in effect, ask before speaking.</li><li>Never type while in line, at training, or in a linebattle — it slows everyone down.</li><li>Try your best and follow orders. Running from battle or a command is punished.</li><li>Always work as a team. If you decide you do not need teamwork, leave the regiment.</li><li>Do not retaliate against teamkillers; report them to an admin.</li></ol>
+  </section>
+
+  <section id="events">
+    <h2>Events and opponents</h2>
+    <p class="lede col">113 posts announce or discuss scheduled activity. Trainings ran roughly thirty minutes before each linebattle; linebattles themselves were usually 7PM Central / 8PM Eastern.</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Activity</th><th class="num">Posts</th></tr></thead>
+        <tbody><tr><td>Linebattle</td><td class="mono num">53</td></tr><tr><td>Training</td><td class="mono num">29</td></tr><tr><td>Event</td><td class="mono num">20</td></tr><tr><td>Siege event</td><td class="mono num">9</td></tr><tr><td>Private linebattle</td><td class="mono num">2</td></tr></tbody>
+      </table>
+    </div>
+
+    <h3>The one fully documented match</h3>
+    <p class="col">A single private linebattle is recorded in full, in the regiment's own notice format:</p>
+    <div class="scroll">
+      <table>
+        <tbody>
+          <tr><td class="mono">Opponent</td><td><strong>19th Imperial Japanese Army (19thIJA)</strong></td></tr>
+          <tr><td class="mono">Date</td><td>Sunday, 2 December 2012, 6PM Central / 7PM Eastern</td></tr>
+          <tr><td class="mono">Server</td><td class="mono">2ndColdstream_Public</td></tr>
+          <tr><td class="mono">Strength</td><td>15 v 15</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details>
+      <summary>First 40 scheduling posts</summary>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Posted</th><th>Kind</th><th>Time</th><th>Excerpt</th></tr></thead>
+          <tbody><tr>
+      <td class="mono nowrap">November 14, 2012</td>
+      <td class="nowrap">Event</td>
+      <td class="mono nowrap">—</td>
+      <td class="excerpt">Looking forward to tomorrows event.</td>
+    </tr><tr>
+      <td class="mono nowrap">November 16, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern B</td>
+      <td class="excerpt">Linebattle @ 7PM Central / 8PM Eastern Be in teamspeak atleast 30 Minutes early.</td>
+    </tr><tr>
+      <td class="mono nowrap">November 17, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">4PM Central looking forward</td>
+      <td class="excerpt">Glad to have you back as well. I'll whip up a signature for you when I get the chance. Glad to have you in the regiment, Also we have training tomorro</td>
+    </tr><tr>
+      <td class="mono nowrap">November 17, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">Saturday</td>
+      <td class="excerpt">Wont be able to make it to training Saturday, I have work.</td>
+    </tr><tr>
+      <td class="mono nowrap">November 18, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">tomorrow</td>
+      <td class="excerpt">Can't wait for the training tomorrow</td>
+    </tr><tr>
+      <td class="mono nowrap">November 19, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Great training tonight. To bad I cannot make a habit of attending sunday practice thanks to work. Oh well! Anyways, it is great to be back in the 2nds</td>
+    </tr><tr>
+      <td class="mono nowrap">November 19, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">Tuesday</td>
+      <td class="excerpt">Awesome training guys. Hopefully Tico or someone looks at our application for the NEC event so we'll have a linebattle to attend Tuesday.</td>
+    </tr><tr>
+      <td class="mono nowrap">November 19, 2012</td>
+      <td class="nowrap">Event</td>
+      <td class="mono nowrap">Thursday</td>
+      <td class="excerpt">Welcome our newest recruits to the Coldstream, Recruit GloryHonor Recruit Mint Recruit RivenX Recruit WilliamBinette Recruit Baron Recruit Joseph4Lake</td>
+    </tr><tr>
+      <td class="mono nowrap">November 28, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern</td>
+      <td class="excerpt">We've got a linebattle tomorrow gentlemen @ 7PM Central / 8PM Eastern, Training will start 30 minutes before as always.</td>
+    </tr><tr>
+      <td class="mono nowrap">November 29, 2012</td>
+      <td class="nowrap">Private linebattle</td>
+      <td class="mono nowrap">6PM Central / 7PM Eastern S</td>
+      <td class="excerpt">Private Linebattle Information Regiment Name: 19th Imperial Japanese Army (19thIJA) Time &amp; Date: Sunday, 12/2/2012 @ 6PM Central / 7PM Eastern Server:</td>
+    </tr><tr>
+      <td class="mono nowrap">November 30, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern</td>
+      <td class="excerpt">I really enjoyed that linebattle, we've got another linebattle Friday @ 7PM Central / 8PM Eastern.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 01, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Good LB tonight, even if we had a mentally retarded team who never heard the work &quot;teamwork:.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 01, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">4PM Central / 5PM Eastern a</td>
+      <td class="excerpt">Great event, we've got a linebattle tomorrow @ 4PM Central / 5PM Eastern as well. [spoiler] [close]</td>
+    </tr><tr>
+      <td class="mono nowrap">December 02, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Some screenshots of us today, good attendance and training. [spoiler] [close]</td>
+    </tr><tr>
+      <td class="mono nowrap">December 02, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Fun training today, guys. Can't wait for the linebattle tomorrow!</td>
+    </tr><tr>
+      <td class="mono nowrap">December 03, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">6PM Central / 7PM Eastern g</td>
+      <td class="excerpt">Training tomorrow @ 6PM Central / 7PM Eastern gents. We'll be going over quite a few formations so I suggest you be there.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 05, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Good job during training today guys. I hope most of you learned the formations and how to maneuver within them. [spoiler] [close]</td>
+    </tr><tr>
+      <td class="mono nowrap">December 05, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern</td>
+      <td class="excerpt">Glad you enjoyed it man. We also have a linebattle tomorrow @ 7PM Central / 8PM Eastern.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 06, 2012</td>
+      <td class="nowrap">Event</td>
+      <td class="mono nowrap">Friday</td>
+      <td class="excerpt">ill make it to Friday's event but from there i can't. Exam period and all. I have one tomorrow in the morning, one Friday during the day, one the 10th</td>
+    </tr><tr>
+      <td class="mono nowrap">December 06, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">I had a torunament today anf practice the whole week. Hopefullyill be able to make the next few events .</td>
+    </tr><tr>
+      <td class="mono nowrap">December 07, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern</td>
+      <td class="excerpt">Linebattle tomorrow @ 7PM Central / 8PM Eastern. Good linebattle today gents, like us up on facebook .</td>
+    </tr><tr>
+      <td class="mono nowrap">December 08, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">we got an LB tonight gentlemen!</td>
+    </tr><tr>
+      <td class="mono nowrap">December 09, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Sorry I missed the line battle, I love the new event, but I had a banquet/dance. Will be attending training today though.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 12, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Nice training tonight guys.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 14, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Good luck in the line battle tonight all.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 15, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Good Lb tonight, just took too fucking long.. :/</td>
+    </tr><tr>
+      <td class="mono nowrap">December 16, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Great LB tonight! had a lot of fun with the 78th on our side.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 16, 2012</td>
+      <td class="nowrap">Event</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Sry guys :s! I missed the event today! I heard you did good and a lot of you got promos! Congrats to all of you</td>
+    </tr><tr>
+      <td class="mono nowrap">December 17, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">That was some great training tonight guys.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 18, 2012</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">tomorrow</td>
+      <td class="excerpt">Can wait to see you guys tomorrow at training.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 20, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern</td>
+      <td class="excerpt">Linebattle Tomorrow night guys @ 7PM Central / 8PM Eastern, try to make it.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 21, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Linebattle tonight in 2 Hours, try to make it lads.</td>
+    </tr><tr>
+      <td class="mono nowrap">December 22, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">lets see a good lb tonight guys</td>
+    </tr><tr>
+      <td class="mono nowrap">December 28, 2012</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Outstanding Linebattle today guys!!!</td>
+    </tr><tr>
+      <td class="mono nowrap">January 01, 2013</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">tomorrow</td>
+      <td class="excerpt">Sorry, glad to have training tomorrow and to get back on schedule.</td>
+    </tr><tr>
+      <td class="mono nowrap">January 03, 2013</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">7PM Central / 8PM Eastern</td>
+      <td class="excerpt">Linebattle tonight @ 7PM Central / 8PM Eastern, make sure to make it guys.</td>
+    </tr><tr>
+      <td class="mono nowrap">January 04, 2013</td>
+      <td class="nowrap">Linebattle</td>
+      <td class="mono nowrap">tonight</td>
+      <td class="excerpt">Good linebattle we had tonight guys!</td>
+    </tr><tr>
+      <td class="mono nowrap">January 05, 2013</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Training today in an hour, we'll be going over the usual and follow it up with some recruiting.</td>
+    </tr><tr>
+      <td class="mono nowrap">January 06, 2013</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">During training today I realized just how behind I am compared to you all in melee. I guess I know what to work on</td>
+    </tr><tr>
+      <td class="mono nowrap">January 07, 2013</td>
+      <td class="nowrap">Training</td>
+      <td class="mono nowrap">today</td>
+      <td class="excerpt">Went to my first training today was good fun. Can't wait to get in to a real game with everyone.</td>
+    </tr></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section id="names">
+    <h2>Twelve names in three years</h2>
+    <p class="lede col">Every reply on an SMF forum stores the thread's title as it stood at that moment, so the thread carries its own renaming history. Read in order, it is the clearest record of what the regiment was trying to be.</p>
+    <ol class="titles"><li>
+      <span class="seq mono">01</span>
+      <span class="t-date mono">November 12, 2012</span>
+      <span class="t-name">2nd Coldstream Regiment of Footguards [Recruiting NA Players]</span>
+    </li><li>
+      <span class="seq mono">02</span>
+      <span class="t-date mono">September 21, 2014</span>
+      <span class="t-name">2nd Coldstream Regiment of Footguards [Recruiting Mature NA Players]</span>
+    </li><li>
+      <span class="seq mono">03</span>
+      <span class="t-date mono">September 22, 2014</span>
+      <span class="t-name">2nd Coldstream Regiment of Footguards [Recruiting Mature NA &amp; EU Players]</span>
+    </li><li>
+      <span class="seq mono">04</span>
+      <span class="t-date mono">September 29, 2014</span>
+      <span class="t-name">2nd Coldstream Regiment of Footguards [Invite Only]</span>
+    </li><li>
+      <span class="seq mono">05</span>
+      <span class="t-date mono">June 15, 2015</span>
+      <span class="t-name">2nd Coldstream Regiment of Footguards [Recruiting Mature NA Players]</span>
+    </li><li>
+      <span class="seq mono">06</span>
+      <span class="t-date mono">June 15, 2015</span>
+      <span class="t-name">2nd Coldstream Regiment of Footguards [Recruiting Mature NA Players]</span>
+    </li><li>
+      <span class="seq mono">07</span>
+      <span class="t-date mono">July 01, 2015</span>
+      <span class="t-name">Coldstream Regiment of Footguards [Recuriting Mature NA Players]</span>
+    </li><li>
+      <span class="seq mono">08</span>
+      <span class="t-date mono">July 02, 2015</span>
+      <span class="t-name">Coldstream Regiment of Footguards [Recruiting Mature NA &amp; EU Players]</span>
+    </li><li>
+      <span class="seq mono">09</span>
+      <span class="t-date mono">July 29, 2015</span>
+      <span class="t-name">Coldstream Regiment of Footguards [International]</span>
+    </li><li>
+      <span class="seq mono">10</span>
+      <span class="t-date mono">August 08, 2015</span>
+      <span class="t-name">Coldstream Regiment of Foot Guards [International]</span>
+    </li><li>
+      <span class="seq mono">11</span>
+      <span class="t-date mono">March 18, 2016</span>
+      <span class="t-name">Coldstream Regiment of Footguards [Recruiting NA Leadership &amp; Players]</span>
+    </li><li>
+      <span class="seq mono">12</span>
+      <span class="t-date mono">March 20, 2016</span>
+      <span class="t-name">Nox Viator Gaming [Recruiting NA Leadership &amp; Players]</span>
+    </li></ol>
+    <p class="note" style="margin-top:24px">
+      Three moves matter. <strong>September 2014</strong>: recruitment closes to <em>Invite Only</em>, days after the founder complains of "kids joining and leaving 30 minutes later".
+      <strong>1 July 2015</strong>: the <em>2nd</em> is dropped, and the unit stops being a numbered regiment.
+      <strong>20 March 2016</strong>: on the last active day, the thread is renamed <em>Nox Viator Gaming</em> — a general gaming brand rather than a Napoleonic regiment.
+      That name appears nowhere in the posts themselves and left no trace elsewhere on the web, so it never took. The thread stands today under its original name, last edited by its founder on 10 May 2017.
+    </p>
+  </section>
+
+  <section id="activity">
+    <h2>What they actually did</h2>
+    <p class="lede col">The regiment did not simply fade — it changed shape. In 2012 it was a drill-and-linebattle unit. By the 2015 relaunch, Native events and sieges outnumbered linebattles, and the calendar had movie nights on it.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Activity</th><th class="num">2012</th><th class="num">2013</th><th class="num">2014</th><th class="num">2015</th><th class="num">2016</th></tr></thead>
+        <tbody><tr><td>Linebattle</td><td class="mono num">29</td><td class="mono num">44</td><td class="mono num">1</td><td class="mono num">9</td><td class="mono num zero">·</td></tr><tr><td>Training / drill</td><td class="mono num">39</td><td class="mono num">27</td><td class="mono num zero">·</td><td class="mono num">4</td><td class="mono num zero">·</td></tr><tr><td>Siege event</td><td class="mono num zero">·</td><td class="mono num">12</td><td class="mono num zero">·</td><td class="mono num">11</td><td class="mono num zero">·</td></tr><tr><td>Native event</td><td class="mono num zero">·</td><td class="mono num zero">·</td><td class="mono num zero">·</td><td class="mono num">13</td><td class="mono num zero">·</td></tr><tr><td>Gaming night</td><td class="mono num zero">·</td><td class="mono num zero">·</td><td class="mono num zero">·</td><td class="mono num">1</td><td class="mono num zero">·</td></tr><tr><td>Movie night</td><td class="mono num zero">·</td><td class="mono num">1</td><td class="mono num zero">·</td><td class="mono num">3</td><td class="mono num zero">·</td></tr><tr><td>Video release</td><td class="mono num">4</td><td class="mono num">3</td><td class="mono num">2</td><td class="mono num">15</td><td class="mono num zero">·</td></tr></tbody>
+      </table>
+    </div>
+    <p class="caption">Posts mentioning each activity, counted from author text only. A dot means no mention that year.</p>
+    <p class="col">By July 2015 the schedule included melee practice, siege events, Mount &amp; Blade Native nights, gaming nights at 5PM Central, and movie nights every Monday and Tuesday. That is the shape of a general gaming community rather than a single-game regiment — the same shape Coldstream Gaming has today.</p>
+
+    <h3>Under attack</h3>
+    <p class="col">Twice in July 2015 the regiment's infrastructure was targeted. On 1 July its TeamSpeak was knocked offline mid-event; on 4 July the founder warned members about a visitor threatening to DDoS the TeamSpeak and game servers outright.</p>
+  </section>
+
+  <section id="milestones">
+    <h2>Milestones</h2>
+    <p class="lede col">Nine moments that shaped the thread, quoted from the posts that record them.</p>
+    <ol class="milestones"><li>
+      <div class="ms-date mono">November 12, 2012</div>
+      <div class="ms-body">
+        <h4>Recruitment thread opened on FSE</h4>
+        <p class="quote">Join for the virtual bloodshed, stay for the comradery [spoiler] [/spoiler] [spoiler] Colonel River 2nd Coldstream Steam Group Youtube Channel [/spoiler] [spoiler] The origin of the Coldstream Guards lies in the English </p>
+        <p class="attr mono">— Crawford, reply #0</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">November 19, 2012</div>
+      <div class="ms-body">
+        <h4>First intake announced — 14 recruits</h4>
+        <p class="quote">Welcome our newest recruits to the Coldstream, Recruit GloryHonor Recruit Mint Recruit RivenX Recruit WilliamBinette Recruit Baron Recruit Joseph4Lakers Recruit Scattman Recruit Finbar Recruit Richard Recruit James Recru</p>
+        <p class="attr mono">— Crawford, reply #72</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">November 20, 2012</div>
+      <div class="ms-body">
+        <h4>Roster moved to the second post</h4>
+        <p class="quote">Just moved the Roster to the 2nd Post. I'll be working to getting the schedule on there as well. Also here are some screenshots of us playing in US1. [spoiler] [close]</p>
+        <p class="attr mono">— Crawford, reply #78</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">November 29, 2012</div>
+      <div class="ms-body">
+        <h4>First private linebattle arranged (19th Imperial Japanese Army)</h4>
+        <p class="quote">Private Linebattle Information Regiment Name: 19th Imperial Japanese Army (19thIJA) Time &amp; Date: Sunday, 12/2/2012 @ 6PM Central / 7PM Eastern Server: 2ndColdstream_Public Estimated Attendance: 15 v 15</p>
+        <p class="attr mono">— Crawford, reply #117</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">December 03, 2012</div>
+      <div class="ms-body">
+        <h4>Rules and command structure published</h4>
+        <p class="quote">[spoiler] 1. Don't ever teamkill, if it was an accident please apologize ASAP. 2. When permission to speak is in effect during a linebattle and or training, you must ask permission to speak(also known as PTS). 3. Never t</p>
+        <p class="attr mono">— Zemohc, reply #170</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">February 07, 2013</div>
+      <div class="ms-body">
+        <h4>Public dispute over declined private linebattles</h4>
+        <p class="quote">Seems the NA Community can't be told no to a private linebattle, or this happens. [spoiler] Shortly after, 3-4 of their guys came into our teamspeak [/spoiler] I usually ignore things like this, but this is the second ti</p>
+        <p class="attr mono">— Crawford, reply #434</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">June 15, 2015</div>
+      <div class="ms-body">
+        <h4>June 2015 relaunch — 8 cadets plus returning veterans</h4>
+        <p class="quote">Let us welcome our newest brothers to the family Cadet Swiss Cadet CheesyG Cadet Snickers Cadet Ulmnh Cadet Osca32 Cadet Cheddarbob8365 Cadet CaptainCrunch Cadet REBEL And lets welcome some of our olders dudes back to th</p>
+        <p class="attr mono">— Crawford, reply #652</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">March 18, 2016</div>
+      <div class="ms-body">
+        <h4>Final revival bump</h4>
+        <p class="quote">Bump</p>
+        <p class="attr mono">— Crawford, reply #872</p>
+      </div>
+    </li><li>
+      <div class="ms-date mono">March 18, 2016</div>
+      <div class="ms-body">
+        <h4>Crawford on the regiment’s come-and-go rhythm</h4>
+        <p class="quote">We come and go as we please, you've got to be insane to actually play this game 3-4 times a week for several years. Also it's never a &quot;revive&quot; we're constantly in teamspeak together, it's more of a &quot;hey, let's go play so</p>
+        <p class="attr mono">— Crawford, reply #878</p>
+      </div>
+    </li></ol>
+  </section>
+
+  <section id="people">
+    <h2>Everyone who posted</h2>
+    <p class="lede col">127 distinct accounts posted in the thread — members, applicants, allies, and rivals alike. Five are now deleted accounts, showing as guests.</p>
+    <details>
+      <summary>Full list, most active first</summary>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Account</th><th class="num">Posts</th><th>First</th><th>Last</th><th>Forum blurb</th></tr></thead>
+          <tbody><tr>
+      <td><strong>Crawford</strong></td>
+      <td class="mono num">185</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2016-03-20</td>
+      <td class="blurb">[2ndCS] Col. River</td>
+    </tr><tr>
+      <td><strong>kavcav</strong></td>
+      <td class="mono num">78</td>
+      <td class="mono nowrap">2012-11-28</td>
+      <td class="mono nowrap">2015-08-29</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Imthescattman</strong></td>
+      <td class="mono num">64</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2015-07-20</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Oosten</strong></td>
+      <td class="mono num">46</td>
+      <td class="mono nowrap">2012-12-01</td>
+      <td class="mono nowrap">2015-08-08</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Zelkova1224</strong></td>
+      <td class="mono num">45</td>
+      <td class="mono nowrap">2012-12-08</td>
+      <td class="mono nowrap">2015-08-08</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>williambinette</strong></td>
+      <td class="mono num">35</td>
+      <td class="mono nowrap">2013-01-02</td>
+      <td class="mono nowrap">2015-08-29</td>
+      <td class="blurb">let 'er rip</td>
+    </tr><tr>
+      <td><strong>Tyer032392</strong></td>
+      <td class="mono num">28</td>
+      <td class="mono nowrap">2012-11-15</td>
+      <td class="mono nowrap">2015-07-20</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Rikugun Taishō Ito</strong></td>
+      <td class="mono num">26</td>
+      <td class="mono nowrap">2012-11-24</td>
+      <td class="mono nowrap">2012-12-29</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>MrRiv</strong></td>
+      <td class="mono num">25</td>
+      <td class="mono nowrap">2012-11-19</td>
+      <td class="mono nowrap">2013-09-27</td>
+      <td class="blurb">Playin' Native since MM</td>
+    </tr><tr>
+      <td><strong>crazy</strong></td>
+      <td class="mono num">24</td>
+      <td class="mono nowrap">2012-11-14</td>
+      <td class="mono nowrap">2015-07-02</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Glory</strong> <span class="tag">deleted account</span></td>
+      <td class="mono num">21</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2012-12-23</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>scholar2414</strong></td>
+      <td class="mono num">16</td>
+      <td class="mono nowrap">2015-06-17</td>
+      <td class="mono nowrap">2015-07-19</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>TheZach_Attack</strong></td>
+      <td class="mono num">14</td>
+      <td class="mono nowrap">2012-11-22</td>
+      <td class="mono nowrap">2015-06-30</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>MackCW</strong></td>
+      <td class="mono num">13</td>
+      <td class="mono nowrap">2012-12-01</td>
+      <td class="mono nowrap">2015-07-16</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Finbar800</strong></td>
+      <td class="mono num">11</td>
+      <td class="mono nowrap">2012-11-25</td>
+      <td class="mono nowrap">2013-02-25</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Mint</strong></td>
+      <td class="mono num">10</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2012-12-02</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Millander</strong></td>
+      <td class="mono num">10</td>
+      <td class="mono nowrap">2012-11-18</td>
+      <td class="mono nowrap">2015-06-15</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Coconut</strong></td>
+      <td class="mono num">9</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2014-03-30</td>
+      <td class="blurb">&quot;Just do a headbob&quot; - DarthJezus 2012</td>
+    </tr><tr>
+      <td><strong>reclu</strong></td>
+      <td class="mono num">9</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2015-07-09</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Shadow</strong></td>
+      <td class="mono num">9</td>
+      <td class="mono nowrap">2015-07-16</td>
+      <td class="mono nowrap">2015-08-06</td>
+      <td class="blurb">Decorated Soldier, Validated Commander, GHTG</td>
+    </tr><tr>
+      <td><strong>Holland</strong></td>
+      <td class="mono num">8</td>
+      <td class="mono nowrap">2012-12-03</td>
+      <td class="mono nowrap">2012-12-21</td>
+      <td class="blurb">Still can't block</td>
+    </tr><tr>
+      <td><strong>Menelaos</strong></td>
+      <td class="mono num">6</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>TylerY</strong></td>
+      <td class="mono num">6</td>
+      <td class="mono nowrap">2012-11-28</td>
+      <td class="mono nowrap">2013-03-07</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>ShiftKnife</strong></td>
+      <td class="mono num">5</td>
+      <td class="mono nowrap">2012-12-04</td>
+      <td class="mono nowrap">2012-12-19</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Audiate</strong></td>
+      <td class="mono num">5</td>
+      <td class="mono nowrap">2012-12-06</td>
+      <td class="mono nowrap">2015-06-27</td>
+      <td class="blurb">FREEZE, PUNK!</td>
+    </tr><tr>
+      <td><strong>DaMonkey</strong></td>
+      <td class="mono num">5</td>
+      <td class="mono nowrap">2012-12-10</td>
+      <td class="mono nowrap">2016-03-21</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Windbusche</strong></td>
+      <td class="mono num">5</td>
+      <td class="mono nowrap">2012-12-26</td>
+      <td class="mono nowrap">2013-03-19</td>
+      <td class="blurb">American Vocabulary Trooper</td>
+    </tr><tr>
+      <td><strong>TheBoberton</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2012-11-15</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb">I don't want no pardon for anything I done</td>
+    </tr><tr>
+      <td><strong>Ironhide650</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2015-06-16</td>
+      <td class="blurb">I'm a marksman.</td>
+    </tr><tr>
+      <td><strong>CommissarNailbrainz</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2013-01-21</td>
+      <td class="mono nowrap">2013-01-31</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>PurplePanda</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2014-09-30</td>
+      <td class="mono nowrap">2016-03-18</td>
+      <td class="blurb">Old Gen boy, led a few bad regiments.</td>
+    </tr><tr>
+      <td><strong>The Great Uno</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2015-06-16</td>
+      <td class="mono nowrap">2015-07-07</td>
+      <td class="blurb">appear weak when you are strong and strong when yo</td>
+    </tr><tr>
+      <td><strong>Diapukus</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2015-07-06</td>
+      <td class="mono nowrap">2015-08-02</td>
+      <td class="blurb">wut is life</td>
+    </tr><tr>
+      <td><strong>Siwi</strong></td>
+      <td class="mono num">4</td>
+      <td class="mono nowrap">2015-08-08</td>
+      <td class="mono nowrap">2016-03-18</td>
+      <td class="blurb">Where is BCoF</td>
+    </tr><tr>
+      <td><strong>Hugonaut</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2012-11-28</td>
+      <td class="mono nowrap">2013-08-20</td>
+      <td class="blurb">He that cannot obey cannot command -B. Franklin</td>
+    </tr><tr>
+      <td><strong>Stunned Lime</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2012-12-02</td>
+      <td class="mono nowrap">2012-12-03</td>
+      <td class="blurb">Hella O's</td>
+    </tr><tr>
+      <td><strong>IceCream</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2013-01-13</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Ralph</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2013-01-27</td>
+      <td class="mono nowrap">2013-02-03</td>
+      <td class="blurb">Herbalist</td>
+    </tr><tr>
+      <td><strong>Caesar15</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2013-02-07</td>
+      <td class="mono nowrap">2013-02-08</td>
+      <td class="blurb">For crown and country!</td>
+    </tr><tr>
+      <td><strong>Primus69</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2013-07-04</td>
+      <td class="mono nowrap">2013-07-04</td>
+      <td class="blurb">Primus...</td>
+    </tr><tr>
+      <td><strong>Reading_Rambo</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2015-06-15</td>
+      <td class="mono nowrap">2015-07-02</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Gunther AV</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2015-06-28</td>
+      <td class="mono nowrap">2015-08-05</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Gooner</strong></td>
+      <td class="mono num">3</td>
+      <td class="mono nowrap">2015-06-30</td>
+      <td class="mono nowrap">2015-07-26</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Magik27</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-11-15</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Doxy</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-12-05</td>
+      <td class="blurb">o baby a triple</td>
+    </tr><tr>
+      <td><strong>rocknok2</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-11-21</td>
+      <td class="blurb">Hasan</td>
+    </tr><tr>
+      <td><strong>satir3</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2012-12-15</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>tico13</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2012-11-18</td>
+      <td class="mono nowrap">2014-01-13</td>
+      <td class="blurb">NA Server Administrator</td>
+    </tr><tr>
+      <td><strong>Zemohc</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2012-11-28</td>
+      <td class="mono nowrap">2012-12-03</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Austin</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-01-03</td>
+      <td class="mono nowrap">2013-01-06</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Faith</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-01-07</td>
+      <td class="mono nowrap">2013-01-09</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>ThreeCubed</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-03-02</td>
+      <td class="mono nowrap">2013-03-14</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Scipio</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-03-19</td>
+      <td class="mono nowrap">2015-06-14</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Samuel</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-06-08</td>
+      <td class="mono nowrap">2013-08-24</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Burakkuada</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-07-04</td>
+      <td class="mono nowrap">2013-07-04</td>
+      <td class="blurb">Vince - Unban Tavington.</td>
+    </tr><tr>
+      <td><strong>Ross Kemp</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-07-04</td>
+      <td class="mono nowrap">2013-07-04</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Devmc99</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-07-05</td>
+      <td class="mono nowrap">2015-06-29</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>nutslapper</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-09-20</td>
+      <td class="mono nowrap">2014-09-05</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Noodlenrice</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-11-08</td>
+      <td class="mono nowrap">2013-12-13</td>
+      <td class="blurb">King of Nam'</td>
+    </tr><tr>
+      <td><strong>#LionCarry</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2013-11-08</td>
+      <td class="mono nowrap">2014-07-24</td>
+      <td class="blurb">Can't spred</td>
+    </tr><tr>
+      <td><strong>Locust</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2014-01-13</td>
+      <td class="mono nowrap">2014-09-22</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Becker-</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2014-07-14</td>
+      <td class="mono nowrap">2016-03-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>AeroNinja</strong> <span class="tag">deleted account</span></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2014-09-24</td>
+      <td class="mono nowrap">2016-03-20</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Marceaux</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-07-10</td>
+      <td class="blurb">Je suis immortel.</td>
+    </tr><tr>
+      <td><strong>g00ber</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-06-21</td>
+      <td class="blurb">12e SLT FOR THE WIN!</td>
+    </tr><tr>
+      <td><strong>Wastee</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-06-20</td>
+      <td class="mono nowrap">2015-06-22</td>
+      <td class="blurb">Nr8[LG]Kpt_Wastee</td>
+    </tr><tr>
+      <td><strong>HWMHall</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-07-03</td>
+      <td class="mono nowrap">2015-08-05</td>
+      <td class="blurb">Military History Guru</td>
+    </tr><tr>
+      <td><strong>potus</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-07-11</td>
+      <td class="mono nowrap">2015-07-31</td>
+      <td class="blurb">Official FSE President</td>
+    </tr><tr>
+      <td><strong>c0re</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-07-17</td>
+      <td class="mono nowrap">2016-03-18</td>
+      <td class="blurb">22nd (Cheshire) Regiment of Foot</td>
+    </tr><tr>
+      <td><strong>Amit_</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2015-08-12</td>
+      <td class="mono nowrap">2016-03-20</td>
+      <td class="blurb">22nd &quot;Cheshire&quot; Regiment</td>
+    </tr><tr>
+      <td><strong>Andee</strong></td>
+      <td class="mono num">2</td>
+      <td class="mono nowrap">2016-03-20</td>
+      <td class="mono nowrap">2016-03-21</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Hoffmann</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="blurb">Your Glorious Comrade</td>
+    </tr><tr>
+      <td><strong>Saga</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="blurb">Patiently waiting for BCOF since 2012.</td>
+    </tr><tr>
+      <td><strong>SomeRandomTiger</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="blurb">Their tops are made out of rubber</td>
+    </tr><tr>
+      <td><strong>Stjef</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="mono nowrap">2012-11-13</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Ropin</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-14</td>
+      <td class="mono nowrap">2012-11-14</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Megaberna</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-14</td>
+      <td class="mono nowrap">2012-11-14</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>MilkShake</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-15</td>
+      <td class="mono nowrap">2012-11-15</td>
+      <td class="blurb">&quot;Yum&quot;</td>
+    </tr><tr>
+      <td><strong>James Grant</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>GunZo</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="blurb">Youtube.com/YoloSwagMasterGunZo</td>
+    </tr><tr>
+      <td><strong>Old_Guard</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="mono nowrap">2012-11-17</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Cobra</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-18</td>
+      <td class="mono nowrap">2012-11-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Mr.Roger</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-11-18</td>
+      <td class="mono nowrap">2012-11-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Chosen1</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-12-01</td>
+      <td class="mono nowrap">2012-12-01</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Stewart</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-12-22</td>
+      <td class="mono nowrap">2012-12-22</td>
+      <td class="blurb">87th Regiment of Foot - The Royal Irish Fusiliers.</td>
+    </tr><tr>
+      <td><strong>NetStalker</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2012-12-24</td>
+      <td class="mono nowrap">2012-12-24</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>APimpNamedSlickback</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-11</td>
+      <td class="mono nowrap">2013-01-11</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>TehGooner</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Pointblank</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb">wat</td>
+    </tr><tr>
+      <td><strong>DarthJezus</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Rere</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="mono nowrap">2013-01-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Akira</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-28</td>
+      <td class="mono nowrap">2013-01-28</td>
+      <td class="blurb">Swords master and Bayonet blunter.</td>
+    </tr><tr>
+      <td><strong>kpetschulat</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-01-29</td>
+      <td class="mono nowrap">2013-01-29</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Dom13WorstNW</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-03-04</td>
+      <td class="mono nowrap">2013-03-04</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Deal</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-03-26</td>
+      <td class="mono nowrap">2013-03-26</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Brock</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-06-05</td>
+      <td class="mono nowrap">2013-06-05</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>85thColonel</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-06-20</td>
+      <td class="mono nowrap">2013-06-20</td>
+      <td class="blurb">48th Highlanders of Canada Colonel</td>
+    </tr><tr>
+      <td><strong>Verdier/Diomedes</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-06-20</td>
+      <td class="mono nowrap">2013-06-20</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>MMGrimreaper</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-08-06</td>
+      <td class="mono nowrap">2013-08-06</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>jitij</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-08-08</td>
+      <td class="mono nowrap">2013-08-08</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Bogrith</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-08-20</td>
+      <td class="mono nowrap">2013-08-20</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Bond</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-08-23</td>
+      <td class="mono nowrap">2013-08-23</td>
+      <td class="blurb">Everyone's quick to blame the aliens -Aeschylus</td>
+    </tr><tr>
+      <td><strong>regwilliam</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2013-09-11</td>
+      <td class="mono nowrap">2013-09-11</td>
+      <td class="blurb">add regwilliam to join 1stNJ</td>
+    </tr><tr>
+      <td><strong>Zzehth</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2014-03-26</td>
+      <td class="mono nowrap">2014-03-26</td>
+      <td class="blurb">NANWL Co-Founder</td>
+    </tr><tr>
+      <td><strong>1stEPG_Official</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2014-07-14</td>
+      <td class="mono nowrap">2014-07-14</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Gared</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2014-07-24</td>
+      <td class="mono nowrap">2014-07-24</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>sharpe455</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2014-09-07</td>
+      <td class="mono nowrap">2014-09-07</td>
+      <td class="blurb">give me a rifle, and ill give you a dead frog</td>
+    </tr><tr>
+      <td><strong>Jorvasker</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2014-09-22</td>
+      <td class="mono nowrap">2014-09-22</td>
+      <td class="blurb">33rd_Fus_Jorvasker</td>
+    </tr><tr>
+      <td><strong>Murch</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-14</td>
+      <td class="mono nowrap">2015-06-14</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Windflower</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-15</td>
+      <td class="mono nowrap">2015-06-15</td>
+      <td class="blurb">ex PSG, 30th</td>
+    </tr><tr>
+      <td><strong>Alexander</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-15</td>
+      <td class="mono nowrap">2015-06-15</td>
+      <td class="blurb">https://twitter.com/6motm</td>
+    </tr><tr>
+      <td><strong>Stroke0fd34th</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-16</td>
+      <td class="mono nowrap">2015-06-16</td>
+      <td class="blurb">Luck is for people who are too lazy to train</td>
+    </tr><tr>
+      <td><strong>AP0CALYPS3</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-17</td>
+      <td class="mono nowrap">2015-06-17</td>
+      <td class="blurb">Luck is for Risk because he is bad at SMITE</td>
+    </tr><tr>
+      <td><strong>Chantakey</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="blurb">Slayer of Weebs, Destroyer of WoR, Fattest cock</td>
+    </tr><tr>
+      <td><strong>Lawbringer</strong> <span class="tag">deleted account</span></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Laird_Samuel</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Goobz</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="blurb">Be gentle.</td>
+    </tr><tr>
+      <td><strong>Captain Crunch</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="mono nowrap">2015-06-18</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Platypus</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-26</td>
+      <td class="mono nowrap">2015-06-26</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Hailtothechi</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-06-26</td>
+      <td class="mono nowrap">2015-06-26</td>
+      <td class="blurb">Glory to the 33rd!</td>
+    </tr><tr>
+      <td><strong>Thundersnow</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-07-04</td>
+      <td class="mono nowrap">2015-07-04</td>
+      <td class="blurb">Overlord of the 00th Regiment, Time and Space.</td>
+    </tr><tr>
+      <td><strong>Dolcebowler</strong> <span class="tag">deleted account</span></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-07-09</td>
+      <td class="mono nowrap">2015-07-09</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Rothgar21</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-07-16</td>
+      <td class="mono nowrap">2015-07-16</td>
+      <td class="blurb">NA Groupfighting Admin</td>
+    </tr><tr>
+      <td><strong>Suns</strong> <span class="tag">deleted account</span></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-08-05</td>
+      <td class="mono nowrap">2015-08-05</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Rutger Müller</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-08-06</td>
+      <td class="mono nowrap">2015-08-06</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>Michael Sparks</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2015-08-29</td>
+      <td class="mono nowrap">2015-08-29</td>
+      <td class="blurb"></td>
+    </tr><tr>
+      <td><strong>John Price</strong></td>
+      <td class="mono num">1</td>
+      <td class="mono nowrap">2016-03-18</td>
+      <td class="mono nowrap">2016-03-18</td>
+      <td class="blurb">Destroyer of RGL</td>
+    </tr></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section id="footprint">
+    <h2>Wider footprint</h2>
+    <p class="lede col">The thread was one surface of a larger operation.</p>
+    <ul class="links">
+      <li><strong>Steam group</strong> — <a href="https://steamcommunity.com/groups/2ndColdstream" target="_blank" rel="noopener noreferrer">2nd Coldstream Regiment of Footguards</a>, founded <strong>19 January 2012</strong>, 90 members. It predates this thread by ten months.</li>
+      <li><strong>TeamSpeak</strong> — <span class="mono">2ndcs.ts3.privateserverhost.com</span>, posted to the Steam group in September 2015.</li>
+      <li><strong>YouTube</strong> — the <span class="mono">2ndColdstreamGuards</span> channel, linked from the second post as the regiment's video archive.</li>
+      <li><strong>Game server</strong> — <span class="mono">2ndColdstream_Public</span>, used for private linebattles.</li>
+      <li><strong>Earlier life</strong> — a 2014 visitor wrote "I remember this regiment, I was in it in MM", placing the unit in <em>Mount &amp; Musket</em> before Napoleonic Wars. That is consistent with the "est. 2011" on the modern CSG badge, which predates both the Steam group and this thread.</li>
+    </ul>
+
+    <h3>Not to be confused with</h3>
+    <p class="col">"Coldstream" was a popular name in this community, and at least four other units used it. This record covers only the North American regiment at topic 443, whose Steam group is <span class="mono">2ndColdstream</span>.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Unit</th><th>Where</th><th>Distinguishing detail</th></tr></thead>
+        <tbody>
+          <tr><td><strong>2nd Coldstream Guards [EU]</strong></td><td class="mono">FSE topic 207</td><td>European; marked <em>Disbanded</em></td></tr>
+          <tr><td><strong>2nd Coldstream Guards (Queens Royal Regiment) [EU]</strong></td><td class="mono">FSE topic 36519</td><td>Separate European unit</td></tr>
+          <tr><td><strong>2nd Coldstream Regiment of Foot Guards</strong></td><td class="mono">Steam “2ndcold”</td><td>UK-based, founded 28 Apr 2012; successors “3te” and “17e”</td></tr>
+          <tr><td><strong>2nd Coldstream Guards Mount and Musket</strong></td><td class="mono">Steam “2ndColdstreamMM”</td><td>German-language, founded 2 Sep 2013</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Video archive</h3>
+    <p class="col">25 distinct YouTube videos are linked or embedded across the thread.</p>
+    <ul class="vids mono"><li><a class="mono" href="https://www.youtube.com/watch?v=8AU7hzl8w5M" target="_blank" rel="noopener noreferrer">8AU7hzl8w5M</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=pplW5xtwuWI" target="_blank" rel="noopener noreferrer">pplW5xtwuWI</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=S-LoWIQR_iY" target="_blank" rel="noopener noreferrer">S-LoWIQR_iY</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=evr6LaUeDnI" target="_blank" rel="noopener noreferrer">evr6LaUeDnI</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=1Z2lQpk2Hvs" target="_blank" rel="noopener noreferrer">1Z2lQpk2Hvs</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=hBjHcUleYVY" target="_blank" rel="noopener noreferrer">hBjHcUleYVY</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=RBaa8iO0tv4" target="_blank" rel="noopener noreferrer">RBaa8iO0tv4</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=7uFjToLlM-c" target="_blank" rel="noopener noreferrer">7uFjToLlM-c</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=OmEpkztK5Lw" target="_blank" rel="noopener noreferrer">OmEpkztK5Lw</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=xos2MnVxe-c" target="_blank" rel="noopener noreferrer">xos2MnVxe-c</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=a8c5wmeOL9o" target="_blank" rel="noopener noreferrer">a8c5wmeOL9o</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=Mmm3KTa601s" target="_blank" rel="noopener noreferrer">Mmm3KTa601s</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=_n3eXWw926Y" target="_blank" rel="noopener noreferrer">_n3eXWw926Y</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=o_MEzp313x8" target="_blank" rel="noopener noreferrer">o_MEzp313x8</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=RDZeIEBqzAY" target="_blank" rel="noopener noreferrer">RDZeIEBqzAY</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=xhSX2F3MPng" target="_blank" rel="noopener noreferrer">xhSX2F3MPng</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=h-YNhsBEskw" target="_blank" rel="noopener noreferrer">h-YNhsBEskw</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=4uwY0jrTP4s" target="_blank" rel="noopener noreferrer">4uwY0jrTP4s</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=ZaTlRtFxH58" target="_blank" rel="noopener noreferrer">ZaTlRtFxH58</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=Js47QjUAH4Y" target="_blank" rel="noopener noreferrer">Js47QjUAH4Y</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=p8kdfM6ewws" target="_blank" rel="noopener noreferrer">p8kdfM6ewws</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=u2KneHE-9-s" target="_blank" rel="noopener noreferrer">u2KneHE-9-s</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=LNbmlYQ1dbY" target="_blank" rel="noopener noreferrer">LNbmlYQ1dbY</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=E6Rd7UE8jQc" target="_blank" rel="noopener noreferrer">E6Rd7UE8jQc</a></li><li><a class="mono" href="https://www.youtube.com/watch?v=CRJKRCnxXlE" target="_blank" rel="noopener noreferrer">CRJKRCnxXlE</a></li></ul>
+  </section>
+
+  <section id="method">
+    <h2>Method and limits</h2>
+    <div class="col">
+      <p>All 59 pages were fetched once, cached to disk, and parsed offline; nothing was re-requested during analysis. Quoted material is stripped before attributing text to an author, so a reply is never credited with the words it quotes.</p>
+      <p><strong>What this record cannot see.</strong> The regiment kept much of its identity in images — rank charts, roster banners, signatures, and the header graphics are all hosted pictures, many on Photobucket links that no longer resolve. Names inside those images are unreadable to a text scrape. The 44 members listed here are those written as text in announcement posts; the true roster was larger.</p>
+      <p><strong>Where numbers come from.</strong> Post counts, dates, and accounts are exact. Event counts are keyword-derived and indicate discussion of an activity, not confirmed attendance. Rank pairings were verified against the regiment's own command post rather than accepted from pattern matching — a first pass wrongly read Colonel George Monck, from the historical section, as a serving officer.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Compiled from 885 forum posts spanning November 12, 2012 – March 20, 2016. Source: <a href="https://www.fsegames.eu/forum/index.php?topic=443.0" target="_blank" rel="noopener noreferrer">fsegames.eu topic 443</a>.</p>
+  </footer>
+</div>

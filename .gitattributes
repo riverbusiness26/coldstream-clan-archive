@@ -1,0 +1,2 @@
+# Archive-style repo: data caches must stay byte-exact. No EOL munging anywhere.
+* -text

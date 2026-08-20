@@ -1,0 +1,234 @@
+{
+  "groups": [
+    {
+      "slug": "21stPApubliclinebattlegroup",
+      "name": "21stPA Public Linebattle Group",
+      "founded": "April 5, 2011",
+      "members": 30,
+      "namedMembers": 27,
+      "announcements": 28,
+      "events": 26,
+      "first": "2011-04-09",
+      "last": "2011-07-16",
+      "byYear": {
+        "2011": 26
+      },
+      "topAuthors": [
+        {
+          "name": "dominos man",
+          "n": 26
+        },
+        {
+          "name": "LegitPavilion",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "slug": "Midnightmercs",
+      "name": "Midnight Mercenarys",
+      "founded": "June 28, 2011",
+      "members": 54,
+      "namedMembers": 48,
+      "announcements": 67,
+      "events": 7,
+      "first": "2011-07-01",
+      "last": "2013-02-22",
+      "byYear": {
+        "2011": 3,
+        "2012": 3,
+        "2013": 1
+      },
+      "topAuthors": [
+        {
+          "name": "dominos man",
+          "n": 28
+        },
+        {
+          "name": "RiveR",
+          "n": 28
+        },
+        {
+          "name": "NoxV ' DaviD",
+          "n": 9
+        }
+      ]
+    },
+    {
+      "slug": "2ndColdstream",
+      "name": "2nd Coldstream Regiment of Footguards",
+      "founded": "January 19, 2012",
+      "members": 90,
+      "namedMembers": 77,
+      "announcements": 822,
+      "events": 529,
+      "first": "2012-01-20",
+      "last": "2015-10-29",
+      "byYear": {
+        "2012": 310,
+        "2013": 142,
+        "2015": 77
+      },
+      "topAuthors": [
+        {
+          "name": "RiveR",
+          "n": 672
+        },
+        {
+          "name": "Capitulated Magik",
+          "n": 61
+        },
+        {
+          "name": "NoxV ' DaviD",
+          "n": 58
+        }
+      ]
+    },
+    {
+      "slug": "MidnightMercss",
+      "name": "Midnight Mercenaries Multi-Gaming Community",
+      "founded": "June 13, 2012",
+      "members": 101,
+      "namedMembers": 82,
+      "announcements": 126,
+      "events": 13,
+      "first": "2012-06-18",
+      "last": "2013-09-11",
+      "byYear": {
+        "2012": 11,
+        "2013": 2
+      },
+      "topAuthors": [
+        {
+          "name": "RiveR",
+          "n": 113
+        },
+        {
+          "name": "NoxV ' DaviD",
+          "n": 10
+        },
+        {
+          "name": "Smooth Brain",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "slug": "NoxViator",
+      "name": "Nox Viator Gaming",
+      "founded": "October 27, 2013",
+      "members": 83,
+      "namedMembers": 68,
+      "announcements": 103,
+      "events": 1,
+      "first": "2013-11-03",
+      "last": "2017-10-15",
+      "byYear": {
+        "2016": 1
+      },
+      "topAuthors": [
+        {
+          "name": "RiveR",
+          "n": 98
+        },
+        {
+          "name": "dominos man",
+          "n": 3
+        },
+        {
+          "name": "Capitulated Magik",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "slug": "GoRoaRgg",
+      "name": "RoaR Gaming Community",
+      "founded": "October 13, 2017",
+      "members": 92,
+      "namedMembers": 82,
+      "announcements": 45,
+      "events": 33,
+      "first": "2017-10-24",
+      "last": "2020-03-28",
+      "byYear": {
+        "2017": 6,
+        "2018": 27
+      },
+      "topAuthors": [
+        {
+          "name": "RiveR",
+          "n": 43
+        },
+        {
+          "name": "Patches",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "slug": "2ndColdstreamOfficial",
+      "name": "2nd Coldstream Guard",
+      "founded": "April 7, 2020",
+      "members": 101,
+      "namedMembers": 86,
+      "announcements": 19,
+      "events": 18,
+      "first": "2020-04-15",
+      "last": "2020-07-08",
+      "byYear": {
+        "2020": 18
+      },
+      "topAuthors": [
+        {
+          "name": "RiveR",
+          "n": 19
+        }
+      ]
+    },
+    {
+      "slug": "coldstreamgaming",
+      "name": "Coldstream Gaming",
+      "founded": "November 21, 2020",
+      "members": 28,
+      "namedMembers": 26,
+      "announcements": 0,
+      "events": 0,
+      "first": null,
+      "last": null,
+      "byYear": {},
+      "topAuthors": []
+    }
+  ],
+  "eventsByYear": {
+    "2011": 29,
+    "2012": 324,
+    "2013": 145,
+    "2015": 77,
+    "2016": 1,
+    "2017": 6,
+    "2018": 27,
+    "2020": 18
+  },
+  "totals": {
+    "announcements": 1210,
+    "events": 627,
+    "rebrands": 2
+  },
+  "rebrands": [
+    {
+      "iso": "2011-06-27",
+      "group": "21stPApubliclinebattlegroup",
+      "title": "21stPA Is now disbanded, take the tags off please, Thanks.",
+      "body": ".",
+      "author": "dominos man"
+    },
+    {
+      "iso": "2017-10-15",
+      "group": "NoxViator",
+      "title": "Community Rebrand to RoaR Gaming",
+      "body": "For those of you who haven't been around lately or just didn't notice, we've rebranded! Make sure to join our new group and keep up with the timez, that's where all of the announcements for the community will be posted from now on!before ya ask, no we couldn't rename this group, we had to make a new one broh, thats why we did it, duhhttp://steamcommunity.com/groups/RoaRGamingCommunity",
+      "author": "RiveR"
+    }
+  ]
+}
