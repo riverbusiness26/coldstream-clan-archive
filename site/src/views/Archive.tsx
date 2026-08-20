@@ -44,7 +44,8 @@ const { eras, totals } = erasSeed as unknown as {
   totals: { announcements: number; events: number };
 };
 
-const ARCHIVE_URL = 'https://riverbusiness26.github.io/coldstream-clan-archive/';
+// The deep archive page, now a sibling of the site rather than its root.
+const ARCHIVE_URL = '/lineage/';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
