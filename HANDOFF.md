@@ -475,3 +475,14 @@ appears there in 2011 and again in River's FSE thread years later.
   "Games We Play" 18-game module, badge-banner hero. Built by
   `build-site-preview.mjs`. Iterate content freely; do not restyle without a
   fresh instruction from Robert or River.
+
+- **2026-08-20 (River): archive everything, delete nothing, label correctly.**
+  Standing rule for the community site's Archive section. Every archived item
+  carries visible provenance: what it is (forum reply, event call-out, news
+  post from an old site, roster table, film, screenshot recovery), where it
+  came from (FSE forum thread 443, Steam group announcements, Enjin sites via
+  Wayback, YouTube, image transcription), its original date, and its original
+  author. Items that are NOT ours (e.g. the 2cs-* captures flagged as a
+  different regiment) stay stored but are labeled as such and excluded from
+  community statistics. The front page shows the community; the Archive keeps
+  the record.
