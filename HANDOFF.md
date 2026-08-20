@@ -337,3 +337,19 @@ holds every roster after 2015 and the 2020-era welcome history; (3) what
 The convention going forward: notes in this section-pair (§8 = your side,
 §9 = ours), datasets under `data/`, page copy stays yours to arbitrate since
 River's taste is at your elbow.
+
+---
+
+## 10. Decisions for the Phase-2 community site
+
+- **2026-08-19 (Robert): Steam login.** Authentication for the future
+  community site (landing page / forum / shoutbox, Enjin-style) will be Steam
+  sign-in. Technical shape: Steam OpenID 2.0 round-trip in a small serverless
+  function minting a Supabase session; Supabase (Postgres + Auth + RLS +
+  Realtime) is the planned backend, static hosting stays free-tier.
+  Bonus this unlocks: Steam login yields the member's steamID64, which links
+  straight into our scraped group rosters — a member who signs in can be shown
+  their own era history automatically.
+- Still open: which account hosts the Supabase project (River's, presumably);
+  whether the archive pages live inside the new site or stay linked; custom
+  domain or not.
