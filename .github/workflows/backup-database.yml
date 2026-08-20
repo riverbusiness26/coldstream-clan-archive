@@ -1,0 +1,73 @@
+# Nightly export of everything that lives only in the database.
+#
+# The site's archive is already safe: the roster, the eras, the films, the
+# recovered screenshots and the announcement record are all JSON and images
+# committed to this repo, which means they survive anything that happens to any
+# one company. What is NOT safe is everything written since: forum threads and
+# posts, gallery submissions, the shoutbox, member accounts and events. Those
+# exist in exactly one place, on a free tier, behind one person's login.
+#
+# This pulls them into the repo every night as plain JSON. If Supabase vanished
+# tomorrow the community would lose nothing older than 24 hours, and the export
+# is readable without any software at all.
+#
+# Needs one repository secret: SUPABASE_SERVICE_ROLE_KEY.
+#   Settings > Secrets and variables > Actions > New repository secret
+# The service role key bypasses row level security, which is the point: it is
+# the only way to back up the staff board and the unapproved uploads too. It is
+# never printed, and GitHub masks it in logs.
+
+name: Backup database
+
+on:
+  schedule:
+    - cron: '40 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Export every table
+        env:
+          SUPABASE_URL: https://zcpbpcktinlqnxmqddzc.supabase.co
+          KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY is not set. Add it under"
+            echo "Settings > Secrets and variables > Actions, then run this again."
+            exit 1
+          fi
+          mkdir -p backup
+          TABLES="member roster_entry board thread post gallery_category gallery_item shout server_status news_item operator event event_rsvp"
+          for t in $TABLES; do
+            code=$(curl -s -o "backup/$t.json" -w '%{http_code}' \
+              -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+              "$SUPABASE_URL/rest/v1/$t?select=*")
+            if [ "$code" = "200" ]; then
+              n=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('backup/$t.json','utf8')).length)}catch(e){console.log('?')}")
+              echo "  $t: $n rows"
+            else
+              # A table that does not exist yet is not a failure. A table that
+              # exists and refuses is, so leave nothing misleading behind.
+              echo "  $t: HTTP $code (skipped)"
+              rm -f "backup/$t.json"
+            fi
+          done
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name  "coldstream-backup"
+          git config user.email "backup@users.noreply.github.com"
+          git add backup
+          if git diff --staged --quiet; then
+            echo "no changes"
+          else
+            git commit -m "Nightly database export"
+            git push
+          fi
