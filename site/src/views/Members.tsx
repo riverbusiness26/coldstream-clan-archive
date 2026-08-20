@@ -65,7 +65,7 @@ export default function Members({ me }: { me: Me | null }) {
               </thead>
               <tbody>
                 {rows.map((p) => {
-                  const yrs = yearsWithUs(p.firstYear);
+                  const yrs = yearsWithUs(p.datedYear);
                   // The key comes from the seed rather than being re-derived from
                   // the display name. Where two names have been confirmed as one
                   // person the key is the canonical one, and the entries under it
@@ -86,7 +86,7 @@ export default function Members({ me }: { me: Me | null }) {
                             <div className="raka">also on the record as {p.aka.join(', ')}</div>
                           )}
                         </td>
-                        <td className="ryears">{yrs ? `${yrs} years · joined ${p.firstYear}` : 'on the roll'}</td>
+                        <td className="ryears">{yrs ? `${yrs} years · joined ${p.datedYear}` : p.firstYear ? `on the roll since ${p.firstYear}` : 'on the roll'}</td>
                         <td>{p.rank ?? ''}</td>
                         <td>{p.games.map((g) => <span key={g} className="gtag">{g}</span>)}</td>
                         <td><button className="btn" style={{ padding: '4px 10px', fontSize: 10 }} onClick={() => setOpen(open === key ? null : key)}>record</button></td>

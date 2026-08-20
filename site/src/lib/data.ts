@@ -11,6 +11,7 @@ export interface Person {
   name: string;
   aka: string[];
   firstYear: number | null;
+  datedYear: number | null;
   games: string[];
   rank: string | null;
   steam_id64: string | null;

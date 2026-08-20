@@ -6562,6 +6562,7 @@
    "key": "mmmidnightmercenaries",
    "name": ".:]MM[:. | Midnight Mercenaries",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6574,6 +6575,7 @@
    "key": "mmcrawdaddy",
    "name": ".:]MM[:. Craw-Daddy",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198046616162",
@@ -6584,6 +6586,7 @@
    "key": "mmsmuggler",
    "name": ".:]MM[:.Smuggler",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -6596,6 +6599,7 @@
    "key": "exoahernt",
    "name": "=EXO=Ahern.T",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -6608,6 +6612,7 @@
    "key": "",
    "name": "⛧𝕸𝖚𝖗𝕸𝖚𝖗⛧",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6622,6 +6627,7 @@
    "key": "76561198027926849",
    "name": "76561198027926849",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -6634,6 +6640,7 @@
    "key": "agentofchaos",
    "name": "AgentOfChaos",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -6646,6 +6653,7 @@
    "key": "altoaster",
    "name": "al-Toaster",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6656,6 +6664,7 @@
    "key": "alister",
    "name": "Alister",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6666,6 +6675,7 @@
    "key": "atlas",
    "name": "Atlas",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6676,6 +6686,7 @@
    "key": "awsomtom100",
    "name": "awsomtom100",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6686,6 +6697,7 @@
    "key": "barrett",
    "name": "Barrett.",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198037487280",
@@ -6696,6 +6708,7 @@
    "key": "batestroy",
    "name": "Bates Troy",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6708,6 +6721,7 @@
    "key": "blaboon",
    "name": "Blaboon",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -6721,6 +6735,7 @@
    "key": "blakeagl",
    "name": "Blakeagl",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -6733,6 +6748,7 @@
    "key": "bobbyjc88",
    "name": "bobbyjc88",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6743,6 +6759,7 @@
    "key": "bonj",
    "name": "BonJ",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6755,6 +6772,7 @@
    "key": "boomtwack",
    "name": "Boomtwack",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6765,6 +6783,7 @@
    "key": "bulletspread",
    "name": "BulletSpread",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6775,6 +6794,7 @@
    "key": "buttchug",
    "name": "buttchug",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6787,6 +6807,7 @@
    "key": "caiuslipidus",
    "name": "CaiusLipidus",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6797,6 +6818,7 @@
    "key": "capitulatedmagik",
    "name": "Capitulated Magik",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -6810,6 +6832,7 @@
    "key": "chowmeincowboy",
    "name": "Chow Mein Cowboy",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198008141886",
@@ -6820,6 +6843,7 @@
    "key": "claude",
    "name": "Claude",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6830,6 +6854,7 @@
    "key": "cruvecrasha",
    "name": "Cruve Crasha",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6840,6 +6865,7 @@
    "key": "dimeybagz",
    "name": "Dimeybagz",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6852,6 +6878,7 @@
    "key": "djdisturbedsoviet",
    "name": "DJ Disturbed Soviet",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6864,6 +6891,7 @@
    "key": "dominosman",
    "name": "dominos man",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6874,6 +6902,7 @@
    "key": "dspgamingreal",
    "name": "DSPGamingREAL",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6886,6 +6915,7 @@
    "key": "east02k",
    "name": "east02k",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6896,6 +6926,7 @@
    "key": "eldialectico",
    "name": "El Dialectico",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6908,6 +6939,7 @@
    "key": "firestreak",
    "name": "Firestreak",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -6920,6 +6952,7 @@
    "key": "gorf",
    "name": "Gorf",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2",
     "NW"
@@ -6933,6 +6966,7 @@
    "key": "grandislayertheredwizard",
    "name": "Grandislayer the Red Wizard",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6943,6 +6977,7 @@
    "key": "grim",
    "name": "Grim",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -6956,6 +6991,7 @@
    "key": "grimreaper",
    "name": "GrimReaper",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -6968,6 +7004,7 @@
    "key": "haga101",
    "name": "haga101",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6978,6 +7015,7 @@
    "key": "hale",
    "name": "Hale",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -6988,6 +7026,7 @@
    "key": "harry885",
    "name": "harry885",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7000,6 +7039,7 @@
    "key": "hawk",
    "name": "Hawk",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7010,6 +7050,7 @@
    "key": "hawke",
    "name": "Hawke",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7020,6 +7061,7 @@
    "key": "huggybear",
    "name": "Huggy Bear",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7032,6 +7074,7 @@
    "key": "irishthomas",
    "name": "irish_thomas",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7042,6 +7085,7 @@
    "key": "ix0rigi0n4",
    "name": "Ix0rigi0n4",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7052,6 +7096,7 @@
    "key": "jables",
    "name": "Jables",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7064,6 +7109,7 @@
    "key": "jakobe1639",
    "name": "jakobe1639",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7074,6 +7120,7 @@
    "key": "jessie",
    "name": "jessie",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7084,6 +7131,7 @@
    "key": "jizzypants",
    "name": "Jizzypants",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7096,6 +7144,7 @@
    "key": "kaiserreed",
    "name": "Kaiser Reed",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7108,6 +7157,7 @@
    "key": "khariwhitehead",
    "name": "Khari Whitehead",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7118,6 +7168,7 @@
    "key": "kidrauhl",
    "name": "Kidrauhl",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7128,6 +7179,7 @@
    "key": "kingmeech",
    "name": "King_Meech",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7140,6 +7192,7 @@
    "key": "legitpavilion",
    "name": "LegitPavilion",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7150,6 +7203,7 @@
    "key": "lethomcgrady",
    "name": "Letho McGrady",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7163,6 +7217,7 @@
    "key": "medc",
    "name": "Med!c",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7173,6 +7228,7 @@
    "key": "mrfunsocks",
    "name": "Mr.Funsocks",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7183,6 +7239,7 @@
    "key": "muntron",
    "name": "Muntron",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7196,6 +7253,7 @@
    "key": "nochatteronwire",
    "name": "NoChatterOnWire",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7208,6 +7266,7 @@
    "key": "notyet",
    "name": "not yet",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7220,6 +7279,7 @@
    "key": "noxvdavid",
    "name": "NoxV ' DaviD",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7232,6 +7292,7 @@
    "key": "obscurenerd",
    "name": "Obscure Nerd",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7244,6 +7305,7 @@
    "key": "pacothetaco",
    "name": "PACOTHETACO",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7256,6 +7318,7 @@
    "key": "pockets",
    "name": "Pockets",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7268,6 +7331,7 @@
    "key": "raihun",
    "name": "raihun",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7278,6 +7342,7 @@
    "key": "rambo",
    "name": "Rambo",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7291,6 +7356,7 @@
    "key": "reclu",
    "name": "reclu",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [
     "NW"
    ],
@@ -7303,6 +7369,7 @@
    "key": "risen",
    "name": "Risen",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7313,6 +7380,7 @@
    "key": "robertbaratheon",
    "name": "Robert_Baratheon",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7325,6 +7393,7 @@
    "key": "robtimusprime",
    "name": "Robtimus Prime",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7337,6 +7406,7 @@
    "key": "rockhunter",
    "name": "Rock Hunter",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7347,6 +7417,7 @@
    "key": "rustledjimmies",
    "name": "Rustled Jimmies",
    "firstYear": 2011,
+   "datedYear": 2011,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7357,6 +7428,7 @@
    "key": "sgtwilly",
    "name": "Sgt.Willy",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7369,6 +7441,7 @@
    "key": "shotmaster",
    "name": "shotmaster",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7381,6 +7454,7 @@
    "key": "shu216",
    "name": "Shu216",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7393,6 +7467,7 @@
    "key": "shyguy71",
    "name": "Shyguy71",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7405,6 +7480,7 @@
    "key": "sickboichox",
    "name": "SickboiChox",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197990697065",
@@ -7415,6 +7491,7 @@
    "key": "sirsmokes",
    "name": "Sir Smokes",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7427,6 +7504,7 @@
    "key": "smoothbrain",
    "name": "Smooth Brain",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7439,6 +7517,7 @@
    "key": "springtime",
    "name": "Springtime",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -7451,6 +7530,7 @@
    "key": "stevensgb",
    "name": "StevensGB",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198033798620",
@@ -7461,6 +7541,7 @@
    "key": "swisha",
    "name": "swisha",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7473,6 +7554,7 @@
    "key": "tangledtheporno",
    "name": "TangledThePorno",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7485,6 +7567,7 @@
    "key": "teabbagins",
    "name": "Teabbagins",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7497,6 +7580,7 @@
    "key": "thechosenone",
    "name": "The Chosen One",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7509,6 +7593,7 @@
    "key": "thewaterchicken",
    "name": "The Water Chicken",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7521,6 +7606,7 @@
    "key": "thetindog",
    "name": "thetindog",
    "firstYear": 2011,
+   "datedYear": 2015,
    "games": [
     "NW",
     "CSGO"
@@ -7534,6 +7620,7 @@
    "key": "theultimatesheepz",
    "name": "TheUltimateSheepz",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7546,6 +7633,7 @@
    "key": "thiccdaddyd",
    "name": "ThiccDaddyD",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198033454138",
@@ -7556,6 +7644,7 @@
    "key": "timmy9000",
    "name": "Timmy9000",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7568,6 +7657,7 @@
    "key": "tmoney",
    "name": "Tmoney",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198040630646",
@@ -7578,6 +7668,7 @@
    "key": "tonythetiger",
    "name": "Tony the Tiger",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7590,6 +7681,7 @@
    "key": "truenn",
    "name": "Truenn",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7602,6 +7694,7 @@
    "key": "umami",
    "name": "Umami 自殺",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7615,6 +7708,7 @@
    "key": "vincentvintsansvin",
    "name": "Vincent vint sans vin",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7628,6 +7722,7 @@
    "key": "welcomer",
    "name": "WelcomER",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [
     "BG2"
    ],
@@ -7640,6 +7735,7 @@
    "key": "yetipicklez",
    "name": "Yetipicklez",
    "firstYear": 2011,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7650,6 +7746,7 @@
    "key": "2ndcsg00ber",
    "name": "[2ndCS] g00ber",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7663,6 +7760,7 @@
    "key": "hegrandemperorvandheer",
    "name": "[H.E.] ✟ GrandEmperorVandheer ✟",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7675,6 +7773,7 @@
    "key": "420thenoch45",
    "name": "/420th/ Enoch_45",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198011274404",
@@ -7685,6 +7784,7 @@
    "key": "1989tiananmensquare",
    "name": "1989 Tiananmen Square",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7697,6 +7797,7 @@
    "key": "1trunub",
    "name": "1TruNub",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198027673357",
@@ -7707,6 +7808,7 @@
    "key": "600pingadreamcrazyconfident",
    "name": "600PING&ADream CRAZY CONFIDENT",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7719,6 +7821,7 @@
    "key": "alexjnd",
    "name": "Alexjnd",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7731,6 +7834,7 @@
    "key": "alicereverie",
    "name": "Alice_Reverie",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7744,6 +7848,7 @@
    "key": "assblastusa",
    "name": "Ass Blast USA",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7754,6 +7859,7 @@
    "key": "baron",
    "name": "Baron",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7766,6 +7872,7 @@
    "key": "battlejesus",
    "name": "BattleJesus",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7778,6 +7885,7 @@
    "key": "bigbadbob",
    "name": "BIGBADBOB",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197984755952",
@@ -7788,6 +7896,7 @@
    "key": "bonsaiperson",
    "name": "bonsaiperson",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198033986485",
@@ -7798,6 +7907,7 @@
    "key": "caeden1",
    "name": "caeden1",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7810,6 +7920,7 @@
    "key": "codyfields",
    "name": "Cody Fields",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7820,6 +7931,7 @@
    "key": "comradvzheitsev",
    "name": "Comrad V. Zheitsev",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198028099533",
@@ -7830,6 +7942,7 @@
    "key": "crawdaddy",
    "name": "Crawdaddy",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -7843,6 +7956,7 @@
    "key": "crow368",
    "name": "Crow368",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7855,6 +7969,7 @@
    "key": "crusha2583",
    "name": "Crusha2583",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7865,6 +7980,7 @@
    "key": "cut67",
    "name": "Cut67",
    "firstYear": 2012,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -7877,6 +7993,7 @@
    "key": "dlpz2005",
    "name": "dlpz2005",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -7889,6 +8006,7 @@
    "key": "finbar",
    "name": "Finbar",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7901,6 +8019,7 @@
    "key": "fuggincupcakes",
    "name": "FugginCupCakes",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7911,6 +8030,7 @@
    "key": "gloryhonor",
    "name": "GloryHonor",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7923,6 +8043,7 @@
    "key": "goatsby",
    "name": "Goatsby",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -7933,6 +8054,7 @@
    "key": "greenboyk",
    "name": "Greenboyk",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198057567043",
@@ -7943,6 +8065,7 @@
    "key": "icoomedisawiconquered",
    "name": "I COOMED I SAW I CONQUERED",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198036156948",
@@ -7953,6 +8076,7 @@
    "key": "ironhide650",
    "name": "Ironhide650",
    "firstYear": 2012,
+   "datedYear": 2015,
    "games": [
     "NW",
     "CSGO"
@@ -7966,6 +8090,7 @@
    "key": "james",
    "name": "James",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -7978,6 +8103,7 @@
    "key": "jihadjoe",
    "name": "jihad joe",
    "firstYear": 2012,
+   "datedYear": 2015,
    "games": [
     "NW",
     "CSGO"
@@ -7993,6 +8119,7 @@
    "key": "joseph4lakers",
    "name": "Joseph4Lakers",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8005,6 +8132,7 @@
    "key": "kapitalchrispy",
    "name": "KapitalChrispy",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198056755591",
@@ -8015,6 +8143,7 @@
    "key": "kavcav",
    "name": "kavcav",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8028,6 +8157,7 @@
    "key": "kidcharlemagne",
    "name": "Kid Charlemagne",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8040,6 +8170,7 @@
    "key": "lindsey",
    "name": "Lindsey",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8052,6 +8183,7 @@
    "key": "ltspeirs",
    "name": "Lt.Speirs",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8064,6 +8196,7 @@
    "key": "lucifersfang620",
    "name": "LucifersFang620",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198065325025",
@@ -8074,6 +8207,7 @@
    "key": "metalfan",
    "name": "Metal Fan",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8084,6 +8218,7 @@
    "key": "metrofc820",
    "name": "metrofc820",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8096,6 +8231,7 @@
    "key": "mike12096",
    "name": "Mike12096",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8108,6 +8244,7 @@
    "key": "mint",
    "name": "Mint",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8120,6 +8257,7 @@
    "key": "mishap",
    "name": "Mishap",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8132,6 +8270,7 @@
    "key": "mosquitojoe",
    "name": "Mosquito Joe",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8144,6 +8283,7 @@
    "key": "moz",
    "name": "Moz",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8156,6 +8296,7 @@
    "key": "mrcreepypasta",
    "name": "MrCreepyPasta",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8166,6 +8307,7 @@
    "key": "n2deep",
    "name": "n2deep",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8181,6 +8323,7 @@
    "key": "noob1322",
    "name": "noob1322",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8193,6 +8336,7 @@
    "key": "number4",
    "name": "Number4",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8205,6 +8349,7 @@
    "key": "oogenheim",
    "name": "Oogenheim",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8218,6 +8363,7 @@
    "key": "orca",
    "name": "Orca",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198054140122",
@@ -8228,6 +8374,7 @@
    "key": "pontiffscrunglus",
    "name": "Pontiff_Scrunglus",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8241,6 +8388,7 @@
    "key": "poosoo",
    "name": "Poosoo",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8253,6 +8401,7 @@
    "key": "proxxye",
    "name": "ProxxYe",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8263,6 +8412,7 @@
    "key": "ralof",
    "name": "Ralof",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8275,6 +8425,7 @@
    "key": "rebel",
    "name": "REBEL",
    "firstYear": 2012,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -8287,6 +8438,7 @@
    "key": "richard",
    "name": "Richard",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW",
     "CSGO"
@@ -8300,6 +8452,7 @@
    "key": "rintohsakafanclubmember1",
    "name": "Rin Tohsaka Fan Club Member #1",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8312,6 +8465,7 @@
    "key": "rivenx",
    "name": "RivenX",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8324,6 +8478,7 @@
    "key": "river",
    "name": "RiveR",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8338,6 +8493,7 @@
    "key": "scarface",
    "name": "Scarface",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197967727695",
@@ -8348,6 +8504,7 @@
    "key": "scattman",
    "name": "Scattman",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8360,6 +8517,7 @@
    "key": "scipio",
    "name": "Scipio",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8372,6 +8530,7 @@
    "key": "seorgirth",
    "name": "SeÑor Girth",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8385,6 +8544,7 @@
    "key": "sharkebyte",
    "name": "SHARKE BYTE",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8395,6 +8555,7 @@
    "key": "shawarmapizza",
    "name": "Shawarma Pizza",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8407,6 +8568,7 @@
    "key": "siwi",
    "name": "Siwi",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8419,6 +8581,7 @@
    "key": "smashmeatchunk",
    "name": "Smash Meatchunk",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8431,6 +8594,7 @@
    "key": "soul",
    "name": "Soul",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198059635294",
@@ -8441,6 +8605,7 @@
    "key": "spiderman9",
    "name": "Spiderman9",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8451,6 +8616,7 @@
    "key": "staic",
    "name": "Staic",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8463,6 +8629,7 @@
    "key": "stoicsin",
    "name": "Stoic Sin",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8475,6 +8642,7 @@
    "key": "stouty",
    "name": "STOUTY",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8488,6 +8656,7 @@
    "key": "surunall",
    "name": "Suru_Nall€",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8498,6 +8667,7 @@
    "key": "thelonespoon",
    "name": "The Lone Spoon",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8510,6 +8680,7 @@
    "key": "thebigh",
    "name": "TheBigH",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8522,6 +8693,7 @@
    "key": "thehonorablemelondefender",
    "name": "TheHonorableMelonDefender",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198021753237",
@@ -8532,6 +8704,7 @@
    "key": "toad",
    "name": "Toad",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8544,6 +8717,7 @@
    "key": "tortuga",
    "name": "Tortuga",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8556,6 +8730,7 @@
    "key": "trabzon",
    "name": "Trabzon",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8568,6 +8743,7 @@
    "key": "transonic",
    "name": "transonic",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198024567357",
@@ -8578,6 +8754,7 @@
    "key": "truckinggoose",
    "name": "TruckingGoose",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8590,6 +8767,7 @@
    "key": "tutsthefruits",
    "name": "TutsTheFruits",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198051815379",
@@ -8600,6 +8778,7 @@
    "key": "valkyrie",
    "name": "Valkyrie",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8610,6 +8789,7 @@
    "key": "venomousaffliction",
    "name": "Venomous Affliction",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8622,6 +8802,7 @@
    "key": "viveleqc",
    "name": "Vive le QC",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8634,6 +8815,7 @@
    "key": "vizofromthe0",
    "name": "VizoFromThe0",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8647,6 +8829,7 @@
    "key": "williambinette",
    "name": "WilliamBinette",
    "firstYear": 2012,
+   "datedYear": 2012,
    "games": [
     "NW"
    ],
@@ -8661,6 +8844,7 @@
    "key": "wych",
    "name": "wych",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197961489920",
@@ -8671,6 +8855,7 @@
    "key": "xaco",
    "name": "Xaco",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198011285437",
@@ -8681,6 +8866,7 @@
    "key": "yourlocalrecruiter",
    "name": "Your Local Recruiter",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8691,6 +8877,7 @@
    "key": "yureikuzi",
    "name": "YureiKuzi",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8703,6 +8890,7 @@
    "key": "zarrinspired",
    "name": "ZarR Inspired",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -8715,6 +8903,7 @@
    "key": "zucc",
    "name": "Zucc",
    "firstYear": 2012,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -8728,6 +8917,7 @@
    "key": "toxin",
    "name": "[♥] Toxin",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8738,6 +8928,7 @@
    "key": "unwantedanaldildobeans",
    "name": "{UnwantedAnal}dildobeans",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198128580559",
@@ -8748,6 +8939,7 @@
    "key": "00ththundersnow",
    "name": "00th_Thundersnow",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197962168936",
@@ -8758,6 +8950,7 @@
    "key": "arjay",
    "name": "Arjay",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8770,6 +8963,7 @@
    "key": "atrain",
    "name": "aTRAiN",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198130889745",
@@ -8780,6 +8974,7 @@
    "key": "bigh",
    "name": "BigH",
    "firstYear": 2013,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -8792,6 +8987,7 @@
    "key": "bigpapaoink",
    "name": "BigPapaOink",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197986970965",
@@ -8802,6 +8998,7 @@
    "key": "blastoidcyst",
    "name": "BlastoidCyst",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198014869081",
@@ -8812,6 +9009,7 @@
    "key": "diapukus",
    "name": "Diapukus",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8822,6 +9020,7 @@
    "key": "evoke",
    "name": "Evoke",
    "firstYear": 2013,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -8834,6 +9033,7 @@
    "key": "flame",
    "name": "flame",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198151335577",
@@ -8844,6 +9044,7 @@
    "key": "gob",
    "name": "Go B",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8856,6 +9057,7 @@
    "key": "grant",
    "name": "Grant",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8866,6 +9068,7 @@
    "key": "grimpeeper",
    "name": "Grimpeeper",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8878,6 +9081,7 @@
    "key": "jason",
    "name": "Jason",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198178839131",
@@ -8888,6 +9092,7 @@
    "key": "korrupt",
    "name": "korrupt_",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -8898,6 +9103,7 @@
    "key": "legend",
    "name": "LeGenD",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198052093653",
@@ -8908,6 +9114,7 @@
    "key": "lenni",
    "name": "Lenni-",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8920,6 +9127,7 @@
    "key": "mac",
    "name": "mac",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561197995844588",
@@ -8930,6 +9138,7 @@
    "key": "mrcanada",
    "name": "MrCanada",
    "firstYear": 2013,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -8942,6 +9151,7 @@
    "key": "nobody",
    "name": "Nobody™",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8954,6 +9164,7 @@
    "key": "phazelootfarm",
    "name": "phaze LOOT.Farm",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8966,6 +9177,7 @@
    "key": "potpie",
    "name": "PotPie",
    "firstYear": 2013,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -8978,6 +9190,7 @@
    "key": "pr0mise",
    "name": "Pr0mise",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -8990,6 +9203,7 @@
    "key": "propain",
    "name": "Pro-Pain",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198077706933",
@@ -9000,6 +9214,7 @@
    "key": "samuel",
    "name": "Samuel",
    "firstYear": 2013,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -9012,6 +9227,7 @@
    "key": "sisterfister",
    "name": "sisterfister",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -9022,6 +9238,7 @@
    "key": "skankspanker",
    "name": "SKANKSPANKER",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9034,6 +9251,7 @@
    "key": "snufflaflare",
    "name": "Snuff Laflare",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -9044,6 +9262,7 @@
    "key": "sohma",
    "name": "Sohma",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198140010453",
@@ -9054,6 +9273,7 @@
    "key": "sonofagun",
    "name": "SonOfAGun",
    "firstYear": 2013,
+   "datedYear": 2013,
    "games": [
     "NW"
    ],
@@ -9066,6 +9286,7 @@
    "key": "tennesseemuir",
    "name": "Tennessee Muir",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -9076,6 +9297,7 @@
    "key": "thedarkside",
    "name": "the dark side",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198071093119",
@@ -9086,6 +9308,7 @@
    "key": "uno",
    "name": "Uno ;)",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -9101,6 +9324,7 @@
    "key": "vacdetectorvacbanned",
    "name": "VAC Detector (VAC Banned)",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198169918811",
@@ -9111,6 +9335,7 @@
    "key": "ziokret",
    "name": "ziokret😼💫",
    "firstYear": 2013,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198127763708",
@@ -9121,6 +9346,7 @@
    "key": "abrvalla",
    "name": "abrvalla",
    "firstYear": 2014,
+   "datedYear": 2014,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -9131,6 +9357,7 @@
    "key": "beanbean",
    "name": "beanbean",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9143,6 +9370,7 @@
    "key": "captaincrunch",
    "name": "CaptainCrunch",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9155,6 +9383,7 @@
    "key": "carrie",
    "name": "Carrie",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9167,6 +9396,7 @@
    "key": "cheddarbob8365",
    "name": "Cheddarbob8365",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW",
     "CSGO"
@@ -9180,6 +9410,7 @@
    "key": "cheesyg",
    "name": "CheesyG",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9192,6 +9423,7 @@
    "key": "crazy",
    "name": "Crazy",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9204,6 +9436,7 @@
    "key": "crazyrussianman",
    "name": "CrazyRussianMan",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9216,6 +9449,7 @@
    "key": "darman74",
    "name": "Darman74",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9228,6 +9462,7 @@
    "key": "jakarta",
    "name": "Jakarta",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9240,6 +9475,7 @@
    "key": "joe",
    "name": "Joe",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9252,6 +9488,7 @@
    "key": "netstalker",
    "name": "Netstalker",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9264,6 +9501,7 @@
    "key": "osca32",
    "name": "Osca32",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9276,6 +9514,7 @@
    "key": "raven",
    "name": "Raven",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9288,6 +9527,7 @@
    "key": "scholar",
    "name": "Scholar",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9300,6 +9540,7 @@
    "key": "snickers",
    "name": "Snickers",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9312,6 +9553,7 @@
    "key": "swiss",
    "name": "Swiss",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9324,6 +9566,7 @@
    "key": "tylery",
    "name": "TylerY",
    "firstYear": 2015,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -9334,6 +9577,7 @@
    "key": "ulmnh",
    "name": "Ulmnh",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9346,6 +9590,7 @@
    "key": "zemohc",
    "name": "Zemohc",
    "firstYear": 2015,
+   "datedYear": 2015,
    "games": [
     "NW"
    ],
@@ -9358,6 +9603,7 @@
    "key": "aman",
    "name": "Aman",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9370,6 +9616,7 @@
    "key": "ben",
    "name": "Ben",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9382,6 +9629,7 @@
    "key": "bmanbeefalo",
    "name": "BmanBeefalo",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9394,6 +9642,7 @@
    "key": "boop",
    "name": "Boop",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9406,6 +9655,7 @@
    "key": "bopc",
    "name": "Bop_C",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9418,6 +9668,7 @@
    "key": "bubblestv",
    "name": "BubblesTv",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9430,6 +9681,7 @@
    "key": "checkmate",
    "name": "checKmate",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9442,6 +9694,7 @@
    "key": "cheesyace",
    "name": "Cheesyace",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9454,6 +9707,7 @@
    "key": "chefboyardee",
    "name": "Chef Boyardee",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9466,6 +9720,7 @@
    "key": "cherry",
    "name": "cherry",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9478,6 +9733,7 @@
    "key": "cozmicbat",
    "name": "CozmicBat",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9490,6 +9746,7 @@
    "key": "doopsun",
    "name": "Doopsun",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9502,6 +9759,7 @@
    "key": "dpk",
    "name": "dpk",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9514,6 +9772,7 @@
    "key": "dvst",
    "name": "DVST",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -9527,6 +9786,7 @@
    "key": "feintmotion",
    "name": "FeintMotion",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9539,6 +9799,7 @@
    "key": "fowl",
    "name": "fowl",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9551,6 +9812,7 @@
    "key": "frankfradenlokale",
    "name": "Frank fra den lokale",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9563,6 +9825,7 @@
    "key": "gb5k",
    "name": "GB5K",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9575,6 +9838,7 @@
    "key": "gosust",
    "name": "GoSu^_^-st",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9587,6 +9851,7 @@
    "key": "holdie",
    "name": "Holdie",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9599,6 +9864,7 @@
    "key": "jajakyr",
    "name": "jajakyr",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9611,6 +9877,7 @@
    "key": "jebronlames",
    "name": "jebronlames",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9623,6 +9890,7 @@
    "key": "jinkoos",
    "name": "Jinkoos",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9635,6 +9903,7 @@
    "key": "jonnyrebel",
    "name": "jonnyrebel",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9647,6 +9916,7 @@
    "key": "jstwtch",
    "name": "jstwtch",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9659,6 +9929,7 @@
    "key": "kezio",
    "name": "Kezio$",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9671,6 +9942,7 @@
    "key": "kiknit",
    "name": "kik[N]it",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9683,6 +9955,7 @@
    "key": "kilzco",
    "name": "Kilzco",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9695,6 +9968,7 @@
    "key": "kurime",
    "name": "Kurime",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9707,6 +9981,7 @@
    "key": "link",
    "name": "Link",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9719,6 +9994,7 @@
    "key": "mrgolf",
    "name": "Mr.Golf",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9731,6 +10007,7 @@
    "key": "nkrumah",
    "name": "Nkrumah",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9743,6 +10020,7 @@
    "key": "patches",
    "name": "Patches",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "NW",
     "CSGO"
@@ -9756,6 +10034,7 @@
    "key": "retro",
    "name": "Retro",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9768,6 +10047,7 @@
    "key": "roarvegas",
    "name": "RoaR.Vegas",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9780,6 +10060,7 @@
    "key": "sarin",
    "name": "Sarin",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9792,6 +10073,7 @@
    "key": "skye",
    "name": "Skye",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9804,6 +10086,7 @@
    "key": "somewhatunknown",
    "name": "Somewhat_Unknown",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9816,6 +10099,7 @@
    "key": "staff",
    "name": "Staff",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9828,6 +10112,7 @@
    "key": "synhop",
    "name": "synhop見た",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9840,6 +10125,7 @@
    "key": "theflater",
    "name": "theflater",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9852,6 +10138,7 @@
    "key": "topher",
    "name": "Topher",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9864,6 +10151,7 @@
    "key": "valll",
    "name": "vaLLL",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9876,6 +10164,7 @@
    "key": "w0rldw1deavoidscams",
    "name": "w0rldw1de(avoid scams)",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9888,6 +10177,7 @@
    "key": "weebubitskinscom",
    "name": "weeb^u^ BitSkins.com",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9900,6 +10190,7 @@
    "key": "will4191",
    "name": "Will4191",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9912,6 +10203,7 @@
    "key": "worstdayin2016",
    "name": "worst day in 2016",
    "firstYear": 2017,
+   "datedYear": null,
    "games": [
     "CSGO"
    ],
@@ -9924,6 +10216,7 @@
    "key": "aperfectname",
    "name": "A Perfect Name",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -9936,6 +10229,7 @@
    "key": "alfred",
    "name": "Alfred",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -9948,6 +10242,7 @@
    "key": "andres",
    "name": "Andres",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -9960,6 +10255,7 @@
    "key": "azino3",
    "name": "Azino3",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -9972,6 +10268,7 @@
    "key": "bean",
    "name": "Bean",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -9984,6 +10281,7 @@
    "key": "blue",
    "name": "Blue",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -9996,6 +10294,7 @@
    "key": "bobthebuilder",
    "name": "Bob The Builder",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10008,6 +10307,7 @@
    "key": "brammers1968",
    "name": "Brammers1968",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10020,6 +10320,7 @@
    "key": "britishtsar",
    "name": "BritishTsar",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10032,6 +10333,7 @@
    "key": "brodoswaggins",
    "name": "Brodo Swaggins",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10044,6 +10346,7 @@
    "key": "bullup31",
    "name": "Bullup31",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10056,6 +10359,7 @@
    "key": "bumper",
    "name": "Bumper",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10068,6 +10372,7 @@
    "key": "ceasejm",
    "name": "ceasejm",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10080,6 +10385,7 @@
    "key": "cedrickhighsmith",
    "name": "Cedrick Highsmith",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10092,6 +10398,7 @@
    "key": "chadiusmaximus",
    "name": "Chadius Maximus",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10104,6 +10411,7 @@
    "key": "cloneengineer",
    "name": "CloneEngineer",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10116,6 +10424,7 @@
    "key": "commando",
    "name": "Commando",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10128,6 +10437,7 @@
    "key": "consul",
    "name": "Consul",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198410768902",
@@ -10138,6 +10448,7 @@
    "key": "daddywalrus",
    "name": "DaddyWalrus",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10150,6 +10461,7 @@
    "key": "daleparky1012",
    "name": "daleparky1012",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10162,6 +10474,7 @@
    "key": "dartharris",
    "name": "Dartharris",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10174,6 +10487,7 @@
    "key": "docb9110",
    "name": "Docb9110",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10186,6 +10500,7 @@
    "key": "doctorplaguescp049",
    "name": "DoctorPlague_SCP-049",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10198,6 +10513,7 @@
    "key": "einbertalstein",
    "name": "Einbert Alstein",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10210,6 +10526,7 @@
    "key": "ericbloodaxe",
    "name": "EricBloodaxe",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10222,6 +10539,7 @@
    "key": "evatco5",
    "name": "Evatco5",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10234,6 +10552,7 @@
    "key": "freefroger",
    "name": "freefroger",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10246,6 +10565,7 @@
    "key": "freelyboy",
    "name": "freelyboy",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10258,6 +10578,7 @@
    "key": "fritzel",
    "name": "Fritzel",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10270,6 +10591,7 @@
    "key": "garethpyoung",
    "name": "garethpyoung",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10282,6 +10604,7 @@
    "key": "hawaiianpunch",
    "name": "Hawaiian_Punch",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10294,6 +10617,7 @@
    "key": "hectorleadz",
    "name": "HECTORLEADZ",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198809384172",
@@ -10304,6 +10628,7 @@
    "key": "hobospider96",
    "name": "Hobospider96",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10316,6 +10641,7 @@
    "key": "hockeybob8",
    "name": "hockeybob8",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10328,6 +10654,7 @@
    "key": "hypnotoad",
    "name": "Hypnotoad",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10340,6 +10667,7 @@
    "key": "issythepup",
    "name": "issythepup",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10352,6 +10680,7 @@
    "key": "jeremybriz",
    "name": "Jeremybriz",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -10362,6 +10691,7 @@
    "key": "juliuscheesar",
    "name": "Juliuscheesar",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10374,6 +10704,7 @@
    "key": "kaavale",
    "name": "Kaavale",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10386,6 +10717,7 @@
    "key": "karta",
    "name": "Karta",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10398,6 +10730,7 @@
    "key": "keb",
    "name": "keb",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10410,6 +10743,7 @@
    "key": "krakennwhackin",
    "name": "KrakenNWhackin",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10422,6 +10756,7 @@
    "key": "kre8starz",
    "name": "Kre8 (Starz)",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10434,6 +10769,7 @@
    "key": "kriegbrah",
    "name": "Kriegbrah",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10446,6 +10782,7 @@
    "key": "lazo91",
    "name": "Lazo91",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198064643913",
@@ -10456,6 +10793,7 @@
    "key": "lemonysucc",
    "name": "lemonysucc",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10468,6 +10806,7 @@
    "key": "lordnevilleshortbottom",
    "name": "Lord Neville Shortbottom",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10480,6 +10819,7 @@
    "key": "lordm0ld",
    "name": "LordM0ld",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10492,6 +10832,7 @@
    "key": "magnumd",
    "name": "MagnumD",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10504,6 +10845,7 @@
    "key": "maj",
    "name": "maj",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10516,6 +10858,7 @@
    "key": "medtek",
    "name": "MedTek",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -10526,6 +10869,7 @@
    "key": "meegul",
    "name": "Meegul",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10538,6 +10882,7 @@
    "key": "mrfredeuc23",
    "name": "MrFredeuc23",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10550,6 +10895,7 @@
    "key": "mrscat",
    "name": "MrScat",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10562,6 +10908,7 @@
    "key": "mushroombuddy",
    "name": "Mushroom Buddy",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198305950666",
@@ -10572,6 +10919,7 @@
    "key": "nice",
    "name": "Nice",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10584,6 +10932,7 @@
    "key": "nighthaunter",
    "name": "Night Haunter",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10596,6 +10945,7 @@
    "key": "nugget",
    "name": "nugget",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10608,6 +10958,7 @@
    "key": "pigeonmilk",
    "name": "Pigeon Milk",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10620,6 +10971,7 @@
    "key": "plainandunlucky",
    "name": "Plain and Unlucky",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198354131723",
@@ -10630,6 +10982,7 @@
    "key": "poopoopeepee",
    "name": "PooPooPeePee",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10642,6 +10995,7 @@
    "key": "pvtpanda",
    "name": "Pvt.Panda",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10654,6 +11008,7 @@
    "key": "rphn",
    "name": "R𝟙p𝕡𝟛ℝ -Hn",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10666,6 +11021,7 @@
    "key": "railer69",
    "name": "RAILER69",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10678,6 +11034,7 @@
    "key": "redcenter",
    "name": "Red Center",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10690,6 +11047,7 @@
    "key": "rokey",
    "name": "Rokey",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10702,6 +11060,7 @@
    "key": "roomayne",
    "name": "Roomayne",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10714,6 +11073,7 @@
    "key": "rumzy",
    "name": "rumzy",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10726,6 +11086,7 @@
    "key": "saerl",
    "name": "Saerl",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": null,
@@ -10736,6 +11097,7 @@
    "key": "shell",
    "name": "Shell",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10748,6 +11110,7 @@
    "key": "sirlarry",
    "name": "Sir Larry",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10760,6 +11123,7 @@
    "key": "snafutheserb",
    "name": "Snafu the serb",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10772,6 +11136,7 @@
    "key": "spencer1",
    "name": "Spencer-1",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [],
    "rank": null,
    "steam_id64": "76561198412722464",
@@ -10782,6 +11147,7 @@
    "key": "th3fork",
    "name": "th3fork",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10794,6 +11160,7 @@
    "key": "thauma",
    "name": "Thauma",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10806,6 +11173,7 @@
    "key": "thunderdragonemperorjoebiden",
    "name": "Thunder Dragon Emperor Joe Biden",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10818,6 +11186,7 @@
    "key": "upstartpizza",
    "name": "upstartpizza",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10830,6 +11199,7 @@
    "key": "veusdolt",
    "name": "VeusDolt",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10842,6 +11212,7 @@
    "key": "wartiger",
    "name": "war.tiger",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10854,6 +11225,7 @@
    "key": "winstar",
    "name": "Winstar",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10866,6 +11238,7 @@
    "key": "winter",
    "name": "Winter",
    "firstYear": 2020,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10878,6 +11251,7 @@
    "key": "annen",
    "name": "Annen",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10890,6 +11264,7 @@
    "key": "buggy",
    "name": "Buggy",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10902,6 +11277,7 @@
    "key": "mountains100",
    "name": "mountains100",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10914,6 +11290,7 @@
    "key": "newton",
    "name": "Newton",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10926,6 +11303,7 @@
    "key": "nutslapper",
    "name": "NutSlapper",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10938,6 +11316,7 @@
    "key": "richardhawkins",
    "name": "Richard_Hawkins",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10950,6 +11329,7 @@
    "key": "roguebrody",
    "name": "RogueBrody",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10962,6 +11342,7 @@
    "key": "rook",
    "name": "Rook",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10974,6 +11355,7 @@
    "key": "stewart",
    "name": "Stewart",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10986,6 +11368,7 @@
    "key": "thelegend",
    "name": "The_Legend",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],
@@ -10998,6 +11381,7 @@
    "key": "theblocklord",
    "name": "TheBlockLord",
    "firstYear": null,
+   "datedYear": null,
    "games": [
     "NW"
    ],

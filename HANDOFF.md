@@ -986,3 +986,11 @@ reproduces on `localhost:5340` before chasing it.
 Rules recap, unchanged: no em dashes anywhere including code comments, years
 never era counts, gaming community never club, every archived item labeled with
 its source, and never post to any Discord without asking River first.
+
+### 13g. River answered 13b: option 1, years only from dated evidence
+
+Implemented in site/: the roster's years figure now derives from datedYear
+(earliest non-Steam-group record with a real date). Steam-group-derived rows
+read "on the roll since YYYY" and undated rows "on the roll". Live check:
+69 dated, 304 on-the-roll-since, 11 undated of 385 people. Mining the forum
+for more real join dates (your 13c-1) is now the way to grow the 69.

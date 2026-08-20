@@ -216,12 +216,16 @@ for (const e of entries) {
 // compute the years figure people are proud of.
 const people = {};
 for (const e of entries) {
-  const p = (people[e.person_key] ||= { name: e.person_name, firstYear: null, games: new Set(), ranks: [], steam_id64: null, entries: 0, aka: new Set() });
+  const p = (people[e.person_key] ||= { name: e.person_name, firstYear: null, datedYear: null, games: new Set(), ranks: [], steam_id64: null, entries: 0, aka: new Set() });
   p.entries++;
   if (aliasName[e.person_key]) p.name = aliasName[e.person_key];
   else if (String(e.person_name).length > String(p.name).length) p.name = e.person_name;
   p.aka.add(e.person_name);
   if (e.year && (!p.firstYear || e.year < p.firstYear)) p.firstYear = e.year;
+  // Years-with-us only counts from a genuinely dated record. Steam group
+  // membership carries the group's founding year, not a join date, so it
+  // never feeds datedYear (River's call, HANDOFF 13b option 1).
+  if (e.year && e.source !== 'steam' && (!p.datedYear || e.year < p.datedYear)) p.datedYear = e.year;
   if (e.game && e.game !== 'GEN') p.games.add(e.game);
   if (e.rank_or_class) p.ranks.push(e.rank_or_class);
   if (e.steam_id64) p.steam_id64 = e.steam_id64;
@@ -231,7 +235,7 @@ for (const e of entries) {
 for (const [k, id] of Object.entries(aliasSteam)) if (people[k]) people[k].steam_id64 = id;
 const peopleOut = Object.entries(people).map(([key, p]) => ({
   key,
-  name: p.name, firstYear: p.firstYear, games: [...p.games],
+  name: p.name, firstYear: p.firstYear, datedYear: p.datedYear, games: [...p.games],
   rank: p.ranks[p.ranks.length - 1] || null, steam_id64: p.steam_id64, entries: p.entries,
   aka: [...p.aka].filter((n) => n !== p.name),
 })).sort((a, b) => (a.firstYear || 9999) - (b.firstYear || 9999) || a.name.localeCompare(b.name));
