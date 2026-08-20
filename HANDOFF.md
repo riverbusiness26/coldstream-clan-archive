@@ -468,3 +468,10 @@ names enter the archive. A name match on the site title is not proof.
 
 The **midnightmercs** capture in `data/enjin-capture/` *is* ours: `reclu`
 appears there in 2011 and again in River's FSE thread years later.
+- **2026-08-20 (Robert): the site design is APPROVED and locked.** The look he
+  signed off on: OG Steam structure (Tahoma, beveled buttons, gradient title
+  bars, square corners) on a dark neutral monochrome palette, white CSG mark
+  as the only accent, game tags on every announcement/film/server, the
+  "Games We Play" 18-game module, badge-banner hero. Built by
+  `build-site-preview.mjs`. Iterate content freely; do not restyle without a
+  fresh instruction from Robert or River.
