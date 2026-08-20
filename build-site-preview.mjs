@@ -8,6 +8,7 @@
 //
 // Usage: node build-site-preview.mjs   ->  coldstream-site-preview.html
 import { readFileSync, writeFileSync } from 'node:fs';
+import sharp from 'sharp';
 
 const read = (f) => JSON.parse(readFileSync(f, 'utf8'));
 const community = read('data/community.json');
@@ -16,6 +17,7 @@ const posts = read('data/posts.json');
 const intakes = read('data/roster-announced.json');
 const groups = read('data/steam-groups.json');
 const images = read('data/images.json');
+const recovered = read('data/roster-from-images.json');
 
 const ERA_ORDER = ['21stPApubliclinebattlegroup','Midnightmercs','2ndColdstream','MidnightMercss','NoxViator','GoRoaRgg','2ndColdstreamOfficial','coldstreamgaming'];
 const ERA_SHORT = {
@@ -33,7 +35,7 @@ const anns = (Array.isArray(annsRaw) ? annsRaw : annsRaw.announcements)
   .sort((x, y) => y.ts - x.ts);
 
 const forumPosts = posts.map((p) => ({ n: p.replyNo, a: p.author, d: p.date,
-  g: p.memberGroup || '', b: String(p.ownText || '').trim().slice(0, 900) }));
+  g: p.memberGroup || '', pc: p.postCount || 0, b: String(p.ownText || '').trim().slice(0, 900) }));
 
 const groupsArr = Array.isArray(groups) ? groups : Object.values(groups);
 const rosterByEra = {};
@@ -55,28 +57,37 @@ const DATA = {
   rosterByEra, videos,
   eventsByYear: community.eventsByYear,
   badges: Object.fromEntries(Object.entries(images.steam).map(([k, v]) => [k, v.uri])),
+  recovered: {
+    members: recovered.names.filter((n) => n.affiliation === 'member')
+      .map((n) => ({ name: n.name, tag: n.tag, rank: n.rank, known: n.known, sightings: n.sightings.length, note: n.note || null })),
+    othersCount: recovered.summary.otherRegiments,
+  },
 };
 
-const HERO = (() => { // the redcoat firing line, if cached
-  for (const [url, v] of Object.entries(images.forum))
-    if (url.includes('449582819873540392')) return v.uri; // 2015 line formation — clean, no watermark
-  return Object.values(images.forum)[0].uri;
-})();
+// Brand assets (brand/, supplied by River 2026-08-20). The badge banner is the
+// hero; the globe mark is the site logo; the guards star is a heritage accent.
+const toUri = (buf, mime) => 'data:' + mime + ';base64,' + buf.toString('base64');
+const HERO = toUri(await sharp('brand/csg-badge-banner.png')
+  .resize(1600, null, { kernel: 'lanczos3' }).jpeg({ quality: 80 }).toBuffer(), 'image/jpeg');
+const LOGO = toUri(await sharp('brand/csg-globe-black.png')
+  .trim().resize(null, 160, { kernel: 'lanczos3' }).png().toBuffer(), 'image/png');
+const STAR = toUri(await sharp('brand/coldstream-guards-star.jpg')
+  .resize(220, null, { kernel: 'lanczos3' }).jpeg({ quality: 82 }).toBuffer(), 'image/jpeg');
 
 // ------------------------------------------------------------------- the page
 const html = `<title>Coldstream Gaming</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
-    --ground:#0f131b; --panel:#161c28; --raised:#1c2434; --line:#2a3347;
-    --ink:#e9e5d9; --muted:#8e96a6; --faint:#5c6575;
+    --ground:#14110d; --panel:#1b1712; --raised:#241e17; --line:#3a3128;
+    --ink:#ece4d3; --muted:#a3968a; --faint:#6e6357;
     --scarlet:#c62f42; --scarlet-deep:#8e1f2f; --brass:#c9a35c;
     --disp:"Cinzel","Times New Roman",serif;
     --body:"Alegreya Sans","Segoe UI",system-ui,sans-serif;
     --mono:"IBM Plex Mono",Consolas,monospace;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+  body{margin:0;background:var(--ground) radial-gradient(1200px 500px at 50% -120px,#221b13,var(--ground)) no-repeat;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
   a{color:inherit;text-decoration:none}
   img{max-width:100%}
   button{font-family:var(--body)}
@@ -84,13 +95,13 @@ const html = `<title>Coldstream Gaming</title>
 
   .ribbon{position:fixed;top:14px;right:-44px;z-index:50;transform:rotate(38deg);background:var(--brass);color:#1a1408;font:600 11px/1 var(--mono);letter-spacing:.12em;padding:6px 48px;box-shadow:0 2px 10px rgba(0,0,0,.5);pointer-events:none}
 
-  .estbar{background:#0a0d13;border-bottom:1px solid var(--line);font:400 11.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em}
+  .estbar{background:#0d0a07;border-bottom:1px solid var(--line);font:400 11.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em}
   .estbar .in{max-width:1120px;margin:0 auto;padding:8px 20px;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between}
   .estbar b{color:var(--brass);font-weight:500}
 
-  header.mast{background:linear-gradient(180deg,#141a26,#10141d);border-bottom:1px solid var(--line)}
+  header.mast{background:linear-gradient(180deg,#1d1812,#151109);border-bottom:1px solid var(--line)}
   .mast .in{max-width:1120px;margin:0 auto;padding:18px 20px 0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .crest{width:64px;height:64px;border-radius:6px;border:1px solid var(--line);box-shadow:0 4px 14px rgba(0,0,0,.45)}
+  .crest{height:56px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
   .wordmark{flex:1 1 auto;min-width:220px}
   .wordmark h1{margin:0;font:700 clamp(22px,3.4vw,32px)/1.05 var(--disp);letter-spacing:.06em;color:var(--ink)}
   .wordmark h1 .red{color:var(--scarlet)}
@@ -104,14 +115,11 @@ const html = `<title>Coldstream Gaming</title>
   nav.main a:hover{color:var(--ink)}
 
   .hero{position:relative;border-bottom:1px solid var(--line);overflow:hidden}
-  .hero .bg{position:absolute;inset:0;background:url("${HERO}") center 32%/cover no-repeat;filter:saturate(.9)}
-  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,19,27,.55) 0%,rgba(15,19,27,.78) 68%,var(--ground) 100%)}
-  .hero .in{position:relative;max-width:1120px;margin:0 auto;padding:88px 20px 72px}
-  .hero .eyebrow{font:400 12px/1 var(--mono);letter-spacing:.28em;color:var(--brass);text-transform:uppercase}
-  .hero h2{margin:14px 0 10px;font:700 clamp(30px,5vw,52px)/1.12 var(--disp);letter-spacing:.03em;max-width:17ch;text-wrap:balance}
-  .hero h2 em{font-style:normal;color:var(--scarlet)}
-  .hero p{margin:0;max-width:52ch;color:#c9cbc4;font-size:17.5px}
-  .hero .cta{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .hero .bg{position:absolute;inset:0;background:url("${HERO}") center 42%/cover no-repeat}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,13,.15) 0%,rgba(20,17,13,.2) 52%,rgba(20,17,13,.9) 80%,var(--ground) 100%)}
+  .hero .in{position:relative;max-width:1120px;margin:0 auto;padding:min(38vw,440px) 20px 30px;text-align:center}
+  .hero p{margin:0 auto;max-width:56ch;color:#d6cdbc;font-size:17.5px;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+  .hero .cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
   .btn-red{display:inline-block;background:linear-gradient(180deg,var(--scarlet),var(--scarlet-deep));border:1px solid #d8556a;border-radius:4px;color:#fff;padding:11px 22px;font:700 14px/1 var(--body);letter-spacing:.05em;cursor:pointer}
   .btn-red:hover{filter:brightness(1.1)}
   .btn-ghost{display:inline-block;border:1px solid var(--line);border-radius:4px;color:var(--muted);padding:11px 18px;font:500 14px/1 var(--body);cursor:pointer;background:none}
@@ -121,7 +129,7 @@ const html = `<title>Coldstream Gaming</title>
   .wrap.solo{grid-template-columns:1fr}
   @media (max-width:880px){.wrap{grid-template-columns:1fr}}
 
-  .module{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .module{background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden;box-shadow:0 6px 22px rgba(0,0,0,.28)}
   .module + .module{margin-top:26px}
   .mhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--raised),var(--panel))}
   .mhead h3{margin:0;font:700 13px/1 var(--disp);letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
@@ -133,7 +141,7 @@ const html = `<title>Coldstream Gaming</title>
   .post h4 a:hover,.rowlink:hover .fname{color:var(--scarlet)}
   .post .meta,.meta{font:400 11.5px/1.5 var(--mono);color:var(--faint)}
   .post .meta b,.meta b{color:var(--muted);font-weight:500}
-  .post p{margin:8px 0 0;color:#c2c5bd}
+  .post p{margin:8px 0 0;color:#cbc2b2}
   .tag{display:inline-block;font:500 10px/1 var(--mono);letter-spacing:.08em;color:var(--brass);border:1px solid #4a3d24;border-radius:3px;padding:3px 7px;margin-right:8px;vertical-align:1px}
 
   table.forum{width:100%;border-collapse:collapse}
@@ -169,13 +177,13 @@ const html = `<title>Coldstream Gaming</title>
   .fpa .n{font-weight:700}
   .fpa .g{font:400 10.5px/1.5 var(--mono);color:var(--brass)}
   .fpa .d{font:400 10.5px/1.5 var(--mono);color:var(--faint)}
-  .fpb{color:#c2c5bd;font-size:15px;overflow-wrap:anywhere}
+  .fpb{color:#cbc2b2;font-size:15px;overflow-wrap:anywhere}
   .fpb .rn{font:400 10.5px/1 var(--mono);color:var(--faint);float:right;margin-left:10px}
 
   .shout-log{max-height:340px;overflow-y:auto;padding:6px 0}
   .shout{padding:8px 18px;display:flex;gap:10px}
   .shout .t{font:400 10px/2 var(--mono);color:var(--faint);flex:none;width:44px}
-  .shout .m{font-size:14px;color:#c2c5bd;overflow-wrap:anywhere}
+  .shout .m{font-size:14px;color:#cbc2b2;overflow-wrap:anywhere}
   .shout .m b{color:var(--ink);font-weight:700}
   .shout .m b.of{color:var(--brass)}
   .shout-in{display:flex;gap:8px;padding:12px 18px;border-top:1px solid var(--line);background:var(--raised)}
@@ -203,7 +211,7 @@ const html = `<title>Coldstream Gaming</title>
   .era.now img{border-color:var(--scarlet);box-shadow:0 0 0 1px var(--scarlet)}
   .era.now .y{color:var(--scarlet)}
 
-  .login-blurb{padding:16px 18px;color:#c2c5bd;font-size:14px}
+  .login-blurb{padding:16px 18px;color:#cbc2b2;font-size:14px}
   .login-blurb .steam-btn{width:100%;justify-content:center;margin-bottom:12px}
   .login-blurb p{margin:0}
   .login-blurb .hint{margin-top:10px;font:400 11px/1.6 var(--mono);color:var(--faint)}
@@ -218,11 +226,11 @@ const html = `<title>Coldstream Gaming</title>
   .tl img{width:96px;height:96px;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
   .tl h4{margin:0;font:700 20px/1.2 var(--body)}
   .tl .when{font:400 11px/1.8 var(--mono);color:var(--brass);letter-spacing:.08em}
-  .tl p{margin:6px 0 0;color:#c2c5bd;font-size:15px;max-width:65ch}
+  .tl p{margin:6px 0 0;color:#cbc2b2;font-size:15px;max-width:65ch}
   .tl .nums{margin-top:8px;font:400 11px/1.6 var(--mono);color:var(--faint)}
 
   .grid-names{padding:16px 18px;display:flex;gap:8px;flex-wrap:wrap}
-  .nchip{font:400 12.5px/1 var(--body);color:#c2c5bd;border:1px solid var(--line);border-radius:4px;padding:7px 10px}
+  .nchip{font:400 12.5px/1 var(--body);color:#cbc2b2;border:1px solid var(--line);border-radius:4px;padding:7px 10px}
   .nchip .x{font:400 9.5px var(--mono);color:var(--brass);margin-left:6px}
 
   .media-grid{padding:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
@@ -241,6 +249,18 @@ const html = `<title>Coldstream Gaming</title>
   .barnote{padding:0 18px 18px;font:400 12px/1.7 var(--mono);color:var(--faint)}
   .barnote b{color:var(--brass);font-weight:500}
 
+  .srv-grid{padding:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .srv{border:1px solid var(--line);border-radius:9px;background:var(--raised);padding:16px}
+  .srv-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .srv-game{font:400 10.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+  .pill{font:600 9.5px/1 var(--mono);letter-spacing:.1em;border:1px solid var(--line);border-radius:99px;padding:4px 9px;color:var(--muted)}
+  .pill.hot{color:var(--brass);border-color:#4a3d24;background:rgba(201,163,92,.08)}
+  .srv-name{margin-top:10px;font:700 17px/1.2 var(--body)}
+  .srv-meta{font:400 11px/1.8 var(--mono);color:var(--faint)}
+  .srv p{margin:8px 0 0;color:#cbc2b2;font-size:14px}
+
+  .heritage{display:flex;gap:16px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);color:#cbc2b2;font-size:14.5px}
+  .heritage img{width:72px;height:auto;border-radius:6px;flex:none}
   footer{max-width:1120px;margin:44px auto 0;padding:22px 20px 34px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font:400 11.5px/1.7 var(--mono);color:var(--faint)}
   footer b{color:var(--muted);font-weight:500}
 </style>
@@ -248,16 +268,16 @@ const html = `<title>Coldstream Gaming</title>
 <div class="ribbon">DESIGN&nbsp;PREVIEW</div>
 
 <div class="estbar"><div class="in">
-  <span>EST. <b>JUNE 2011</b> &nbsp;·&nbsp; EIGHT ERAS, ONE COMMUNITY</span>
+  <span>EST. <b>JUNE 2011</b> &nbsp;·&nbsp; EIGHT ERAS AND COUNTING</span>
   <span><b>${DATA.totals.distinctPeople}</b> MEMBERS ALL-TIME &nbsp;·&nbsp; <b>${DATA.totals.events}</b> EVENTS CALLED</span>
 </div></div>
 
 <header class="mast">
   <div class="in">
-    <img class="crest" src="${DATA.badges.coldstreamgaming}" alt="Coldstream Gaming crest">
+    <img class="crest" src="${LOGO}" alt="CSG globe logo">
     <div class="wordmark">
       <h1>COLDSTREAM <span class="red">GAMING</span></h1>
-      <p>THE COMMUNITY RECORD &nbsp;·&nbsp; 2011 — PRESENT</p>
+      <p>GAMING COMMUNITY &nbsp;·&nbsp; EST. 2011</p>
     </div>
     <span id="auth-slot"></span>
   </div>
@@ -267,8 +287,8 @@ const html = `<title>Coldstream Gaming</title>
 <div id="view"></div>
 
 <footer>
-  <span><b>Coldstream Gaming</b> · est. June 2011 · the community record</span>
-  <span>design preview — every view is populated with the community's real history data · Steam sign-in &amp; live shoutbox ship with the real backend</span>
+  <span><b>Coldstream Gaming</b> · est. 2011</span>
+  <span>preview build. stats, posts and rosters come straight from the community archives. Steam sign-in and the shoutbox go live once the real backend is up.</span>
 </footer>
 
 <script>
@@ -287,12 +307,12 @@ let shouts = [
   {t:'21:23', n:'Capitulated Magik', of:true, m:'archive page is up. found myself in 2012. unreal'},
 ];
 
-const NAV = [['home','Home'],['forums','Forums'],['history','History'],['roster','Roster'],['media','Media'],['events','Events']];
+const NAV = [['home','Home'],['forums','Forums'],['servers','Servers'],['history','History'],['roster','Roster'],['media','Media'],['events','Events']];
 const BOARDS = {
-  parade:  {ico:'⚑', name:'The Parade Ground', desc:'Announcements, event calls, and orders of the day — every era'},
-  barracks:{ico:'☖', name:'The Barracks', desc:'General talk — the regiment thread, preserved reply by reply'},
-  enlist:  {ico:'✎', name:'Enlistment Office', desc:'Dated intakes — every announced join, by class year'},
-  archive: {ico:'✦', name:'The Archive', desc:'The films — every surviving video the community made'},
+  parade:  {ico:'⚑', name:'The Parade Ground', desc:'Announcements and event calls from every era'},
+  barracks:{ico:'☖', name:'The Barracks', desc:'General chat. The old regiment thread is in here, all 885 replies of it'},
+  enlist:  {ico:'✎', name:'Enlistment Office', desc:'Announced joins, sorted by class year'},
+  archive: {ico:'✦', name:'The Archive', desc:'All the videos we could still find'},
 };
 
 // ------------------------------------------------------------------ helpers
@@ -318,20 +338,20 @@ function renderNav(cur) {
 // -------------------------------------------------------------- home pieces
 const loginModule = () => '<div class="module"><div class="mhead"><h3>Sign In</h3></div><div class="login-blurb">'
   + (signedIn
-    ? '<div class="svcrec"><div class="who">RiveRcs · Crawford</div><div class="role">FOUNDER · COLONEL · EST. 2011</div><div class="es">service record: 8 of 8 eras · 672 event calls written<br>21stPA → Midnight Mercenarys → 2ndCS → MM MGC →<br>Nox Viator → RoaR → 2nd Coldstream Guard → Coldstream</div></div><p style="margin-top:10px">This is what members see: sign in once, and your eras, events, and rank history find you.</p><div class="hint">demo record — the live site reads it from your Steam ID.</div>'
-    : '<button class="steam-btn" id="signin2">' + steamSVG + 'Sign in through Steam</button><p>Your service record follows you. Signing in links your Steam ID to your eras, events, and rank history — automatically.</p><div class="hint">member of 2+ eras? your lifer badge is waiting.</div>')
+    ? '<div class="svcrec"><div class="who">RiveRcs · Crawford</div><div class="role">FOUNDER · COLONEL · EST. 2011</div><div class="es">service record: 8 of 8 eras · 672 event calls written<br>21stPA → Midnight Mercenarys → 2ndCS → MM MGC →<br>Nox Viator → RoaR → 2nd Coldstream Guard → Coldstream</div></div><p style="margin-top:10px">Members see this after signing in once. It pulls everything from the archive.</p><div class="hint">demo record. the live site reads it from your Steam ID.</div>'
+    : '<button class="steam-btn" id="signin2">' + steamSVG + 'Sign in through Steam</button><p>Sign in with Steam to link your profile. All eight eras are in the archive, so if you ever played with us your record\\'s already in there.</p><div class="hint">no separate account needed. it uses your Steam profile.</div>')
   + '</div></div>';
 
 const shoutModule = () => '<div class="module"><div class="mhead"><h3>Shoutbox</h3><span class="sub">' + (signedIn ? 'preview · local only' : 'sign in to shout') + '</span></div>'
   + '<div class="shout-log" id="shoutlog">' + shouts.map((s) =>
-      '<div class="shout"><span class="t">' + esc(s.t) + '</span><span class="m"><b' + (s.of ? ' class="of"' : '') + '>' + esc(s.n) + '</b> — ' + esc(s.m) + '</span></div>').join('')
+      '<div class="shout"><span class="t">' + esc(s.t) + '</span><span class="m"><b' + (s.of ? ' class="of"' : '') + '>' + esc(s.n) + '</b>: ' + esc(s.m) + '</span></div>').join('')
   + '</div><div class="shout-in"><input id="shoutin" maxlength="180" placeholder="' + (signedIn ? 'Shout as RiveRcs…' : 'Sign in to shout…') + '"' + (signedIn ? '' : ' disabled') + '><button id="shoutgo"' + (signedIn ? '' : ' disabled') + '>Send</button></div></div>';
 
 const statsModule = () => { const t = DATA.totals; return '<div class="module"><div class="mhead"><h3>The Record</h3></div><div class="stats">'
   + [['315','members all-time'],[t.lifers,'lifers · 2+ eras'],[t.events,'events called'],[t.announcements.toLocaleString('en-US'),'announcements'],[t.videos,'films'],['2011','established']]
     .map(([n, l]) => '<div class="stat"><div class="n">' + n + '</div><div class="l">' + l + '</div></div>').join('') + '</div></div>'; };
 
-const erasModule = () => '<div class="module"><div class="mhead"><h3>Eight Eras</h3><span class="sub">one community</span></div><div class="eras">'
+const erasModule = () => '<div class="module"><div class="mhead"><h3>Eight Eras</h3><span class="sub">same crew since 2011</span></div><div class="eras">'
   + DATA.eraOrder.map((slug, i) => { const e = DATA.eras.find((x) => x.slug === slug); const y = e ? String(e.founded).match(/\\d{4}/)[0] : '';
       return '<button class="era' + (slug === 'coldstreamgaming' ? ' now' : '') + '" data-era="' + slug + '" title="' + esc(e ? e.name : slug) + '"><img src="' + DATA.badges[slug] + '" alt="' + esc(e ? e.name : slug) + '"><div class="y">' + (slug === 'coldstreamgaming' ? 'NOW' : y) + '</div></button>'; }).join('')
   + '</div></div>';
@@ -344,20 +364,19 @@ const sidebar = () => '<aside>' + loginModule() + shoutModule() + onDuty() + sta
 
 function heroHTML() {
   return '<section class="hero"><div class="bg"></div><div class="scrim"></div><div class="in">'
-    + '<div class="eyebrow">Fall in</div><h2>Fourteen years.<br>Eight eras. <em>One line.</em></h2>'
-    + '<p>From the muskets of 2011 to the servers of today — every era, every roster, every event call is on the record here. Sign in and find your name.</p>'
-    + '<div class="cta"><button class="btn-red" data-go="history">Read the History</button><button class="btn-ghost" data-go="roster">Browse the Roster</button></div>'
+    + '<p>Welcome home. We\\'ve been at this since 2011, muskets to retakes and everything in between. 315 people have worn the tag. Sign in, find your name, pull up a chair in the shoutbox.</p>'
+    + '<div class="cta"><button class="btn-red" data-go="history">Our History</button><button class="btn-ghost" data-go="roster">The Roster</button><button class="btn-ghost" data-go="servers">Servers</button></div>'
     + '</div></section>';
 }
 
 function homeView() {
   const latest = DATA.anns.filter((a) => a.ts > 0).slice(0, 4);
-  const news = '<div class="module"><div class="mhead"><h3>Dispatches</h3><span class="sub">latest real announcements</span></div>'
+  const news = '<div class="module"><div class="mhead"><h3>Latest News</h3><span class="sub">from the announcement feed</span></div>'
     + latest.map((a) => '<article class="post"><h4><a href="#/thread/ann/' + a.id + '">' + esc(a.t) + '</a></h4>'
       + '<div class="meta"><span class="tag">' + esc(eraName(a.g).toUpperCase()) + '</span>posted by <b>' + esc(a.a) + '</b> · ' + esc(a.w) + '</div>'
       + (a.b && a.b !== '.' ? '<p>' + esc(a.b.slice(0, 220)) + (a.b.length > 220 ? '…' : '') + '</p>' : '') + '</article>').join('')
     + '</div>';
-  const forums = '<div class="module"><div class="mhead"><h3>The Forums</h3><span class="sub">every board is open — click in</span></div><table class="forum">'
+  const forums = '<div class="module"><div class="mhead"><h3>The Forums</h3><span class="sub">click a board to browse</span></div><table class="forum">'
     + boardRows() + '</table></div>';
   return heroHTML() + '<div class="wrap"><main>' + news + forums + '</main>' + sidebar() + '</div>';
 }
@@ -368,7 +387,7 @@ function boardRows() {
     parade: [DATA.anns.length.toLocaleString('en-US') + ' threads', '<b>' + esc(last.a) + '</b><br>' + esc(last.t)],
     barracks: [DATA.forumPosts.length + ' replies', '<b>' + esc(DATA.forumPosts[DATA.forumPosts.length - 1].a) + '</b><br>the regiment thread'],
     enlist: [DATA.intakes.length + ' enlistments', '<b>Crawford</b><br>welcome the ' + Math.max(...Object.keys(DATA.intakeYears).map(Number)) + ' class'],
-    archive: [DATA.videos.length + ' films', '<b>Official21stPA</b><br>the oldest surviving record'],
+    archive: [DATA.videos.length + ' films', '<b>Official21stPA</b><br>the oldest video we still have'],
   };
   return Object.entries(BOARDS).map(([k, b]) =>
     '<tr class="rowlink" data-board="' + k + '"><td width="34"><div class="fico">' + b.ico + '</div></td>'
@@ -377,7 +396,33 @@ function boardRows() {
 }
 
 function forumsView() {
-  return '<div class="wrap"><main><div class="module"><div class="mhead"><h3>The Forums</h3><span class="sub">four boards · real records</span></div><table class="forum">' + boardRows() + '</table></div></main>' + sidebar() + '</div>';
+  const totalThreads = DATA.anns.length + 1 + Object.keys(DATA.intakeYears).length + 1;
+  const totalPosts = DATA.anns.length + DATA.forumPosts.length + DATA.intakes.length + DATA.videos.length;
+  const stats = '<div class="module"><div class="mhead"><h3>Forum Statistics</h3></div>'
+    + '<div class="login-blurb meta" style="font-size:13px">'
+    + totalThreads.toLocaleString('en-US') + ' threads &nbsp;·&nbsp; ' + totalPosts.toLocaleString('en-US') + ' posts &nbsp;·&nbsp; '
+    + DATA.totals.distinctPeople + ' members all-time &nbsp;·&nbsp; most members in one era: 101'
+    + '<br>records run from April 2011 to the present. everything on these boards comes from the community archives.</div></div>';
+  return '<div class="wrap"><main><div class="module"><div class="mhead"><h3>The Forums</h3><span class="sub">click a board to browse</span></div><table class="forum">' + boardRows() + '</table></div>' + stats + '</main>' + sidebar() + '</div>';
+}
+
+function serversView() {
+  const S = [
+    { game: 'Garry\\'s Mod', name: 'Coldstream TTT', slots: '24 slots', blurb: 'Trouble in Terrorist Town. Trust nobody, especially whoever\\'s camping the tester.', status: 'coming soon' },
+    { game: 'Counter-Strike: Source', name: 'Coldstream CS:S', slots: '20 slots', blurb: 'Classic Source. Our first CS:S scrim was November 2011, so this one\\'s overdue.', status: 'coming soon' },
+    { game: 'Counter-Strike 1.6', name: 'Coldstream 1.6', slots: '20 slots', blurb: 'The old warhorse. Original maps, original movement, no crosshair excuses.', status: 'coming soon' },
+    { game: 'Minecraft', name: 'Coldstream SMP', slots: '20 slots', blurb: 'Simple survival, nothing fancy. The first community Minecraft server went up in 2011 alongside the muskets. Project Mansion walked so this could run.', status: 'coming soon' },
+  ];
+  const pill = (s) => '<span class="pill' + (s === 'coming soon' ? ' hot' : '') + '">' + s.toUpperCase() + '</span>';
+  const cards = S.map((s) =>
+    '<div class="srv"><div class="srv-top"><span class="srv-game">' + s.game + '</span>' + pill(s.status) + '</div>'
+    + '<div class="srv-name">' + s.name + '</div>'
+    + '<div class="srv-meta">' + s.slots + ' · address TBA</div>'
+    + '<p>' + s.blurb + '</p></div>').join('');
+  return '<div class="wrap solo"><main><div class="module"><div class="mhead"><h3>Servers</h3><span class="sub">servers we\\'ll be running</span></div>'
+    + '<div class="srv-grid">' + cards + '</div>'
+    + '<div class="barnote">Addresses and connect buttons go live here as each server comes online. Want something else hosted? Post it in <a href="#/board/barracks" style="color:var(--brass)">the Barracks</a>.</div>'
+    + '</div></main></div>';
 }
 
 // --------------------------------------------------------------- board views
@@ -392,7 +437,7 @@ function paradeView() {
   const chips = ['all', ...DATA.eraOrder].map((s) =>
     '<button class="chip' + (paradeFilter === s ? ' on' : '') + '" data-filter="' + s + '">' + (s === 'all' ? 'All eras' : esc(eraName(s))) + '</button>').join('');
   return '<div class="wrap solo"><main><div class="crumb"><a href="#/forums">Forums</a> / The Parade Ground</div>'
-    + '<div class="module"><div class="mhead"><h3>⚑ The Parade Ground</h3><span class="sub">' + pool.length.toLocaleString('en-US') + ' real announcements</span></div>'
+    + '<div class="module"><div class="mhead"><h3>⚑ The Parade Ground</h3><span class="sub">' + pool.length.toLocaleString('en-US') + ' announcements, straight from the archive</span></div>'
     + '<div class="chips">' + chips + '</div><table class="forum">' + rows + '</table>'
     + pager(paradePage, pages, 'parade') + '</div></main></div>';
 }
@@ -403,10 +448,12 @@ function barracksView() {
   const slice = DATA.forumPosts.slice(barracksPage * PP, barracksPage * PP + PP);
   const rows = slice.map((p) =>
     '<div class="fpost"><div class="fpa"><div class="n">' + esc(p.a) + '</div>'
-    + (p.g ? '<div class="g">' + esc(p.g) + '</div>' : '') + '<div class="d">' + esc(p.d) + '</div></div>'
+    + (p.g ? '<div class="g">' + esc(p.g) + '</div>' : '')
+    + (p.pc ? '<div class="d">Posts: ' + p.pc.toLocaleString('en-US') + '</div>' : '')
+    + '<div class="d">' + esc(p.d) + '</div></div>'
     + '<div class="fpb"><span class="rn">#' + p.n + '</span>' + esc(p.b || '(image / formatting-only post)') + '</div></div>').join('');
   return '<div class="wrap solo"><main><div class="crumb"><a href="#/forums">Forums</a> / The Barracks / the regiment thread</div>'
-    + '<div class="module"><div class="mhead"><h3>☖ The Regiment Thread</h3><span class="sub">885 real replies · renamed twelve times · 2012–2016</span></div>'
+    + '<div class="module"><div class="mhead"><h3>☖ The Regiment Thread</h3><span class="sub">885 replies · 2012–2016 · the same thread through every era</span></div>'
     + rows + pager(barracksPage, pages, 'barracks') + '</div></main></div>';
 }
 
@@ -419,7 +466,7 @@ function enlistView(year) {
         + '<td><div class="fname">The Class of ' + y + '</div><div class="fdesc">' + n + ' announced enlistments</div></td>'
         + '<td class="fstat">' + n + ' members</td></tr>'; }).join('');
     return '<div class="wrap solo"><main><div class="crumb"><a href="#/forums">Forums</a> / Enlistment Office</div>'
-      + '<div class="module"><div class="mhead"><h3>✎ Enlistment Office</h3><span class="sub">every dated join on record — 2014 had none, and that is the record</span></div><table class="forum">' + rows + '</table></div></main></div>';
+      + '<div class="module"><div class="mhead"><h3>✎ Enlistment Office</h3><span class="sub">every announced join we have on record, sorted by year. nothing logged for 2014</span></div><table class="forum">' + rows + '</table></div></main></div>';
   }
   const list = DATA.intakes.filter((i) => (i.announcedOn || '').includes(year));
   const rows = list.map((i) =>
@@ -435,7 +482,7 @@ function archiveView() {
     + (v.thumb ? '<img src="' + v.thumb + '" alt="" loading="lazy">' : '')
     + '<div class="vt">' + esc(v.t) + '</div><div class="vm">' + esc(v.vw || '') + (v.p ? ' · ' + esc(v.p) : '') + '</div></a>').join('');
   return '<div class="wrap solo"><main><div class="crumb"><a href="#/forums">Forums</a> / The Archive</div>'
-    + '<div class="module"><div class="mhead"><h3>✦ The Archive</h3><span class="sub">' + DATA.videos.length + ' surviving films · links open on YouTube</span></div>'
+    + '<div class="module"><div class="mhead"><h3>✦ The Archive</h3><span class="sub">' + DATA.videos.length + ' films still up · links open on YouTube</span></div>'
     + '<div class="media-grid">' + grid + '</div></div></main></div>';
 }
 
@@ -467,21 +514,30 @@ function historyView() {
       + (e.summary ? '<p>' + esc(e.summary) + '</p>' : '')
       + '<div class="nums">' + e.members + ' members on the rolls · ' + e.events + ' events · ' + e.announcements + ' announcements</div>'
       + '</div></div>'; }).join('');
-  return '<div class="wrap solo"><main><div class="module"><div class="mhead"><h3>The History</h3><span class="sub">eight eras · 2011 — present</span></div><div class="timeline">' + rows + '</div></div></main></div>';
+  return '<div class="wrap solo"><main><div class="module"><div class="mhead"><h3>The History</h3><span class="sub">eight eras since 2011</span></div>'
+    + '<div class="heritage"><img src="${STAR}" alt="Coldstream Guards star"><div>The name comes from the real Coldstream Guards, the oldest continuously serving regiment in the British Army. Loyalty, leadership, tradition. That was the idea in 2011 and it still is.</div></div>'
+    + '<div class="timeline">' + rows + '</div></div></main></div>';
 }
 
 let rosterEra = 'lifers';
 function rosterView() {
   const chips = '<button class="chip' + (rosterEra === 'lifers' ? ' on' : '') + '" data-rera="lifers">Lifers · 2+ eras</button>'
-    + DATA.eraOrder.map((s) => '<button class="chip' + (rosterEra === s ? ' on' : '') + '" data-rera="' + s + '">' + esc(eraName(s)) + '</button>').join('');
+    + DATA.eraOrder.map((s) => '<button class="chip' + (rosterEra === s ? ' on' : '') + '" data-rera="' + s + '">' + esc(eraName(s)) + '</button>').join('')
+    + '<button class="chip' + (rosterEra === 'recovered' ? ' on' : '') + '" data-rera="recovered">From the screenshots</button>';
   let body;
   if (rosterEra === 'lifers') {
     body = '<div class="grid-names">' + DATA.lifers.map((l) =>
       '<span class="nchip">' + esc(l.name) + '<span class="x">' + l.eras.length + ' ERAS</span></span>').join('') + '</div>';
+  } else if (rosterEra === 'recovered') {
+    body = '<div class="grid-names">' + DATA.recovered.members.map((m) =>
+      '<span class="nchip"' + (m.note ? ' title="' + esc(m.note) + '"' : '') + '>' + esc((m.rank ? m.rank + ' ' : '') + m.name)
+      + '<span class="x">' + (m.known ? m.sightings + '×' : 'NEW') + '</span></span>').join('') + '</div>'
+      + '<div class="barnote">These names came off scoreboards and kill feeds in old screenshots. Nothing went on the list unless it showed up at least twice. NEW means we had no other record of them. Another '
+      + DATA.recovered.othersCount + ' players from other regiments got spotted too; those went into the event records.</div>';
   } else {
     const names = DATA.rosterByEra[rosterEra] || [];
     body = '<div class="grid-names">' + names.map((n) => '<span class="nchip">' + esc(n) + '</span>').join('') + '</div>'
-      + '<div class="barnote">roster = who is on the Steam group\\'s rolls today · Steam does not record join dates — the dated record lives in the <a href="#/board/enlist" style="color:var(--brass)">Enlistment Office</a></div>';
+      + '<div class="barnote">this is whoever\\'s on the Steam group roll today. Steam doesn\\'t show join dates, so for dates check the <a href="#/board/enlist" style="color:var(--brass)">Enlistment Office</a></div>';
   }
   const count = rosterEra === 'lifers' ? DATA.lifers.length : (DATA.rosterByEra[rosterEra] || []).length;
   return '<div class="wrap solo"><main><div class="module"><div class="mhead"><h3>The Roster</h3><span class="sub">' + count + ' names</span></div>'
@@ -496,7 +552,7 @@ function eventsView() {
     return '<div class="bar' + (um ? ' um' : '') + '"><div class="v">' + (um ? '·' : v) + '</div><div class="col" style="height:' + (um ? 14 : Math.max(2, Math.round((v / max) * 170))) + 'px"></div><div class="y">' + y.slice(2) + '</div></div>'; }).join('');
   return '<div class="wrap solo"><main><div class="module"><div class="mhead"><h3>Events by Year</h3><span class="sub">' + DATA.totals.events + ' event calls on record</span></div>'
     + '<div class="bars">' + bars + '</div>'
-    + '<div class="barnote"><b>2014</b> — the record holds no event calls or intakes that year. <b>2019</b> — unmeasured, not inactive: the community ran on FACEIT, ESEA, Twitch and Discord that year, platforms outside this dataset.</div>'
+    + '<div class="barnote"><b>2014:</b> no event calls or intakes are on record for that year. <b>2019:</b> shows empty because the community ran on FACEIT, ESEA, Twitch and Discord that year, and this feed only counts Steam announcements.</div>'
     + '</div></main></div>';
 }
 
@@ -509,6 +565,7 @@ function render() {
   else if (v === 'forums') el.innerHTML = forumsView();
   else if (v === 'board') el.innerHTML = p1 === 'parade' ? paradeView() : p1 === 'barracks' ? barracksView() : p1 === 'enlist' ? enlistView() : archiveView();
   else if (v === 'thread') el.innerHTML = p1 === 'ann' ? annThread(p2) : p1 === 'intake' ? enlistView(p2) : forumsView();
+  else if (v === 'servers') el.innerHTML = serversView();
   else if (v === 'history') el.innerHTML = historyView();
   else if (v === 'roster') el.innerHTML = rosterView();
   else if (v === 'media') el.innerHTML = archiveView();

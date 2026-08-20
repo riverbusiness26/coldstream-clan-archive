@@ -1,0 +1,2001 @@
+{
+ "reconciled": [
+  {
+   "hash": "495931f6708906535e14b24422c44cd0919ca25d",
+   "rowsVisible": 46,
+   "rowsTranscribed": 41,
+   "readNotes": [
+    "Row count: 44 scoreboard rows visible (22 per side) + 1 kill-feed line (Guaipeca killed JD, musket icon) + 1 clipped grey chat line ('*DEAD* [9...' - rest hidden behind panel frame, unreadable) = 46. Both headers state 25 players per team (Austria: 15 Alive/10 Dead, Score 5; Prussia: 0 Alive/25 Dead, Score 0), so 3 rows per side are scrolled out of view below the cutoff - 44 visible of 50 total players. Rows that defeated me (11): [L3] the highlighted row (screenshot taker, ~4th on Austria) - red text on light highlight band is motion/JPEG-smeared beyond recovery even with green-channel extraction, shape suggests it starts '2ndC?_C??_'; [L13] red row under 'Your people' - only letter tops, ~5-7 char name, Dead, ping ~x56; [L22] bottom row clipped mid-glyph at panel edge - letter tops suggest 'O?ertTheC??????' + Dead, 0/0/55 (possibly 'ObertTheConqueror'-like but that is shape-guessing); [R2] short name behind watermark 'G', Dead, 3/5/75; [R8] behind 'photobucket', fragments '...Ma?_...alty' (maybe ends 'Casualty'), Dead, 2/6/58; [R9] fully behind 'ucket', Dead, 2/6/104; [R13] behind 'Your moments', fragments '?5_Dr...' (possibly a Dragoner regiment tag), Dead, 1/?/?; [R17] behind watermark, fragments suggest '1stEP?_A...' + '...nfu' before Dead, 0/0/59; [R18] fully behind 'space.', Dead, 0/0/59; [R22] bottom row clipped, tops suggest '...?BA_G6_Will...' + Dead, 0/?/54; plus the grey chat line. Methodology: watermark is grey (R~=G~=B) so red-channel isolation (R-G) removes it, but JPEG 4:2:0 chroma subsampling halves red-text resolution, so plain contrast-boosted crops from the 2x tile were used for final reads; the opaque white watermark cores (letter bodies of Groupsy/photobucket/Your moments/space) are unrecoverable. K/D/ping per player given in each note where legible.",
+    "Scoreboard: Kaisertum Österreich (Score 5) vs Königreich Preußen (Score 0). Headers self-report 25 players per side (Austria: 15 Alive/10 Dead; Prussia: 0 Alive/25 Dead) = 50 total, but only 22 rows per column fit in the frame (the 22nd on each side is half-cut at the bottom edge), so 3 rows per side (6 players) were never on screen — they cannot be recovered from this image. rowsVisible=46 = 44 scoreboard rows + 1 kill-feed line ('Guaipeca [sword] JD' — both names duplicate scoreboard entries) + 1 chat line ('*DEAD* [9…', cut off behind the scoreboard frame, illegible). rowsTranscribed=41: defeated rows were Austria row 13 (red name behind 'Your peo' — ~5-7 chars, Dead, unrecoverable), Prussia row 9 (fully behind 'photobucket'+Dead, 2/6/104), Prussia row 13 (behind 'Your moments', fragment '?5_Dr???er…', 1 kill), Prussia row 18 (behind 'space.', 0/0/59), and the chat line. Austria row 3 (highlighted selection bar = screenshot taker) and the four wildcard entries are included as shape-only guesses — wildcards mark unread characters; nothing was inferred from outside the pixels. Methodology: beyond the supplied tiles, I ran native-resolution red-channel (R−max(G,B)) extraction, windowed luminance stretches, and smoothed-redness passes; the 1024x576 JPEG's compression is the hard floor — red 6-px text directly under opaque-white watermark strokes is destroyed, not merely veiled. No spectator section is present on this scoreboard."
+   ],
+   "names": [
+    {
+     "name": "42",
+     "certainty": "guess",
+     "note": "Prussia row 2, Dead. 3/5/75. Very short (~2-char) name; faint glyphs resemble '42'; rest hidden behind the Groupsy 'G'.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Tiago",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT side; 16/2/61 K-D-ping",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Sir_Wololol",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; 12/1/59",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "RivenX",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "AT; Dead; ?/?/64",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Zemohc",
+     "tag": "2ndCS",
+     "rank": "Cpl",
+     "certainty": "certain",
+     "note": "AT; 8/0/50",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Lindsey",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "AT; 8/2/54",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Richard_Brit",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; 8/3/61",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "williambinette",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "AT; ?/0/67",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "name": "Richard_??????",
+     "certainty": "probable",
+     "note": "Austria row 9, red/Dead. Prefix '2ndCS_Rct_Richard_' is clear; surname hidden under 'by photobucket' watermark — first letter(s) look like F/Fl or H (Hawkins-like shape), not resolvable.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "The_Legend",
+     "tag": "2ndCS",
+     "rank": "Cdt",
+     "certainty": "certain",
+     "note": "AT; 6/3/67",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Sethja8",
+     "tag": "VIe_4e_Cav",
+     "rank": "Cpt",
+     "certainty": "probable",
+     "note": "AT; 5/1/57; tag could be 'Vle_4e_Cav' (I vs l ambiguous)",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Crazy",
+     "tag": "2ndCS",
+     "rank": "Maj",
+     "certainty": "certain",
+     "note": "AT; 4/4/57",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "CelticBreton",
+     "tag": "_1st_Rddt_G95",
+     "certainty": "probable",
+     "note": "AT; 2/1/19; tag mid-chars doubtful - 'Rddt' could be 'Rgdt', 'G95' could be 'C95'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Guaipeca",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; 2/2/192; also in kill feed killing JD",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Ferrri965",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; 2/2/60; triple r",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "James",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "AT; 2/3/64",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "seismicGASBAG",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; 1/1/63",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "TheGuyontheCouch",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; Dead; 1/2/101",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Jeff",
+     "tag": "NM",
+     "certainty": "probable",
+     "note": "AT; Dead; 1/3/54; final 'ff' glyphs slightly doubtful",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Imparat_Oroles",
+     "tag": "",
+     "certainty": "certain",
+     "note": "AT; 0/0/460",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "9th_CT",
+     "rank": "CGrd",
+     "name": "Charl…",
+     "certainty": "probable",
+     "note": "Prussia row 1, Dead. 3/3/20. Name truncated where the 'Dead' label overprints — likely continues (Charles/Charlie).",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "7th_Scorp",
+     "tag": "7th_Scorp",
+     "certainty": "guess",
+     "note": "PR; Dead; 3/6/67; PARTIAL - regiment tag fragment only ('7th_Scorpio?_...'), rest under watermark",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Cezzera8",
+     "tag": "",
+     "certainty": "guess",
+     "note": "PR; Dead; 2/2/59; possibly one more char before Dead overlay (Cezzera88 / Cezzera8P)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "JD",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 2/3/60; confirmed by crisp green kill-feed line 'Guaipeca [musket] JD'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "marine_officer",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 2/5/41; lowercase",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Comrade_Kapitan",
+     "tag": "",
+     "certainty": "guess",
+     "note": "PR; Dead; 2/5/107; could be 'Camarade_Kapitan' and 'Kapitan' could be 'Kaptian' - chars after C blurred",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Remix",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 1/1/65",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "NutSlapper",
+     "tag": "2ndCS",
+     "rank": "Cdt",
+     "certainty": "probable",
+     "note": "PR side; Dead; 1/1/41; 'NutSlapp' clear, final ~2 chars inferred under Dead overlay",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Operator",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 1/3/89",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "KING_CHORGO",
+     "tag": "",
+     "certainty": "probable",
+     "note": "PR; Dead; ?/5/?; read through watermark edge in band3 tile; I and C slightly doubtful",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Dixleta",
+     "tag": "",
+     "certainty": "probable",
+     "note": "PR; Dead; 0/0/76; 'xl' cluster doubtful (could be Dialeta)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Nipplestockings",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 0/0/58",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Wibsey",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 0/1/73",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Vadol",
+     "tag": "1stEPl_A2",
+     "rank": "Sdt",
+     "certainty": "probable",
+     "note": "PR; Dead; 0/1/243; tag could read 'IstEPI'; name tail fused with Dead overlay, may continue past 'Vadol'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Cyco_Tatertot",
+     "tag": "",
+     "certainty": "certain",
+     "note": "PR; Dead; 0/1/49",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "?b?rtTheConque???",
+     "certainty": "guess",
+     "note": "Austria row 22, red/Dead, half-cut at the frame bottom. 0/0/~55. Middle 'TheConque' fairly solid; start (O/R/Q + b/h + ort/ert — Robert-like width) and ending (ror/sor) not resolvable.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Ge?era??",
+     "certainty": "guess",
+     "note": "Prussia row 4, Dead. 2/2/59. Shape resembles 'General' plus trailing character(s) (e.g. General8); behind 'psy' watermark.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Camarade_Kapitan",
+     "certainty": "probable",
+     "note": "Prussia row 7, Dead. 2/5/107. First segment is 7-8 letters — 'Camarade' fits best, 'Comrade' possible.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "???_Ma?_?????ity",
+     "certainty": "guess",
+     "note": "Prussia row 8, Dead. 2/6/58. Mostly under 'ucket' watermark; visible fragment has a rank-like 'MaL/Maj' and a name ending '-ality/-lity' (Fatality-like).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Cdt",
+     "name": "NutSlap…",
+     "certainty": "probable",
+     "note": "Prussia row 11, Dead. 1/1/41. 'NutSlap' clear; the 'Dead' label overprints the tail — may continue (e.g. NutSlapper).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "K?NG_?HORG?",
+     "certainty": "guess",
+     "note": "Prussia row 14, Dead. ?/5/?. Under 'our moments.' — shape resembles KING_CHORGO / KING_HORGO.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Di?l?ta",
+     "certainty": "guess",
+     "note": "Prussia row 15, Dead. 0/0/~78. Read variously as Dixleta/Dislata across tiles; 3rd and 5th characters unresolved.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "1stEPI_A2",
+     "rank": "S?t",
+     "name": "??nfu??",
+     "certainty": "guess",
+     "note": "Prussia row 17, Dead. 0/0/59. Prefix pattern matches the Vadol row's '1stEPI_A2_Sdt_'; name fragment contains 'nfu' (Confu…-like); Dead label overprints.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "?vlO_?VM_G6_Will??",
+     "certainty": "guess",
+     "note": "Prussia row 22, Dead, half-cut at the frame bottom. 0/2?/54. Clear fragment '_G6_Will'; leading tag glyphs unresolved.",
+     "agreedReads": 1,
+     "of": 2
+    }
+   ]
+  },
+  {
+   "hash": "6005620bb04a4d0f2b1c1f47ce4e51d0e6de19b6",
+   "rowsVisible": 16,
+   "rowsTranscribed": 16,
+   "readNotes": [
+    "Gameplay screenshot (first-person, snow map), NOT a scoreboard - so there are no self-stated player counts or spectator lists to reconcile. HUD: two team flag counters top-left (values 1 and 2) and a round timer top-right (~57:27). The kill feed holds exactly 16 lines (rowsVisible=16); all 16 were transcribed at least partially. Defeats/partials: row 1 and row 2 are the oldest, heavily faded lines (row 2 victim name unconfirmed beyond '2ndCS_Cpl_S...'); row 11 victim and row 13 victim are partially occluded by the foreground soldier model (only 'dragoons...' and '44teNHM_Mar_Ca...' fragments legible). Rows 5, 9, 14 are green (team-kill lines). Duplicate feed appearances collapsed: MarshalNey (r2,r8), Draw (r6,r15), Scopes (r12,r16), Toen (r10,r14), 59th_IJA_Nitohei_James (r1,r3). The '59th_IJA' clan's rank token rendered as 'Nitohst/Nitschet' - interpreted as 'Nitohei' (IJA rank), flagged guess. Source was 480x360 JPEG; reads made from 12x-30x unsharp+contrast crops (files fL_*/fR_*/t_*/u_*/v_*/w_*/x_* in imgview2/6005620b/). Note: the original file on disk is imgview/6005620bb04a9723665b127420ac43deb4aceafa.jpg (basename differs from the hash echoed above, which is as given in the task).",
+    "Image is a 16-line kill feed over a snow map (no scoreboard panel, so no self-stated player count or spectator list to reconcile; team score flags show 1 and 2, round timer 57:27). All 16 rows yielded at least partial reads; rows 1-2 are faded (oldest lines), rows 11/13/16 victims are partially hidden behind the first-person player model. The supplied original path did not exist; the actual original was found at imgview/6005620bb04a9723665b127420ac43deb4aceafa.jpg (480x360, matching full-2x). Beyond the provided tiles, I generated 10-13x gamma/contrast-boosted per-row and per-token crops (row*.png, t-*.png, u-*.png in imgview2/6005620b/) to read through the blur. Row 1 killer is a 19th_IJA member whose name starts 'Je/Ja' - likely the same James as row 3's victim, but possibly a second member (e.g. 'Jesse'); counted once. Recurring clan tags: 2ndCS, 88thRG, 65e, 44steHM (possibly 44steIHM), 9neSchls (prefix uncertain), BatGR8, 19th_IJA, 23rd. No 'Groupsy by Photobucket' watermark was present on this frame."
+   ],
+   "names": [
+    {
+     "name": "...100",
+     "tag": "2ndCS",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Row 14 killer (green line). Long lowercase name ending in '100' (possibly 'sweetestsam100'/'executioner100'); rank token 2-3 chars, unreadable (Rjl/Rd?).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "MarshalNey",
+     "tag": "88thRG",
+     "rank": "LtCol",
+     "certainty": "certain",
+     "note": "Killer in rows 2 and 8 (killed 2ndCS_Cpl_S... and 2ndCS_Pte_Buggy)",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Dinoman",
+     "tag": "65e",
+     "rank": "SoD",
+     "certainty": "certain",
+     "note": "Killer row 3",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Draw",
+     "tag": "65e",
+     "rank": "SgtMaj",
+     "certainty": "certain",
+     "note": "Killer rows 6 and 15",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Revenge",
+     "tag": "9teSchle",
+     "rank": "Fus",
+     "certainty": "certain",
+     "note": "Killer row 7",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Buggy",
+     "tag": "2ndCS",
+     "rank": "Pte",
+     "certainty": "probable",
+     "note": "Victim row 8; final y clear",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Kilroy",
+     "tag": "23rd_Highlander",
+     "rank": "vol",
+     "certainty": "probable",
+     "note": "Victim row 1, heavily faded (oldest line); rank shown lowercase 'vol'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "MasterFox",
+     "tag": "9teSchle",
+     "rank": "rkt",
+     "certainty": "probable",
+     "note": "Killer row 4; rank displayed lowercase, likely Rkt/Rekrut",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Lane",
+     "tag": "44teNHM",
+     "rank": "Mat",
+     "certainty": "probable",
+     "note": "Victim row 4; rank read 'Mat' (could be 'Mst')",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Snowball",
+     "tag": "9teGR8",
+     "rank": "BWO",
+     "certainty": "probable",
+     "note": "Victim row 6; tag could be 9teGRB",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Bugatti",
+     "tag": "44teNHM",
+     "rank": "LtCol",
+     "certainty": "probable",
+     "note": "Victim row 7; possible extra trailing glyph after 'Bugatti'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Toen",
+     "tag": "88thRG",
+     "rank": "Skp",
+     "certainty": "probable",
+     "note": "Killer row 10, victim row 14; rank read 'Skp' (could be 'Sjt')",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Annen",
+     "tag": "2ndCS",
+     "rank": "Pte",
+     "certainty": "probable",
+     "note": "Victim row 10; could be 'Annan' (n/a ambiguity)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Scopes",
+     "tag": "65e",
+     "rank": "Black",
+     "certainty": "probable",
+     "note": "Killer rows 12 and 16; 'Black' sits in the rank slot; mid-word descender could also support 'Jacques' but 'Scopes' (p-descender) fits best",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "James",
+     "tag": "59th_IJA",
+     "rank": "Nitohei",
+     "certainty": "guess",
+     "note": "Killer row 1 (faded), victim row 3. Rank rendered ~'Nitohst/Nitschet' - Nitohei (IJA private 2nd class) fits the Imperial-Japanese-Army theme. Name could be 'Jones' or 'Jamies'. Tag first digit 5/1 ambiguous",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Ultio",
+     "tag": "59th_IJA",
+     "rank": "Nitohei",
+     "certainty": "guess",
+     "note": "Victim row 12; same clan/rank token as James; name read 'Ultio' (could be 'Ulba/Ultia')",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Japan",
+     "tag": "59th_IJA",
+     "rank": "Kotat",
+     "certainty": "probable",
+     "note": "Victim row 15; name 'Japan' clear at 20x; rank read 'Kotat' uncertain (Katat/Kotei possible)",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Stewart",
+     "tag": "2ndCS",
+     "rank": "Cpl",
+     "certainty": "guess",
+     "note": "Victim row 2, heavily faded; tag+rank clear, name shape-only - reads 'St?wa?' in one pass and 'Ritawil'-like in another; treat name as unconfirmed",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Montachiowe",
+     "tag": "44teNHM",
+     "rank": "Maj",
+     "certainty": "guess",
+     "note": "Killer row 5 (green/teamkill line); shape M-o/u-n/s-t-a-c-h-i-o-w-e; alternates 'Mustachiowe'/'Montachomo'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Dr8yeliYo",
+     "tag": "9teSchle",
+     "rank": "Kpl",
+     "certainty": "guess",
+     "note": "Victim row 5; starts 'Dr8' clearly, middle smudged, ends 'Yo'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Orisnades",
+     "tag": "9teGR8",
+     "rank": "Cpt",
+     "certainty": "guess",
+     "note": "Killer row 9 (melee icon); could be 'Grisznades'; rank Cpt or Cpl",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Heinsing",
+     "tag": "23rd",
+     "rank": "Rct",
+     "certainty": "guess",
+     "note": "Victim row 9; could be 'Hetning'/'Netning'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "astyxrcrazy",
+     "tag": "01st",
+     "rank": "Spec",
+     "certainty": "guess",
+     "note": "Killer row 11; tag '01st' fairly clear, name is a long lowercase string ending '...crazy'; middle letters shape-only",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "dragoons_...",
+     "tag": "",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Victim row 11: reads '??_dragoons_alph...ining' - 2-char prefix and tail occluded by foreground player model; only 'dragoons' (and a '...ining' tail fragment) legible",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Mansdace",
+     "tag": "9teSchle",
+     "rank": "Kapt",
+     "certainty": "guess",
+     "note": "Killer row 13; could be 'Marsdace'/'Mansdaen'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Ca...",
+     "tag": "44teNHM",
+     "rank": "Mar",
+     "certainty": "guess",
+     "note": "Victim row 13; name starts 'Ca' then occluded by foreground player model",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "avacentzen100",
+     "tag": "2ndCS",
+     "rank": "Rgl",
+     "certainty": "guess",
+     "note": "Killer row 14 (green line); ends in digits '100'; middle letters approximate; rank read 'Rgl'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Mr_Alken",
+     "tag": "9te_KZ",
+     "rank": "Grb",
+     "certainty": "guess",
+     "note": "Victim row 16; tag rendered '9te/9tst/9tet KZ'; name could be 'Mk_Aiken'/'Mr_Al8am'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "MasterFun",
+     "tag": "9neSchls",
+     "rank": "rkt",
+     "certainty": "guess",
+     "note": "Row 4 killer. 'MasterF' clear, last 2-3 chars doubtful (Fun/Finn/Fim). Rank glyph could be rkt/rbt. Clan tag prefix unclear ('9ne'/'Sme' + 'Schls'), same tag on rows 5,7,13.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Moustachio...",
+     "tag": "44steHM",
+     "rank": "Maj",
+     "certainty": "guess",
+     "note": "Row 5 killer (green line). Long smeared lowercase name, reads like 'Moustachi...' + 3-4 more chars; unresolvable at source resolution.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Dr8yatlYe",
+     "tag": "9neSchls",
+     "rank": "Kpl",
+     "certainty": "guess",
+     "note": "Row 5 victim (green line). Contains 'Dr8y' fairly clearly; tail chars doubtful (Dr8yatlYe / Dr8ysilYv / Dr8yadYo).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Drew",
+     "tag": "65e",
+     "rank": "SgtMaj",
+     "certainty": "certain",
+     "note": "Killer on rows 6 and 15.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Orkanades",
+     "tag": "BatGR8",
+     "rank": "Cpt",
+     "certainty": "guess",
+     "note": "Row 9 killer (green melee line, bayonet icon). Could be Orkinades/Orleanades.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Tom",
+     "tag": "88thRG",
+     "rank": "Skp",
+     "certainty": "probable",
+     "note": "Killer row 10, victim row 14. Name clear; rank glyph Skp/Slp/Shp.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Anssen",
+     "tag": "2ndCS",
+     "rank": "Pte",
+     "certainty": "guess",
+     "note": "Row 10 victim. 'Pte_A...en' clear; middle chars soft (Anssen/Annsen/Annen).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "snipercrazy",
+     "tag": "05st",
+     "rank": "Spec",
+     "certainty": "probable",
+     "note": "Row 11 killer (long-rifle icon). Name reads 'snipercrazy' with 1-2 soft chars; tag digits soft (05st/01st).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "alph...",
+     "tag": "ss_dragoons",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Row 11 victim 'ss_dragoons_alph...' - remainder of long red name hidden behind the player model; unreadable.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Black_Scopes",
+     "tag": "65e",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Killer rows 12 and 16; 'Black' may be a title rather than rank.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Mandalore",
+     "tag": "9neSchls",
+     "rank": "Kapt",
+     "certainty": "guess",
+     "note": "Row 13 killer. Shape strongly suggests 'Mandalore' but several chars soft (Monolace also possible).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Mr_A...",
+     "tag": "KZ_Grb",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Row 16 victim '?e_KZ_Grb_Mr_A?an' - leading tag token and name tail unreadable (Mr_Adam/Mr_Alkan/Mr_Alkos possible); 'Grb' may be rank Grenadier.",
+     "agreedReads": 1,
+     "of": 2
+    }
+   ]
+  },
+  {
+   "hash": "d3d6c47b7831898e10d55618955a11f39e29d340",
+   "rowsVisible": 16,
+   "rowsTranscribed": 16,
+   "readNotes": [
+    "Source frame is only 480x360 with heavy JPEG artifacting; this is a kill feed (16 lines, lower-left), not a scoreboard — no player-count or spectator panel exists in frame, so there is nothing to reconcile against and spectators is empty. The black panel top-right is a video-player overlay (related-video thumbnails), not game UI. Note: the supplied 'original' path (…7831898e10d55618955a11f39e29d340.jpg) does not exist; the actual file on disk is d3d6c47b78316b471d6baccce95fb2a20801a13a.jpg in the same imgview folder and matches the enhanced tiles, so I used it. All 16 feed lines yielded at least the killer string; rows whose VICTIM defeated me or was partial: line 5 victim (only '2ndCS_Rd?…' visible under a ragdoll), line 6 victim (only '2ndCS_R…' visible), line 7 victim (fragment '…Chum_Sk…'), line 8 victim (fragment '19th_IJR_…gale'), line 12 victim truncated at the player model. Line 13 is a teamkill announcement, and line 14 confirms it (Ser_Wilson killing his own 88thRG King_Crusader). Regiments present: 2ndCS, 88thRG (digit could be 89), 19th_IJR, 1stesSchle, and one unresolved ~8-char '???Schle' tag (rendered as KaaSchle in three entries; could be NaaSchle or 2tesSchle — pairing naturally with 1stesSchle as Silesian regiments, but the pixels cannot confirm). Green vs red feed colors alternate by team; duplicates were merged per the rules (Rook, Death, McKnight, King_Crusader, Ser_Wilson, Hatobo each appear multiple times).",
+    "Kill feed only - no scoreboard, no stated player counts, no spectator list in this frame. 16 feed lines counted (line 13 is a 'has killed a teammate!' system line, not a kill pair). All 16 lines transcribed at least partially, but several VICTIM fields defeated me: row 4 victim name hidden behind a ragdoll (only '19th_IJR_Hatobo_' visible), row 5 victim ('2ndCS_...') and row 6 victim ('2ndCS_Rct_...') hidden behind a dead horse/bodies, row 7 victim reduced to a 'Chosen_Sky' fragment, row 8 victim's rank token hidden, rows 12 and 16 victims truncated at the feed's right edge by the first-person player model. Teams pair as (NeuSchla + 2ndCS) vs (88thRG + 19th_IJR). The 'NeuSchla' tag prefix is at the resolution limit (~2px/char at 480x360 source): 'Schla' is solid, the first 2-3 characters are a shape read. Two small dark overlay/notification toasts in the top-right corner are illegible at this resolution. No 'Groupsy by Photobucket' watermark is visible in this particular frame. Note: the local file for this image is named d3d6c47b78316b471d6baccce95fb2a20801a13a.jpg (same d3d6c47b7831 prefix as the requested hash); the enhanced tiles in imgview2/d3d6c47b match it, so the transcription is of that image."
+   ],
+   "names": [
+    {
+     "tag": "KaaSchle",
+     "rank": "Kapt",
+     "name": "Manolass",
+     "certainty": "guess",
+     "note": "Line 1 killer. Tag unresolved: 8-char '???Schle' shared with PerfectAbyss and M?merton; could be KaaSchle/NaaSchle/2tesSchle. Name could be Manolane/Manolasa.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "19th_IJR",
+     "rank": "Chu",
+     "name": "RasputinBatavi",
+     "certainty": "guess",
+     "note": "Line 1 victim. 'Rasputin' is solid; suffix reads Batavi in the right-column tile but could be Batard/Retavi. Rank 'Chu' could be 'Clou'.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "name": "Rook",
+     "certainty": "certain",
+     "note": "Appears twice (line 2 killer, line 10 victim).",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "88thRG",
+     "rank": "Pfc",
+     "name": "EktaklierG2",
+     "certainty": "guess",
+     "note": "Line 2 victim; heavily degraded even at 5x. Could be DktaklierG2 / Ektaklier02 / EktaklierGG. Only 'Pfc_' and the trailing G2/02 shape are steady.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "88thRG",
+     "rank": "Pte",
+     "name": "Death",
+     "certainty": "certain",
+     "note": "Appears twice (line 3 killer, line 15 victim). Tag digit could conceivably be 89thRG but 88thRG fits all instances.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Pte",
+     "name": "Newton",
+     "certainty": "guess",
+     "note": "Line 3 victim. Shape only — could equally be Houston or Jinsten; first letter N/H/J indistinct.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "1stesSchle",
+     "rank": "Vol",
+     "name": "McKnight",
+     "certainty": "certain",
+     "note": "Appears 5 times (lines 4, 8, 11, 16 killer), consistent every time.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "19th_IJR",
+     "rank": "Hatobo",
+     "name": "Crickwich",
+     "certainty": "probable",
+     "note": "Line 16 victim, fully legible there; ending could be -witch. Also the likely line-4 victim (that instance starts 'Hatobo_B?' but is obscured by a ragdoll — counted once).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "88thRG",
+     "rank": "Pfc",
+     "name": "Warfighter8",
+     "certainty": "probable",
+     "note": "Line 5 killer. Trailing digit could be 8/5/6.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "88thRG",
+     "rank": "Pte",
+     "name": "Ser_Wilson",
+     "certainty": "probable",
+     "note": "Appears 3 times (lines 6, 13 teamkill announcement, 14). 'Ser' could be 'Sar'; Wilson is clear. Line 13 reads '88thRG_Pte_Ser_Wilson has killed a teammate!'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "KaaSchle",
+     "rank": "Rtt",
+     "name": "PerfectAbyss",
+     "certainty": "probable",
+     "note": "Line 7 killer. Name clear; tag is the same unresolved '???Schle' as Manolass; rank could be Rkt/Ritt.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "Chum",
+     "name": "Sk…",
+     "certainty": "guess",
+     "note": "Line 7 victim, almost entirely hidden behind a ragdoll — only '…_Chum_Sk…' visible. Tag unreadable.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "19th_IJR",
+     "rank": "",
+     "name": "…gale",
+     "certainty": "guess",
+     "note": "Line 8 victim; middle obscured by ragdoll, only tag and a name ending '-gale' visible (possibly -ingale).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "19th_IJR",
+     "rank": "Gooba",
+     "name": "Sawyer",
+     "certainty": "probable",
+     "note": "Line 9 killer (green line). 'Gooba' could be 'Goobs'; Sawyer clear. 19th_IJR uses Japanese-style rank words (Chu, Hatobo, Kotei, Gooba).",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "KaaSchle",
+     "rank": "Pca",
+     "name": "Momerton",
+     "certainty": "guess",
+     "note": "Line 9 victim. Same unresolved '???Schle' tag; rank Pca/Pza/Fca; name shape M?merton (Mamerton possible).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "88thRG",
+     "rank": "Maj",
+     "name": "Wufflee",
+     "certainty": "probable",
+     "note": "Line 10 killer. Last letter e/s — could be Wuffles.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "19th_IJR",
+     "rank": "Kotei",
+     "name": "Japan",
+     "certainty": "probable",
+     "note": "Line 11 victim. 'Kotei' could be 'Katei'.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "88thRG",
+     "rank": "Pfc",
+     "name": "King_Crusader",
+     "certainty": "certain",
+     "note": "Appears twice (line 12 killer, line 14 victim of the Ser_Wilson teamkill).",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "TheBlockL...",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "guess",
+     "note": "Row 12 victim; name truncated at the right edge behind the player model - visible 'TheBlockL', plausibly 'TheBlockLord'/'TheBlockLad'.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Pte",
+     "name": "Buggy",
+     "certainty": "probable",
+     "note": "Line 15 killer. Could be Baggy/Bugsy — one vowel doubtful.",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Manolese",
+     "tag": "NeuSchla",
+     "rank": "Kapt",
+     "certainty": "probable",
+     "note": "Row 1 killer. Name could be 'Manoless'; tag suffix 'Schla' is solid but the prefix is soft (could read NeaSchla/NoeSchla) - same tag on all NeuSchla entries below.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Ditakiller122",
+     "tag": "88thRG",
+     "rank": "Pfc",
+     "certainty": "guess",
+     "note": "Row 2 victim. Starts with 'D', ends '122' (or 'I22'); middle shape-only - alternatives 'Dstakiller122'/'Destabiliser122'.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Chosen_Sky",
+     "tag": "",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Row 7 victim - almost fully hidden behind a flying ragdoll; only a '...Ch(osen)_Sk(y)' fragment shows. Tag unreadable (by team pairing would be 88thRG or 19th_IJR).",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Gayle",
+     "tag": "19th_IJR",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Row 8 victim - middle (rank) token hidden behind a dead horse; trailing token reads 'Gayle' (could be 'Cayle/Sayle').",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Momentum",
+     "tag": "NeuSchla",
+     "rank": "Fus",
+     "certainty": "guess",
+     "note": "Row 9 victim; mid-name covered by a dark object. Shape 'M?ment??' - could be 'Mementon'/'Momenton'.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Wuffles",
+     "tag": "88thRG",
+     "rank": "Maj",
+     "certainty": "probable",
+     "note": "Row 10 killer. Vowel soft: could be 'Waffles'/'Wufflee'.",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Hatobo_Crickwich",
+     "tag": "19th_IJR",
+     "rank": "Hatobo",
+     "certainty": "guess",
+     "note": "Row 16 victim; tail truncated at right edge - 'Crickw...' then cut (could be 'Crickwich'/'Crickwoll'). Row 4's victim also starts '19th_IJR_Hatobo_' but its name is fully hidden behind a ragdoll - may or may not be the same player.",
+     "agreedReads": 1,
+     "of": 2
+    }
+   ]
+  },
+  {
+   "hash": "2be252508c1e2ca574c77558cac7eacf8c86accb",
+   "rowsVisible": 25,
+   "rowsTranscribed": 23,
+   "readNotes": [
+    "Rows that defeated me: (1) France row 8 — the red Dead row (K0 D1 ping 67) is entirely behind the opaque core of the 'obucket' watermark in every tile; zero name characters recoverable. Chat line '[89thRG_Rct_Cake] oh shit psy is here' strongly suggests this player is named 'psy', but that is chat inference, not a read of the row, so it is excluded from names. (2) Third spectator — ping 36, name behind 'Your space.'; shape only, roughly 'vichiz'/'vrchiz' (~6 lowercase chars), guess-grade, so left out of the spectators array. (3) Red kill-feed line bottom-left: victim is 6eYG_Con_Sergo (matches the dead Austrian row); the killer's name at line start is illegible red-on-dark. Reconciliation: Austria header '(9 Players, 8 Alive, 1 Dead)' matches 9 rows with 6eYG_Con_Sergo dead; France header '(10 Players, 9 Alive, 1 Dead)' matches 10 rows with the obscured row dead; 'Spectators(3)' matches 3 spectator rows (2 read + 1 shape-only). rowsVisible 25 = 19 player rows + 3 spectator rows + 3 feed/chat lines; rowsTranscribed 22 excludes the dead French row, the third spectator, and counts the red feed line as untranscribed (killer half illegible). Match clock 8:39, both team scores 2. Chat lines are from players already listed (no new names in feed).",
+    "Mount & Blade: Napoleonic Wars end-of-round scoreboard, Score 2-2, round timer 8:39. Left team 'Kaisertum Österreich' (red header, sub-header faintly '(9 Players, 8 Alive, 1 Dead)') = 9 rows, all 9 transcribed. Right team 'Empire Français' (blue header, '(10 Players, 9 Alive, 1 Dead)') = 10 rows, 9 transcribed. THE ONE DEFEATED ROW: French row 8 — red 'Dead' row with 0 kills / 1 death / ping 97 — its name sits exactly behind the opaque core of the 'photobucket' watermark; only 2-4 faint red glyph shapes visible (possibly starting 'P'), unreadable even in the 3x contrast tiles. Circumstantial hint only (NOT pixel evidence): chat line '[89thRG_Rct_Cake] oh shit psy is here' suggests a player called 'psy' who appears nowhere else on the board, so the hidden dead row may be that player — flagged as inference, not transcription. Spectators(3) header reconciles: 3 rows present; 2 read cleanly, 3rd (viChiz) is a shape-only guess under 'Your space.'. Bottom-left feed: line 1 (red kill line) shows victim '6eYG/GeY5_Con_Sengo' but the killer name at line start is too faint to read — this is the 2nd untranscribed row; line 2 '[The_Helping_Friendly_Book] nice'; line 3 '[89thRG_Rct_Cake] oh shit psy is here'. Row accounting: 25 visible = 9 Austria + 10 France + 3 spectators + 3 feed/chat lines; 23 transcribed (missing: obscured French dead row, killer half of red feed line). 21 distinct players reported vs ~20 from the shallow pass; the gains are the third spectator row and fuller France column reads through the watermark."
+   ],
+   "names": [
+    {
+     "tag": "2ndCS",
+     "rank": "Maj",
+     "name": "Crazy",
+     "certainty": "certain",
+     "note": "Austria row 1 — K8 D2 ping 52",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Cpl",
+     "name": "reclu",
+     "certainty": "certain",
+     "note": "Austria row 2 — K4 D3 ping 46; name is lowercase",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Col",
+     "name": "Crawford",
+     "certainty": "certain",
+     "note": "Austria row 3, highlighted (likely screenshot taker) — kills digit obscured (~4), D4 ping 72",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Cpl",
+     "name": "Zemohc",
+     "certainty": "certain",
+     "note": "Austria row 4 — K3 D3 ping 38",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "98H",
+     "rank": "Oberst",
+     "name": "BobNLarry",
+     "certainty": "certain",
+     "note": "Austria row 5 — K3 D3 ping 70",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "6eYG",
+     "rank": "Con",
+     "name": "Sergo",
+     "certainty": "probable",
+     "note": "Austria row 6, red, marked Dead — K3 D5 ping 170. 4th letter of name ambiguous r/n/y (Sergo/Sengo/Seygo); also appears as victim in red kill-feed line",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "30th",
+     "rank": "pltv_rdv",
+     "name": "ilya891",
+     "certainty": "probable",
+     "note": "Austria row 7 — K2 D3 ping 257. Full string 30th_pltv_rdv_ilya891; tag/rank split uncertain (pltv/rdv look like Russian rank abbreviations)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "VictoriaCross",
+     "certainty": "certain",
+     "note": "Austria row 8 — kills/deaths digits behind 'by photobucket' (~2/4), ping 67",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "1st_9GAG_YOLO_Division",
+     "certainty": "certain",
+     "note": "Austria row 9 — kills digit obscured, D3 ping 76. Characters clear; tag/rank/name split ambiguous (joke name), left unsplit",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "89thRG",
+     "rank": "Rct",
+     "name": "Cake",
+     "certainty": "certain",
+     "note": "France row 1 — K8 D2 ping 57; also speaks in chat",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "29th_A",
+     "rank": "LCpl",
+     "name": "William",
+     "certainty": "probable",
+     "note": "France row 2 — K8 D4 ping 39. Middle '_A_' segment slightly degraded under watermark edge",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "FightingSwordsman",
+     "certainty": "certain",
+     "note": "France row 3 — K5 D2 ping 166",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Soran",
+     "certainty": "certain",
+     "note": "France row 4 — K5 D3 ping 51",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Bank",
+     "certainty": "certain",
+     "note": "France row 5 — K2 D1 ping 58",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "The_Helping_Friendly_Book",
+     "certainty": "certain",
+     "note": "France row 6 — K0 D1 ping 53; also speaks in chat ('nice')",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Schumann",
+     "certainty": "probable",
+     "note": "France row 7 — K0 D1 ping 74. Vowel u/e doubtful (could be Schemann); tiles disagree",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "AkiyamaMio",
+     "certainty": "probable",
+     "note": "France row 9 — K0 D2 ping 234. One character before 'io' is under watermark; reads as AkiyamaMio",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Sammy",
+     "certainty": "certain",
+     "note": "France row 10 — K-1 D3 ping 128",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Sir_Leopold",
+     "note": "spectator",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "KING_CHORGO",
+     "note": "spectator",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "6eYG",
+     "rank": "Con",
+     "name": "Sengo",
+     "certainty": "probable",
+     "note": "Austria; red 'Dead' row, 3/5/170; first glyph of tag ambiguous 6/G (kill feed renders it more like 'GeY5_Con_Sengo'); 'Con' likely = Conscrit",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "30th",
+     "rank": "pltv",
+     "name": "rdv_ilya891",
+     "certainty": "probable",
+     "note": "Austria; 2/3/257; full string '30th_pltv_rdv_ilya891'; 'pltv' letters small — could be 'pltr'; tag/rank/name segmentation uncertain",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "1st_9GAG",
+     "rank": "YOLO",
+     "name": "Division",
+     "certainty": "probable",
+     "note": "Austria; full string '1st_9GAG_YOLO_Division' (likely a joke clan string, segmentation arbitrary); kills ~3, deaths obscured, ping 76",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Schemann",
+     "certainty": "probable",
+     "note": "France; 0/1/74; third letter e/u ambiguous across tiles — could be 'Schumann'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "viChiz",
+     "certainty": "guess",
+     "note": "Third spectator, ping ~36; sits directly under the 'Your space.' watermark — only letter shapes visible; roughly 'viChiz'/'vichiz', do not trust exact characters",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "viChiz (partial — under watermark, shape-only guess, ping ~36)",
+     "note": "spectator",
+     "agreedReads": 1,
+     "of": 2
+    }
+   ]
+  },
+  {
+   "hash": "210325a830b2901999cd4fea859c3c2141e14e0a",
+   "rowsVisible": 37,
+   "rowsTranscribed": 36,
+   "readNotes": [
+    "Kill feed, not a scoreboard - no in-image player/spectator counts exist to reconcile. 36 line positions visible; the bottom-most position holds two distinct overlapped chat lines (ghost frames), giving 37 feed lines. Rows that defeated me or were partial: (1) top line is cut off at the frame edge - killer column reads as 2ndCS_Col_Crawford but the victim column shows only a '...42' tail, untranscribable; (2) the last position overlaps '[theman45] ... download it at' with a second chat line whose underlay text (something like '...krwelverc ... download...') is unrecoverable - that underlay is the 1 untranscribed line; (3) the 'Vle_4e_Cav_Cpt_Sethja / Spaghetti' line is ghost-doubled and green-tinted (likely a different-team frame), transcribed as guess/probable. Non-kill feed lines transcribed for completeness: '2ndCS_Rct_Lindsey has killed a teammate!', 'TheGuyontheCouch has killed a teammate!', a standalone indented 'Master_Anal_Cockfist' (likely a death/suicide line), and chat: '[1ad_GH_Brigade_RTC_Caboose] SURRENDER NOW', '[2ndCS_Rct_Lindsey] Sorry mane :(', '[TheGuyontheCouch] sorry', '[1ad_GH_Brigade_RTC_Caboose] is anybody recording this'. 35 distinct players total; all names read through the translucent Groupsy watermark were verified against at least two tiles (band + channel crops).",
+    "Kill feed, not a scoreboard: no self-stated '25 Players' or 'Spectators(n)' text anywhere in the image, so there is nothing to reconcile against and no spectator list. 36 lines visible: 30 kill lines, 2 'has killed a teammate!' lines (2ndCS_Rct_Lindsey, TheGuyontheCouch), 4 chat lines, plus one indented lone 'Master_Anal_Cockfist' line (suicide/lone-victim line). Rows that defeated me: (1) the very top row is cut by the image edge — killer reads 2ndCS_Col_Crawford but the victim column shows only the fragment '42', which I did not expand into a name; (2) the bottom-most line is two chat lines double-exposed on top of each other — legible fragments are a bracketed name resembling [theman45], words 'where', 'can i download', and 'download it at'; the full text is unrecoverable even in the red/green channel tiles. The second-to-last line is also ghost-doubled (VIe_4e_Cav_Cpt_Sethja8 -> Spaghetti, reported as guess/probable). Duplicate feed appearances (Crawford x4, RivenX x7, Lindsey x6, etc.) were collapsed to one entry each. The 'Groupsy by Photobucket' watermark rows were read through using band2/band3 and the red/green channel tiles."
+   ],
+   "names": [
+    {
+     "tag": "2ndCS",
+     "rank": "Col",
+     "name": "Crawford",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Maj",
+     "name": "Crazy",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "name": "Lindsey",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "name": "RivenX",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "name": "williambinette",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Cdt",
+     "name": "The_Legend",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "theman45",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "JohnBrown",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "Nr2KFG",
+     "rank": "PVT",
+     "name": "Heffron",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Rabid_Canadian",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "Malice_Hoknar",
+     "certainty": "probable",
+     "note": "rendered as [Cub]InfMalice_Hoknar with no visible underscore between tag and name; characters themselves clear",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "marine_officer",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Erik_Von_Wulff",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "That_Guy",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "8th_CR",
+     "rank": "CPsc",
+     "name": "WillWight",
+     "certainty": "probable",
+     "note": "rank abbrev could be CPsc or CPse - the sc/se pair is ambiguous at this size; WillWight confirmed in right-column crop",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "KING_CHORGO",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Uruk-hai",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "Blasian",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "DownHere",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Manolo_Chucro",
+     "certainty": "probable",
+     "note": "first 'a'/'o' of Manolo sit under the Groupsy watermark; consistent across all tiles, Chucro fully clear",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "Glexy",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Brolund",
+     "certainty": "probable",
+     "note": "entire name under the Groupsy 'o' watermark; B-r-o-l-u-n-d consistent in band1/band2 and green channel",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Seveight",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Comrade_Greed",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Guaipeca",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Master_Anal_Cockfist",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "7th_Scorpio",
+     "rank": "cdm",
+     "name": "Panthere",
+     "certainty": "certain",
+     "note": "characters clear as 7th_Scorpio_cdm_Panthere; tag/rank/name split is my interpretation",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Sir_Wololol",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "66th_Dragoner",
+     "rank": "Maj",
+     "name": "Boberty",
+     "certainty": "probable",
+     "note": "letters after 'Bob' partially under the 'Your space.' watermark; Boberty is the best consistent reading",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "1ad_GH_Brigade",
+     "rank": "RTC",
+     "name": "Caboose",
+     "certainty": "certain",
+     "note": "seen only in chat lines as [1ad_GH_Brigade_RTC_Caboose]",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "King_Dude_9000",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "TheGuyontheCouch",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Balian",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "tag": "Vle_4e_Cav",
+     "rank": "Cpt",
+     "name": "Sethja",
+     "certainty": "guess",
+     "note": "ghost-doubled green bottom line reading 'VIVle_4e_Cav_Cpt_Sethja8' - two offset renders overlap, so the leading VI and trailing 8 may be ghost duplication; shape only",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Spaghetti",
+     "certainty": "probable",
+     "note": "doubled as 'SpaghetSpaghetti' on the ghosted line; both overlapped renders read Spaghetti",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Sethja8",
+     "tag": "VIe_4e_Cav",
+     "rank": "Cpt",
+     "certainty": "guess",
+     "note": "ghost-doubled bottom line; reads VIe_4e_Cav_Cpt_Sethja8, could be Vle_/Setha8",
+     "agreedReads": 1,
+     "of": 2
+    }
+   ]
+  },
+  {
+   "hash": "24fa333edcf14e3d1ff4d230dee9d8b9533f05e8",
+   "rowsVisible": 37,
+   "rowsTranscribed": 36,
+   "readNotes": [
+    "This is a kill feed / chat log, not a scoreboard: no self-stated player count or spectator list exists on screen, so there is nothing to reconcile against. 37 distinct lines visible (5 chat, 2 'has killed a teammate!', 30 kill lines). The bottom ~10 lines are DOUBLE-PRINTED by frame-blend ghosting: a green (upper block) or red (lower block) copy of each line sits one row above and ~8px left of its black twin; I verified the pairing line-by-line via channel isolation (@napi-rs/canvas: red/green/black ink separation + local-contrast dewatermarking at up to 14x) and deduplicated - a shallow pass reads these overlaps as extra garbled rows. The ghost pairing also recovered a line that exists ONLY as a red ghost (Sowright? killed 2ndCS_Maj_Crazy, the newest line). Rows that defeated me: (1) one kill line's killer name is fully illegible under the red '[Cub]Inf_DownHere' ghost - only '[Cub]Inf_' + a possible '...y' tail is readable (victim 2ndCS_Col_Crawford; black-layer hints resembled 'Gla?y/?lasse?' but too weak to report as a name), counted as the 1 untranscribed row; (2) the 'w??am?oinette' killer and '???k-hai' victim on one line are partial (reported as guesses with legible fragments); (3) the top chat row is half-cut but content is recoverable. Kill-feed 'musket icon' glyphs between killer/victim can be mistaken for underscores/underlines. Distinct players reported: 43.",
+    "Kill feed, not a scoreboard - no self-stated 'N Players'/'Spectators(n)' counts exist to reconcile against. 37 feed lines counted: 27 clean lines up top (kills, 2 'has killed a teammate!' notices, 5 chat lines incl. one half-cropped at the top edge), 9 ghost-overlapped lines at the bottom, plus 1 ghost-only newest line. The bottom region is a double exposure: a colored copy (green/red) of the same feed sits one row higher and ~35px left of the dark copy; aligning ghost row N to dark row N+1 made both copies mutually confirming (e.g. RivenX-KING_CHORGO, Crawford-[Cub]Inf_Blasian, RivenX-theman45, DrownHere-Chucro, Glory-Crawford, DrownHere-Brolund, Lindsey-JohnBrown) and exposed one extra line (Sawright - 2ndCS_Maj_Crazy). The single row that defeated full transcription is dark row 30: killer '2ndCS_Rct_...binette' and victim '...k-hai' are each half-buried under ghost text (entries included as guesses). 45 distinct players total. Chat text 'accendent', 'dont go in water', etc. transcribed as context only, not names."
+   ],
+   "names": [
+    {
+     "name": "42",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Victim name is literally '42'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Ranulfr_Agdar",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Also speaks top chat line 'oh cool we got a mic now' (top row half-cut)",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Kieran",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Tiago",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Spaghetti",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Chat speaker only: 'I have a trumpet..' and 'Therefore we win.'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Richard_Brit",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Erik_Von_Wulff",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "ClearlyInvsible",
+     "tag": "29th",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "Spelling verified at 12x: 'Invsible', game name really omits the second i",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Lord_cuddle_bottoms",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Teamkill line + chat 'sorry, accendent'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Jeff",
+     "tag": "NM",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Caboose",
+     "tag": "1ad_GH_Brigade",
+     "rank": "RTC",
+     "certainty": "probable",
+     "note": "Chat line 'dont go in water'; leading '1ad' could be 'lad'",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Richard_Hawkins",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Imparat_Oroles",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Spartank",
+     "tag": "IIIe_38e",
+     "rank": "2ndPvt",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "James",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Neo_Qc",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Sir_Wololol",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Kwisak",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "TheGuyontheCouch",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Teamkill line + killed Richard_Brit and Milosh",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Milosh",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Panthere",
+     "tag": "7th_Scorpio",
+     "rank": "cdm",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Gamerweazel",
+     "tag": "18e",
+     "rank": "Cpl",
+     "certainty": "guess",
+     "note": "Under watermark; reads '18e_Cpl_Gamerweaze?' - ending could be 'weazel'/'weaze!'; rank Cpl fairly clear",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Crawford",
+     "tag": "2ndCS",
+     "rank": "Col",
+     "certainty": "certain",
+     "note": "Appears 6x as killer, once as victim",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Comrade_Kapitan",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "theman45",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "The_Legend",
+     "tag": "2ndCS",
+     "rank": "Cdt",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "JohnBrown",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Heffron",
+     "tag": "Nr2KFG",
+     "rank": "PVT",
+     "certainty": "certain",
+     "note": "Tag verified at 10x: Nr2KFG",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Rabid_Canadian",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Crazy",
+     "tag": "2ndCS",
+     "rank": "Maj",
+     "certainty": "certain",
+     "note": "Also victim of the newest ghost-only line",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Malice_Hokmar",
+     "tag": "[Cub]",
+     "rank": "Inf",
+     "certainty": "guess",
+     "note": "Under 'people' watermark; could be 'Malice_Hoknar'; underscore between Inf and Malice assumed",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "marine_officer",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Lindsey",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "Two kill lines (That_Guy, JohnBrown)",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "That_Guy",
+     "tag": "[Cub]",
+     "rank": "Inf",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "WillWight",
+     "tag": "8th_GR",
+     "rank": "CPsc",
+     "certainty": "probable",
+     "note": "Rank 'CPsc' verified at 12x; tag letter G could be C (8th_CR)",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "KING_CHORGO",
+     "tag": "",
+     "rank": "",
+     "certainty": "certain",
+     "note": "Could alternatively parse as tag KING + name CHORGO",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "RivenX",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "certain",
+     "note": "Two kill lines (KING_CHORGO, theman45); second confirmed via green ghost pairing",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "w??am?oinette",
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "certainty": "guess",
+     "note": "Killer of the '???k-hai' victim; starts lowercase w, ends '-inette' (or '-binette'); middle buried under green Crawford ghost. Approx 13-14 chars",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "???k-hai",
+     "tag": "",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Victim ending '-k-hai' clear; start buried under green '[Cub]Inf_Blasian' ghost; shape compatible with 'Uruk-hai'-style name",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Blasian",
+     "tag": "[Cub]",
+     "rank": "Inf",
+     "certainty": "certain",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "DownHere",
+     "tag": "[Cub]",
+     "rank": "Inf",
+     "certainty": "certain",
+     "note": "Two kill lines (Manolo_Chucro, Brolund)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Manolo_Chucro",
+     "tag": "",
+     "rank": "",
+     "certainty": "probable",
+     "note": "'_Chucro' verified at 12x; first word M?nolo - could be 'Minolo'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "name": "Brolund",
+     "tag": "",
+     "rank": "",
+     "certainty": "probable",
+     "note": "First letter partly under red ghost; 'B' most likely",
+     "agreedReads": 2,
+     "of": 2
+    },
+    {
+     "name": "Sowright",
+     "tag": "",
+     "rank": "",
+     "certainty": "guess",
+     "note": "Newest line, red ghost only, killer of 2ndCS_Maj_Crazy; 'S...right' solid, middle 1-2 chars unclear - Sewright/Seawright also possible",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "Malice_Hoknar",
+     "certainty": "probable",
+     "note": "Under 'Your people.' watermark; Hoknar vs Hokmar ambiguous",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "KING",
+     "rank": "",
+     "name": "CHORGO",
+     "certainty": "certain",
+     "note": "Readable in both dark and green ghost copies (KING_CHORGO)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "2ndCS",
+     "rank": "Rct",
+     "name": "wilhambinette",
+     "certainty": "guess",
+     "note": "Dark row 30 killer; middle glyphs mushed with ghost 'Col_Crawford' - only '...binette' tail reliable; could be shorter (e.g. Robinette)",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Ldank-hai",
+     "certainty": "guess",
+     "note": "Dark row 30 victim; only trailing 'k-hai' reliable, start hidden under ghost '[Cub]Inf_Blasian'",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "DrownHere",
+     "certainty": "certain",
+     "note": "Killer on two lines; bold red ghost and dark copies agree",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "[Cub]Inf",
+     "rank": "",
+     "name": "Glory",
+     "certainty": "probable",
+     "note": "Red ghost copy clear-ish; dark copy partially hidden under it",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Minoko_Chucro",
+     "certainty": "guess",
+     "note": "Victim of DrownHere, rendered twice; readings Manqin_Chucos (red ghost) / Minoko_Chucro (dark) / possibly Manolo_Chucro; '_Chucro' ending is the reliable part",
+     "agreedReads": 1,
+     "of": 2
+    },
+    {
+     "tag": "",
+     "rank": "",
+     "name": "Sawright",
+     "certainty": "probable",
+     "note": "Ghost-only newest line, bold red; first vowel a/o uncertain (Sawright/Sowright)",
+     "agreedReads": 1,
+     "of": 2
+    }
+   ]
+  }
+ ],
+ "crosscheck": "{\"variants\":[{\"canonical\":\"9teSchle_Kapt_Mandalore\",\"variants\":[\"9teSchle_Kapt_Mansdace\",\"9neSchls_Kapt_Mandalore\",\"KaaSchle_Kapt_Manolass\",\"NeuSchla_Kapt_Manolese\"],\"reason\":\"Same rank (Kapt) in the same Schleswig regiment across both snow-session images. 'Mandalore' is a recognizable Star Wars name OCR would not invent, while Mansdace/Manolass/Manolese are pairwise-inconsistent mangles. Tag '9teSchle' is the reliable reading: it recurs identically for four different players in 6005620b, whereas KaaSchle/NeuSchla/9neSchls each appear once and disagree with each other.\"},{\"canonical\":\"9teSchle_Fus_Momentum\",\"variants\":[\"NeuSchla_Fus_Momentum\",\"KaaSchle_Pca_Momerton\"],\"reason\":\"Same player in d3d6c47b read twice: 'Momentum' is a real word, 'Momerton' a mangle; rank Fus is attested in this regiment (9teSchle_Fus_Revenge), 'Pca' is not a rank; the tag normalizes to 9teSchle per the Kapt_Mandalore evidence.\"},{\"canonical\":\"9teSchle_rkt_MasterFox\",\"variants\":[\"9neSchls_rkt_MasterFun\"],\"reason\":\"Identical rank slot 'rkt' in the same regiment within one image's two OCR passes; 'Fox' is a natural handle, x-to-n is a one-glyph slip.\"},{\"canonical\":\"9teSchle_Kpl_Dr8yeliYo\",\"variants\":[\"9neSchls_Kpl_Dr8yatlYe\"],\"reason\":\"Same Kpl slot across the two passes of 6005620b; both readings are garbled, first-pass spelling kept as canonical with low confidence.\"},{\"canonical\":\"44teNHM_Maj_Moustachio\",\"variants\":[\"44teNHM_Maj_Montachiowe\",\"44steHM_Maj_Moustachio...\"],\"reason\":\"Same Maj of 44teNHM in both passes; 'Moustachio' is a real-word handle, 'Montachiowe' is a mangle of it; the tag 44teNHM is confirmed by two other members (Mat_Lane, LtCol_Bugatti).\"},{\"canonical\":\"65e_SgtMaj_Drew\",\"variants\":[\"65e_SgtMaj_Draw\"],\"reason\":\"Identical tag+rank in both passes; 'Drew' is a common name and a/e is a single-glyph confusion.\"},{\"canonical\":\"9teGR8_Cpt_Orkanades\",\"variants\":[\"9teGR8_Cpt_Orisnades\",\"BatGR8_Cpt_Orkanades\"],\"reason\":\"Tag 9teGR8 is confirmed by 9teGR8_BWO_Snowball in the same image; 'Orkan' (German for hurricane) fits a German-styled regiment, and 'ris' vs 'k' is a classic segmentation error; 'BatGR8' appears only once.\"},{\"canonical\":\"88thRG_Skp_Tom\",\"variants\":[\"88thRG_Skp_Toen\"],\"reason\":\"Same tag+rank across the two passes; 'Tom' is the simpler common name, 'oen'/'om' is an rn/m-style merge.\"},{\"canonical\":\"2ndCS_Pte_Anssen\",\"variants\":[\"2ndCS_Pte_Annen\"],\"reason\":\"Identical tag+rank across the two passes of 6005620b; ss/nn glyph confusion, essentially a coin flip — second-pass reading retained.\"},{\"canonical\":\"01st_Spec_snipercrazy\",\"variants\":[\"01st_Spec_astyxrcrazy\",\"05st_Spec_snipercrazy\"],\"reason\":\"Same roster slot in both passes; 'snipercrazy' is meaningful where 'astyxrcrazy' is noise, and '01st' (1st) is a more plausible tag than '05st'.\"},{\"canonical\":\"2ndCS_Rgl_avacentzen100\",\"variants\":[\"2ndCS_...100\"],\"reason\":\"Second pass completes the first pass's truncated 2ndCS name ending in 100.\"},{\"canonical\":\"9te_KZ_Grb_Mr_Alken\",\"variants\":[\"KZ_Grb_Mr_A...\"],\"reason\":\"Second pass truncates the same KZ_Grb player; first pass has the complete name.\"},{\"canonical\":\"ss_dragoons_alph...\",\"variants\":[\"dragoons_...\"],\"reason\":\"Two truncated reads of the same untagged-row player; the longer read kept.\"},{\"canonical\":\"19th_IJR_Kotei_Japan\",\"variants\":[\"59th_IJA_Kotat_Japan\"],\"reason\":\"The '..._Japan' player anchors the match across session-mates; 'Kotei' is real romanized Japanese where 'Kotat' is not. The whole regiment tag diverges systematically between the two images (59th_IJA vs 19th_IJR — each internally consistent), so this is one regiment whose number/suffix one image misread; 19th_IJR chosen from the image with more member reads, but the tag is uncertain.\"},{\"canonical\":\"19th_IJR_Gayle\",\"variants\":[\"19th_IJR_…gale\"],\"reason\":\"Same tag, one truncated read completed by the other pass.\"},{\"canonical\":\"19th_IJR_Hatobo_Crickwich\",\"variants\":[\"19th_IJR_Hatobo_Hatobo_Crickwich\"],\"reason\":\"OCR doubled the rank token 'Hatobo' in one pass.\"},{\"canonical\":\"88thRG_Maj_Wuffles\",\"variants\":[\"88thRG_Maj_Wufflee\"],\"reason\":\"Same tag+rank; only one Maj in 88thRG; 'Wuffles' vs doubled-e misread.\"},{\"canonical\":\"Chosen_Sky\",\"variants\":[\"Chum_Sk…\"],\"reason\":\"Truncated first read of the same row; 'Chosen_Sky' is complete and coherent.\"},{\"canonical\":\"2ndCS_Rct_williambinette\",\"variants\":[\"2ndCS_Rct_wilhambinette\",\"2ndCS_Rct_w??am?oinette\"],\"reason\":\"Clean identical reads in 495931f6 and 210325a8; the 24fa333e reads are degraded versions (h-for-li, b-for-o).\"},{\"canonical\":\"Uruk-hai\",\"variants\":[\"???k-hai\",\"Ldank-hai\"],\"reason\":\"Clean read in 210325a8; 'Uruk-hai' is a LOTR term OCR won't invent, and 'Ldank-hai' preserves the -hai suffix in the same roster region.\"},{\"canonical\":\"[Cub]Inf_Malice_Hoknar\",\"variants\":[\"[Cub]_Inf_Malice_Hokmar\"],\"reason\":\"'Hoknar' appears in 2 of 3 reads across session-mates; n/m single-glyph confusion.\"},{\"canonical\":\"[Cub]Inf_DownHere\",\"variants\":[\"[Cub]Inf_DrownHere\"],\"reason\":\"'DownHere' appears in 2 of 3 reads; the r is an OCR insertion.\"},{\"canonical\":\"[Cub]Inf_Glexy\",\"variants\":[\"[Cub]Inf_Glory\"],\"reason\":\"Same [Cub] roster slot across session-mates; OCR tends to normalize odd handles toward dictionary words, so the distinctive 'Glexy' is likelier the real spelling than 'Glory'.\"},{\"canonical\":\"Manolo_Chucro\",\"variants\":[\"Minoko_Chucro\"],\"reason\":\"'Manolo_Chucro' reads identically in 210325a8 and the first pass of 24fa333e; 'Minoko' is a second-pass mangle.\"},{\"canonical\":\"Sowright\",\"variants\":[\"Sawright\",\"Seveight\"],\"reason\":\"All three are one '...right'-shaped name in the same roster region across session-mates; 'Sowright' is the cleanest-pass read (true spelling may be the surname 'Seawright').\"},{\"canonical\":\"8th_CR_CPsc_WillWight\",\"variants\":[\"8th_GR_CPsc_WillWight\"],\"reason\":\"'WillWight' (fantasy author's name) anchors the match; C/G is a one-glyph tie with no third read to break it — tag letter uncertain.\"},{\"canonical\":\"VIe_4e_Cav_Cpt_Sethja8\",\"variants\":[\"Vle_4e_Cav_Cpt_Sethja\"],\"reason\":\"Appears with the trailing 8 identically in two images; 'VIe' is the Roman-numeral French style, 'Vle' an I-to-l confusion.\"},{\"canonical\":\"Comrade_Kapitan\",\"variants\":[\"Camarade_Kapitan\"],\"reason\":\"'Comrade' reads cleanly in two images (495931f6, 24fa333e); 'Camarade' is a single-pass variant.\"},{\"canonical\":\"KING_CHORGO\",\"variants\":[\"K?NG_?HORG?\"],\"reason\":\"Reads cleanly in all four pubstomp images; the obfuscated string is a degraded duplicate row.\"},{\"canonical\":\"Dixleta\",\"variants\":[\"Di?l?ta\"],\"reason\":\"Second pass of 495931f6 degraded the same row.\"},{\"canonical\":\"2ndCS_Cdt_NutSlapper\",\"variants\":[\"2ndCS_Cdt_NutSlap…\"],\"reason\":\"Truncated duplicate of the same row in the same image.\"},{\"canonical\":\"2ndCS_Rct_Richard_Hawkins\",\"variants\":[\"2ndCS_Rct_Richard_??????\"],\"reason\":\"Session-mate 24fa333e completes the surname the 495931f6 read lost; distinct from Richard_Brit, who appears separately in both.\"},{\"canonical\":\"6eYG_Con_Sergo\",\"variants\":[\"6eYG_Con_Sengo\"],\"reason\":\"Same tag+rank twice in one image; r/n confusion, 'Sergo' is a real given name.\"},{\"canonical\":\"Schumann\",\"variants\":[\"Schemann\"],\"reason\":\"Common surname; u/e single-glyph slip between the two passes.\"},{\"canonical\":\"7th_Scorpio_cdm_Panthere\",\"variants\":[\"7th_Scorp_7th_Scorp\"],\"reason\":\"Only one 7th_Scorpio player exists anywhere in the session (Panthere, clean in two images); the 495931f6 row doubled the tag and lost the name.\"}],\"suspicious\":[\"Snow session: 65e — 3 members in 6005620b, none in session-mate d3d6c47b\",\"Snow session: 44teNHM — 3 members in 6005620b, none in d3d6c47b\",\"Snow session: 9teGR8 — 2 members in 6005620b, none in d3d6c47b\",\"Snow session: 23rd (Highlander) — 6005620b only\",\"Snow session: 9te_KZ_Grb — 6005620b only\",\"Snow session: 59th_IJA vs 19th_IJR — the same Japanese regiment carries two different tags across the pair (the 'Kot..._Japan' player recurs), so one image's tag reading is systematically wrong\",\"Snow session: 1stesSchle (d3d6c47b only) — probably another OCR mangle of 9teSchle rather than a real distinct regiment\",\"Pubstomp: image 2be25250's roster is almost disjoint from the other three — 98H, 6eYG, 30th_pltv, 89thRG, 29th_A, 1st_9GAG appear only there and only 2ndCS + KING_CHORGO carry over; likely a different round or a mislabeled session-mate\",\"Pubstomp: [Cub]Inf — 7 members in 210325a8/24fa333e but absent from 495931f6 and 2be25250\",\"Pubstomp: VIe_4e_Cav — present in 495931f6 and 210325a8 but missing from 24fa333e despite its larger roster\",\"Pubstomp: 1stEPI_A2, _1st_Rddt_G95, 9th_CT_CGrd — 495931f6 only\",\"Pubstomp: 66th_Dragoner — 210325a8 only\",\"Pubstomp: IIIe_38e and 18e — 24fa333e only\"]}"
+}
