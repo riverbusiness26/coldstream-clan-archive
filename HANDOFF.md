@@ -994,3 +994,88 @@ Implemented in site/: the roster's years figure now derives from datedYear
 read "on the roll since YYYY" and undated rows "on the roll". Live check:
 69 dated, 304 on-the-roll-since, 11 undated of 385 people. Mining the forum
 for more real join dates (your 13c-1) is now the way to grow the 69.
+
+## 16. Parity with real gaming community forums (River-side, 20 Aug 2026)
+
+River wants the site standing next to the big gaming community forums, not a
+brochure with a forum bolted on. This is the gap, measured against what those
+sites actually run rather than what we imagine they run.
+
+### 16a. What they run
+
+Nearly every large gaming community forum is **XenForo** or **Invision
+Community**, with XenForo dominant. The reference points:
+
+- XenForo Media Gallery is the model for media: admin-defined **categories**
+  that each decide what they hold, plus optional user **albums** inside them,
+  images and video and audio, tagging, custom fields, and per-category
+  permissions. Categories are hierarchical and typed: container only, albums
+  only, or media only, and the type cannot change once the category has
+  content. <https://docs.xenforo.com/manual/official-addons/media-gallery>
+- The wider platform's content features are the forum baseline everyone
+  expects. <https://xenforo.com/features/content/>
+- The clan-site builders (Gamerlaunch, Guildtag and friends) converge on the
+  same list for communities our size: roster, event calendar, forums,
+  shoutbox, application forms, and **gamification**, meaning badges, trophies
+  and leaderboards earned from ordinary site activity.
+
+### 16b. Done in this pass
+
+Gallery categories and video are in, modelled on the XenForo category model.
+`0009_gallery_categories.sql`, eight categories seeded from what the community
+actually played, The Archive locked at the policy level rather than just hidden
+in the form. Video is a YouTube id, not a file, because a free project gets one
+gigabyte of storage and every community this size already puts footage on
+YouTube.
+
+### 16c. The gap, in the order I would close it
+
+**1. What's New.** This is the single biggest difference between a site people
+visit once and one they open every day. Every one of these platforms puts an
+activity feed at the front: new posts, new uploads, new members, new events,
+since your last visit. We have the data and no feed. It needs a `last_seen_at`
+on member and one query per content type.
+
+**2. Reactions.** Not just replies. A single `reaction` table keyed to
+(member, content type, content id) covers posts, gallery items and eventually
+events. Cheap to build, and it is what makes a quiet forum feel alive: people
+who will never write a reply will still press a button.
+
+**3. Member profiles.** One page per person: years, rank, post count, uploads,
+the screenshots they appear in, events attended. The roster already holds most
+of it. This is the page members send to each other, and it is where the
+fourteen year record finally pays off for an individual rather than the group.
+
+**4. Unread tracking and pagination.** Threads currently load every post at
+once and nothing tracks what you have read. Both break at a few hundred posts,
+which the archive alone would exceed if it were live.
+
+**5. Post composer.** Quoting, and images in posts. Plain textarea is below the
+floor for a forum in 2026. BBCode is what the old regiment wrote in, so the
+archive's own posts already contain it.
+
+**6. Trophies.** The gamification the clan builders all ship. For this
+community it writes itself and is not generic: years on the roll, events
+attended, era badges for people who were there in 2011, 2012, 2015. It is the
+one feature where our archive gives us something the big platforms cannot
+generate, because we have fifteen years of dated evidence behind it.
+
+**7. Search.** Across posts, members and the archive.
+
+### 16d. What not to copy
+
+Those platforms carry a great deal we should not: sub-forum trees five deep for
+a community that needs seven boards, signature images, post-count ranks that
+reward noise, and advertising slots. Parity means the parts that make a place
+feel inhabited, not feature count.
+
+The one thing we have that none of them do is the archive: 1,210 announcements,
+885 forum posts, 384 names and 627 events, all dated and all sourced. Trophies,
+profiles and the calendar's past all draw on it. That is the differentiator, so
+where there is a choice between matching a feature and deepening the record,
+deepen the record.
+
+### 16e. Still open from section 15
+
+The events calendar is still not started, and it is the other half of what
+makes a community site a place rather than a page.
