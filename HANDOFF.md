@@ -799,7 +799,7 @@ its source, and never post to any Discord without asking him first.
 
 ---
 
-## 13. Member channels and footage: results (Robert side, 20 Aug 2026)
+## 14. Member channels and footage: results (Robert side, 20 Aug 2026)
 
 Both YouTube hunts finished. Datasets committed here:
 
@@ -838,3 +838,151 @@ Both YouTube hunts finished. Datasets committed here:
 - The kavcav channel question is best settled by asking kavcav in Discord.
 - Your "years with us" integrity flag (13b) is exactly right; putting the
   three options to River now in chat.
+
+## 15. River's next three: working uploads, a calendar, and an admin side (20 Aug 2026)
+
+River wants three things built and wants them actually working, not stubbed.
+Taking them in the order that unblocks the most:
+
+**Read section 13b first.** The roster's headline "years with us" figure is
+derived for 305 of 384 people and that decision is still open. It is a bigger
+integrity problem than anything below.
+
+### 15a. State of play before you start
+
+`RUN_ME_next.sql` has **not** been run yet. Checked just now against the anon
+key: `board`, `member`, `gallery_item`, `shout` and `server_status` all return
+401, and the storage probe returns 400 because the bucket does not exist.
+
+So: everything below can be **built** now against the schema, but none of it
+can be **demonstrated** until River runs the SQL and deploys `steam-auth`.
+Those two steps need the service role key and are his alone. Build against the
+schema, keep demo mode working so the UI can be reviewed offline, and do not
+burn time trying to make a live request succeed.
+
+**The grants trap will bite you again.** 0001 enabled row level security and
+wrote every policy but never granted the browser roles the tables, and
+Postgres checks the grant before the policy, so everything 401'd and the site
+silently served seed data. **Every new table you add needs its grants in the
+same migration as its policies.** 0004 ends with an `alter default privileges`
+line that covers `select` for future tables, but `insert` and `update` still
+have to be granted by hand.
+
+### 15b. Gallery uploads that actually work
+
+Most of this exists: the upload control, the `gallery_item` table, the insert
+policy, and the bucket in `0003_gallery_storage.sql`. Two real gaps:
+
+1. **There is no way to approve anything.** Uploads land `approved = false` by
+   design and the only way to flip that today is raw SQL. So as shipped, a
+   member can upload and nobody but them will ever see it. This is the actual
+   blocker, and it belongs in the admin work in 15d.
+2. **A member cannot remove their own upload.** The storage delete policy
+   allows it and there is no UI. Add one, and delete the storage object as well
+   as the row or the bucket fills with orphans.
+
+Worth adding while you are in there: strip EXIF on upload (phone screenshots
+carry GPS), cap dimensions server-side rather than trusting the client, and
+show upload progress, because an 8MB file on a phone connection looks like a
+frozen button.
+
+### 15c. A calendar for events
+
+Nothing exists. New tables, and note the grants.
+
+```sql
+create table event (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  body text,
+  game text,
+  starts_at timestamptz not null,
+  duration_minutes int not null default 90,
+  server_key text references server_status(server_key),
+  created_by uuid not null references member(id),
+  cancelled boolean not null default false,
+  created_at timestamptz not null default now()
+);
+create index event_when on event(starts_at);
+
+create table event_rsvp (
+  event_id uuid not null references event(id) on delete cascade,
+  member_id uuid not null references member(id),
+  status text not null check (status in ('going','maybe','out')),
+  updated_at timestamptz not null default now(),
+  primary key (event_id, member_id)
+);
+```
+
+Policies: read public; insert and update on `event` limited to officers and
+admins via `current_member_role() in ('officer','admin')`; `event_rsvp` insert
+and update limited to `member_id = current_member_id()`.
+
+Three things that matter for this community specifically:
+
+- **Store UTC, render local.** The old announcements all read "7PM Central /
+  8PM Eastern" and the roster has members in Canada, the UK and Australia. The
+  archive is full of people asking what time an event actually was.
+- **Seed the past from the archive.** There are 627 counted events in the
+  announcement record with dates. A calendar that only shows an empty future is
+  a dead page on day one; one that lets you scroll back through 2012 is the
+  thing River actually asked this project for. Titles and dates come from
+  `data/steam-announcements.json`, and the `EVENT_RX` filter in
+  `build-seed.mjs` already identifies which announcements are events. Mark
+  seeded rows with a source label so they are never confused with live ones,
+  same rule as the rest of the site.
+- **RSVP counts on the roster.** "Attended 40 events" is the kind of number
+  this community would care about, and it falls out of `event_rsvp` for free
+  once the calendar has been running a while.
+
+### 15d. The admin side
+
+**Clarify this with River before building.** He asked for "an admin login".
+The site already has admin *accounts*: `member.role` is an enum of
+member/officer/admin, `current_member_role()` gates the policies, and the
+0005 work made those policies actually mean something. Signing in through
+Steam as River, with `role = 'admin'`, is the admin login.
+
+What does not exist is an admin *interface*. My reading is that is what he
+wants, and I would push back on a separate password-based admin login: it
+would be a second credential to manage, it would sit outside Steam, and it
+would need a password reset path. Ask him, do not assume.
+
+Suggested `#/admin`, hidden from the nav unless `me.role` is officer or admin,
+with the row level security policies as the real enforcement so a hidden route
+is never the only thing standing in the way:
+
+- **Approval queue** for gallery uploads. Approve, reject, delete. This is the
+  piece that makes 15b work at all, so do it first.
+- **Thread moderation**: pin, lock, delete. `thread_mod` already allows it.
+- **Roles**: promote a member to officer or admin. Needs a policy, there is not
+  one yet, and it needs a guard so an admin cannot demote the last admin.
+- **Post news and events**, which is also how 15c gets used.
+- **Server entries**: the four rows in `server_status` are seeded and all read
+  TBA. Let an admin edit the address and name so the page stops lying when a
+  box comes up.
+
+### 15e. Do not "fix" these two, they are not broken
+
+River is looking at an artifact build of the site, where the hero film does not
+play and the Discord panel shows its fallback. **Both work on the real site.**
+The artifact sandbox blocks every external host, so the YouTube embed and the
+Discord widget fetch cannot resolve there, and that build is deliberately in
+demo mode so it renders seeded data instead of sitting on failed requests.
+
+I mention it because this project has already lost time to a non-bug once: an
+apparent layout break turned out to be browser zoom at 150%. Confirm a fault
+reproduces on `localhost:5340` before chasing it.
+
+### 15f. Order I would take them
+
+1. Admin approval queue. Without it the gallery does not function and River's
+   first ask is unmet.
+2. The rest of the admin surface, roles last because of the last-admin guard.
+3. Calendar tables and the officer-facing create form.
+4. Seed the calendar's past from the announcement archive.
+5. Member-facing RSVP and the upload delete from 15b.
+
+Rules recap, unchanged: no em dashes anywhere including code comments, years
+never era counts, gaming community never club, every archived item labeled with
+its source, and never post to any Discord without asking River first.
