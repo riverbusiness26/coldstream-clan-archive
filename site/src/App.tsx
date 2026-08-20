@@ -29,12 +29,26 @@ const steamSvg = (
   </svg>
 );
 
+// Routing is by hash, and coming back from Steam the session arrives in the
+// hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
+// this the app would try to route to a view called "access_token=..." and land
+// the user on a blank page the moment they signed in. The client reads those
+// tokens and clears them itself, so all this has to do is not treat them as a
+// route. An error handed back the same way is worth landing on Home for.
+const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error_description|error_code)=/;
+
+function routeFromHash(): string {
+  const h = location.hash;
+  if (AUTH_HASH.test(h)) return 'home';
+  return h.replace(/^#\/?/, '') || 'landing';
+}
+
 export default function App() {
   const { me, signIn, signOut, demo } = useAuth();
-  const [view, setView] = useState(location.hash.replace(/^#\/?/, '') || 'landing');
+  const [view, setView] = useState(routeFromHash);
 
   useEffect(() => {
-    const onHash = () => setView(location.hash.replace(/^#\/?/, '') || 'landing');
+    const onHash = () => setView(routeFromHash());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);

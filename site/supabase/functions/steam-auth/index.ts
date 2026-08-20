@@ -81,17 +81,41 @@ Deno.serve(async (req) => {
   const email = `${steamId}@steam.coldstream.local`;
 
   // Ensure an auth user exists for this Steam ID.
+  //
+  // The member row already records which auth user a Steam ID belongs to, so
+  // for anyone who has signed in before that is one indexed read and no more.
+  // Only a genuinely new person reaches createUser.
   let userId: string | null = null;
-  const { data: created, error: createErr } = await admin.auth.admin.createUser({
-    email,
-    email_confirm: true,
-    user_metadata: { steam_id64: steamId, provider: "steam" },
-  });
-  if (created?.user) userId = created.user.id;
-  if (createErr) {
-    const { data: list } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-    userId = list?.users.find((u) => u.email === email)?.id ?? null;
+
+  const { data: known } = await admin
+    .from("member")
+    .select("auth_user_id")
+    .eq("steam_id64", steamId)
+    .maybeSingle();
+  if (known?.auth_user_id) userId = known.auth_user_id as string;
+
+  if (!userId) {
+    const { data: created } = await admin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+      user_metadata: { steam_id64: steamId, provider: "steam" },
+    });
+    userId = created?.user?.id ?? null;
   }
+
+  // Last resort: the auth user exists but nothing points at it, which happens
+  // if a previous run created the user and then failed before writing the
+  // member row. Page through rather than reading only the first page, because
+  // a single page silently stops finding people once the site outgrows it.
+  if (!userId) {
+    for (let page = 1; page <= 20 && !userId; page++) {
+      const { data: list } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+      const users = list?.users ?? [];
+      userId = users.find((u) => u.email === email)?.id ?? null;
+      if (users.length < 200) break;
+    }
+  }
+
   if (!userId) return Response.redirect(`${SITE_URL}/?login=failed`, 302);
 
   // Upsert the member row and link any roster history with this Steam ID.

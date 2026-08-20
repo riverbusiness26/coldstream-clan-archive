@@ -164,6 +164,9 @@ const ALIASES = [
     key: 'river',
     name: 'RiveR',
     also: ['rivercs', 'crawford', 'colonelriver', '2ndcscolcrawford', 'colcrawford'],
+    // Confirmed against the public Steam profile: this id resolves to the
+    // persona "RiveR" with the vanity url /id/RiveRcs.
+    steam_id64: '76561198044997257',
     why: 'Identified by River himself: Steam RiveRcs, forum handle Crawford, in-game Colonel River',
   },
 ];
@@ -177,6 +180,7 @@ for (const a of ALIASES) {
 }
 const canonical = (k) => aliasOf[k] || k;
 const aliasName = Object.fromEntries(ALIASES.map((a) => [a.key, a.name]));
+const aliasSteam = Object.fromEntries(ALIASES.filter((a) => a.steam_id64).map((a) => [a.key, a.steam_id64]));
 
 // Fold the aliases into the entries themselves, so the database and the site
 // agree, and note on each folded row which name it was originally filed under.
@@ -201,6 +205,9 @@ for (const e of entries) {
   if (e.rank_or_class) p.ranks.push(e.rank_or_class);
   if (e.steam_id64) p.steam_id64 = e.steam_id64;
 }
+// A confirmed Steam id beats anything inferred, and lets a signed-in member
+// match their own row by id rather than by whatever name they use today.
+for (const [k, id] of Object.entries(aliasSteam)) if (people[k]) people[k].steam_id64 = id;
 const peopleOut = Object.entries(people).map(([key, p]) => ({
   key,
   name: p.name, firstYear: p.firstYear, games: [...p.games],
