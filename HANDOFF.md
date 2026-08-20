@@ -353,3 +353,61 @@ River's taste is at your elbow.
 - Still open: which account hosts the Supabase project (River's, presumably);
   whether the archive pages live inside the new site or stay linked; custom
   domain or not.
+
+
+---
+
+## 8c. Brand assets and website direction (from River, 20 Aug 2026)
+
+River wants the site built in the style of the old **Enjin clan sites**, and has
+supplied the artwork for it. Everything below is committed here.
+
+### Assets in `brand/`
+
+| File | What it is | Use |
+| --- | --- | --- |
+| `csg-globe-black.png` | Clean CSG globe wordmark, white on pure black, 1920x1080 | Primary logo. Best for headers, dark hero panels, favicons |
+| `csg-globe-banner.png` | Globe mark over the five-game collage, 1920x1080 | Hero banner |
+| `csg-badge-banner.png` | Full circular badge (Coldstream Gaming, est. 2011, Loyalty Leadership Tradition) over the same collage | Hero banner, about page |
+| `coldstream-guards-star.jpg` | The Coldstream Guards regimental star, gold and scarlet on green | Heritage accent. This is the real regiment's cap badge and carries the garter motto |
+
+The collage in both banners is the community's actual game spread, left to
+right: a medieval melee title, a modern-camo shooter, Napoleonic line infantry,
+a military convoy, and a stylised cartoon game. Keep that ordering if you crop
+it; it reads as a timeline.
+
+### Tone
+
+Dark, militaristic, unfussy. Think a clan site from the Enjin era: black or
+near-black ground, white monochrome mark, one accent, boxed modules with
+headers, and content that looks like a noticeboard rather than a marketing page.
+Their own palette is already monochrome, so the star badge is the only place
+real colour appears. Use it sparingly and it will carry weight.
+
+Do not use em dashes anywhere in copy. River asked for this explicitly. Use a
+comma, a colon, or a middle dot. For list separators the welcome embed uses
+`›`, which works well.
+
+### Reference captures in `data/enjin-capture/`
+
+River had saved Wayback captures of the old **Midnight Mercenaries** Enjin site.
+These are the real thing, not a description of it:
+
+- `mm-home.html` — the site's front page, nav and module layout
+- `mm-members.html` — the members table
+- `33rd.html` — a related regiment's forum page
+
+**`mm-members.html` is the important one.** It answers the ask in §9 about Enjin
+roster pages. Enjin's member table carries **Display Name, Posts, Last Seen and
+Join Date**, which is the only source in the whole project pairing a member with
+the date they actually joined. `parse-enjin-members.js` reads it into
+`data/enjin-members.json`.
+
+First pass: **25 members, 24 of whom joined in 2011**, earliest **10 Aug 2011**.
+Cross-checks cleanly against other sources: `reclu` appears here in 2011 and
+again in the FSE thread years later, which is independent confirmation of the
+lineage rather than an assumption.
+
+Caveats: this is one paginated page of one capture, so it is a slice, not the
+whole roster. The nav also references a **33rd Regiment**, which is a name the
+project has not accounted for yet. Worth asking River about.
