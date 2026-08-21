@@ -79,7 +79,9 @@ export default function Landing({ go }: { me: Me | null; go: (v: string) => void
               allow="autoplay; encrypted-media"
               tabIndex={-1}
               title=""
-              onLoad={slot.seg === current && !bgReady ? () => setTimeout(() => setBgReady(true), 1900) : undefined}
+              // 4.3s: outlasts the title overlay YouTube paints on the first
+              // seconds of every embed, so the footage fades in clean.
+              onLoad={slot.seg === current && !bgReady ? () => setTimeout(() => setBgReady(true), 4300) : undefined}
             />
           ))}
         </div>
