@@ -7,6 +7,8 @@ import films from '../seed/films.json';
 import erasSeed from '../seed/eras.json';
 import { people, eventStats } from '../lib/data';
 import type { Me } from '../lib/auth';
+import Discord from '../components/Discord';
+import { servers, GAME_NAMES } from '../lib/data';
 import { asset } from '../lib/asset';
 
 interface Film { id: string; title: string; views: number; viewsText: string; published: string; channel: string }
@@ -264,6 +266,36 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
         </div>
         <div className="land-more">
           <button className="btn" onClick={() => go('archive')}>Everything else lives in The Archive</button>
+        </div>
+      </section>
+
+      <section className="land-band alt">
+        <h2>Find Us</h2>
+        <div className="land-findus">
+          <div className="module">
+            <Discord />
+          </div>
+          <div className="module">
+            <div className="mhead"><h3>Game Servers</h3><span className="sub">trackers go live with the servers</span></div>
+            {servers.map((s) => (
+              <div className="prof-rec" key={s.server_key}>
+                <span className="gtag">{s.game}</span>
+                <span className="prof-what">{s.name}</span>
+                <span className={'pill' + (s.online ? ' live' : '')} style={{ marginLeft: 'auto' }}>{s.online ? s.players + '/' + s.max_players : 'SOON'}</span>
+              </div>
+            ))}
+            <div className="note">{GAME_NAMES.CS16}, {GAME_NAMES.CSS}, {GAME_NAMES.GMOD} TTT and {GAME_NAMES.MC}. Live player counts appear here the day each one comes online.</div>
+          </div>
+          <div className="module">
+            <div className="mhead"><h3>Steam</h3><span className="sub">the community's home since 2011</span></div>
+            <div className="login-blurb">
+              <p>Our Steam group has carried the roll since the beginning. Join it, and sign in here with your Steam account: your history on the roster finds you on its own.</p>
+              <div className="land-cta" style={{ justifyContent: 'flex-start', marginTop: 12 }}>
+                <a className="btn" href="https://steamcommunity.com/groups/coldstreamgaming" target="_blank" rel="noopener">Join the Steam Group</a>
+                {!me && <button className="btn primary" onClick={signIn}>Sign in through Steam</button>}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
