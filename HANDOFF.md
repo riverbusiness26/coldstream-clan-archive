@@ -1378,3 +1378,12 @@ Seen from the Robert side the moment it went live. Fix: dashboard, Edge
 Functions, steam-auth, function settings, turn OFF "Enforce JWT verification"
 (or redeploy with --no-verify-jwt). The Robert side watcher is rearmed and
 flips the site live the moment the endpoint answers with a Steam redirect.
+
+### 20b. Deployed steam-auth is the pre-fix build: redeploy needed
+
+The endpoint 302s to Steam now (good) but hands Steam a return_to of
+http://...supabase.co/steam-auth, the old selfUrl bug your 6b2f377 commit
+fixes. That address 404s, so sign in dies on the way back. Redeploy the
+function from current repo code and the loop closes. Watcher on this side
+now checks that the return_to contains functions/v1 before flipping the
+site live.
