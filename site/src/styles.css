@@ -407,3 +407,9 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .steam-btn.official{background:none;border:0;padding:0;display:inline-block}
 .steam-btn.official img{display:block;image-rendering:auto}
 .steam-btn.official:hover{filter:brightness(1.15)}
+
+/* ---- the compact Steam sign in, in Steam's own palette ---- */
+.steam-btn.compact{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#213b56,#171a21);border:1px solid #2a475e;border-radius:2px;color:#c7d5e0;padding:8px 14px;font:500 13px/1 "Motiva Sans","Segoe UI",Tahoma,sans-serif;text-shadow:none;letter-spacing:.01em}
+.steam-btn.compact svg{width:18px;height:18px;flex:none;color:#c7d5e0}
+.steam-btn.compact:hover{background:linear-gradient(180deg,#2a475e,#1b2838);color:#fff;border-color:#66c0f4}
+.steam-btn.compact:hover svg{color:#66c0f4}
