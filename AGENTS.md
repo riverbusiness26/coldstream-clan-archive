@@ -256,3 +256,47 @@ the roster_entry auto link back without being asked.
 
 **Stage files by name. Never `git add -A`** while the other agent is working.
 
+
+## Three agents in one repo
+
+River is running more than two of us now. Everything below exists because of
+something that actually went wrong on 21 Aug, not because it sounded tidy.
+
+**Check live state before you assert it.** Run `node scripts/status.mjs`. It
+asks the domain, the sign in function and the database directly and prints
+what is true right now: which bundle the domain serves, whether the www guard
+survived, whether Verify JWT is back on, how many members exist, which tables
+are actually applied. Two agents wrote "current state" into HANDOFF on the
+same day and both were stale within hours. The log says what was true when it
+was written. The script says what is true now.
+
+**Claim before you edit, in your own file.** See `claims/`. One file per
+agent, you write only yours, you read the others. A shared claim list is
+itself a thing to collide on.
+
+**Stay in your lane.** Lanes are in `claims/README.md`. Most work then needs
+no coordination at all, and claiming is only for the crossings.
+
+**One agent deploys, and only one way.** This is the expensive one. The site
+publishes from the repo root on push. On 21 Aug a second deploy path was used
+alongside it, `wrangler pages deploy site/dist`, and a `_redirects` file added
+at the repo root for that path was invalid for Pages, which takes paths and
+not full URLs in the from field. The push based build stopped publishing, the
+domain sat on an older deployment for about ninety minutes while newer
+deployments looked perfectly healthy at their own pages.dev URLs, and two
+verified fixes sat there not reaching anybody. If the domain looks stale,
+check `npx wrangler pages deployment list --project-name=coldstreamgaming`
+against what the domain actually serves, and suspect the last thing added to
+the repo root.
+
+**Say who you are in the commit.** Prefix the subject, so `git log` answers
+"who did this" without anybody having to remember: `claude:`, `codex:`, and
+so on. The Co-Authored-By trailer is not enough on its own, it does not show
+in a one line log.
+
+**Push small and push often.** A long lived working tree is a merge conflict
+with a delay on it. Commit the moment a thing works, rebase, push. Whoever
+loses a race is the one who rebases, and it should cost seconds.
+
+**Never `git add -A`.** Stage by name. With three agents there is always
+somebody else's half finished file sitting in the tree.
