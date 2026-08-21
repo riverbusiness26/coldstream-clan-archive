@@ -218,17 +218,24 @@ const erasOut = erasRaw.groups.map((g) => {
   };
 }).sort((a, b) => String(a.foundedIso).localeCompare(String(b.foundedIso)));
 
-// ---- River, 2026-08-21: three groups, one unit. Midnight Mercs and the
-// 2nd Coldstream Regiment of Footguards ran as the same unit from 2011 to
-// 2012, and Midnight Mercenaries Multi-Gaming was a duplicate banner over
-// the same community, so the timeline carries them as one entry. Splitting
-// the merge back out is a matter of deleting this block and reseeding; the
-// three source groups are named on the entry.
+// ---- River, 2026-08-21 (revised same day): the timeline is two chapters,
+// split at the 2013 rename, not at the 2015 stint.
 //
-// The regiment's 2015 stint was invisible inside the 2012 group's totals
-// (62 events in a year the timeline did not show). It becomes its own
-// entry, carved out of the same group's announcements by year.
+// Chapter one, 2011 to 2012: Midnight Mercenaries and the 2nd Coldstream
+// Regiment of Footguards ran as the same unit, and the Multi-Gaming group
+// was a duplicate banner over the same community. One entry.
+//
+// Chapter two, 2013 to 2015: the gaming community renamed to Nox Viator
+// and the 2nd Coldstream carried on as its sub-group, through the 2015
+// summer the regiment formed back up and the website came back to life at
+// coldstream.enjin.com. One entry, absorbing the standalone Nox Viator
+// group entry AND everything the old groups posted from 2013 on.
+//
+// The split is by announcement year across the groups involved, so the
+// totals still reconcile with the raw archive. Deleting this block and
+// reseeding restores the one-group-one-entry timeline.
 const MERGED_SLUGS = ['Midnightmercs', '2ndColdstream', 'MidnightMercss'];
+const NOX_SLUG = 'NoxViator';
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const isoOfWhen = (w) => {
@@ -237,8 +244,11 @@ const isoOfWhen = (w) => {
   return `${m[3]}-${String(MONTHS_SHORT.indexOf(m[1]) + 1).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
 };
 const annList = Array.isArray(anns) ? anns : anns.announcements;
-const isStintAnn = (a) => a.group === '2ndColdstream' && (yearOf(a.when) ?? 0) >= 2015;
-const isMergedAnn = (a) => MERGED_SLUGS.includes(a.group) && !isStintAnn(a);
+// Chapter one: the unit years. Chapter two: everything those groups posted
+// from the 2013 rename on, plus the Nox Viator group's own feed.
+const isUnitAnn = (a) => MERGED_SLUGS.includes(a.group) && (yearOf(a.when) ?? 0) <= 2012;
+const isNoxAnn = (a) => a.group === NOX_SLUG
+  || (MERGED_SLUGS.includes(a.group) && (yearOf(a.when) ?? 0) >= 2013);
 const spanOf = (rows) => {
   const ds = rows.map((a) => isoOfWhen(a.when)).filter(Boolean).sort();
   return { first: ds[0] ?? null, last: ds[ds.length - 1] ?? null };
@@ -259,47 +269,50 @@ const evByYear = (rows) => {
   return m;
 };
 const sumBy = (o) => Object.values(o).reduce((n, v) => n + v, 0);
-const mergedRows = annList.filter(isMergedAnn);
-const stintRows = annList.filter(isStintAnn);
-const mergedParts = erasOut.filter((e) => MERGED_SLUGS.includes(e.slug));
-const mergedBy = evByYear(mergedRows);
-const stintBy = evByYear(stintRows);
+const groupsIn = (rows) => [...new Set(rows.map((a) => a.group))];
+const unitRows = annList.filter(isUnitAnn);
+const noxRows = annList.filter(isNoxAnn);
+const unitParts = erasOut.filter((e) => MERGED_SLUGS.includes(e.slug));
+const noxPart = erasOut.find((e) => e.slug === NOX_SLUG);
+const unitBy = evByYear(unitRows);
+const noxBy = evByYear(noxRows);
 const erasFinal = [
-  ...erasOut.filter((e) => !MERGED_SLUGS.includes(e.slug)),
+  ...erasOut.filter((e) => !MERGED_SLUGS.includes(e.slug) && e.slug !== NOX_SLUG),
   {
     slug: 'coldstreamregiment',
-    sources: MERGED_SLUGS,
-    name: 'Midnight Mercs / 2nd Coldstream Regiment of Footguards',
-    label: 'Midnight Mercs · 2nd Coldstream',
-    ran: '2011/12',
+    sources: groupsIn(unitRows),
+    name: 'Midnight Mercenaries / 2nd Coldstream Regiment of Footguards',
+    label: 'Midnight Mercenaries / 2nd Coldstream',
+    ran: '2011-2012',
     game: 'Battlegrounds 2, Mount & Blade: Warband, Napoleonic Wars',
-    note: 'One unit, run 2011 to 2012, under three group banners: Midnight Mercs and the 2nd Coldstream Regiment of Footguards were the same unit, and Midnight Mercenaries Multi-Gaming was a duplicate banner over the same community. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.',
+    note: 'One unit, run 2011 to 2012: Midnight Mercenaries and the 2nd Coldstream Regiment of Footguards were the same unit, and the Multi-Gaming group was a duplicate banner over the same community. Rank structure, weekly drills, and the busiest single year the record holds. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.',
     founded: 'June 28, 2011',
     foundedIso: '2011-06-28',
-    members: Math.max(...mergedParts.map((e) => e.members)),
-    namedMembers: Math.max(...mergedParts.map((e) => e.namedMembers)),
-    announcements: mergedRows.length,
-    events: sumBy(mergedBy),
-    ...spanOf(mergedRows),
-    byYear: mergedBy,
-    topAuthors: topOf(mergedRows),
+    members: Math.max(...unitParts.map((e) => e.members)),
+    namedMembers: Math.max(...unitParts.map((e) => e.namedMembers)),
+    announcements: unitRows.length,
+    events: sumBy(unitBy),
+    ...spanOf(unitRows),
+    byYear: unitBy,
+    topAuthors: topOf(unitRows),
   },
   {
-    slug: 'coldstream2015',
-    sources: ['2ndColdstream'],
-    name: 'Nox Viator 2nd Coldstream Guards',
-    label: 'Nox Viator 2nd Coldstream Guards',
-    game: 'Mount & Blade: Warband, Napoleonic Wars',
-    note: 'The year the timeline was missing. In the summer of 2015 the regiment formed up again as the 2nd Coldstream Guards under the Nox Viator banner, calling its events through the old Steam group: the website came back to life at coldstream.enjin.com, and events ran from June into September before the group went quiet once more.',
-    founded: 'Summer 2015',
-    foundedIso: '2015-06-01',
-    members: 0,
-    namedMembers: 0,
-    announcements: stintRows.length,
-    events: sumBy(stintBy),
-    ...spanOf(stintRows),
-    byYear: stintBy,
-    topAuthors: topOf(stintRows),
+    slug: 'noxviatorcoldstream',
+    sources: groupsIn(noxRows),
+    name: 'Nox Viator / 2nd Coldstream',
+    label: 'Nox Viator · 2nd Coldstream',
+    ran: '2013-2015',
+    game: 'multi-game, Mount & Blade: Warband, Napoleonic Wars',
+    note: 'In 2013 the gaming community renamed to Nox Viator, and the 2nd Coldstream carried on as its sub-group through 2015: the regiment kept calling its events through the old group feeds, and in the summer of 2015 it formed back up in force, with the website coming back to life at coldstream.enjin.com, before going quiet again in the autumn.',
+    founded: '2013',
+    foundedIso: '2013-01-01',
+    members: noxPart ? noxPart.members : 0,
+    namedMembers: noxPart ? noxPart.namedMembers : 0,
+    announcements: noxRows.length,
+    events: sumBy(noxBy),
+    ...spanOf(noxRows),
+    byYear: noxBy,
+    topAuthors: topOf(noxRows),
   },
 ].sort((a, b) => String(a.foundedIso).localeCompare(String(b.foundedIso)));
 
@@ -311,7 +324,7 @@ writeFileSync('src/seed/eras.json', JSON.stringify({
   },
   eventsByYear: events.reduce((acc, e) => { acc[e.year] = (acc[e.year] || 0) + e.events; return acc; }, {}),
 }, null, 1));
-console.log(`eras: ${erasFinal.length} (merged 3 into 1, split the 2015 stint out) | events recomputed: ${erasFinal.reduce((n, e) => n + e.events, 0)} (research file said ${erasRaw.totals.events})`);
+console.log(`eras: ${erasFinal.length} (two chapters split at the 2013 rename) | events recomputed: ${erasFinal.reduce((n, e) => n + e.events, 0)} (research file said ${erasRaw.totals.events})`);
 
 // ---- the calendar's past, from the announcement record.
 //

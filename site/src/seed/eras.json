@@ -31,105 +31,79 @@
   {
    "slug": "coldstreamregiment",
    "sources": [
+    "MidnightMercss",
     "Midnightmercs",
-    "2ndColdstream",
-    "MidnightMercss"
+    "2ndColdstream"
    ],
-   "name": "Midnight Mercs / 2nd Coldstream Regiment of Footguards",
-   "label": "Midnight Mercs · 2nd Coldstream",
-   "ran": "2011/12",
+   "name": "Midnight Mercenaries / 2nd Coldstream Regiment of Footguards",
+   "label": "Midnight Mercenaries / 2nd Coldstream",
+   "ran": "2011-2012",
    "game": "Battlegrounds 2, Mount & Blade: Warband, Napoleonic Wars",
-   "note": "One unit, run 2011 to 2012, under three group banners: Midnight Mercs and the 2nd Coldstream Regiment of Footguards were the same unit, and Midnight Mercenaries Multi-Gaming was a duplicate banner over the same community. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.",
+   "note": "One unit, run 2011 to 2012: Midnight Mercenaries and the 2nd Coldstream Regiment of Footguards were the same unit, and the Multi-Gaming group was a duplicate banner over the same community. Rank structure, weekly drills, and the busiest single year the record holds. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.",
    "founded": "June 28, 2011",
    "foundedIso": "2011-06-28",
    "members": 101,
    "namedMembers": 82,
-   "announcements": 898,
-   "events": 227,
+   "announcements": 639,
+   "events": 140,
    "first": "2011-07-01",
-   "last": "2014-09-30",
+   "last": "2012-12-30",
    "byYear": {
     "2011": 2,
-    "2012": 138,
-    "2013": 87
+    "2012": 138
    },
    "topAuthors": [
     {
      "name": "RiveR",
-     "n": 706
+     "n": 483
     },
     {
      "name": "NoxV ' DaviD",
-     "n": 77
+     "n": 67
     },
     {
      "name": "Capitulated Magik",
-     "n": 62
+     "n": 54
     }
    ]
   },
   {
-   "slug": "NoxViator",
-   "name": "Nox Viator Gaming",
-   "label": "Nox Viator",
-   "game": "multi-game",
-   "note": "The community through the middle years, with the 2nd Coldstream still the regiment inside it.",
-   "founded": "October 27, 2013",
-   "foundedIso": "2013-10-27",
-   "members": 83,
-   "namedMembers": 68,
-   "announcements": 103,
-   "events": 0,
-   "first": "2013-11-03",
-   "last": "2017-10-15",
-   "byYear": {},
-   "topAuthors": [
-    {
-     "name": "RiveR",
-     "n": 98
-    },
-    {
-     "name": "dominos man",
-     "n": 3
-    },
-    {
-     "name": "Capitulated Magik",
-     "n": 1
-    }
-   ]
-  },
-  {
-   "slug": "coldstream2015",
+   "slug": "noxviatorcoldstream",
    "sources": [
+    "MidnightMercss",
+    "Midnightmercs",
+    "NoxViator",
     "2ndColdstream"
    ],
-   "name": "Nox Viator 2nd Coldstream Guards",
-   "label": "Nox Viator 2nd Coldstream Guards",
-   "game": "Mount & Blade: Warband, Napoleonic Wars",
-   "note": "The year the timeline was missing. In the summer of 2015 the regiment formed up again as the 2nd Coldstream Guards under the Nox Viator banner, calling its events through the old Steam group: the website came back to life at coldstream.enjin.com, and events ran from June into September before the group went quiet once more.",
-   "founded": "Summer 2015",
-   "foundedIso": "2015-06-01",
-   "members": 0,
-   "namedMembers": 0,
-   "announcements": 117,
-   "events": 62,
-   "first": "2015-06-13",
-   "last": "2015-10-29",
+   "name": "Nox Viator / 2nd Coldstream",
+   "label": "Nox Viator · 2nd Coldstream",
+   "ran": "2013-2015",
+   "game": "multi-game, Mount & Blade: Warband, Napoleonic Wars",
+   "note": "In 2013 the gaming community renamed to Nox Viator, and the 2nd Coldstream carried on as its sub-group through 2015: the regiment kept calling its events through the old group feeds, and in the summer of 2015 it formed back up in force, with the website coming back to life at coldstream.enjin.com, before going quiet again in the autumn.",
+   "founded": "2013",
+   "foundedIso": "2013-01-01",
+   "members": 83,
+   "namedMembers": 68,
+   "announcements": 479,
+   "events": 149,
+   "first": "2013-01-01",
+   "last": "2017-10-15",
    "byYear": {
+    "2013": 87,
     "2015": 62
    },
    "topAuthors": [
     {
      "name": "RiveR",
-     "n": 107
+     "n": 428
     },
     {
-     "name": "TylerY",
-     "n": 7
+     "name": "RivenX",
+     "n": 16
     },
     {
-     "name": "Rambo",
-     "n": 3
+     "name": "NoxV ' DaviD",
+     "n": 11
     }
    ]
   },
