@@ -1709,3 +1709,100 @@ fresh design pass, the specs are already paid for.
 The key constraint any winner must respect: archive screenshots carry
 width and height in the seed data, member uploads do NOT, so any layout
 that needs aspect ratios up front only works for the archive half.
+
+## 27. Steam API is in, and a bug that was under your feet too (River-side, 21 Aug 2026)
+
+### 27a. Read this first: service_role had no grants on anything
+
+This is the important part of this section and it affects sign in, not just
+my work.
+
+Every edge function connects as `service_role`. That role bypasses row level
+security, which reads as "service_role can do anything". It does not mean
+that. Grants still apply to it exactly like anybody else, and this project
+had granted it nothing. Not the new Steam tables, and not `member` or
+`roster_entry` either, which have existed since 0001.
+
+Nothing had ever exercised a service_role write, so nothing had failed.
+steam-auth would have looked healthy right up to a real sign in: the Steam
+redirect, the assertion check and the auth user creation all work, because
+that last one goes through GoTrue rather than the tables. Then it reaches
+the member upsert, gets "permission denied for table member", and drops the
+member on `/?login=failed` with nothing to explain it.
+
+It only surfaced because steam-sync writes on every run and so failed
+immediately and loudly.
+
+Fixed in `0013_service_role_grants.sql`, already applied. It is the blanket
+grant Supabase itself sets up, plus `alter default privileges`, so the next
+table anyone adds is covered without having to remember any of this. Doing
+it per table is exactly how it was missed: 0012 granted anon and
+authenticated, quoted the 0004 grants trap in a comment, and still forgot
+service_role.
+
+If you check this yourself, do not use `information_schema.role_table_grants`.
+It only reports roles the current session belongs to, so it shows nothing
+for service_role even when the grant is there, and reads as though the grant
+silently failed. Use `has_table_privilege('service_role', 'member', 'INSERT')`.
+
+### 27b. What was built
+
+River gave a Steam Web API key and asked to show the groups and their
+members in the archive.
+
+The key is server side only and has to be. The Steam Web API sends no CORS
+headers, so a browser cannot call it at all, and the repo is public. It is
+in Supabase Edge Function secrets as `STEAM_API_KEY`. It is not in the repo
+and must not go near the bundle.
+
+- `0012_steam_groups.sql`: `steam_group`, `steam_group_member`,
+  `steam_group_snapshot`. Applied.
+- `0013_service_role_grants.sql`: the fix above. Applied.
+- `steam-sync` edge function: deployed, JWT verification left ON, and
+  additionally guarded by a `SYNC_SECRET` header, because every call makes
+  Steam do work and writes to the database. The anon key is useless as a
+  guard since it ships in the bundle.
+- `src/components/SteamGroups.tsx`, rendered in the Archive under The Eras.
+
+First sync took 10.7 seconds and wrote 589 memberships across 8 groups, 588
+of them with names and avatars. One account in RoaR has no summary, almost
+certainly deleted.
+
+### 27c. Numbers, and one that does not reconcile
+
+Steam reports `memberCount` twice, in two places, with different values.
+Nox Viator says 83 inside `groupDetails` and 87 at the list level, and the
+list really does hold 87 ids. Both are stored and both are shown, with the
+body saying plainly that Steam is the one disagreeing with itself.
+
+Do not "fix" this by picking one. The `shown` numbers total 579 across the
+eight groups, which is exactly what `eras.json` already carries, so that is
+the column that reconciles with everything already published. The `listed`
+total is 589.
+
+Worth knowing: **386 unique people** across all eight groups, and the roster
+holds 384 names. 108 people followed the community into more than one group
+and one person is in six of the eight. That is a good statistic and nothing
+on the site uses it yet.
+
+### 27d. Things I found but did not change
+
+- `0011_enlistment_book` has still never been run, so `enlistment` 404s and
+  the Join page's book is dead on the live site. 0011 also creates the table
+  with policies but **no grants**, so running it as written still leaves the
+  page at 401. 0012 carries a guarded fix that grants it if the table exists,
+  so the order that works is: run 0011, then run 0012 again.
+- `site/tsconfig.tsbuildinfo` is a TypeScript build cache and it is tracked,
+  so it dirties the tree on every build and blocks a rebase until somebody
+  commits it. It probably wants to be in `.gitignore`. I have not done that
+  because I did not put it there.
+- The `csg-site` entry in the working directory's `.claude/launch.json`
+  passed `--root` to Vite. Vite 5 takes root positionally, `vite [root]`, and
+  has no `--root` flag, so the browser preview could not start at all.
+  Corrected to the positional form. That file is outside the repo.
+
+### 27e. Still open from 23
+
+Nobody has completed a real Steam sign in yet. With 27a fixed it now has a
+genuine chance of working, where before it would have failed at the member
+upsert. Still needs River to press the button.
