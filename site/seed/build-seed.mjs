@@ -281,8 +281,8 @@ const erasFinal = [
   {
     slug: 'coldstreamregiment',
     sources: groupsIn(unitRows),
-    name: 'Midnight Mercenaries / 2nd Coldstream Regiment of Footguards',
-    label: 'Midnight Mercenaries / 2nd Coldstream',
+    name: 'Midnight Mercenaries · 2nd Coldstream Regiment of Footguards',
+    label: 'Midnight Mercenaries · 2nd Coldstream',
     ran: '2011-2012',
     game: 'Battlegrounds 2, Mount & Blade: Warband, Napoleonic Wars',
     note: 'One unit, run 2011 to 2012: Midnight Mercenaries and the 2nd Coldstream Regiment of Footguards were the same unit, and the Multi-Gaming group was a duplicate banner over the same community. Rank structure, weekly drills, and the busiest single year the record holds. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.',
@@ -299,7 +299,7 @@ const erasFinal = [
   {
     slug: 'noxviatorcoldstream',
     sources: groupsIn(noxRows),
-    name: 'Nox Viator / 2nd Coldstream',
+    name: 'Nox Viator · 2nd Coldstream',
     label: 'Nox Viator · 2nd Coldstream',
     ran: '2013-2015',
     game: 'multi-game, Mount & Blade: Warband, Napoleonic Wars',
