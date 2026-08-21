@@ -1606,3 +1606,83 @@ River's orders, applied in this commit:
   removed from use; the PNGs stay in public/ as archive material.
 - Note when reseeding from this machine: run `node seed/build-seed.mjs ..`
   from `site/` (the default archive path resolves wrong here).
+
+## 25. Steam sign in: audited end to end, frontend fixed, function patch pending (2026-08-21)
+
+River asked for sign in to be made to work properly. I ran a five-way audit
+(live probes, client path, DB schema, function code, this log) with every
+finding adversarially re-verified. Sixteen findings survived. The headline:
+
+**The member table has ZERO rows.** No Steam sign in has ever completed, so
+23c's "unproven" is still the state. The middle leg (createUser, upsert,
+generateLink) checks out against the real schema: `member.steam_id64` is
+`text unique not null`, so the `onConflict: "steam_id64"` upsert targets a
+real constraint, and every NOT NULL column is supplied or defaulted. No
+deterministic blocker was found in it.
+
+### Fixed and pushed by me (commit 80e0996)
+
+1. **The routing bug, and this is the one that would have made a first real
+   sign in look broken.** supabase-js consumes the token fragment and then
+   clears it with `location.hash = ''`. That fires `hashchange` with an empty
+   hash, `routeFromHash` maps empty to `landing`, and the member who just
+   signed in was thrown onto the full screen video splash, which ignores the
+   `me` prop entirely. Once the 5s toast faded there was no signed-in state
+   visible anywhere. App.tsx now remembers that the page arrived from an auth
+   return and carries it through to Home. Verified locally by simulating the
+   exact `location.hash = ''` that auth-js performs.
+2. **The origin split.** Sessions are deposited on **www** because that is
+   the GoTrue Site URL (probes: every `redirect_to` collapses to www, even
+   `evil.example.com`), while the canonical tag, og:url, sitemap and Steam's
+   own realm all say the **apex**. localStorage is per origin, so a member
+   could sign in and then look like a guest simply by typing the address
+   without the www. The apex stays canonical and www now folds onto it: a
+   `_redirects` rule plus an inline guard in `<head>` that carries
+   `pathname + search + hash` across by hand. The token fragment survives the
+   hop, so the session is created on the canonical origin.
+   NOTE: Pages `_redirects` appears not to honour cross-hostname rules, so
+   the inline guard is what actually does the work. If you want a true 301,
+   it needs a zone-level Redirect Rule or Bulk Redirect in the dashboard
+   (my wrangler token has zone:read only, so I could not add one).
+3. Smaller ones, same commit: the success toast fires only for an actual
+   sign in instead of every page load with a stored session; Supabase's own
+   failures (`#error=...&error_description=...`) are read out of the fragment
+   and shown as a readable toast instead of sitting silently in the address
+   bar; `.single()` became `.maybeSingle()` and a live session with no member
+   row now says so rather than rendering a signed-in person as a guest.
+
+### YOUR ACTION: deploy the patched edge function
+
+`site/supabase/functions/steam-auth/index.ts` is patched in the repo but
+**not deployed** (no Supabase CLI auth on this machine). Three fixes:
+
+- `verifyWithSteam` is wrapped in try/catch. It is a live fetch to Steam and
+  was the only uncaught-throw path in the function: a transient network
+  failure returned a raw 500 on the supabase.co origin and the member was
+  never redirected back to the site at all.
+- The member upsert's error is checked. It used to be discarded and the flow
+  issued a session regardless, which is the exact "signed in but the UI shows
+  guest" failure with nothing surfaced anywhere.
+- `steamPersona` sends a User-Agent (Steam serves an anti-bot interstitial to
+  clients that do not introduce themselves, as steam-sync already documents)
+  and reports whether its answer is real. A failed lookup can no longer
+  overwrite a returning member's name and avatar with "Player 97257".
+- `SITE_URL` default moved to the apex, matching the canonical origin.
+
+Deploy it **in place from the function's Code tab** (per 21e: the "Deploy a
+new function" editor silently re-enables Verify JWT, which 401s every
+browser), then run the no-auth-header curl: 302 to steamcommunity is healthy.
+
+### Also still open
+
+- **`enlistment` (RUN_ME_next.sql section 0011) was never applied to prod**,
+  so the Join page's post path is dead for a signed-in member: probe returns
+  PGRST205. Note prod proves the bundle was applied selectively, since 0012
+  (steam_group, later in the same file) exists while 0011 does not. Running
+  the whole file is safe (every section is guarded) and would fix it.
+- The domain did not pick up the latest production deployment: `23c2ceb7`
+  (commit 80e0996) is Production on branch main and correct at its own
+  pages.dev URL, but coldstreamgaming.com still serves the previous build
+  and 404s the new asset. Worth a look; a redeploy or a cache purge may be
+  all it needs. The fixes above are therefore pushed and deployed but NOT
+  yet visible on the domain.
