@@ -1,7 +1,6 @@
 // Enlist Here. Signing in through Steam is the whole membership step, so this
-// page is not a gate: it is the introduction. It opens a thread on the
-// enlistment board under your own name, which is the same thing the old
-// applications did, minus the waiting.
+// page is not a gate: it is the introduction. Introductions land in their own
+// enlistment book (the forum was scrapped; this page never needed one).
 //
 // If the roster already knows the name you signed in with, that is worth
 // saying out loud before anything else. Someone who played in 2012 should not
@@ -10,22 +9,22 @@ import { useEffect, useMemo, useState } from 'react';
 import { supa } from '../lib/supa';
 import { people, yearsWithUs } from '../lib/data';
 import type { Me } from '../lib/auth';
-import { one } from '../lib/rel';
 
-const BOARD_SLUG = 'enlist';
-
-interface Board { id: string; name: string }
 interface Intro {
   id: string;
-  title: string;
+  display_name: string;
+  body: string;
   created_at: string;
-  author?: { display_name: string } | { display_name: string }[] | null;
 }
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+const DEMO_KEY = 'csg-demo-enlist-v1';
+const demoLoad = (): Intro[] => {
+  try { return JSON.parse(localStorage.getItem(DEMO_KEY) || '[]') as Intro[]; } catch { return []; }
+};
+const demoSave = (v: Intro[]) => { try { localStorage.setItem(DEMO_KEY, JSON.stringify(v)); } catch { /* quota */ } };
 
 export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => void }) {
-  const [board, setBoard] = useState<Board | null>(null);
   const [intros, setIntros] = useState<Intro[] | null>(null);
   const [games, setGames] = useState('');
   const [found, setFound] = useState('');
@@ -48,53 +47,41 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
       ?? null;
   }, [me]);
 
-  useEffect(() => {
-    if (!supa) return;
-    const sb = supa;
-    sb.from('board').select('id, name').eq('slug', BOARD_SLUG).single()
-      .then(({ data }) => {
-        if (!data) return;
-        setBoard(data as Board);
-        sb.from('thread')
-          .select('id, title, created_at, author:member(display_name)')
-          .eq('board_id', (data as Board).id)
-          .order('created_at', { ascending: false })
-          .limit(12)
-          .then(({ data: t }) => setIntros((t ?? []) as unknown as Intro[]));
-      });
-  }, []);
+  const load = () => {
+    if (!supa) { setIntros(demoLoad().sort((a, b) => b.created_at.localeCompare(a.created_at))); return; }
+    supa.from('enlistment')
+      .select('id, display_name, body, created_at')
+      .order('created_at', { ascending: false })
+      .limit(12)
+      .then(({ data }) => setIntros((data ?? []) as Intro[]));
+  };
+  useEffect(load, []);
 
   async function post() {
     setError(null);
     if (!about.trim()) { setError('Write a line or two about yourself first.'); return; }
-    if (!supa || !me) return;
-    if (!board) { setError('The enlistment board is not reachable right now.'); return; }
+    if (!me) return;
 
-    // The two optional lines sit above the introduction, with a blank line
-    // between them only if either was actually filled in.
     const head: string[] = [];
     if (games.trim()) head.push(`Playing: ${games.trim()}`);
     if (found.trim()) head.push(`Found us through: ${found.trim()}`);
-    const body = head.length
-      ? `${head.join('\n')}\n\n${about.trim()}`
-      : about.trim();
+    const body = head.length ? `${head.join('\n')}\n\n${about.trim()}` : about.trim();
+
+    if (!supa) {
+      const items = demoLoad();
+      items.push({ id: 'e-' + Date.now().toString(36), display_name: me.display_name, body, created_at: new Date().toISOString() });
+      demoSave(items);
+      setPosted(true);
+      load();
+      return;
+    }
 
     setBusy(true);
-    const { data: t, error: e1 } = await supa
-      .from('thread')
-      .insert({ board_id: board.id, title: `${me.display_name} reporting in`, author_id: me.id })
-      .select('id')
-      .single();
-
-    if (e1 || !t) { setBusy(false); setError(e1?.message ?? 'Could not post that.'); return; }
-
-    const { error: e2 } = await supa
-      .from('post')
-      .insert({ thread_id: t.id, author_id: me.id, body });
-
+    const { error: e } = await supa.from('enlistment').insert({ body, display_name: me.display_name });
     setBusy(false);
-    if (e2) { setError(e2.message); return; }
+    if (e) { setError(e.message); return; }
     setPosted(true);
+    load();
   }
 
   return (
@@ -153,7 +140,7 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
           {me && posted && (
             <div className="compose">
               <div className="fok">
-                Posted. It is on the enlistment board now and people will see it.
+                Posted. It is in the enlistment book now and people will see it.
               </div>
             </div>
           )}
@@ -181,28 +168,19 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
 
         <div className="module">
           <div className="mhead">
-            <h3>Lately on the enlistment board</h3>
+            <h3>The enlistment book</h3>
             <span className="sub">newest first</span>
           </div>
           {intros === null && <div className="note">Loading.</div>}
           {intros?.length === 0 && (
-            <div className="note">Nobody has posted here yet. Go on then.</div>
+            <div className="note">Nobody has signed the book yet. Go on then.</div>
           )}
-          {intros && intros.length > 0 && (
-            <div className="tscroll">
-              <table className="ftable">
-                <thead><tr><th>Thread</th><th>Who</th></tr></thead>
-                <tbody>
-                  {intros.map((t) => (
-                    <tr key={t.id}>
-                      <td><a className="lnk strong" href="#/forums">{t.title}</a></td>
-                      <td className="dim">{one(t.author)?.display_name ?? 'member'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          {intros && intros.length > 0 && intros.map((t) => (
+            <article className="post" key={t.id}>
+              <div className="meta"><b>{t.display_name}</b> · {new Date(t.created_at).toLocaleDateString()}</div>
+              <p>{t.body}</p>
+            </article>
+          ))}
         </div>
       </main>
     </div>

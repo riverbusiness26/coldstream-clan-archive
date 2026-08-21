@@ -703,3 +703,22 @@ create or replace view event_attendance as
 
 grant select on event_attendance to anon, authenticated;
 
+
+-- ------------------------------------------------------------------
+-- 0011_enlistment_book
+-- The forum was scrapped (River, 21 Aug 2026). Introductions now land in
+-- their own table. The board/thread/post tables above are no longer used by
+-- the site; skip their sections on a fresh apply, or drop them if applied.
+create table if not exists enlistment (
+  id uuid primary key default gen_random_uuid(),
+  member_id uuid references member(id) default current_member_id(),
+  display_name text not null,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+alter table enlistment enable row level security;
+drop policy if exists enlist_read on enlistment;
+create policy enlist_read on enlistment for select using (true);
+drop policy if exists enlist_write on enlistment;
+create policy enlist_write on enlistment for insert
+  with check (current_member_id() is not null);

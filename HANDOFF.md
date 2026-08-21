@@ -1305,3 +1305,16 @@ commands in DEPLOY.md at the same time.
 `member` and `operator` are both still empty and will stay that way until
 `steam-auth` is deployed. That remains the last gate on the whole site, and it
 is River's, not ours.
+
+## 18. The forum is scrapped (River, 21 Aug 2026)
+
+River's call, executed on the Robert side: the site forum is removed entirely.
+Forums.tsx and demoForum.ts deleted, nav and routes and footer links cleaned,
+zero forum references left in site source. Enlist Here now writes to its own
+`enlistment` table (RUN_ME_next.sql section 0011) instead of a board thread,
+with the roster welcome-back recognition intact. The board/thread/post tables
+in earlier SQL sections are unused: skip them on a fresh apply or drop them.
+The ARCHIVED forum record (the 885-post FSE thread, forum-post counts on
+profiles, The Archive's references) is history, not the feature, and stays.
+Your What's New / reactions work should target gallery, enlistment, events
+and shouts rather than posts.

@@ -8,14 +8,12 @@ import Profile from './views/Profile';
 import Calendar from './views/Calendar';
 import Servers from './views/Servers';
 import Archive from './views/Archive';
-import Forums from './views/Forums';
 import Gallery from './views/Gallery';
 import Enlist from './views/Enlist';
 import { asset } from './lib/asset';
 
 const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
-  ['forums', 'Forums', true],
   ['members', 'Members', true],
   ['gallery', 'Gallery', true],
   ['enlist', 'Enlist Here', true],
@@ -71,8 +69,7 @@ export default function App() {
           <div className="fcol">
             <b>Site</b>
             <a href="#/members">The Roster</a>
-            <a href="#/forums">Forums</a>
-            <a href="#/gallery">Gallery</a>
+              <a href="#/gallery">Gallery</a>
             <a href="#/events">Events</a>
             <a href="#/archive">The Archive</a>
           </div>
@@ -129,7 +126,6 @@ export default function App() {
       {view === 'events' && <Calendar me={me} />}
       {view === 'servers' && <Servers />}
       {view === 'archive' && <Archive />}
-      {view === 'forums' && <Forums me={me} signIn={signIn} />}
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       {view === 'enlist' && <Enlist me={me} signIn={signIn} />}
 
@@ -141,7 +137,6 @@ export default function App() {
         <div className="fcol">
           <b>Site</b>
           <a href="#/members">The Roster</a>
-          <a href="#/forums">Forums</a>
           <a href="#/gallery">Gallery</a>
           <a href="#/events">Events</a>
           <a href="#/archive">The Archive</a>
