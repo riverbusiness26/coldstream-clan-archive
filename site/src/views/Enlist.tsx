@@ -90,7 +90,7 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
       <main>
         <div className="module">
           <div className="mhead">
-            <h3>Enlist Here</h3>
+            <h3>Join</h3>
             <span className="sub">signing in is the whole of it</span>
           </div>
 

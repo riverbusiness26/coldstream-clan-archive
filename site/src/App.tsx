@@ -35,7 +35,7 @@ const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
   ['members', 'Members', true],
   ['gallery', 'Gallery', true],
-  ['enlist', 'Enlist Here', true],
+  ['enlist', 'Join', true],
   ['events', 'Events', true],
   ['servers', 'Servers', true],
   ['archive', 'The Archive', true],
@@ -167,7 +167,7 @@ export default function App() {
           <a href="https://discord.gg/75sfq5VPY" target="_blank" rel="noopener">Discord</a>
           <a href="https://steamcommunity.com/groups/coldstreamgaming" target="_blank" rel="noopener">Steam Group</a>
           <a href="#/servers">Game Servers</a>
-          <a href="#/enlist">Enlist Here</a>
+          <a href="#/enlist">Join</a>
         </div>
         <div className="fcol">
           <b>The Record</b>
