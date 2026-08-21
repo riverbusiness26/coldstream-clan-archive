@@ -1,5 +1,4 @@
-Holding: nothing
-
-Last job: the Steam sign in audit and fixes, and the domain publish
-unblocking (the root _redirects file was failing the build).
+Holding: site/db/0014_river_admin_and_enlistment.sql
+Doing:   promoting River to admin and applying the enlistment book.
+         Written and pushed, waiting on River to run it in the SQL editor.
 Since:   2026-08-21
