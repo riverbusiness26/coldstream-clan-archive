@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
+import SteamButton from './SteamButton';
 
 interface Shout { id: string; name: string; body: string; t: string }
 
@@ -34,7 +35,7 @@ function authorName(r: Row): string | null {
   return a?.display_name ?? null;
 }
 
-export default function Shoutbox({ me }: { me: Me | null }) {
+export default function Shoutbox({ me, signIn }: { me: Me | null; signIn: () => void }) {
   const [shouts, setShouts] = useState<Shout[]>(DEMO ? seedShouts : []);
   const [text, setText] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -154,6 +155,10 @@ export default function Shoutbox({ me }: { me: Me | null }) {
         ))}
       </div>
       {error && <div className="ferr" style={{ padding: '8px 16px' }}>{error}</div>}
+      {!me && (
+        <div className="shout-in"><SteamButton me={me} signIn={signIn} /></div>
+      )}
+      {me && (
       <div className="shout-in">
         <input
           value={text}
@@ -165,6 +170,7 @@ export default function Shoutbox({ me }: { me: Me | null }) {
         />
         <button className="btn" disabled={!me || !text.trim()} onClick={send}>Send</button>
       </div>
+      )}
     </div>
   );
 }

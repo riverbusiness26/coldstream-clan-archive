@@ -40,7 +40,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
     return (
       <div className="wrap solo"><main><div className="module">
         <div className="mhead"><h3>Member not found</h3></div>
-        <div className="note">Nobody on the roll matches that address. <button className="lnk" onClick={() => go('members')}>Back to the roster.</button></div>
+        <div className="note">Nobody on the roll matches that address. <button className="lnk" onClick={() => go('archive')}>Back to the roster.</button></div>
       </div></main></div>
     );
   }
@@ -55,7 +55,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
     <div className="wrap solo">
       <main>
         <div className="crumbs">
-          <button className="lnk" onClick={() => go('members')}>Members</button>
+          <button className="lnk" onClick={() => go('archive')}>The Archive</button>
           <span> › </span>
           <span className="here">{person.name}</span>
         </div>

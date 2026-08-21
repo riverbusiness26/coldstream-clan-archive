@@ -69,7 +69,7 @@ import Discord from '../components/Discord';
 import type { Me } from '../lib/auth';
 import { asset } from '../lib/asset';
 
-export default function Home({ me, go }: { me: Me | null; go: (v: string) => void }) {
+export default function Home({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   const totalEvents = eventStats.reduce((n, e) => n + e.events, 0);
   const latest = news.filter((n) => n.body && n.body.trim()).slice(-4).reverse();
 
@@ -85,7 +85,7 @@ export default function Home({ me, go }: { me: Me | null; go: (v: string) => voi
             the chat room.
           </p>
           <div className="cta">
-            <button className="btn primary" onClick={() => go('members')}>The Roster</button>
+            <button className="btn primary" onClick={() => go('archive')}>The Roster</button>
             <button className="btn" onClick={() => go('servers')}>Servers</button>
             <button className="btn" onClick={() => go('archive')}>The Archive</button>
           </div>
@@ -127,7 +127,7 @@ export default function Home({ me, go }: { me: Me | null; go: (v: string) => voi
           </div>
         </main>
         <aside>
-          <Shoutbox me={me} />
+          <Shoutbox me={me} signIn={signIn} />
           <Discord />
           <div className="module">
             <div className="mhead"><h3>The Numbers</h3></div>

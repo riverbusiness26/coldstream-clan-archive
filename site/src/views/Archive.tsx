@@ -1,12 +1,14 @@
-// The Archive: the record room. The eras up front, because the eras are the
-// spine of the whole thing, then the statistics they produced. Everything
-// here says what it is, where it came from, and when. The deep archive, every
-// recovered page and forum thread, lives on the archive site and is linked,
-// never folded in and never deleted.
-import { useState } from 'react';
+// The Archive: the record room, and now the whole record. The roster and the
+// rank ladder live here, then the timeline and the statistics it produced.
+// Everything here says what it is, where it came from, and when. The deep
+// archive, every recovered page and forum thread, lives on the archive site
+// and is linked, never folded in and never deleted.
+import { useMemo, useState } from 'react';
 import { eventStats, people } from '../lib/data';
 import erasSeed from '../seed/eras.json';
 import filmsSeed from '../seed/films.json';
+import Roster from '../components/Roster';
+import Ranks from '../components/Ranks';
 
 interface Film {
   id: string;
@@ -23,6 +25,8 @@ const CHANNELS = [...new Set(FILMS.map((f) => f.channel))];
 
 interface Era {
   slug: string;
+  sources?: string[];
+  ran?: string;
   name: string;
   label: string;
   game: string;
@@ -61,27 +65,18 @@ function span(first: string | null, last: string | null) {
 
 // ---- migrated from the landing page (River: the landing is video only now;
 // the numbers belong here in the record room).
-interface RibEra { slug: string; label: string; foundedIso: string | null; events: number }
+interface RibEra { slug: string; label: string; foundedIso: string | null; ran?: string; events: number }
 const ERAS = (erasSeed as unknown as { eras: RibEra[] }).eras;
 const PEAK = Math.max(...ERAS.map((e) => e.events), 1);
 
-const HONOURS: { fig: string; name: string; body: string }[] = [
-  { fig: '139,456', name: 'views on one thread',
-    body: 'The recruitment thread ran fifty nine pages over three and a half years, and a hundred and thirty nine thousand people looked in.' },
-  { fig: '276', name: 'events in one stretch',
-    body: 'Called by the 2nd Coldstream between 2012 and 2015, three quarters of every event the record holds.' },
-  { fig: 'ESEA', name: 'Open and Intermediate',
-    body: 'Two teams fielded in CS:GO, retake servers that stayed full, and 10 mans running on FACEIT.' },
-  { fig: 'RoaR', name: 'a skin in the Steam Workshop',
-    body: 'A creator built a USP, named it for the org, and handed it over.' },
-  { fig: '384', name: 'names on the roll',
-    body: 'Everyone the record remembers since 2011, each one traceable to the source it came from.' },
-  { fig: '2012', name: 'our own ground ever since',
-    body: '2ndColdstream_TDM was the first server. There has been one running under our name in some form ever since.' },
-];
-
 export default function Archive() {
   const [openEra, setOpenEra] = useState<string | null>(null);
+
+  // Ranks somebody on the roster actually held, so the ladder marks them.
+  const held = useMemo(
+    () => new Set(people.map((p) => p.rank).filter(Boolean) as string[]),
+    [],
+  );
 
   const byYear: Record<number, number> = {};
   for (const e of eventStats) byYear[e.year] = (byYear[e.year] ?? 0) + e.events;
@@ -121,21 +116,8 @@ export default function Archive() {
                   <span style={{ height: `${Math.max(3, Math.round((e.events / PEAK) * 100))}%` }} />
                 </div>
                 <div className="lera-n">{e.events || '·'}</div>
-                <div className="lera-year">{e.foundedIso ? e.foundedIso.slice(0, 4) : ''}</div>
+                <div className="lera-year">{e.ran ?? (e.foundedIso ? e.foundedIso.slice(0, 4) : '')}</div>
                 <div className="lera-name">{e.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="module">
-          <div className="mhead"><h3>Honours</h3><span className="sub">every figure checkable against the record</span></div>
-          <div className="land-honours" style={{ padding: 16 }}>
-            {HONOURS.map((h) => (
-              <div className="honour" key={h.name}>
-                <div className="hfig">{h.fig}</div>
-                <div className="hname">{h.name}</div>
-                <p>{h.body}</p>
               </div>
             ))}
           </div>
@@ -147,14 +129,17 @@ export default function Archive() {
             <span className="sub">the record room · everything labeled, nothing deleted</span>
           </div>
           <div className="note">
-            Fifteen years of the community's records: the eras, the event
-            statistics, the rosters, the films, and the pages of our old sites.
-            Every item says what it is, where it came from, and when. The full
-            deep archive, including every recovered page and forum thread, lives
-            on the{' '}
+            Fifteen years of the community's records: the roster and the ranks,
+            the timeline, the event statistics, the films, and the pages of our
+            old sites. Every item says what it is, where it came from, and when.
+            The full deep archive, including every recovered page and forum
+            thread, lives on the{' '}
             <a href={ARCHIVE_URL} target="_blank" rel="noopener" className="ilink">archive site</a>.
           </div>
         </div>
+
+        <Roster />
+        <Ranks held={held} />
 
         <div className="module">
           <div className="mhead">
@@ -173,7 +158,7 @@ export default function Archive() {
                 <li className={'era' + (open ? ' open' : '')} key={e.slug}>
                   <button className="era-head" onClick={() => setOpenEra(open ? null : e.slug)}
                     aria-expanded={open}>
-                    <span className="era-year">{e.foundedIso?.slice(0, 4) ?? '·'}</span>
+                    <span className="era-year">{e.ran ?? e.foundedIso?.slice(0, 4) ?? '·'}</span>
                     <span className="era-mid">
                       <span className="era-name">{e.label}</span>
                       {e.game && <span className="era-game">{e.game}</span>}
@@ -191,7 +176,9 @@ export default function Archive() {
                       <dl className="era-facts">
                         <div><dt>Founded</dt><dd>{e.founded}</dd></div>
                         <div><dt>Announcements</dt><dd>{span(e.first, e.last)}</dd></div>
-                        <div><dt>On the group</dt><dd>{e.members} members, {e.namedMembers} named</dd></div>
+                        {e.members > 0 && (
+                          <div><dt>On the group</dt><dd>{e.members} members, {e.namedMembers} named</dd></div>
+                        )}
                         <div><dt>Posts archived</dt><dd>{e.announcements.toLocaleString('en-US')}</dd></div>
                         <div><dt>Events called</dt><dd>{e.events}</dd></div>
                       </dl>
@@ -208,7 +195,8 @@ export default function Archive() {
                         </div>
                       )}
                       <div className="era-prov">
-                        source: Steam group <span className="mono">{e.slug}</span>, announcement archive
+                        source: Steam {e.sources && e.sources.length > 1 ? 'groups' : 'group'}{' '}
+                        <span className="mono">{(e.sources ?? [e.slug]).join(', ')}</span>, announcement archive
                       </div>
                     </div>
                   )}

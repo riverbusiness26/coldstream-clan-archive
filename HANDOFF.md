@@ -1574,3 +1574,35 @@ redirects a genuine assertion back: `createUser`, the member upsert, and
 `generateLink`. That needs River to actually click Sign In on Steam, which
 is his to click, not ours. Until he does, treat sign in as unproven rather
 than working.
+## 24. The record moved into the Archive; the timeline is condensed (River, 2026-08-21)
+
+River's orders, applied in this commit:
+
+- **Members is gone as a nav category.** The roster and the rank ladder now
+  live in The Archive (`site/src/components/Roster.tsx`, plus the existing
+  Ranks component, both rendered by Archive.tsx). `#/members` still routes,
+  as an alias for `#/archive`, so old links keep working. The Members view
+  file is deleted; do not resurrect it.
+- **The roster is the browsable archive.** New columns: "In the group" is
+  the span of a member's dated records (2012 to 2015 style), and "Events
+  called" comes from profile-stats. Attendance sheets did not survive, so
+  the page says so instead of pretending events called equals attendance.
+- **Timeline condensed 8 to 7.** Midnight Mercs, the 2nd Coldstream
+  Regiment of Footguards and Midnight Mercenaries were one unit run 2011 to
+  2012 (River's call; Midnight Mercenaries was a duplicate banner). They
+  are now ONE entry, slug `coldstreamregiment`, sources listing the three
+  Steam groups. The transform lives in `site/seed/build-seed.mjs` after the
+  erasOut build; deleting that block and reseeding un-merges it.
+- **The 2015 stint is on the timeline.** It was invisible inside the 2012
+  group's totals: 62 events, 117 announcements, June to October 2015, the
+  coldstream.enjin.com revival. Now its own entry, slug `coldstream2015`.
+  Totals still reconcile: 1,210 announcements, 362 events.
+- **Honours module deleted** from the Archive, per River.
+- **One Steam button everywhere.** `site/src/components/SteamButton.tsx`
+  renders the compact Steam-palette button signed out, and an avatar +
+  "Signed in as X" chip signed in. Header, Join, Gallery and the Shoutbox
+  all use it (the shoutbox swaps its disabled composer for the button when
+  signed out). The official Valve images and `.steam-btn.official` CSS are
+  removed from use; the PNGs stay in public/ as archive material.
+- Note when reseeding from this machine: run `node seed/build-seed.mjs ..`
+  from `site/` (the default archive path resolves wrong here).

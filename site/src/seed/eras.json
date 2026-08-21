@@ -29,103 +29,42 @@
    ]
   },
   {
-   "slug": "Midnightmercs",
-   "name": "Midnight Mercenarys",
-   "label": "Midnight Mercs",
-   "game": "Battlegrounds 2, Mount & Blade",
-   "note": "The first banner the community flew over itself, with the regiment underneath it.",
+   "slug": "coldstreamregiment",
+   "sources": [
+    "Midnightmercs",
+    "2ndColdstream",
+    "MidnightMercss"
+   ],
+   "name": "Midnight Mercs / 2nd Coldstream Regiment of Footguards",
+   "label": "Midnight Mercs · 2nd Coldstream",
+   "ran": "2011/12",
+   "game": "Battlegrounds 2, Mount & Blade: Warband, Napoleonic Wars",
+   "note": "One unit, run 2011 to 2012, under three group banners: Midnight Mercs and the 2nd Coldstream Regiment of Footguards were the same unit, and Midnight Mercenaries Multi-Gaming was a duplicate banner over the same community. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.",
    "founded": "June 28, 2011",
    "foundedIso": "2011-06-28",
-   "members": 54,
-   "namedMembers": 48,
-   "announcements": 67,
-   "events": 4,
+   "members": 101,
+   "namedMembers": 82,
+   "announcements": 898,
+   "events": 227,
    "first": "2011-07-01",
-   "last": "2013-02-22",
+   "last": "2014-09-30",
    "byYear": {
     "2011": 2,
-    "2012": 1,
-    "2013": 1
+    "2012": 138,
+    "2013": 87
    },
    "topAuthors": [
     {
-     "name": "dominos man",
-     "n": 28
-    },
-    {
      "name": "RiveR",
-     "n": 28
+     "n": 706
     },
     {
      "name": "NoxV ' DaviD",
-     "n": 9
-    }
-   ]
-  },
-  {
-   "slug": "2ndColdstream",
-   "name": "2nd Coldstream Regiment of Footguards",
-   "label": "2nd Coldstream Regiment of Footguards",
-   "game": "Mount & Blade: Warband, Napoleonic Wars",
-   "note": "The regiment years. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None.",
-   "founded": "January 19, 2012",
-   "foundedIso": "2012-01-19",
-   "members": 90,
-   "namedMembers": 77,
-   "announcements": 822,
-   "events": 276,
-   "first": "2012-01-20",
-   "last": "2015-10-29",
-   "byYear": {
-    "2012": 130,
-    "2013": 84,
-    "2015": 62
-   },
-   "topAuthors": [
-    {
-     "name": "RiveR",
-     "n": 672
+     "n": 77
     },
     {
      "name": "Capitulated Magik",
-     "n": 61
-    },
-    {
-     "name": "NoxV ' DaviD",
-     "n": 58
-    }
-   ]
-  },
-  {
-   "slug": "MidnightMercss",
-   "name": "Midnight Mercenaries Multi-Gaming Community",
-   "label": "Midnight Mercenaries",
-   "game": "multi-game",
-   "note": "The community side of the same years, running wider than the one game the regiment played.",
-   "founded": "June 13, 2012",
-   "foundedIso": "2012-06-13",
-   "members": 101,
-   "namedMembers": 82,
-   "announcements": 126,
-   "events": 9,
-   "first": "2012-06-18",
-   "last": "2013-09-11",
-   "byYear": {
-    "2012": 7,
-    "2013": 2
-   },
-   "topAuthors": [
-    {
-     "name": "RiveR",
-     "n": 113
-    },
-    {
-     "name": "NoxV ' DaviD",
-     "n": 10
-    },
-    {
-     "name": "Smooth Brain",
-     "n": 3
+     "n": 62
     }
    ]
   },
@@ -156,6 +95,41 @@
     {
      "name": "Capitulated Magik",
      "n": 1
+    }
+   ]
+  },
+  {
+   "slug": "coldstream2015",
+   "sources": [
+    "2ndColdstream"
+   ],
+   "name": "The 2015 Stint",
+   "label": "The 2015 Stint",
+   "game": "Mount & Blade: Warband, Napoleonic Wars",
+   "note": "The year the timeline was missing. In the summer of 2015 the regiment formed up again on its old Steam group: the website came back to life at coldstream.enjin.com, and events ran from June into September before the group went quiet once more.",
+   "founded": "Summer 2015",
+   "foundedIso": "2015-06-01",
+   "members": 0,
+   "namedMembers": 0,
+   "announcements": 117,
+   "events": 62,
+   "first": "2015-06-13",
+   "last": "2015-10-29",
+   "byYear": {
+    "2015": 62
+   },
+   "topAuthors": [
+    {
+     "name": "RiveR",
+     "n": 107
+    },
+    {
+     "name": "TylerY",
+     "n": 7
+    },
+    {
+     "name": "Rambo",
+     "n": 3
     }
    ]
   },

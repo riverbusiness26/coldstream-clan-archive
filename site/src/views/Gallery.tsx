@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
+import SteamButton from '../components/SteamButton';
 import { one } from '../lib/rel';
 import shotsSeed from '../seed/gallery.json';
 import { compressImage, compressToDataUrl } from '../lib/image';
@@ -311,7 +312,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                 Sign in through Steam to add your own screenshots. Anything you
                 still have from back then belongs up here.
               </div>
-              <button className="steam-btn official" onClick={signIn} aria-label="Sign in through Steam"><img src={asset('/steam-signin-small.png')} alt="Sign in through Steam" /></button>
+              <SteamButton me={me} signIn={signIn} />
             </div>
           )}
 

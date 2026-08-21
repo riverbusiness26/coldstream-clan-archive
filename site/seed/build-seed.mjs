@@ -218,15 +218,100 @@ const erasOut = erasRaw.groups.map((g) => {
   };
 }).sort((a, b) => String(a.foundedIso).localeCompare(String(b.foundedIso)));
 
+// ---- River, 2026-08-21: three groups, one unit. Midnight Mercs and the
+// 2nd Coldstream Regiment of Footguards ran as the same unit from 2011 to
+// 2012, and Midnight Mercenaries Multi-Gaming was a duplicate banner over
+// the same community, so the timeline carries them as one entry. Splitting
+// the merge back out is a matter of deleting this block and reseeding; the
+// three source groups are named on the entry.
+//
+// The regiment's 2015 stint was invisible inside the 2012 group's totals
+// (62 events in a year the timeline did not show). It becomes its own
+// entry, carved out of the same group's announcements by year.
+const MERGED_SLUGS = ['Midnightmercs', '2ndColdstream', 'MidnightMercss'];
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const isoOfWhen = (w) => {
+  const m = String(w || '').match(/^(\w{3}) (\d+), (\d{4})/);
+  if (!m || MONTHS_SHORT.indexOf(m[1]) < 0) return null;
+  return `${m[3]}-${String(MONTHS_SHORT.indexOf(m[1]) + 1).padStart(2, '0')}-${String(m[2]).padStart(2, '0')}`;
+};
+const annList = Array.isArray(anns) ? anns : anns.announcements;
+const isStintAnn = (a) => a.group === '2ndColdstream' && (yearOf(a.when) ?? 0) >= 2015;
+const isMergedAnn = (a) => MERGED_SLUGS.includes(a.group) && !isStintAnn(a);
+const spanOf = (rows) => {
+  const ds = rows.map((a) => isoOfWhen(a.when)).filter(Boolean).sort();
+  return { first: ds[0] ?? null, last: ds[ds.length - 1] ?? null };
+};
+const topOf = (rows) => {
+  const m = {};
+  for (const a of rows) if (a.author) m[a.author] = (m[a.author] || 0) + 1;
+  return Object.entries(m).sort((x, y) => y[1] - x[1]).slice(0, 3)
+    .map(([name, n]) => ({ name, n }));
+};
+const evByYear = (rows) => {
+  const m = {};
+  for (const a of rows) {
+    if (!EVENT_RX.test(a.title || '')) continue;
+    const y = yearOf(a.when);
+    if (y) m[y] = (m[y] || 0) + 1;
+  }
+  return m;
+};
+const sumBy = (o) => Object.values(o).reduce((n, v) => n + v, 0);
+const mergedRows = annList.filter(isMergedAnn);
+const stintRows = annList.filter(isStintAnn);
+const mergedParts = erasOut.filter((e) => MERGED_SLUGS.includes(e.slug));
+const mergedBy = evByYear(mergedRows);
+const stintBy = evByYear(stintRows);
+const erasFinal = [
+  ...erasOut.filter((e) => !MERGED_SLUGS.includes(e.slug)),
+  {
+    slug: 'coldstreamregiment',
+    sources: MERGED_SLUGS,
+    name: 'Midnight Mercs / 2nd Coldstream Regiment of Footguards',
+    label: 'Midnight Mercs · 2nd Coldstream',
+    ran: '2011/12',
+    game: 'Battlegrounds 2, Mount & Blade: Warband, Napoleonic Wars',
+    note: 'One unit, run 2011 to 2012, under three group banners: Midnight Mercs and the 2nd Coldstream Regiment of Footguards were the same unit, and Midnight Mercenaries Multi-Gaming was a duplicate banner over the same community. Rank structure, weekly drills, and more events called than any other stretch of the record. Second to None. The same names filled all three group pages, so the member count is the largest of the three groups rather than a sum.',
+    founded: 'June 28, 2011',
+    foundedIso: '2011-06-28',
+    members: Math.max(...mergedParts.map((e) => e.members)),
+    namedMembers: Math.max(...mergedParts.map((e) => e.namedMembers)),
+    announcements: mergedRows.length,
+    events: sumBy(mergedBy),
+    ...spanOf(mergedRows),
+    byYear: mergedBy,
+    topAuthors: topOf(mergedRows),
+  },
+  {
+    slug: 'coldstream2015',
+    sources: ['2ndColdstream'],
+    name: 'The 2015 Stint',
+    label: 'The 2015 Stint',
+    game: 'Mount & Blade: Warband, Napoleonic Wars',
+    note: 'The year the timeline was missing. In the summer of 2015 the regiment formed up again on its old Steam group: the website came back to life at coldstream.enjin.com, and events ran from June into September before the group went quiet once more.',
+    founded: 'Summer 2015',
+    foundedIso: '2015-06-01',
+    members: 0,
+    namedMembers: 0,
+    announcements: stintRows.length,
+    events: sumBy(stintBy),
+    ...spanOf(stintRows),
+    byYear: stintBy,
+    topAuthors: topOf(stintRows),
+  },
+].sort((a, b) => String(a.foundedIso).localeCompare(String(b.foundedIso)));
+
 writeFileSync('src/seed/eras.json', JSON.stringify({
-  eras: erasOut,
+  eras: erasFinal,
   totals: {
-    announcements: erasOut.reduce((n, e) => n + e.announcements, 0),
-    events: erasOut.reduce((n, e) => n + e.events, 0),
+    announcements: erasFinal.reduce((n, e) => n + e.announcements, 0),
+    events: erasFinal.reduce((n, e) => n + e.events, 0),
   },
   eventsByYear: events.reduce((acc, e) => { acc[e.year] = (acc[e.year] || 0) + e.events; return acc; }, {}),
 }, null, 1));
-console.log(`eras: ${erasOut.length} | events recomputed: ${erasOut.reduce((n, e) => n + e.events, 0)} (research file said ${erasRaw.totals.events})`);
+console.log(`eras: ${erasFinal.length} (merged 3 into 1, split the 2015 stint out) | events recomputed: ${erasFinal.reduce((n, e) => n + e.events, 0)} (research file said ${erasRaw.totals.events})`);
 
 // ---- the calendar's past, from the announcement record.
 //

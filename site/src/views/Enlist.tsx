@@ -6,7 +6,7 @@
 // Steam and nothing more, per River. The roster stays its own record.
 import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
-import { asset } from '../lib/asset';
+import SteamButton from '../components/SteamButton';
 import type { Me } from '../lib/auth';
 
 interface Intro {
@@ -84,15 +84,15 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
                 application to wait on and nothing to fill in twice.
               </div>
               <div className="compose">
-                <button className="steam-btn official" onClick={signIn} aria-label="Sign in through Steam"><img src={asset('/steam-signin.png')} alt="Sign in through Steam" /></button>
+                <SteamButton me={me} signIn={signIn} />
               </div>
             </>
           )}
 
           {me && !posted && (
             <div className="note">
-              Signed in as <b>{me.display_name}</b>. Say hello below and you
-              are on the book.
+              <div style={{ marginBottom: 8 }}><SteamButton me={me} signIn={signIn} /></div>
+              Say hello below and you are on the book.
             </div>
           )}
 
