@@ -220,3 +220,39 @@ audit.
   the welcome sign are drafted and deliberately on hold.
 - Do not delete anything on River's behalf without asking, including the stray
   `rapid-action` function.
+
+## Added 2026-08-21 (Robert side), after the Steam sign in audit
+
+**The apex is canonical: coldstreamgaming.com, no www.** Supabase deposits
+sessions on www because that is the GoTrue Site URL, and browser sessions are
+per origin, so two live origins meant a member could sign in on one and look
+like a guest on the other. www now folds onto the apex through
+`site/public/_redirects` plus an inline guard in the head of
+`site/index.html`. Do not remove that guard, and do not repoint canonical
+tags at www.
+
+**Rebuild the seed with `node seed/build-seed.mjs ..` from `site/`.** Plain
+`npm run seed` resolves the archive path wrong on Robert's machine and dies
+looking for enjin-members.json one directory too deep.
+
+**Cloudflare can pin the domain to an older deployment.** On 21 Aug the domain
+served a stale build for over half an hour while newer deployments were live
+and correct at their own pages.dev URLs, and the new asset hash 404d on the
+domain itself. Before concluding a build failed, run
+`npx wrangler pages deployment list --project-name=coldstreamgaming` and
+compare it against what the domain actually serves.
+
+**Date HANDOFF headings, do not number them.** Sections 17 and 18 are already
+duplicated, and 23 collided on 21 Aug and had to be renumbered by hand while
+resolving a rebase. Use `## 2026-08-21 - what this is (whose side)`.
+
+**`db/RUN_ME_next.sql` has been applied selectively** and carries no applied
+markers, so the file's order no longer reflects what is in prod: section 0011
+(enlistment) is missing while the later 0012 exists, which leaves the Join
+page's post path dead. Check prod before assuming a table is there.
+
+**Sign in claims nothing from the roster.** River said "not yet". Do not wire
+the roster_entry auto link back without being asked.
+
+**Stage files by name. Never `git add -A`** while the other agent is working.
+

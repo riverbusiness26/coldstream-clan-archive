@@ -10,3 +10,8 @@ desktop.ini
 # are deliberately committed. This is an archive — the scraped pages and the
 # downloaded images are the point, and several of the sources have already
 # started losing files. Everything here is reproducible from data/ alone.
+
+# TypeScript's incremental build cache. It is a build artifact that changes
+# on every compile, so with two agents working it conflicts on almost every
+# rebase and carries no information worth keeping.
+site/tsconfig.tsbuildinfo
