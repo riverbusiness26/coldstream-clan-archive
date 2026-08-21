@@ -116,6 +116,7 @@ export default function App() {
       </header>
 
       {view === 'home' && <Home me={me} go={go} />}
+      {!['home','members','gallery','enlist','events','servers','archive'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} />}
       {view === 'members' && <Members me={me} />}
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {view === 'events' && <Calendar me={me} />}
