@@ -61,30 +61,6 @@ export default function App() {
     return (
       <>
         <Landing me={me} go={go} signIn={signIn} />
-        <footer className="bigfoot">
-          <div className="fcol">
-            <b>Coldstream Gaming</b>
-            <span className="meta">A gaming community, est. 2011.<br/>The games changed. We did not.</span>
-          </div>
-          <div className="fcol">
-            <b>Site</b>
-            <a href="#/members">The Roster</a>
-              <a href="#/gallery">Gallery</a>
-            <a href="#/events">Events</a>
-            <a href="#/archive">The Archive</a>
-          </div>
-          <div className="fcol">
-            <b>Community</b>
-            <a href="https://discord.gg/75sfq5VPY" target="_blank" rel="noopener">Discord</a>
-            <a href="https://steamcommunity.com/groups/coldstreamgaming" target="_blank" rel="noopener">Steam Group</a>
-            <a href="#/servers">Game Servers</a>
-            <a href="#/enlist">Enlist Here</a>
-          </div>
-          <div className="fcol">
-            <b>The Record</b>
-            <span className="meta">Roster, records and statistics come<br/>from the community archives, every<br/>entry labeled with its source.</span>
-          </div>
-        </footer>
       </>
     );
   }
@@ -132,7 +108,7 @@ export default function App() {
       <footer className="bigfoot">
         <div className="fcol">
           <b>Coldstream Gaming</b>
-          <span className="meta">A gaming community, est. 2011.<br/>The games changed. We did not.</span>
+          <span className="meta">A gaming community, est. 2011.<br/>Fifteen years of battles, servers<br/>and names worth remembering.</span>
         </div>
         <div className="fcol">
           <b>Site</b>

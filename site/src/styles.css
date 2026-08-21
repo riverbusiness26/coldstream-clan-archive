@@ -126,7 +126,7 @@ footer b{color:var(--muted);font-weight:500}
 .land-video iframe.ready{opacity:1}
 .land-video .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:blur(22px) saturate(1.15);transform:scale(1.1);transition:filter 2200ms cubic-bezier(.22,.61,.24,1),transform 2600ms cubic-bezier(.22,.61,.24,1)}
 .land-video.ready .fallback{filter:blur(0) saturate(1);transform:scale(1)}
-@media (prefers-reduced-motion:reduce){.land-video iframe{display:none}.land-video .fallback{z-index:1;filter:none;transform:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.land-video .fallback{filter:none;transform:none;transition:none}.land-video iframe{transition:none}}
 .land-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at center,rgba(26,28,27,.35) 0%,rgba(26,28,27,.78) 78%,var(--ground) 100%)}
 .land-hero-in{position:relative;z-index:2;text-align:center;padding:40px 20px}
 .land-logo{height:110px;filter:drop-shadow(0 4px 18px rgba(0,0,0,.7))}
@@ -370,3 +370,16 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .bigfoot .fcol a{color:var(--muted)}
 .bigfoot .fcol a:hover{color:#fff;text-decoration:underline}
 .bigfoot .meta{line-height:1.7}
+
+/* ---- the cinema landing: video, mark, name, one door ---- */
+.land-hero.cinema{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.land-hero.cinema .land-scrim{background:radial-gradient(ellipse at center,rgba(10,11,10,.28) 0%,rgba(10,11,10,.62) 72%,rgba(10,11,10,.85) 100%)}
+.land-lockup{position:relative;text-align:center;padding:20px;display:flex;flex-direction:column;align-items:center;gap:0}
+.land-lockup .land-logo{height:clamp(110px,16vw,170px);filter:drop-shadow(0 6px 26px rgba(0,0,0,.85))}
+.land-lockup h1{margin:26px 0 0;font:bold clamp(34px,6.5vw,64px)/1.02 var(--body);letter-spacing:.14em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.9),0 8px 40px rgba(0,0,0,.6);text-indent:.14em}
+.land-est{margin-top:14px;font:400 13px/1 var(--mono);letter-spacing:.55em;text-indent:.55em;color:#cfd3ce;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.land-enter{margin-top:44px;padding:15px 44px;font-size:14px;letter-spacing:.1em;box-shadow:0 10px 34px rgba(0,0,0,.55)}
+.land-enter:hover{transform:translateY(-1px)}
+@media (prefers-reduced-motion:reduce){.land-enter:hover{transform:none}}
+
+.land-motto{margin-top:20px;font:400 15px/1.5 var(--body);letter-spacing:.06em;color:#e4e7e2;text-shadow:0 1px 8px rgba(0,0,0,.9)}
