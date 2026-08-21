@@ -1686,3 +1686,26 @@ browser), then run the no-auth-header curl: 302 to steamcommunity is healthy.
   and 404s the new asset. Worth a look; a redeploy or a cache purge may be
   all it needs. The fixes above are therefore pushed and deployed but NOT
   yet visible on the domain.
+
+## 26. Gallery redesign: three specs drafted, not yet built (2026-08-21)
+
+River asked for an entirely new gallery layout that makes the screenshots
+look good and professional. Three full design specs were produced and are
+preserved (workflow run wf_933b9e27-36f, per-agent journal in the session
+subagents folder):
+
+- **The Regimental Museum** — curated exhibition, a lead artifact with
+  caption plates in the mono face, community wing beneath.
+- **Cinematic Exhibition** — justified film-strip rows for the archive, a
+  flush projection wall for member uploads, theatre lightbox.
+- **The Steam Shelf** — period-correct 2007-2012 Steam screenshot cards in
+  masonry columns, with a filmstrip lightbox.
+
+The judging pass did not finish (model usage limit), so nothing has been
+implemented and the gallery is untouched. Next session: judge the three,
+graft the best of the losers into the winner, build it. Do not start a
+fresh design pass, the specs are already paid for.
+
+The key constraint any winner must respect: archive screenshots carry
+width and height in the seed data, member uploads do NOT, so any layout
+that needs aspect ratios up front only works for the archive half.
