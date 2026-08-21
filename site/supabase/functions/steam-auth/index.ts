@@ -30,10 +30,18 @@ const STEAM_OPENID = "https://steamcommunity.com/openid/login";
 
 const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
-function selfUrl(req: Request): string {
-  const u = new URL(req.url);
-  return `${u.origin}${u.pathname}`;
-}
+// Where Steam must send the browser back to.
+//
+// This cannot be derived from the incoming request. Behind Supabase's gateway
+// the function sees an internal URL: the protocol arrives as http and the path
+// has already had /functions/v1 stripped, so building it from req.url produced
+//
+//   http://<project>.supabase.co/steam-auth
+//
+// which is neither https nor a route that exists publicly, and Steam would
+// have bounced the user into nothing. The public address is known, so it is
+// built from the project url rather than guessed from the request.
+const SELF_URL = `${SB_URL.replace(/\/+$/, "")}/functions/v1/steam-auth`;
 
 function steamRedirect(returnTo: string): Response {
   const q = new URLSearchParams({
@@ -79,7 +87,7 @@ Deno.serve(async (req) => {
   const url = new URL(req.url);
 
   if (!url.searchParams.has("openid.mode")) {
-    return steamRedirect(selfUrl(req));
+    return steamRedirect(SELF_URL);
   }
 
   const steamId = await verifyWithSteam(url.searchParams);
