@@ -1,4 +1,4 @@
-// Enlist Here. Signing in through Steam is the whole membership step, so this
+// Join. Signing in through Steam is the whole membership step, so this
 // page is not a gate: it is the introduction. Introductions land in their own
 // enlistment book (the forum was scrapped; this page never needed one).
 //
