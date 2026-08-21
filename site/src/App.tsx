@@ -43,7 +43,7 @@ const NAV: [string, string, boolean][] = [
 // the user on a blank page the moment they signed in. The client reads those
 // tokens and clears them itself, so all this has to do is not treat them as a
 // route. An error handed back the same way is worth landing on Home for.
-const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error_description|error_code)=/;
+const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error|error_description|error_code)=/;
 
 function routeFromHash(): string {
   const h = location.hash;
@@ -51,16 +51,28 @@ function routeFromHash(): string {
   return h.replace(/^#\/?/, '') || 'landing';
 }
 
+// Whether this page load began with Steam handing back a session, or an
+// error, in the fragment. It has to be read once at load, before anything
+// else touches the URL: supabase-js consumes those tokens and then clears
+// the fragment itself, and the empty fragment it leaves behind is
+// indistinguishable from somebody arriving at the site cold.
+const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
+
 export default function App() {
-  const { me, signIn, signOut, demo } = useAuth();
+  const { me, signIn, signOut, demo, orphanSession } = useAuth();
 
   // Feedback the moment the session lands or the sign in fails.
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
+  const authReturn = useRef(CAME_FROM_AUTH);
+  const awaitingHashCleanup = useRef(CAME_FROM_AUTH);
   const wasMe = useRef(false);
   useEffect(() => {
+    // Only announce a sign in that actually just happened. Announcing it on
+    // every page load with a stored session made the toast meaningless.
     if (me && !wasMe.current) {
       wasMe.current = true;
+      if (!authReturn.current) return;
       setToast({ kind: 'ok', text: 'Signed in through Steam as ' + me.display_name });
       const t = setTimeout(() => setToast(null), 5000);
       return () => clearTimeout(t);
@@ -74,11 +86,52 @@ export default function App() {
       history.replaceState(null, '', location.pathname + location.hash);
       return () => clearTimeout(t);
     }
+    // Supabase reports its own failures in the fragment instead. Left alone
+    // they tell the member nothing and stay stuck in the address bar.
+    const frag = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const err = frag.get('error_description') || frag.get('error_code') || frag.get('error');
+    if (err) {
+      awaitingHashCleanup.current = false;
+      setToast({ kind: 'err', text: 'Steam sign in did not complete: ' + err.replace(/\+/g, ' ') });
+      const t = setTimeout(() => setToast(null), 8000);
+      history.replaceState(null, '', location.pathname + location.search + '#/home');
+      return () => clearTimeout(t);
+    }
   }, []);
+  // A live session with no member row behind it. Say so, rather than showing
+  // a signed-in person the guest view and no explanation.
+  useEffect(() => {
+    if (!orphanSession) return;
+    setToast({ kind: 'err', text: 'Signed in through Steam, but your member record did not save. Try signing in again.' });
+    const t = setTimeout(() => setToast(null), 9000);
+    return () => clearTimeout(t);
+  }, [orphanSession]);
   const [view, setView] = useState(routeFromHash);
 
   useEffect(() => {
-    const onHash = () => setView(routeFromHash());
+    const onHash = () => {
+      // The tokens normally arrive on a fresh page load, but they can also
+      // land on a page that is already open, so the flag is set here too
+      // rather than only at boot.
+      if (AUTH_HASH.test(location.hash)) {
+        authReturn.current = true;
+        awaitingHashCleanup.current = true;
+        setView('home');
+        return;
+      }
+      // supabase-js clears the token fragment the moment it has the session,
+      // and that arrives here as a hashchange to an empty hash, which routes
+      // to the landing splash. Dumping a member on the video the instant they
+      // sign in is the one thing this must not do, so a sign in return is
+      // carried through to Home instead.
+      if (awaitingHashCleanup.current && !location.hash.replace(/^#\/?/, '')) {
+        awaitingHashCleanup.current = false;
+        history.replaceState(null, '', location.pathname + location.search + '#/home');
+        setView('home');
+        return;
+      }
+      setView(routeFromHash());
+    };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);

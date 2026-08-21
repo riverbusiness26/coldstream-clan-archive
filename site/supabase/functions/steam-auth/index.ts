@@ -22,7 +22,7 @@
 
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const SITE_URL = Deno.env.get("SITE_URL") ?? "https://www.coldstreamgaming.com";
+const SITE_URL = Deno.env.get("SITE_URL") ?? "https://coldstreamgaming.com";
 const SB_URL = Deno.env.get("SUPABASE_URL") ?? Deno.env.get("SB_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
   ?? Deno.env.get("SB_SERVICE_ROLE_KEY")!;
@@ -76,16 +76,22 @@ async function verifyWithSteam(params: URLSearchParams): Promise<string | null> 
   return m ? m[1] : null;
 }
 
-async function steamPersona(steamId: string): Promise<{ name: string; avatar: string | null }> {
-  // The public XML profile needs no API key.
+async function steamPersona(steamId: string): Promise<{ name: string; avatar: string | null; ok: boolean }> {
+  // The public XML profile needs no API key, but Steam serves an anti-bot
+  // interstitial to a client that does not introduce itself, and that reply
+  // parses as a member with no name. Hence the User-Agent, and the ok flag:
+  // a guessed persona must never overwrite a real one.
   try {
-    const res = await fetch(`https://steamcommunity.com/profiles/${steamId}/?xml=1`);
+    const res = await fetch(`https://steamcommunity.com/profiles/${steamId}/?xml=1`, {
+      headers: { "User-Agent": "ColdstreamGaming-SteamAuth/1.0 (+https://coldstreamgaming.com)" },
+    });
     const xml = await res.text();
-    const name = xml.match(/<steamID><!\[CDATA\[(.*?)\]\]><\/steamID>/)?.[1] ?? `Player ${steamId.slice(-5)}`;
+    const name = xml.match(/<steamID><!\[CDATA\[(.*?)\]\]><\/steamID>/)?.[1] ?? null;
     const avatar = xml.match(/<avatarFull><!\[CDATA\[(.*?)\]\]><\/avatarFull>/)?.[1] ?? null;
-    return { name, avatar };
+    if (!name) return { name: `Player ${steamId.slice(-5)}`, avatar: null, ok: false };
+    return { name, avatar, ok: true };
   } catch {
-    return { name: `Player ${steamId.slice(-5)}`, avatar: null };
+    return { name: `Player ${steamId.slice(-5)}`, avatar: null, ok: false };
   }
 }
 
@@ -96,7 +102,15 @@ Deno.serve(async (req) => {
     return steamRedirect(RETURN_TO);
   }
 
-  const steamId = await verifyWithSteam(url.searchParams);
+  // Verification is a live call to Steam, and a network failure here used
+  // to reject the handler: a raw 500 on the supabase.co origin, with the
+  // member never returned to the site at all.
+  let steamId: string | null = null;
+  try {
+    steamId = await verifyWithSteam(url.searchParams);
+  } catch (e) {
+    console.error("steam verification threw", e);
+  }
   if (!steamId) {
     return Response.redirect(`${SITE_URL}/?login=failed`, 302);
   }
@@ -113,7 +127,7 @@ Deno.serve(async (req) => {
 
   const { data: known } = await admin
     .from("member")
-    .select("auth_user_id")
+    .select("auth_user_id, display_name, avatar_url")
     .eq("steam_id64", steamId)
     .maybeSingle();
   if (known?.auth_user_id) userId = known.auth_user_id as string;
@@ -163,10 +177,20 @@ Deno.serve(async (req) => {
   // The .is("member_id", null) is the important part: it only ever claimed
   // rows nobody had claimed, so it could not steal history from someone
   // else by matching a recycled or mistyped Steam ID.
-  await admin.from("member").upsert(
-    { auth_user_id: userId, steam_id64: steamId, display_name: persona.name, avatar_url: persona.avatar },
+  // A failed persona lookup must not rename a member to "Player 97257",
+  // and a failed upsert must not still hand out a session: the member row is
+  // what the whole site reads, so without it a signed-in browser shows the
+  // guest view and explains nothing.
+  const keepName = !persona.ok && known?.display_name ? (known.display_name as string) : persona.name;
+  const keepAvatar = !persona.ok && known?.avatar_url ? (known.avatar_url as string | null) : persona.avatar;
+  const { error: upsertError } = await admin.from("member").upsert(
+    { auth_user_id: userId, steam_id64: steamId, display_name: keepName, avatar_url: keepAvatar },
     { onConflict: "steam_id64" },
   );
+  if (upsertError) {
+    console.error("member upsert failed", upsertError);
+    return Response.redirect(`${SITE_URL}/?login=failed`, 302);
+  }
 
   // Hand the browser a session: generate a one time link and send them to it.
   const { data: link } = await admin.auth.admin.generateLink({

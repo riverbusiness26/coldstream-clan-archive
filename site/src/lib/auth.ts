@@ -14,17 +14,25 @@ export interface Me {
 
 export function useAuth() {
   const [me, setMe] = useState<Me | null>(null);
+  // A live session whose member row is missing. It means the edge function
+  // issued the session but its member upsert did not land, and without this
+  // the site would render a signed-in person as a guest and say nothing.
+  const [orphanSession, setOrphanSession] = useState(false);
 
   useEffect(() => {
     if (!supa) return;
     const sb = supa;
     const load = async () => {
       const { data: { session } } = await sb.auth.getSession();
-      if (!session) { setMe(null); return; }
-      const { data } = await sb.from('member')
+      if (!session) { setMe(null); setOrphanSession(false); return; }
+      // maybeSingle, not single: no member row is a state to report, not a
+      // PGRST116 error to swallow.
+      const { data, error } = await sb.from('member')
         .select('id, display_name, avatar_url, steam_id64, role')
-        .eq('auth_user_id', session.user.id).single();
-      setMe(data as Me | null);
+        .eq('auth_user_id', session.user.id).maybeSingle();
+      if (error) console.warn('member row lookup failed:', error.message);
+      setMe((data as Me | null) ?? null);
+      setOrphanSession(!error && !data);
     };
     load();
     const { data: sub } = sb.auth.onAuthStateChange(() => load());
@@ -40,8 +48,9 @@ export function useAuth() {
   };
   const signOut = () => {
     if (DEMO) { setMe(null); return; }
+    setOrphanSession(false);
     supa!.auth.signOut();
   };
 
-  return { me, signIn, signOut, demo: DEMO };
+  return { me, signIn, signOut, demo: DEMO, orphanSession };
 }

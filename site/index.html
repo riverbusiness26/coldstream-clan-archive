@@ -38,7 +38,15 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-  </head>
+    <script>
+    /* Belt and braces for the rule in _redirects: fold www onto the
+       canonical origin before anything reads the session, carrying the
+       Steam token fragment across by hand. */
+    if (location.hostname === 'www.coldstreamgaming.com') {
+      location.replace('https://coldstreamgaming.com' + location.pathname + location.search + location.hash);
+    }
+  </script>
+</head>
   <body>
     <div id="root"></div>
     <noscript>
