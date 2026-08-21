@@ -17,10 +17,10 @@ const SEGMENTS = [
   // Friday LB Highlights: skip the smoke intro, hold the opening volley while
   // the kill feed fills, and hand over on the film's own scene cut at 0:40.
   { id: '8AU7hzl8w5M', start: 18, dur: 22 },
-  // RWL Week 1 vs 3eVolt, the centrepiece: framed from just before the
-  // volley into their backs (4:39), through the rout, ending right on the
-  // "won the round!" banner at 5:30. River wanted this moment framed.
-  { id: 'gS2xlbD6b4k', start: 279, dur: 55 },
+  // RWL Week 1 vs 3eVolt, the centrepiece, cut to River's spec: opens on
+  // the video's own fade from black at 4:12, the column walking up on their
+  // backs, the volley, the rout, ending on the "won the round!" banner.
+  { id: 'gS2xlbD6b4k', start: 252, dur: 82 },
   // After Hours, July 2020: the Planetside 2 era, the TR squad staged in
   // the red glow before the night op. River asked for this one in the loop.
   { id: 'vOk5eMxv7Dc', start: 5, dur: 25 },
