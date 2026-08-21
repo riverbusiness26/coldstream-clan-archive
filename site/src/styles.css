@@ -426,3 +426,32 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .steam-btn.compact.signed{cursor:default}
 .steam-btn.compact.signed:hover{background:linear-gradient(180deg,#213b56,#171a21);color:#c7d5e0;border-color:#2a475e}
 .steam-btn.compact .savi{width:20px;height:20px;border-radius:1px;flex:none}
+
+/* ---- steam groups ---- */
+/* Reuses the .eras list. Only the leading column differs: a group avatar
+   where an era has its year, so the grid and the body indent shift with it. */
+.sgroups .sg-head{grid-template-columns:32px minmax(0,1fr) 120px 130px}
+.sgroups .era-body{padding-left:62px}
+.sg-av{width:32px;height:32px;border:1px solid var(--hi);object-fit:cover;display:block}
+.sg-av-none{background:#131514}
+.sg-on{margin-left:9px;color:#8bc53f;white-space:nowrap}
+.sg-on .sdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#8bc53f;box-shadow:0 0 6px rgba(139,197,63,.8);margin-right:5px;vertical-align:1px}
+.sg-note{margin-bottom:12px}
+
+/* The member wall. Fixed columns rather than auto-fill so a group of thirty
+   and a group of a hundred read as the same kind of thing. */
+.sg-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:12px 8px;margin:14px 0 4px}
+.sg-person{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;min-width:0}
+.sg-person img,.sg-person-none{width:40px;height:40px;border:1px solid var(--hi);object-fit:cover;display:block;filter:grayscale(.35);transition:filter .15s,border-color .15s}
+.sg-person-none{background:#131514;filter:none}
+.sg-person:hover img{filter:none;border-color:var(--accent)}
+/* Names are the reason the wall is readable, so they never wrap into a
+   second line and never push a neighbour out of line. */
+.sg-name{font:400 9.5px/1.3 var(--mono);color:var(--faint);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.sg-person:hover .sg-name{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.sg-person img{transition:none}}
+@media (max-width:760px){
+  .sgroups .sg-head{grid-template-columns:32px minmax(0,1fr);gap:10px}
+  .sgroups .era-body{padding-left:16px}
+  .sg-wall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr))}
+}

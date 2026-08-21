@@ -9,6 +9,7 @@ import erasSeed from '../seed/eras.json';
 import filmsSeed from '../seed/films.json';
 import Roster from '../components/Roster';
 import Ranks from '../components/Ranks';
+import SteamGroups from '../components/SteamGroups';
 import Calendar from './Calendar';
 import type { Me } from '../lib/auth';
 
@@ -207,6 +208,8 @@ export default function Archive({ me }: { me: Me | null }) {
             })}
           </ol>
         </div>
+
+        <SteamGroups />
 
         <Calendar me={me} />
 
