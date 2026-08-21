@@ -1,3 +1,3 @@
-Holding: nothing
-
-Lane: data and back end. Set this to whatever you pick up.
+Holding: .github/workflows/backup-database.yml, GitHub Actions backup secret
+Doing:   enable and verify nightly Supabase database backups without exposing the service role key
+Since:   2026-08-21
