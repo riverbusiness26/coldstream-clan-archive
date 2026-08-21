@@ -1,6 +1,24 @@
 // Site shell: masthead, the Enjin era module set in the nav, hash routing.
 import { useEffect, useState } from 'react';
 import { useAuth } from './lib/auth';
+
+// The always visible pulse: how many of us are online right now, pinned to
+// the status bar the way the big communities pin their player counts.
+function DiscordPulse() {
+  const [n, setN] = useState<number | null>(null);
+  useEffect(() => {
+    let dead = false;
+    const load = () => fetch('https://discord.com/api/guilds/669723836165521413/widget.json')
+      .then((r) => r.json())
+      .then((j) => { if (!dead) setN(j.presence_count ?? null); })
+      .catch(() => {});
+    load();
+    const t = setInterval(load, 60000);
+    return () => { dead = true; clearInterval(t); };
+  }, []);
+  if (n === null) return <a href="https://discord.gg/75sfq5VPY" target="_blank" rel="noopener" className="pulse">JOIN THE DISCORD</a>;
+  return <a href="https://discord.gg/75sfq5VPY" target="_blank" rel="noopener" className="pulse"><span className="pdot" /> <b>{n}</b> ONLINE NOW · JOIN US</a>;
+}
 import Home from './views/Home';
 import Landing from './views/Landing';
 import Members from './views/Members';
@@ -70,6 +88,7 @@ export default function App() {
       {demo && <div className="devbadge">DEMO BUILD · NO BACKEND YET</div>}
       <div className="estbar"><div className="in">
         <span>EST. <b>2011</b> · GAMING COMMUNITY · 15 YEARS RUNNING</span>
+        <DiscordPulse />
         <span><b>{me ? me.display_name.toUpperCase() : 'GUEST'}</b></span>
       </div></div>
       <header className="mast">
