@@ -1,4 +1,4 @@
-// Events: the calendar. Upcoming events on top (moderator-posted; a demo store
+// Events, now a room in the Archive. Upcoming events on top (moderator-posted; a demo store
 // until the backend lands), and below it the part no other community site
 // has: the dated record of 362 real events back to 2011, straight from the
 // announcement archive.
@@ -71,8 +71,7 @@ export default function Calendar({ me }: { me: Me | null }) {
   for (const e of inYear) (byMonth[e.date.slice(5, 7)] ||= []).push(e);
 
   return (
-    <div className="wrap solo">
-      <main>
+    <>
         <div className="module">
           <div className="mhead">
             <h3>Upcoming Events</h3>
@@ -136,7 +135,6 @@ export default function Calendar({ me }: { me: Me | null }) {
           ))}
           {inYear.length === 0 && <div className="note">No dated events on record for {year}.</div>}
         </div>
-      </main>
-    </div>
+    </>
   );
 }

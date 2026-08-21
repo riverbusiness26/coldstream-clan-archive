@@ -9,6 +9,8 @@ import erasSeed from '../seed/eras.json';
 import filmsSeed from '../seed/films.json';
 import Roster from '../components/Roster';
 import Ranks from '../components/Ranks';
+import Calendar from './Calendar';
+import type { Me } from '../lib/auth';
 
 interface Film {
   id: string;
@@ -69,7 +71,7 @@ interface RibEra { slug: string; label: string; foundedIso: string | null; ran?:
 const ERAS = (erasSeed as unknown as { eras: RibEra[] }).eras;
 const PEAK = Math.max(...ERAS.map((e) => e.events), 1);
 
-export default function Archive() {
+export default function Archive({ me }: { me: Me | null }) {
   const [openEra, setOpenEra] = useState<string | null>(null);
 
   // Ranks somebody on the roster actually held, so the ladder marks them.
@@ -205,6 +207,8 @@ export default function Archive() {
             })}
           </ol>
         </div>
+
+        <Calendar me={me} />
 
         <div className="module">
           <div className="mhead">

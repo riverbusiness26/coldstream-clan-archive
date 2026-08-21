@@ -22,7 +22,6 @@ function DiscordPulse() {
 import Home from './views/Home';
 import Landing from './views/Landing';
 import Profile from './views/Profile';
-import Calendar from './views/Calendar';
 import Servers from './views/Servers';
 import Archive from './views/Archive';
 import Gallery from './views/Gallery';
@@ -34,7 +33,6 @@ const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
   ['gallery', 'Gallery', true],
   ['enlist', 'Join', true],
-  ['events', 'Events', true],
   ['servers', 'Servers', true],
   ['archive', 'The Archive', true],
 ];
@@ -143,10 +141,9 @@ export default function App() {
       {view === 'home' && <Home me={me} go={go} signIn={signIn} />}
       {!['home','members','gallery','enlist','events','servers','archive'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
-      {view === 'events' && <Calendar me={me} />}
       {view === 'servers' && <Servers />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
-      {(view === 'archive' || view === 'members') && <Archive />}
+      {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       {view === 'enlist' && <Enlist me={me} signIn={signIn} />}
 
@@ -159,7 +156,7 @@ export default function App() {
           <b>Site</b>
           <a href="#/archive">The Roster</a>
           <a href="#/gallery">Gallery</a>
-          <a href="#/events">Events</a>
+          <a href="#/archive">Events</a>
           <a href="#/archive">The Archive</a>
         </div>
         <div className="fcol">

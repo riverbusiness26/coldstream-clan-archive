@@ -45,7 +45,7 @@ function NextEvent({ go }: { go: (v: string) => void }) {
         <div className="nextev-in">
           <div className="nextev-title">Nothing on the board yet</div>
           <div className="meta">The record's last dated event: <span className="gtag">{lastPast.game}</span>{lastPast.title} · {lastPast.date}</div>
-          <button className="btn sm" onClick={() => go('events')}>Open the Events board</button>
+          <button className="btn sm" onClick={() => go('archive')}>Open the Events board</button>
         </div>
       </div>
     );
@@ -59,7 +59,7 @@ function NextEvent({ go }: { go: (v: string) => void }) {
       <div className="nextev-in">
         <div className="nextev-title">{up.game && <span className="gtag">{up.game.toUpperCase().slice(0, 5)}</span>}{up.title}</div>
         <div className="nextev-count">{inTxt}</div>
-        <button className="btn sm" onClick={() => go('events')}>Details on the Events board</button>
+        <button className="btn sm" onClick={() => go('archive')}>Details on the Events board</button>
       </div>
     </div>
   );
