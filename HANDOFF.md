@@ -1387,3 +1387,98 @@ fixes. That address 404s, so sign in dies on the way back. Redeploy the
 function from current repo code and the loop closes. Watcher on this side
 now checks that the return_to contains functions/v1 before flipping the
 site live.
+
+## 21. Steam sign in is live, and your watcher condition is now wrong (River-side, 21 Aug 2026)
+
+### 21a. Read this first: the watcher in 20b will never fire
+
+Section 20b says your watcher flips the site live once return_to contains
+`functions/v1`. It does not contain that any more, on purpose, and it never
+will again. If the watcher is still armed on that string it will wait
+forever. Change the condition to:
+
+    realm == https://coldstreamgaming.com
+
+That is the thing actually worth waiting on, and it is true right now.
+
+### 21b. Why return_to moved off the function
+
+River asked for Steam's login page to stop saying "Note that
+zcpbpcktinlqnxmqddzc.supabase.co is not affiliated with Steam or Valve".
+
+Steam takes that name from `openid.realm`, and OpenID 2.0 requires
+`return_to` to sit underneath the realm. So as long as Steam returned
+straight to the function, the realm had to be the Supabase project, and
+every member got told they were signing into a random hostname.
+
+Steam now returns to the community's own domain instead, to a small static
+page that forwards the openid parameters back to the function:
+
+    site/public/steam-return/index.html
+
+The function does all the verification and session work exactly as before.
+The page decides nothing and trusts nothing. It checks that `openid.mode`
+is present, and redirects. That is the whole file.
+
+Steam's login page now reads "Sign into coldstreamgaming.com using your
+Steam account", confirmed in a real browser, not inferred.
+
+### 21c. Current verified state
+
+Checked unauthenticated, which is what a browser actually sends:
+
+    GET /functions/v1/steam-auth
+      302 to steamcommunity.com
+      realm     = https://coldstreamgaming.com
+      return_to = https://coldstreamgaming.com/steam-return/
+
+    https://coldstreamgaming.com/steam-return/       200, forwarder present
+    https://www.coldstreamgaming.com/steam-return/   200, forwarder present
+
+    Forged assertion (bogus sig, real looking claimed_id)
+      302 to /?login=failed
+
+That last one matters: it proves the function verifies with Steam rather
+than believing whatever claimed_id it is handed. Do not "simplify" that
+call away.
+
+The live bundle carries the real Supabase URL and anon key, so the site is
+out of demo mode and the DEMO badge is gone.
+
+### 21d. The gotcha that will bite you next, twice now
+
+**Redeploying an edge function resets "Verify JWT with legacy secret" back
+to ON.** It has happened on two of the three deploys. A browser sends no
+Authorization header, so the toggle being on means every member gets a 401
+and sign in is dead, while a curl with the anon key still looks fine. That
+is why it went unnoticed the first time.
+
+After any steam-auth deploy, check it the way a browser would, with no
+auth header at all:
+
+    curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' \
+      https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-auth
+
+302 to steamcommunity.com is healthy. 401 means go and turn the toggle off
+again: Edge Functions, steam-auth, Settings, then Save changes.
+
+Dashboard note: loading `/functions/steam-auth/details` directly often does
+not hydrate. Load `/functions`, wait for the list, then click through to the
+function and its Settings tab. Client side navigation works when a cold load
+does not.
+
+### 21e. Still open
+
+- The stray `rapid-action` function still exists. It is a duplicate created
+  when a redeploy's name field did not take. Deleting it is River's call, so
+  I have left it alone rather than removing something on his behalf.
+- `SUPABASE_SERVICE_ROLE_KEY` is still not set as a GitHub repo secret, so
+  the nightly database backup workflow is not running yet.
+- Cloudflare "Always Use HTTPS": River turned it on, but plain http:// still
+  answered 200 last time I polled. Worth re-checking.
+- Operator account still needs creating (Authentication, Users, Auto Confirm)
+  followed by the `insert into operator` row.
+- `motto-wip` holds the unpushed "Second to None" commit from before your
+  landing redesign. Rebase or drop it, but do not lose the wording.
+- Rules rewrite and the Discord welcome sign are drafted in CSG Test and are
+  explicitly on hold at River's request. Do not post them.
