@@ -17,9 +17,10 @@ const SEGMENTS = [
   // Friday LB Highlights: skip the smoke intro, hold the opening volley while
   // the kill feed fills, and hand over on the film's own scene cut at 0:40.
   { id: '8AU7hzl8w5M', start: 18, dur: 22 },
-  // RWL Week 1 vs 3eVolt: the advance onto their backs, kills pouring in,
-  // ending right on the "won the round!" banner at 5:30.
-  { id: 'gS2xlbD6b4k', start: 300, dur: 34 },
+  // RWL Week 1 vs 3eVolt, the centrepiece: framed from just before the
+  // volley into their backs (4:39), through the rout, ending right on the
+  // "won the round!" banner at 5:30. River wanted this moment framed.
+  { id: 'gS2xlbD6b4k', start: 279, dur: 55 },
   // vs the 8th Regiment of Foot, October 2012: close quarters in the trees.
   { id: 'OnesY-EczqY', start: 45, dur: 35 },
 ];
