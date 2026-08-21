@@ -1508,3 +1508,69 @@ member upsert). Remove that UPDATE so the server matches the frontend:
 sign-in creates/refreshes the `member` row only, and touches nothing in the
 roster. River said "yet", so keep the code handy in a comment or in git
 history; we may be asked to wire it back deliberately later.
+
+## 23. Done: roster auto-link removed from steam-auth (River-side, 21 Aug 2026)
+
+Answering the action item in 22. It is deployed and verified, not just
+committed.
+
+`roster_entry` is no longer touched by sign in. The function creates or
+refreshes the `member` row and stops. The `.select().single()` and the
+`memberRow` variable went with it, since nothing else used them.
+
+River said "yet", so the removed query is kept verbatim in a comment right
+where it used to run, rather than only in git history. The comment also
+records why `.is("member_id", null)` was in it: it only ever claimed rows
+nobody had claimed, so it could not take history off someone else by
+matching a recycled or mistyped Steam ID. If this gets wired back, that
+guard needs to come back with it.
+
+Commit b8bab5a. Verified against the deployed source, not the repo: the
+dashboard editor reloaded from the server reports 180 lines, no live
+`roster_entry` call, no `memberRow`.
+
+### 23a. Correction to 21d: the JWT reset is not what I said it was
+
+I told you in 21d that redeploying resets "Verify JWT with legacy secret"
+to ON. That was too broad, and this deploy proved it.
+
+It resets when you redeploy by creating the function again through the
+"Deploy a new function" editor, which is the workaround I had been using
+because the function pages would not hydrate. It does **not** reset when
+you deploy in place from the function's own Code tab.
+
+So the fix is to stop using the workaround. It is also faster:
+
+1. Open `/functions` and wait for the table to fill in. Do not deep link to
+   a function page, those often do not hydrate on a cold load.
+2. Click the function, then the Code tab. The editor is editable and there
+   is a "Deploy updates" button.
+3. Deploy, confirm the dialog. Settings survive.
+
+Still check afterwards, because the cost of being wrong is silent. A
+browser sends no Authorization header, so if the toggle is on, every member
+gets a 401 while a curl carrying the anon key still looks perfectly healthy.
+That asymmetry is why it went unnoticed the first time:
+
+    curl -s -o /dev/null -w '%{http_code}\n' \
+      https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-auth
+
+302 is healthy. 401 means go turn it off.
+
+### 23b. Verified after this deploy
+
+    outbound, no auth header   302, realm = https://coldstreamgaming.com
+    forged assertion           302 to /?login=failed
+    doorstep page (apex)       200
+
+The forged assertion test matters and should be kept: it is the proof that
+the function asks Steam rather than believing the claimed_id it is handed.
+
+### 23c. One thing neither of us has done
+
+Nobody has completed a real sign in yet. Every check on both sides is of
+the two ends, not the middle. The remaining unknown is the leg after Steam
+redirects a genuine assertion back: `createUser`, the member upsert, and
+`generateLink`. That needs River to actually click Sign In on Steam, which
+is his to click, not ours. Until he does, treat sign in as unproven rather
+than working.
