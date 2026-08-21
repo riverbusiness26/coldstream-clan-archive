@@ -167,7 +167,7 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
         <div className="land-hero-in">
           <img className="land-logo" src={asset('/logo.png?v=2')} alt="Coldstream Gaming" />
           <h1>COLDSTREAM GAMING</h1>
-          <p className="land-sub">A gaming community, est. 2011. Fifteen years of battles, servers and names worth remembering.</p>
+          <p className="land-sub">A gaming community, est. 2011. The games changed. We did not.</p>
           <div className="land-cta">
             <button className="btn primary" onClick={() => go('home')}>Enter the Site</button>
             <button className="btn" onClick={() => go('members')}>The Roster</button>

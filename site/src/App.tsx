@@ -64,7 +64,7 @@ export default function App() {
         <footer className="bigfoot">
           <div className="fcol">
             <b>Coldstream Gaming</b>
-            <span className="meta">A gaming community, est. 2011.<br/>Fifteen years of battles, servers<br/>and names worth remembering.</span>
+            <span className="meta">A gaming community, est. 2011.<br/>The games changed. We did not.</span>
           </div>
           <div className="fcol">
             <b>Site</b>
@@ -132,7 +132,7 @@ export default function App() {
       <footer className="bigfoot">
         <div className="fcol">
           <b>Coldstream Gaming</b>
-          <span className="meta">A gaming community, est. 2011.<br/>Fifteen years of battles, servers<br/>and names worth remembering.</span>
+          <span className="meta">A gaming community, est. 2011.<br/>The games changed. We did not.</span>
         </div>
         <div className="fcol">
           <b>Site</b>
