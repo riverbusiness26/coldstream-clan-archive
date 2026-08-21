@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signing you in &middot; Coldstream Gaming</title>
+<meta name="robots" content="noindex">
+<!--
+  Steam's login page names whoever it is about to send you back to, and it
+  takes that name from openid.realm. OpenID 2.0 requires return_to to sit
+  underneath the realm, so the only way for Steam to say coldstreamgaming.com
+  is for Steam to return here, to the site's own domain, rather than straight
+  to the Supabase function.
+
+  So this page is the doorstep. Steam lands the browser here with its openid
+  parameters, and this hands them straight on to the function, which does the
+  actual verification with Steam and issues the session. Nothing is trusted or
+  decided here: it is a redirect and nothing else.
+-->
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    background: #1a1c1b; color: #a2a8a2;
+    font: 400 13px/1.7 "Tahoma", "Verdana", "Segoe UI", sans-serif;
+    text-align: center; padding: 24px;
+  }
+  b { color: #dfe2dd; font-weight: bold; letter-spacing: .08em; }
+  .m { margin-top: 10px; font: 400 11px/1.6 "Courier New", Courier, monospace; color: #6f7570; }
+  a { color: #dfe2dd; }
+</style>
+</head>
+<body>
+  <div>
+    <b>COLDSTREAM GAMING</b>
+    <div class="m">signing you in through Steam</div>
+    <noscript class="m">
+      This step needs JavaScript.
+      <a href="https://www.coldstreamgaming.com/">Back to the site</a>.
+    </noscript>
+  </div>
+<script>
+(function () {
+  var FN = 'https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-auth';
+  var SITE = 'https://www.coldstreamgaming.com/';
+  var q = window.location.search;
+
+  // Only ever forward a genuine OpenID response. Anything else is somebody
+  // wandering onto this page, and they should just go to the site.
+  if (q.indexOf('openid.mode=') === -1) {
+    window.location.replace(SITE);
+    return;
+  }
+  // replace() rather than assign() so the back button does not walk the user
+  // into a spent one time assertion.
+  window.location.replace(FN + q);
+})();
+</script>
+</body>
+</html>

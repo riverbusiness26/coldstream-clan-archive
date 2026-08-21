@@ -30,18 +30,24 @@ const STEAM_OPENID = "https://steamcommunity.com/openid/login";
 
 const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
-// Where Steam must send the browser back to.
+// Where Steam sends the browser back to, and therefore what Steam calls us.
 //
-// This cannot be derived from the incoming request. Behind Supabase's gateway
-// the function sees an internal URL: the protocol arrives as http and the path
-// has already had /functions/v1 stripped, so building it from req.url produced
+// Steam's login page names the site it is about to return you to, and it takes
+// that name from openid.realm. OpenID 2.0 requires return_to to sit underneath
+// the realm, so pointing return_to at this function meant the realm had to be
+// the Supabase project, and Steam told every member that
+// "zcpbpcktinlqnxmqddzc.supabase.co is not affiliated with Steam or Valve".
 //
-//   http://<project>.supabase.co/steam-auth
+// So Steam returns to the community's own domain instead, to a small static
+// page that forwards the openid parameters straight back here. That makes the
+// realm coldstreamgaming.com, which is both what members expect to see and the
+// truthful answer to the question Steam is asking.
 //
-// which is neither https nor a route that exists publicly, and Steam would
-// have bounced the user into nothing. The public address is known, so it is
-// built from the project url rather than guessed from the request.
-const SELF_URL = `${SB_URL.replace(/\/+$/, "")}/functions/v1/steam-auth`;
+// This is why it cannot be derived from the request: behind Supabase's gateway
+// the function sees an internal URL, with http for a protocol and
+// /functions/v1 already stripped.
+const RETURN_TO = Deno.env.get("STEAM_RETURN_URL")
+  ?? "https://coldstreamgaming.com/steam-return/";
 
 function steamRedirect(returnTo: string): Response {
   const q = new URLSearchParams({
@@ -87,7 +93,7 @@ Deno.serve(async (req) => {
   const url = new URL(req.url);
 
   if (!url.searchParams.has("openid.mode")) {
-    return steamRedirect(SELF_URL);
+    return steamRedirect(RETURN_TO);
   }
 
   const steamId = await verifyWithSteam(url.searchParams);
