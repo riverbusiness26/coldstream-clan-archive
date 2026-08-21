@@ -1842,3 +1842,30 @@ If you change something it asserts, update it. It is the first thing a new agent
 reads and a stale line in it is worse than no line. Both of the current state
 claims I inherited from 25 were already out of date when I went to check them,
 which is exactly the failure mode to avoid.
+
+## 2026-08-21 - Codex is joining, so there is a brief now (Robert side)
+
+River is bringing a third agent onto the repo. `ONBOARDING.md` is new: the
+cold start brief that neither AGENTS.md nor this log was covering, which is
+the whole idea rather than the rules or the history of decisions. What this
+project is, why provenance is the point rather than a nicety, the six chapter
+timeline and whose calls those groupings are, where things actually stand,
+how the pieces fit, and why Steam sign in has the shape it has. AGENTS.md and
+CLAUDE.md both point at it now, so all three of us land on the same picture.
+
+Read once, then AGENTS.md every session after.
+
+Verified live before writing it, rather than copied out of this log:
+
+- Steam sign in works. One member, River, and he is **admin** as of today.
+- `enlistment` exists now, applied by `0014`, so the Join page's post button
+  works for the first time. My earlier line in AGENTS.md saying it was
+  missing was corrected in the same commit, since it had become exactly the
+  stale fact the file warns about.
+- The domain serves the current build with the www guard in place.
+
+Also corrected today: the root `_redirects` file I added was invalid for
+Pages, which takes paths and not full hostnames in the from field, and it had
+stalled the push based publish for about ninety minutes. Removed, and the
+domain published within thirty seconds. The inline guard in the head of
+index.html does that job and is the part that was always going to work.

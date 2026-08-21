@@ -1,6 +1,8 @@
 # Coldstream Gaming
 
-**Read [AGENTS.md](AGENTS.md).** It is the shared contract for every agent
+New here? Read [ONBOARDING.md](ONBOARDING.md) once first.
+
+**Then read [AGENTS.md](AGENTS.md).** It is the shared contract for every agent
 working in this repo, Claude and Codex alike, and it is deliberately the
 only copy so the two of us cannot drift into different rules.
 

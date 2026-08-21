@@ -1,5 +1,9 @@
 # Working on this project
 
+New here? Read [ONBOARDING.md](ONBOARDING.md) first, once: what this
+project actually is, the story it preserves, where things stand, and how the
+sign in flow got its shape. Then come back here.
+
 Read this before touching anything. It is the short version. `HANDOFF.md` is the
 long version, twenty seven sections of accumulated decisions and post mortems,
 and you do not need most of it to start. Read the last two or three sections of
@@ -247,9 +251,9 @@ duplicated, and 23 collided on 21 Aug and had to be renumbered by hand while
 resolving a rebase. Use `## 2026-08-21 - what this is (whose side)`.
 
 **`db/RUN_ME_next.sql` has been applied selectively** and carries no applied
-markers, so the file's order no longer reflects what is in prod: section 0011
-(enlistment) is missing while the later 0012 exists, which leaves the Join
-page's post path dead. Check prod before assuming a table is there.
+markers, so the file order does not tell you what is in prod. Section 0011
+(enlistment) was missing for a while and was applied on 21 Aug by 0014. Check
+prod with `node scripts/status.mjs` before assuming a table is there.
 
 **Sign in claims nothing from the roster.** River said "not yet". Do not wire
 the roster_entry auto link back without being asked.
