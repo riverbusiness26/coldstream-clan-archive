@@ -2,13 +2,11 @@
 // page is not a gate: it is the introduction. Introductions land in their own
 // enlistment book (the forum was scrapped; this page never needed one).
 //
-// If the roster already knows the name you signed in with, that is worth
-// saying out loud before anything else. Someone who played in 2012 should not
-// be asked to introduce themselves like a stranger.
-import { useEffect, useMemo, useState } from 'react';
+// Deliberately not wired to the roster: signing in shows who you are on
+// Steam and nothing more, per River. The roster stays its own record.
+import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import { asset } from '../lib/asset';
-import { people, yearsWithUs } from '../lib/data';
 import type { Me } from '../lib/auth';
 
 interface Intro {
@@ -18,7 +16,6 @@ interface Intro {
   created_at: string;
 }
 
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
 const DEMO_KEY = 'csg-demo-enlist-v1';
 const demoLoad = (): Intro[] => {
   try { return JSON.parse(localStorage.getItem(DEMO_KEY) || '[]') as Intro[]; } catch { return []; }
@@ -33,20 +30,6 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [posted, setPosted] = useState(false);
-
-  // Does the roster already have this name? Steam names drift, so match on the
-  // normalised form and treat it as a strong hint rather than proof.
-  const match = useMemo(() => {
-    if (!me) return null;
-    const key = norm(me.display_name);
-    if (!key) return null;
-    return people.find((p) => norm(p.name) === key)
-      ?? people.find((p) => {
-        const n = norm(p.name);
-        return n.length >= 4 && (n.includes(key) || key.includes(n));
-      })
-      ?? null;
-  }, [me]);
 
   const load = () => {
     if (!supa) { setIntros(demoLoad().sort((a, b) => b.created_at.localeCompare(a.created_at))); return; }
@@ -98,9 +81,7 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
             <>
               <div className="note">
                 Sign in through Steam and you are in the door. There is no
-                application to wait on and nothing to fill in twice. If you have
-                played with us before, your record on the roster links up on its
-                own the moment you sign in.
+                application to wait on and nothing to fill in twice.
               </div>
               <div className="compose">
                 <button className="steam-btn official" onClick={signIn} aria-label="Sign in through Steam"><img src={asset('/steam-signin.png')} alt="Sign in through Steam" /></button>
@@ -108,33 +89,10 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
             </>
           )}
 
-          {me && match && (
-            <div className="welcome-back">
-              <div className="wb-tag">ON THE ROLL ALREADY</div>
-              <div className="wb-name">{match.name}</div>
-              <div className="wb-line">
-                {match.firstYear
-                  ? <>First on the record in <b>{match.firstYear}</b>. That is{' '}
-                    <b>{yearsWithUs(match.firstYear)} years</b> with us.</>
-                  : <>Already on the roster, though the record does not say which year you turned up.</>}
-              </div>
-              {match.games?.length > 0 && (
-                <div className="wb-games">
-                  {match.games.map((g: string) => <span className="gtag" key={g}>{g}</span>)}
-                </div>
-              )}
-              <div className="wb-line dim">
-                Welcome back. Say hello below if you want to, but you do not
-                have to introduce yourself to this lot.
-              </div>
-            </div>
-          )}
-
-          {me && !match && (
+          {me && !posted && (
             <div className="note">
-              Signed in as <b>{me.display_name}</b>. The roster does not have
-              that name yet, which just means you are new to the record. Post an
-              introduction and you are on it.
+              Signed in as <b>{me.display_name}</b>. Say hello below and you
+              are on the book.
             </div>
           )}
 
@@ -155,13 +113,11 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
               <input className="inp" placeholder="How did you find us? (optional)"
                 value={found} onChange={(e) => setFound(e.target.value)} maxLength={120} />
               <textarea className="inp ta" rows={5}
-                placeholder={match
-                  ? 'Anything you want to say. Old stories welcome.'
-                  : 'A line or two about yourself.'}
+                placeholder="A line or two about yourself."
                 value={about} onChange={(e) => { setAbout(e.target.value); setError(null); }} />
               {error && <div className="ferr">{error}</div>}
               <button className="btn primary sm" onClick={post} disabled={busy}>
-                {busy ? 'Posting' : match ? 'Say hello' : 'Post your introduction'}
+                {busy ? 'Posting' : 'Post your introduction'}
               </button>
             </div>
           )}

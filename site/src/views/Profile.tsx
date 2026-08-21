@@ -46,7 +46,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
   }
 
   const yrs = yearsWithUs(person.datedYear);
-  const mine = !!me && (person.steam_id64 === me.steam_id64);
+  const mine = false;
   const yearsLine = yrs
     ? `${yrs} years · joined ${person.datedYear}`
     : person.firstYear ? `on the roll since ${person.firstYear}` : 'on the roll';
@@ -62,7 +62,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
 
         <div className="module">
           <div className="mhead">
-            <h3>{person.name}{mine ? ' · you' : ''}</h3>
+            <h3>{person.name}</h3>
             <span className="sub">{yearsLine}</span>
           </div>
           <div className="prof-head">

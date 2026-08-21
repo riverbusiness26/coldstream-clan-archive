@@ -81,7 +81,7 @@ export default function Members({ me }: { me: Me | null }) {
                       <tr className={mine ? 'me' : undefined}>
                         <td>
                           <a className="rname plink" href={'#/member/' + encodeURIComponent(p.key)}>{p.name}</a>
-                          {mine && <span className="ryears"> · you</span>}
+                          
                           {p.aka.length > 0 && (
                             <div className="raka">also on the record as {p.aka.join(', ')}</div>
                           )}

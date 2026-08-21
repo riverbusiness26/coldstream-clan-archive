@@ -1,7 +1,6 @@
 // Site shell: masthead, the Enjin era module set in the nav, hash routing.
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from './lib/auth';
-import { people } from './lib/data';
 
 // The always visible pulse: how many of us are online right now, pinned to
 // the status bar the way the big communities pin their player counts.
@@ -57,9 +56,9 @@ function routeFromHash(): string {
 
 export default function App() {
   const { me, signIn, signOut, demo } = useAuth();
-  const myKey = me ? (people.find((p) => p.steam_id64 === me.steam_id64)?.key ?? null) : null;
 
   // Feedback the moment the session lands or the sign in fails.
+  const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
   const wasMe = useRef(false);
   useEffect(() => {
@@ -116,15 +115,20 @@ export default function App() {
           </div>
           {me ? (
             <span className="who">
-              <a className="signedchip" href={'#/member/' + encodeURIComponent(myKey ?? '')} title="Your profile">
-                {me.avatar_url && <img src={me.avatar_url} alt="" />}
-                <span>
-                  <span className="slabel"><span className="sdot" style={{ display: 'inline-block', marginRight: 5 }} />SIGNED IN THROUGH STEAM</span><br />
+              <span className="acct">
+                <button className="acctbtn" onClick={() => setMenuOpen((v) => !v)} aria-expanded={menuOpen}>
+                  {me.avatar_url && <img src={me.avatar_url} alt="" />}
                   <b>{me.display_name}</b>
-                </span>
-              </a>
-
-              <button className="btn" onClick={signOut}>Sign out</button>
+                  <span className="caret">▾</span>
+                </button>
+                {menuOpen && (
+                  <span className="acctmenu" onClick={() => setMenuOpen(false)}>
+                    <span className="acctmenu-head">Signed in through Steam</span>
+                    <a href={'https://steamcommunity.com/profiles/' + me.steam_id64} target="_blank" rel="noopener">View Steam profile</a>
+                    <button onClick={signOut}>Sign out</button>
+                  </span>
+                )}
+              </span>
             </span>
           ) : (
             <button className="steam-btn compact" onClick={signIn} aria-label="Sign in with Steam">

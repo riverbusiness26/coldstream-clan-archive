@@ -1482,3 +1482,29 @@ does not.
   landing redesign. Rebase or drop it, but do not lose the wording.
 - Rules rewrite and the Discord welcome sign are drafted in CSG Test and are
   explicitly on hold at River's request. Do not post them.
+
+## 22. Sign-in is decoupled from the roster (River, 2026-08-21)
+
+River's instruction, verbatim intent: research the biggest Steam-login
+sites and make ours work like them. The member must see they are signed
+in and see their Steam avatar, and login must NOT be connected to the
+roster "or none of that yet".
+
+What I changed on the frontend (all shipped in this commit):
+
+- Header: the signed-in chip is now a proper account control in the big-site
+  pattern (backpack.tf and friends): Steam avatar + persona name + caret,
+  opening a dropdown with "Signed in through Steam", a View Steam profile
+  link (opens steamcommunity in a new tab), and Sign out.
+- Members and Profile pages no longer mark "you" on the roster. The
+  name-match between the signed-in identity and roster people is removed.
+- The Join page no longer looks up the signed-in name on the roster and no
+  longer shows the welcome-back block. Signing in shows who you are on
+  Steam, nothing more.
+
+**Action for you on the next steam-auth redeploy:** the edge function still
+auto-links `roster_entry` by `steam_id64` on sign-in (the UPDATE after the
+member upsert). Remove that UPDATE so the server matches the frontend:
+sign-in creates/refreshes the `member` row only, and touches nothing in the
+roster. River said "yet", so keep the code handy in a comment or in git
+history; we may be asked to wire it back deliberately later.
