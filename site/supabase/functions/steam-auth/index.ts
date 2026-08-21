@@ -6,16 +6,26 @@
 //                               hand the browser a Supabase session via a
 //                               one time magic link.
 //
-// Required function secrets:
-//   SITE_URL                 e.g. https://coldstreamgaming.com
-//   SB_URL                   the Supabase project url
-//   SB_SERVICE_ROLE_KEY      service role key (never shipped to the client)
+// Configuration.
+//
+// Supabase injects SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY into every edge
+// function by itself, so neither has to be set by hand and the service role
+// key never has to be copied anywhere. That key bypasses row level security
+// completely, so the safest place for it is the one place it already is.
+//
+// The SB_ prefixed names are kept as a fallback because Supabase refuses to
+// let you set a secret starting with SUPABASE_, so a self-hosted or local run
+// still has a way to supply them.
+//
+// SITE_URL is where the browser is sent after signing in. It defaults to the
+// live domain, so nothing has to be configured for the normal case.
 
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const SITE_URL = Deno.env.get("SITE_URL")!;
-const SB_URL = Deno.env.get("SB_URL")!;
-const SERVICE_KEY = Deno.env.get("SB_SERVICE_ROLE_KEY")!;
+const SITE_URL = Deno.env.get("SITE_URL") ?? "https://www.coldstreamgaming.com";
+const SB_URL = Deno.env.get("SUPABASE_URL") ?? Deno.env.get("SB_URL")!;
+const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
+  ?? Deno.env.get("SB_SERVICE_ROLE_KEY")!;
 const STEAM_OPENID = "https://steamcommunity.com/openid/login";
 
 const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
