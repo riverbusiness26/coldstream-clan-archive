@@ -311,7 +311,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                 Sign in through Steam to add your own screenshots. Anything you
                 still have from back then belongs up here.
               </div>
-              <button className="btn sm" onClick={signIn}>Sign in through Steam</button>
+              <button className="steam-btn official" onClick={signIn} aria-label="Sign in through Steam"><img src={asset('/steam-signin-small.png')} alt="Sign in through Steam" /></button>
             </div>
           )}
 

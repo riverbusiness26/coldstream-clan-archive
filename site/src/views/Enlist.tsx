@@ -7,6 +7,7 @@
 // be asked to introduce themselves like a stranger.
 import { useEffect, useMemo, useState } from 'react';
 import { supa } from '../lib/supa';
+import { asset } from '../lib/asset';
 import { people, yearsWithUs } from '../lib/data';
 import type { Me } from '../lib/auth';
 
@@ -102,7 +103,7 @@ export default function Enlist({ me, signIn }: { me: Me | null; signIn: () => vo
                 own the moment you sign in.
               </div>
               <div className="compose">
-                <button className="btn primary" onClick={signIn}>Sign in through Steam</button>
+                <button className="steam-btn official" onClick={signIn} aria-label="Sign in through Steam"><img src={asset('/steam-signin.png')} alt="Sign in through Steam" /></button>
               </div>
             </>
           )}

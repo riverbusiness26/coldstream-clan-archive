@@ -41,15 +41,6 @@ const NAV: [string, string, boolean][] = [
   ['archive', 'The Archive', true],
 ];
 
-const steamSvg = (
-  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <circle cx="12" cy="12" r="10" stroke="#9db6d8" strokeWidth="1.6" />
-    <circle cx="15.4" cy="8.6" r="3" fill="#9db6d8" />
-    <circle cx="8.2" cy="15.6" r="2.2" stroke="#9db6d8" strokeWidth="1.6" />
-    <path d="M10.2 14.2 13.4 10.6" stroke="#9db6d8" strokeWidth="1.6" />
-  </svg>
-);
-
 // Routing is by hash, and coming back from Steam the session arrives in the
 // hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
 // this the app would try to route to a view called "access_token=..." and land
@@ -136,7 +127,7 @@ export default function App() {
               <button className="btn" onClick={signOut}>Sign out</button>
             </span>
           ) : (
-            <button className="steam-btn" onClick={signIn}>{steamSvg}Sign in through Steam</button>
+            <button className="steam-btn official" onClick={signIn} aria-label="Sign in through Steam"><img src={asset('/steam-signin.png')} alt="Sign in through Steam" /></button>
           )}
         </div>
         <nav className="main">
