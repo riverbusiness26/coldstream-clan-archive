@@ -1371,3 +1371,10 @@ free:
 
 The end to end proof: coldstreamgaming.com, Sign in through Steam, come
 back signed in, roster row says you.
+
+### 20a. steam-auth is deployed but 401: JWT verification is still on
+
+Seen from the Robert side the moment it went live. Fix: dashboard, Edge
+Functions, steam-auth, function settings, turn OFF "Enforce JWT verification"
+(or redeploy with --no-verify-jwt). The Robert side watcher is rearmed and
+flips the site live the moment the endpoint answers with a Steam redirect.
