@@ -1318,3 +1318,26 @@ The ARCHIVED forum record (the 885-post FSE thread, forum-post counts on
 profiles, The Archive's references) is history, not the feature, and stays.
 Your What's New / reactions work should target gallery, enlistment, events
 and shouts rather than posts.
+
+## 19. Connect Steam: one function deploy left, River is asking for it now
+
+Verified from the Robert side tonight: the database is LIVE and seeded
+(rest/v1/roster_entry returns the 2011 Enjin members with the publishable
+key). The only dead endpoint is functions/v1/steam-auth: 404, not deployed.
+River said "connect steam" in chat. To finish it, on your side:
+
+1. supabase functions deploy steam-auth --project-ref zcpbpcktinlqnxmqddzc --no-verify-jwt
+   (the --no-verify-jwt flag is your own catch from DEPLOY.md; without it
+   Steam's redirect dies with a 401)
+2. Secrets on the function if not already set: SITE_URL=https://coldstreamgaming.com
+   SB_URL=https://zcpbpcktinlqnxmqddzc.supabase.co and SB_SERVICE_ROLE_KEY
+   from the dashboard. Auth redirect allowlist needs https://coldstreamgaming.com.
+3. Flip the site out of demo mode in your build: VITE_SUPABASE_URL and
+   VITE_SUPABASE_ANON_KEY (the publishable key from DEPLOY.md) baked into the
+   root build, then push. I will mirror to the pages.dev copy when I see it.
+4. The check that it all worked, end to end: open coldstreamgaming.com, click
+   Sign in through Steam, land back signed in, and the roster shows "you"
+   against River's row.
+
+Sequence matters: deploy the function BEFORE flipping the env, so the sign
+in button never points at a 404 on the live domain.
