@@ -142,21 +142,31 @@ Deno.serve(async (req) => {
 
   if (!userId) return Response.redirect(`${SITE_URL}/?login=failed`, 302);
 
-  // Upsert the member row and link any roster history with this Steam ID.
-  const { data: memberRow } = await admin
-    .from("member")
-    .upsert(
-      { auth_user_id: userId, steam_id64: steamId, display_name: persona.name, avatar_url: persona.avatar },
-      { onConflict: "steam_id64" },
-    )
-    .select()
-    .single();
-  if (memberRow) {
-    await admin.from("roster_entry")
-      .update({ member_id: memberRow.id })
-      .eq("steam_id64", steamId)
-      .is("member_id", null);
-  }
+  // Upsert the member row, and nothing else.
+  //
+  // Sign in used to also claim roster history: it looked for roster_entry
+  // rows carrying this Steam ID and pointed them at the member who had just
+  // signed in. River asked for sign in not to be connected to the roster
+  // "or none of that yet", so that link is gone, and the frontend no longer
+  // marks "you" anywhere on the roster either. Signing in says who you are
+  // on Steam. It claims nothing.
+  //
+  // Kept here because "yet" means this is likely to be wanted back one day,
+  // and it should be put back deliberately rather than reinvented. It ran
+  // straight after the upsert, on the returned row:
+  //
+  //   await admin.from("roster_entry")
+  //     .update({ member_id: memberRow.id })
+  //     .eq("steam_id64", steamId)
+  //     .is("member_id", null);
+  //
+  // The .is("member_id", null) is the important part: it only ever claimed
+  // rows nobody had claimed, so it could not steal history from someone
+  // else by matching a recycled or mistyped Steam ID.
+  await admin.from("member").upsert(
+    { auth_user_id: userId, steam_id64: steamId, display_name: persona.name, avatar_url: persona.avatar },
+    { onConflict: "steam_id64" },
+  );
 
   // Hand the browser a session: generate a one time link and send them to it.
   const { data: link } = await admin.auth.admin.generateLink({
