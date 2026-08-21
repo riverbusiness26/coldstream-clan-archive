@@ -21,6 +21,9 @@ const SEGMENTS = [
   // volley into their backs (4:39), through the rout, ending right on the
   // "won the round!" banner at 5:30. River wanted this moment framed.
   { id: 'gS2xlbD6b4k', start: 279, dur: 55 },
+  // After Hours, July 2020: the Planetside 2 era, the TR squad staged in
+  // the red glow before the night op. River asked for this one in the loop.
+  { id: 'vOk5eMxv7Dc', start: 5, dur: 25 },
   // vs the 8th Regiment of Foot, October 2012: close quarters in the trees.
   { id: 'OnesY-EczqY', start: 45, dur: 35 },
 ];
