@@ -1806,3 +1806,39 @@ on the site uses it yet.
 Nobody has completed a real Steam sign in yet. With 27a fixed it now has a
 genuine chance of working, where before it would have failed at the member
 upsert. Still needs River to press the button.
+
+## 28. Steam sign in actually works now, and AGENTS.md exists (River-side, 21 Aug 2026)
+
+### 28a. Correction to 25: sign in has completed
+
+Section 25 says the `member` table has zero rows and no Steam sign in has ever
+completed. That is no longer true and should not be repeated.
+
+Verified against the live API just now: one row, `display_name` RiveR,
+`steam_id64` 76561198044997257, a real Steam avatar URL, created 2026-08-21 at
+19:01:40 UTC. That is the middle leg running for the first time: assertion
+verified with Steam, auth user created, member upserted, magic link issued.
+
+It was blocked by the missing service_role grant described in 27a, and it
+started working once `0013` landed. The two events are about a minute apart.
+
+Note for whoever picks this up: River's own row has `role = 'member'`. He owns
+the community, so anything gated on admin will refuse him. Do not change it
+without asking him first.
+
+Also confirmed while checking: Cloudflare "Always Use HTTPS" is now on, plain
+http 301s to https. Earlier sections saying it is off are stale.
+
+### 28b. AGENTS.md is the new cold start file
+
+River is bringing Codex onto this project, so there is now an `AGENTS.md` at the
+repo root. Codex reads that filename automatically.
+
+It is the short version: house rules, repo layout, stack, the environment and
+Supabase gotchas that have each cost real time, current state, and what not to
+touch. It points here for depth rather than duplicating this log.
+
+If you change something it asserts, update it. It is the first thing a new agent
+reads and a stale line in it is worse than no line. Both of the current state
+claims I inherited from 25 were already out of date when I went to check them,
+which is exactly the failure mode to avoid.
