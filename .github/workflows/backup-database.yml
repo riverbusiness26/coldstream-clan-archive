@@ -7,15 +7,20 @@
 # posts, gallery submissions, the shoutbox, member accounts and events. Those
 # exist in exactly one place, on a free tier, behind one person's login.
 #
-# This pulls them into the repo every night as plain JSON. If Supabase vanished
-# tomorrow the community would lose nothing older than 24 hours, and the export
-# is readable without any software at all.
+# This pulls them into a separate private repository every night as plain JSON.
+# The website repository is public, so writing staff posts, member identifiers
+# or unapproved gallery submissions here would turn a backup into a data leak.
+# If Supabase vanished tomorrow the community would lose nothing older than 24
+# hours, and the export is readable without any database software.
 #
-# Needs one repository secret: SUPABASE_SERVICE_ROLE_KEY.
-#   Settings > Secrets and variables > Actions > New repository secret
+# Needs two repository secrets and one repository variable:
+#   SUPABASE_SERVICE_ROLE_KEY, the existing Supabase service role key
+#   BACKUP_REPOSITORY_TOKEN, a fine grained token that can write only to the
+#     private backup repository
+#   BACKUP_REPOSITORY, owner/name for that private repository
 # The service role key bypasses row level security, which is the point: it is
 # the only way to back up the staff board and the unapproved uploads too. It is
-# never printed, and GitHub masks it in logs.
+# never printed. GitHub masks both secrets in logs.
 
 name: Backup database
 
@@ -25,26 +30,42 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   export:
     runs-on: ubuntu-latest
     steps:
+      - name: Check backup settings
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          BACKUP_REPOSITORY_TOKEN: ${{ secrets.BACKUP_REPOSITORY_TOKEN }}
+          BACKUP_REPOSITORY: ${{ vars.BACKUP_REPOSITORY }}
+        run: |
+          missing=0
+          for name in SUPABASE_SERVICE_ROLE_KEY BACKUP_REPOSITORY_TOKEN BACKUP_REPOSITORY; do
+            if [ -z "${!name}" ]; then
+              echo "$name is not configured."
+              missing=1
+            fi
+          done
+          exit "$missing"
+
       - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.BACKUP_REPOSITORY }}
+          token: ${{ secrets.BACKUP_REPOSITORY_TOKEN }}
+          path: backup-repository
 
       - name: Export every table
         env:
           SUPABASE_URL: https://zcpbpcktinlqnxmqddzc.supabase.co
           KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SOURCE_COMMIT: ${{ github.sha }}
         run: |
-          if [ -z "$KEY" ]; then
-            echo "SUPABASE_SERVICE_ROLE_KEY is not set. Add it under"
-            echo "Settings > Secrets and variables > Actions, then run this again."
-            exit 1
-          fi
-          mkdir -p backup
-          TABLES="member roster_entry board thread post gallery_category gallery_item shout server_status news_item operator event event_rsvp"
+          rm -rf backup-repository/.next
+          mkdir -p backup-repository/.next
+          TABLES="member roster_entry board thread post gallery_category gallery_item shout server_status news_item operator event event_rsvp enlistment steam_group steam_group_member steam_group_snapshot"
 
           # PostgREST caps a response at db.max_rows, which defaults to 1000 on
           # Supabase. A backup that silently stops at a thousand rows is worse
@@ -52,9 +73,10 @@ jobs:
           # pulled a page at a time until a short page comes back, and the
           # pages are joined here rather than trusting one request.
           for t in $TABLES; do
-            node - "$SUPABASE_URL" "$KEY" "$t" <<'JS'
-              const [url, key, table] = process.argv.slice(2);
+          node - "$SUPABASE_URL" "$KEY" "$t" "backup-repository/.next" <<'JS'
+              const [url, key, table, outputDirectory] = process.argv.slice(2);
               const fs = require('fs');
+              const path = require('path');
               const PAGE = 1000;
               (async () => {
                 const all = [];
@@ -67,37 +89,53 @@ jobs:
                     },
                   });
                   if (!res.ok) {
-                    // A table that does not exist yet is not a failure. One
-                    // that exists and refuses is, so leave nothing misleading.
-                    //
-                    // Set exitCode and return rather than calling exit(): tearing
-                    // the process down while a fetch is still settling trips a
-                    // libuv assertion and reports a crash instead of a skip, which
-                    // would abort the whole backup over a table we expect to be
-                    // missing until the calendar migration is run.
-                    console.log(`  ${table}: HTTP ${res.status} (skipped)`);
-                    try { fs.unlinkSync(`backup/${table}.json`); } catch {}
-                    if (res.status !== 404) process.exitCode = 1;
+                    // Missing and forbidden tables both make the snapshot
+                    // incomplete. Fail instead of preserving a convincing
+                    // partial backup.
+                    console.error(`${table}: HTTP ${res.status}`);
+                    process.exitCode = 1;
                     return;
                   }
                   const page = await res.json();
                   all.push(...page);
                   if (page.length < PAGE) break;
                 }
-                fs.writeFileSync(`backup/${table}.json`, JSON.stringify(all, null, 1));
+                fs.writeFileSync(path.join(outputDirectory, `${table}.json`), JSON.stringify(all, null, 1));
                 console.log(`  ${table}: ${all.length} rows`);
               })();
-JS
+          JS
           done
 
+          node - "$SOURCE_COMMIT" <<'JS'
+            const fs = require('fs');
+            const sourceCommit = process.argv[2];
+            const files = fs.readdirSync('backup-repository/.next')
+              .filter((name) => name.endsWith('.json'))
+              .sort();
+            const rowCounts = Object.fromEntries(files.map((name) => {
+              const rows = JSON.parse(fs.readFileSync(`backup-repository/.next/${name}`, 'utf8'));
+              return [name.replace(/\.json$/, ''), rows.length];
+            }));
+            fs.writeFileSync('backup-repository/.next/_manifest.json', JSON.stringify({
+              exported_at: new Date().toISOString(),
+              source_project: 'zcpbpcktinlqnxmqddzc',
+              source_commit: sourceCommit,
+              row_counts: rowCounts,
+            }, null, 1));
+          JS
+
+          rm -rf backup-repository/latest
+          mv backup-repository/.next backup-repository/latest
+
       - name: Commit if anything changed
+        working-directory: backup-repository
         run: |
           git config user.name  "coldstream-backup"
           git config user.email "backup@users.noreply.github.com"
-          git add -A backup || true
+          git add -- latest
           if git diff --staged --quiet; then
             echo "no changes"
           else
-            git commit -m "Nightly database export"
+            git commit -m "backup: nightly database export"
             git push
           fi
