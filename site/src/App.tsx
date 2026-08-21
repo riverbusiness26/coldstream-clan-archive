@@ -1,6 +1,7 @@
 // Site shell: masthead, the Enjin era module set in the nav, hash routing.
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAuth } from './lib/auth';
+import { people } from './lib/data';
 
 // The always visible pulse: how many of us are online right now, pinned to
 // the status bar the way the big communities pin their player counts.
@@ -65,6 +66,28 @@ function routeFromHash(): string {
 
 export default function App() {
   const { me, signIn, signOut, demo } = useAuth();
+  const myKey = me ? (people.find((p) => p.steam_id64 === me.steam_id64)?.key ?? null) : null;
+
+  // Feedback the moment the session lands or the sign in fails.
+  const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
+  const wasMe = useRef(false);
+  useEffect(() => {
+    if (me && !wasMe.current) {
+      wasMe.current = true;
+      setToast({ kind: 'ok', text: 'Signed in through Steam as ' + me.display_name });
+      const t = setTimeout(() => setToast(null), 5000);
+      return () => clearTimeout(t);
+    }
+    if (!me) wasMe.current = false;
+  }, [me]);
+  useEffect(() => {
+    if (new URLSearchParams(location.search).has('login')) {
+      setToast({ kind: 'err', text: 'Steam sign in did not complete. Try again.' });
+      const t = setTimeout(() => setToast(null), 6000);
+      history.replaceState(null, '', location.pathname + location.hash);
+      return () => clearTimeout(t);
+    }
+  }, []);
   const [view, setView] = useState(routeFromHash);
 
   useEffect(() => {
@@ -79,6 +102,7 @@ export default function App() {
     return (
       <>
         <Landing me={me} go={go} signIn={signIn} />
+        {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
       </>
     );
   }
@@ -86,6 +110,7 @@ export default function App() {
   return (
     <>
       {demo && <div className="devbadge">DEMO BUILD · NO BACKEND YET</div>}
+      {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
       <div className="estbar"><div className="in">
         <span>EST. <b>2011</b> · GAMING COMMUNITY · 15 YEARS RUNNING</span>
         <DiscordPulse />
@@ -100,8 +125,14 @@ export default function App() {
           </div>
           {me ? (
             <span className="who">
-              {me.avatar_url && <img src={me.avatar_url} alt="" />}
-              signed in as <b>{me.display_name}</b>
+              <a className="signedchip" href={'#/member/' + encodeURIComponent(myKey ?? '')} title="Your profile">
+                {me.avatar_url && <img src={me.avatar_url} alt="" />}
+                <span>
+                  <span className="slabel"><span className="sdot" style={{ display: 'inline-block', marginRight: 5 }} />SIGNED IN THROUGH STEAM</span><br />
+                  <b>{me.display_name}</b>
+                </span>
+              </a>
+
               <button className="btn" onClick={signOut}>Sign out</button>
             </span>
           ) : (
