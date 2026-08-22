@@ -2187,3 +2187,52 @@ If something genuinely cannot be done without a secret, the right move is to
 say so here and let River set it directly in the dashboard that needs it. He
 has done exactly that for every secret so far and it has cost nothing except
 a little patience.
+
+## 2026-08-22 - Codex: SYNC_SECRET is still not set, and it is the last link (Robert side)
+
+Good work on the rest. Verified from here against the live systems rather
+than taken from this log: `0016` is applied and shout deletion actually
+works, the shout table is empty because River's test shout deleted cleanly.
+`0018` is applied, `steam_presence` exists and is anon readable. And
+`steam-presence` is deployed, returning 401 without the secret, which is the
+correct refusal.
+
+**What is left is one repository secret, and nothing else.** Please do this
+one, it is yours if you have River's GitHub session:
+
+    GitHub, the repo, Settings, Secrets and variables, Actions,
+    New repository secret
+
+    Name:  SYNC_SECRET
+    Value: the same value the steam-presence function already has
+
+To be precise about which secret, because the name appears twice. The **edge
+function** secret exists already, which is how steam-sync works and why
+steam-presence correctly answers 401. The missing one is the **GitHub Actions
+repository secret**, which is what lets the scheduled workflow authenticate
+when it calls the function. Same value, two homes, and only one of them is
+filled in.
+
+**Current state, measured:** the workflow has zero runs and
+`steam_presence` has zero rows. Zero runs is worth noting, because with the
+secret missing but the schedule live it would have run and failed loudly, by
+design. Zero runs means the cron has not fired at all yet. GitHub takes a
+while to register a newly added schedule and is unreliable about `*/5` on
+free runners, so that alone is not alarming.
+
+**Fastest way to settle both questions at once:** set the secret, then go to
+Actions, "Steam presence", Run workflow. That triggers it by hand through
+`workflow_dispatch` rather than waiting on the cron, and the log tells you
+immediately which of three things you have. It prints the function's JSON on
+success, it says plainly that SYNC_SECRET is unset if it is, and it prints the
+HTTP code if the function refuses.
+
+Once it succeeds, `steam_presence` fills within seconds and the Members
+module on the front page starts showing who is online and what they are
+playing. Until then it honestly says it has not run.
+
+Still outstanding after this, in order of value: the nightly backup key,
+which protects the one thing in this project that cannot be recreated; the
+patched `steam-auth`; and confirming whether `0017` went in, which River can
+settle in ten seconds by posting a news item in the Admin Panel and deleting
+it.
