@@ -21,4 +21,22 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'sha256-OhumHRuuc8hnujzsBNb1fWrLQRH/u0WD4WcTxvfp2P8='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://i.ytimg.com https://i.imgur.com https://*.steamstatic.com https://*.akamaihd.net https://zcpbpcktinlqnxmqddzc.supabase.co; font-src 'self'; connect-src 'self' https://zcpbpcktinlqnxmqddzc.supabase.co wss://zcpbpcktinlqnxmqddzc.supabase.co https://discord.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://i.ytimg.com https://i.imgur.com https://*.steamstatic.com https://*.akamaihd.net https://zcpbpcktinlqnxmqddzc.supabase.co; font-src 'self'; connect-src 'self' https://static.cloudflareinsights.com https://zcpbpcktinlqnxmqddzc.supabase.co wss://zcpbpcktinlqnxmqddzc.supabase.co https://discord.com; frame-src https://www.youtube-nocookie.com https://www.youtube.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+
+# Why script-src allows inline, which is weaker than it looks on paper.
+#
+# Cloudflare injects two things of its own into every page: the Web Analytics
+# beacon and the bot challenge platform, both of which run inline scripts whose
+# content changes with Cloudflare's versions. Pinning hashes for those means
+# the policy breaks silently whenever Cloudflare ships an update, which is the
+# worst kind of security control: one that fails without telling anybody.
+#
+# So script-src is permissive and the value comes from the other directives,
+# which still hold: connect-src stops data being posted to a host we did not
+# name, frame-src stops arbitrary embeds, object-src and base-uri close two
+# classic injection routes, and form-action stops a form being retargeted.
+# React escaping remains the real defence against injected markup.
+#
+# To tighten later: turn off Cloudflare Web Analytics in the dashboard, then
+# the only inline script left is the origin guard in index.html and its hash
+# can be pinned.
