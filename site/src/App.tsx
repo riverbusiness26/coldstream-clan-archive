@@ -29,6 +29,12 @@ const Profile = lazy(() => import('./views/Profile'));
 const Admin = lazy(() => import('./views/Admin'));
 import SteamButton from './components/SteamButton';
 import { asset } from './lib/asset';
+import steamKeys from './seed/steam-keys.json';
+
+// Where a member's own profile lives. Roster people are addressed by key,
+// and anybody who joined since the archive was compiled by Steam id.
+const KEYS = steamKeys as Record<string, string>;
+const profileHref = (steamId: string) => '#/member/' + (KEYS[steamId] ?? 'steam:' + steamId);
 
 const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
@@ -161,6 +167,9 @@ export default function App() {
         <span>EST. <b>2011</b> · GAMING COMMUNITY · 15 YEARS RUNNING</span>
         <DiscordPulse />
         <span>
+          {me && (
+            <a className="adminlink" href={profileHref(me.steam_id64)}>PROFILE</a>
+          )}
           {me && (me.role === 'moderator' || me.role === 'admin') && (
             <a className="adminlink" href="#/admin">ADMIN PANEL</a>
           )}
@@ -184,7 +193,7 @@ export default function App() {
                 {menuOpen && (
                   <span className="acctmenu" onClick={() => setMenuOpen(false)}>
                     <span className="acctmenu-head">Signed in through Steam</span>
-                    <a href={'https://steamcommunity.com/profiles/' + me.steam_id64} target="_blank" rel="noopener">View Steam profile</a>
+                    <a href={profileHref(me.steam_id64)}>Visit profile</a>
                     <button onClick={signOut}>Sign out</button>
                   </span>
                 )}
