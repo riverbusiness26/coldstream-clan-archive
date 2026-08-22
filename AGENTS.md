@@ -213,6 +213,23 @@ Recent relevant sections: **27** is the Steam API work and the service_role bug,
 **26** is three gallery specs drafted but not built, **25** is a full sign in
 audit.
 
+## The design canvas
+
+The site layout is mirrored as an editable design canvas:
+
+  https://claude.ai/code/artifact/4047b445-e2c8-400f-a5fd-2ac43cc99f02
+
+Three artboards: Home, The Archive, and a design system sheet carrying the
+full palette, the type ramp and the control set. It reproduces the live
+stylesheet exactly, so it is the fastest way to see the visual vocabulary
+without reading `site/src/styles.css` end to end.
+
+The palette and chrome are marked "the approved locked design" in that
+stylesheet. Treat them as fixed. What the canvas is for is layout.
+
+Every figure on it came from the archive, not from imagination. If you change
+a number in the site, change it there too.
+
 ## Things not to do
 
 - Do not use em dashes.
