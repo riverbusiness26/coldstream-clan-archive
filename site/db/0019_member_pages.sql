@@ -121,10 +121,43 @@ create policy recent_read on steam_recent for select using (true);
 grant select on steam_recent to anon, authenticated;
 grant all on steam_recent to service_role;
 
+-- --------------------------------------------------------- game stats
+-- Per member, per game, straight from Steam.
+--
+-- Holdfast publishes 38 achievements, leaderboards and a stats schema, so
+-- this needs no third party and no permission: the same Web API key that
+-- already fetches presence can ask for a member's own numbers. Other games
+-- we play expose the same thing, which is why this is keyed by appid rather
+-- than being a Holdfast table.
+--
+-- Stats are stored as jsonb because every game publishes a different set,
+-- and a column per stat would mean a migration every time we add a game.
+create table if not exists game_stats (
+  steam_id64   text not null,
+  appid        integer not null,
+  game_name    text,
+  stats        jsonb not null default '{}'::jsonb,
+  achieved     integer not null default 0,
+  achievements integer not null default 0,
+  checked_at   timestamptz not null default now(),
+  primary key (steam_id64, appid)
+);
+
+create index if not exists game_stats_app on game_stats(appid, checked_at desc);
+
+alter table game_stats enable row level security;
+
+drop policy if exists gamestats_read on game_stats;
+create policy gamestats_read on game_stats for select using (true);
+
+grant select on game_stats to anon, authenticated;
+grant all on game_stats to service_role;
+
 -- --------------------------------------------------------------- checks
 select
   (select count(*) from pg_tables where tablename in ('member_profile','member_wall','steam_recent')) as tables_created,
   (select count(*) from pg_policies where tablename in ('member_profile','member_wall','steam_recent')) as policies,
   has_table_privilege('authenticated','member_wall','INSERT')  as can_post_on_walls,
   has_table_privilege('authenticated','member_profile','UPDATE') as can_edit_own_profile,
-  has_table_privilege('anon','member_wall','INSERT')           as anon_can_post_should_be_false;
+  has_table_privilege('anon','member_wall','INSERT')           as anon_can_post_should_be_false,
+  (select count(*) from pg_tables where tablename = 'game_stats') as game_stats_table;

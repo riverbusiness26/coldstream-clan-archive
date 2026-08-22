@@ -38,6 +38,17 @@ interface Summary {
   gameid?: string;
 }
 
+// Games we track per member stats for.
+//
+// Holdfast publishes 38 achievements and a stats schema, so its numbers come
+// straight from Steam and need nobody's permission. Any game listing "Stats"
+// on its Steam page can be added here by appid and it will start appearing
+// on profiles, which is why this is a list rather than a Holdfast special
+// case.
+const TRACKED_GAMES: { appid: number; name: string }[] = [
+  { appid: 589290, name: "Holdfast: Nations At War" },
+];
+
 const chunk = <T>(xs: T[], n: number): T[][] => {
   const out: T[][] = [];
   for (let i = 0; i < xs.length; i += n) out.push(xs.slice(i, i + n));
@@ -183,10 +194,81 @@ Deno.serve(async (req) => {
     console.error("recent games pass failed", e);
   }
 
+  // Per game stats and achievements, for the games in TRACKED_GAMES.
+  //
+  // Neither call can be batched, so this is capped the same way the recent
+  // games pass is: at most 20 member-and-game pairs per run, oldest first.
+  // A run every five minutes still covers a community of any size within the
+  // hour, and Steam never sees a burst.
+  //
+  // A private profile returns an error rather than data, which is not a
+  // failure worth logging loudly: it is a member's own setting and the site
+  // simply shows nothing for them.
+  let statsUpdated = 0;
+  try {
+    const dayAgo = new Date(Date.now() - 24 * 3600_000).toISOString();
+    const { data: fresh } = await admin
+      .from("game_stats")
+      .select("steam_id64, appid")
+      .gte("checked_at", dayAgo);
+
+    const isFresh = new Set((fresh ?? []).map((r) => `${r.steam_id64}:${r.appid}`));
+    const todo: { id: string; game: { appid: number; name: string } }[] = [];
+    for (const game of TRACKED_GAMES) {
+      for (const id of ids) {
+        if (!isFresh.has(`${id}:${game.appid}`)) todo.push({ id, game });
+      }
+    }
+
+    for (const { id, game } of todo.slice(0, 20)) {
+      const q = `?appid=${game.appid}&key=${STEAM_KEY}&steamid=${id}`;
+      const headers = { "User-Agent": "ColdstreamGaming-Presence/1.0 (+https://coldstreamgaming.com)" };
+
+      const [statsRes, achRes] = await Promise.all([
+        fetch("https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/" + q, { headers }),
+        fetch("https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/" + q, { headers }),
+      ]);
+
+      const stats: Record<string, number> = {};
+      if (statsRes.ok) {
+        const j = await statsRes.json();
+        for (const st of (j?.playerstats?.stats ?? [])) stats[st.name] = st.value;
+      }
+
+      let achieved = 0;
+      let total = 0;
+      if (achRes.ok) {
+        const j = await achRes.json();
+        const list = j?.playerstats?.achievements ?? [];
+        total = list.length;
+        achieved = list.filter((a: { achieved?: number }) => a.achieved === 1).length;
+      }
+
+      // Nothing at all means a private profile or a game they have never
+      // launched. Write the row anyway, so the same member is not retried on
+      // every single run for ever.
+      await admin.from("game_stats").upsert({
+        steam_id64: id,
+        appid: game.appid,
+        game_name: game.name,
+        stats,
+        achieved,
+        achievements: total,
+        checked_at: new Date().toISOString(),
+      }, { onConflict: "steam_id64,appid" });
+      statsUpdated++;
+    }
+  } catch (e) {
+    // Same reasoning as the recent games pass: presence is the job and it is
+    // already written, so this is logged and shrugged off.
+    console.error("game stats pass failed", e);
+  }
+
   return Response.json({
     ok: true,
     members: ids.length,
     recent_updated: recentUpdated,
+    game_stats_updated: statsUpdated,
     updated: rows.length,
     online: rows.filter((r) => (r.persona_state as number) > 0).length,
     in_game: rows.filter((r) => r.game).length,

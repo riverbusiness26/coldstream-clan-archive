@@ -12,6 +12,10 @@ import type { Me } from '../lib/auth';
 
 interface RecentGame { appid: number; name: string; minutes_2weeks: number; minutes_total: number }
 interface Prof { motto: string | null; bio: string | null; games: string[] | null }
+interface GameStat {
+  appid: number; game_name: string | null;
+  stats: Record<string, number>; achieved: number; achievements: number;
+}
 interface WallPost {
   id: string; body: string; created_at: string; author_id: string;
   author?: { display_name: string; steam_id64: string } | { display_name: string; steam_id64: string }[] | null;
@@ -23,11 +27,22 @@ const one = <T,>(v: T | T[] | null | undefined): T | null =>
 // Steam gives minutes. Nobody thinks in minutes past about ninety of them.
 const hours = (m: number) => (m >= 60 ? `${Math.round(m / 60)}h` : `${m}m`);
 
+// Steam stat keys are the game's own internal names. These are shown to
+// people, so the obvious ones get read out properly and anything unrecognised
+// falls back to a tidied version of its key rather than being hidden: a stat
+// we cannot name is still a number somebody earned.
+const prettyStat = (k: string) =>
+  k.replace(/^stat[_.]?/i, '')
+   .replace(/[_.]+/g, ' ')
+   .replace(/([a-z])/g, (m) => m.toUpperCase())
+   .trim();
+
 export default function ProfileLive({
   memberId, steamId, displayName, me,
 }: { memberId: string | null; steamId: string | null; displayName: string; me: Me | null }) {
   const [recent, setRecent] = useState<RecentGame[] | null>(null);
   const [prof, setProf] = useState<Prof | null>(null);
+  const [gstats, setGstats] = useState<GameStat[]>([]);
   const [wall, setWall] = useState<WallPost[] | null>(null);
 
   const [editing, setEditing] = useState(false);
@@ -57,6 +72,10 @@ export default function ProfileLive({
     if (steamId) {
       supa.from('steam_recent').select('games').eq('steam_id64', steamId).maybeSingle()
         .then(({ data }) => setRecent(((data?.games ?? []) as RecentGame[]) ?? []));
+      supa.from('game_stats')
+        .select('appid, game_name, stats, achieved, achievements')
+        .eq('steam_id64', steamId)
+        .then(({ data }) => setGstats((data ?? []) as GameStat[]));
     }
     if (memberId) {
       supa.from('member_profile').select('motto, bio, games').eq('member_id', memberId).maybeSingle()
@@ -145,6 +164,42 @@ export default function ProfileLive({
           </div>
         </div>
       )}
+
+      {/* Numbers from the games themselves, where the game publishes them. */}
+      {gstats.filter((g) => g.achievements > 0 || Object.keys(g.stats).length > 0).map((g) => {
+        const entries = Object.entries(g.stats)
+          .filter(([, v]) => typeof v === 'number' && v > 0)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 8);
+        return (
+          <div className="module" key={g.appid}>
+            <div className="mhead">
+              <h3>{g.game_name ?? 'Game stats'}</h3>
+              <span className="sub">from Steam</span>
+            </div>
+            {g.achievements > 0 && (
+              <div className="achv">
+                <div className="achv-bar">
+                  <span style={{ width: `${Math.round((g.achieved / g.achievements) * 100)}%` }} />
+                </div>
+                <div className="achv-n">
+                  {g.achieved} of {g.achievements} achievements
+                </div>
+              </div>
+            )}
+            {entries.length > 0 && (
+              <div className="stats" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))' }}>
+                {entries.map(([k, v]) => (
+                  <div className="stat" key={k}>
+                    <div className="n">{v.toLocaleString('en-US')}</div>
+                    <div className="l">{prettyStat(k)}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
 
       {/* Theirs to write. */}
       <div className="module">
