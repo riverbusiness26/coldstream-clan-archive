@@ -2443,3 +2443,14 @@ our own game servers logging our own rounds, which we will own outright.
 - Verified the live endpoint without a scheduler secret returns HTTP 401. The
   function is booting and remains closed to public requests, as intended.
 - Confirmed `https://coldstreamgaming.com` returns HTTP 200 after the deploy.
+
+## 2026-08-22 - Codex: Claude Code and design handoff updated
+
+- Added `CLAUDE_DESIGN_BRIEF.md` for the coming layout work. It documents the
+  live features, product decisions, information hierarchy, visual direction,
+  and River's language and archive rules.
+- Updated `CLAUDE.md` to point every Claude Code session directly to that
+  brief after the standard onboarding and handoff checks.
+- The brief records the current direction clearly: no forums, video-only
+  landing, gallery and shoutbox as the living community spaces, and a sourced
+  Archive held apart from member uploads.

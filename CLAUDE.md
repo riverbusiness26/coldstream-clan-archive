@@ -14,3 +14,8 @@ only copy so the two of us cannot drift into different rules.
 Then check the last few dated entries in [HANDOFF.md](HANDOFF.md) for what
 the other agent is holding right now, and claim your files there before you
 start editing.
+
+For a focused website layout handoff, use
+[CLAUDE_DESIGN_BRIEF.md](CLAUDE_DESIGN_BRIEF.md). It states the live product,
+the decisions River has already made, and the parts a design pass must keep
+working.
