@@ -1,0 +1,114 @@
+{
+  "_comment": "Coldstream Gaming Pterodactyl template. Sources: Holdfast dedicated server Steam app 1424230 and CM2Walki/HoldfastNaW.",
+  "meta": {
+    "version": "PTDL_v2",
+    "update_url": null
+  },
+  "exported_at": "2026-08-21T00:00:00-05:00",
+  "name": "Holdfast: Nations At War",
+  "author": "admin@coldstreamgaming.com",
+  "description": "A deployment-ready Holdfast: Nations At War dedicated server. Installs the official Linux server through SteamCMD only when a server is created from this template.",
+  "features": [
+    "steam_disk_space"
+  ],
+  "docker_images": {
+    "Holdfast Linux": "ghcr.io/ptero-eggs/games:valheim"
+  },
+  "file_denylist": [],
+  "startup": "sed -i -e 's|^server_port .*|server_port {{SERVER_PORT}}|' -e 's|^steam_communications_port .*|steam_communications_port {{STEAM_COMMUNICATIONS_PORT}}|' -e 's|^steam_query_port .*|steam_query_port {{QUERY_PORT}}|' -e 's|^server_region .*|server_region {{SERVER_REGION}}|' -e 's|^server_admin_password .*|server_admin_password {{ADMIN_PASSWORD}}|' -e 's|^server_name .*|server_name {{SERVER_NAME}}|' -e 's|^network_broadcast_mode .*|network_broadcast_mode {{BROADCAST_MODE}}|' serverconfig_default.txt; ./Holdfast\\ NaW -startserver -batchmode -nographics --serverheadless -screen-width 640 -screen-height 480 -screen-quality Fastest -serverConfigFilePath serverconfig_default.txt -logFile logs_output/outputlog_server.txt -logArchivesDirectory logs_archive/ -p {{SERVER_PORT}} {{ADDITIONAL_ARGS}}",
+  "config": {
+    "files": "{}",
+    "startup": "{\r\n  \"done\": \"Server initialised\"\r\n}",
+    "logs": "{}",
+    "stop": "^C"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\nset -e\napt-get update\napt-get install -y --no-install-recommends curl ca-certificates lib32gcc-s1\nmkdir -p /mnt/server/steamcmd /mnt/server/steamapps\ncd /tmp\ncurl -sSL -o steamcmd.tar.gz https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz\ntar -xzf steamcmd.tar.gz -C /mnt/server/steamcmd\ncd /mnt/server/steamcmd\nchown -R root:root /mnt\nexport HOME=/mnt/server\n./steamcmd.sh +force_install_dir /mnt/server +login anonymous +app_update 1424230 validate +quit\nmkdir -p /mnt/server/.steam/sdk32 /mnt/server/.steam/sdk64\ncp -f linux32/steamclient.so /mnt/server/.steam/sdk32/steamclient.so\ncp -f linux64/steamclient.so /mnt/server/.steam/sdk64/steamclient.so\nmkdir -p /mnt/server/logs_output /mnt/server/logs_archive\n",
+      "container": "ghcr.io/ptero-eggs/installers:debian",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Server Name",
+      "description": "Name shown in the Holdfast server browser.",
+      "env_variable": "SERVER_NAME",
+      "default_value": "Coldstream Gaming | Holdfast",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:80",
+      "field_type": "text"
+    },
+    {
+      "name": "Administrator Password",
+      "description": "Change this before the first launch. Store it in the community password manager.",
+      "env_variable": "ADMIN_PASSWORD",
+      "default_value": "CHANGE_ME_BEFORE_LAUNCH",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|min:12|max:64",
+      "field_type": "text"
+    },
+    {
+      "name": "Steam Communications Port",
+      "description": "Add this UDP port as a second Pterodactyl allocation before launch.",
+      "env_variable": "STEAM_COMMUNICATIONS_PORT",
+      "default_value": "8700",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|between:1024,65535",
+      "field_type": "text"
+    },
+    {
+      "name": "Steam Query Port",
+      "description": "Add this UDP port as a third Pterodactyl allocation before launch.",
+      "env_variable": "QUERY_PORT",
+      "default_value": "27018",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|integer|between:1024,65535",
+      "field_type": "text"
+    },
+    {
+      "name": "Server Region",
+      "description": "Holdfast matchmaking region. Virginia deployments normally use usaeast.",
+      "env_variable": "SERVER_REGION",
+      "default_value": "usaeast",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|in:europe,usa,usaeast,usawest,australia,china,japan,russia,southkorea,brazil",
+      "field_type": "text"
+    },
+    {
+      "name": "Network Broadcast Mode",
+      "description": "Standard supports large public servers. Competitive uses a higher tick rate with fewer players.",
+      "env_variable": "BROADCAST_MODE",
+      "default_value": "Standard",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|in:Standard,Competitive",
+      "field_type": "text"
+    },
+    {
+      "name": "Additional Arguments",
+      "description": "Optional advanced Holdfast launch arguments.",
+      "env_variable": "ADDITIONAL_ARGS",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "nullable|string|max:500",
+      "field_type": "text"
+    },
+    {
+      "name": "Steam Application ID",
+      "description": "Official Holdfast dedicated server application ID.",
+      "env_variable": "SRCDS_APPID",
+      "default_value": "1424230",
+      "user_viewable": true,
+      "user_editable": false,
+      "rules": "required|integer",
+      "field_type": "text"
+    }
+  ]
+}
