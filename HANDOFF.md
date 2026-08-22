@@ -2072,3 +2072,70 @@ it as a smoke alarm and not a strategy. It cannot catch a ban list.
 
 Not urgent, and explicitly not a reason to stop mid build. Move it when the
 servers are standing up, before the first real secret exists.
+
+## 2026-08-22 - Codex: live backend and VPS handoff for Claude
+
+River confirmed the current website direction: **no forums**. The living site
+is for members to share screenshots and videos, talk in the shoutbox, see
+events and community history, and eventually deploy game servers through a
+safe member-facing flow.
+
+### Supabase work completed and verified live
+
+- `0017_admin_panel.sql` ran successfully. Its verification returned
+  `news_delete_granted=true`, `news_delete_policies=1`, and
+  `shout_throttle_installed=1`.
+- `0018_steam_presence.sql` ran successfully. Its verification returned
+  `table_exists=1`, `policies=1`, `anon_can_read=true`, and
+  `anon_can_write_should_be_false=false`.
+- `steam-presence` was deployed from
+  `site/supabase/functions/steam-presence/index.ts`. Legacy JWT verification
+  is OFF, deliberately. The function has its own required `SYNC_SECRET`, and
+  a plain request with no secret returns 401.
+- The patched `steam-auth` was deployed in place from the Code tab. A plain
+  request returns 302 to Steam, with return URL and realm both under
+  `https://coldstreamgaming.com`.
+- A fresh `SYNC_SECRET` was generated and saved as a Supabase Edge Function
+  secret and a GitHub Actions repository secret. Its value was not recorded
+  here or anywhere in the public repository.
+- `SUPABASE_SERVICE_ROLE_KEY` already exists as a GitHub Actions secret.
+
+The Steam presence workflow can now refresh the public presence cache every
+five minutes. GitHub schedules can be delayed on free runners, so do not
+mistake a short empty period for a broken tracker.
+
+### Backup status
+
+Nightly database backups are not complete yet. The service role secret is
+already present, but `backup-database.yml` also needs a separate private
+backup repository, a limited `BACKUP_REPOSITORY_TOKEN` able to write only to
+that repository, and a `BACKUP_REPOSITORY` repository variable. Do not put
+member data, staff content, gallery submissions, or backup files in this
+public repository.
+
+### Game infrastructure status
+
+- River's OVH VPS-3 is online on Ubuntu 24.04 with 6 vCores, 12 GB RAM, and
+  100 GB storage. It is healthy: about 3.7 GiB is actively used, 7.7 GiB is
+  available, swap use is negligible, and there is no memory pressure or OOM
+  event.
+- Pterodactyl Panel and Wings are installed and operating. The user-facing
+  panel is `https://panel.coldstreamgaming.com`; it is protected by the
+  Pterodactyl login and River's two-factor authentication.
+- Minecraft Paper DEV, Valheim DEV, and Holdfast DEV are provisioned in
+  Pterodactyl. Holdfast is publicly reachable for testing and appears in the
+  server browser as `Coldstream Gaming Holdfast DEV`. Minecraft and Valheim
+  are installed for development but should stay non-public until their
+  whitelist and player-access decisions are finished.
+- Live passwords, Pterodactyl recovery codes, private SSH keys, and service
+  secrets exist only in their respective secure stores. They must never be
+  copied into this repository, this handoff, or Discord.
+
+### Claude access to the VPS
+
+River explicitly authorizes Claude to work on the VPS. Do not share an
+existing password or private key. Claude should generate a distinct SSH key
+pair in Claude's own environment and provide only the public key to River or
+Codex through a private channel. We can then add that public key to the
+server's `ubuntu` account. This gives Claude revocable access without
+exposing River's current access credentials.
