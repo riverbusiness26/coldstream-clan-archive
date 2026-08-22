@@ -68,7 +68,8 @@ function host(url: string) {
 }
 
 export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => void }) {
-  const [light, setLight] = useState<Shot | null>(null);
+  const [lightIdx, setLightIdx] = useState<number | null>(null);
+  const light = lightIdx === null ? null : SHOTS[lightIdx];
   const [uploads, setUploads] = useState<Upload[] | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [caption, setCaption] = useState('');
@@ -115,7 +116,11 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   // Escape closes the lightbox, same as clicking the backdrop.
   useEffect(() => {
     if (!light) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLight(null); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightIdx(null);
+      if (e.key === 'ArrowRight') setLightIdx((i) => (i === null ? i : Math.min(SHOTS.length - 1, i + 1)));
+      if (e.key === 'ArrowLeft') setLightIdx((i) => (i === null ? i : Math.max(0, i - 1)));
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [light]);
@@ -277,13 +282,18 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
             outage away from being gone. Open any of them for the date, the
             names still legible in the shot, and the address it was pulled from.
           </div>
-          <div className="gal-grid">
-            {SHOTS.map((s) => (
-              <button className="shotbtn" key={s.src} onClick={() => setLight(s)}
-                aria-label={`Open: ${s.caption}`}>
+          <div className="filmstrip">
+            {SHOTS.map((s, i) => (
+              <button
+                className="frame" key={s.src} onClick={() => setLightIdx(i)}
+                style={{ '--ar': s.w && s.h ? s.w / s.h : 1.7778 } as React.CSSProperties}
+                aria-label={`Open: ${s.caption}`}
+              >
                 <img src={asset(s.src)} alt={s.caption} loading="lazy" width={s.w} height={s.h} />
-                <span className="shotyear">{s.date ? s.date.slice(0, 4) : 'undated'}</span>
-                {s.who.length > 0 && <span className="shotwho">{s.who.length} {s.who.length === 1 ? "name" : "names"}</span>}
+                <span className="frame-cap">
+                  <b>{s.caption}</b>
+                  <span>{s.date ? s.date.slice(0, 4) : 'undated'}{s.who.length > 0 ? ` · ${s.who.length} ${s.who.length === 1 ? 'name' : 'names'}` : ''}</span>
+                </span>
               </button>
             ))}
           </div>
@@ -362,14 +372,15 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
           )}
 
           {live.length > 0 && (
-            <div className="gal-grid">
+            <div className="wall">
               {live.map((u) => (
-                <a className="shotbtn" key={u.id} href={linkOf(u)}
-                  target="_blank" rel="noopener">
+                <a className="frame" key={u.id} href={linkOf(u)} target="_blank" rel="noopener">
                   <img src={thumbOf(u)} alt={u.caption ?? ''} loading="lazy" />
-                  {u.media_type === 'video' && <span className="playmark" aria-hidden="true" />}
-                  {u.year && <span className="shotyear">{u.year}</span>}
-                  <span className="shotwho">{one(u.uploader)?.display_name ?? 'member'}</span>
+                  {u.media_type === 'video' && <span className="playmark2" aria-hidden="true" />}
+                  <span className="frame-cap">
+                    <b>{u.caption || (u.media_type === 'video' ? 'A film' : 'A screenshot')}</b>
+                    <span>{one(u.uploader)?.display_name ?? 'member'}{u.year ? ` · ${u.year}` : ''}</span>
+                  </span>
                 </a>
               ))}
             </div>
@@ -378,12 +389,12 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
           {mine.length > 0 && (
             <>
               <div className="note"><b>Waiting on a moderator</b> ({mine.length})</div>
-              <div className="gal-grid pending">
+              <div className="wall pending">
                 {mine.map((u) => (
-                  <div className="shotbtn" key={u.id}>
+                  <div className="frame" key={u.id}>
                     <img src={thumbOf(u)} alt={u.caption ?? ''} loading="lazy" />
-                    {u.media_type === 'video' && <span className="playmark" aria-hidden="true" />}
-                    <span className="shotyear">held</span>
+                    {u.media_type === 'video' && <span className="playmark2" aria-hidden="true" />}
+                    <span className="frame-cap"><b>{u.caption || 'Waiting on a moderator'}</b><span>held</span></span>
                     {canModerate && (
                       <span className="modrow">
                         <button className="btn sm" onClick={() => approve(u.id)}>Approve</button>
@@ -398,19 +409,32 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         </div>
       </main>
 
-      {light && (
-        <div className="lightbox" onClick={() => setLight(null)} role="dialog" aria-modal="true">
-          <img src={asset(light.src)} alt={light.caption} onClick={(e) => e.stopPropagation()} />
-          <div className="lightcap" onClick={(e) => e.stopPropagation()}>
-            <div className="lcap-main">{light.caption}</div>
-            <div className="lcap-meta">{shownDate(light.date)} · {light.game}</div>
+      {light && lightIdx !== null && (
+        <div className="lb" onClick={() => setLightIdx(null)} role="dialog" aria-modal="true">
+          <button className="lb-close" onClick={() => setLightIdx(null)} aria-label="Close">x</button>
+          <div className="lb-stage" onClick={(e) => e.stopPropagation()}>
+            <button className="lb-nav" onClick={() => setLightIdx(Math.max(0, lightIdx - 1))}
+              disabled={lightIdx === 0} aria-label="Previous">&lt;</button>
+            <img src={asset(light.src)} alt={light.caption} />
+            <button className="lb-nav" onClick={() => setLightIdx(Math.min(SHOTS.length - 1, lightIdx + 1))}
+              disabled={lightIdx === SHOTS.length - 1} aria-label="Next">&gt;</button>
+          </div>
+          <div className="lb-plate" onClick={(e) => e.stopPropagation()}>
+            <div className="cap">{light.caption}</div>
+            <div className="meta">{shownDate(light.date)} · {light.game} · recovered from {host(light.source)}</div>
             {light.who.length > 0 && (
-              <div className="lcap-who">
-                <b>Legible in this shot</b> ({light.who.length}, ours and theirs both):
-                {' '}{light.who.join(', ')}
+              <div className="who">
+                <b>Legible in this shot</b> ({light.who.length}, ours and theirs both): {light.who.join(', ')}
               </div>
             )}
-            <div className="lcap-src">recovered from {host(light.source)}</div>
+          </div>
+          <div className="lb-strip" onClick={(e) => e.stopPropagation()}>
+            {SHOTS.map((s, i) => (
+              <button key={s.src} className={i === lightIdx ? 'on' : undefined}
+                onClick={() => setLightIdx(i)} aria-label={`Plate ${i + 1}`}>
+                <img src={asset(s.src)} alt="" loading="lazy" />
+              </button>
+            ))}
           </div>
         </div>
       )}

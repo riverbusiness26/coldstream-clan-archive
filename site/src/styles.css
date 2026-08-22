@@ -455,3 +455,85 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
   .sgroups .era-body{padding-left:16px}
   .sg-wall{grid-template-columns:repeat(auto-fill,minmax(60px,1fr))}
 }
+
+/* ---- the gallery, remodelled -------------------------------------------
+   The screenshots are the point, so the chrome gets out of their way.
+
+   Archive half: justified rows at true aspect ratios. Each frame carries its
+   own ratio as --ar, and flex-grow distributes the row so every image in a
+   row shares one height and none of them is cropped. That matters here more
+   than on a normal site: these are the shots that survived, and cropping
+   them to a tidy 16:9 would be editing the record to suit a layout.
+
+   Uploads half: uniform 16:9, because uploads have no stored dimensions
+   until the image loads and a justified row would jump around as they
+   arrive. The honest fallback is the design, the way Steam's own screenshot
+   hub does it.
+
+   Old .gal-grid and .shotbtn are left alone: Profile still uses them. */
+.filmstrip{display:flex;flex-wrap:wrap;gap:3px;padding:3px;background:var(--bg)}
+.filmstrip::after{content:"";flex-grow:9999}
+.frame{--ar:1.7778;position:relative;flex-grow:var(--ar);flex-basis:calc(var(--ar) * 190px);margin:0;padding:0;border:0;background:var(--bg);cursor:pointer;overflow:hidden;display:block}
+.frame img{display:block;width:100%;height:auto;aspect-ratio:var(--ar);object-fit:cover}
+.frame::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);pointer-events:none;transition:box-shadow .18s}
+.frame:hover::after,.frame:focus-visible::after{box-shadow:inset 0 0 0 1px var(--accent)}
+.frame:focus-visible{outline:none}
+
+/* The caption plate. A label under the image rather than a badge floating
+   on top of it, which is the single thing that most made the old grid read
+   as a thumbnail dump. It rides in on hover so the wall stays quiet. */
+.frame-cap{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;
+  background:linear-gradient(to top,rgba(10,11,10,.94) 40%,rgba(10,11,10,0));
+  display:flex;flex-direction:column;gap:3px;text-align:left;
+  transform:translateY(101%);transition:transform .2s ease}
+.frame:hover .frame-cap,.frame:focus-visible .frame-cap{transform:translateY(0)}
+.frame-cap b{font:500 11.5px/1.35 var(--body);color:var(--ink);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.frame-cap span{font:400 9.5px/1 var(--mono);letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+
+/* Uniform wall: uploads, and the moderation queue. */
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:3px;padding:3px;background:var(--bg)}
+.wall .frame{flex:none;--ar:1.7778}
+.wall.pending{opacity:.62}
+.playmark2{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:44px;height:44px;border:1px solid rgba(255,255,255,.55);border-radius:50%;
+  background:rgba(10,11,10,.5);pointer-events:none}
+.playmark2::before{content:"";position:absolute;top:50%;left:54%;transform:translate(-50%,-50%);
+  border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent #fff}
+.frame .modrow{position:absolute;top:6px;right:6px;display:flex;gap:5px;z-index:2}
+
+/* Theatre lightbox: the image gets the room, the label sits under it, and
+   the rest of the archive runs along the bottom so you can walk the wall
+   without closing and reopening. */
+.lb{position:fixed;inset:0;z-index:70;background:rgba(8,9,8,.96);display:flex;flex-direction:column;padding:16px;gap:12px}
+.lb-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:12px}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;border:1px solid var(--line)}
+.lb-nav{flex:none;width:42px;height:64px;background:rgba(20,22,21,.85);border:1px solid var(--line);
+  color:var(--ink);font:400 20px/1 var(--mono);cursor:pointer}
+.lb-nav:hover{border-color:var(--accent);color:var(--accent)}
+.lb-nav:disabled{opacity:.25;cursor:default}
+.lb-plate{flex:none;max-width:90ch;margin:0 auto;text-align:center;display:flex;flex-direction:column;gap:6px}
+.lb-plate .cap{font:400 14px/1.55 var(--body);color:var(--ink)}
+.lb-plate .meta{font:400 10.5px/1.5 var(--mono);letter-spacing:.06em;color:var(--muted)}
+.lb-plate .who{font:400 10.5px/1.6 var(--mono);color:var(--faint)}
+.lb-plate .who b{color:var(--accent);font-weight:500}
+.lb-strip{flex:none;display:flex;gap:4px;overflow-x:auto;padding:2px;scrollbar-width:thin}
+.lb-strip button{flex:none;width:76px;height:44px;padding:0;border:1px solid transparent;background:none;cursor:pointer;opacity:.45}
+.lb-strip button img{width:100%;height:100%;object-fit:cover;display:block}
+.lb-strip button:hover{opacity:.8}
+.lb-strip button.on{opacity:1;border-color:var(--accent)}
+.lb-close{position:absolute;top:12px;right:14px;background:none;border:0;color:var(--muted);font:400 22px/1 var(--mono);cursor:pointer;z-index:2}
+.lb-close:hover{color:var(--accent)}
+
+@media (max-width:700px){
+  .frame{flex-basis:calc(var(--ar) * 130px)}
+  .wall{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  /* No hover on a touch screen, so the label stops hiding. */
+  .frame-cap{transform:none;padding-top:26px}
+  .lb-strip{display:none}
+  .lb-nav{width:36px;height:52px}
+}
+@media (prefers-reduced-motion:reduce){
+  .frame-cap{transition:none}
+  .frame::after{transition:none}
+}
