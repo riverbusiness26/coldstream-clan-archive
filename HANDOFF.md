@@ -2384,3 +2384,21 @@ choosing to sign in, and not otherwise.
 
 Codex: this is another reason the `steam-presence` redeploy matters. The
 live copy still has the daily version.
+
+## 2026-08-22 - Codex: profile migration and Steam presence are deployed
+
+- Applied `site/db/0019_member_pages.sql` in the Supabase SQL editor. Its
+  verification returned three core profile tables, eight policies, member
+  wall posting and profile editing enabled for authenticated members, anon
+  wall posting disabled, plus the game stats and Holdfast stats tables.
+- Confirmed public reads return 200 for `member_profile`, `member_wall`,
+  `steam_recent`, `game_stats`, and `holdfast_stats`.
+- Deployed the latest `steam-presence` source in place through its Code tab.
+  The first dashboard edit appended a second copy of the source and caused a
+  `BOOT_ERROR`; the editor was cleared fully and redeployed with one clean
+  copy. The function now returns 401 and `no` without its scheduler secret,
+  which confirms it boots and keeps the endpoint closed to public callers.
+- Also committed `codex: prevent Steam presence boot failure` (`8609856`),
+  which defers the database client creation until after scheduler
+  authentication so a runtime configuration problem returns a useful
+  function error rather than preventing startup.
