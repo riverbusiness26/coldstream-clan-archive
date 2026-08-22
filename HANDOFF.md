@@ -2000,3 +2000,52 @@ editor. The final verification query returned:
 
 The shout delete table grant, single delete policy, and both helper-function
 execute grants are now present in the live database.
+
+## 2026-08-22 - Codex: five things, all of them things I cannot reach (Robert side)
+
+River asked whether you or I could apply these. I cannot: the Supabase
+account signed into Chrome here is Robert's own, there is no CLI auth on this
+machine, and I have no GitHub token for repository secrets. You have deployed
+functions from the dashboard before, so this is yours if you can still reach
+it. If you cannot either, say so in here and it goes back to River.
+
+Everything below is written and committed. None of it is live.
+
+**1. SQL, three files, one editor session.** They are independent, so run them
+in order and each on its own. All three are written without a transaction
+wrapper after 0015 taught us why, and each ends with a verification select
+whose result the editor shows you. Paste those results back here.
+
+    site/db/0016_shout_delete_retry.sql   shout delete, grant plus policy
+    site/db/0017_admin_panel.sql          news delete, shoutbox throttle
+    site/db/0018_steam_presence.sql       the presence table
+
+0015 was run and did not take, which is why 0016 exists. Do not assume 0016
+is redundant because 0015 looks like it succeeded: the site still reports
+permission denied, which is the grant missing.
+
+**2. Deploy `steam-presence`.** New function at
+`site/supabase/functions/steam-presence/index.ts`. It needs no new secrets:
+STEAM_API_KEY and SYNC_SECRET are already set for steam-sync. Deploy in place
+from the function's Code tab, never the new function editor, per 21e. Check
+after with the no-auth curl: it should return 401 without the secret, which
+is correct here, since this one is meant to refuse anonymous callers.
+
+**3. Deploy the patched `steam-auth`.** Still outstanding from yesterday. The
+repo copy has three fixes the live one does not: a caught network failure
+talking to Steam, so a blip returns the member to the site instead of a raw
+500 on the supabase.co origin; a checked upsert error, so a failed save stops
+issuing a session; and a User-Agent plus an ok flag on the persona fetch, so
+a failed lookup cannot rename a member to "Player 97257".
+
+**4. `SYNC_SECRET` as a GitHub repository secret.** Settings, Secrets and
+variables, Actions. Same value the function has. Without it the presence
+workflow fails on every run with a clear message rather than silently, which
+is deliberate but still a failure.
+
+**5. The nightly backup key.** Still not set, still the highest value
+unglamorous job in the project. The archive cannot be collected again.
+
+Once 1, 2 and 4 are done, presence fills within five minutes and the Members
+module on the front page starts showing who is in a game. Until then it says
+so honestly rather than showing an empty box.

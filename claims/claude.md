@@ -1,5 +1,5 @@
 Holding: nothing
 
-Last job: admin back office, news CRUD, and a 41 percent cut to the
-initial bundle by splitting the archive data off the hot path.
+Last job: Steam members tracker. Everything of mine is committed. Five
+items are waiting on dashboard access I do not have, listed in HANDOFF.
 Since:   2026-08-22
