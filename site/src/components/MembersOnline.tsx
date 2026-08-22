@@ -11,6 +11,12 @@
 // database a question whose answer cannot have changed yet.
 import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
+import steamKeys from '../seed/steam-keys.json';
+
+// Whose profile a Steam id belongs to. Anybody not on the roster still gets
+// a profile, addressed by Steam id, so a new member is never a dead link.
+const KEYS = steamKeys as Record<string, string>;
+const profileHref = (id: string) => '#/member/' + (KEYS[id] ?? 'steam:' + id);
 
 interface Row {
   steam_id64: string;
@@ -77,9 +83,7 @@ export default function MembersOnline() {
   const stale = Date.now() - new Date(rows[0].checked_at).getTime() > 20 * 60_000;
 
   const Line = ({ r }: { r: Row }) => (
-    <a className="pres" key={r.steam_id64}
-      href={`https://steamcommunity.com/profiles/${r.steam_id64}`}
-      target="_blank" rel="noopener">
+    <a className="pres" key={r.steam_id64} href={profileHref(r.steam_id64)}>
       {r.avatar_url
         ? <img src={r.avatar_url} alt="" loading="lazy" width={20} height={20} />
         : <span className="pres-noavi" aria-hidden="true" />}

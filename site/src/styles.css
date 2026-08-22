@@ -585,3 +585,10 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
    fixed. Discord lays the panel out to whatever width it is given. */
 .dscframe{padding:16px;background:var(--panel)}
 .dscframe iframe{display:block;width:100%;border:1px solid var(--line);background:#1e2124}
+
+/* The live half of a profile: who they are on Steam right now, sitting
+   above the record of who they were. */
+.prof-avi{display:block;width:64px;height:64px;border:1px solid var(--line);margin-bottom:10px}
+.prof-live{font:400 11px/1.4 var(--mono);letter-spacing:.06em;color:var(--muted);
+  margin-bottom:8px;text-transform:uppercase}
+.prof-live .pres-game{text-transform:none;letter-spacing:.02em}

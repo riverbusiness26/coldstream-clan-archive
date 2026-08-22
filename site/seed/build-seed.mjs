@@ -324,6 +324,13 @@ writeFileSync('src/seed/eras.json', JSON.stringify({
   },
   eventsByYear: events.reduce((acc, e) => { acc[e.year] = (acc[e.year] || 0) + e.events; return acc; }, {}),
 }, null, 1));
+// Steam id to roster key, for the pages that need to link to a profile
+// without importing the whole roster to do it.
+const steamKeys = {};
+for (const p of people) if (p.steam_id64) steamKeys[p.steam_id64] = p.key;
+writeFileSync('src/seed/steam-keys.json', JSON.stringify(steamKeys));
+console.log(`steam keys: ${Object.keys(steamKeys).length} of ${people.length} people`);
+
 console.log(`eras: ${erasFinal.length} (two chapters split at the 2013 rename) | events recomputed: ${erasFinal.reduce((n, e) => n + e.events, 0)} (research file said ${erasRaw.totals.events})`);
 
 // ---- the calendar's past, from the announcement record.
