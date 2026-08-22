@@ -68,6 +68,7 @@ function NextEvent({ go }: { go: (v: string) => void }) {
   );
 }
 import Shoutbox from '../components/Shoutbox';
+import MembersOnline from '../components/MembersOnline';
 import Discord from '../components/Discord';
 import type { Me } from '../lib/auth';
 import { asset } from '../lib/asset';
@@ -152,6 +153,7 @@ export default function Home({ me, go, signIn }: { me: Me | null; go: (v: string
         <aside>
           <Shoutbox me={me} signIn={signIn} />
           <Discord />
+          <MembersOnline />
           <div className="module">
             <div className="mhead"><h3>The Numbers</h3></div>
             <div className="stats">
