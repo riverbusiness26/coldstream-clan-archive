@@ -9,6 +9,7 @@ import gallerySeed from '../seed/gallery.json';
 import { yearsWithUs, GAME_NAMES } from '../lib/data';
 import { asset } from '../lib/asset';
 import { supa } from '../lib/supa';
+import ProfileLive from '../components/ProfileLive';
 import type { Me } from '../lib/auth';
 
 interface Person {
@@ -38,6 +39,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
   // does: the browser cannot call Steam, and should not hold the key.
   const steamId = person?.steam_id64 ?? bySteam;
   const [live, setLive] = useState<{ persona_name: string | null; avatar_url: string | null; persona_state: number; game: string | null; visible: boolean } | null>(null);
+  const [memberId, setMemberId] = useState<string | null>(null);
   useEffect(() => {
     if (!supa || !steamId) return;
     supa.from('steam_presence')
@@ -45,6 +47,13 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
       .eq('steam_id64', steamId)
       .maybeSingle()
       .then(({ data }) => setLive(data as typeof live));
+    // Has this person actually signed in? Only then do they have a wall and
+    // an About box to their name.
+    supa.from('member')
+      .select('id')
+      .eq('steam_id64', steamId)
+      .maybeSingle()
+      .then(({ data }) => setMemberId((data?.id as string) ?? null));
   }, [steamId]);
   const records = useMemo(
     () => ENTRIES.filter((e) => e.person_key === personKey)
@@ -93,6 +102,13 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
             Their Steam profile
           </a>
         </div>
+
+        <ProfileLive
+          memberId={memberId}
+          steamId={bySteam}
+          displayName={live?.persona_name ?? 'This member'}
+          me={me}
+        />
       </main></div>
     );
   }
@@ -163,6 +179,13 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
             </div>
           ))}
         </div>
+
+        <ProfileLive
+          memberId={memberId}
+          steamId={steamId ?? null}
+          displayName={person.name}
+          me={me}
+        />
 
         {shots.length > 0 && (
           <div className="module">

@@ -132,9 +132,61 @@ Deno.serve(async (req) => {
     return Response.json({ ok: false, error: upErr.message }, { status: 500 });
   }
 
+  // What people have actually been playing, for their profile page.
+  //
+  // Unlike presence, this cannot be batched: GetRecentlyPlayedGames takes one
+  // steamid per call. So it is capped and it is slower moving, refreshed for
+  // at most 25 members per run and only if their row is a day old. With a
+  // run every five minutes that covers a community of any realistic size
+  // within the hour, and never makes more than 25 calls in one go.
+  let recentUpdated = 0;
+  try {
+    const dayAgo = new Date(Date.now() - 24 * 3600_000).toISOString();
+    const { data: stale } = await admin
+      .from("steam_recent")
+      .select("steam_id64, checked_at")
+      .lt("checked_at", dayAgo)
+      .limit(25);
+
+    const known = new Set((stale ?? []).map((r) => r.steam_id64 as string));
+    // Anyone with no row at all is new and goes to the front of the queue.
+    const missing = ids.filter((id) => !known.has(id)).slice(0, 25);
+    const todo = [...new Set([...missing, ...known])].slice(0, 25);
+
+    for (const id of todo) {
+      const r = await fetch(
+        "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/"
+        + `?key=${STEAM_KEY}&steamid=${id}&count=6`,
+        { headers: { "User-Agent": "ColdstreamGaming-Presence/1.0 (+https://coldstreamgaming.com)" } },
+      );
+      if (!r.ok) continue;
+      const j = await r.json();
+      const games = (j?.response?.games ?? []).map((g: Record<string, unknown>) => ({
+        appid: g.appid,
+        name: g.name,
+        minutes_2weeks: g.playtime_2weeks ?? 0,
+        minutes_total: g.playtime_forever ?? 0,
+      }));
+      // An empty list is a real answer, a private profile or a quiet
+      // fortnight, and writing it stops the same member being retried every
+      // single run for ever.
+      await admin.from("steam_recent").upsert(
+        { steam_id64: id, games, checked_at: new Date().toISOString() },
+        { onConflict: "steam_id64" },
+      );
+      recentUpdated++;
+    }
+  } catch (e) {
+    // Recent games are a nicety. Presence is the job, and it has already
+    // been written by this point, so a failure here is logged and shrugged
+    // off rather than failing the run.
+    console.error("recent games pass failed", e);
+  }
+
   return Response.json({
     ok: true,
     members: ids.length,
+    recent_updated: recentUpdated,
     updated: rows.length,
     online: rows.filter((r) => (r.persona_state as number) > 0).length,
     in_game: rows.filter((r) => r.game).length,
