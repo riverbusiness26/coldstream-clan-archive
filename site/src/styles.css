@@ -472,7 +472,11 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 
    Old .gal-grid and .shotbtn are left alone: Profile still uses them. */
 .filmstrip{display:flex;flex-wrap:wrap;gap:3px;padding:3px;background:var(--bg)}
-.filmstrip::after{content:"";flex-grow:9999}
+/* The spacer stops a short last row stretching to full width. It only
+   earns its place once there are enough frames to make a second row: with
+   one or two results from a year filter it would pin them tiny at their
+   flex-basis instead of letting them fill the room. */
+.filmstrip:has(.frame:nth-child(4))::after{content:"";flex-grow:9999}
 .frame{--ar:1.7778;position:relative;flex-grow:var(--ar);flex-basis:calc(var(--ar) * 190px);margin:0;padding:0;border:0;background:var(--bg);cursor:pointer;overflow:hidden;display:block}
 .frame img{display:block;width:100%;height:auto;aspect-ratio:var(--ar);object-fit:cover}
 .frame::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);pointer-events:none;transition:box-shadow .18s}

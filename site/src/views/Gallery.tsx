@@ -8,7 +8,7 @@
 // "Member Uploads" is the live half: anything a signed-in member adds. Those
 // land unapproved and a moderator clears them, so the two can never be
 // confused for each other.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import SteamButton from '../components/SteamButton';
@@ -77,6 +77,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   const [cat, setCat] = useState<string>(CATEGORIES[0].slug);
   const [browse, setBrowse] = useState<string>('all');
   const [kind, setKind] = useState<'all' | 'image' | 'video'>('all');
+  const [filterYear, setFilterYear] = useState<string>('all');
   const [mode, setMode] = useState<'image' | 'video'>('image');
   const [videoUrl, setVideoUrl] = useState('');
   const [catIds, setCatIds] = useState<Record<string, string>>({});
@@ -171,7 +172,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       setBusy(true);
       try {
         if (!supa) {
-          setDone('Up. Your film is in the gallery now.');
+          setDone('Submitted. An admin checks it in and then it joins the archive.');
         } else {
           const { error } = await supa.from('gallery_item').insert({
             uploader_id: me.id,
@@ -182,10 +183,9 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
             caption: caption.trim() || null,
             game: game.trim() || null,
             year: yr2,
-            approved: true,
           });
           if (error) { setFormError(error.message); return; }
-          setDone('Up. Your film is in the gallery now.');
+          setDone('Submitted. An admin checks it in and then it joins the archive.');
         }
         setVideoUrl(''); setCaption(''); setGame(''); setYear('');
         loadUploads();
@@ -208,7 +208,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         const res = demoGallery.add(dataUrl, caption.trim() || null, game.trim() || null, yr, me.display_name);
         if (!res.ok) { setFormError(res.reason); return; }
         setFile(null); setCaption(''); setGame(''); setYear('');
-        setDone('Up. Your screenshot is in the gallery now.');
+        setDone('Submitted. An admin checks it in and then it joins the archive.');
         loadUploads();
       } catch (err) {
         setFormError(err instanceof Error ? err.message : 'That image could not be read.');
@@ -244,19 +244,28 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       caption: caption.trim() || null,
       game: game.trim() || null,
       year: yr,
-      approved: true,
     });
     setBusy(false);
     if (error) { setFormError(error.message); return; }
 
     setFile(null); setCaption(''); setGame(''); setYear('');
-    setDone('Up. Your screenshot is in the gallery now.');
+    setDone('Submitted. An admin checks it in and then it joins the archive.');
     loadUploads();
   }
 
+  const shotYear = (s: Shot) => (s.date ? s.date.slice(0, 4) : s.year ? String(s.year) : null);
+  const years = useMemo(() => {
+    const ys = new Set<string>();
+    for (const s of SHOTS) { const y = shotYear(s); if (y) ys.add(y); }
+    for (const u of uploads ?? []) if (u.approved && u.year) ys.add(String(u.year));
+    return [...ys].sort();
+  }, [uploads]);
+  const shots = filterYear === 'all' ? SHOTS : SHOTS.filter((s) => shotYear(s) === filterYear);
+
   const inBrowse = (u: Upload) =>
     (browse === 'all' || (u.category_slug ?? categorySlugById(u.category_id)) === browse)
-    && (kind === 'all' || u.media_type === kind);
+    && (kind === 'all' || u.media_type === kind)
+    && (filterYear === 'all' || String(u.year ?? '') === filterYear);
   const mine = uploads?.filter((u) => !u.approved) ?? [];
   const approved = uploads?.filter((u) => u.approved) ?? [];
   const nShots = approved.filter((u) => u.media_type === 'image').length;
@@ -282,15 +291,30 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         <div className="module">
           <div className="mhead">
             <h3>From the Archives</h3>
-            <span className="sub">{SHOTS.length} screenshots recovered before the links died</span>
+            <span className="sub">
+              {filterYear === 'all'
+                ? `${SHOTS.length} screenshots recovered before the links died`
+                : `${shots.length} from ${filterYear}, of ${SHOTS.length} recovered`}
+            </span>
           </div>
           <div className="note">
             These came off Photobucket and imgur, where most of them were one
             outage away from being gone. Open any of them for the date, the
             names still legible in the shot, and the address it was pulled from.
           </div>
+          <div className="chips">
+            <button className={'chip' + (filterYear === 'all' ? ' on' : '')}
+              onClick={() => setFilterYear('all')}>All years</button>
+            {years.map((y) => (
+              <button key={y} className={'chip' + (filterYear === y ? ' on' : '')}
+                onClick={() => setFilterYear(y)}>{y}</button>
+            ))}
+          </div>
+          {filterYear !== 'all' && shots.length === 0 && (
+            <div className="note">Nothing recovered from {filterYear} in this half. The member uploads below may still have some.</div>
+          )}
           <div className="filmstrip">
-            {SHOTS.map((s, i) => (
+            {shots.map((s, i) => (
               <button
                 className="frame" key={s.src} onClick={() => setLightIdx(i)}
                 style={{ '--ar': s.w && s.h ? s.w / s.h : 1.7778 } as React.CSSProperties}
@@ -308,7 +332,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
         <div className="module">
           <div className="mhead">
-            <h3>Member Uploads</h3>
+            <h3>The Members' Archive</h3>
             <span className="sub">
               {live.length} {kind === 'image' ? (live.length === 1 ? 'screenshot' : 'screenshots') : kind === 'video' ? (live.length === 1 ? 'film' : 'films') : (live.length === 1 ? 'item' : 'items')}
               {browse === 'all' ? '' : ' in ' + categoryBySlug(browse)?.name}
@@ -337,8 +361,9 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
           {!me && (
             <div className="compose">
               <div className="note" style={{ padding: 0 }}>
-                Sign in through Steam to add your own screenshots. Anything you
-                still have from back then belongs up here.
+                Sign in through Steam to add to the archive. Anything you still
+                have from back then belongs up here, and an admin checks each
+                one in before it goes on the wall.
               </div>
               <SteamButton me={me} signIn={signIn} />
             </div>
@@ -384,9 +409,8 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
           {uploads === null && <div className="note">Loading.</div>}
           {uploads?.length === 0 && (
             <div className="note">
-              Nothing here yet. The archive above is what survived on its own,
-              so this half is up to us. Sign in and put something up: it goes
-              straight onto the wall.
+              Nothing checked in yet. The half above is what survived on its
+              own, so this one is up to us. Sign in and add what you kept.
             </div>
           )}
 
@@ -412,7 +436,12 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
           {mine.length > 0 && (
             <>
-              <div className="note"><b>Waiting on a moderator</b> ({mine.length})</div>
+              <div className="note">
+                <b>{canModerate ? 'Waiting to be checked in' : 'Waiting on an admin'}</b> ({mine.length}).{' '}
+                {canModerate
+                  ? 'Approve puts it in the archive for everyone. Deny removes it.'
+                  : 'An admin looks over everything before it joins the archive.'}
+              </div>
               <div className="wall pending">
                 {mine.map((u) => (
                   <div className="frame" key={u.id}>
@@ -422,7 +451,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                     {canModerate && (
                       <span className="modrow">
                         <button className="btn sm" onClick={() => approve(u.id)}>Approve</button>
-                        <button className="btn sm" onClick={() => reject(u.id, u.storage_key)}>Remove</button>
+                        <button className="btn sm" onClick={() => reject(u.id, u.storage_key)}>Deny</button>
                       </span>
                     )}
                   </div>
@@ -453,7 +482,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
             )}
           </div>
           <div className="lb-strip" onClick={(e) => e.stopPropagation()}>
-            {SHOTS.map((s, i) => (
+            {shots.map((s, i) => (
               <button key={s.src} className={i === lightIdx ? 'on' : undefined}
                 onClick={() => setLightIdx(i)} aria-label={`Plate ${i + 1}`}>
                 <img src={asset(s.src)} alt="" loading="lazy" />
