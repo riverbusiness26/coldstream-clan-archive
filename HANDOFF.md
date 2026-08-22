@@ -2454,3 +2454,12 @@ our own game servers logging our own rounds, which we will own outright.
 - The brief records the current direction clearly: no forums, video-only
   landing, gallery and shoutbox as the living community spaces, and a sourced
   Archive held apart from member uploads.
+
+## 2026-08-22 - Codex: server player tracker pass
+
+- Added `site/db/0020_server_player_tracker.sql` and appended it to `site/db/RUN_ME_next.sql`. It adds `server_status.player_names jsonb not null default '[]'::jsonb` so the Servers page can show public player samples when a game exposes them.
+- Replaced `scripts/poll-server-status.mjs` with a multi-server poller. It queries Source-style A2S for Holdfast and Valheim, and uses the Minecraft Java status handshake for Minecraft.
+- Updated `.github/workflows/server-status.yml` so the five minute scheduled job runs the multi-server poller instead of the Holdfast-only poller.
+- Updated `site/src/views/Servers.tsx`, `site/src/lib/content.ts`, `site/src/lib/data.ts`, and `site/src/styles.css` so the page shows live counts, update time, player name chips when available, and a clear message when only counts are exposed.
+- Dry run from this machine, with no Supabase write: Holdfast answered `0/80` on `PalisadeArena`, Minecraft answered `0/20` on `Paper 26.2`, and Valheim did not answer on `2457` or `2456`. Keep Valheim marked unreachable until its query setting or query port is confirmed.
+- `npm run build` from `site/` passed, and `site/dist` was copied into the repo root for the Cloudflare publish path. The generated root `_redirects` was intentionally left untracked because this repo has already had deploy trouble from root redirect files.

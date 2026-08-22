@@ -14,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Query the public Holdfast development server
+      - name: Query public development game servers
         env:
-          HOLDFAST_HOST: 40.160.84.169
-          HOLDFAST_QUERY_PORT: 27018
           SUPABASE_URL: https://zcpbpcktinlqnxmqddzc.supabase.co
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: node scripts/poll-server-status.mjs

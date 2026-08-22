@@ -108,6 +108,11 @@ nav.main a:hover{color:var(--ink)}
 .pill.live{color:#8bc53f;border-color:#3f5426}
 .srv-name{margin-top:9px;font:bold 15px/1.2 var(--body)}
 .srv-meta{font:400 11px/1.8 var(--mono);color:var(--faint)}
+.srv-players{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.srv-players-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font:600 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.srv-player-list{display:flex;flex-wrap:wrap;gap:6px}
+.srv-player{max-width:100%;overflow-wrap:anywhere;border:1px solid var(--hi);background:#191c1a;color:var(--muted);padding:4px 7px;font:400 11px/1.2 var(--mono)}
+.srv-empty{font:400 11.5px/1.5 var(--mono);color:var(--faint)}
 
 .bars{padding:20px 16px 8px;display:flex;align-items:flex-end;gap:8px;height:220px}
 .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;min-width:0}
@@ -617,4 +622,3 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .achv-bar span{display:block;height:100%;background:var(--accent-deep)}
 .achv-n{font:400 10.5px/1.4 var(--mono);letter-spacing:.07em;color:var(--muted);
   text-transform:uppercase;margin-top:7px}
-

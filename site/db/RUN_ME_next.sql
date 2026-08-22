@@ -939,3 +939,13 @@ alter default privileges in schema public grant all on sequences to service_role
 --     has_table_privilege('service_role','steam_group','UPDATE')  as group_upd;
 --
 -- Both true means it took.
+
+-- ==============================================================
+-- 0020_server_player_tracker
+-- ==============================================================
+-- Public server queries can return a count and, for some games, a small list
+-- of player names. Store that list separately so the Servers page can show it
+-- when the game exposes it and say plainly when it only has a count.
+
+alter table server_status
+  add column if not exists player_names jsonb not null default '[]'::jsonb;

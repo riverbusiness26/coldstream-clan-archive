@@ -13,6 +13,7 @@ export interface NewsItem {
 export interface ServerInfo {
   server_key: string; game: string; name: string; address: string;
   online: boolean; players: number; max_players: number; map?: string | null;
+  player_names?: string[];
   visibility?: 'public' | 'private'; updated_at?: string;
 }
 
@@ -21,7 +22,7 @@ export const news = newsSeed as NewsItem[];
 // Holdfast row is updated by a live A2S query; the others deliberately stay
 // private until their access rules are ready.
 export const servers: ServerInfo[] = [
-  { server_key: 'holdfast-dev', game: 'HOL', name: 'Coldstream Gaming Holdfast DEV', address: '40.160.84.169:20100', online: false, players: 0, max_players: 0, visibility: 'public' },
-  { server_key: 'minecraft-dev', game: 'MC', name: 'Coldstream Minecraft DEV', address: 'Private development server', online: false, players: 0, max_players: 0, visibility: 'private' },
-  { server_key: 'valheim-dev', game: 'VAL', name: 'Coldstream Valheim DEV', address: 'Private development server', online: false, players: 0, max_players: 0, visibility: 'private' },
+  { server_key: 'holdfast-dev', game: 'HOL', name: 'Coldstream Gaming Holdfast DEV', address: '40.160.84.169:20100', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
+  { server_key: 'minecraft-dev', game: 'MC', name: 'Coldstream Minecraft DEV', address: '40.160.84.169:25565', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
+  { server_key: 'valheim-dev', game: 'VAL', name: 'Coldstream Valheim DEV', address: '40.160.84.169:2456', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
 ];

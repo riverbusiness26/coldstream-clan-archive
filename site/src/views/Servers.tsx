@@ -1,5 +1,6 @@
-// Live server tracker. The public Holdfast row is refreshed by an A2S query
-// in Actions. Private development servers are intentionally not probed here.
+// Live server tracker. GitHub Actions refreshes public game-query data every
+// few minutes so visitors can see the community servers without touching the
+// game ports from their browser.
 import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import { servers as seedServers, type ServerInfo } from '../lib/content';
@@ -32,7 +33,7 @@ export default function Servers() {
     <div className="wrap solo">
       <main>
         <div className="module">
-          <div className="mhead"><h3>Servers</h3><span className="sub">live Holdfast status refreshes every few minutes</span></div>
+          <div className="mhead"><h3>Servers</h3><span className="sub">live player counts refresh every few minutes</span></div>
           <div className="srv-grid">
             {servers.map((s) => (
               <div className="srv" key={s.server_key}>
@@ -49,13 +50,29 @@ export default function Servers() {
                 </div>
                 <div className="srv-name">{s.name}</div>
                 <div className="srv-meta">{s.online && s.map ? `map: ${s.map} · ` : ''}{s.address}</div>
+                <div className="srv-players">
+                  <div className="srv-players-head">
+                    <span>Players</span>
+                    {s.updated_at && <span>updated {new Date(s.updated_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</span>}
+                  </div>
+                  {s.online && s.players > 0 && s.player_names?.length ? (
+                    <div className="srv-player-list">
+                      {s.player_names.map((name) => <span className="srv-player" key={name}>{name}</span>)}
+                    </div>
+                  ) : s.online && s.players > 0 ? (
+                    <div className="srv-empty">Player count is public, names are hidden by the server.</div>
+                  ) : s.online ? (
+                    <div className="srv-empty">Nobody is in this server yet.</div>
+                  ) : (
+                    <div className="srv-empty">Waiting for the next successful server query.</div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
           <div className="note">
-            Holdfast is checked through its public game-query port. Minecraft
-            and Valheim are installed for development and stay private until
-            their access settings are ready.
+            Status comes from public game-query responses. Some games expose
+            player names, while others expose only the current player count.
           </div>
         </div>
       </main>

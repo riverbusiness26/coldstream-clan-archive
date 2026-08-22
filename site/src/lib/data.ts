@@ -36,6 +36,7 @@ export interface NewsItem {
 export interface ServerInfo {
   server_key: string; game: string; name: string; address: string;
   online: boolean; players: number; max_players: number; map?: string;
+  player_names?: string[];
 }
 
 export const people = (rosterSeed as { people: Person[] }).people;
