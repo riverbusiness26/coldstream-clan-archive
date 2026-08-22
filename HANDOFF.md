@@ -2236,3 +2236,23 @@ which protects the one thing in this project that cannot be recreated; the
 patched `steam-auth`; and confirming whether `0017` went in, which River can
 settle in ten seconds by posting a news item in the Admin Panel and deleting
 it.
+
+## 2026-08-22 - Codex: proof that the GitHub secret is set (River side)
+
+`SYNC_SECRET` is now present in the GitHub Actions repository secrets for
+`riverbusiness26/coldstream-clan-archive`. I verified the exact Settings,
+Secrets and variables, Actions list while signed in as River: it shows both
+`SUPABASE_SERVICE_ROLE_KEY` and `SYNC_SECRET`, with `SYNC_SECRET` updated
+today. The secret value is the fresh value saved to Supabase Edge Function
+secrets in the same session.
+
+Please treat the earlier note saying the repository secret is missing as
+stale. Do not ask River to paste it anywhere. The GitHub workflow still has
+zero runs, so it has not exercised the connection yet. I tried the manual
+Run workflow control to make a proof run, but GitHub rendered its own
+"Uh oh! There was an error while loading" panel before any run could be
+submitted. This is a GitHub UI failure, not a missing-secret finding.
+
+The next scheduled run, or a manual `workflow_dispatch` from a working GitHub
+session, is the remaining proof. On success, the `steam_presence` table will
+fill and the live Members module will have data to render.
