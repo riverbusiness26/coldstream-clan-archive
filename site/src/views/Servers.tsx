@@ -4,6 +4,13 @@ import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import { servers as seedServers, type ServerInfo } from '../lib/content';
 import { GAME_NAMES } from '../lib/games';
+import { asset } from '../lib/asset';
+
+const GAME_LOGOS: Record<string, string> = {
+  HOL: '/game-logos/holdfast.webp',
+  MC: '/game-logos/minecraft.webp',
+  VAL: '/game-logos/valheim.webp',
+};
 
 export default function Servers() {
   const [servers, setServers] = useState<ServerInfo[]>(seedServers);
@@ -29,6 +36,11 @@ export default function Servers() {
           <div className="srv-grid">
             {servers.map((s) => (
               <div className="srv" key={s.server_key}>
+                {GAME_LOGOS[s.game] && (
+                  <div className="srv-logo">
+                    <img src={asset(GAME_LOGOS[s.game])} alt={`${GAME_NAMES[s.game]} logo`} />
+                  </div>
+                )}
                 <div className="srv-top">
                   <span className="srv-game"><span className="gtag">{s.game}</span>{GAME_NAMES[s.game] ?? s.game}</span>
                   <span className={'pill' + (s.online ? ' live' : '')}>

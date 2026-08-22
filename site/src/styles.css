@@ -98,7 +98,10 @@ nav.main a:hover{color:var(--ink)}
 .stat .l{font:400 10.5px/1.4 var(--mono);color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
 
 .srv-grid{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.srv{border:1px solid;border-color:var(--line) var(--hi) var(--hi) var(--line);background:var(--raised);padding:14px}
+.srv{position:relative;overflow:hidden;border:1px solid;border-color:var(--line) var(--hi) var(--hi) var(--line);background:var(--raised);padding:14px}
+.srv-logo{height:52px;margin:-14px -14px 13px;padding:10px 14px;display:flex;align-items:center;justify-content:flex-start;overflow:hidden;background:linear-gradient(110deg,#161918 0%,#252a27 56%,#181b1a 100%);border-bottom:1px solid var(--line)}
+.srv-logo::after{content:"";position:absolute;inset:0 0 auto 0;height:52px;background:linear-gradient(90deg,rgba(0,0,0,.28),transparent 65%);pointer-events:none}
+.srv-logo img{position:relative;z-index:1;width:auto;max-width:190px;max-height:34px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.75))}
 .srv-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .srv-game{font:400 10.5px/1 var(--mono);color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
 .pill{font:600 9.5px/1 var(--mono);letter-spacing:.1em;border:1px solid var(--hi);padding:4px 9px;color:var(--muted)}
