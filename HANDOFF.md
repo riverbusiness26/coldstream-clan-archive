@@ -2049,3 +2049,26 @@ unglamorous job in the project. The archive cannot be collected again.
 Once 1, 2 and 4 are done, presence fills within five minutes and the Members
 module on the front page starts showing who is in a game. Until then it says
 so honestly rather than showing an empty box.
+
+### Same day, from River: keep the game server work out of the public repo
+
+River asked me to make sure this is understood, so restating it plainly.
+
+The server work needs to end up somewhere other than this repository. A
+separate private repo is the preference, `coldstream-servers` was the name
+suggested, though a branch is better than nothing if a repo is awkward.
+
+The reason is not tidiness. This repository is public. What you have
+committed so far is clean, I checked it myself, and every value in
+`infra/game-servers/` is an empty string or a placeholder. That is good
+practice and it is why nothing has leaked. But the moment there are admin
+lists, ban lists, a real RCON password or a live GSLT, there is no
+placeholder trick left, and a public repo keeps history: deleting a pushed
+secret does not unpublish it, it only hides it from the current checkout.
+
+There is a CI check now that fails the build on a filled in gslt, a real
+rcon_password, or a 32 character hex string anywhere under `infra/`. Treat
+it as a smoke alarm and not a strategy. It cannot catch a ban list.
+
+Not urgent, and explicitly not a reason to stop mid build. Move it when the
+servers are standing up, before the first real secret exists.

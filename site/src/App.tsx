@@ -64,7 +64,16 @@ export default function App() {
 
   // Feedback the moment the session lands or the sign in fails.
   const [menuOpen, setMenuOpen] = useState(false);
-  const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null);
+  const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string; ms?: number } | null>(null);
+
+  // Dismissal belongs to the toast, not to whatever raised it. Keyed on the
+  // toast object, so a new message restarts the clock and an unrelated
+  // re-render cannot cancel it.
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), toast.ms ?? 5000);
+    return () => clearTimeout(t);
+  }, [toast]);
   const authReturn = useRef(CAME_FROM_AUTH);
   const awaitingHashCleanup = useRef(CAME_FROM_AUTH);
   const wasMe = useRef(false);
@@ -75,17 +84,14 @@ export default function App() {
       wasMe.current = true;
       if (!authReturn.current) return;
       setToast({ kind: 'ok', text: 'Signed in through Steam as ' + me.display_name });
-      const t = setTimeout(() => setToast(null), 5000);
-      return () => clearTimeout(t);
     }
     if (!me) wasMe.current = false;
   }, [me]);
   useEffect(() => {
     if (new URLSearchParams(location.search).has('login')) {
-      setToast({ kind: 'err', text: 'Steam sign in did not complete. Try again.' });
-      const t = setTimeout(() => setToast(null), 6000);
+      setToast({ kind: 'err', text: 'Steam sign in did not complete. Try again.', ms: 6000 });
       history.replaceState(null, '', location.pathname + location.hash);
-      return () => clearTimeout(t);
+      return;
     }
     // Supabase reports its own failures in the fragment instead. Left alone
     // they tell the member nothing and stay stuck in the address bar.
@@ -93,19 +99,15 @@ export default function App() {
     const err = frag.get('error_description') || frag.get('error_code') || frag.get('error');
     if (err) {
       awaitingHashCleanup.current = false;
-      setToast({ kind: 'err', text: 'Steam sign in did not complete: ' + err.replace(/\+/g, ' ') });
-      const t = setTimeout(() => setToast(null), 8000);
+      setToast({ kind: 'err', text: 'Steam sign in did not complete: ' + err.replace(/\+/g, ' '), ms: 8000 });
       history.replaceState(null, '', location.pathname + location.search + '#/home');
-      return () => clearTimeout(t);
     }
   }, []);
   // A live session with no member row behind it. Say so, rather than showing
   // a signed-in person the guest view and no explanation.
   useEffect(() => {
     if (!orphanSession) return;
-    setToast({ kind: 'err', text: 'Signed in through Steam, but your member record did not save. Try signing in again.' });
-    const t = setTimeout(() => setToast(null), 9000);
-    return () => clearTimeout(t);
+    setToast({ kind: 'err', text: 'Signed in through Steam, but your member record did not save. Try signing in again.', ms: 9000 });
   }, [orphanSession]);
   const [view, setView] = useState(routeFromHash);
 
@@ -151,7 +153,10 @@ export default function App() {
   return (
     <>
       {demo && <div className="devbadge">DEMO BUILD · NO BACKEND YET</div>}
-      {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
+      {toast && (
+        <div className={'toast ' + toast.kind} onClick={() => setToast(null)}
+          role="status" title="Click to dismiss">{toast.text}</div>
+      )}
       <div className="estbar"><div className="in">
         <span>EST. <b>2011</b> · GAMING COMMUNITY · 15 YEARS RUNNING</span>
         <DiscordPulse />
