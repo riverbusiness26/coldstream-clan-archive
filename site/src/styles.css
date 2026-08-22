@@ -541,3 +541,14 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
   .frame-cap{transition:none}
   .frame::after{transition:none}
 }
+
+/* Delete control on a shout. Quiet until the row is hovered, because the
+   shoutbox is a conversation and a column of delete buttons reads like a
+   moderation console. */
+.shout{position:relative}
+.shout-x{position:absolute;top:2px;right:4px;background:none;border:0;padding:0 4px;
+  color:var(--faint);font:400 12px/1 var(--mono);cursor:pointer;opacity:0;transition:opacity .15s}
+.shout:hover .shout-x,.shout-x:focus-visible{opacity:1}
+.shout-x:hover{color:var(--accent)}
+@media (hover:none){.shout-x{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.shout-x{transition:none}}

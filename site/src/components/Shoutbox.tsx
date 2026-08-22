@@ -5,7 +5,7 @@ import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import SteamButton from './SteamButton';
 
-interface Shout { id: string; name: string; body: string; t: string }
+interface Shout { id: string; name: string; body: string; t: string; authorId?: string }
 
 const seedShouts: Shout[] = [
   { id: 's1', t: '21:02', name: 'Crawford', body: 'fall in, event at 8. bring a recruit' },
@@ -80,6 +80,7 @@ export default function Shoutbox({ me, signIn }: { me: Me | null; signIn: () => 
           body: r.body,
           name: authorName(r) ?? 'member',
           t: hhmm(new Date(r.created_at)),
+          authorId: r.author_id,
         })));
       });
 
@@ -98,6 +99,7 @@ export default function Shoutbox({ me, signIn }: { me: Me | null; signIn: () => 
               ? s
               : [...s.slice(-(LIMIT - 1)), {
                 id: row.id, body: row.body, name, t: hhmm(new Date(row.created_at)),
+                authorId: row.author_id,
               }],
           );
         })
@@ -139,6 +141,20 @@ export default function Shoutbox({ me, signIn }: { me: Me | null; signIn: () => 
     }]);
   };
 
+  async function remove(id: string) {
+    const before = shouts;
+    setShouts((s) => s.filter((x) => x.id !== id));
+    setError(null);
+    if (!supa) return;
+    const { error: e } = await supa.from('shout').delete().eq('id', id);
+    if (e) {
+      setShouts(before);
+      setError(/permission|denied|policy/i.test(e.message)
+        ? 'That is not yours to delete.'
+        : e.message);
+    }
+  }
+
   return (
     <div className="module">
       <div className="mhead">
@@ -147,12 +163,20 @@ export default function Shoutbox({ me, signIn }: { me: Me | null; signIn: () => 
       </div>
       <div className="shout-log" ref={logRef}>
         {shouts.length === 0 && <div className="note">Quiet in here. Say something.</div>}
-        {shouts.map((s) => (
-          <div className="shout" key={s.id}>
-            <span className="t">{s.t}</span>
-            <span className="m"><b>{s.name}</b>: {s.body}</span>
-          </div>
-        ))}
+        {shouts.map((s) => {
+          const canRemove = !!me && (s.authorId === me.id || me.role === 'moderator' || me.role === 'admin');
+          return (
+            <div className="shout" key={s.id}>
+              <span className="t">{s.t}</span>
+              <span className="m"><b>{s.name}</b>: {s.body}</span>
+              {canRemove && (
+                <button className="shout-x" onClick={() => remove(s.id)}
+                  title={s.authorId === me!.id ? 'Delete your shout' : 'Remove this shout'}
+                  aria-label="Delete this shout">x</button>
+              )}
+            </div>
+          );
+        })}
       </div>
       {error && <div className="ferr" style={{ padding: '8px 16px' }}>{error}</div>}
       {!me && (
