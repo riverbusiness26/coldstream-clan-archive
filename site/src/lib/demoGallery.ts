@@ -42,7 +42,7 @@ export const demoGallery = {
     }
     items.push({
       id: uid(), storage_key: dataUrl, caption, game, year,
-      approved: false, created_at: new Date().toISOString(),
+      approved: true, created_at: new Date().toISOString(),
       uploader: { display_name: who },
     });
     save(items);

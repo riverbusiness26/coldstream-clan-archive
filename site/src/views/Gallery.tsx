@@ -76,6 +76,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   const [game, setGame] = useState('');
   const [cat, setCat] = useState<string>(CATEGORIES[0].slug);
   const [browse, setBrowse] = useState<string>('all');
+  const [kind, setKind] = useState<'all' | 'image' | 'video'>('all');
   const [mode, setMode] = useState<'image' | 'video'>('image');
   const [videoUrl, setVideoUrl] = useState('');
   const [catIds, setCatIds] = useState<Record<string, string>>({});
@@ -170,7 +171,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       setBusy(true);
       try {
         if (!supa) {
-          setDone('Video submitted to the demo store. A moderator clears it and then it shows for everyone.');
+          setDone('Up. Your film is in the gallery now.');
         } else {
           const { error } = await supa.from('gallery_item').insert({
             uploader_id: me.id,
@@ -181,9 +182,10 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
             caption: caption.trim() || null,
             game: game.trim() || null,
             year: yr2,
+            approved: true,
           });
           if (error) { setFormError(error.message); return; }
-          setDone('Video submitted. A moderator clears it and then it shows up here for everyone.');
+          setDone('Up. Your film is in the gallery now.');
         }
         setVideoUrl(''); setCaption(''); setGame(''); setYear('');
         loadUploads();
@@ -206,7 +208,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         const res = demoGallery.add(dataUrl, caption.trim() || null, game.trim() || null, yr, me.display_name);
         if (!res.ok) { setFormError(res.reason); return; }
         setFile(null); setCaption(''); setGame(''); setYear('');
-        setDone('Uploaded to the demo store. A moderator clears it and then it shows for everyone.');
+        setDone('Up. Your screenshot is in the gallery now.');
         loadUploads();
       } catch (err) {
         setFormError(err instanceof Error ? err.message : 'That image could not be read.');
@@ -242,18 +244,23 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       caption: caption.trim() || null,
       game: game.trim() || null,
       year: yr,
+      approved: true,
     });
     setBusy(false);
     if (error) { setFormError(error.message); return; }
 
     setFile(null); setCaption(''); setGame(''); setYear('');
-    setDone('Uploaded. A moderator clears it and then it shows up here for everyone.');
+    setDone('Up. Your screenshot is in the gallery now.');
     loadUploads();
   }
 
   const inBrowse = (u: Upload) =>
-    browse === 'all' || (u.category_slug ?? categorySlugById(u.category_id)) === browse;
+    (browse === 'all' || (u.category_slug ?? categorySlugById(u.category_id)) === browse)
+    && (kind === 'all' || u.media_type === kind);
   const mine = uploads?.filter((u) => !u.approved) ?? [];
+  const approved = uploads?.filter((u) => u.approved) ?? [];
+  const nShots = approved.filter((u) => u.media_type === 'image').length;
+  const nFilms = approved.filter((u) => u.media_type === 'video').length;
   const live = (uploads?.filter((u) => u.approved) ?? []).filter(inBrowse);
   const canModerate = me?.role === 'moderator' || me?.role === 'admin';
 
@@ -302,7 +309,18 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         <div className="module">
           <div className="mhead">
             <h3>Member Uploads</h3>
-            <span className="sub">{live.length} in {browse === 'all' ? 'all categories' : categoryBySlug(browse)?.name}</span>
+            <span className="sub">
+              {live.length} {kind === 'image' ? (live.length === 1 ? 'screenshot' : 'screenshots') : kind === 'video' ? (live.length === 1 ? 'film' : 'films') : (live.length === 1 ? 'item' : 'items')}
+              {browse === 'all' ? '' : ' in ' + categoryBySlug(browse)?.name}
+            </span>
+          </div>
+          <div className="seg" style={{ margin: '0 16px 10px' }}>
+            <button className={'segbtn' + (kind === 'all' ? ' on' : '')}
+              onClick={() => setKind('all')}>Everything ({nShots + nFilms})</button>
+            <button className={'segbtn' + (kind === 'image' ? ' on' : '')}
+              onClick={() => setKind('image')}>Screenshots ({nShots})</button>
+            <button className={'segbtn' + (kind === 'video' ? ' on' : '')}
+              onClick={() => setKind('video')}>Films ({nFilms})</button>
           </div>
           <div className="chips">
             <button className={'chip' + (browse === 'all' ? ' on' : '')}
@@ -366,8 +384,9 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
           {uploads === null && <div className="note">Loading.</div>}
           {uploads?.length === 0 && (
             <div className="note">
-              Nothing uploaded yet. The archive half above is what survived on
-              its own, so this half is up to us.
+              Nothing here yet. The archive above is what survived on its own,
+              so this half is up to us. Sign in and put something up: it goes
+              straight onto the wall.
             </div>
           )}
 
@@ -377,6 +396,11 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                 <a className="frame" key={u.id} href={linkOf(u)} target="_blank" rel="noopener">
                   <img src={thumbOf(u)} alt={u.caption ?? ''} loading="lazy" />
                   {u.media_type === 'video' && <span className="playmark2" aria-hidden="true" />}
+                  {canModerate && (
+                    <span className="modrow" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                      <button className="btn sm" onClick={() => reject(u.id, u.storage_key)}>Remove</button>
+                    </span>
+                  )}
                   <span className="frame-cap">
                     <b>{u.caption || (u.media_type === 'video' ? 'A film' : 'A screenshot')}</b>
                     <span>{one(u.uploader)?.display_name ?? 'member'}{u.year ? ` · ${u.year}` : ''}</span>
