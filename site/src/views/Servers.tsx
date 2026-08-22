@@ -2,7 +2,8 @@
 // configured; shows the seeded lineup as offline until the poller exists.
 import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
-import { servers as seedServers, GAME_NAMES, type ServerInfo } from '../lib/data';
+import { servers as seedServers, type ServerInfo } from '../lib/content';
+import { GAME_NAMES } from '../lib/games';
 
 export default function Servers() {
   const [servers, setServers] = useState<ServerInfo[]>(seedServers);

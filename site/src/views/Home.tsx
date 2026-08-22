@@ -1,8 +1,9 @@
 // The front page: hero, real news from our old sites, chat room, stats,
 // server strip. A noticeboard, not a marketing page.
 import { useEffect, useState } from 'react';
-import { news, people, eventStats, servers, GAME_NAMES } from '../lib/data';
-import eventRecord from '../seed/event-record.json';
+import { news, servers } from '../lib/content';
+import { GAME_NAMES } from '../lib/games';
+import summary from '../seed/summary.json';
 import { supa } from '../lib/supa';
 
 interface Up { id: string; title: string; game: string | null; starts_at: string }
@@ -36,8 +37,10 @@ function NextEvent({ go }: { go: (v: string) => void }) {
     return () => clearInterval(t);
   }, []);
   void tick;
-  const rec = eventRecord as { date: string; title: string; game: string }[];
-  const lastPast = rec[rec.length - 1];
+  // The whole 362 event record used to be imported here to read its last
+  // line. It is now carried in the generated summary, which is under a
+  // kilobyte, and the record itself loads only with the Archive.
+  const lastPast = summary.lastEvent;
   if (!up) {
     return (
       <div className="module nextev">
@@ -70,8 +73,21 @@ import type { Me } from '../lib/auth';
 import { asset } from '../lib/asset';
 
 export default function Home({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
-  const totalEvents = eventStats.reduce((n, e) => n + e.events, 0);
+  const totalEvents = summary.events;
   const latest = news.filter((n) => n.body && n.body.trim()).slice(-4).reverse();
+
+  // Posted through the back office. Kept apart from the recovered posts
+  // below, which are a historical record and not ours to edit.
+  const [live, setLive] = useState<{ id: string; title: string; body: string; author: string | null; created_at: string }[]>([]);
+  useEffect(() => {
+    if (!supa) return;
+    supa.from('news_item')
+      .select('id, title, body, author, created_at')
+      .eq('source_site', 'coldstreamgaming.com')
+      .order('created_at', { ascending: false })
+      .limit(5)
+      .then(({ data }) => setLive(data ?? []));
+  }, []);
 
   return (
     <>
@@ -95,7 +111,14 @@ export default function Home({ me, go, signIn }: { me: Me | null; go: (v: string
         <main>
           <NextEvent go={go} />
           <div className="module">
-            <div className="mhead"><h3>News</h3><span className="sub">real posts from our own sites, oldest surviving to newest</span></div>
+            <div className="mhead"><h3>News</h3><span className="sub">{live.length > 0 ? 'the latest from us, then the recovered posts' : 'real posts from our own sites, oldest surviving to newest'}</span></div>
+            {live.map((n) => (
+              <article className="post" key={n.id}>
+                <h4>{n.title}</h4>
+                <div className="meta">posted by <span>{n.author ?? 'Coldstream Gaming'}</span> · {new Date(n.created_at).toLocaleDateString()}</div>
+                <p>{n.body}</p>
+              </article>
+            ))}
             {latest.length === 0 && (
               <div className="note">News seeding in progress: genuine posts from the old community sites land here.</div>
             )}
@@ -132,7 +155,7 @@ export default function Home({ me, go, signIn }: { me: Me | null; go: (v: string
           <div className="module">
             <div className="mhead"><h3>The Numbers</h3></div>
             <div className="stats">
-              <div className="stat"><div className="n">{people.length}</div><div className="l">members on the roll</div></div>
+              <div className="stat"><div className="n">{summary.people}</div><div className="l">members on the roll</div></div>
               <div className="stat"><div className="n">{totalEvents}</div><div className="l">events on record</div></div>
               <div className="stat"><div className="n">2011</div><div className="l">established</div></div>
               <div className="stat"><div className="n">15</div><div className="l">years running</div></div>

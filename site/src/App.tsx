@@ -1,5 +1,5 @@
 // Site shell: masthead, the Enjin era module set in the nav, hash routing.
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAuth } from './lib/auth';
 
 // The always visible pulse: how many of us are online right now, pinned to
@@ -21,11 +21,12 @@ function DiscordPulse() {
 }
 import Home from './views/Home';
 import Landing from './views/Landing';
-import Profile from './views/Profile';
 import Servers from './views/Servers';
-import Archive from './views/Archive';
 import Gallery from './views/Gallery';
 import Enlist from './views/Enlist';
+const Archive = lazy(() => import('./views/Archive'));
+const Profile = lazy(() => import('./views/Profile'));
+const Admin = lazy(() => import('./views/Admin'));
 import SteamButton from './components/SteamButton';
 import { asset } from './lib/asset';
 
@@ -185,18 +186,25 @@ export default function App() {
           )}
         </div>
         <nav className="main">
-          {NAV.map(([k, label]) => (
+          {NAV.concat(
+            me && (me.role === 'moderator' || me.role === 'admin')
+              ? [['admin', 'Back Office', true] as [string, string, boolean]]
+              : [],
+          ).map(([k, label]) => (
             <a key={k} href={'#/' + k} className={view === k || (k === 'archive' && (view === 'members' || view.startsWith('member/'))) ? 'on' : undefined}>{label}</a>
           ))}
         </nav>
       </header>
 
       {view === 'home' && <Home me={me} go={go} signIn={signIn} />}
-      {!['home','members','gallery','enlist','events','servers','archive'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
+      {!['home','members','gallery','enlist','events','servers','archive','admin'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
+      <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {view === 'servers' && <Servers />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
+      {view === 'admin' && <Admin me={me} />}
+      </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       {view === 'enlist' && <Enlist me={me} signIn={signIn} />}
 

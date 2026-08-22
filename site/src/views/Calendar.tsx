@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import eventRecord from '../seed/event-record.json';
 import { supa } from '../lib/supa';
-import { GAME_NAMES } from '../lib/data';
+import { GAME_NAMES } from '../lib/games';
 import type { Me } from '../lib/auth';
 
 interface PastEvent { date: string; title: string; game: string; author: string | null; group: string }

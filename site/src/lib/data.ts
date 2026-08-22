@@ -44,13 +44,6 @@ export const eventStats = eventsSeed as EventStat[];
 export const news = newsSeed as NewsItem[];
 export const servers = serversSeed as ServerInfo[];
 
-export const THIS_YEAR = new Date().getFullYear();
-export const yearsWithUs = (firstYear: number | null) =>
-  firstYear ? THIS_YEAR - firstYear : null;
-
-export const GAME_NAMES: Record<string, string> = {
-  BG2: 'Battlegrounds 2', NW: 'Mount & Blade: Warband', MC: 'Minecraft',
-  CSS: 'Counter-Strike: Source', CS16: 'Counter-Strike 1.6', CSGO: 'CS:GO',
-  GMOD: "Garry's Mod", ARMA: 'ArmA 2', NS: 'North & South', RUST: 'Rust',
-  GEN: 'Community',
-};
+// Re-exported so existing imports keep working. New code on the hot path
+// should import these from lib/games instead, which pulls no seed data.
+export { THIS_YEAR, yearsWithUs, GAME_NAMES } from './games';
