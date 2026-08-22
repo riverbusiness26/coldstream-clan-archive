@@ -617,3 +617,11 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .achv-bar span{display:block;height:100%;background:var(--accent-deep)}
 .achv-n{font:400 10.5px/1.4 var(--mono);letter-spacing:.07em;color:var(--muted);
   text-transform:uppercase;margin-top:7px}
+
+/* How somebody actually fights, which a single kill count never shows. */
+.killsplit{padding:4px 16px 12px;display:flex;flex-direction:column;gap:7px}
+.ksrow{display:grid;grid-template-columns:70px 1fr 56px;align-items:center;gap:10px}
+.kslabel{font:400 10px/1 var(--mono);letter-spacing:.09em;color:var(--muted);text-transform:uppercase}
+.ksbar{height:8px;background:#131514;border:1px solid var(--line);display:block}
+.ksbar span{display:block;height:100%;background:var(--accent-deep)}
+.ksn{font:500 12px/1 var(--mono);color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}

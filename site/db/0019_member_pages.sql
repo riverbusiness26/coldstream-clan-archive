@@ -153,6 +153,45 @@ create policy gamestats_read on game_stats for select using (true);
 grant select on game_stats to anon, authenticated;
 grant all on game_stats to service_role;
 
+-- ------------------------------------------------------- holdfast stats
+-- Event statistics from hfstats.online, used with the owner's permission.
+--
+-- Separate from game_stats because it is a different kind of number. Steam
+-- reports what an account has done across the whole game. This reports what
+-- somebody did in organised events, which for this community is the half
+-- that matters: kills split into melee, shooting and artillery, rounds won
+-- and lost, and the regiment they played under.
+--
+-- Keyed by Steam id, which is what hfstats keys on too, so it lines up with
+-- our members without any name matching.
+create table if not exists holdfast_stats (
+  steam_id64      text primary key,
+  hf_name         text,
+  regiment        text,
+  kills           integer not null default 0,
+  deaths          integer not null default 0,
+  melee_kills     integer not null default 0,
+  shooting_kills  integer not null default 0,
+  arty_kills      integer not null default 0,
+  team_kills      integer not null default 0,
+  assists         integer not null default 0,
+  games_won       integer not null default 0,
+  games_lost      integer not null default 0,
+  rounds_played   integer not null default 0,
+  rounds_won      integer not null default 0,
+  kdr             numeric,
+  rank_rating     integer,
+  checked_at      timestamptz not null default now()
+);
+
+alter table holdfast_stats enable row level security;
+
+drop policy if exists hf_read on holdfast_stats;
+create policy hf_read on holdfast_stats for select using (true);
+
+grant select on holdfast_stats to anon, authenticated;
+grant all on holdfast_stats to service_role;
+
 -- --------------------------------------------------------------- checks
 select
   (select count(*) from pg_tables where tablename in ('member_profile','member_wall','steam_recent')) as tables_created,
@@ -160,4 +199,5 @@ select
   has_table_privilege('authenticated','member_wall','INSERT')  as can_post_on_walls,
   has_table_privilege('authenticated','member_profile','UPDATE') as can_edit_own_profile,
   has_table_privilege('anon','member_wall','INSERT')           as anon_can_post_should_be_false,
-  (select count(*) from pg_tables where tablename = 'game_stats') as game_stats_table;
+  (select count(*) from pg_tables where tablename = 'game_stats') as game_stats_table,
+  (select count(*) from pg_tables where tablename = 'holdfast_stats') as holdfast_table;

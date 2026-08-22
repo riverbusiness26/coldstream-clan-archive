@@ -264,11 +264,99 @@ Deno.serve(async (req) => {
     console.error("game stats pass failed", e);
   }
 
+  // Holdfast event statistics from hfstats.online, with the owner's
+  // permission.
+  //
+  // Their API has no per-player lookup: the steamId parameter is accepted and
+  // ignored, and /api/players/<id> is a 404. So the only way to find our
+  // members is to page the leaderboard and match on id, which is a Steam
+  // id64 on their side as well as ours.
+  //
+  // 5,311 players at 100 a page is 54 requests, which is nothing once a day
+  // and rude every five minutes. So it runs only when our copy is a day old,
+  // and it is hard capped at 60 pages so a change at their end can never turn
+  // this into a crawl of someone else's site.
+  let hfUpdated = 0;
+  let hfRan = false;
+  try {
+    const { data: newest } = await admin
+      .from("holdfast_stats")
+      .select("checked_at")
+      .order("checked_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const staleAfter = Date.now() - 24 * 3600_000;
+    const due = !newest?.checked_at || new Date(newest.checked_at).getTime() < staleAfter;
+
+    if (due) {
+      hfRan = true;
+      const wanted = new Set(ids);
+      const found: Record<string, unknown>[] = [];
+      const seen = new Set<string>();
+      const now2 = new Date().toISOString();
+
+      for (let page = 1; page <= 60; page++) {
+        const r = await fetch(
+          "https://hfstats.online/api/players/filtered"
+          + `?page=${page}&pageSize=100&playerEntryType=Career&sort=kills&direction=desc`,
+          { headers: { "User-Agent": "ColdstreamGaming/1.0 (+https://coldstreamgaming.com)" } },
+        );
+        if (!r.ok) break;
+        const j = await r.json();
+        const items = j?.items ?? [];
+        if (items.length === 0) break;
+
+        for (const it of items) {
+          const id = String(it.id ?? "");
+          if (!wanted.has(id) || seen.has(id)) continue;
+          seen.add(id);
+          found.push({
+            steam_id64: id,
+            hf_name: it.name ?? null,
+            regiment: it.regimentName ?? null,
+            kills: it.kills ?? 0,
+            deaths: it.deaths ?? 0,
+            melee_kills: it.meleeKills ?? 0,
+            shooting_kills: it.shootingKills ?? 0,
+            arty_kills: it.artyKills ?? 0,
+            team_kills: it.teamKills ?? 0,
+            assists: it.assists ?? 0,
+            games_won: it.gamesWon ?? 0,
+            games_lost: it.gamesLost ?? 0,
+            rounds_played: it.roundsPlayed ?? 0,
+            rounds_won: it.roundsWon ?? 0,
+            kdr: it.kdr ?? null,
+            rank_rating: it.rankRating ?? null,
+            checked_at: now2,
+          });
+        }
+        // Everybody accounted for, so there is no reason to keep reading
+        // their leaderboard.
+        if (seen.size === wanted.size) break;
+        // A short pause between pages. 54 requests in a burst is not a load
+        // problem for them, but it is not good manners either.
+        await new Promise((r2) => setTimeout(r2, 120));
+      }
+
+      if (found.length > 0) {
+        await admin.from("holdfast_stats").upsert(found, { onConflict: "steam_id64" });
+        hfUpdated = found.length;
+      }
+    }
+  } catch (e) {
+    // Somebody else's site, so it is allowed to be down. Presence is already
+    // written by this point and is the actual job.
+    console.error("holdfast stats pass failed", e);
+  }
+
   return Response.json({
     ok: true,
     members: ids.length,
     recent_updated: recentUpdated,
     game_stats_updated: statsUpdated,
+    holdfast_ran: hfRan,
+    holdfast_updated: hfUpdated,
     updated: rows.length,
     online: rows.filter((r) => (r.persona_state as number) > 0).length,
     in_game: rows.filter((r) => r.game).length,
