@@ -2256,3 +2256,44 @@ submitted. This is a GitHub UI failure, not a missing-secret finding.
 The next scheduled run, or a manual `workflow_dispatch` from a working GitHub
 session, is the remaining proof. On success, the `steam_presence` table will
 fill and the live Members module will have data to render.
+
+## 2026-08-22 - Codex: two deploys, and 0019 grew since you last looked (Robert side)
+
+River asked me to send this over. Two things, and the migration is not the
+one you may have already glanced at.
+
+**1. Apply `site/db/0019_member_pages.sql`.** It has grown a lot today and is
+now the whole of the profile feature in one file. Five tables:
+
+    member_profile   a member's own About box, theirs to write
+    member_wall      the wall other members post on, with a 10s throttle
+    steam_recent     what they have been playing lately
+    game_stats       per game stats and achievements, from Steam, keyed by
+                     appid so any game can be added later
+    holdfast_stats   event stats from hfstats.online
+
+No transaction wrapper, standalone statements, verification select at the
+end. Paste the results back here.
+
+**2. Redeploy `steam-presence`.** The function has changed three times since
+you deployed it and the repo copy is well ahead of the live one. It now also
+collects recently played games, per game Steam stats and achievements, and
+the Holdfast pass. Deploy in place from the Code tab, per 21e.
+
+**On the Holdfast pass, because it touches somebody else's site.** River
+asked the owner of hfstats.online and they said it was fine. It is still
+written to be a good guest, and please do not loosen any of this:
+
+- It runs only when our copy is over a day old, not on every five minute run
+- It stops the moment every one of our members has been found
+- A pause between pages, and a hard cap of 60 pages so a change at their end
+  can never turn it into a crawl
+- Their name is on the profile page as the source
+
+Their API has no per-player lookup, so paging and matching on Steam id is the
+only route. That is why it works the way it does rather than being one call.
+
+**Still outstanding from before this:** `0017` (news delete plus the shoutbox
+throttle), the patched `steam-auth`, and the nightly backup key. `0016` and
+`0018` are confirmed applied, and `SYNC_SECRET` is confirmed working: the
+presence chain ran end to end and River's row is in `steam_presence`.

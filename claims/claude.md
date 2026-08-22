@@ -1,5 +1,5 @@
 Holding: nothing
 
-Last job: Steam members tracker. Everything of mine is committed. Five
-items are waiting on dashboard access I do not have, listed in HANDOFF.
+Last job: profiles, walls, Steam and Holdfast stats. All committed.
+Waiting on Codex for 0019 and a steam-presence redeploy.
 Since:   2026-08-22
