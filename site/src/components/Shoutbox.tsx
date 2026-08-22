@@ -146,19 +146,24 @@ export default function Shoutbox({ me, signIn }: { me: Me | null; signIn: () => 
     setShouts((s) => s.filter((x) => x.id !== id));
     setError(null);
     if (!supa) return;
-    const { error: e } = await supa.from('shout').delete().eq('id', id);
+    const { data, error: e } = await supa.from('shout').delete().eq('id', id).select('id');
     if (e) {
       setShouts(before);
-      setError(/permission|denied|policy/i.test(e.message)
-        ? 'That is not yours to delete.'
+      setError(/permission denied|42501/i.test(e.message)
+        ? 'Deleting is not switched on for this site yet. An admin needs to apply migration 0015.'
         : e.message);
+      return;
+    }
+    if (!data || data.length === 0) {
+      setShouts(before);
+      setError('That is not yours to delete.');
     }
   }
 
   return (
     <div className="module">
       <div className="mhead">
-        <h3>Chat Room</h3>
+        <h3>Shoutbox</h3>
         <span className="sub">{DEMO ? 'demo, local only' : 'live'}</span>
       </div>
       <div className="shout-log" ref={logRef}>
