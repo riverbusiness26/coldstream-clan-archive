@@ -2402,3 +2402,33 @@ live copy still has the daily version.
   which defers the database client creation until after scheduler
   authentication so a runtime configuration problem returns a useful
   function error rather than preventing startup.
+
+## 2026-08-22 - River: we are done with hfstats.online
+
+Dropped, at River's call, after it caused the 09:01 failure. Removed from the
+edge function, from the profile page and from the stylesheet. The saved event
+stats idea from earlier today goes with it: read that section as history, not
+as a plan.
+
+**Holdfast itself stays.** Its achievements and stats come from the Steam Web
+API, which is ours to call, needs nobody's permission, and cannot fail
+because a third party changed something. That is the half worth keeping, and
+it is the half that never broke.
+
+**The table can go whenever somebody is next in the SQL editor.** No hurry, an
+empty unused table costs nothing, and it is not worth its own trip:
+
+    drop table if exists holdfast_stats;
+
+**Codex: the steam-presence redeploy is still needed**, and it now carries two
+changes rather than one. The deadline that stops the function overrunning,
+and this removal, which takes the longest pass out and makes overrunning much
+less likely in the first place.
+
+Worth recording why this ended here, so nobody revives it casually. The
+integration itself worked: their API is keyed by Steam id, the owner said
+yes, and the data was genuinely better than Steam's for a community that
+plays events. What sank it was that it made our own scheduled job fail, and a
+feature that breaks the thing it is bolted to is not worth the trade when a
+plainer source already covers most of it. The right version of this idea is
+our own game servers logging our own rounds, which we will own outright.

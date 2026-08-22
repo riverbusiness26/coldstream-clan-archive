@@ -282,118 +282,11 @@ Deno.serve(async (req) => {
     console.error("game stats pass failed", e);
   }
 
-  // Holdfast event statistics from hfstats.online, with the owner's
-  // permission.
-  //
-  // Their API has no per-player lookup: the steamId parameter is accepted and
-  // ignored, and /api/players/<id> is a 404. So the only way to find our
-  // members is to page the leaderboard and match on id, which is a Steam
-  // id64 on their side as well as ours.
-  //
-  // River's call: once a month, and only for members who have actually
-  // signed in through Steam. The second part is free, because the id list
-  // above comes from the member table, which is exactly the set of people
-  // who have signed in. Nobody is looked up on their behalf.
-  //
-  // Monthly rather than daily, and aligned to the calendar rather than to a
-  // rolling window, so it runs once shortly after each month turns over and
-  // captures the previous month settled rather than half finished. 54 pages
-  // twelve times a year is a rounding error on somebody else's site, which
-  // is the point: River has their owner's permission and it is worth
-  // keeping. Hard capped at 60 pages so a change at their end can never turn
-  // this into a crawl.
-  let hfUpdated = 0;
-  let hfRan = false;
-  try {
-    const { data: newest } = await admin
-      .from("holdfast_stats")
-      .select("checked_at")
-      .order("checked_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    // A different calendar month, not a rolling 30 days. Rolling would drift
-    // a little later every cycle and eventually straddle month boundaries,
-    // which is exactly the wrong shape for numbers reported per month.
-    const monthKey = (d: Date) => d.getUTCFullYear() * 100 + d.getUTCMonth();
-    const due = !newest?.checked_at
-      || monthKey(new Date(newest.checked_at)) !== monthKey(new Date());
-
-    // Paging somebody else's leaderboard is the longest job here, so it only
-    // starts if there is real time left rather than beginning and being cut
-    // off halfway, which would waste their bandwidth for nothing.
-    if (due && haveTime(12_000)) {
-      hfRan = true;
-      const wanted = new Set(ids);
-      const found: Record<string, unknown>[] = [];
-      const seen = new Set<string>();
-      const now2 = new Date().toISOString();
-
-      for (let page = 1; page <= 60; page++) {
-        // Stop cleanly rather than being killed. Whatever was found so far is
-        // written below, and the next run picks the rest up, because the
-        // month check only passes once the write succeeds.
-        if (!haveTime(2000)) break;
-        const r = await fetch(
-          "https://hfstats.online/api/players/filtered"
-          + `?page=${page}&pageSize=100&playerEntryType=Career&sort=kills&direction=desc`,
-          { headers: { "User-Agent": "ColdstreamGaming/1.0 (+https://coldstreamgaming.com)" } },
-        );
-        if (!r.ok) break;
-        const j = await r.json();
-        const items = j?.items ?? [];
-        if (items.length === 0) break;
-
-        for (const it of items) {
-          const id = String(it.id ?? "");
-          if (!wanted.has(id) || seen.has(id)) continue;
-          seen.add(id);
-          found.push({
-            steam_id64: id,
-            hf_name: it.name ?? null,
-            regiment: it.regimentName ?? null,
-            kills: it.kills ?? 0,
-            deaths: it.deaths ?? 0,
-            melee_kills: it.meleeKills ?? 0,
-            shooting_kills: it.shootingKills ?? 0,
-            arty_kills: it.artyKills ?? 0,
-            team_kills: it.teamKills ?? 0,
-            assists: it.assists ?? 0,
-            games_won: it.gamesWon ?? 0,
-            games_lost: it.gamesLost ?? 0,
-            rounds_played: it.roundsPlayed ?? 0,
-            rounds_won: it.roundsWon ?? 0,
-            kdr: it.kdr ?? null,
-            rank_rating: it.rankRating ?? null,
-            checked_at: now2,
-          });
-        }
-        // Everybody accounted for, so there is no reason to keep reading
-        // their leaderboard.
-        if (seen.size === wanted.size) break;
-        // A short pause between pages. 54 requests in a burst is not a load
-        // problem for them, but it is not good manners either.
-        await new Promise((r2) => setTimeout(r2, 120));
-      }
-
-      if (found.length > 0) {
-        await admin.from("holdfast_stats").upsert(found, { onConflict: "steam_id64" });
-        hfUpdated = found.length;
-      }
-    }
-  } catch (e) {
-    // Somebody else's site, so it is allowed to be down. Presence is already
-    // written by this point and is the actual job.
-    console.error("holdfast stats pass failed", e);
-  }
-
   return Response.json({
     ok: true,
     members: ids.length,
     recent_updated: recentUpdated,
     game_stats_updated: statsUpdated,
-    holdfast_ran: hfRan,
-    holdfast_updated: hfUpdated,
     ms: spent(),
     updated: rows.length,
     online: rows.filter((r) => (r.persona_state as number) > 0).length,

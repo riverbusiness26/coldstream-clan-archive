@@ -12,12 +12,6 @@ import type { Me } from '../lib/auth';
 
 interface RecentGame { appid: number; name: string; minutes_2weeks: number; minutes_total: number }
 interface Prof { motto: string | null; bio: string | null; games: string[] | null }
-interface HfStat {
-  hf_name: string | null; regiment: string | null;
-  kills: number; deaths: number; melee_kills: number; shooting_kills: number;
-  arty_kills: number; games_won: number; games_lost: number;
-  rounds_played: number; rounds_won: number; kdr: number | null;
-}
 interface GameStat {
   appid: number; game_name: string | null;
   stats: Record<string, number>; achieved: number; achievements: number;
@@ -49,7 +43,6 @@ export default function ProfileLive({
   const [recent, setRecent] = useState<RecentGame[] | null>(null);
   const [prof, setProf] = useState<Prof | null>(null);
   const [gstats, setGstats] = useState<GameStat[]>([]);
-  const [hf, setHf] = useState<HfStat | null>(null);
   const [wall, setWall] = useState<WallPost[] | null>(null);
 
   const [editing, setEditing] = useState(false);
@@ -83,11 +76,6 @@ export default function ProfileLive({
         .select('appid, game_name, stats, achieved, achievements')
         .eq('steam_id64', steamId)
         .then(({ data }) => setGstats((data ?? []) as GameStat[]));
-      supa.from('holdfast_stats')
-        .select('hf_name, regiment, kills, deaths, melee_kills, shooting_kills, arty_kills, games_won, games_lost, rounds_played, rounds_won, kdr')
-        .eq('steam_id64', steamId)
-        .maybeSingle()
-        .then(({ data }) => setHf((data ?? null) as HfStat | null));
     }
     if (memberId) {
       supa.from('member_profile').select('motto, bio, games').eq('member_id', memberId).maybeSingle()
@@ -173,50 +161,6 @@ export default function ProfileLive({
                 </span>
               </a>
             ))}
-          </div>
-        </div>
-      )}
-
-      {/* Event statistics, which for this community is the half that counts.
-          Shown above the Steam numbers because a K/D from organised
-          linebattles says more about somebody here than an achievement
-          count does. */}
-      {hf && hf.rounds_played > 0 && (
-        <div className="module">
-          <div className="mhead">
-            <h3>Holdfast, in events</h3>
-            <span className="sub">
-              {hf.regiment ? hf.regiment : 'from hfstats.online'}
-            </span>
-          </div>
-          <div className="stats" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))' }}>
-            <div className="stat"><div className="n">{hf.kills.toLocaleString('en-US')}</div><div className="l">kills</div></div>
-            <div className="stat"><div className="n">{hf.deaths.toLocaleString('en-US')}</div><div className="l">deaths</div></div>
-            <div className="stat"><div className="n">{hf.kdr ? Number(hf.kdr).toFixed(2) : '·'}</div><div className="l">K / D</div></div>
-            <div className="stat"><div className="n">{hf.rounds_played.toLocaleString('en-US')}</div><div className="l">rounds played</div></div>
-          </div>
-          {/* The split is the interesting part: it says how somebody
-              actually fights, which a single kill count never does. */}
-          <div className="killsplit">
-            {[
-              ['Melee', hf.melee_kills],
-              ['Shooting', hf.shooting_kills],
-              ['Artillery', hf.arty_kills],
-            ].filter(([, v]) => (v as number) > 0).map(([label, v]) => {
-              const total = Math.max(1, hf.melee_kills + hf.shooting_kills + hf.arty_kills);
-              return (
-                <div className="ksrow" key={label as string}>
-                  <span className="kslabel">{label}</span>
-                  <span className="ksbar"><span style={{ width: `${Math.round(((v as number) / total) * 100)}%` }} /></span>
-                  <span className="ksn">{(v as number).toLocaleString('en-US')}</span>
-                </div>
-              );
-            })}
-          </div>
-          <div className="note">
-            Won {hf.games_won} of {hf.games_won + hf.games_lost} games, and{' '}
-            {hf.rounds_won} of {hf.rounds_played} rounds.
-            <span className="prov">source: hfstats.online, used with permission, refreshed daily</span>
           </div>
         </div>
       )}
