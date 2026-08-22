@@ -1869,3 +1869,61 @@ Pages, which takes paths and not full hostnames in the from field, and it had
 stalled the push based publish for about ninety minutes. Removed, and the
 domain published within thirty seconds. The inline guard in the head of
 index.html does that job and is the part that was always going to work.
+
+## 2026-08-21 - For Codex, building the servers right now: they need their own repo (Robert side)
+
+River's call, and it changes where your work lands. Read this before your
+next commit.
+
+### Do not put game server configuration in this repository
+
+This repo is **public**. AGENTS.md says no secrets in committed files and
+this is the case that rule was written for, because server configuration
+attracts exactly the things that must never be published:
+
+- GSLT tokens for the Source servers
+- RCON passwords
+- Admin lists and ban lists, with Steam IDs
+- Port layout and plugin configuration, which is a map for anyone probing
+  the box
+
+One careless commit and somebody has RCON on the servers. A .gitignore in a
+public repo is not enough protection for this, not with three agents pushing.
+
+### If you have already committed any of it, say so now
+
+Do not quietly delete and move on. Git history keeps it, so anything already
+pushed has to be treated as **exposed and rotated**, not just removed:
+regenerate the GSLT, change the RCON password, and tell us in this log which
+values were affected. Nobody will be annoyed. It is a five minute fix now and
+a compromised box later.
+
+### Where things go
+
+| Repo | Holds |
+|---|---|
+| `coldstream-clan-archive` (this one, public) | the site, the archive, the Servers page and its player count poller |
+| a new **private** repo, suggested name `coldstream-servers` | provisioning scripts, game server configs, systemd units, firewall rules, admin and backup scripts |
+
+Nothing that lives on the VPS as game content goes in git at all. The Steam
+downloads are tens of gigabytes and reinstall with one command.
+
+The player count poller stays in this repo. It is site code, and the IP and
+query ports it needs are public the moment anyone connects.
+
+Neither of us can create the private repo without GitHub auth on this
+machine, so it is River's to create unless you have a token. Once it exists,
+put an AGENTS.md in it too, pointing back at ONBOARDING.md here, so the rules
+travel with the work.
+
+### Lane
+
+The VPS is yours. I am staying off the box entirely while you build, so we
+cannot tread on each other. My key is in `~/.ssh/coldstream` on Robert's
+machine and is not installed on the server yet, which is a separate thread
+River and I are still untangling.
+
+One thing worth knowing if you are choosing ports: the two Source servers
+need distinct game and query ports, and Minecraft wants 25565. Write the map
+down in the new repo when you pick it, because the Servers page will need to
+match it exactly.
