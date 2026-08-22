@@ -1,16 +1,18 @@
 # Coldstream Gaming server host
 
-This directory builds the Coldstream Gaming OVH VPS as a dedicated Linux game
-server host. It installs and separates three servers:
+This directory builds the Coldstream Gaming OVH VPS as a Pterodactyl game
+server host. Pterodactyl runs each game server in an isolated Docker container
+and provides River with a web administration panel.
 
-| Server | LinuxGSM name | Port | Initial mode |
-|---|---|---:|---|
-| Garry's Mod | `gmodserver` | 27015 | Trouble in Terrorist Town |
-| Counter-Strike: Source | `cssserver` | 27016 | Classic rotation |
-| Counter-Strike 1.6 | `hldsserver` | 27017 | Classic rotation |
+| Server | Port | Initial mode |
+|---|---:|---|
+| Garry's Mod | 27015 | Trouble in Terrorist Town |
+| Counter-Strike: Source | 27016 | Classic rotation |
+| Counter-Strike 1.6 | 27017 | Classic rotation |
 
-The servers run under separate Linux accounts. A compromised addon or game
-process therefore does not automatically gain access to the other servers.
+The official Panel, Wings, Docker Engine, MariaDB, Redis and NGINX make up the
+management stack. Docker isolation prevents one game process from directly
+sharing another server's filesystem.
 
 ## Host assumptions
 
@@ -28,39 +30,21 @@ dependencies are safer on Ubuntu 24.04 LTS.
 Copy this directory to the VPS, then run as root:
 
 ```bash
-sudo bash bootstrap.sh
+sudo bash install-pterodactyl.sh
 ```
 
-The script installs the operating system dependencies, creates a 4 GB swap
-file, configures the firewall, creates one account per server, installs each
-server through LinuxGSM, and enables automatic monitoring and updates.
-
-After installation, keep secrets out of Git and edit each private LinuxGSM
-configuration on the VPS:
-
-```bash
-sudo -u gmodserver nano /home/gmodserver/lgsm/config-lgsm/gmodserver/gmodserver.cfg
-sudo -u cssserver nano /home/cssserver/lgsm/config-lgsm/cssserver/cssserver.cfg
-sudo -u hldsserver nano /home/hldsserver/lgsm/config-lgsm/hldsserver/hldsserver.cfg
-```
-
-Set a strong `rconpassword` for every server. Set `gslt` for Garry's Mod and
-Counter-Strike: Source after creating tokens in Steam's game server account
-management page. Do not commit either value.
+The panel will live at `panel.coldstreamgaming.com`. Wings uses
+`node.coldstreamgaming.com`. Both names point to the VPS, but their Cloudflare
+records must remain DNS-only because Cloudflare's ordinary proxy does not carry
+the game and Wings traffic used here.
 
 ## Daily operation
 
-```bash
-sudo -u gmodserver /home/gmodserver/gmodserver details
-sudo -u gmodserver /home/gmodserver/gmodserver start
-sudo -u gmodserver /home/gmodserver/gmodserver stop
-sudo -u gmodserver /home/gmodserver/gmodserver restart
-sudo -u gmodserver /home/gmodserver/gmodserver console
-```
-
-Replace `gmodserver` with `cssserver` or `hldsserver` for the other games.
-Detach from a console with `Ctrl+B`, then `D`. Do not use `Ctrl+C`, which may
-stop the game process.
+Sign in to the panel as `river`. The initial administrator password is generated
+on the VPS and stored in `/root/pterodactyl-install-secrets.txt` with root-only
+permissions. Change it immediately after the first login and save the panel's
+`APP_KEY` in an encrypted password manager. The application key is required to
+restore encrypted panel data from backups.
 
 ## Resource plan
 
@@ -79,6 +63,13 @@ Steam updates, backups, and short traffic spikes.
 
 ## Backups
 
-LinuxGSM creates local compressed backups. OVH automated backup protects the
-whole VPS, but it should not be the only copy. The next infrastructure step is
-an encrypted offsite copy of server configs, maps, addons, and player data.
+Pterodactyl creates per-server backups through Wings. OVH automated backup
+protects the whole VPS, but it should not be the only copy. The next
+infrastructure step is encrypted offsite storage for panel data, database
+backups, server configs, maps, addons, and player data.
+
+## Legacy installer
+
+`bootstrap.sh` and the LinuxGSM templates are retained only as a record of the
+original deployment path. River selected Pterodactyl before any game files were
+installed. Do not run both management systems on the same host.
