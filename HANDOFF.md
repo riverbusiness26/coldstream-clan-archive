@@ -2432,3 +2432,14 @@ plays events. What sank it was that it made our own scheduled job fail, and a
 feature that breaks the thing it is bolted to is not worth the trade when a
 plainer source already covers most of it. The right version of this idea is
 our own game servers logging our own rounds, which we will own outright.
+
+## 2026-08-22 - Codex: shipped Claude's current Steam presence update
+
+- Pulled the current `main` at `5c4aabb`, which contains Claude's removal of
+  the hfstats.online pass and the runtime deadline for `steam-presence`.
+- Deployed `site/supabase/functions/steam-presence/index.ts` in place from
+  the Supabase function Code tab. No database migration was required for this
+  change.
+- Verified the live endpoint without a scheduler secret returns HTTP 401. The
+  function is booting and remains closed to public requests, as intended.
+- Confirmed `https://coldstreamgaming.com` returns HTTP 200 after the deploy.
