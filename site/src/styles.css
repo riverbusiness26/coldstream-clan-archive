@@ -579,3 +579,9 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 /* In a game is the state worth noticing, so it is the only one with colour. */
 .pres-game{font:400 9.5px/1 var(--mono);letter-spacing:.06em;color:var(--accent);
   flex:none;max-width:44%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Discord's own widget. It ships at a fixed 350px wide, which overflows the
+   sidebar on a phone, so the frame is fluid and the height is what stays
+   fixed. Discord lays the panel out to whatever width it is given. */
+.dscframe{padding:16px;background:var(--panel)}
+.dscframe iframe{display:block;width:100%;border:1px solid var(--line);background:#1e2124}
