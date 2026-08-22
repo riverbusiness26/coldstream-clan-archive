@@ -555,13 +555,6 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 @media (hover:none){.shout-x{opacity:.55}}
 @media (prefers-reduced-motion:reduce){.shout-x{transition:none}}
 
-/* The way into the back office. Small, in the status bar, and only rendered
-   for the handful of people who can open it. Kept out of the main nav on
-   purpose: the nav is where members go, and this is not that. */
-.adminlink{font:500 10px/1 var(--mono);letter-spacing:.14em;color:var(--accent);
-  text-decoration:none;margin-right:14px;padding-bottom:1px;
-  border-bottom:1px solid transparent}
-.adminlink:hover{border-bottom-color:var(--accent)}
 
 /* Who is on Steam. Compact rows, because this is a glance and not a page:
    the only question it answers is whether anybody is about. */

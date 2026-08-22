@@ -166,14 +166,6 @@ export default function App() {
       <div className="estbar"><div className="in">
         <span>EST. <b>2011</b> · GAMING COMMUNITY · 15 YEARS RUNNING</span>
         <DiscordPulse />
-        <span>
-          {me && (
-            <a className="adminlink" href={profileHref(me.steam_id64)}>PROFILE</a>
-          )}
-          {me && (me.role === 'moderator' || me.role === 'admin') && (
-            <a className="adminlink" href="#/admin">ADMIN PANEL</a>
-          )}
-        </span>
       </div></div>
       <header className="mast">
         <div className="in">
@@ -194,6 +186,9 @@ export default function App() {
                   <span className="acctmenu" onClick={() => setMenuOpen(false)}>
                     <span className="acctmenu-head">Signed in through Steam</span>
                     <a href={profileHref(me.steam_id64)}>Visit profile</a>
+                    {(me.role === 'moderator' || me.role === 'admin') && (
+                      <a href="#/admin">Admin Panel</a>
+                    )}
                     <button onClick={signOut}>Sign out</button>
                   </span>
                 )}
