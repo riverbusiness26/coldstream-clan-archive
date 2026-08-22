@@ -155,7 +155,12 @@ export default function App() {
       <div className="estbar"><div className="in">
         <span>EST. <b>2011</b> · GAMING COMMUNITY · 15 YEARS RUNNING</span>
         <DiscordPulse />
-        <span><b>{me ? me.display_name.toUpperCase() : 'GUEST'}</b></span>
+        <span>
+          {me && (me.role === 'moderator' || me.role === 'admin') && (
+            <a className="adminlink" href="#/admin">ADMIN PANEL</a>
+          )}
+          <b>{me ? me.display_name.toUpperCase() : 'GUEST'}</b>
+        </span>
       </div></div>
       <header className="mast">
         <div className="in">
@@ -186,11 +191,7 @@ export default function App() {
           )}
         </div>
         <nav className="main">
-          {NAV.concat(
-            me && (me.role === 'moderator' || me.role === 'admin')
-              ? [['admin', 'Back Office', true] as [string, string, boolean]]
-              : [],
-          ).map(([k, label]) => (
+          {NAV.map(([k, label]) => (
             <a key={k} href={'#/' + k} className={view === k || (k === 'archive' && (view === 'members' || view.startsWith('member/'))) ? 'on' : undefined}>{label}</a>
           ))}
         </nav>
