@@ -406,25 +406,27 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 
 
 /* ---- the compact Steam sign in, in Steam's own palette ---- */
-.steam-btn.compact{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#213b56,#171a21);border:1px solid #2a475e;border-radius:2px;color:#c7d5e0;padding:8px 14px;font:500 13px/1 "Motiva Sans","Segoe UI",Tahoma,sans-serif;text-shadow:none;letter-spacing:.01em}
-.steam-btn.compact svg{width:18px;height:18px;flex:none;color:#c7d5e0}
-.steam-btn.compact:hover{background:linear-gradient(180deg,#2a475e,#1b2838);color:#fff;border-color:#66c0f4}
-.steam-btn.compact:hover svg{color:#66c0f4}
+.steam-btn.compact{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#3f4441,#2e3230);border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);border-radius:0;color:var(--ink);padding:9px 15px;font:bold 12px var(--body);text-shadow:none;letter-spacing:.01em}
+.steam-btn.compact svg{width:17px;height:17px;flex:none;color:var(--accent-deep)}
+.steam-btn.compact:hover{filter:brightness(1.12);color:#fff}
+.steam-btn.compact:hover svg{color:var(--accent)}
+.steam-btn.compact:active{border-color:var(--line) var(--hi) var(--hi) var(--line)}
 
 /* ---- signed in account control, the pattern every Steam site uses ---- */
 .acct{position:relative;display:inline-block}
-.acctbtn{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#213b56,#171a21);border:1px solid #2a475e;border-radius:2px;color:#c7d5e0;padding:5px 10px 5px 5px;font:500 13px/1 "Motiva Sans","Segoe UI",Tahoma,sans-serif;cursor:pointer}
+.acctbtn{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#3f4441,#2e3230);border:1px solid;border-color:var(--hi) var(--line) var(--line) var(--hi);border-radius:0;color:var(--ink);padding:5px 11px 5px 5px;font:bold 12px var(--body);cursor:pointer}
 .acctbtn img{width:26px;height:26px;border-radius:1px}
-.acctbtn:hover{border-color:#66c0f4;color:#fff}
-.acctbtn .caret{font-size:10px;color:#66c0f4}
-.acctmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:60;min-width:200px;display:flex;flex-direction:column;background:#171a21;border:1px solid #2a475e;box-shadow:0 12px 30px rgba(0,0,0,.6)}
-.acctmenu-head{padding:9px 14px;font:400 10px/1.4 var(--mono);letter-spacing:.1em;color:#66c0f4;border-bottom:1px solid #2a475e;text-transform:uppercase}
-.acctmenu a,.acctmenu button{text-align:left;background:none;border:0;padding:10px 14px;color:#c7d5e0;font:500 13px/1 "Motiva Sans","Segoe UI",Tahoma,sans-serif;cursor:pointer}
-.acctmenu a:hover,.acctmenu button:hover{background:#1b2838;color:#fff}
+.acctbtn:hover{filter:brightness(1.12);color:#fff}
+.acctbtn .caret{font-size:10px;color:var(--accent-deep)}
+.acctmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:60;min-width:200px;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.6)}
+.acctmenu-head{padding:9px 14px;font:400 10px/1.4 var(--mono);letter-spacing:.1em;color:var(--accent-deep);border-bottom:1px solid var(--line);text-transform:uppercase}
+.acctmenu a,.acctmenu button{text-align:left;background:none;border:0;padding:10px 14px;color:var(--ink);font:400 13px/1 var(--body);cursor:pointer;text-decoration:none}
+.acctmenu a:hover,.acctmenu button:hover{background:var(--raised);color:#fff}
 
 /* Signed-in state of the one Steam button: same shell, avatar instead of the mark. */
 .steam-btn.compact.signed{cursor:default}
-.steam-btn.compact.signed:hover{background:linear-gradient(180deg,#213b56,#171a21);color:#c7d5e0;border-color:#2a475e}
+.steam-btn.compact.signed{background:var(--raised);border-color:var(--line);color:var(--muted)}
+.steam-btn.compact.signed:hover{filter:none;color:var(--muted)}
 .steam-btn.compact .savi{width:20px;height:20px;border-radius:1px;flex:none}
 
 /* ---- steam groups ---- */

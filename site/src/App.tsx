@@ -159,7 +159,6 @@ export default function App() {
           {me && (me.role === 'moderator' || me.role === 'admin') && (
             <a className="adminlink" href="#/admin">ADMIN PANEL</a>
           )}
-          <b>{me ? me.display_name.toUpperCase() : 'GUEST'}</b>
         </span>
       </div></div>
       <header className="mast">
