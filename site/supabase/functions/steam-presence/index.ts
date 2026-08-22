@@ -272,10 +272,18 @@ Deno.serve(async (req) => {
   // members is to page the leaderboard and match on id, which is a Steam
   // id64 on their side as well as ours.
   //
-  // 5,311 players at 100 a page is 54 requests, which is nothing once a day
-  // and rude every five minutes. So it runs only when our copy is a day old,
-  // and it is hard capped at 60 pages so a change at their end can never turn
-  // this into a crawl of someone else's site.
+  // River's call: once a month, and only for members who have actually
+  // signed in through Steam. The second part is free, because the id list
+  // above comes from the member table, which is exactly the set of people
+  // who have signed in. Nobody is looked up on their behalf.
+  //
+  // Monthly rather than daily, and aligned to the calendar rather than to a
+  // rolling window, so it runs once shortly after each month turns over and
+  // captures the previous month settled rather than half finished. 54 pages
+  // twelve times a year is a rounding error on somebody else's site, which
+  // is the point: River has their owner's permission and it is worth
+  // keeping. Hard capped at 60 pages so a change at their end can never turn
+  // this into a crawl.
   let hfUpdated = 0;
   let hfRan = false;
   try {
@@ -286,8 +294,12 @@ Deno.serve(async (req) => {
       .limit(1)
       .maybeSingle();
 
-    const staleAfter = Date.now() - 24 * 3600_000;
-    const due = !newest?.checked_at || new Date(newest.checked_at).getTime() < staleAfter;
+    // A different calendar month, not a rolling 30 days. Rolling would drift
+    // a little later every cycle and eventually straddle month boundaries,
+    // which is exactly the wrong shape for numbers reported per month.
+    const monthKey = (d: Date) => d.getUTCFullYear() * 100 + d.getUTCMonth();
+    const due = !newest?.checked_at
+      || monthKey(new Date(newest.checked_at)) !== monthKey(new Date());
 
     if (due) {
       hfRan = true;

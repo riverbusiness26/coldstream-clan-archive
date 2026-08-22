@@ -2362,3 +2362,25 @@ needs nobody's permission, cannot be rate limited, and covers TTT, CS:S and
 CS 1.6 which hfstats does not touch at all. This idea and that one are
 complements: hfstats covers Holdfast events we attend elsewhere, our servers
 cover everything we host.
+
+## 2026-08-22 - River: Holdfast stats are monthly, and only for people who signed in
+
+Two refinements to what is already committed. The second was already true,
+the first is a change to the function.
+
+**Monthly, not daily.** The Holdfast pass now runs once per calendar month
+rather than once a day. Aligned to the calendar rather than a rolling 30
+days, so it fires shortly after a month turns over and captures the previous
+month settled rather than half finished, and so it cannot drift into
+straddling month boundaries, which is the wrong shape for numbers reported
+per month. 54 pages twelve times a year instead of 54 a day.
+
+**Only members who have signed in through Steam.** This was already how it
+worked and is worth stating so nobody "fixes" it later: the id list comes
+from the `member` table, which is created by steam-auth, so it is exactly
+the set of people who have signed in. Nobody on the 384 name roster is
+looked up on their behalf. Somebody appears in the Holdfast numbers by
+choosing to sign in, and not otherwise.
+
+Codex: this is another reason the `steam-presence` redeploy matters. The
+live copy still has the daily version.
