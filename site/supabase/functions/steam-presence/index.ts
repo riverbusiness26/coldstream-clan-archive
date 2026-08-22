@@ -53,7 +53,17 @@ const chunk = <T>(xs: T[], n: number): T[][] => {
   return out;
 };
 
+// How long one invocation may spend before it starts declining new work.
+// Comfortably inside the platform's limit, and the passes below check it
+// between items rather than only at the start, so a slow response from
+// somebody else's server cannot carry us past it.
+const BUDGET_MS = 25_000;
+
 Deno.serve(async (req) => {
+  const startedAt = Date.now();
+  const spent = () => Date.now() - startedAt;
+  const haveTime = (needed = 1500) => spent() + needed < BUDGET_MS;
+
   const url = new URL(req.url);
 
   // A shared secret rather than a JWT, because the caller is a scheduler and
@@ -171,6 +181,7 @@ Deno.serve(async (req) => {
     const todo = [...new Set([...missing, ...known])].slice(0, 25);
 
     for (const id of todo) {
+      if (!haveTime()) break;
       const r = await fetch(
         "https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v1/"
         + `?key=${STEAM_KEY}&steamid=${id}&count=6`,
@@ -227,6 +238,7 @@ Deno.serve(async (req) => {
     }
 
     for (const { id, game } of todo.slice(0, 20)) {
+      if (!haveTime(2500)) break;
       const q = `?appid=${game.appid}&key=${STEAM_KEY}&steamid=${id}`;
       const headers = { "User-Agent": "ColdstreamGaming-Presence/1.0 (+https://coldstreamgaming.com)" };
 
@@ -307,7 +319,10 @@ Deno.serve(async (req) => {
     const due = !newest?.checked_at
       || monthKey(new Date(newest.checked_at)) !== monthKey(new Date());
 
-    if (due) {
+    // Paging somebody else's leaderboard is the longest job here, so it only
+    // starts if there is real time left rather than beginning and being cut
+    // off halfway, which would waste their bandwidth for nothing.
+    if (due && haveTime(12_000)) {
       hfRan = true;
       const wanted = new Set(ids);
       const found: Record<string, unknown>[] = [];
@@ -315,6 +330,10 @@ Deno.serve(async (req) => {
       const now2 = new Date().toISOString();
 
       for (let page = 1; page <= 60; page++) {
+        // Stop cleanly rather than being killed. Whatever was found so far is
+        // written below, and the next run picks the rest up, because the
+        // month check only passes once the write succeeds.
+        if (!haveTime(2000)) break;
         const r = await fetch(
           "https://hfstats.online/api/players/filtered"
           + `?page=${page}&pageSize=100&playerEntryType=Career&sort=kills&direction=desc`,
@@ -375,6 +394,7 @@ Deno.serve(async (req) => {
     game_stats_updated: statsUpdated,
     holdfast_ran: hfRan,
     holdfast_updated: hfUpdated,
+    ms: spent(),
     updated: rows.length,
     online: rows.filter((r) => (r.persona_state as number) > 0).length,
     in_game: rows.filter((r) => r.game).length,
