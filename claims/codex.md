@@ -1,3 +1,3 @@
-Holding: .github/workflows/backup-database.yml, GitHub Actions backup secret
-Doing:   enable and verify nightly Supabase database backups without exposing the service role key
+Holding: infra/game-servers/, claims/codex.md
+Doing:   build the secure OVH VPS deployment for Garry's Mod TTT, Counter-Strike: Source and Counter-Strike 1.6
 Since:   2026-08-21
