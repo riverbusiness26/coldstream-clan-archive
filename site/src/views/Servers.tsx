@@ -1,5 +1,5 @@
-// Live server trackers. Reads server_status from the backend when
-// configured; shows the seeded lineup as offline until the poller exists.
+// Live server tracker. The public Holdfast row is refreshed by an A2S query
+// in Actions. Private development servers are intentionally not probed here.
 import { useEffect, useState } from 'react';
 import { supa } from '../lib/supa';
 import { servers as seedServers, type ServerInfo } from '../lib/content';
@@ -12,7 +12,9 @@ export default function Servers() {
     if (!supa) return;
     const sb = supa;
     const load = () => sb.from('server_status').select('*').then(({ data }) => {
-      if (data && data.length) setServers(data as ServerInfo[]);
+      if (!data) return;
+      const live = new Map((data as ServerInfo[]).map((server) => [server.server_key, server]));
+      setServers(seedServers.map((server) => ({ ...server, ...live.get(server.server_key) })));
     });
     load();
     const t = setInterval(load, 30000);
@@ -23,22 +25,25 @@ export default function Servers() {
     <div className="wrap solo">
       <main>
         <div className="module">
-          <div className="mhead"><h3>Servers</h3><span className="sub">player counts refresh every 30 seconds once live</span></div>
+          <div className="mhead"><h3>Servers</h3><span className="sub">live Holdfast status refreshes every few minutes</span></div>
           <div className="srv-grid">
             {servers.map((s) => (
               <div className="srv" key={s.server_key}>
                 <div className="srv-top">
                   <span className="srv-game"><span className="gtag">{s.game}</span>{GAME_NAMES[s.game] ?? s.game}</span>
-                  <span className={'pill' + (s.online ? ' live' : '')}>{s.online ? `${s.players}/${s.max_players} ONLINE` : 'COMING SOON'}</span>
+                  <span className={'pill' + (s.online ? ' live' : '')}>
+                    {s.online ? `${s.players}/${s.max_players} ONLINE` : s.visibility === 'private' ? 'PRIVATE DEV' : 'OFFLINE'}
+                  </span>
                 </div>
                 <div className="srv-name">{s.name}</div>
-                <div className="srv-meta">{s.online && s.map ? `map: ${s.map} · ` : ''}{s.address === 'TBA' ? 'address TBA' : s.address}</div>
+                <div className="srv-meta">{s.online && s.map ? `map: ${s.map} · ` : ''}{s.address}</div>
               </div>
             ))}
           </div>
           <div className="note">
-            Trackers light up the day each server goes online. The status poller
-            runs on the game server box and updates every 30 seconds.
+            Holdfast is checked through its public game-query port. Minecraft
+            and Valheim are installed for development and stay private until
+            their access settings are ready.
           </div>
         </div>
       </main>

@@ -13,5 +13,5 @@ export const GAME_NAMES: Record<string, string> = {
   BG2: 'Battlegrounds 2', NW: 'Mount & Blade: Warband', MC: 'Minecraft',
   CSS: 'Counter-Strike: Source', CS16: 'Counter-Strike 1.6', CSGO: 'CS:GO',
   GMOD: "Garry's Mod", ARMA: 'ArmA 2', NS: 'North & South', RUST: 'Rust',
-  GEN: 'Community',
+  HOL: 'Holdfast: Nations At War', VAL: 'Valheim', GEN: 'Community',
 };
