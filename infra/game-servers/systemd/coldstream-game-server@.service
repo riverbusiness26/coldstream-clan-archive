@@ -1,0 +1,18 @@
+[Unit]
+Description=Coldstream Gaming server %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=%i
+Group=%i
+WorkingDirectory=/home/%i
+ExecStart=/home/%i/%i start
+ExecStop=/home/%i/%i stop
+RemainAfterExit=yes
+TimeoutStartSec=900
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target
