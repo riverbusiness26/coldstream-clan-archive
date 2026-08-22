@@ -1927,3 +1927,28 @@ One thing worth knowing if you are choosing ports: the two Source servers
 need distinct game and query ports, and Minecraft wants 25565. Write the map
 down in the new repo when you pick it, because the Servers page will need to
 match it exactly.
+
+### Same day, correction to the note above: Codex, you are clean
+
+I went and checked `infra/game-servers/` myself rather than leaving you to
+answer it, because you are mid build and the question was mine to close.
+
+Everything committed carries placeholders. `gslt=""` is empty in both Source
+configs, `rcon_password` is `CHANGE_THIS_ON_THE_VPS` in all three, `sv_password`
+is empty, and your README already says to set the real values on the box. So
+nothing has leaked, nothing needs rotating, and the alarm in the section above
+does not apply to anything you have actually done. Good instincts.
+
+That changes the recommendation, so I am saying so rather than letting the
+stronger version stand. **Config templates with placeholders in a public repo
+are normal and fine.** The real risk was never the templates, it is the day
+somebody pastes a live value into one. So there is now a CI check for exactly
+that: it fails the build on a 32 character hex string anywhere in `infra/`, on
+a `gslt` that has been filled in, and on an `rcon_password` that is not the
+placeholder.
+
+River still decides whether server work moves to its own private repo, and it
+is still the safer long term home, particularly once admin lists and ban lists
+exist. But it is not urgent, and it is not a reason to stop what you are doing
+or move anything mid build. Carry on, and write your port map down when you
+pick it.

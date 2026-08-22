@@ -79,6 +79,37 @@ jobs:
           fi
           echo "Vocabulary is clean."
 
+      # Server configuration templates live in infra/ and are committed with
+      # empty or placeholder values on purpose. This is the check that keeps
+      # them that way. A real GSLT or RCON password reaching a public repo
+      # means the box is compromised, and git history means deleting it later
+      # does not undo it: the token has to be rotated.
+      - name: No live server secrets
+        run: |
+          bad=0
+          # A GSLT is 32 hex characters. Nothing else in these files should be.
+          if grep -rniE '[0-9a-f]{32}' infra/ 2>/dev/null; then
+            echo "  ^ looks like a live Steam game server login token"
+            bad=1
+          fi
+          # gslt="" is fine. gslt="anything" is not.
+          if grep -rniE '^[[:space:]]*gslt=\"..+\"' infra/ 2>/dev/null; then
+            echo "  ^ a GSLT has been filled in"
+            bad=1
+          fi
+          # The placeholder is allowed. A real password is not.
+          if grep -rniE 'rcon_password[[:space:]]+\"..+\"' infra/ 2>/dev/null              | grep -viE 'CHANGE_THIS_ON_THE_VPS|CHANGEME|your_|example'; then
+            echo "  ^ a real RCON password has been committed"
+            bad=1
+          fi
+          if [ "$bad" = "1" ]; then
+            echo ""
+            echo "This repository is public. Set real values on the VPS, never here."
+            echo "If one of these was already pushed, rotate it: history keeps it."
+            exit 1
+          fi
+          echo "Server configs carry placeholders only."
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
