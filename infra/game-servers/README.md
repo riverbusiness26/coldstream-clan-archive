@@ -61,6 +61,26 @@ and traffic spikes:
 The remaining memory is deliberate safety margin for map changes, addon load,
 Steam updates, backups, and short traffic spikes.
 
+## Development servers
+
+As of 2026-08-22, the panel and Wings node are connected over HTTPS and three
+development servers are installed and running:
+
+| Development server | Primary port | Additional ports | Memory | Disk |
+|---|---:|---|---:|---:|
+| Minecraft Paper | 25565 | none | 2048 MiB | 10000 MiB |
+| Valheim | 2456 | 2457, 2458 | 3072 MiB | 10000 MiB |
+| Holdfast: Nations At War | 20100 | 8700, 27018 | 4096 MiB | 15000 MiB |
+
+The game ports remain closed in UFW while these are private development
+instances. Open only the required ports when River is ready for external
+testing. Valheim has public listing disabled. Holdfast's first boot downloads
+about 10.3 GB before launching.
+
+`pterodactyl-node.nginx.conf` is the reviewed reverse proxy for Wings. The
+panel connects to `node.coldstreamgaming.com` over port 443 while Wings listens
+on its internal port 8080.
+
 ## Backups
 
 Pterodactyl creates per-server backups through Wings. OVH automated backup
