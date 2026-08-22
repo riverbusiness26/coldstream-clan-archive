@@ -26,8 +26,6 @@ const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")
 const STEAM_KEY = Deno.env.get("STEAM_API_KEY") ?? "";
 const SYNC_SECRET = Deno.env.get("SYNC_SECRET") ?? "";
 
-const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
-
 interface Summary {
   steamid: string;
   personaname?: string;
@@ -68,6 +66,14 @@ Deno.serve(async (req) => {
   if (!STEAM_KEY) {
     return Response.json({ ok: false, error: "STEAM_API_KEY is not set" }, { status: 500 });
   }
+  if (!SB_URL || !SERVICE_KEY) {
+    return Response.json({ ok: false, error: "Supabase server credentials are not configured" }, { status: 500 });
+  }
+
+  // Construct this only after the scheduler has authenticated. A malformed
+  // or rotating platform secret must return a useful error to the scheduler,
+  // not prevent the entire Edge Function from booting.
+  const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
   // Everyone who has ever signed in through Steam. The member row is created
   // by steam-auth, so this is exactly the set of linked accounts.
