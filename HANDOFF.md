@@ -2331,24 +2331,28 @@ our own dated event record and a member's page could say "the July
 linebattles" rather than only "career", and an event in the archive could
 list the members who were in it.
 
-### The constraint that matters, and the reason this is written down
+### The constraint, and River's decision on it
 
-Monthly and per type means many more requests than the daily career pull. The
-career pass is 54 pages worst case, once a day, with an early exit. A naive
-version of this idea is six entry types times twelve months times however
-many years, which is thousands of requests, and that is a crawl of somebody
-else's site no matter how politely it is written.
+**River's decision, 22 Aug: no backfilling history.** Do not pull past
+months, not once, not slowly, not at all. This starts from now and
+accumulates going forward.
 
-River has the owner's permission for what we do now. That permission is worth
-protecting, so if this is ever built:
+That settles the only real problem the idea had. A naive version would have
+been six entry types times twelve months times however many years, thousands
+of requests against somebody else's site, which is a crawl however politely
+it is coded and would have burned the permission River was given. Current
+month only is a handful of requests a day and stays well inside what we were
+allowed.
 
-- Backfill history **once**, slowly, and never again. Old months do not
-  change, so re-reading them is pure waste.
-- After that, refresh only the current month, and only daily.
-- Keep the early exit: stop as soon as our members are found.
-- Keep a hard page cap so a change at their end cannot turn it into a crawl.
-- Ask the owner again before backfilling, because a one time history pull is
-  a different ask from a daily read of one month.
+It also fits the archive rather than fighting it. The historical half is
+recovered records: fixed, sourced, finished. Event stats from here on are the
+new record, built the honest way, by being there when it happens. An event in
+2013 will never have stats and that is correct, because we were not counting
+then and inventing them later would be the one thing this archive does not do.
+
+If it is ever built, keep the rest of the discipline: current month only,
+daily at most, early exit once our members are found, and a hard page cap so
+a change at their end cannot turn it into a crawl.
 
 ### The better long term answer
 
