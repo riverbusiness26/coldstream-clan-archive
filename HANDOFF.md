@@ -2297,3 +2297,64 @@ only route. That is why it works the way it does rather than being one call.
 throttle), the patched `steam-auth`, and the nightly backup key. `0016` and
 `0018` are confirmed applied, and `SYNC_SECRET` is confirmed working: the
 presence chain ran end to end and River's row is in `steam_presence`.
+
+## 2026-08-22 - Saved idea, from River: event level stats, and how to do it politely
+
+Not to build yet. River asked that this be written down properly and that
+Codex know about it, so it does not get lost and so nobody reinvents it
+badly later.
+
+### The idea
+
+The archive records **that** an event happened: 362 of them, dated, from the
+announcement feed. It records nothing about **how it went**. The idea is to
+capture stats per event, so an event in the record can show who turned out
+and what they did, and a member's profile can show the events they were
+actually in rather than a lifetime total.
+
+### Why it is more possible than it sounds
+
+While integrating career stats I found hfstats.online supports far more than
+careers. Verified against their live API today, both returning 200 with data:
+
+    /api/players/seasonal/filtered
+      ?playerEntryType=<type>&periodType=Monthly&year=<yyyy>&periodKey=<month>
+      &page=&pageSize=&sort=&direction=
+
+Entry types their site uses: **Linebattle, Naval, CavComp, EUScrim, NAScrim,
+AUZScrim, Career**. Monthly linebattle for the current month returned 2,159
+players, naval 168, each row carrying kills, melee, artillery, shooting,
+deaths, assists, blocks, games won and lost, keyed by Steam id64 as before.
+
+So stats already exist scoped by **event type and by month**. Cross that with
+our own dated event record and a member's page could say "the July
+linebattles" rather than only "career", and an event in the archive could
+list the members who were in it.
+
+### The constraint that matters, and the reason this is written down
+
+Monthly and per type means many more requests than the daily career pull. The
+career pass is 54 pages worst case, once a day, with an early exit. A naive
+version of this idea is six entry types times twelve months times however
+many years, which is thousands of requests, and that is a crawl of somebody
+else's site no matter how politely it is written.
+
+River has the owner's permission for what we do now. That permission is worth
+protecting, so if this is ever built:
+
+- Backfill history **once**, slowly, and never again. Old months do not
+  change, so re-reading them is pure waste.
+- After that, refresh only the current month, and only daily.
+- Keep the early exit: stop as soon as our members are found.
+- Keep a hard page cap so a change at their end cannot turn it into a crawl.
+- Ask the owner again before backfilling, because a one time history pull is
+  a different ask from a daily read of one month.
+
+### The better long term answer
+
+Once the game servers are up we own the source. Our own servers can log every
+round to our own database, tied to Steam id, for the games we host. That
+needs nobody's permission, cannot be rate limited, and covers TTT, CS:S and
+CS 1.6 which hfstats does not touch at all. This idea and that one are
+complements: hfstats covers Holdfast events we attend elsewhere, our servers
+cover everything we host.
