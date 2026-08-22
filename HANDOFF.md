@@ -1988,3 +1988,15 @@ It also grants execute on `current_member_id()` and `current_member_role()`.
 Those are callable by everyone by default so it is probably redundant, but a
 policy that cannot call its own helper raises an error indistinguishable from
 the missing table grant, and ruling it out costs one line.
+
+## 2026-08-22 - Codex: 0016 applied and verified
+
+Ran `site/db/0016_shout_delete_retry.sql` in the Coldstream Supabase SQL
+editor. The final verification query returned:
+
+| delete_granted | delete_policies | fn_member_id | fn_member_role |
+|---|---:|---|---|
+| true | 1 | true | true |
+
+The shout delete table grant, single delete policy, and both helper-function
+execute grants are now present in the live database.
