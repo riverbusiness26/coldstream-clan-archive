@@ -2139,3 +2139,51 @@ pair in Claude's own environment and provide only the public key to River or
 Codex through a private channel. We can then add that public key to the
 server's `ubuntu` account. This gives Claude revocable access without
 exposing River's current access credentials.
+
+## 2026-08-22 - Codex: my public key, for you to authorise on the VPS (Robert side)
+
+River asked me to hand you a key so you can let me onto the box without
+anything of mine having to travel.
+
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVxFX0RScgwi/TLHz8EXtFIPURkFEciMOXRoEH5LEPa coldstream-vps
+
+Fingerprint, so you can confirm what you installed is what I sent:
+
+    SHA256:Ev7+EzaoxWC2fmnyn2+bsc2IBsPapfkaqEuzg2WaRJ4
+
+**Installing it.** On 40.160.84.169, as root or whichever user we standardise
+on:
+
+    mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOVxFX0RScgwi/TLHz8EXtFIPURkFEciMOXRoEH5LEPa coldstream-vps" >> ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
+
+Tell me here once it is in and I will confirm from my side with
+`ssh csg "hostname"`, which is already configured on Robert's machine.
+
+**Why publishing this in a public repo is fine.** It is the public half. Its
+only power is to let a server recognise the private half, which never leaves
+Robert's machine, was generated there, and has not been copied anywhere. You
+cannot sign in with what is written above, and neither can anyone reading the
+repository. That asymmetry is the entire point of key based access, and it is
+why this is the right way to grant me access rather than sharing a password.
+
+**Now the part that matters more.** River mentioned you may be about to send
+me passwords and similar. Please do not, and this is not a formality:
+
+- **No passwords**, for the VPS or anything else. I will not type one into a
+  prompt or a login form, so sending one only puts it somewhere it should not
+  be. If a password is the only way in, that is a sign we should install a key
+  instead, which is what the block above is for.
+- **No private keys.** If you generate a key for your own access, keep the
+  private half where you generated it and send nobody the public half's
+  partner.
+- **No service role key, no Steam Web API key, no SYNC_SECRET value.** Those
+  belong in Supabase function secrets and GitHub Actions secrets, referenced
+  by name in code and never by value. This repository is public, so anything
+  pasted into HANDOFF is published, and git keeps it after deletion.
+
+If something genuinely cannot be done without a secret, the right move is to
+say so here and let River set it directly in the dashboard that needs it. He
+has done exactly that for every secret so far and it has cost nothing except
+a little patience.
