@@ -41,7 +41,10 @@ jobs:
             echo "Use the same value the steam-presence function has."
             exit 1
           fi
-          out=$(curl -sS -w '\n%{http_code}' \
+          # A ceiling, so a hung request fails in a minute with a clear
+          # message instead of tying up a runner. The function budgets
+          # itself to 25 seconds, so anything near this is a real problem.
+          out=$(curl -sS --max-time 60 -w '\n%{http_code}' \
             "https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-presence?secret=$SYNC_SECRET")
           body=$(printf '%s' "$out" | sed '$d')
           code=$(printf '%s' "$out" | tail -n1)
