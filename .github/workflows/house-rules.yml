@@ -1,0 +1,125 @@
+# The house rules, enforced by a machine instead of by an agent's attention.
+#
+# Every check here is something an AI was previously spending tokens to
+# remember, and getting wrong anyway: the em dash rule has been broken by
+# accident several times, including once inside the file that documents it.
+# A grep does not get tired, does not have a context window, and does not
+# have a usage limit. Public repository, so Actions minutes are free.
+#
+# The rule for adding to this file: only checks that are deterministic and
+# that pass cleanly today. A check that cries wolf gets ignored, and an
+# ignored check is worse than no check because it looks like coverage.
+
+name: House rules
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # River asked for this explicitly and more than once. Scoped to the
+      # things we write by hand: not data/ or lineage/, which are recovered
+      # originals that must never be edited to suit our rules, not
+      # site/src/seed/, which is generated, and not HANDOFF.md, which is an
+      # append only log that already carries some from before the rule.
+      #
+      # The pattern is a PCRE code point, \x{2014}, rather than the character
+      # itself, so that this file does not match its own check. The first
+      # version did, which is a fair warning about the whole class of rule.
+      - name: No em dashes
+        run: |
+          export LC_ALL=C.UTF-8
+          # Prove the pattern actually matches before trusting a clean run.
+          # Outside a UTF-8 locale grep -P rejects \x{2014} and exits 2, and
+          # an if statement reads that failure as "found nothing", so the
+          # check would pass forever while testing precisely nothing. Caught
+          # locally, hence the canary.
+          #
+          # The canary needs a real em dash to test against, which is why one
+          # appears below and why this file is deliberately not in the list of
+          # paths scanned above. Do not "fix" either half of that.
+          if ! printf 'a—b\n' | grep -qP '\x{2014}'; then
+            echo "The em dash pattern does not match in this environment."
+            echo "The check cannot be trusted, so it fails rather than lying."
+            exit 1
+          fi
+          if grep -rnP '\x{2014}' \
+              AGENTS.md ONBOARDING.md CLAUDE.md README.md claims/ scripts/ \
+              --include="*.md" --include="*.mjs" 2>/dev/null \
+            || grep -rnP '\x{2014}' site/src --include="*.tsx" --include="*.ts" --include="*.css" 2>/dev/null \
+            || grep -rnP '\x{2014}' site/db site/supabase --include="*.sql" --include="*.ts" 2>/dev/null; then
+            echo ""
+            echo "Found an em dash. Use a comma, a colon, or a middle dot."
+            exit 1
+          fi
+          echo "No em dashes."
+
+      # It is a gaming community. Never a club, never a clan. Checked in the
+      # copy people actually read, not in the generated seed, where captions
+      # describe historical scenes in their own words.
+      #
+      # Deliberately NOT checking for "officer". The rank ladder really did
+      # have an Officers tier and the gallery captions really do describe
+      # officers, so a check here would fail on the history it exists to
+      # protect. That rule is about site roles, which are member, moderator
+      # and admin, and it is enforced by the database enum instead.
+      - name: Vocabulary
+        run: |
+          if grep -rniE '\b(club|clan)\b' site/src/views site/src/components 2>/dev/null; then
+            echo ""
+            echo "Say gaming community."
+            exit 1
+          fi
+          echo "Vocabulary is clean."
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install
+        working-directory: site
+        run: npm ci
+
+      # The gate that matters most with several agents pushing: this is
+      # typecheck plus build, and it is what catches somebody shipping a
+      # tree that does not compile.
+      - name: Build
+        working-directory: site
+        run: npm run build
+
+      # The built site is committed at the repo root and that is what
+      # Cloudflare publishes. The failure this catches is copying across the
+      # new index.html without its assets, which publishes a page that asks
+      # for a bundle nobody has and takes the whole site down.
+      #
+      # It deliberately does not compare the built hash against the committed
+      # one. Two machines with different Node versions can differ, and a
+      # check that fails for a reason nobody caused is a check everybody
+      # learns to ignore.
+      - name: The published page has the files it asks for
+        run: |
+          missing=0
+          for f in $(grep -oE 'assets/[A-Za-z0-9._-]+\.(js|css)' index.html | sort -u); do
+            if [ -f "$f" ]; then
+              echo "  present  $f"
+            else
+              echo "  MISSING  $f"
+              missing=1
+            fi
+          done
+          if [ "$missing" = "1" ]; then
+            echo ""
+            echo "index.html at the repo root asks for a file that is not committed."
+            echo "Copy site/dist/assets/ across as well, not just index.html."
+            exit 1
+          fi
+          echo "Every asset the published page asks for is committed."
