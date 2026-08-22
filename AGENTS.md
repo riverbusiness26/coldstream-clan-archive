@@ -4,6 +4,11 @@ New here? Read [ONBOARDING.md](ONBOARDING.md) first, once: what this
 project actually is, the story it preserves, where things stand, and how the
 sign in flow got its shape. Then come back here.
 
+Working in the cloud rather than on a machine with the repo already set
+up? [COWORK.md](COWORK.md) covers what a cloud environment can and cannot
+reach here, and the gitignored .env that will otherwise waste your first
+hour.
+
 Read this before touching anything. It is the short version. `HANDOFF.md` is the
 long version, twenty seven sections of accumulated decisions and post mortems,
 and you do not need most of it to start. Read the last two or three sections of
