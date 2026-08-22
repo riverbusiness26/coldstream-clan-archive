@@ -1,5 +1,4 @@
-Holding: nothing in the site tree. Staying OFF the VPS while Codex builds.
-
-Last job: told Codex in HANDOFF that server configs need a separate private
-repo, since this one is public and configs carry GSLT and RCON secrets.
+Holding: site/src/views/Gallery.tsx, site/src/styles.css
+Doing:   the gallery remodel, justified true-ratio rows for the archive,
+         uniform wall for uploads, theatre lightbox with a filmstrip.
 Since:   2026-08-21
