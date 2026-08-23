@@ -1,10 +1,9 @@
 # Working on this in Cowork
 
 A cold start kit for an agent running in the cloud rather than on Robert's
-machine. Read [ONBOARDING.md](ONBOARDING.md) once for what this project is
-and [AGENTS.md](AGENTS.md) for the rules. This file covers the part those
-two do not: what a cloud environment can and cannot reach here, and how to
-get the site running from a fresh clone.
+machine. Read [PROJECT.md](PROJECT.md) once for what this project is and the
+rules. This file covers the part that does not: what a cloud environment can
+and cannot reach here, and how to get the site running from a fresh clone.
 
 Verified against the live systems on 2026-08-22.
 

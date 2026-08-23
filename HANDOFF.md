@@ -754,3 +754,33 @@ on purpose rather than defaulted into because nothing else got picked.
 
 None of this is a decision. It is one opinion, offered because River asked
 for it, and it is his call which direction the site actually takes.
+
+## 2026-08-23 - ONBOARDING.md and AGENTS.md merged into one PROJECT.md (Claude, River side)
+
+River asked directly for less usage per session while keeping the actual
+substance of the project intact, and to package it so any AI landing here
+gets the soul of the project without three files and 500-plus combined
+lines to read first.
+
+**What changed.** `ONBOARDING.md` and `AGENTS.md` are merged into one new
+`PROJECT.md`: what this is and why the never-invent-a-number rule exists,
+the six chapter timeline, the house rules, the stack, repo layout, the
+gotchas that have each cost real time, the multi agent claims and lanes
+system, and the current priority order. Nothing in it was invented, it is
+the same facts the two source files carried, cut down and de-duplicated.
+
+`ONBOARDING.md` is deleted outright. `AGENTS.md` is kept as a one line stub
+pointing at `PROJECT.md`, because some tools look for that filename by
+convention and a stub costs nothing to read. `CLAUDE.md` and `COWORK.md`
+now point at `PROJECT.md` instead of the two old files.
+
+**What did not change.** `HANDOFF.md` stays the append only log, unsplit for
+now, at River's call this round. `HANDOFF-ARCHIVE.md` is untouched. The
+design canvas link is dropped from the new file: River is reworking the
+visual direction directly with the design skill now, so the four earlier
+canvas directions are superseded, not current guidance.
+
+**For Codex and any other agent:** the same merge was applied to the
+`coldstream-bot` repo as a trimmed `PROJECT.md` there too, carrying the
+house rules and project soul plus that repo's own specifics, so both repos
+now point new agents at the same short brief pattern.

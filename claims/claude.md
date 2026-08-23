@@ -1,5 +1,8 @@
 Holding: nothing
 
-Last job: recorded design-direction commentary in HANDOFF and on the canvas
-itself, so it survives the conversation clearing. See the 2026-08-22 entry.
-Since:   2026-08-22
+Last job: replaced ONBOARDING.md and AGENTS.md with a single PROJECT.md,
+at River's request, to cut the token cost of a fresh agent's first read.
+Updated CLAUDE.md and COWORK.md pointers to match, left a one line AGENTS.md
+stub so tools that look for that filename by convention still land
+somewhere. See the 2026-08-23 entry in HANDOFF.
+Since:   2026-08-23
