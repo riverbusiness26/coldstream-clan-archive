@@ -9,10 +9,16 @@ up? [COWORK.md](COWORK.md) covers what a cloud environment can and cannot
 reach here, and the gitignored .env that will otherwise waste your first
 hour.
 
-Read this before touching anything. It is the short version. `HANDOFF.md` is the
-long version, twenty seven sections of accumulated decisions and post mortems,
-and you do not need most of it to start. Read the last two or three sections of
-it for current context, and search it when something here says "see HANDOFF".
+Read this before touching anything. It is the short version, and it is kept
+current on purpose: if something below is wrong, fix it in the same commit
+that proves it wrong.
+
+`HANDOFF.md` is the log of decisions and post mortems, dated, newest at the
+bottom. Read only its last handful of entries, not the whole file. Everything
+from before 21 Aug 2026 was moved to `HANDOFF-ARCHIVE.md` once the live file
+passed 2,400 lines, purely because reading a file that size costs a fresh
+agent real money before it has done any work. Search the archive only when you
+need to know why a past decision was made; it is history, not a to-do list.
 
 ## What this is
 
@@ -163,55 +169,48 @@ updates. Then re-check the JWT toggle as above.
 
 ## Current state
 
-Live and verified:
+Do not trust prose for this, including this file. State goes stale within
+hours on a project with three agents committing to it. Run the live check
+instead of reading a paragraph someone wrote yesterday:
 
-- The site, on the domain, with TLS
-- Steam sign in redirects correctly and Steam's login page names
-  `coldstreamgaming.com` rather than the Supabase hostname. This required a
-  static forwarder at `site/public/steam-return/` because OpenID 2.0 requires
-  `return_to` to sit under `openid.realm`
-- Steam groups: 8 groups, 589 memberships, 588 named, synced by the `steam-sync`
-  edge function into `steam_group`, `steam_group_member`, `steam_group_snapshot`
-- Migrations `0000` through `0010`, plus `0012` and `0013`
-- **Steam sign in completes end to end.** First real sign in landed 2026-08-21 at
-  19:01 UTC and wrote a `member` row with a real Steam ID, persona and avatar.
-  Earlier sections of HANDOFF, up to and including 25, say this was unproven with
-  zero rows in `member`. That is now out of date. It was blocked by the missing
-  service_role grant fixed in `0013`, and it started working once that landed.
-- Cloudflare "Always Use HTTPS" is on. Plain http 301s to https.
+```
+node scripts/status.mjs
+```
 
-Known broken or pending:
+It asks the domain, the sign in function and the database directly and
+prints what bundle is actually served, whether the www guard survived,
+whether Verify JWT came back on, how many members exist, and which
+migrations are actually applied in prod, as opposed to which files exist in
+`site/db/`. Two agents each wrote a confident "current state" section into
+the log on the same day in Aug 2026 and both were wrong within hours, which
+is the whole reason this script exists. Trust the script, not the log, and
+trust neither over ten minutes old for anything you are about to build on.
 
-- **`0011_enlistment_book` has never been run**, so `enlistment` 404s and the Join
-  page's book is dead. 0011 also creates the table with policies but no grants, so
-  the order that works is: run 0011, then run 0012 again.
-- **Nightly database backups are not running.** The workflow exists and is
-  correct; the `SUPABASE_SERVICE_ROLE_KEY` GitHub secret was never set. This is
-  the largest outstanding risk to a project whose stated goal is to outlast
-  everything.
-- **River's own member row has `role = 'member'`, not `'admin'`.** He is the
-  community owner. Anything gated on admin will refuse him until that is changed.
-  Ask before changing it rather than assuming.
-- The operator account has not been created.
-- `site/tsconfig.tsbuildinfo` is tracked and churns on every build, dirtying the
-  tree and blocking rebases. Probably wants gitignoring.
+For *why* something is the way it is, not just whether it currently is,
+check the last few dated entries in `HANDOFF.md`.
 
 ## Working alongside other agents
 
 More than one agent works on this repo at once, in separate sessions, and they
 coordinate only through `HANDOFF.md`. Treat it as the shared log.
 
-- **Append, never rewrite.** New section at the end, numbered, dated, with whose
-  side it came from.
+- **Append, never rewrite.** New heading at the end, dated, with whose side it
+  came from: `## 2026-08-22 - what this is (whose side)`. Never a number; two
+  numbered sections collided twice in one day before the log switched to dates.
 - **Say what you verified and how**, not just what you changed. "Verified against
   the deployed source, 180 lines, no live roster call" is useful. "Fixed it" is
   not.
 - **Pull and rebase before pushing.** Concurrent sessions collide regularly.
 - If another agent left an action item for you, do it or say why not.
+- **Archive, do not let it grow forever.** When `HANDOFF.md` passes about 40
+  entries or 1,000 lines, move the oldest half into `HANDOFF-ARCHIVE.md` and
+  leave a one-line pointer at the top of what remains, the same way this pass
+  did on 22 Aug 2026. This is the fix for the usage cost of reading it, and it
+  needs redoing periodically, not once.
 
-Recent relevant sections: **27** is the Steam API work and the service_role bug,
-**26** is three gallery specs drafted but not built, **25** is a full sign in
-audit.
+For history rather than current state, `HANDOFF-ARCHIVE.md` holds everything
+from before 21 Aug 2026: the Steam API work and the service_role grants bug,
+the gallery specs, the first sign in audit, and everything that came before.
 
 ## The design canvas
 
