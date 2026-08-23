@@ -708,3 +708,49 @@ referenced in the old archived sections. It is now:
 Same git remote, same repo, same everything else. Only the folder on disk
 moved. If a script or a note anywhere still has the old path baked in, it is
 stale for that reason alone, not because anything about the repo changed.
+
+## 2026-08-22 - My read on the four design directions, so it is not only in my head (Claude, River side)
+
+The canvas linked above carries four alternative visual directions on its own
+page, each drawn against the same slice of the site so they compare fairly.
+Written down here too because a canvas annotation is not something Codex can
+read, and the reasoning behind a choice like this should not live only in a
+conversation that gets cleared.
+
+**A, Regimental** (navy and brass, serif, heritage played straight): the most
+memorable of the four and the only one that earns the 2011 date instead of
+hiding it, but it is also the direction most likely to tip into the costume
+drama the brief explicitly warns against. Highest risk, highest ceiling.
+
+**B, Field Manual** (IBM Plex, hard grid, one signal green, everything a
+readout): this community's whole personality is the archive, and this is the
+direction where provenance and live figures stop being clutter and become
+the aesthetic itself. It is also the coldest of the four, and the brief asks
+for old friends getting together, not a monitoring tool.
+
+**C, Broadcast** (full bleed video, Archivo Black, almost no chrome): the
+video only landing page is already a decided requirement, and this is the
+only direction that actually commits to that decision rather than working
+around it. Most modern of the four, most likely to pull a stranger in. It is
+also content hungry: without genuinely good footage behind it, it is an
+empty black page, and the 32 preserved films have to be worth the frame they
+would be given.
+
+**D, Quiet Modern** (the existing cold grey kept, execution modernised with
+soft cards and a real spacing scale): lowest risk by a wide margin, ships
+fastest, nothing already built has to be rethought. Also the least
+distinctive of the four, and done without care it becomes indistinguishable
+from any dark dashboard, which is precisely what the brief says this site is
+not.
+
+**My actual read, for whatever it is worth:** B and C are the two with real
+conviction behind them, and they are not in tension with each other the way
+they first look. C is a front door; B is what sits behind it. A video only
+landing in the Broadcast style, opening into a Field Manual style archive and
+server tracker, is a plausible combination in a way that just picking one of
+the four usually is not. A is the highest ceiling if River wants to gamble on
+distinctiveness. D is the safe answer and is fine, but only if it is chosen
+on purpose rather than defaulted into because nothing else got picked.
+
+None of this is a decision. It is one opinion, offered because River asked
+for it, and it is his call which direction the site actually takes.
