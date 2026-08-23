@@ -703,7 +703,7 @@ live server player tracker, recorded further down this file.
 session. It is no longer at the "2ndCS History / CSG Archive Project" path
 referenced in the old archived sections. It is now:
 
-\`C:\Users\thegr\Desktop\Coldstream Gaming\CSG Website\coldstream-codex-data-agent\`
+`C:\Users\thegr\Desktop\Coldstream Gaming\CSG Website\coldstream-codex-data-agent`
 
 Same git remote, same repo, same everything else. Only the folder on disk
 moved. If a script or a note anywhere still has the old path baked in, it is
