@@ -1,9 +1,4 @@
-Holding: nothing
-
-Last job: bumped actions/checkout and actions/setup-node from v4 to v5 in
-backup-database.yml, house-rules.yml and server-status.yml. Both v5 tags run
-node24, which closes the Node 20 deprecation. Stopped at v5 rather than the
-current v7: checkout v6 moves persisted git credentials to a separate file
-and the backup push depends on those. node-version 20 in house-rules is the
-build Node, a separate decision, not changed.
+Holding: PROJECT.md, HANDOFF.md
+Doing:   recording the v5 bump, and a new finding: server-status.yml has
+         failed 25 times running since 23 Aug, unrelated to the bump.
 Since:   2026-08-24
