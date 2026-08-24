@@ -80,14 +80,40 @@ Everything written **since** the site went up lives in exactly one place, on a
 free tier, behind one login: forum threads and posts, gallery submissions, the
 shoutbox, member accounts, events.
 
-`.github/workflows/backup-database.yml` exports every table to `backup/*.json`
-in this repo every night. Once it is running, losing Supabase entirely costs at
-most a day.
+`.github/workflows/backup-database.yml` exports every table as JSON every
+night. Once it is running, losing Supabase entirely costs at most a day.
 
-It needs one repository secret, `SUPABASE_SERVICE_ROLE_KEY`, set under
-Settings > Secrets and variables > Actions. The service role key is used
-deliberately: it bypasses row level security, which is the only way to back up
-the staff board and the unapproved uploads as well.
+**It is not running, and never has been.** As of 23 Aug 2026 it had run 59
+times and succeeded zero times. Every run dies on its first step, the config
+guard, so the export has never executed and nothing after step 2 has ever
+been reached. Verified from the GitHub Actions API, not assumed.
+
+This section previously said the export writes to `backup/*.json` in this
+repo and needs one secret. Both were wrong, and the second one is why the
+job kept failing while the docs looked satisfied. The export pushes to a
+**separate private repository**, because this repo is public and writing
+member identifiers, staff posts or unapproved uploads here would turn a
+backup into a data leak.
+
+It needs **three** things, all under Settings > Secrets and variables >
+Actions, and it fails until all three are present:
+
+| Name | Kind | What |
+|---|---|---|
+| `SUPABASE_SERVICE_ROLE_KEY` | Secret | Supabase service role key |
+| `BACKUP_REPOSITORY_TOKEN` | Secret | Fine grained token that can write only to the private backup repo |
+| `BACKUP_REPOSITORY` | **Variable**, not a secret | `owner/name` of that private repo |
+
+`BACKUP_REPOSITORY` goes on the Variables tab, not the Secrets tab. Putting
+it in the wrong tab leaves it empty and the guard fails exactly as if it were
+never set.
+
+The private repository has to exist and have at least one commit before this
+can work: `actions/checkout` cannot check out a repository with no commits.
+
+The service role key is used deliberately: it bypasses row level security,
+which is the only way to back up the staff board and the unapproved uploads
+as well. It is never printed, and GitHub masks both secrets in logs.
 
 `.github/workflows/supabase-keepalive.yml` already stops the free project
 pausing after seven days idle.

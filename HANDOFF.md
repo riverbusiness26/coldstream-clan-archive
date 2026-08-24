@@ -890,3 +890,72 @@ at it.
    guarded persona fetch. The script proves the function is healthy and
    redirecting, which is not the same as proving the patched build is live.
 3. Design, with River, directly.
+
+## 2026-08-23 - Diagnosed the backup failure: it is three missing settings, and DURABILITY.md was documenting a different workflow (Claude, River side)
+
+Follow up to the coordinator entry above. River asked for the actual cause
+rather than the assumption I left in it.
+
+### Where it fails, exactly
+
+Run 32619460912, from the public jobs API, which needs no auth even though
+the log bodies return 403:
+
+    1 Set up job                 success
+    2 Check backup settings      FAILURE
+    3 actions/checkout@v4        skipped
+    4 Export every table         skipped
+    5 Commit if anything changed skipped
+    6 Complete job               success
+
+It dies on the config guard, step 2 of 6. The export has never executed, the
+backup repo has never been touched, Supabase has never been queried by this
+workflow. That is the guard doing its job correctly: it is designed to fail
+loudly rather than produce a convincing partial backup.
+
+### My earlier assumption was wrong and so was DURABILITY.md
+
+I wrote that the missing `SUPABASE_SERVICE_ROLE_KEY` was the likeliest cause,
+on DURABILITY.md's authority. Reading the workflow itself, it needs three
+settings and fails until all three are present:
+
+- `SUPABASE_SERVICE_ROLE_KEY`, secret
+- `BACKUP_REPOSITORY_TOKEN`, secret, fine grained, write only to the backup repo
+- `BACKUP_REPOSITORY`, **repository variable, not a secret**, `owner/name`
+
+DURABILITY.md said one secret, and said the export writes `backup/*.json`
+into this repo. Both wrong. The workflow pushes to a **separate private
+repository**, and the header comment says why in as many words: this repo is
+public, so writing member identifiers, staff posts or unapproved gallery
+uploads here would turn a backup into a data leak. Somebody rewrote the
+workflow properly and did not update the durability doc, so the doc has been
+describing a job that does not exist while the real one failed nightly.
+
+Corrected DURABILITY.md, PROJECT.md priority 1, and my own `status.mjs`
+backup check, which had inherited the same wrong `backup/` assumption from
+the doc a few hours earlier.
+
+The variable is the likeliest single trip hazard: `BACKUP_REPOSITORY` lives
+on the Variables tab of the same settings page as the two secrets, and put on
+the Secrets tab it reads as empty and the guard fails identically. The public
+API cannot show which of the three are set, so this is not confirmed until a
+run goes green.
+
+### Checked so nobody hits it next
+
+All 17 tables the export names exist and answer 200 to the anon key:
+member, roster_entry, board, thread, post, gallery_category, gallery_item,
+shout, server_status, news_item, operator, event, event_rsvp, enlistment,
+steam_group, steam_group_member, steam_group_snapshot. The export fails the
+whole run on any non-ok table rather than saving a partial snapshot, so a
+dropped table would have been the next failure after the config. It is not
+one. The forum tables are still there despite forums being off the roadmap.
+
+### Left for River, none of it agent work
+
+Creating the private backup repository, generating the fine grained token,
+and pasting the service role key are all his. Per the coordinator packet,
+creating a repository and making a public or private decision need him
+regardless. One thing worth saying out loud: `actions/checkout` cannot check
+out a repository with no commits, so the new private repo needs at least an
+initial commit, a README is enough, before the first run can pass step 3.

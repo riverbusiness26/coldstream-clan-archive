@@ -136,9 +136,11 @@ async function backupState() {
   } catch (e) {
     out.push(note(`could not reach GitHub: ${e.message}`));
   }
-  out.push(existsSync(join(ROOT, 'backup'))
-    ? ok('backup/ exists in this checkout')
-    : note('no backup/ in this checkout, which matches a backup that has never committed'));
+  // Deliberately not looking for backup/ in this checkout. The export pushes
+  // to a separate private repository, because this one is public and writing
+  // member identifiers or unapproved uploads here would turn the backup into
+  // a data leak. DURABILITY.md said backup/ for a while and it was wrong.
+  out.push(note('the export lands in the private BACKUP_REPOSITORY, which this script cannot see, so a green run above is the only proof it worked'));
   return out;
 }
 

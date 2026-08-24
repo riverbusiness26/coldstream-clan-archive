@@ -176,10 +176,15 @@ Holdfast and Minecraft.
    `.github/workflows/backup-database.yml` had run 59 times as of 23 Aug 2026
    and had succeeded zero times, ever. Nothing surfaced that, because nothing
    ever asked the workflow how it went. `node scripts/status.mjs` asks now.
-   It needs the `SUPABASE_SERVICE_ROLE_KEY` repository secret, under
-   Settings > Secrets and variables > Actions, which is the likeliest cause
-   but is not confirmed until a run goes green. Highest value unglamorous job
-   in the project: the archive cannot be recollected if lost.
+   Every run dies on its first step, the config guard, so the export has
+   never executed. It needs three things, not one: the secrets
+   `SUPABASE_SERVICE_ROLE_KEY` and `BACKUP_REPOSITORY_TOKEN`, plus the
+   **variable** `BACKUP_REPOSITORY`, which goes on the Variables tab and not
+   the Secrets tab. It pushes to a separate private repo, since this one is
+   public. `DURABILITY.md` has the full table and said "one secret, into
+   backup/" until 23 Aug, which is part of why this went unfixed. Highest
+   value unglamorous job in the project: the archive cannot be recollected
+   if lost.
 2. **Redeploy the patched `steam-auth`.** Repo copy has three fixes not yet
    live: a caught Steam network failure, a checked upsert error, and a
    guarded persona fetch so a failed lookup cannot rename someone to
