@@ -181,14 +181,28 @@ Holdfast and Minecraft.
    the design skill. `CLAUDE_DESIGN_BRIEF.md` is the live product brief for
    what a design pass must keep working; treat anything about the four
    earlier canvas directions as superseded.
-3. **Bump `actions/checkout@v4` and `actions/setup-node@v4`**, in
-   `backup-database.yml`, `house-rules.yml` and `server-status.yml`. They
-   target Node 20, which is deprecated, and GitHub is currently forcing them
-   onto Node 24 with a warning. When that fallback is removed they break, and
-   one of the three is the backup. A scheduled silent failure with a warning
-   already printing is exactly what this project keeps getting caught by.
+3. **`server-status.yml` has failed 25 times in a row** and the Servers page
+   has been showing stale data since. Last success was run 20 at
+   2026-08-22T23:41, first failure run 21 at 2026-08-23T00:01, a clean break
+   between two scheduled runs twenty minutes apart. It fails at step 3,
+   `node scripts/poll-server-status.mjs`, so checkout and setup are fine and
+   this is the poller itself. The timing matches the multi-server poller
+   replacing the Holdfast-only one, which was recorded at the time as not
+   getting an answer from Valheim on either 2457 or 2456. Nobody noticed for
+   a day, for the same reason nobody noticed the backup: nothing asks these
+   workflows how they went.
 
-**Done, and kept here because both were long running blind spots:**
+**Done, and kept here because these were long running blind spots:**
+
+- **The GitHub Actions are on Node 24, from 24 Aug 2026.**
+  `actions/checkout` and `actions/setup-node` are pinned at `@v5` in all
+  three workflows that use them. Pinned at v5 and not the current v7 on
+  purpose: v5 is a pure Node 20 to Node 24 runtime bump with no behaviour
+  change, while v6 moves persisted git credentials into a separate file and
+  the backup job's push depends on exactly those. Revisit when the backup has
+  a longer track record than one night. Note that `node-version: '20'` in
+  `house-rules.yml` is a different thing, the Node the site is built with,
+  and is still an open decision.
 
 - **The nightly database backup works, from 24 Aug 2026.** Run 62 was the
   first success in 62 attempts. All six steps green, all 17 tables exported.

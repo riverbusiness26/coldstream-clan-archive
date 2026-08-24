@@ -1028,3 +1028,86 @@ Nobody has looked inside the backup repository yet. `latest/_manifest.json`
 carries the row counts per table and the source commit. That is the only real
 proof the contents are right rather than merely present, and it is a two
 minute check that nobody has done.
+
+## 2026-08-24 - Actions bumped to Node 24, and server-status has been failing for a day (Claude, River side)
+
+### The bump
+
+`actions/checkout` and `actions/setup-node` moved from `@v4` to `@v5` in
+`backup-database.yml`, `house-rules.yml` and `server-status.yml`. Both v5
+tags resolve to `using: node24`, verified from each action's `action.yml` at
+the tag rather than assumed, which is the entire point: v4 targets Node 20,
+GitHub has been forcing it onto Node 24 with a warning on every run, and that
+fallback goes away eventually.
+
+**Pinned at v5, not the current v7, deliberately.** I checked the release
+notes for every major rather than taking the newest:
+
+- checkout v5: Node 24 runtime, nothing else. Minimum runner v2.327.1, which
+  hosted runners exceed.
+- checkout v6: "Persist creds to a separate file". The backup job checks out
+  the private backup repo with a token and then pushes to it from the last
+  step, relying on exactly those persisted credentials. That workflow first
+  succeeded yesterday after 61 failures. Not today.
+- checkout v7: blocks checking out fork PRs for `pull_request_target` and
+  `workflow_run`, plus an ESM migration. We use neither trigger.
+- setup-node v5: adds automatic caching when `package.json` has a
+  `packageManager` field. Harmless here only because `cache: npm` is set
+  explicitly, which is why this needed no other change.
+
+Revisit v6 and v7 once the backup has more than one night behind it. The
+reasoning is in a comment on the checkout step in `backup-database.yml` so
+whoever bumps it next does not have to rediscover it.
+
+`node-version: '20'` in `house-rules.yml` was left alone. It is the Node the
+site is built and typechecked with, a different decision from the action
+runtime, and changing it risks the build gate every agent depends on. The two
+now have a comment explaining which is which, because four adjacent lines
+mentioning two different Node versions is a trap.
+
+**Verified:** the push triggered `House rules`, which runs both bumped
+actions and is the full gate, em dash scan, secret scan, `npm ci`, typecheck
+and build. Green on `ca1e336`.
+
+**Not verified yet:** `server-status.yml` has not run since the bump, and
+`backup-database.yml` does not run again until 03:40. The backup's checkout
+is also the only one using the cross repo form, with `repository`, `token`
+and `path`, so it exercises a path `house-rules` does not. If the 03:40 run
+fails at step 3, look at the bump first.
+
+### Separate finding: server-status.yml has failed 25 times running
+
+Found while confirming the bump had not broken anything. **It was already
+broken, well before the bump, so do not attribute it to v5.**
+
+- Last success: run 20, 2026-08-22T23:41:02Z
+- First failure: run 21, 2026-08-23T00:01:54Z
+- Every run since: failure. 20 successes and 25 failures in its history.
+
+A clean break between two scheduled runs twenty minutes apart, which means a
+change rather than a flaky server. It dies at step 3,
+`node scripts/poll-server-status.mjs`. Checkout and setup pass. The timing
+lines up with the entry further up this file where the Holdfast-only poller
+was replaced with the multi-server one and Valheim was recorded as not
+answering on 2457 or 2456. I have not read the script or the logs, so that is
+a lead and not a diagnosis. Log bodies need auth and `gh` is not installed on
+River's machine.
+
+The Servers page has therefore been showing stale player counts for a day.
+
+Also worth a look: the schedule is `*/5` but the most recent run is 00:01,
+with nothing since, so the five minute cron does not appear to be firing
+either. Two problems or one, I do not know which.
+
+### The pattern worth naming
+
+This is the third thing in two days that was broken while every visible
+surface looked fine: the backup failing 59 times, the docs describing a
+workflow that did not exist, and now a poller dead for a day. In each case
+the information was one API call away and nobody made it.
+
+`status.mjs` was extended yesterday to ask the backup workflow how it went,
+and that is what caught the backup. It only checks that one workflow. The
+same few lines pointed at all five would have caught this a day ago, and will
+catch the next one. That is the obvious next job and I have not done it,
+since River asked for the bump and this was already a detour.
