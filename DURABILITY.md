@@ -144,10 +144,24 @@ Three ways to handle it, in order of how well they work:
    right answer if this keeps biting. It is more setup than it is worth for
    one nightly job today.
 
-**Token expires:** created 24 Aug 2026. **River, put the expiry date here.**
-It is on the token at <https://github.com/settings/personal-access-tokens>.
-This line being blank is the whole failure mode: the backup stops on a date
-nobody wrote down.
+**Token expires: 22 November 2026.** Created 24 Aug 2026 on a 90 day
+expiry, so it lapses on a Sunday. Chase it from **8 November 2026**, a
+fortnight before, which is enough time to generate a replacement without
+hurrying.
+
+On that date the nightly backup stops. It does not warn, it does not email,
+and the workflow will fail at step 3 with `Not Found`, which reads like the
+backup repository has been deleted rather than like a lapsed credential. See
+the failure guide below before believing that message.
+
+To renew: generate a new fine grained token exactly as in step 3 of the
+runbook, replace the `BACKUP_REPOSITORY_TOKEN` secret with it, dispatch the
+workflow by hand rather than waiting for 03:40, and **update this line with
+the new date.** A renewed token with a stale date here is the same problem
+one year later.
+
+`node scripts/status.mjs` catches it within a day either way, since it counts
+successful runs. That is the safety net. This line is the actual fix.
 
 #### Setting it up, once, in order
 
