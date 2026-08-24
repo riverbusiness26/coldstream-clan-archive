@@ -1357,3 +1357,55 @@ cron expression, and this repository's real delay is 83 minutes on a daily. A
 tolerance that does not account for that will eventually print a CHECK for a
 healthy workflow, which is the one thing that ruins the script. Not changed
 here, flagged for whoever next touches it.
+
+### Addendum, 24 Aug: nothing is actually off Node 20
+
+River raised the Node 24 migration. Checking it disproved a commit message in
+this repo's own history, so it is recorded here rather than left to be
+rediscovered.
+
+`ca1e336` says "bump checkout and setup-node to v5, **off deprecated Node 20**".
+**Nothing is off Node 20.** `house-rules.yml` line 124 still reads
+`node-version: '20'`.
+
+The bump conflated two different things. `setup-node@v4` to `@v5` changes the
+Node **the action itself** runs on. `node-version:` is the Node **our code**
+runs on. The bump moved the first and left the second at 20.
+
+| Workflow | setup-node | Node our code runs on |
+|---|---|---|
+| `house-rules.yml` | v5, `node-version: '20'` | pinned to 20, explicitly |
+| `backup-database.yml` | none at all | runner default, unpinned |
+| `server-status.yml` | none at all | runner default, unpinned |
+
+Two of the three pin no Node version anywhere. The backup's
+`node - <<'JS'` heredocs and `node scripts/poll-server-status.mjs` both run
+whatever the runner image ships. **I did not verify which version that is and
+did not guess it**, because the finding holds either way: it is unpinned, so
+GitHub can change it with no commit on our side, and the export would start
+running on a different runtime overnight with nothing in the repo to show it.
+
+GitHub's fall 2026 forced migration moves action runtimes automatically. It
+will not touch a `node-version: '20'` pin and it will not announce a change to
+the runner's bundled Node. So the migration will make this repo *look* handled
+while both unpinned workflows drift and `house-rules` stays on 20.
+
+### Order this should be done in, and why not all at once
+
+1. `house-rules.yml` to `'24'`. Runs on every push, immediate feedback, no data
+   at risk, and it is the line that contradicts `ca1e336`. Its `cache: npm`
+   interacts with setup-node v5 auto caching, already noted at line 119 as
+   harmless, so just confirm the cache key rolls cleanly.
+2. `server-status.yml`, add setup-node pinned to 24. It is 25 runs deep in
+   failure, so changing it costs nothing.
+3. `backup-database.yml`, **not tonight.** Its own comment says it first
+   succeeded after 61 failures and is not the place to change the mechanism it
+   runs on. Tonight's ~05:03Z run is the first time the cron path and
+   `checkout@v5` are exercised together. Adding Node 24 now means a failure
+   cannot be attributed. The deprecation runs to fall 2026, so one night costs
+   nothing and buys a clean signal on the most valuable workflow here. Add it
+   after, with no cache, and prove it by `workflow_dispatch` before trusting
+   the cron, which is how run 62 was proven.
+
+Leave `checkout@v5` alone in the backup. v6 relocates the persisted git
+credentials that its final push step depends on.
