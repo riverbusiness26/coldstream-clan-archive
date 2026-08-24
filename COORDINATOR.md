@@ -146,12 +146,23 @@ correct, function returning 302 to Steam. One member, River, admin. Tables
 `member`, `enlistment`, `gallery_item`, `event`, `shout`, `steam_group` all
 answering. The Archive, gallery, shoutbox, Discord presence, member profiles.
 
-**The nightly database backup works, as of 24 Aug.** Run 62 was the first
-success in 62 attempts. Everything before it died on the config guard, so the
-export had never once executed. This was the highest value thing in the
-project and it had been silently broken since it was written.
+**Corrected 24 Aug 02:50Z: the nightly backup is NOT green. Do not quote the
+line that used to sit here.** Run 62 did succeed, and it was the first success
+in 62 attempts, but it was a **manual `workflow_dispatch`** at head `5cd6a6e`.
+The last *scheduled* run, 59, failed, and no run on the `40 3 * * *` cron has
+ever gone green. `status.mjs` reporting `OK ... succeeded 31m ago` is true
+about the run and false about the nightly. See HANDOFF, 24 Aug, for the run
+table. Moved to Open, item 0.
 
 ### Open, in priority order
+
+0. **The nightly backup cron has never succeeded, and tonight's 03:40Z run is
+   the first to exercise `checkout@v5`.** The only green run is manual and
+   predates the bump `ca1e336`. Runs 61 and 62 share head `5cd6a6e`, one red
+   and one green five minutes apart, so what fixed it was a secret or variable
+   being set, not a commit. Nobody should hunt for that commit. Watch the
+   03:40Z run: if it dies at step 3, the v5 cross repo checkout is the first
+   suspect.
 
 1. **`server-status.yml` has failed 25+ times running.** Clean break: last
    success run 20 at 2026-08-22T23:41, first failure run 21 at 00:01 the next
@@ -161,12 +172,24 @@ project and it had been silently broken since it was written.
    an answer from Valheim on 2457 or 2456. **That is a lead, not a diagnosis.
    Nobody has read the script or the logs.** The Servers page has shown stale
    player counts since.
+   Added 24 Aug: all 25 failures share head `d202846` and the jobs API shows
+   them on `actions/checkout@v4`, so every one is the same stale commit and
+   roughly twenty commits since have never been exercised by a scheduled run.
+   The workflow passes no `GAME_SERVERS_JSON`, so the script uses
+   `DEFAULT_SERVERS` at line 44, which means a local
+   `node scripts/poll-server-status.mjs` with dummy credentials reproduces it
+   if it dies in the query. 318 lines, still unread.
 2. **Both `*/5` crons have stopped firing.** `server-status.yml` and
    `steam-presence.yml` both last ran at 00:01 on 24 Aug and neither has run
    since, while the daily backup cron fired normally. So it looks like the
    five minute schedules specifically rather than the repository. Undiagnosed.
    `steam-presence` is not failing, it is simply not running, and Steam
    presence on the site is stale as a result.
+   Framing corrected 24 Aug: these have never fired at five minutes. Observed
+   gaps across runs 40 to 46 are twenty to fifty minutes, which is GitHub
+   throttling a frequent cron in a quiet repository. Diagnose a stopped
+   schedule, not a slow one, and do not treat the twenty minute gaps as the
+   anomaly.
 3. **Redeploy the patched `steam-auth`.** The repo copy carries three fixes
    not yet live: a caught Steam network failure, a checked upsert error, and
    a guarded persona fetch so a failed lookup cannot rename a member to
@@ -182,6 +205,8 @@ project and it had been silently broken since it was written.
   `Token expires:` line. Fine grained tokens cap at 366 days, so the backup
   now has a date on which it stops, and that line is the only thing that will
   warn anyone. This is the same failure shape as the backup itself.
+  **Closed 24 Aug**, verified in `DURABILITY.md` line 147: 22 November 2026,
+  90 days from creation, chase from 8 Nov. Nothing is waiting on River here.
 - **The stale clone.** Delete it, or `git pull --rebase` it level and remove
   its marker files. It carries one local commit, `06b18f9`, deliberately
   never pushed because it shares the live remote. Doing neither leaves the
@@ -191,6 +216,9 @@ project and it had been silently broken since it was written.
   ran; only the manifest proves the contents are right. Two minute job.
 
 ### Unverified, flagged rather than assumed
+
+**Still true as of 24 Aug 02:50Z, verified against `git log`, and promoted to
+Open item 0 because `status.mjs` now makes it look closed.**
 
 `backup-database.yml` has not run since `actions/checkout` was bumped to v5.
 Its last run predates the bump, and its checkout is the only one using the

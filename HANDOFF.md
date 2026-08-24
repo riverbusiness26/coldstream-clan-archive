@@ -1228,3 +1228,98 @@ backup repo to confirm the contents rather than the fact of the backup.
 
 Unverified: `backup-database.yml` has not run since the `checkout@v5` bump.
 Its cross repo checkout is not covered by `house-rules` passing.
+
+## 2026-08-24 - the nightly backup has still never run green (Claude, coordinator session)
+
+No files changed except this one and `COORDINATOR.md`. This is a verification
+session: everything below is a live API read, and it contradicts the handover
+written three hours ago on the item that handover called its best news.
+
+### The correction that matters
+
+**`COORDINATOR.md` listed the nightly backup under "Green, verified this
+session". That is wrong, and I wrote the line I am correcting.**
+
+Run 62, the celebrated first success in 62 attempts, was a
+**`workflow_dispatch`**, not a scheduled run. Read from
+`/actions/workflows/backup-database.yml/runs`:
+
+| Run | Trigger | Head | Result | When |
+|---|---|---|---|---|
+| 62 | `workflow_dispatch` | `5cd6a6e` | success | 2026-08-24T02:18:47Z |
+| 61 | `workflow_dispatch` | `5cd6a6e` | failure | 2026-08-24T02:13:22Z |
+| 60 | `workflow_dispatch` | `4f239b7` | failure | 2026-08-24T01:55:53Z |
+| 59 | `schedule` | `1ac0003` | failure | 2026-08-23T05:04:57Z |
+
+So the last *scheduled* run, 59, failed, and **no run on the `40 3 * * *`
+cron has ever succeeded.** A person reading `status.mjs` sees
+`OK backup-database.yml succeeded 31m ago, on '40 3 * * *'` and concludes the
+nightly works. The line is factually true and the conclusion is false. This is
+the project's own named trap, "a green latest run proves nothing", surviving
+the very check that was written to catch it.
+
+### Two things that follow from the same table
+
+**Runs 61 and 62 share head `5cd6a6e`.** Same commit, five minutes apart, one
+red and one green. Nothing in the repository fixed this. The change was
+environmental, a secret or the `BACKUP_REPOSITORY` variable being set between
+the two. Do not go looking for the commit that fixed the backup. There isn't
+one.
+
+**The `checkout@v5` question is still open, and is now the live risk.**
+`ca1e336` is the bump. Run 62 is at `5cd6a6e`, which `git log` puts *before*
+`ca1e336`. So the only green backup run predates the bump, exactly as the
+previous entry flagged, and the green line in `status.mjs` makes that look
+closed when it is not. The 03:40Z run tonight is the first that will exercise
+the cron path and the v5 cross repo checkout together. If it fails at step 3,
+the bump is the first suspect.
+
+### server-status.yml, one real correction to the lead
+
+Failing step confirmed from the public jobs API, no auth needed: step 3,
+`Query public development game servers`, which is
+`node scripts/poll-server-status.mjs`. That much matches what was recorded.
+
+But every failing run, 40 through 45, has head **`d202846`**, and the jobs API
+shows them running **`actions/checkout@v4`** while the file at `HEAD` says v5.
+So all 25 failures are one stale commit. Roughly twenty commits have landed
+since and **not one of them has ever been exercised by a scheduled run**,
+because the cron stopped at the same time the evening's commits started
+landing. Nobody has yet seen this workflow fail at current code.
+
+`d202846` is "merge ONBOARDING.md and AGENTS.md into one PROJECT.md", a docs
+commit. It is the head at run time, not a cause. The multi server poller lead
+still stands and is still a lead.
+
+**Cheapest next move, and it needs no secret.** The workflow passes only
+`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. It does not pass
+`GAME_SERVERS_JSON`, so the script falls through to `DEFAULT_SERVERS` at line
+44. If it dies while querying, it dies before it needs the key, so
+`node scripts/poll-server-status.mjs` reproduces it locally with dummy
+credentials. 318 lines. Nobody has read it. That is still true after three
+sessions of writing about it.
+
+### The */5 crons, framing corrected
+
+Still stalled: both last ran 2026-08-24T00:01:2xZ and neither has run since,
+2h49m at the time of writing against a longest prior gap of 51 minutes. Real,
+and `status.mjs` is right to flag it.
+
+But the schedule has never behaved as `*/5`. Actual intervals across runs 40
+to 46: 20:54, 21:41, 22:01, 22:52, 23:40, 00:01, so twenty to fifty minutes,
+not five. GitHub throttles high frequency crons in a quiet repository. Anyone
+diagnosing this should be explaining a stopped schedule, not a slow one, and
+should not treat the twenty minute gaps as the anomaly.
+
+### Verified green, by live read this session
+
+Site serving, www to apex guard, Steam sign in redirecting with the realm
+correct, all six tables answering, `member` at 1 row. `house-rules.yml`
+passing. `supabase-keepalive.yml` healthy on its three day cron.
+
+### Unverified, flagged not assumed
+
+I did not open `latest/_manifest.json` in the backup repository. It is private
+and `gh` is not installed. So run 62 proves the job exited zero. It still does
+not prove a single row was written, which is the third session in a row that
+this has been true.
