@@ -1323,3 +1323,37 @@ I did not open `latest/_manifest.json` in the backup repository. It is private
 and `gh` is not installed. So run 62 proves the job exited zero. It still does
 not prove a single row was written, which is the third session in a row that
 this has been true.
+
+### Addendum, 24 Aug 02:57Z: the backup cron fires 83 minutes late
+
+Checked for tonight's run and it had not fired. Before calling that a stall, I
+asked what time this cron actually lands. Filtering the runs API to
+`event=schedule` gives every scheduled run this workflow has ever had:
+
+| Run | Fired | Late vs `40 3 * * *` |
+|---|---|---|
+| 59 | 2026-08-23T05:04:57Z | +84m |
+| 58 | 2026-08-22T05:02:05Z | +82m |
+
+**The nightly lands at roughly 05:02 to 05:05Z, not 03:40Z.** Anyone checking
+at 04:00Z will see nothing and conclude the cron has stopped. I wrote a brief
+telling River to watch 03:40Z and that is exactly the false alarm it would
+have produced.
+
+`event=schedule` also returns a total of **2**. Sixty of the 62 runs are pushes
+and manual dispatches. That is not itself a finding, the workflow only appeared
+around 21 Aug so two nights have elapsed, but it is the honest framing: the
+nightly has had two chances and failed both, and tonight is the third.
+
+**This connects to the `*/5` stall.** One repository, and its daily cron is 83
+minutes late while its five minute crons were firing at 20 to 50 minute gaps.
+That is one phenomenon, GitHub delaying scheduled work here heavily, not two
+unrelated ones. The `*/5` workflows going quiet may be that same delay
+deepening rather than a distinct break, which is a cheaper hypothesis than the
+ones currently written down and should be ruled out first.
+
+**Consequence for `status.mjs`.** Its staleness tolerance is measured off the
+cron expression, and this repository's real delay is 83 minutes on a daily. A
+tolerance that does not account for that will eventually print a CHECK for a
+healthy workflow, which is the one thing that ruins the script. Not changed
+here, flagged for whoever next touches it.
