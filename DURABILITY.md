@@ -111,6 +111,34 @@ never set.
 The private repository has to exist and have at least one commit before this
 can work: `actions/checkout` cannot check out a repository with no commits.
 
+`BACKUP_REPOSITORY_TOKEN` is a fine grained token rather than a classic one
+on purpose. A classic token's `repo` scope covers every repository on the
+account, and this one is stored in a **public** repository's Actions secrets.
+A fine grained token pinned to the backup repo with Contents: Read and write
+can do exactly what the workflow needs, clone at step 3 and push at step 5,
+and nothing else. Metadata: Read is added automatically and is required.
+
+**Fine grained tokens cannot be set to never expire.** GitHub caps them at
+366 days. That is this document's own failure mode, the one in the opening
+section, wearing a different hat: not an outage and not a hack, just a
+credential lapsing quietly while every dashboard stays green. Whatever expiry
+you pick, the backup stops on that date.
+
+Three ways to handle it, in order of how well they work:
+
+1. **Put the expiry date in this file when you create the token**, and set a
+   calendar reminder a fortnight before. Write it down here rather than only
+   in a calendar, because this file is what survives.
+2. `node scripts/status.mjs` will catch it within a day either way. It counts
+   successful runs of the workflow, so an expired token turns the Backups
+   line back to CHECK. That is a detector, not a fix, and it only helps if
+   somebody runs it.
+3. A GitHub App installation token does not expire the same way, and is the
+   right answer if this keeps biting. It is more setup than it is worth for
+   one nightly job today.
+
+**Token expires:** not yet created, fill this in.
+
 The service role key is used deliberately: it bypasses row level security,
 which is the only way to back up the staff board and the unapproved uploads
 as well. It is never printed, and GitHub masks both secrets in logs.
