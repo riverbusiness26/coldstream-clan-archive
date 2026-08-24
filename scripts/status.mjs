@@ -97,51 +97,111 @@ async function checkoutState() {
   return out;
 }
 
-// The archive is the one thing here that cannot be recollected if lost, and
-// the backup workflow existing is not the same as the backup running. It
-// needs the SUPABASE_SERVICE_ROLE_KEY repository secret, which no script can
-// read, so this checks the only thing that proves the secret is set: whether
-// a run has ever actually succeeded.
-async function backupState() {
-  const out = [];
+// Every workflow, not just the backup.
+//
+// Three separate things were broken here in two days while every visible
+// surface looked fine: the backup had failed 59 times, the docs described a
+// workflow that did not exist, and the server status poller had been dead for
+// a day. Each time the answer was one API call away and nobody made it. The
+// first version of this section asked only about the backup, which is exactly
+// the mistake that let the poller sit broken, so it asks about all of them
+// now. Adding a workflow to .github/workflows is enough, there is no list
+// here to keep in step.
+const GH_HEADERS = { Accept: 'application/vnd.github+json' };
+
+// A schedule that quietly stops firing is its own failure, distinct from a
+// run that fails, and neither shows up anywhere a person looks.
+//
+// This is not a general cron parser and does not try to be. It reads the step
+// syntax in the minute, hour and day fields, which is every shape this repo
+// actually uses, and falls back to daily. The tolerance is deliberately
+// generous: GitHub drops scheduled runs under load, especially frequent ones,
+// so complaining at the first missed slot would cry wolf. The whole value of
+// this script is that CHECK always means something, and the first version of
+// this function called supabase-keepalive stalled because it read '17 6 */3'
+// as daily when it runs every third day.
+function expectedGapHours(cron) {
+  const f = cron.trim().split(/\s+/);
+  if (f.length < 5) return 26;
+  const step = (s) => Number(s.match(/^\*\/(\d+)$/)?.[1]) || null;
+  const [minute, hour, dayOfMonth] = f;
+  if (step(minute)) return Math.max(0.5, (step(minute) / 60) * 6);
+  if (step(hour)) return step(hour) * 3;
+  if (step(dayOfMonth)) return step(dayOfMonth) * 24 + 6;
+  return 26; // daily, with a couple of hours of slack for a busy queue
+}
+
+function cronOf(workflowPath) {
+  const p = join(ROOT, workflowPath);
+  if (!existsSync(p)) return null;
+  return readFileSync(p, 'utf8').match(/cron:\s*'([^']+)'/)?.[1] ?? null;
+}
+
+async function workflowState() {
+  let workflows;
   try {
-    const res = await fetch(`${GH}/actions/workflows/backup-database.yml/runs?per_page=1`, {
-      headers: { Accept: 'application/vnd.github+json' },
-    });
-    if (!res.ok) {
-      out.push(note(`GitHub answered ${res.status}, backup state unknown`));
-      return out;
-    }
-    const all = await res.json();
-    const runs = all.workflow_runs ?? [];
-    if (!runs.length) {
-      out.push(bad('nightly backup has never run, the SUPABASE_SERVICE_ROLE_KEY repository secret is almost certainly still unset'));
-      return out;
-    }
-    // A green last run is not enough. This workflow failed 59 times in a row
-    // without anyone noticing, because nothing ever asked it how it went, so
-    // the count that matters is how many times it has ever actually worked.
-    const okRes = await fetch(`${GH}/actions/workflows/backup-database.yml/runs?status=success&per_page=1`, {
-      headers: { Accept: 'application/vnd.github+json' },
-    });
-    const wins = okRes.ok ? (await okRes.json()).total_count : null;
-    if (wins === 0) {
-      out.push(bad(`nightly backup has run ${all.total_count} times and has NEVER succeeded, last was ${runs[0].conclusion ?? runs[0].status} on ${runs[0].updated_at}. The archive is not backed up.`));
-    } else if (runs[0].conclusion === 'success') {
-      out.push(ok(`nightly backup last succeeded ${runs[0].updated_at}`));
-    } else {
-      out.push(bad(`nightly backup last finished as ${runs[0].conclusion ?? runs[0].status} on ${runs[0].updated_at}`
-        + (wins === null ? '' : `, ${wins} successful run${wins === 1 ? '' : 's'} in its history`)));
-    }
+    const res = await fetch(`${GH}/actions/workflows?per_page=100`, { headers: GH_HEADERS });
+    if (!res.ok) return [note(`GitHub answered ${res.status}, workflow health unknown`)];
+    workflows = (await res.json()).workflows ?? [];
   } catch (e) {
-    out.push(note(`could not reach GitHub: ${e.message}`));
+    return [note(`could not reach GitHub: ${e.message}`)];
   }
-  // Deliberately not looking for backup/ in this checkout. The export pushes
-  // to a separate private repository, because this one is public and writing
-  // member identifiers or unapproved uploads here would turn the backup into
-  // a data leak. DURABILITY.md said backup/ for a while and it was wrong.
-  out.push(note('the export lands in the private BACKUP_REPOSITORY, which this script cannot see, so a green run above is the only proof it worked'));
-  return out;
+
+  // Skip GitHub's own generated ones, Pages and the like. They are not in the
+  // repo, we cannot fix them here, and listing them buries ours.
+  const ours = workflows.filter((w) => w.path.startsWith('.github/workflows/'));
+  if (!ours.length) return [note('no workflows found in this repository')];
+
+  const lines = await Promise.all(ours.map(async (w) => {
+    const file = w.path.replace('.github/workflows/', '');
+    try {
+      if (w.state !== 'active') {
+        // disabled_inactivity is GitHub switching off scheduled workflows in
+        // a quiet repo. It looks identical to everything being fine.
+        return bad(`${file} is ${w.state}, it is not running at all`);
+      }
+      const res = await fetch(`${GH}/actions/workflows/${file}/runs?per_page=1`, { headers: GH_HEADERS });
+      if (!res.ok) return note(`${file}: GitHub answered ${res.status}`);
+      const body = await res.json();
+      const last = (body.workflow_runs ?? [])[0];
+      if (!last) return note(`${file} has never run`);
+
+      const ageHours = (Date.now() - new Date(last.updated_at).getTime()) / 3600000;
+      const age = ageHours < 1 ? `${Math.round(ageHours * 60)}m ago` : `${Math.round(ageHours)}h ago`;
+      const cron = cronOf(w.path);
+
+      if (last.conclusion !== 'success') {
+        // A count of successes matters more than the latest result. The
+        // backup showed green nowhere and red nowhere, it just never ran
+        // successfully, and only the total made that legible.
+        const okRes = await fetch(`${GH}/actions/workflows/${file}/runs?status=success&per_page=1`, { headers: GH_HEADERS });
+        const okBody = okRes.ok ? await okRes.json() : null;
+        const wins = okBody?.total_count ?? null;
+        const lastWin = okBody?.workflow_runs?.[0]?.updated_at;
+        const history = wins === null ? ''
+          : wins === 0 ? `, and has NEVER succeeded in ${body.total_count} runs`
+          : `, last success was ${lastWin}`;
+        const stakes = file === 'backup-database.yml' ? ' THE ARCHIVE IS NOT BACKED UP.' : '';
+        return bad(`${file} last run ${last.conclusion ?? last.status} ${age}${history}.${stakes}`);
+      }
+
+      if (cron && ageHours > expectedGapHours(cron)) {
+        return bad(`${file} last succeeded ${age} but its schedule is '${cron}', so the cron has stopped firing`);
+      }
+      return ok(`${file} succeeded ${age}${cron ? `, on '${cron}'` : ''}`);
+    } catch (e) {
+      return note(`${file}: ${e.message}`);
+    }
+  }));
+
+  // Kept next to the workflow lines rather than in its own section, because
+  // the green tick above is genuinely all we can see from here. The export
+  // pushes to a separate private repository, since this one is public and
+  // writing member identifiers or unapproved uploads here would turn a backup
+  // into a data leak. DURABILITY.md claimed backup/ in this repo for a while
+  // and it was wrong.
+  lines.push(note('the backup lands in the private BACKUP_REPOSITORY, which this script cannot see. Read latest/_manifest.json there for row counts'));
+  return lines;
 }
 
 async function siteState() {
@@ -213,7 +273,7 @@ async function dbState(key) {
 }
 
 const sections = await Promise.all([
-  checkoutState(), siteState(), authState(), dbState(anonKey()), backupState(),
+  checkoutState(), siteState(), authState(), dbState(anonKey()), workflowState(),
 ]);
 console.log('\nColdstream Gaming, live state\n');
 // Checkout goes first on purpose: if this tree is stale, every other line
@@ -226,7 +286,7 @@ console.log('\nSteam sign in');
 sections[2].forEach((l) => console.log(l));
 console.log('\nDatabase');
 sections[3].forEach((l) => console.log(l));
-console.log('\nBackups');
+console.log('\nWorkflows');
 sections[4].forEach((l) => console.log(l));
 console.log('\nCHECK is a real finding, not a warning to ignore. NOTE means this');
 console.log('script could not determine the answer, so go and find it yourself.\n');

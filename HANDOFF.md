@@ -1111,3 +1111,57 @@ and that is what caught the backup. It only checks that one workflow. The
 same few lines pointed at all five would have caught this a day ago, and will
 catch the next one. That is the obvious next job and I have not done it,
 since River asked for the bump and this was already a detour.
+
+## 2026-08-24 - status.mjs now asks every workflow, and two more were quietly broken (Claude, River side)
+
+The Backups section became a Workflows section. It lists the workflows from
+the API rather than from a list in the script, so adding one to
+`.github/workflows` is enough and there is nothing here to keep in step.
+
+Per workflow it reports the last run, its age, and the cron if it has one. On
+a failure it also asks how many times that workflow has ever succeeded, which
+is the question that caught the backup: 59 failures showed up nowhere,
+because nothing was red that had ever been green.
+
+Two failure modes it now catches that nothing did before:
+
+- **A workflow GitHub has switched off.** `state` other than `active`, which
+  includes `disabled_inactivity`, GitHub disabling scheduled workflows in a
+  quiet repository. From the outside that is indistinguishable from fine.
+- **A schedule that has stopped firing.** Distinct from a run that fails, and
+  invisible everywhere a person would look.
+
+### What it found the first time it ran
+
+- `server-status.yml`, already known, failing since 23 Aug.
+- **`steam-presence.yml` has stopped running.** Last run 2026-08-24T00:01:31Z
+  and nothing since, against a `*/5` schedule. It is not failing. It is not
+  running. Steam presence on the site has been stale for hours and this was
+  the first thing to notice.
+
+Both stalled workflows are the `*/5` ones and both stopped at the same 00:01,
+while `backup-database.yml` on a daily cron fired normally. So this looks like
+the five minute schedules specifically, not the repository. GitHub does drop
+frequent scheduled runs under load, which is why the tolerance here is six
+missed slots rather than one, but two and a half hours of nothing from both
+is past that. **I have not diagnosed it, only found it.**
+
+### A false positive I shipped and caught
+
+The first version read `17 6 */3 * *` as daily and reported
+`supabase-keepalive.yml` as stalled at 43 hours. It runs every third day and
+was perfectly healthy. Fixed by reading the step syntax in the minute, hour
+and day fields rather than only the minute.
+
+Worth saying plainly because the whole value of this script is the line at
+the bottom promising that CHECK means something. One wrong CHECK and the next
+person starts skimming past them, which is how the backup went unnoticed
+through 59 red runs. A check that cries wolf is worse than no check.
+
+### Still unverified
+
+`backup-database.yml` has not run since the v5 bump. Its last run is 62 at
+head `5cd6a6e`, which predates it, and the nightly is at 03:40. Its checkout
+is the only one using the cross repo form with `repository`, `token` and
+`path`, so `house-rules` passing does not cover it. If tonight's run fails at
+step 3, look at the bump first.
