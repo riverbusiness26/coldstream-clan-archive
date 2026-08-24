@@ -170,6 +170,13 @@ async function workflowState() {
       const age = ageHours < 1 ? `${Math.round(ageHours * 60)}m ago` : `${Math.round(ageHours)}h ago`;
       const cron = cronOf(w.path);
 
+      // A run still going has no conclusion yet, which is not a failure. The
+      // first version called a queued run red, which is the cry wolf problem
+      // this whole section is supposed to avoid.
+      if (last.status !== 'completed') {
+        return note(`${file} is ${last.status} right now, started ${age}`);
+      }
+
       if (last.conclusion !== 'success') {
         // A count of successes matters more than the latest result. The
         // backup showed green nowhere and red nowhere, it just never ran

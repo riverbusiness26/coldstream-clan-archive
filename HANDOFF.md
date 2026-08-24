@@ -1165,3 +1165,66 @@ head `5cd6a6e`, which predates it, and the nightly is at 03:40. Its checkout
 is the only one using the cross repo form with `repository`, `token` and
 `path`, so `house-rules` passing does not cover it. If tonight's run fails at
 step 3, look at the bump first.
+
+## 2026-08-24 - COORDINATOR.md, and the role prompt at v2.0 (Claude, River side)
+
+River is clearing this chat and starting a fresh coordinator. This is the
+handoff, written so the next one can start routing without reading four files
+first.
+
+`COORDINATOR.md` is new, at the repo root, in two halves. The first is the
+role prompt River pastes into a fresh agent, now versioned at **v2.0**. The
+second is the project state as of 03:00 UTC today, explicitly marked as the
+half that goes stale, with the instruction that the prompt wins if they ever
+disagree. `PROJECT.md` points at it in the opening lines.
+
+### What v2.0 changes, and why each one is there
+
+Every change below is something that actually cost time in the 23 to 24 Aug
+sessions, not a tidy-up.
+
+- **`status.mjs` moved from step 4 to step 1.** Reading four files out of a
+  stale checkout wastes all four, and the script checks its own tree before
+  reporting anything.
+- **Repo paths written into the prompt.** The v1.0 coordinator's first action
+  was asking River where the repos were, because the working directory is not
+  a git repo and the prompt did not say.
+- **The Brief Packet format written out in full.** v1.0 referred to "the
+  format in the operating system artifact", which was not reachable, so the
+  format got invented on the spot and would have drifted every session.
+- **"Never trust prose" promoted to its own section.** Three separate things
+  in two days were documented as one state while being in another.
+- **The write back rule.** A coordinator changes no files, so the old "log
+  what you changed" rule never applied to it and those sessions vanished.
+- **Git, claims and approval gates added.** v1.0 said nothing about any of it.
+- **The stale clone named explicitly**, since every signal inside it looks
+  correct.
+
+### One more false positive caught before it shipped
+
+While capturing the final state for the briefing, the new workflow check
+reported `house-rules.yml` as failing when it was merely queued. A run in
+flight has no conclusion yet. Fixed: anything not `completed` now reports as
+a NOTE saying it is running, not a CHECK.
+
+That is the second false CHECK in one sitting, after the three day cron read
+as daily. Both were caught only because the output was read carefully rather
+than skimmed, which is itself the argument for keeping CHECK rare and true.
+The footer promises CHECK is a real finding. That promise is the entire
+value of the script and it is one wrong line from worthless.
+
+### State at handover
+
+Green: site, TLS, Steam sign in, the database tables, and the nightly backup,
+which succeeded for the first time in 62 attempts yesterday.
+
+Open: `server-status.yml` failing since 23 Aug at the poller step, both `*/5`
+crons stopped firing at 00:01 and undiagnosed, the patched `steam-auth` still
+not redeployed, design with River.
+
+Waiting on River alone: the token expiry date in `DURABILITY.md`, the fate of
+the stale clone, and somebody actually opening `latest/_manifest.json` in the
+backup repo to confirm the contents rather than the fact of the backup.
+
+Unverified: `backup-database.yml` has not run since the `checkout@v5` bump.
+Its cross repo checkout is not covered by `house-rules` passing.

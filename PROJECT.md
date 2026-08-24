@@ -5,6 +5,10 @@ same things at much greater length and were costing every fresh agent real
 money before it had done any work. If a fact below turns out wrong, fix it
 in the same commit that proves it wrong.
 
+Coordinating rather than building? Read `COORDINATOR.md` instead of this
+file. It carries the role prompt and a state briefing written to be read
+cold, and it points back here for the parts you actually need.
+
 `HANDOFF.md` is still the append only cross agent log, newest entry last.
 Read only its last handful of dated entries, never the whole file.
 `HANDOFF-ARCHIVE.md` holds everything from before 21 Aug 2026: read it only
