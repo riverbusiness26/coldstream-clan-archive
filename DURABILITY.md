@@ -139,6 +139,58 @@ Three ways to handle it, in order of how well they work:
 
 **Token expires:** not yet created, fill this in.
 
+#### Setting it up, once, in order
+
+Written out because this is a job done once, badly remembered, and the chat
+it was explained in does not survive.
+
+**1. Create the private backup repository.** <https://github.com/new>.
+Private, not public. Tick "Add a README file": `actions/checkout` cannot check
+out a repository with no commits, so an empty one fails at step 3 the moment
+you have cleared step 2. Note its full `owner/name`.
+
+**2. Get the Supabase service role key.** Project `zcpbpcktinlqnxmqddzc`,
+Project Settings > API Keys. Load the SQL editor or Functions list first, the
+dashboard often does not hydrate on a cold deep link. You want `service_role`
+and not `anon`. Depending on how far Supabase has moved things it may be
+under a Legacy API Keys tab, so identify it by shape: the legacy key is a JWT
+starting `eyJ`, the newer equivalent starts `sb_secret_`. Anything starting
+`sb_publishable_`, or labelled `anon`, is the public key and is the wrong one.
+
+**3. Generate the fine grained token.**
+<https://github.com/settings/personal-access-tokens/new>. Account settings,
+not repository settings. Resource owner `riverbusiness26`. Repository access:
+Only select repositories, pick the backup repo from step 1 and nothing else.
+Permissions > Repository permissions > Contents: Read and write. Everything
+else No access. It is shown once, so copy it immediately. A fine grained
+token starts `github_pat_`; if yours starts `ghp_` it is a classic token
+covering every repo you own, so delete it and start again.
+
+**4. Paste all three into the WEBSITE repo**, not the backup repo. The
+credentials go where the workflow runs, not where it writes.
+<https://github.com/riverbusiness26/coldstream-clan-archive/settings/secrets/actions>.
+Two tabs, and the three values are split across both:
+
+- Secrets tab: `SUPABASE_SERVICE_ROLE_KEY`, `BACKUP_REPOSITORY_TOKEN`
+- Variables tab: `BACKUP_REPOSITORY`, as `owner/name`
+
+Names are case sensitive, no quotes around values. Putting
+`BACKUP_REPOSITORY` on the Secrets tab is the likeliest remaining way to
+fail, because the guard then reads it as empty and fails exactly as if it
+had never been set.
+
+**5. Run it by hand and confirm.** The workflow has `workflow_dispatch`, so
+do not wait for 03:40 to learn whether it worked:
+<https://github.com/riverbusiness26/coldstream-clan-archive/actions/workflows/backup-database.yml>
+then Run workflow. All six steps green. Then run `node scripts/status.mjs`
+and check the Backups line reads OK, which is the real proof: it asks the API
+how many runs have ever succeeded, rather than trusting one green tick.
+
+Reading a failure by which step died: **step 2** is a missing or
+misplaced setting. **Step 3** is the backup repo having no commits, the token
+not listing that repo, or `BACKUP_REPOSITORY` misspelled. **Step 4** is the
+Supabase key being wrong.
+
 The service role key is used deliberately: it bypasses row level security,
 which is the only way to back up the staff board and the unapproved uploads
 as well. It is never printed, and GitHub masks both secrets in logs.
