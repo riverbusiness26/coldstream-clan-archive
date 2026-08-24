@@ -22,7 +22,7 @@ jobs:
   rules:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # River asked for this explicitly and more than once. Scoped to the
       # things we write by hand: not data/ or lineage/, which are recovered
@@ -110,7 +110,16 @@ jobs:
           fi
           echo "Server configs carry placeholders only."
 
-      - uses: actions/setup-node@v4
+      # Two different Node versions live on these four lines and confusing
+      # them wastes an afternoon. The @v5 is the runtime GitHub runs the
+      # action itself on, now Node 24 because Node 20 is deprecated on the
+      # runners. The node-version below is what builds the site, and it is a
+      # separate decision that has not been made yet.
+      #
+      # setup-node v5 added automatic caching when package.json carries a
+      # packageManager field. Harmless here because cache is set explicitly
+      # below, which is why this bump needed no other change.
+      - uses: actions/setup-node@v5
         with:
           node-version: '20'
           cache: npm

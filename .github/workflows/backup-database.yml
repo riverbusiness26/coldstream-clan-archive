@@ -51,7 +51,13 @@ jobs:
           done
           exit "$missing"
 
-      - uses: actions/checkout@v4
+      # Pinned to v5, not the current v7, on purpose. v5 is a pure runtime
+      # bump from Node 20 to Node 24 with no behaviour change. v6 moves the
+      # persisted git credentials into a separate file, and the push in the
+      # last step of this job depends on exactly those credentials. This
+      # workflow first succeeded on 24 Aug 2026 after 61 failures, so it is
+      # not the place to take a change to the mechanism it runs on.
+      - uses: actions/checkout@v5
         with:
           repository: ${{ vars.BACKUP_REPOSITORY }}
           token: ${{ secrets.BACKUP_REPOSITORY_TOKEN }}

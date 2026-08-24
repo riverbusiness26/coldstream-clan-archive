@@ -13,7 +13,7 @@ jobs:
   poll:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Query public development game servers
         env:
           SUPABASE_URL: https://zcpbpcktinlqnxmqddzc.supabase.co
