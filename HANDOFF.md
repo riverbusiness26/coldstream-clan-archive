@@ -784,3 +784,109 @@ canvas directions are superseded, not current guidance.
 `coldstream-bot` repo as a trimmed `PROJECT.md` there too, carrying the
 house rules and project soul plus that repo's own specifics, so both repos
 now point new agents at the same short brief pattern.
+
+## 2026-08-23 - Coordinator session: the nightly backup has never once worked, plus the continuity gaps that hid it (Claude, River side)
+
+### Why this entry exists at all
+
+River asked how a Project Coordinator arriving after him would have
+everything it needs, given that he deletes chats to keep usage down. Working
+through that surfaced a hole in our own process, and then the hole turned out
+to be hiding something real.
+
+The old rule said to append here when you change something. A coordinator
+routes work and changes nothing, so it fell straight through that rule and
+left no trace at all. Same for any session that reads the tree and concludes
+nothing needs doing, or rules an option out. `PROJECT.md` now says to write
+back before the session ends even when you changed no files, because a
+ruled-out option is a finding and the next agent otherwise pays to rule it
+out again.
+
+### The finding that matters
+
+**`.github/workflows/backup-database.yml` has run 59 times and has succeeded
+zero times, ever.** Verified against the GitHub Actions API, not inferred:
+`?status=success&per_page=1` returns `total_count: 0`. The most recent
+failure was run 59 at 2026-08-23T05:04:57Z. Failures go back at least to
+21 Aug, five in a row on the first page.
+
+`PROJECT.md` had this as "key still unset", which read like a job nobody had
+started. It is worse than that: the job has been running nightly, failing
+nightly, and reporting to nobody. `DURABILITY.md` calls the database the weak
+link and says losing Supabase costs at most a day once this is running. It is
+not running, so that sentence has been false the whole time.
+
+The missing `SUPABASE_SERVICE_ROLE_KEY` repository secret is the likeliest
+cause, and DURABILITY.md already documents where it goes. Do not close this
+on that assumption. It is not confirmed until a run goes green. Nobody has
+read the failure logs yet, and the first job is to read run 32619460912.
+
+I did not fix it. Setting that secret is River's to do, no agent should hold
+the service role key, and it bypasses row level security by design.
+
+### What changed in this repo
+
+- `scripts/status.mjs` gained two sections that ask live systems rather than
+  trusting prose, which is the whole point of that script.
+  - **Checkout**, printed first, because if the tree is stale then every
+    other line is being read out of the wrong repository. It checks the
+    briefing files are the current `PROJECT.md` set, and compares HEAD to the
+    remote. Ahead and behind print differently on purpose: unpushed local
+    work is normal mid-session, a tree that is behind is the stale clone
+    failure below.
+  - **Backups**, which is what caught the 59 failures. It counts successful
+    runs rather than looking at the last one, because a green latest run
+    would not have caught this either.
+  - New `NOTE` marker for what the script could not determine, as against
+    what it determined to be wrong. Silence used to mean both, which is
+    exactly how the backup sat broken under a screen full of OK.
+- `PROJECT.md`: priority 1 rewritten around the above. Priority 4 marked
+  shipped, see below. Stale checkout added to the gotchas. Write back rule
+  added to the multi agent section.
+- I got two things wrong mid-session and both are corrected in place. I said
+  the stale clone was three weeks behind, it is one day. I said the backup
+  had never run, inferred from the missing `backup/` directory, and the API
+  says it has run 59 times and never worked. The inference was lazy and the
+  directory was consistent with both stories.
+
+### `/deploy-server` shipped, under a different name
+
+Both `PROJECT.md` files still called it in progress and handed to Codex. It
+landed in `coldstream-bot` as **`/games deploy`**, not `/deploy-server`, in
+`8a422a6`, with status controls in `98a3867` and a cooldown note in
+`605115f`, all on 23 Aug, through `src/lib/pterodactyl.js`. Both files now
+say shipped, with hashes, so nobody re-opens it.
+
+### The second checkout of this repo
+
+`CSG History & Archive\2nd Coldstream Guards\CSG Archive Project\coldstream-research`
+is a clone of this repo left at the old path when the directory moved on
+22 Aug. Same git remote. One day behind, and that day is the one that deleted
+`ONBOARDING.md` and gutted `AGENTS.md`, so an agent landing there reads the
+exact files River paid to remove, plus a `HANDOFF.md` and a `claims/` of its
+own. Every signal it uses to orient itself is present and wrong.
+
+Its working tree is clean, so nothing of River's is stranded in it. It now
+carries a `STALE-DO-NOT-USE.md` and a `scripts/status.mjs` that refuses to
+run and points here. Those markers are committed locally there and
+**deliberately not pushed**: it shares this repo's remote, and per River's
+instruction nothing goes up from that clone until the two are reconciled.
+Deleting it is River's call and I have not.
+
+### `coldstream-bot` now has a HANDOFF
+
+That repo had `PROJECT.md` and `README.md` and no log, a deliberate call for
+a single agent repo. It means the whole record of the Pterodactyl work is
+commit messages: the what survives, the why does not. It has a `HANDOFF.md`
+now, seeded from what the commits actually show, and its `PROJECT.md` points
+at it.
+
+### Still open, in order
+
+1. Read the backup failure logs, run 32619460912. Then set the secret. Then
+   confirm with `node scripts/status.mjs`, which will say so.
+2. Redeploy the patched `steam-auth`. Unchanged from before: the repo copy
+   carries a caught Steam network failure, a checked upsert error and a
+   guarded persona fetch. The script proves the function is healthy and
+   redirecting, which is not the same as proving the patched build is live.
+3. Design, with River, directly.

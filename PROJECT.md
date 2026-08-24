@@ -116,6 +116,16 @@ claims/                   who is holding what, see below
   the push based build for ninety minutes. If the domain looks stale, run
   `npx wrangler pages deployment list --project-name=coldstreamgaming`
   before assuming the build failed.
+- **There is a second checkout of this repo on River's machine**, left at the
+  old path when the directory moved on 22 Aug:
+  `CSG History & Archive\2nd Coldstream Guards\CSG Archive Project\coldstream-research`.
+  Same git remote, one day behind, and that day is the one that deleted
+  `ONBOARDING.md` and gutted `AGENTS.md`. An agent landing there reads its
+  `PROJECT.md`-less doc set, its own `HANDOFF.md` and its own `claims/`, and
+  every signal it uses to orient itself is present and wrong. It carries a
+  `STALE-DO-NOT-USE.md` and a `scripts/status.mjs` that refuses to run, so
+  the trap announces itself now. `node scripts/status.mjs` also checks its
+  own checkout, here or anywhere else.
 - **Windows Git Bash specifics:** shell heredocs eat backslashes, breaking
   regex, use the Write tool instead. Paths passed as arguments get mangled,
   prefix with `MSYS_NO_PATHCONV=1`. `/tmp` is invisible to Windows Node, use
@@ -144,6 +154,14 @@ More than one agent works this repo at once, coordinating only through
 - **Append to `HANDOFF.md`, dated, never numbered:**
   `## 2026-08-23 - what this is (whose side)`. Say what you verified and
   how, not just what you changed.
+- **Write back before the session ends, even if you changed no files.**
+  River deletes chats to keep usage down, so a conversation is not storage
+  and nothing said only in one survives. This applies hardest to the roles
+  that produce no diff: a coordinator that routed work, an agent that read
+  the tree and concluded nothing needed doing, an investigation that ruled
+  something out. A ruled-out option is a finding, and the next agent will
+  otherwise pay to rule it out again. The old rule said to log what you
+  changed, so these sessions fell straight through it and left no trace.
 
 ## Current state, as of 23 Aug 2026, verify with the script above
 
@@ -154,8 +172,14 @@ Holdfast and Minecraft.
 
 **Priority order right now:**
 
-1. **Nightly database backup key.** Still unset. Highest value unglamorous
-   job in the project: the archive cannot be recollected if lost.
+1. **Nightly database backup. It is failing, not merely unconfigured.**
+   `.github/workflows/backup-database.yml` had run 59 times as of 23 Aug 2026
+   and had succeeded zero times, ever. Nothing surfaced that, because nothing
+   ever asked the workflow how it went. `node scripts/status.mjs` asks now.
+   It needs the `SUPABASE_SERVICE_ROLE_KEY` repository secret, under
+   Settings > Secrets and variables > Actions, which is the likeliest cause
+   but is not confirmed until a run goes green. Highest value unglamorous job
+   in the project: the archive cannot be recollected if lost.
 2. **Redeploy the patched `steam-auth`.** Repo copy has three fixes not yet
    live: a caught Steam network failure, a checked upsert error, and a
    guarded persona fetch so a failed lookup cannot rename someone to
@@ -164,9 +188,13 @@ Holdfast and Minecraft.
    the design skill. `CLAUDE_DESIGN_BRIEF.md` is the live product brief for
    what a design pass must keep working; treat anything about the four
    earlier canvas directions as superseded.
-4. **Discord `/deploy-server` command**, handed to Codex, in the separate
-   `coldstream-bot` repo. Calls the Pterodactyl Application API against the
-   eggs in `infra/game-servers/`, does not provision a new VPS.
+4. **Shipped, kept here so nobody re-opens it.** The Discord deploy command
+   landed in the separate `coldstream-bot` repo as `/games deploy`, not
+   `/deploy-server`, in `8a422a6`, with status controls in `98a3867` and a
+   cooldown note in `605115f`. It calls the Pterodactyl Application API
+   through `src/lib/pterodactyl.js` against the eggs in
+   `infra/game-servers/`, and does not provision a new VPS. That repo's
+   `HANDOFF.md` carries the detail.
 
 ## Things not to do
 
