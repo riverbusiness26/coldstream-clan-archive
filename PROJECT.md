@@ -163,7 +163,7 @@ More than one agent works this repo at once, coordinating only through
   otherwise pay to rule it out again. The old rule said to log what you
   changed, so these sessions fell straight through it and left no trace.
 
-## Current state, as of 23 Aug 2026, verify with the script above
+## Current state, as of 24 Aug 2026, verify with the script above
 
 Live: site on `coldstreamgaming.com` over TLS, Steam sign in end to end,
 one member (River, admin), the Archive, gallery, shoutbox, Discord presence,
@@ -172,34 +172,37 @@ Holdfast and Minecraft.
 
 **Priority order right now:**
 
-1. **Nightly database backup. It is failing, not merely unconfigured.**
-   `.github/workflows/backup-database.yml` had run 59 times as of 23 Aug 2026
-   and had succeeded zero times, ever. Nothing surfaced that, because nothing
-   ever asked the workflow how it went. `node scripts/status.mjs` asks now.
-   Every run dies on its first step, the config guard, so the export has
-   never executed. It needs three things, not one: the secrets
-   `SUPABASE_SERVICE_ROLE_KEY` and `BACKUP_REPOSITORY_TOKEN`, plus the
-   **variable** `BACKUP_REPOSITORY`, which goes on the Variables tab and not
-   the Secrets tab. It pushes to a separate private repo, since this one is
-   public. `DURABILITY.md` has the full table and said "one secret, into
-   backup/" until 23 Aug, which is part of why this went unfixed. Highest
-   value unglamorous job in the project: the archive cannot be recollected
-   if lost.
-2. **Redeploy the patched `steam-auth`.** Repo copy has three fixes not yet
+1. **Redeploy the patched `steam-auth`.** Repo copy has three fixes not yet
    live: a caught Steam network failure, a checked upsert error, and a
    guarded persona fetch so a failed lookup cannot rename someone to
-   "Player 97257".
-3. **Design.** River is redoing the site's visual direction directly with
+   "Player 97257". `status.mjs` proves the function is healthy and
+   redirecting, which is not the same as proving the patched build is live.
+2. **Design.** River is redoing the site's visual direction directly with
    the design skill. `CLAUDE_DESIGN_BRIEF.md` is the live product brief for
    what a design pass must keep working; treat anything about the four
    earlier canvas directions as superseded.
-4. **Shipped, kept here so nobody re-opens it.** The Discord deploy command
-   landed in the separate `coldstream-bot` repo as `/games deploy`, not
-   `/deploy-server`, in `8a422a6`, with status controls in `98a3867` and a
-   cooldown note in `605115f`. It calls the Pterodactyl Application API
-   through `src/lib/pterodactyl.js` against the eggs in
-   `infra/game-servers/`, and does not provision a new VPS. That repo's
-   `HANDOFF.md` carries the detail.
+3. **Bump `actions/checkout@v4` and `actions/setup-node@v4`**, in
+   `backup-database.yml`, `house-rules.yml` and `server-status.yml`. They
+   target Node 20, which is deprecated, and GitHub is currently forcing them
+   onto Node 24 with a warning. When that fallback is removed they break, and
+   one of the three is the backup. A scheduled silent failure with a warning
+   already printing is exactly what this project keeps getting caught by.
+
+**Done, and kept here because both were long running blind spots:**
+
+- **The nightly database backup works, from 24 Aug 2026.** Run 62 was the
+  first success in 62 attempts. All six steps green, all 17 tables exported.
+  Everything before it failed on the config guard, so the export had never
+  once executed. `status.mjs` now reports it, so a lapse shows up within a
+  day rather than never. `DURABILITY.md` carries the setup runbook and the
+  token expiry date.
+- **The Discord deploy command shipped.** It landed in the separate
+  `coldstream-bot` repo as `/games deploy`, not `/deploy-server`, in
+  `8a422a6`, with status controls in `98a3867` and a cooldown note in
+  `605115f`. It calls the Pterodactyl Application API through
+  `src/lib/pterodactyl.js` against the eggs in `infra/game-servers/`, and
+  does not provision a new VPS. That repo's `HANDOFF.md` carries the detail.
+  Do not re-open it as `/deploy-server`, a name that was never built.
 
 ## Things not to do
 

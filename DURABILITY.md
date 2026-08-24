@@ -83,10 +83,17 @@ shoutbox, member accounts, events.
 `.github/workflows/backup-database.yml` exports every table as JSON every
 night. Once it is running, losing Supabase entirely costs at most a day.
 
-**It is not running, and never has been.** As of 23 Aug 2026 it had run 59
-times and succeeded zero times. Every run dies on its first step, the config
-guard, so the export has never executed and nothing after step 2 has ever
-been reached. Verified from the GitHub Actions API, not assumed.
+**It works, from 24 Aug 2026.** Run 62 was the first success, at
+2026-08-24T02:19:07Z. All six steps green, all 17 tables exported and
+committed to the private backup repository.
+
+It is worth knowing what it took, because the shape of this failure will
+recur. Runs 1 to 59 all died on step 2, the config guard, so the export had
+never once executed: the workflow needed three settings and this document
+said it needed one. Nothing surfaced it for months because nothing ever asked
+the workflow how it went. `node scripts/status.mjs` asks now, and counts
+successful runs rather than checking the latest one, so a lapse shows up
+within a day instead of never.
 
 This section previously said the export writes to `backup/*.json` in this
 repo and needs one secret. Both were wrong, and the second one is why the
@@ -137,7 +144,10 @@ Three ways to handle it, in order of how well they work:
    right answer if this keeps biting. It is more setup than it is worth for
    one nightly job today.
 
-**Token expires:** not yet created, fill this in.
+**Token expires:** created 24 Aug 2026. **River, put the expiry date here.**
+It is on the token at <https://github.com/settings/personal-access-tokens>.
+This line being blank is the whole failure mode: the backup stops on a date
+nobody wrote down.
 
 #### Setting it up, once, in order
 
@@ -186,10 +196,32 @@ then Run workflow. All six steps green. Then run `node scripts/status.mjs`
 and check the Backups line reads OK, which is the real proof: it asks the API
 how many runs have ever succeeded, rather than trusting one green tick.
 
-Reading a failure by which step died: **step 2** is a missing or
-misplaced setting. **Step 3** is the backup repo having no commits, the token
-not listing that repo, or `BACKUP_REPOSITORY` misspelled. **Step 4** is the
-Supabase key being wrong.
+Reading a failure by which step died, all three of these happened during the
+first setup on 24 Aug:
+
+**Step 2, "Check backup settings".** One of the three is missing or empty.
+Most likely `BACKUP_REPOSITORY` sitting on the Secrets tab instead of
+Variables, where the guard reads it as absent.
+
+**Step 3, "actions/checkout".** The give-away line is
+`Retrieving the default branch name` followed by `Not Found`, retried twice
+and then fatal. On a private repository GitHub returns 404 rather than 403 to
+avoid confirming that a repo exists to someone guessing names, so **"Not
+Found" and "your token may not see this" are the same answer.** It means
+either no repository exists at that exact path, or the token cannot see it.
+Check, in order: the repo name character for character against the browser
+address bar; the token's **Repository access** setting, where the
+"Public repositories" option cannot see any private repo and fails exactly
+like this; and whether the repo was created *after* the token, since a fine
+grained token pinned to selected repositories does not pick up repos made
+later. Note that an empty repository does **not** fail here, it fails later
+with a missing ref, so this error is never about the missing README.
+
+**Step 4, "Export every table".** Supabase, not GitHub. The service role key
+is wrong, or is actually the `anon` key. The export deliberately fails the
+whole run on any table it cannot read rather than saving a convincing partial
+snapshot, so this can also mean a table was dropped without the list in the
+workflow being updated.
 
 The service role key is used deliberately: it bypasses row level security,
 which is the only way to back up the staff board and the unapproved uploads

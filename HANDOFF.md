@@ -959,3 +959,72 @@ creating a repository and making a public or private decision need him
 regardless. One thing worth saying out loud: `actions/checkout` cannot check
 out a repository with no commits, so the new private repo needs at least an
 initial commit, a README is enough, before the first run can pass step 3.
+
+## 2026-08-24 - The nightly backup works. First success in 62 attempts (Claude, River side)
+
+River set the three settings and ran it by hand. Run 62,
+2026-08-24T02:19:07Z, all six steps green, all 17 tables exported and
+committed to the private backup repository. `node scripts/status.mjs` now
+reads `OK nightly backup last succeeded`, where yesterday it read
+`CHECK ... has NEVER succeeded`.
+
+The archive's live data has a backup for the first time since the site went
+up. Runs 1 to 59 all died on the config guard, so the export had never once
+executed, and nothing had ever noticed because nothing ever asked the
+workflow how it went.
+
+### The two failures on the way, both now in DURABILITY.md
+
+Runs 60 and 61 failed, and the second one is worth recording properly because
+the error is actively misleading.
+
+`actions/checkout` reported `Retrieving the default branch name` then
+`Not Found`, twice retried, then fatal. That reads like the repository does
+not exist. It is not what it means. **On a private repository GitHub returns
+404 rather than 403**, deliberately, so that a credential without access
+cannot confirm a repo exists by the shape of the refusal. So "Not Found" and
+"your token cannot see this" are indistinguishable from the log.
+
+Worth knowing which things it is NOT, since all three are plausible and all
+three are wrong: it is not the missing README, an empty repo gets past this
+step and fails later on a missing ref. It is not the Supabase key, that is
+step 4. It is not the config guard, that is step 2 and it had already passed.
+
+The real causes, in the order to check them, are in DURABILITY.md now. The
+one I would bet on next time is the token's **Repository access** set to
+"Public repositories", which cannot see a private repo and fails exactly like
+this. Second is a fine grained token created *before* the repository, since
+one pinned to selected repositories does not pick up repos made afterwards.
+
+**River did not say which of these it actually was.** If you are reading this
+and you know, put it in DURABILITY.md. I have documented the candidates
+rather than claim a cause I did not verify.
+
+### Docs corrected, since several were describing a job that did not exist
+
+- `PROJECT.md`: the backup is off the priority list and into a Done section.
+  Priority 1 is now the `steam-auth` redeploy, unchanged and still open.
+  Also fixed a duplicated entry I introduced yesterday.
+- `DURABILITY.md`: the "it is not running" section rewritten around run 62,
+  and the failure reading guide expanded with the 404 explanation above.
+- The `Token expires:` line is still blank and River needs to fill it in.
+  Fine grained tokens cap at 366 days, so the backup now has a date on which
+  it stops, and the only question is whether anyone wrote that date down.
+
+### New, added to the priority list
+
+`actions/checkout@v4` and `actions/setup-node@v4` target Node 20, which is
+deprecated. GitHub is currently forcing them onto Node 24 and printing a
+warning on every run, including the successful backup. When that fallback is
+removed they break. Three workflows are affected: `backup-database.yml`,
+`house-rules.yml` and `server-status.yml`, and one of those is the backup we
+just spent two days fixing. A scheduled breakage that is already printing its
+own warning is exactly the failure this project keeps walking into, so it is
+on the list rather than in a comment.
+
+### Still worth doing, not blocking
+
+Nobody has looked inside the backup repository yet. `latest/_manifest.json`
+carries the row counts per table and the source commit. That is the only real
+proof the contents are right rather than merely present, and it is a two
+minute check that nobody has done.
