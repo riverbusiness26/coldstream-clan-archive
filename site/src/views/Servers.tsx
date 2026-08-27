@@ -1,11 +1,9 @@
 // Live server tracker. GitHub Actions refreshes public game-query data every
 // few minutes so visitors can see the community servers without touching the
 // game ports from their browser.
-import { useEffect, useState } from 'react';
-import { supa } from '../lib/supa';
-import { servers as seedServers, type ServerInfo } from '../lib/content';
 import { GAME_NAMES } from '../lib/games';
 import { asset } from '../lib/asset';
+import { useLiveServers } from '../lib/useLiveServers';
 
 const GAME_LOGOS: Record<string, string> = {
   HOL: '/game-logos/holdfast.webp',
@@ -14,20 +12,7 @@ const GAME_LOGOS: Record<string, string> = {
 };
 
 export default function Servers() {
-  const [servers, setServers] = useState<ServerInfo[]>(seedServers);
-
-  useEffect(() => {
-    if (!supa) return;
-    const sb = supa;
-    const load = () => sb.from('server_status').select('*').then(({ data }) => {
-      if (!data) return;
-      const live = new Map((data as ServerInfo[]).map((server) => [server.server_key, server]));
-      setServers(seedServers.map((server) => ({ ...server, ...live.get(server.server_key) })));
-    });
-    load();
-    const t = setInterval(load, 30000);
-    return () => clearInterval(t);
-  }, []);
+  const servers = useLiveServers();
 
   return (
     <div className="wrap solo">

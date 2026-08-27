@@ -1,10 +1,11 @@
 // The front page: hero, real news from our old sites, chat room, stats,
 // server strip. A noticeboard, not a marketing page.
 import { useEffect, useState } from 'react';
-import { news, servers } from '../lib/content';
+import { news } from '../lib/content';
 import { GAME_NAMES } from '../lib/games';
 import summary from '../seed/summary.json';
 import { supa } from '../lib/supa';
+import { useLiveServers } from '../lib/useLiveServers';
 
 interface Up { id: string; title: string; game: string | null; starts_at: string }
 const DEMO_EVENTS_KEY = 'csg-demo-events-v1';
@@ -74,6 +75,7 @@ import type { Me } from '../lib/auth';
 import { asset } from '../lib/asset';
 
 export default function Home({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
+  const servers = useLiveServers();
   const totalEvents = summary.events;
   const latest = news.filter((n) => n.body && n.body.trim()).slice(-4).reverse();
 
