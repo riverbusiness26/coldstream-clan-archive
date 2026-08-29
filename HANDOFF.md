@@ -1841,3 +1841,75 @@ horizontal overflow, now actually demonstrated.**
 Note for whoever tests next: with the pane emulating 375, `scrollWidth`
 reports 423 while `clientWidth` reports 375. That gap is the emulation, not
 the page. The scroll attempt is the test that does not lie.
+
+## 2026-08-28 - The lineage page: the mojibake was never in the file (Claude, River side)
+
+River asked to clean up `/lineage/`, match it to the site, get rid of the
+"weird characters like a-hat-euro", and drop one paragraph. Three of those
+four were the same bug.
+
+### The characters were correct. The declaration was missing.
+
+**Do not find-and-replace mojibake in this repo.** `lineage/index.html` is
+valid UTF-8 and always was: `e2 80 9d` is a real right double quote, `e2 80
+94` a real em dash. `file` reports UTF-8. What the page did not have was any
+charset declaration at all, and the origin serves it as:
+
+```
+Content-Type: text/html
+x-content-type-options: nosniff
+```
+
+No `; charset=utf-8`, and `nosniff` on top. So the browser fell back to the
+locale default, Windows-1252 on a US Windows machine, and rendered every
+multi-byte sequence as the a-hat-euro soup River was seeing. **The fix is one
+`<meta charset="utf-8" />`.** Replacing the characters would have destroyed
+correct data and left the actual cause in place for the next file.
+
+Live now: `document.characterSet` is UTF-8 and **76 curly quotes and em dashes
+render as themselves, mojibake count zero.**
+
+If another static page here ever shows the same soup, check for the meta tag
+before you touch a single character.
+
+### It was also in quirks mode
+
+The file was a bare fragment: no doctype, no `<html>`, no `<head>`, no
+`<body>`. Browsers render that, but in **quirks mode**. Now wrapped properly,
+and `document.compatMode` reads `CSS1Compat` on the live page.
+
+### The Google Fonts on this page have been dead since 21 August
+
+The page linked Saira Condensed, Newsreader and IBM Plex Mono from
+fonts.googleapis.com. **`font-src 'self'` and `style-src 'self'` have been
+enforcing since 21 Aug, so all three were blocked in production the entire
+time** and every visitor has been reading it in fallback system faces. Nobody
+noticed because it fails silently and looks merely plain.
+
+Removed, and the page now self hosts the same woff2 files the app already
+ships at `/fonts/`. It is using the brand faces for the first time.
+
+### Style
+
+Dark only, matching the rest of the site. It was light by default with a
+`prefers-color-scheme` override and a `data-theme` override; both are gone
+rather than left to rot. All 15 font declarations point at tokens.
+
+`--scarlet` is brass and is the general accent. The other four era colours,
+`--union` `--midnight` `--nox` `--roar`, stay distinct and only come down in
+saturation to sit on a dark ground: telling 21stPA from RoaR from Nox Viator
+is real work that colour is doing on this page, and flattening them all to
+brass would have cost information to gain tidiness.
+
+Paragraph beginning "The community has not always told the same story about
+the month" removed as asked.
+
+### Verified
+
+Before pushing, against a local server that reproduces the origin exactly
+(`text/html`, no charset, `nosniff`) rather than against a dev server that
+would have quietly sent `charset=utf-8` and hidden the whole bug. Then again
+on the live domain: UTF-8, standards mode, zero mojibake, both families
+loaded, no Google font links left, **no console errors and so no CSP
+violations**, and at 375px the body measures exactly 375 and will not scroll
+sideways.
