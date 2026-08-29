@@ -1785,3 +1785,59 @@ as an afterthought. Live at coldstreamgaming.com, read off the real page:
   does extend past a phone viewport, and that is correct: it lives in
   `.tscroll` and scrolls inside its own box, which is the behaviour the two
   long comments in styles.css exist to protect.
+
+## 2026-08-28 - The roster opens by year, and my overflow test was wrong (Claude, River side)
+
+### The roster is shut until you pick a year
+
+River's call, and the reason is plain once you see it: 384 names arriving at
+once is a wall, not a record. It could not be read, and it buried every other
+section on the Archive under a mile of scroll.
+
+The years are the way in now. Pick one and its people expand underneath; pick
+the same one again and it shuts.
+
+**Two escape hatches, because closed by default must not mean unreachable.**
+
+- **Search is always visible, and with no year picked it looks across every
+  year.** Somebody who knows a name should not have to guess which year that
+  person joined in order to find them. This is the one that would have made
+  the feature actively worse if it had been left out.
+- **"All years" is still there**, moved to the end of the row. The wall of 384
+  is now something a member opts into, not something they land on.
+
+Year chips carry their own count (2011 is 96, 2012 is 93, 2013 is 36). Without
+it the closed state is a row of bare years with nothing to tell them apart,
+which makes picking one a guess. The game filter only renders once there is a
+list for it to filter, rather than floating above an empty panel.
+
+Verified on the live domain: closed shows 0 rows and the prompt, 2012 expands
+to 93, clicking it again collapses, and searching with no year picked returns
+211 across all years.
+
+### Correction: how I was testing horizontal overflow was wrong
+
+**Every "no horizontal overflow" claim I made earlier in this session was
+measured against `window.innerWidth`, and in this browser pane that returns
+the scroll width rather than the viewport.** So the comparison was
+`scrollWidth > scrollWidth + 1`, which is false by construction. It could
+never have caught a real overflow. The conclusions happen to have been right,
+but the test was not evidence and I should not have reported it as such.
+
+**Use `documentElement.clientWidth`**, and better still, prove it by trying to
+scroll:
+
+```js
+const de = document.documentElement;
+de.scrollLeft = 9999;              // then read it back
+// stays 0  ->  the page genuinely cannot scroll sideways
+```
+
+Re-tested properly at 375px on the live site: `body` measures exactly 375,
+`visualViewport` 375 at scale 1, `scrollLeft` will not move off 0, and no
+element outside a `.tscroll` box extends past the client width. **No
+horizontal overflow, now actually demonstrated.**
+
+Note for whoever tests next: with the pane emulating 375, `scrollWidth`
+reports 423 while `clientWidth` reports 375. That gap is the emulation, not
+the page. The scroll attempt is the test that does not lie.
