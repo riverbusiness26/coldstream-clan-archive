@@ -216,8 +216,15 @@ async function siteState() {
   try {
     const res = await fetch(SITE, { redirect: 'follow' });
     const html = await res.text();
-    const bundle = html.match(/index-[A-Za-z0-9-]+\.js/)?.[0] ?? 'none found';
-    out.push(ok(`domain serves ${bundle}`));
+    // Underscore belongs in this class. Vite hashes with a base64url alphabet,
+    // so roughly half of all builds produce one, and without it this reported
+    // "none found" as an OK line: the one check that proves the domain is
+    // serving anything at all, quietly passing while telling you nothing.
+    // Found by index-DQ_scNV2.js on 29 Aug.
+    const bundle = html.match(/index-[A-Za-z0-9_-]+\.js/)?.[0];
+    out.push(bundle
+      ? ok(`domain serves ${bundle}`)
+      : bad('domain served no bundle reference, so the root may be a stale or partial index.html'));
     out.push(html.includes('location.hostname')
       ? ok('www to apex guard present')
       : bad('www to apex guard MISSING, sessions will split across origins'));
