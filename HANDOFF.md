@@ -2121,3 +2121,119 @@ Valheim and Minecraft are not live. They cost about ten seconds of timeouts
 every five minutes and put two permanently offline rows on the site. Left in
 place rather than trimmed, because whether they are placeholders for something
 arriving shortly is River's call and not visible from here.
+
+## 2026-08-29 - The gallery, pass two: a media model, and two defects it exposed (Claude, River side)
+
+Pass one gave the gallery River's layout and one viewer. This adds what a
+gallery is actually asked for: search, sort, a featured shelf, collections,
+deep linked media, and the states that appear when there is nothing to show.
+
+### lib/media.ts is the change; everything else follows from it
+
+The view used to hold two shapes at once and branch on which was which. The
+recovered seed is read synchronously at import and moderated by nobody; a
+gallery_item row arrives over the network and is moderated by a human. Holding
+both and branching is how the two halves drifted into different lightboxes,
+different filters and different link behaviour in the first place.
+
+Everything above `lib/media.ts` now sees one `MediaItem`. `fetchMedia` is the
+only IO and runs once; `selectMedia` is pure, so filtering never refetches.
+**Swapping Supabase for a CMS or an object store means rewriting `fetchMedia`
+and nothing else.**
+
+`origin` stays on the item, because keeping the record and the wall apart is
+editorial and not cosmetic. A recovered plate can be checked and says where it
+came from. A member upload has an author and no provenance and must never be
+dressed up as though it had any.
+
+### Two defects, found by testing rather than by reading
+
+- **A button inside a button.** The moderation controls rendered as `children`
+  of the tile, which is itself a `<button>`. React warns, it is invalid HTML,
+  the inner control is unreachable in some assistive technology, and a click
+  fires both. It came in with pass one and I did not catch it then because I
+  tested that the buttons *worked*, not that the markup was legal. They are a
+  sibling in `.frame-wrap` now, and the pending queue is a plain uniform grid,
+  which suits a moderation utility better than justified rows anyway.
+- **Opening a film from the wall paged through the featured shelf.** The
+  viewer resolved the open item by searching a fixed list order rather than by
+  where it was clicked, so an item that appeared in two places opened into
+  whichever list was checked first. The list is passed along with the item now.
+  Verified: the same film reads 6 of 20 from the wall, 3 of 3 from the shelf,
+  and a record plate reads 1 of 12.
+
+### The categories in the brief are not the categories in the database
+
+The brief asked for Screenshots, Gameplay, Trailers, Events, Artwork and
+Community. `gallery_category` holds Napoleonic Wars, Counter-Strike,
+Battlegrounds 2, Holdfast, Garry's Mod, Other Games, Films and the locked
+archive, seeded by 0009 with RLS behind it.
+
+**I did not overwrite them.** They are different questions: one asks which
+game, the other asks what kind of thing this is. The six are a second axis, a
+`collection`, and both filter independently. The only collection anything is
+tagged with today is `screenshots`, derived truthfully because every recovered
+plate is one; nothing else is guessed, and a facet row with one entry does not
+render at all.
+
+### 0021, and why nothing needs it
+
+It adds description, tags, collection, duration, featured, views, downloadable
+and captions, plus a `security definer` function for the view counter so an
+anonymous visitor can add one to a count and touch nothing else.
+
+**None of it is required.** The client reads these off a `select *`, so until
+it runs they are undefined and the page falls back: no descriptions, nothing
+featured, no view counts, "most viewed" not even offered as a sort, durations
+hidden rather than guessed. The upload form retries without the extras and
+tells the member what was not saved, rather than losing their submission.
+0020 sat unrun for a week, so this is not hypothetical. **0020 is still unrun,
+and 0021 is written to run after it.**
+
+### App.tsx routes on the first hash segment
+
+One line, claimed first. `#/gallery/<id>` used to be read as the name of a
+view, so a shared link landed on nothing.
+
+### Verified
+
+`tsc -b` and `vite build` clean; there is **no test suite and no linter in
+this repo**, so those two lines of the checklist have nothing to run and I am
+not going to pretend otherwise. `tsc -b` is the type check and `npm run build`
+runs it first.
+
+Behaviour was tested against three servers, because one live gallery of twelve
+plates and two uploads cannot exercise any of this: the real one, a demo mode
+one seeded with videos, featured items, all six collections, awkward aspect
+ratios and thirty items, and a third pointed at the real Supabase URL with a
+deliberately invalid key to make the error path real rather than imagined.
+
+- Search reaches titles, tags and the names legible in a plate. Sorts checked
+  by reading the rendered order back, not by trusting the comparator.
+- Deep link cold loads straight into the viewer with the nav correct. The
+  browser back button closes it. Escape closes it. A shared link, which has no
+  history entry of ours, replaces instead of throwing the reader off the site.
+- Focus starts on Close, Tab wraps inside the dialog, and focus returns to the
+  tile that opened it. Zero unlabelled controls, zero images without alt.
+- Films play in the viewer and offer no Download, because a YouTube film is
+  not ours to hand over. Photos offer one.
+- Progressive loading 24 then 29, the button retires when the set is
+  exhausted, and changing a filter resets to the first page.
+- Error state: names the real error, says which half failed and which did not,
+  offers a retry, and the twelve recovered plates and the whole toolbar keep
+  working.
+- 375px: body measures exactly 375, `scrollLeft` will not move off 0, nothing
+  outside a `.tscroll` box exceeds the client width.
+
+Live on `index-DQ_scNV2.js`. The only console error on the domain is the
+Discord widget's CORS failure, and its `Access-Control-Allow-Origin` currently
+reads `http://localhost:5199`, which is my own dev server: that is a cached
+response from this session's testing, not a production fault. Worth a proper
+look by whoever owns that component.
+
+### Still open, and still River's
+
+- **`SYNC_SECRET`** is almost certainly unset, which is why steam-presence
+  fails in under a second every five minutes.
+- **0020 and now 0021** both want running in the SQL editor.
+- **Valheim and Minecraft** are still in the server poll list and still down.
