@@ -98,15 +98,28 @@ export default function Archive({ me }: { me: Me | null }) {
   const peak = Math.max(...eras.map((e) => e.events), 1);
 
   return (
-    <div className="wrap solo">
+    <div className="wrap solo recordroom">
       <main>
+        {/* The record room, per CSG Archive.png and artwork.png: the page says
+            what it is before any module does, and the section marks sit on the
+            page rather than on a box lid. */}
+        <div className="page-head">
+          <h2>The Archive</h2>
+          <p className="page-sub">The record room.</p>
+        </div>
+
         <div className="module">
           <div className="mhead"><h3>The Numbers</h3><span className="sub">the community, counted</span></div>
-          <div className="stats" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
-            <div className="stat"><div className="n">{people.length}</div><div className="l">members on the roll</div></div>
-            <div className="stat"><div className="n">{eventStats.reduce((n, e) => n + e.events, 0)}</div><div className="l">events on record</div></div>
-            <div className="stat"><div className="n">{FILMS.length}</div><div className="l">films preserved</div></div>
-            <div className="stat"><div className="n">15</div><div className="l">years running</div></div>
+          {/* Label over figure, with where it came from underneath. The refs
+              put a source line on every number and they are right to: a bare
+              count on an archive page is a claim, and this is the one page
+              where every claim is supposed to say who is making it. The
+              wording is what the seeds actually are, not a masthead. */}
+          <div className="stats sourced" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+            <div className="stat"><div className="l">members on the roll</div><div className="n">{people.length}</div><div className="src">from the community archives</div></div>
+            <div className="stat"><div className="l">events on record</div><div className="n">{eventStats.reduce((n, e) => n + e.events, 0)}</div><div className="src">from 1,210 archived announcements</div></div>
+            <div className="stat"><div className="l">films preserved</div><div className="n">{FILMS.length}</div><div className="src">recovered video, catalogued</div></div>
+            <div className="stat"><div className="l">years running</div><div className="n">15</div><div className="src">April 2011 to now</div></div>
           </div>
         </div>
 
@@ -139,6 +152,11 @@ export default function Archive({ me }: { me: Me | null }) {
             thread, lives on the{' '}
             <a href={ARCHIVE_URL} target="_blank" rel="noopener" className="ilink">archive site</a>.
           </div>
+          {/* River's line, from artwork.png. It states the editorial rule this
+              whole page follows, so it belongs on the page and not in a brief. */}
+          <blockquote className="pullquote">
+            We keep the nights.<br />We do not keep a scoreboard.
+          </blockquote>
         </div>
 
         <Roster />
