@@ -1717,3 +1717,71 @@ the build nor a page load would have shown them. House brand now.
 - **`steam-presence.yml`.** Still needs one authenticated curl to read the
   function's own error body. Nobody should guess at this; the answer is one
   command away for whoever holds `SYNC_SECRET`.
+
+## 2026-08-28 - The Archive gets the record room treatment, and the roster was already in it (Claude, River side)
+
+River: "move the roster to the archive site, use the same art style on the
+archive site, reference the archive pictures in the folder."
+
+### Two things that were not what they looked like
+
+**There is no separate archive site.** The folder that looks like one,
+`CSG History & Archive/2nd Coldstream Guards/CSG Archive Project/coldstream-research`,
+is a **clone of this same repository**: same remote, same CNAME, and it
+carries its own `STALE-DO-NOT-USE.md` saying so in the first line. I did not
+touch it. Anyone who reads "the archive site" as a second property will land
+there and start editing a checkout that can never publish. It means the
+Archive page of coldstreamgaming.com.
+
+**The roster was already in the Archive.** `<Roster />` renders inside
+`views/Archive.tsx`, and the footer link has pointed at `#/archive` since
+whoever moved it left the note in `App.tsx` about old `#/members` links. So
+there was nothing to move and nothing moved. Confirmed on the live domain:
+the Archive runs twelve sections and The Roster is the fourth, 384 rows.
+
+### What the refs actually added
+
+`CSG Archive.png` and `artwork.png`, applied and scoped to a `.recordroom`
+class so no other view shifted:
+
+- **A page title.** "The Archive" over "The record room." The Archive is the
+  one page that is about the record rather than about tonight, so it gets a
+  header in its own right instead of arriving as another module.
+- **Section marks on the page, not on a box lid.** The brass chevron from the
+  refs, pointing back the way you came, which on an archive reads as earlier.
+- **Numbers that say where they came from**, reordered to label, figure,
+  source. The refs put a provenance line under every count and they are right
+  to: a bare number on an archive page is a claim, and this is the page where
+  every claim is supposed to name its source.
+
+  **I did not copy the refs' wording here.** They read "SOURCED: CSG
+  CHRONICLE". There is no CSG Chronicle in this repo, and stamping an
+  invented masthead under four numbers on the one page whose entire promise
+  is provenance would have been the worst possible place to make something
+  up. The lines say what the seeds actually are.
+- **River's own line from `artwork.png`** as a pull quote: "We keep the
+  nights. We do not keep a scoreboard." It states the editorial rule the page
+  already follows, so it belongs on the page.
+
+### Deliberately not done, because it needs art that does not exist
+
+The refs show a **shield glyph on every roster row** and a **filing cabinet
+drawer** treatment for the four archive categories. Both need real assets.
+Approximating them in CSS would have read as a worse version of the mockup
+rather than a faithful one, so they are left out and flagged rather than
+faked. If River wants them, the ask is for the drawer and shield art.
+
+### Verified on the live domain
+
+Published as `115e8ee`, root updated in the same commit this time rather than
+as an afterthought. Live at coldstreamgaming.com, read off the real page:
+
+- `assets/index-VVl2wb28.js` serving, so the root moved.
+- Page title in Cormorant Garamond, subtitle present, chevron rendering
+  `««` in brass `rgb(176,141,87)`, stat children in `l` `n` `src` order,
+  pull quote present.
+- Twelve sections, The Roster among them at 384 rows.
+- No page level horizontal overflow at desktop or 375px. The roster table
+  does extend past a phone viewport, and that is correct: it lives in
+  `.tscroll` and scrolls inside its own box, which is the behaviour the two
+  long comments in styles.css exist to protect.
