@@ -1,454 +1,457 @@
-// The gallery. Two halves that are deliberately kept apart, and one way of
-// looking at anything in either.
+// The gallery: a record room for the pictures.
 //
-// "From the Record" is the recovered material: screenshots pulled back off
-// Photobucket and imgur before the links died for good. Every one of them
-// carries its date, the names legible in it, and the address it came from,
-// because the whole point of the record is that you can check it.
+// Two halves that are deliberately kept apart, and one way of looking at
+// anything in either. That split is River's call and it is editorial, not
+// cosmetic:
 //
-// "From Members" is the live half: anything a signed-in member adds. Those
-// land unapproved and a moderator clears them, so the two can never be
-// confused for each other.
+//   "From the Record" is recovered material, pulled back off Photobucket and
+//   imgur before the links died. Every plate carries its date, the names still
+//   legible in it, and the address it came from, because the whole point of
+//   the record is that you can check it.
 //
-// The layout is River's ref (Site refs/website/games.png): the record on the
-// left, members in a rail on the right under one button. What the ref does not
-// show is what happens when the members' half outgrows a 336px rail, so above
-// RAIL_HOLDS approved items the wall breaks out full width underneath both
-// columns and the rail keeps the newest plate and the button.
+//   "From Members" is the live half. It carries an author and a date and no
+//   provenance at all, and it must never be dressed up as though it had any.
 //
-// A note on the recovered half, so nobody wires it to the wrong thing: it is
-// the seed at src/seed/gallery.json, rendered on the client. The locked
-// 'the-archive' category in gallery_category is a different object, it is
-// empty, and nothing here reads from it.
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { supa } from '../lib/supa';
+// The layout is River's ref, Site refs/website/games.png: the record on the
+// left, members in a rail on the right under one button. Above RAIL_HOLDS
+// approved items the wall breaks out full width beneath both columns, because
+// a 336px rail becomes a second and worse gallery once it has to hold a set.
+//
+// Searching or filtering leaves that composition on purpose. A result set is
+// one list, and splitting it across two columns of different widths would ask
+// the reader to scan twice to answer one question.
+//
+// A note so nobody wires the wrong things together: the recovered half is the
+// bundled seed at src/seed/gallery.json. The locked 'the-archive' category in
+// gallery_category is a different object, it is empty, and nothing here reads
+// from it.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
+import type { MediaItem } from '../lib/media';
+import { fetchMedia, recordView, selectMedia, shownDate } from '../lib/media';
 import SteamButton from '../components/SteamButton';
 import PlateViewer from '../components/PlateViewer';
 import UploadDrawer from '../components/UploadDrawer';
-import { one } from '../lib/rel';
-import shotsSeed from '../seed/gallery.json';
+import MediaToolbar, { type Facets } from '../components/MediaToolbar';
+import { MediaGrid, MediaTile } from '../components/MediaGrid';
+import { supa } from '../lib/supa';
 import { demoGallery } from '../lib/demoGallery';
-import { asset } from '../lib/asset';
-import type { Plate } from '../lib/gallery';
-import { BROWSE_CATEGORIES, categoryBySlug, youtubeThumb } from '../lib/gallery';
 
-interface Shot {
-  src: string;
-  w: number;
-  h: number;
-  caption: string;
-  date: string | null;
-  year: number | null;
-  game: string;
-  who: string[];
-  source: string;
-}
-
-interface Upload {
-  id: string;
-  storage_key: string | null;
-  category_id: string | null;
-  category_slug?: string | null;
-  media_type: 'image' | 'video';
-  video_id: string | null;
-  caption: string | null;
-  game: string | null;
-  year: number | null;
-  width?: number | null;
-  height?: number | null;
-  approved: boolean;
-  created_at: string;
-  uploader?: { display_name: string } | { display_name: string }[] | null;
-}
-
-const SHOTS = shotsSeed as Shot[];
-const BUCKET = 'gallery';
-
-// How many approved uploads the rail will hold before the wall breaks out on
-// its own. Four is what fits beside the record column without the rail turning
-// into a second, narrower gallery.
 const RAIL_HOLDS = 4;
+/** How many results to render before asking. */
+const PAGE = 24;
 
-const UNDATED = 'undated';
+const BLANK: Facets = {
+  search: '', sort: 'newest', collection: 'all', category: 'all', type: 'all', year: 'all',
+};
 
-const shotYear = (s: Shot) => (s.date ? s.date.slice(0, 4) : s.year ? String(s.year) : null);
+const isBrowsing = (f: Facets) =>
+  !f.search.trim() && f.collection === 'all' && f.category === 'all'
+  && f.type === 'all' && f.year === 'all';
 
-// Aspect ratio for a tile. Unknown dimensions fall back to 16:9, which is what
-// every row written before width and height were being saved will have.
-const ratio = (w: number | null | undefined, h: number | null | undefined) =>
-  w && h ? w / h : 1.7778;
-
-const publicUrl = (k: string | null) =>
-  !k ? '' : k.startsWith('data:') ? k : supa ? supa.storage.from(BUCKET).getPublicUrl(k).data.publicUrl : '';
-
-function toMemberPlate(u: Upload): Plate {
-  const video = u.media_type === 'video' && !!u.video_id;
-  return {
-    key: u.id,
-    kind: 'member',
-    src: video ? youtubeThumb(u.video_id as string) : publicUrl(u.storage_key),
-    // A YouTube poster frame is 16:9 whatever the film is, so it is stated
-    // rather than left to the fallback that happens to agree with it.
-    w: video ? 480 : u.width ?? null,
-    h: video ? 270 : u.height ?? null,
-    caption: u.caption || (u.media_type === 'video' ? 'A film' : 'A screenshot'),
-    media: u.media_type,
-    videoId: u.video_id,
-    game: u.game,
-    year: u.year,
-    by: one(u.uploader)?.display_name ?? 'member',
-  };
-}
-
-// Every picture on the page is one of these, and every one of them opens the
-// viewer on the list it was rendered from.
-function Tile({ list, i, onOpen, children }: {
-  list: Plate[]; i: number; onOpen: (list: Plate[], i: number) => void; children?: React.ReactNode;
-}) {
-  const p = list[i];
-  return (
-    <button className="frame" onClick={() => onOpen(list, i)}
-      style={{ '--ar': ratio(p.w, p.h) } as React.CSSProperties}
-      aria-label={`Open: ${p.caption}`}>
-      <img src={asset(p.src)} alt={p.caption} loading="lazy"
-        width={p.w ?? undefined} height={p.h ?? undefined} />
-      {p.media === 'video' && <span className="playmark2" aria-hidden="true" />}
-      {children}
-      <span className="frame-cap">
-        <b>{p.caption}</b>
-        <span>
-          {p.kind === 'record'
-            ? `${p.date ? p.date.slice(0, 4) : UNDATED}${p.who && p.who.length > 0 ? ` · ${p.who.length} ${p.who.length === 1 ? 'name' : 'names'}` : ''}`
-            : `${p.by}${p.year ? ` · ${p.year}` : ''}`}
-        </span>
-      </span>
-    </button>
-  );
+/** The item id in "#/gallery/<id>", or null. */
+function idFromHash(): string | null {
+  const parts = location.hash.replace(/^#\/?/, '').split('/');
+  return parts[0] === 'gallery' && parts[1] ? decodeURIComponent(parts[1]) : null;
 }
 
 export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => void }) {
-  const [uploads, setUploads] = useState<Upload[] | null>(null);
-  const [catIds, setCatIds] = useState<Record<string, string>>({});
-
-  // One filter per half, each living inside the module it governs. The old
-  // page had a single year filter that quietly reached across both halves
-  // while the category and kind chips reached across only one, so the toolbar
-  // read as global and was not.
-  const [recordYear, setRecordYear] = useState<string>('all');
-  const [browse, setBrowse] = useState<string>('all');
-  const [kind, setKind] = useState<'all' | 'image' | 'video'>('all');
-  const [memberYear, setMemberYear] = useState<string>('all');
-
-  // The viewer is handed the list that was rendered, never a global one.
-  const [viewing, setViewing] = useState<{ list: Plate[]; i: number } | null>(null);
+  const [items, setItems] = useState<MediaItem[] | null>(null);
+  const [pending, setPending] = useState<MediaItem[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [facets, setFacets] = useState<Facets>(BLANK);
+  const [shown, setShown] = useState(PAGE);
   const [drawer, setDrawer] = useState(false);
 
-  const loadUploads = useCallback(() => {
-    if (!supa) { setUploads(demoGallery.list() as unknown as Upload[]); return; }
-    supa
-      .from('gallery_item')
-      .select('*, uploader:member(display_name)')
-      .order('created_at', { ascending: false })
-      .limit(60)
-      .then(({ data }) => setUploads((data ?? []) as Upload[]));
-  }, []);
+  // The hash is the single source of truth for what is open, which is what
+  // makes a deep link, the back button and a click on a tile the same thing.
+  const [openId, setOpenId] = useState<string | null>(() => idFromHash());
+  const pushedOwnEntry = useRef(false);
 
-  useEffect(() => { loadUploads(); }, [loadUploads]);
-
-  // Slug to id, so an insert can name a category the database recognises.
-  // Demo mode has no ids and does not need them.
-  useEffect(() => {
-    if (!supa) return;
-    supa.from('gallery_category').select('id, slug').then(({ data }) => {
-      if (!data) return;
-      setCatIds(Object.fromEntries((data as { id: string; slug: string }[]).map((c) => [c.slug, c.id])));
+  const load = useCallback(() => {
+    setLoadError(null);
+    fetchMedia().then((r) => {
+      setItems(r.items);
+      setPending(r.pending);
+      setLoadError(r.error);
+    }).catch((e: unknown) => {
+      setItems([]);
+      setLoadError(e instanceof Error ? e.message : 'The gallery could not be loaded.');
     });
   }, []);
 
-  const categorySlugById = useCallback((id: string | null): string | null => {
-    if (!id) return null;
-    const hit = Object.entries(catIds).find(([, v]) => v === id);
-    return hit ? hit[0] : null;
-  }, [catIds]);
+  useEffect(() => { load(); }, [load]);
 
-  const open = useCallback((list: Plate[], i: number) => setViewing({ list, i }), []);
-
-  // ------------------------------------------------------------ the record
-  const recordYears = useMemo(() => {
-    const counts = new Map<string, number>();
-    for (const s of SHOTS) {
-      const y = shotYear(s) ?? UNDATED;
-      counts.set(y, (counts.get(y) ?? 0) + 1);
-    }
-    // Undated last, whatever it sorts as.
-    return [...counts.entries()].sort((a, b) =>
-      a[0] === UNDATED ? 1 : b[0] === UNDATED ? -1 : a[0].localeCompare(b[0]));
+  useEffect(() => {
+    const onHash = () => setOpenId(idFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const recordPlates: Plate[] = useMemo(() => SHOTS
-    .filter((s) => recordYear === 'all' || (shotYear(s) ?? UNDATED) === recordYear)
-    .map((s) => ({
-      key: s.src,
-      kind: 'record' as const,
-      src: s.src,
-      w: s.w, h: s.h,
-      caption: s.caption,
-      media: 'image' as const,
-      videoId: null,
-      game: s.game,
-      year: s.date ? Number(s.date.slice(0, 4)) : s.year,
-      date: s.date,
-      who: s.who,
-      source: s.source,
-    })), [recordYear]);
+  // A new filter is a new list, so start it at the top rather than leaving
+  // somebody several pages into a set that no longer exists.
+  useEffect(() => { setShown(PAGE); }, [facets]);
 
-  // ----------------------------------------------------------- the members
-  const approvedRows = useMemo(
-    () => (uploads ?? []).filter((u) => u.approved),
-    [uploads]);
-  const approvedPlates = useMemo(
-    () => approvedRows.map(toMemberPlate),
-    [approvedRows]);
+  const browsing = isBrowsing(facets);
 
-  const memberYears = useMemo(() => {
-    const ys = new Set<string>();
-    for (const u of approvedRows) if (u.year) ys.add(String(u.year));
-    return [...ys].sort();
-  }, [approvedRows]);
+  const record = useMemo(() => (items ?? []).filter((m) => m.origin === 'record'), [items]);
+  const members = useMemo(() => (items ?? []).filter((m) => m.origin === 'member'), [items]);
 
-  const nShots = approvedRows.filter((u) => u.media_type === 'image').length;
-  const nFilms = approvedRows.filter((u) => u.media_type === 'video').length;
+  const recordHits = useMemo(() => selectMedia(record, facets), [record, facets]);
+  const memberHits = useMemo(() => selectMedia(members, facets), [members, facets]);
+  const results = useMemo(
+    () => selectMedia(items ?? [], facets),
+    [items, facets]);
 
-  const wallPlates = useMemo(() => approvedRows
-    .filter((u) => (browse === 'all' || (u.category_slug ?? categorySlugById(u.category_id)) === browse)
-      && (kind === 'all' || u.media_type === kind)
-      && (memberYear === 'all' || String(u.year ?? '') === memberYear))
-    .map(toMemberPlate),
-  [approvedRows, browse, kind, memberYear, categorySlugById]);
+  const featured = useMemo(
+    () => (items ?? []).filter((m) => m.featured).sort((a, b) => b.sortDate - a.sortDate).slice(0, 6),
+    [items]);
 
-  const featured = approvedPlates[0] ?? null;
-  const breakout = approvedPlates.length > RAIL_HOLDS;
-  const railRest = breakout ? [] : approvedPlates.slice(1);
+  const anyViews = useMemo(() => (items ?? []).some((m) => typeof m.views === 'number'), [items]);
 
-  const pending = (uploads ?? []).filter((u) => !u.approved);
+  // Prev and next walk the set the reader actually clicked in, so opening a
+  // film from the wall pages through the wall rather than through the featured
+  // shelf that happens to contain it as well. A cold deep link has no such
+  // set, and falls back to whichever list holds the item.
+  const clickedIn = useRef<MediaItem[] | null>(null);
+  const viewer = useMemo(() => {
+    if (!openId || !items) return null;
+    const lists = [clickedIn.current, results, recordHits, memberHits, featured, items];
+    for (const list of lists) {
+      const i = list ? list.findIndex((m) => m.id === openId) : -1;
+      if (list && i >= 0) return { list, i };
+    }
+    return null;
+  }, [openId, items, results, recordHits, memberHits, featured]);
+
+  // Count the view once per opening, not once per render.
+  const counted = useRef<string | null>(null);
+  useEffect(() => {
+    const item = viewer?.list[viewer.i];
+    if (!item || counted.current === item.id) return;
+    counted.current = item.id;
+    void recordView(item);
+  }, [viewer]);
+
+  const openItem = useCallback((item: MediaItem, list?: MediaItem[]) => {
+    clickedIn.current = list ?? null;
+    pushedOwnEntry.current = true;
+    location.hash = `#/gallery/${encodeURIComponent(item.id)}`;
+  }, []);
+
+  const closeViewer = useCallback(() => {
+    // Back, so the browser's own control and this button agree. Somebody who
+    // arrived on a shared link has no entry of ours to go back to, so that
+    // case replaces instead of throwing them off the site.
+    if (pushedOwnEntry.current) {
+      pushedOwnEntry.current = false;
+      history.back();
+    } else {
+      location.replace('#/gallery');
+      setOpenId(null);
+    }
+  }, []);
+
+  const goToIndex = useCallback((i: number) => {
+    const next = viewer?.list[i];
+    if (next) location.replace(`#/gallery/${encodeURIComponent(next.id)}`);
+    setOpenId(next?.id ?? null);
+  }, [viewer]);
+
   const canModerate = me?.role === 'moderator' || me?.role === 'admin';
 
   async function approve(id: string) {
-    if (!supa) { demoGallery.approve(id); loadUploads(); return; }
+    if (!supa) { demoGallery.approve(id); load(); return; }
     await supa.from('gallery_item').update({ approved: true }).eq('id', id);
-    loadUploads();
+    load();
   }
-  async function reject(id: string, key: string | null) {
-    if (!supa) { demoGallery.remove(id); loadUploads(); return; }
+  async function reject(id: string) {
+    if (!supa) { demoGallery.remove(id); load(); return; }
+    const { data } = await supa.from('gallery_item').select('storage_key').eq('id', id).maybeSingle();
     await supa.from('gallery_item').delete().eq('id', id);
-    if (key) await supa.storage.from(BUCKET).remove([key]);
-    loadUploads();
+    const key = (data as { storage_key: string | null } | null)?.storage_key;
+    if (key && !key.startsWith('data:')) await supa.storage.from('gallery').remove([key]);
+    load();
   }
 
+  const loading = items === null;
+  const years = new Set((items ?? []).map((m) => m.year).filter(Boolean));
+  const films = (items ?? []).filter((m) => m.type === 'video').length;
+
+  // Memoised so the callback MediaGrid builds from them keeps its identity,
+  // and the tiles under it are not all re-rendered whenever some unrelated
+  // piece of state moves.
+  const resultPage = useMemo(() => results.slice(0, shown), [results, shown]);
+  const recordPage = useMemo(() => recordHits.slice(0, shown), [recordHits, shown]);
+  const memberPage = useMemo(() => memberHits.slice(0, shown), [memberHits, shown]);
+
+  const openFeatured = useCallback((m: MediaItem) => openItem(m, featured), [openItem, featured]);
+  const openRail = useCallback((m: MediaItem) => openItem(m, memberHits), [openItem, memberHits]);
+  const openPending = useCallback((m: MediaItem) => openItem(m, pending), [openItem, pending]);
+
+  const railFeatured = memberHits[0] ?? null;
+  const breakout = memberHits.length > RAIL_HOLDS;
+  const railRest = breakout ? [] : memberHits.slice(1);
+
   return (
-    <div className="wrap plateroom">
-      {/* The page says what it is before any module does, the same way the
-          Archive does. These are siblings: one is the record of the community,
-          this is the record of what it looked like. */}
+    <div className={'wrap plateroom' + (browsing ? '' : ' searching')}>
       <div className="page-head">
-        <h2>The Gallery</h2>
+        <h1>The Gallery</h1>
         <p className="page-sub">The plate room.</p>
       </div>
 
-      <main className="pr-record">
+      {/* Label, figure, then where it came from. The refs put a source line
+          under every count and they are right to: a bare number on a record
+          page is a claim. These say what the seeds actually are. */}
+      <div className="pr-numbers">
         <div className="module">
-          <div className="mhead">
-            <h3>From the Record</h3>
-            <span className="sub">
-              {recordYear === 'all'
-                ? `${SHOTS.length} recovered before the links died`
-                : `${recordPlates.length} of ${SHOTS.length}, ${recordYear === UNDATED ? 'undated' : `from ${recordYear}`}`}
-            </span>
-          </div>
-          <div className="note">
-            These came off Photobucket and imgur, where most of them were one
-            outage away from being gone. Open any of them for the date, the
-            names still legible in the shot, and the address it was pulled from.
-          </div>
-          {/* Years, not games. All twelve recovered plates are the same game,
-              so a game chip row would be a row of one. When the recovered set
-              grows past Warband this is where the game chips go. */}
-          <div className="chips">
-            <button className={'chip' + (recordYear === 'all' ? ' on' : '')}
-              onClick={() => setRecordYear('all')}>
-              All<span className="chip-n">{SHOTS.length}</span>
-            </button>
-            {recordYears.map(([y, n]) => (
-              <button key={y} className={'chip' + (recordYear === y ? ' on' : '')}
-                onClick={() => setRecordYear(y)}>
-                {y === UNDATED ? 'Undated' : y}<span className="chip-n">{n}</span>
-              </button>
-            ))}
-          </div>
-          <div className="filmstrip">
-            {recordPlates.map((p, i) => <Tile key={p.key} list={recordPlates} i={i} onOpen={open} />)}
+          <div className="mhead"><h2>The Numbers</h2><span className="sub">what is in the room</span></div>
+          <div className="stats sourced" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
+            <div className="stat">
+              <div className="l">plates recovered</div>
+              <div className="n">{loading ? '·' : record.length}</div>
+              <div className="src">from the community archives</div>
+            </div>
+            <div className="stat">
+              <div className="l">on the wall</div>
+              <div className="n">{loading ? '·' : members.length}</div>
+              <div className="src">added by members</div>
+            </div>
+            <div className="stat">
+              <div className="l">films</div>
+              <div className="n">{loading ? '·' : films}</div>
+              <div className="src">gathered, not hosted</div>
+            </div>
+            <div className="stat">
+              <div className="l">years covered</div>
+              <div className="n">{loading ? '·' : years.size}</div>
+              <div className="src">earliest dated plate on</div>
+            </div>
           </div>
         </div>
-      </main>
+      </div>
 
-      <aside className="pr-rail">
-        <div className="module">
-          <div className="mhead">
-            <h3>From Members</h3>
-            <span className="sub">
-              {uploads === null ? 'loading' : `${approvedPlates.length} on the wall`}
-            </span>
+      {loadError && (
+        <div className="pr-alert">
+          <div className="module alert">
+            <div className="mhead"><h2>The wall could not be read</h2><span className="sub">the record below is unaffected</span></div>
+            <p className="note">
+              <b>{loadError}</b> The recovered half is bundled with the page and
+              is all here. Member uploads come from the database and that is the
+              part that did not answer.
+            </p>
+            <p className="note"><button className="btn sm" onClick={load}>Try again</button></p>
           </div>
+        </div>
+      )}
 
-          {featured
-            ? (
+      {!loading && featured.length > 0 && (
+        <div className="pr-featured">
+          <div className="module">
+            <div className="mhead"><h2>Featured</h2><span className="sub">picked out by a moderator</span></div>
+            <div className="wall feature-wall">
+              {featured.map((m, i) => (
+                <MediaTile key={m.id} item={m} onOpen={openFeatured} size={i === 0 ? 'feature' : undefined} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="pr-tools">
+        <div className="module">
+          <MediaToolbar
+            scope={items ?? []}
+            value={facets}
+            onChange={setFacets}
+            showViews={anyViews}
+          />
+        </div>
+      </div>
+
+      {loading && (
+        <div className="pr-results">
+          <div className="module">
+            <div className="mhead"><h2>Loading</h2><span className="sub">reading the room</span></div>
+            {/* Placeholders at the real tile shape, so nothing jumps when the
+                pictures arrive. */}
+            <div className="wall" aria-hidden="true">
+              {Array.from({ length: 6 }, (_, i) => <span className="frame skel" key={i} />)}
+            </div>
+            <p className="sr-only" role="status">Loading the gallery.</p>
+          </div>
+        </div>
+      )}
+
+      {!loading && !browsing && (
+        <div className="pr-results">
+          <div className="module">
+            <div className="mhead">
+              <h2>Results</h2>
+              <span className="sub">
+                {results.length} of {items?.length ?? 0}
+                {facets.search.trim() ? ` for "${facets.search.trim()}"` : ''}
+              </span>
+            </div>
+            {results.length === 0 ? (
+              <div className="empty">
+                <p className="empty-h">Nothing matches that.</p>
+                <p className="note">
+                  {facets.search.trim()
+                    ? <>No title, tag, person or description contains <b>{facets.search.trim()}</b>.</>
+                    : <>No item is in every one of those filters at once.</>}
+                </p>
+                <button className="btn sm" onClick={() => setFacets(BLANK)}>Clear everything</button>
+              </div>
+            ) : (
               <>
-                <div className="railfeat">
-                  <Tile list={approvedPlates} i={0} onOpen={open} />
-                </div>
-                {railRest.length > 0 && (
-                  <div className="railrest">
-                    {railRest.map((p, i) => <Tile key={p.key} list={approvedPlates} i={i + 1} onOpen={open} />)}
+                <MediaGrid items={resultPage} onOpen={openItem} />
+                {results.length > shown && (
+                  <div className="more">
+                    <button className="btn" onClick={() => setShown((n) => n + PAGE)}>
+                      Show more
+                    </button>
+                    <span className="more-n">
+                      showing {Math.min(shown, results.length)} of {results.length}
+                    </span>
                   </div>
                 )}
               </>
-            )
-            : (
-              <div className="note">
-                {uploads === null
-                  ? 'Loading.'
-                  : 'Nothing on the wall yet. The half beside this one survived on its own, so this one is up to us. Anything you still have from back then belongs here.'}
-              </div>
             )}
-
-          <div className="railcta">
-            {me
-              ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button>
-              : <SteamButton me={me} signIn={signIn} />}
-            <p className="railterms">
-              {me
-                ? 'An admin checks every submission in. By submitting you grant Coldstream Gaming permission to feature the image.'
-                : 'Sign in through Steam to add to the wall. An admin checks each one in before it goes up.'}
-            </p>
           </div>
         </div>
-      </aside>
+      )}
 
-      <div className="pr-wall">
-        {/* The wall only appears once the rail cannot hold the set, and it
-            brings its own filters with it. Below that there is nothing for a
-            filter to do, so there is no filter. */}
-        {breakout && (
-          <div className="module">
-            <div className="mhead">
-              <h3>The Members' Wall</h3>
-              <span className="sub">
-                {wallPlates.length} {kind === 'image' ? (wallPlates.length === 1 ? 'screenshot' : 'screenshots')
-                  : kind === 'video' ? (wallPlates.length === 1 ? 'film' : 'films')
-                    : (wallPlates.length === 1 ? 'item' : 'items')}
-                {browse === 'all' ? '' : ' in ' + categoryBySlug(browse)?.name}
-              </span>
-            </div>
-            <div className="seg" style={{ margin: '0 16px 10px' }}>
-              <button className={'segbtn' + (kind === 'all' ? ' on' : '')}
-                onClick={() => setKind('all')}>Everything ({nShots + nFilms})</button>
-              <button className={'segbtn' + (kind === 'image' ? ' on' : '')}
-                onClick={() => setKind('image')}>Screenshots ({nShots})</button>
-              <button className={'segbtn' + (kind === 'video' ? ' on' : '')}
-                onClick={() => setKind('video')}>Films ({nFilms})</button>
-            </div>
-            <div className="chips">
-              <button className={'chip' + (browse === 'all' ? ' on' : '')}
-                onClick={() => setBrowse('all')}>Everything</button>
-              {BROWSE_CATEGORIES.map((c) => (
-                <button key={c.slug} className={'chip' + (browse === c.slug ? ' on' : '')}
-                  onClick={() => setBrowse(c.slug)}>{c.name}</button>
-              ))}
-              {memberYears.length > 1 && (
-                <>
-                  <span className="chipsep" aria-hidden="true" />
-                  <button className={'chip' + (memberYear === 'all' ? ' on' : '')}
-                    onClick={() => setMemberYear('all')}>Any year</button>
-                  {memberYears.map((y) => (
-                    <button key={y} className={'chip' + (memberYear === y ? ' on' : '')}
-                      onClick={() => setMemberYear(y)}>{y}</button>
-                  ))}
-                </>
-              )}
-            </div>
-            {browse !== 'all' && (
-              <div className="note">{categoryBySlug(browse)?.description}</div>
-            )}
-            {wallPlates.length === 0
-              ? <div className="note">Nothing on the wall matches that. Widen it and they come back.</div>
-              : (
-                <div className="wall">
-                  {wallPlates.map((p, i) => (
-                    <Tile key={p.key} list={wallPlates} i={i} onOpen={open}>
-                      {canModerate && (
-                        <span className="modrow" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-                          <button className="btn sm" onClick={() => reject(p.key, approvedRows.find((u) => u.id === p.key)?.storage_key ?? null)}>Remove</button>
-                        </span>
-                      )}
-                    </Tile>
-                  ))}
+      {!loading && browsing && (
+        <>
+          <main className="pr-record">
+            <div className="module">
+              <div className="mhead">
+                <h2>From the Record</h2>
+                <span className="sub">{record.length} recovered before the links died</span>
+              </div>
+              <p className="note">
+                These came off Photobucket and imgur, where most of them were one
+                outage away from being gone. Open any of them for the date, the
+                names still legible in the shot, and the address it was pulled from.
+              </p>
+              <MediaGrid items={recordPage} onOpen={openItem} className="filmstrip" />
+              {recordHits.length > shown && (
+                <div className="more">
+                  <button className="btn" onClick={() => setShown((n) => n + PAGE)}>Show more</button>
+                  <span className="more-n">showing {shown} of {recordHits.length}</span>
                 </div>
               )}
+            </div>
+          </main>
+
+          <aside className="pr-rail">
+            <div className="module">
+              <div className="mhead">
+                <h2>From Members</h2>
+                <span className="sub">{members.length} on the wall</span>
+              </div>
+
+              {railFeatured ? (
+                <>
+                  <div className="railfeat">
+                    <MediaTile item={railFeatured} onOpen={openRail} />
+                  </div>
+                  {railRest.length > 0 && (
+                    <div className="railrest">
+                      {railRest.map((m) => <MediaTile key={m.id} item={m} onOpen={openRail} />)}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <p className="note">
+                  Nothing on the wall yet. The half beside this one survived on
+                  its own, so this one is up to us. Anything you still have from
+                  back then belongs here.
+                </p>
+              )}
+
+              <div className="railcta">
+                {me
+                  ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button>
+                  : <SteamButton me={me} signIn={signIn} />}
+                <p className="railterms">
+                  {me
+                    ? 'An admin checks every submission in. By submitting you grant Coldstream Gaming permission to feature the image.'
+                    : 'Sign in through Steam to add to the wall. An admin checks each one in before it goes up.'}
+                </p>
+              </div>
+            </div>
+          </aside>
+        </>
+      )}
+
+      <div className="pr-wall">
+        {!loading && browsing && breakout && (
+          <div className="module">
+            <div className="mhead">
+              <h2>The Members' Wall</h2>
+              <span className="sub">{memberHits.length} items</span>
+            </div>
+            <MediaGrid items={memberPage} onOpen={openItem} />
+            {memberHits.length > shown && (
+              <div className="more">
+                <button className="btn" onClick={() => setShown((n) => n + PAGE)}>Show more</button>
+                <span className="more-n">showing {shown} of {memberHits.length}</span>
+              </div>
+            )}
           </div>
         )}
 
-        {/* The queue is its own module now. It used to be a dimmed strip under
-            the wall that everybody scrolled past, on a page where most people
-            have nothing to moderate. */}
+        {/* Its own module, and only for the people it concerns. It used to be
+            a dimmed strip under the wall that everybody scrolled past. */}
         {pending.length > 0 && (
           <div className="module">
             <div className="mhead">
-              <h3>{canModerate ? 'Waiting to be checked in' : 'Waiting on an admin'}</h3>
+              <h2>{canModerate ? 'Waiting to be checked in' : 'Waiting on an admin'}</h2>
               <span className="sub">{pending.length} held</span>
             </div>
-            <div className="note">
+            <p className="note">
               {canModerate
                 ? 'Approve puts it on the wall for everyone. Deny removes it and its file.'
                 : 'An admin looks over everything before it joins the wall.'}
-            </div>
+            </p>
+            {/* The controls are siblings of the tile, not children of it: the
+                tile is a button and nesting one inside another is invalid and
+                unreachable for some assistive technology. */}
             <div className="wall pending">
-              {pending.map((u) => {
-                const p = toMemberPlate(u);
-                return (
-                  <div className="frame" key={u.id}
-                    style={{ '--ar': ratio(p.w, p.h) } as React.CSSProperties}>
-                    <img src={asset(p.src)} alt={p.caption} loading="lazy" />
-                    {p.media === 'video' && <span className="playmark2" aria-hidden="true" />}
-                    <span className="frame-cap"><b>{p.caption}</b><span>{p.by} · held</span></span>
-                    {canModerate && (
-                      <span className="modrow">
-                        <button className="btn sm" onClick={() => approve(u.id)}>Approve</button>
-                        <button className="btn sm" onClick={() => reject(u.id, u.storage_key)}>Deny</button>
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
+              {pending.map((m) => (
+                <div className="frame-wrap" key={m.id}>
+                  <MediaTile item={m} onOpen={openPending} />
+                  {canModerate && (
+                    <span className="modrow">
+                      <button className="btn sm" onClick={() => approve(m.id)}
+                        aria-label={`Approve ${m.title}`}>Approve</button>
+                      <button className="btn sm" onClick={() => reject(m.id)}
+                        aria-label={`Deny ${m.title}`}>Deny</button>
+                    </span>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         )}
       </div>
 
-      {viewing && (
+      {viewer && (
         <PlateViewer
-          list={viewing.list}
-          index={viewing.i}
-          onIndex={(i) => setViewing((v) => (v ? { ...v, i } : v))}
-          onClose={() => setViewing(null)}
+          list={viewer.list}
+          index={viewer.i}
+          onIndex={goToIndex}
+          onClose={closeViewer}
         />
       )}
 
       {drawer && me && (
-        <UploadDrawer me={me} catIds={catIds}
-          onClose={() => setDrawer(false)}
-          onUploaded={loadUploads} />
+        <UploadDrawer me={me} onClose={() => setDrawer(false)} onUploaded={load} />
       )}
     </div>
   );
 }
+
+export { shownDate };

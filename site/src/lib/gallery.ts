@@ -92,5 +92,12 @@ export function youtubeId(input: string): string | null {
 
 export const youtubeThumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 export const youtubeWatch = (id: string) => `https://www.youtube.com/watch?v=${id}`;
-export const youtubeEmbed = (id: string) =>
-  `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`;
+
+// nocookie, and no autoplay: a film starts because somebody pressed play.
+// Captions are turned on only where the item says it has them, because
+// cc_load_policy=1 on a film with no track is a control that does nothing.
+export const youtubeEmbed = (id: string, opts?: { captions?: boolean }) => {
+  const p = new URLSearchParams({ rel: '0', modestbranding: '1' });
+  if (opts?.captions) p.set('cc_load_policy', '1');
+  return `https://www.youtube-nocookie.com/embed/${id}?${p}`;
+};

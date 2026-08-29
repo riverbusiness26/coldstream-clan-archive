@@ -50,10 +50,14 @@ const NAV: [string, string, boolean][] = [
 // route. An error handed back the same way is worth landing on Home for.
 const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error|error_description|error_code)=/;
 
+// The view is the first segment only. Anything after it belongs to the view:
+// the gallery uses "#/gallery/<media id>" so a single picture can be linked,
+// shared and reopened, and without this that whole URL would be read as the
+// name of a view nobody has ever heard of and land on nothing.
 function routeFromHash(): string {
   const h = location.hash;
   if (AUTH_HASH.test(h)) return 'home';
-  return h.replace(/^#\/?/, '') || 'landing';
+  return h.replace(/^#\/?/, '').split('/')[0] || 'landing';
 }
 
 // Whether this page load began with Steam handing back a session, or an

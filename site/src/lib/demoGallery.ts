@@ -23,6 +23,16 @@ export interface DemoUpload {
   year: number | null;
   width: number | null;
   height: number | null;
+  // The 0021 fields. Demo mode is the only path an agent without a Supabase
+  // key ever sees, so anything the form collects has to survive here too.
+  description: string | null;
+  tags: string[];
+  collection: string | null;
+  duration_seconds: number | null;
+  featured: boolean;
+  views: number;
+  downloadable: boolean | null;
+  captions_url: string | null;
   approved: boolean;
   created_at: string;
   uploader: { display_name: string };
@@ -38,6 +48,9 @@ export interface DemoDraft {
   year: number | null;
   width: number | null;
   height: number | null;
+  description?: string | null;
+  tags?: string[];
+  collection?: string | null;
 }
 
 const KEY = 'csg-demo-gallery-v1';
@@ -61,6 +74,14 @@ function load(): DemoUpload[] {
       year: r.year ?? null,
       width: r.width ?? null,
       height: r.height ?? null,
+      description: r.description ?? null,
+      tags: Array.isArray(r.tags) ? r.tags : [],
+      collection: r.collection ?? null,
+      duration_seconds: r.duration_seconds ?? null,
+      featured: r.featured ?? false,
+      views: r.views ?? 0,
+      downloadable: r.downloadable ?? null,
+      captions_url: r.captions_url ?? null,
       approved: r.approved ?? false,
       created_at: r.created_at ?? new Date(0).toISOString(),
       uploader: r.uploader ?? { display_name: 'member' },
@@ -85,10 +106,17 @@ export const demoGallery = {
       return { ok: false, reason: `The demo store holds ${MAX_ITEMS} items. The real backend has no such limit.` };
     }
     items.push({
+      ...draft,
       id: uid(), category_id: null, approved: false,
+      duration_seconds: null, featured: false, views: 0,
+      downloadable: null, captions_url: null,
       created_at: new Date().toISOString(),
       uploader: { display_name: who },
-      ...draft,
+      // After the spread, because these three are optional on the draft and an
+      // explicit undefined would otherwise win over the default.
+      description: draft.description ?? null,
+      tags: draft.tags ?? [],
+      collection: draft.collection ?? null,
     });
     save(items);
     return { ok: true };
