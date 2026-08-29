@@ -1913,3 +1913,124 @@ on the live domain: UTF-8, standards mode, zero mojibake, both families
 loaded, no Google font links left, **no console errors and so no CSP
 violations**, and at 375px the body measures exactly 375 and will not scroll
 sideways.
+
+## 2026-08-29 - The gallery rebuilt: one viewer, uncropped plates, and a bug that had shipped (Claude, River side)
+
+River picked the layout from his own ref, `Site refs/website/games.png`: the
+record on the left, members in a rail on the right under one button. What went
+with it was the plumbing underneath, because building that composition on top
+of the old mechanics would have shipped the following into a new design.
+
+### The lightbox was reading out of the wrong array, and had been
+
+`views/Gallery.tsx` rendered the year filtered list:
+
+```tsx
+{shots.map((s, i) => <button onClick={() => setLightIdx(i)} ...
+```
+
+and then resolved the open plate out of the unfiltered one:
+
+```tsx
+const light = lightIdx === null ? null : SHOTS[lightIdx];
+```
+
+So with a year picked, clicking the second plate opened the second plate of
+all twelve, and the arrow keys and the thumbnail strip indexed into different
+arrays besides. It only looked right on "All years", which is the default, and
+that is why nobody caught it.
+
+**The fix is structural, not a patched index.** `components/PlateViewer.tsx`
+takes the list that was rendered plus an index into that same list, so
+`list[i]` is the thing that was clicked by construction and no future caller
+can reintroduce this. Every tile on the page passes its own list: the record
+passes the year filtered set, the wall passes the filtered set, the rail passes
+the approved set.
+
+Verified: filtered to 2012, eight plates, clicked the second, and the viewer
+opened "Bayonets levelled, colour raised", which is the second of the eight.
+Strip length eight, marked index one, arrows clamp at both ends.
+
+### Half the pictures used to leave the site when you opened them
+
+A recovered plate opened in the lightbox with its date, its names and its
+source. A member's upload was an `<a target="_blank">` straight at the Supabase
+storage URL, so it left the site for a bare JPEG on a CDN. Both halves go
+through the one viewer now, and a film plays in it: `youtubeEmbed()` has been
+in `lib/gallery.ts` since videos were added and had never been called once.
+
+Zero anchors to storage remain on the page.
+
+### width and height have been on gallery_item since 0009 and nothing wrote them
+
+Which is why `.wall` forced every tile to 16:9 and centre cut a portrait phone
+screenshot with no way to see the rest of it. The upload path now writes the
+dimensions it already had in hand, and the wall is justified rows like the
+record filmstrip. **No migration: the columns were already there.** Rows
+written before today have them null and fall back to 16:9, exactly as they
+render now, so nothing existing moves.
+
+Checked against 9:16, 21:9, 1:1 and 16:9 in one row: 154x274, 639x274, 274x274,
+and every frame box the same height as its image, so nothing is letterboxed
+and nothing is cropped.
+
+### The filters were lying about their scope
+
+One year filter reached across both halves while the kind and category chips
+reached across only one. Each half now owns its own filter, inside the module
+it governs. The wall's filters only exist once the wall does.
+
+### What the ref does not say, and the call I made
+
+The rail is 336px. The ref draws the members' half with one upload in it, and
+past a handful that rail becomes a second, narrower, worse gallery beside the
+first. **Above four approved uploads the wall breaks out full width underneath
+both columns and the rail keeps the newest plate and the button**, which are
+the two things a rail is actually for. Below four there is no wall and no
+filter, because there is nothing for a filter to do.
+
+### Also
+
+- **Upload and moderation left the page flow.** The form was between the
+  filters and the pictures, pushing the wall down for everyone, and standing
+  where the images should be for anyone not signed in. It is a drawer behind
+  one button now, with a label over every field instead of placeholders that
+  vanish when you type. The queue is its own module and only appears when
+  something is held.
+- **The Films chip is gone from the browse row.** The screenshots/films segment
+  already did that filter and two controls with one job is why nobody could
+  tell which was in effect. Films is still a real category and is still offered
+  when you upload a video.
+- **The record half filters by year, not by game.** All twelve recovered plates
+  are Warband, so a game chip row would be a row of one. When the recovered set
+  grows past Warband, that is where the game chips go.
+- **`demoGallery` now carries the whole row.** It understood "a picture with a
+  caption", so demo mode silently dropped the category, the video and the
+  dimensions the person had just filled in. An agent working without a Supabase
+  key sees only that path, so what it dropped is what they thought the feature
+  did.
+
+### The locked 'the-archive' category is not the recovered half
+
+Worth stating because the names invite the mistake. The recovered half is
+`site/src/seed/gallery.json`, rendered on the client. The locked category in
+`gallery_category` is a different object, it is empty, and nothing on this page
+reads from it. There is a comment in the view saying so.
+
+### Verified
+
+`npm run build --prefix site` exit 0 with `tsc -b` first. Demo build trap non
+zero, so `.env` loaded. No em dashes, no club or clan.
+
+Behaviour was tested against a second dev server in demo mode with a seeded
+store, because one member upload cannot exercise a breakout wall, a filter, a
+moderation queue or a video: 1265px gives record 720 and rail 336 with the wall
+full width at 1080; the segment counts, the category chips, the year chips and
+the empty state all track; the drawer rejects a bad link and a year outside
+2011 to now, submits, and the item lands in the queue; approve moves it to the
+wall and deny removes it and the module with it.
+
+At 375px: body measures exactly 375, `scrollLeft` will not move off 0, no
+element outside a `.tscroll` box exceeds the client width, and the stack order
+is record, then the button, then the wall. Somebody on a phone came to look at
+pictures, not to be asked for one.

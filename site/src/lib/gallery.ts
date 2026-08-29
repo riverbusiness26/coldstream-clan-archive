@@ -34,6 +34,40 @@ export const CATEGORIES: Category[] = [
 export const categoryBySlug = (slug: string | null) =>
   CATEGORIES.find((c) => c.slug === slug) ?? null;
 
+// The chips a member browses the wall with. Films is deliberately not among
+// them: the screenshots/films segment above already does that filter, and two
+// controls with one job is the reason nobody could tell which was in effect.
+// It stays a real category, and stays offered when you upload.
+export const BROWSE_CATEGORIES = CATEGORIES.filter((c) => !c.locked && c.slug !== 'films');
+
+// One item, whichever half of the page it came from.
+//
+// The viewer takes these and nothing else, which is the point: before this
+// existed the recovered half opened in a lightbox and a member's upload was an
+// anchor straight to the Supabase storage URL, so clicking a picture either
+// stayed on the site or threw you off it depending on which half you happened
+// to click. `kind` selects the caption block. Everything above it is shared.
+export interface Plate {
+  key: string;
+  kind: 'record' | 'member';
+  src: string;              // the image, or the poster frame for a video
+  w: number | null;         // null means unknown, and the tile falls back to 16:9
+  h: number | null;
+  caption: string;
+  media: 'image' | 'video';
+  videoId: string | null;
+  game: string | null;
+  year: number | null;
+  // Recovered plates carry their provenance, which is the whole reason that
+  // half of the page exists.
+  date?: string | null;
+  who?: string[];           // the names still legible in the shot
+  source?: string;          // the address it was pulled back from
+  // A member's upload carries who added it instead. It has no provenance and
+  // must never be dressed up as though it had.
+  by?: string;
+}
+
 // A member will paste whatever their browser had in the address bar, so accept
 // every shape YouTube hands out rather than making them find the "right" one.
 const PATTERNS = [
