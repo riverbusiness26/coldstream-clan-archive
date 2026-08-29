@@ -2034,3 +2034,90 @@ At 375px: body measures exactly 375, `scrollLeft` will not move off 0, no
 element outside a `.tscroll` box exceeds the client width, and the stack order
 is record, then the button, then the wall. Somebody on a phone came to look at
 pictures, not to be asked for one.
+
+## 2026-08-29 - server-status was green work reported red, for two months of runs (Claude, River side)
+
+`server-status.yml` had failed every five minutes since 22 Aug and
+`steam-presence.yml` since 24 Aug. They are two unrelated faults that happen to
+look like one outage.
+
+### The poll was working the whole time
+
+This is the part that hid it. Every failed run **queried the servers and stored
+its rows correctly**, then died. I could see fresh `updated_at` timestamps in
+`server_status` written by runs whose conclusion was failure, which is what
+made me stop guessing at the upsert and look at the process instead.
+
+`minecraftStatus` gave up on a dead host after five seconds, removed its
+listeners in `cleanup()`, and never destroyed the socket. Two things followed:
+
+- **A connecting TCP socket holds the event loop open.** Linux retries the SYN
+  for about 128 seconds before ETIMEDOUT. That is the entire 133 second step,
+  identical on every run: fifteen seconds of work, then two minutes of a socket
+  nobody was waiting for.
+- **The late error had no listener left.** `cleanup()` had removed `onError`,
+  and an unhandled `'error'` event is an uncaught exception, so the run ended
+  non zero having already done its job.
+
+Reproduced in isolation before changing anything, old pattern against new,
+both pointed at the same dead port:
+
+```
+OLD:  [5.0s] gave up  ->  [21.0s] UNCAUGHT: ETIMEDOUT  ->  exit 1
+NEW:  [5.0s] gave up  ->  [5.0s] exit 0
+```
+
+21 seconds rather than 128 because Windows retries fewer SYNs. Same failure,
+shorter fuse.
+
+**It was only ever triggered by the Minecraft server being down.** Valheim is
+UDP and fails fast and clean; it was never part of this. So the moment
+Minecraft comes up the workflow would have gone green on its own and read as
+self healing, with the defect still sitting there for the next outage.
+
+`udpAsk` had the same class of bug queued behind it: a dead host answers a
+closed UDP socket with ICMP port-unreachable, and a second `close()` throws
+`ERR_SOCKET_DGRAM_NOT_RUNNING` from inside a handler. Closing is idempotent
+now and both listeners outlive the promise.
+
+**Live: first scheduled run on the fix succeeded in 12 seconds, against 138
+failing.** Rows fresh, holdfast online 0/80, the other two offline as they
+should be.
+
+### The lane's verify command could not have caught this
+
+`node scripts/poll-server-status.mjs` is the servers lane command and it passed
+throughout. With no Supabase credentials the script prints and calls
+`process.exit(0)`, which tears the socket down before it can bite. **The bug
+only exists on the path where the script runs to the end, and that path only
+happens in Actions.** Worth remembering before trusting a green local run of
+anything that opens a socket.
+
+### steam-presence is not the same fault, and it is not code
+
+Its failing step takes **0 to 1 second**, every run. That is too fast to have
+reached Supabase and back, which points at the workflow's own guard exiting
+before curl: "SYNC_SECRET is not set as a repository secret."
+
+**It is not the JWT trap.** The function is alive: probed with a deliberately
+wrong secret it returns a clean application level 401 with body `no`, so it
+executed and rejected the secret rather than being rejected by the platform.
+
+Left for River, because a repository secret is not mine to set: check Settings,
+Secrets and variables, Actions for `SYNC_SECRET`, and that it still matches the
+value the `steam-presence` function has.
+
+### 0020 has never been run
+
+Probed live: `column server_status.player_names does not exist`. The poller
+survives it by design, dropping that one field and writing the counts, so it is
+not why anything failed. It does mean **no player names are being stored at
+all**. Running `site/db/0020_server_player_tracker.sql` in the SQL editor turns
+them on with no deploy.
+
+### Open question for River
+
+Valheim and Minecraft are not live. They cost about ten seconds of timeouts
+every five minutes and put two permanently offline rows on the site. Left in
+place rather than trimmed, because whether they are placeholders for something
+arriving shortly is River's call and not visible from here.
