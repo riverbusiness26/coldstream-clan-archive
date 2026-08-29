@@ -47,23 +47,43 @@ function serversFromEnv() {
   return parsed;
 }
 
+// Closing a socket exactly once, however many ways the attempt ended.
+//
+// A dead host produces two events, not one: the 5 second timeout fires, and
+// then the kernel's ICMP port-unreachable arrives at the socket that has
+// already been closed. Calling close() a second time throws
+// ERR_SOCKET_DGRAM_NOT_RUNNING from inside an event handler, which is an
+// uncaught exception and takes the process with it.
+function closeOnce(socket) {
+  let closed = false;
+  return () => {
+    if (closed) return;
+    closed = true;
+    try { socket.close(); } catch { /* already closing */ }
+  };
+}
+
 function udpAsk(host, port, payload) {
   return new Promise((resolve, reject) => {
     const socket = dgram.createSocket('udp4');
-    const timer = setTimeout(() => {
-      socket.close();
-      reject(new Error(`query timed out after 5 seconds (${host}:${port})`));
-    }, 5000);
-    socket.once('error', (error) => {
+    const close = closeOnce(socket);
+    let settled = false;
+    const finish = (fn, value) => {
+      if (settled) return;
+      settled = true;
       clearTimeout(timer);
-      socket.close();
-      reject(error);
-    });
-    socket.once('message', (message) => {
-      clearTimeout(timer);
-      socket.close();
-      resolve(message);
-    });
+      close();
+      fn(value);
+    };
+    const timer = setTimeout(
+      () => finish(reject, new Error(`query timed out after 5 seconds (${host}:${port})`)),
+      5000,
+    );
+    // on, not once: a late error after the promise has settled must still land
+    // on a listener. An 'error' event with nothing listening is an uncaught
+    // exception in Node, and this socket is talking to hosts that are down.
+    socket.on('error', (error) => finish(reject, error));
+    socket.on('message', (message) => finish(resolve, message));
     socket.send(payload, port, host);
   });
 }
@@ -190,31 +210,62 @@ function readExactly(socket, length) {
   });
 }
 
+// This is what has been failing server-status.yml every five minutes.
+//
+// The old version removed its listeners on a failed connect and left the
+// socket itself alone. Two things followed from that, and the workflow logs
+// read as neither.
+//
+// The poll finished and stored its rows perfectly well. Then the process
+// would not exit, because a connecting socket holds the event loop open, and
+// the kernel keeps retrying a TCP SYN for about two minutes before it gives
+// up. That is the whole of the 133 second step: 15 seconds of work and two
+// minutes of a socket nobody was waiting for any more.
+//
+// When the kernel finally gave up, the socket emitted 'error' with its error
+// listener already removed. An unhandled 'error' event is an uncaught
+// exception, so the run ended non zero having done its job correctly.
+//
+// `node scripts/poll-server-status.mjs` could never catch this: with no
+// Supabase credentials the script prints and calls process.exit(0), which
+// tears the socket down before it can bite. It only appears where the script
+// runs to the end, which is only in Actions.
 async function minecraftStatus(server) {
   const socket = net.createConnection({ host: server.host, port: server.query_port });
   socket.setNoDelay(true);
-  await new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      cleanup();
-      reject(new Error('Minecraft connect timed out after 5 seconds'));
-    }, 5000);
-    function cleanup() {
-      clearTimeout(timer);
-      socket.off('connect', onConnect);
-      socket.off('error', onError);
-    }
-    function onConnect() {
-      cleanup();
-      resolve();
-    }
-    function onError(error) {
-      cleanup();
-      reject(error);
-    }
-    socket.once('connect', onConnect);
-    socket.once('error', onError);
-  });
+  // Whatever happens below, this socket is destroyed and keeps a listener for
+  // an error that may arrive long after anybody cares about the answer.
+  socket.on('error', () => { /* handled by whichever promise is waiting */ });
+  try {
+    await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        cleanup();
+        reject(new Error('Minecraft connect timed out after 5 seconds'));
+      }, 5000);
+      function cleanup() {
+        clearTimeout(timer);
+        socket.off('connect', onConnect);
+        socket.off('error', onError);
+      }
+      function onConnect() {
+        cleanup();
+        resolve();
+      }
+      function onError(error) {
+        cleanup();
+        reject(error);
+      }
+      socket.once('connect', onConnect);
+      socket.once('error', onError);
+    });
 
+    return await minecraftHandshake(server, socket);
+  } finally {
+    socket.destroy();
+  }
+}
+
+async function minecraftHandshake(server, socket) {
   const handshake = Buffer.concat([
     writeVarInt(763),
     mcString(server.host),
