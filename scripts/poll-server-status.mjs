@@ -303,16 +303,44 @@ if (!supabaseUrl || !serviceKey) {
   process.exit(0);
 }
 
-const result = await fetch(`${supabaseUrl}/rest/v1/server_status?on_conflict=server_key`, {
-  method: 'POST',
-  headers: {
-    apikey: serviceKey,
-    Authorization: `Bearer ${serviceKey}`,
-    'Content-Type': 'application/json',
-    Prefer: 'resolution=merge-duplicates,return=representation',
-  },
-  body: JSON.stringify(statuses),
-});
-const body = await result.text();
-if (!result.ok) throw new Error(`Supabase upsert failed (${result.status}): ${body}`);
-console.log(`Stored tracker status: ${body}`);
+// Upsert, and survive a database that has not caught up with this script.
+//
+// 0020_server_player_tracker.sql adds server_status.player_names. If that
+// migration has not been run, PostgREST rejects the whole batch with PGRST204
+// and the workflow dies, so nothing gets stored at all: not the player names
+// we cannot write, and not the counts and online flags we can. That is the
+// wrong trade. Counts are the thing the site actually renders.
+//
+// So write the full row, and if the only objection is the column that is not
+// there yet, drop that one field and write everything else. The names light up
+// on their own the moment the migration lands, with no second deploy.
+async function upsert(rows) {
+  const response = await fetch(`${supabaseUrl}/rest/v1/server_status?on_conflict=server_key`, {
+    method: 'POST',
+    headers: {
+      apikey: serviceKey,
+      Authorization: `Bearer ${serviceKey}`,
+      'Content-Type': 'application/json',
+      Prefer: 'resolution=merge-duplicates,return=representation',
+    },
+    body: JSON.stringify(rows),
+  });
+  return { ok: response.ok, status: response.status, body: await response.text() };
+}
+
+let result = await upsert(statuses);
+
+// PGRST204 is "column not found in the schema cache". Match on the column name
+// too, so an unrelated schema drift still fails loudly instead of being
+// silently retried into a half written row.
+if (!result.ok && result.body.includes('PGRST204') && result.body.includes('player_names')) {
+  console.warn(
+    'server_status.player_names is missing, so player names are not being stored. ' +
+      'Run site/db/0020_server_player_tracker.sql in the Supabase SQL editor. ' +
+      'Storing counts and online state without it.',
+  );
+  result = await upsert(statuses.map(({ player_names, ...rest }) => rest));
+}
+
+if (!result.ok) throw new Error(`Supabase upsert failed (${result.status}): ${result.body}`);
+console.log(`Stored tracker status: ${result.body}`);
