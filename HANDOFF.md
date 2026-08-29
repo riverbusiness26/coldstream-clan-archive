@@ -1552,8 +1552,8 @@ chrome", so the copy is a separate decision from the skin and it is River's,
 not mine. The skin is applied to the parent site; nobody has said the parent
 site should start calling itself the 2nd Coldstream.
 
-Nothing is committed and nothing is pushed. A push here publishes to
-coldstreamgaming.com, so that is River's call.
+**Superseded: this is committed, pushed and live.** See the publish entry at
+the foot of this file for how publishing here actually works.
 
 ## 2026-08-28 - Front page rebuilt, and the skin moved to the house brand (Claude, River side)
 
@@ -1648,4 +1648,72 @@ items. News, shoutbox and next event are absent from the DOM, not merely
 hidden. All four routes render every module with **no horizontal overflow**,
 which is still the regression that matters most here.
 
-Still not committed and not pushed.
+**Superseded: pushed and live.** See the publish entry below.
+
+## 2026-08-28 - How this site actually publishes, because I got it wrong first (Claude, River side)
+
+River said push. I pushed, and **the live site did not change.** Recording
+this because the mistake is easy to repeat and `status.mjs` is the only thing
+that caught it.
+
+### The root IS the site. `site/` is source. Nothing builds on push.
+
+`wrangler.jsonc` sets the assets directory to `./`, the repository root, and
+`.assetsignore` excludes `/site/`. So:
+
+| path | what it is |
+|---|---|
+| `index.html` + `assets/` at the **root** | the published site |
+| `site/` | React source, **never served** |
+| `site/dist/` | build output, and **gitignored** |
+
+There is no build step on push and no Pages build configuration doing it for
+us. **Publishing is a manual copy**: build in `site/`, then copy
+`site/dist/index.html`, `site/dist/assets/*` and any new files from
+`site/public` into the repository root, and commit those too.
+
+The phrase "push based publish" in the 21 Aug entry is true but misleading. It
+means Cloudflare picks up whatever is at the root when you push. It does
+**not** mean anything gets built.
+
+My first push, `a0f2f5e`, changed only `site/`, so it published nothing.
+`status.mjs` kept saying `domain serves index-BquWNC3O.js`, the pre-session
+bundle, and it was right. `ecb8270` is the commit that actually shipped.
+
+**Anyone changing the site: your work is not live until the root changes.**
+The cheapest check is the one `status.mjs` already does, and the asset hash in
+it is the whole answer. If the hash did not move, neither did the site.
+
+### The publish, verified against the domain and not against localhost
+
+Live at `https://coldstreamgaming.com`, reading the real page:
+
+- `assets/index-B-oo8mWO.js` serving, so the root moved.
+- `hero-csg.jpg` 200, 266KB. `fonts/satoshi-400.woff2` 200, 25KB.
+- **Both families report `document.fonts.check` true on the live origin**,
+  which is the real proof that self hosting was the right call: the enforcing
+  `font-src 'self'` accepts them, where a Google or Fontshare URL would have
+  been blocked in production and nowhere else.
+- Brand tokens resolve, `--accent` `#b08d57`, `--ground` `#121416`.
+- Nav is Home, Gallery, Servers, Archive. News, shoutbox and next event are
+  absent from the DOM. No horizontal overflow.
+
+Old asset hashes were left at the root rather than pruned, matching what
+earlier publishes did: a page cached mid-deploy still resolves its bundle. The
+root now carries three generations. Worth pruning one day, not today, and not
+without checking nothing still points at them.
+
+### Two colours the brand move missed, now fixed
+
+`site/index.html` still had the 2ndCS palette in its `theme-color` meta and
+its `noscript` fallback: ground `#0b0c0e`, gold `#c6a35a`. Those two only ever
+render in browser chrome and with JavaScript off, which is exactly why neither
+the build nor a page load would have shown them. House brand now.
+
+### Still open, and neither is mine to close
+
+- **`player_names`.** The one line SQL is still unrun, so `server-status.yml`
+  is still red. The poller no longer dies on it, but names are not storing.
+- **`steam-presence.yml`.** Still needs one authenticated curl to read the
+  function's own error body. Nobody should guess at this; the answer is one
+  command away for whoever holds `SYNC_SECRET`.
