@@ -23,7 +23,6 @@ import Home from './views/Home';
 import Landing from './views/Landing';
 import Servers from './views/Servers';
 import Gallery from './views/Gallery';
-import Enlist from './views/Enlist';
 const Archive = lazy(() => import('./views/Archive'));
 const Profile = lazy(() => import('./views/Profile'));
 const Admin = lazy(() => import('./views/Admin'));
@@ -39,9 +38,8 @@ const profileHref = (steamId: string) => '#/member/' + (KEYS[steamId] ?? 'steam:
 const NAV: [string, string, boolean][] = [
   ['home', 'Home', true],
   ['gallery', 'Gallery', true],
-  ['enlist', 'Join', true],
   ['servers', 'Servers', true],
-  ['archive', 'The Archive', true],
+  ['archive', 'Archive', true],
 ];
 
 // Routing is by hash, and coming back from Steam the session arrives in the
@@ -206,7 +204,7 @@ export default function App() {
       </header>
 
       {view === 'home' && <Home me={me} go={go} signIn={signIn} />}
-      {!['home','members','gallery','enlist','events','servers','archive','admin'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
+      {!['home','members','gallery','events','servers','archive','admin'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {view === 'servers' && <Servers />}
@@ -215,7 +213,6 @@ export default function App() {
       {view === 'admin' && <Admin me={me} />}
       </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
-      {view === 'enlist' && <Enlist me={me} signIn={signIn} />}
 
       <footer className="bigfoot">
         <div className="fcol">
@@ -234,7 +231,6 @@ export default function App() {
           <a href="https://discord.gg/75sfq5VPY" target="_blank" rel="noopener">Discord</a>
           <a href="https://steamcommunity.com/groups/coldstreamgaming" target="_blank" rel="noopener">Steam Group</a>
           <a href="#/servers">Game Servers</a>
-          <a href="#/enlist">Join</a>
         </div>
         <div className="fcol">
           <b>The Record</b>

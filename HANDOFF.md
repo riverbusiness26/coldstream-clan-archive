@@ -1409,3 +1409,243 @@ while both unpinned workflows drift and `house-rules` stays on 20.
 
 Leave `checkout@v5` alone in the backup. v6 relocates the persisted git
 credentials that its final push step depends on.
+
+## 2026-08-28 - server-status was one unapplied migration, and the site is on the 2ndCS skin (Claude, River side)
+
+Two jobs this session: close the loose ends `status.mjs` was flagging, and
+start the rebuild against `CSG Graphics/2ndCS-mockup`.
+
+### server-status.yml: diagnosed, and it is not the script
+
+Three sessions of notes said nobody had read `poll-server-status.mjs`, so I
+ran it. It is not the problem. It queries the servers fine and dies on the
+last line, at the upsert.
+
+**`server_status.player_names` does not exist on the live database.**
+`0020_server_player_tracker.sql` adds it and has never been applied. The
+script gained the field in Codex's 22 Aug tracker pass and has been posting a
+column the table does not have ever since.
+
+Proved by live query, not by reading:
+
+```
+select=server_key,player_names  ->  400 42703 column server_status.player_names does not exist
+POST with player_names          ->  400 PGRST204 Could not find the 'player_names' column
+```
+
+The dates line up exactly. `server_status` last wrote at
+`2026-08-22T23:40:58Z`; `status.mjs` reports the last workflow success at
+`2026-08-22T23:41:02Z`. Same event. Everything since has been this 400.
+
+Note for anyone testing this: **PostgREST checks the column before it checks
+the key**, so the anon key reproduces it perfectly. You do not need the
+service role key to work on this.
+
+**The fix River has to run** is one line, in the Supabase SQL editor:
+
+```sql
+alter table server_status
+  add column if not exists player_names jsonb not null default '[]'::jsonb;
+```
+
+That is the whole of `site/db/0020_server_player_tracker.sql`. It is already
+inside `RUN_ME_next.sql` too, so running that file also does it.
+
+**What I changed in the meantime.** The script now catches exactly this error
+and retries once with `player_names` stripped. Losing player names is bad;
+losing the counts and the online flags as well, which is what the hard failure
+was doing, is worse, and the counts are what the site actually renders. The
+retry matches on `PGRST204` **and** the column name, so unrelated schema drift
+still fails loudly instead of being quietly written round. It warns with the
+migration path when it fires. Once River runs the SQL the branch stops firing
+on its own and names start storing, with no second deploy.
+
+Verified end to end by pointing the script at the anon key: it logged the
+warning, stripped the field, and the retry got past the schema check to a
+plain `42501 permission denied`, which is the correct wall for anon. With the
+service role key in Actions that retry succeeds.
+
+### steam-presence.yml: narrowed, not solved, and here is the one command
+
+Not fixed. What is now ruled out, by live probe:
+
+- The function is up. No secret returns 401, a wrong secret returns 401. It is
+  running and its secret check works.
+- All three tables it writes exist and hold rows: `steam_presence`,
+  `steam_recent`, `game_stats`. This is **not** another missing migration.
+- The workflow file did not change. It is pure `curl`, no checkout and no
+  setup-node, so the 24 Aug Node bump cannot have touched it.
+
+It succeeded at `2026-08-24T00:01:31Z` and has failed since, so something
+changed on the function's side, not ours. The public jobs API confirms the
+failing step is "Refresh who is online". Logs need auth and `gh` is still not
+installed here.
+
+**Do not guess at this. The function returns a descriptive JSON body for every
+failure**, so one authenticated call ends it:
+
+```
+curl -sS "https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-presence?secret=$SYNC_SECRET"
+```
+
+Read what comes back against `site/supabase/functions/steam-presence/index.ts`:
+`STEAM_API_KEY is not set` is a 500 at line 77, `steam returned nothing for
+any batch` is a 502 at line 150 and means the Steam key has stopped working,
+and a 401 means `SYNC_SECRET` in the repo no longer matches the one on the
+function. My money is on the Steam key, because that is the only ingredient
+here that expires on its own, but I did not verify it and nobody should write
+it down as fact until they have.
+
+### The rebuild: the site is on the 2nd Coldstream skin
+
+`site/src/styles.css` is rewritten against `CSG Graphics/2ndCS-mockup`. Near
+black ground, scarlet and gold, Cinzel for names and Source Sans 3 for prose.
+The old locked design, OG Steam chrome in neutral monochrome, is gone.
+
+**Every class name survived, so not one `.tsx` file changed.** I diffed the
+selector set old against new and it is identical. This was deliberate: the
+data layer, the auth flow and the fifteen years of hard won layout fixes are
+untouched, and the only thing replaced is the skin. The two mobile overflow
+comments in the old sheet are carried over verbatim, along with the reasoning
+on the gallery's justified rows.
+
+Three rules from the mockup, written at the top of the file so the next person
+extends it rather than drifting off it:
+
+1. Flat. No bevels, no 180deg gradients on chrome. The old sheet drew depth
+   with light and dark edges; this one draws it with space.
+2. Gold names the thing, scarlet marks the live thing. `--accent` was white
+   and is now gold, which is the one substitution that does most of the work.
+3. Tracking is the texture, not weight.
+
+Green survives in exactly one job, liveness, because "online" cannot be gold
+or scarlet without reading as chrome. It is pulled toward the palette as
+`--live: #8aa85a` rather than Steam's brighter green.
+
+**The fonts are self hosted, and that was forced.** `_headers` sets
+`font-src 'self'` and `style-src 'self' 'unsafe-inline'`, enforcing since
+21 Aug, so a Google Fonts stylesheet and its font files would both be blocked.
+Widening a policy that a previous session deliberately tightened, in order to
+admit two typefaces, is the wrong trade when `'self'` already allows this. So
+both faces live in `site/public/fonts` as single variable woff2 files, latin
+subset, about 26KB each, declared with the weight axis as a range so 300, 600
+and 700 are real instances and not synthesised. Both are SIL OFL 1.1, which
+permits this. **No `_headers` change was needed and none was made.**
+
+Verified in a browser against the dev server, not by eye over the source:
+
+- `tsc -b && vite build` clean, no console errors on any route.
+- Tokens resolve: ground `#0b0c0e`, accent `#c6a35a`, scarlet `#9e1b2e`.
+- Both faces fetch 200 as `font/woff2` at the right byte counts, and
+  `document.fonts.check` passes for both.
+- Zero elements anywhere still computing to Tahoma.
+- All five routes render every module, at desktop and at 375px.
+- **No horizontal overflow on any route at 375px**, which is the regression
+  that matters most here and the one the old sheet has two long comments
+  about.
+
+### Not done, and deliberately
+
+`Landing.tsx` still uses the parent Coldstream Gaming wording. The mockup is
+the 2nd Coldstream Holdfast lane and its own README says it is "not parent CSG
+chrome", so the copy is a separate decision from the skin and it is River's,
+not mine. The skin is applied to the parent site; nobody has said the parent
+site should start calling itself the 2nd Coldstream.
+
+Nothing is committed and nothing is pushed. A push here publishes to
+coldstreamgaming.com, so that is River's call.
+
+## 2026-08-28 - Front page rebuilt, and the skin moved to the house brand (Claude, River side)
+
+River pointed at `Desktop/Site refs/website` and asked for four things off the
+front page, plus a home page that fits the community. All four are gone and
+the site now wears the parent brand, not the 2nd Coldstream one.
+
+### The skin is the Visual Direction sheet now, not the 2ndCS mockup
+
+`Site refs/website/CSG Visual Direction.png` is a real brand sheet, and it is
+the parent community's, not the Holdfast regiment's. Ground `#121416`, panel
+`#1B1F22`, ink `#E8EAE6`, muted `#9AA19A`, **brass `#B08D57` as the only warm
+colour**, frost `#C5D0D8`, navy `#1A2740`. Cormorant Garamond for display,
+Satoshi for UI. "Established. Welcoming. Built to last."
+
+**Scarlet is gone.** Earlier this session I skinned the site from the
+`2ndCS-mockup`, whose own README says it is "not parent CSG chrome". I flagged
+that mismatch at the time and this settles it: the parent site wears the
+parent brand. The `--scarlet` / `--scarlet-hot` variables still exist and are
+brass values now, because they were doing a real job (left edge marker, hover
+wash, primary fill) and renaming them would have touched forty rules for no
+gain. That is deliberate, and it is commented at the token block.
+
+**One judgement call worth knowing about.** The sheet calls `#0A0C0D` "Line",
+which is *darker than the ground*. Used as a card border that reads as an
+inset seam, and every mockup beside the sheet clearly draws a **lighter**
+hairline around cards. So both exist: `--line: #262b2f` is the visible
+hairline nearly every rule wants, and `--seam: #0a0c0d` is the sheet's value
+for where two panels genuinely meet. If a designer says the borders are wrong,
+this is the line to argue about.
+
+Green is gone too. The brand has none, so "online" is frost.
+
+### Fonts: four Satoshi cuts and one Cormorant, all self hosted
+
+Same reasoning as the last entry and it still binds: `_headers` enforces
+`font-src 'self'`, so neither Google nor Fontshare can be linked. Cormorant
+Garamond is one variable file, 37KB, axis declared as a range. **Satoshi has
+no variable webfont**, so it is four static cuts at ~25KB each, and only the
+four weights this site sets. Cormorant is OFL 1.1; Satoshi is the Indian Type
+Foundry Free Font Licence, which permits self hosting. The Cinzel and Source
+Sans 3 files from earlier today are deleted. No `_headers` change was needed.
+
+### The front page
+
+Off, all four as asked: **the news blurb, the shoutbox, the next event module,
+and the Join tab.** The bundle dropped 17KB.
+
+On, and the rule behind it is that every block answers one question a visitor
+actually asks:
+
+| block | question |
+|---|---|
+| hero, the crest artwork | who are you |
+| The Games | what do you play |
+| Discord + who is on Steam | is anyone about |
+| Servers, live | can I play tonight |
+| The Numbers | are you for real |
+
+The hero is `we're back.png` from the refs, resized to 1536 wide and encoded
+to 266KB (`public/hero-csg.jpg`). It earns the space: one badge over medieval,
+Napoleonic, modern and science fiction at once says "we have played all of
+this" faster than any paragraph.
+
+The Games is four rows, and **the wording is River's own, lifted from
+`artwork.png`**, not written here. It is a list rather than cards on purpose:
+cards turn a record into a storefront. Full run of games stays in the Archive.
+
+Nothing on the page is placeholder copy and nothing invents data. Modules that
+have nothing say so.
+
+### Nav, and the one thing I did not do
+
+Nav is now **Home, Gallery, Servers, Archive**. Join is gone.
+
+**The reference mockups show a fifth item, Events, and I left it out.** In
+this codebase `#/events` already routes to the Archive, so adding it would put
+two labels on one destination, which is worse than a missing tab. If River
+wants Events in the nav it needs its own view first: `views/Calendar.tsx`
+exists and is currently routed to nothing, so that is where to start.
+
+`views/Enlist.tsx` and `components/Shoutbox.tsx` are now orphaned. Left on
+disk rather than deleted, because "off the front page" is not the same
+instruction as "delete the enlistment flow", and `#/enlist` falls through to
+Home so no old link 404s.
+
+### Verified live, not by eye
+
+Build clean, **no console errors on any route**. Brand tokens resolve, both
+families report `document.fonts.check` true, hero art loads. Nav is the four
+items. News, shoutbox and next event are absent from the DOM, not merely
+hidden. All four routes render every module with **no horizontal overflow**,
+which is still the regression that matters most here.
+
+Still not committed and not pushed.
