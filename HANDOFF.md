@@ -2237,3 +2237,66 @@ look by whoever owns that component.
   fails in under a second every five minutes.
 - **0020 and now 0021** both want running in the SQL editor.
 - **Valheim and Minecraft** are still in the server poll list and still down.
+
+## 2026-08-29 - The Groupsy watermarks are gone, and the publish path caught me out (Claude)
+
+Nine of the twelve gallery plates were recovered from `i891.photobucket.com`
+and carried a "Groupsy by photobucket" overlay. Six now have clean originals
+from River's Photobucket export. Three had no clean original anywhere in the
+export and were removed with River's approval.
+
+**Matching was done by pixel comparison, not by eye, and it is worth reusing.**
+The watermark sits in a central band, so the top 22 percent and bottom 18
+percent of a watermarked plate and its clean original are the same pixels. I
+loaded both sets into a canvas, sampled only those two strips, scaled
+everything to 160x90 so resolution and aspect differences normalise away, and
+took the mean absolute difference. Every real match landed under 0.6 against a
+next best above 21. That gap is wide enough that no judgement call was
+involved, and the same trick will work for any overlay with a clean edge.
+
+**Search the whole export, not the likely folder.** My own brief said to look
+in `03_Gameplay_Screenshots` and check `07_Other_Images`. Five matches were
+indeed in gameplay, but the Pubstomp original was filed under
+`06_Documents_and_Certificates`. Following the brief as written would have
+deleted a plate that had a clean copy sitting right there. Widening to all 179
+files cost one extra run.
+
+**The thing that actually bit me: the site publishes from the repo root.**
+`PROJECT.md` says so plainly and I still lost time to it. Changing
+`site/public/gallery` and `site/src/seed` and pushing does nothing to the live
+domain. The publish step is `npm run build --prefix site` and then copying
+`site/dist` into the repo root, `_redirects` excluded. Two further traps in
+that copy:
+
+- `cp -r site/dist/assets ./assets` does **not** merge when `./assets` already
+  exists. It creates `assets/assets`. Same for `fonts`, `gallery`,
+  `game-logos`, `ranks` and `steam-return`. Use `cp -r site/dist/assets/. ./assets/`.
+- After the copy, `git add gallery/` will happily stage the nested junk
+  directory too. Check `git status` before committing, not after.
+
+`210325a830` is now a **png**, the only one in the gallery. It is a page of
+kill feed text, png is what its `source` field already recorded it as, and
+`recordId()` in `lib/media.ts` strips the extension, so the deep link
+`rec-210325a830` is unchanged. Do not "fix" it back to jpg without a reason;
+jpeg smears the glyphs. `sharp` is a root dependency if a conversion is ever
+wanted.
+
+Every clean original turned out to be the same size as the plate it replaced,
+so no `w` or `h` in the seed changed. That was checked against file headers
+rather than assumed, because the justified grid reserves space from those two
+numbers and a stale pair is a layout shift on load.
+
+Removed, with their seed rows: `24fa333edc` (kill feed, 42 names),
+`2be252508c` (end of round Austria against France, 20 names) and
+`495931f670` (five to nothing on US1, 31 names). All three were HUD captures
+rather than scenes. The 93 member names they carried came off the member wall
+with them and survive only in history at `95c5ddf`. River was shown that cost
+before approving.
+
+Verified live: all six plates serve bytes identical to the repo, and all four
+removed files return 404. Commits `95c5ddf`, `fc963b0`, `3f5d7b2`.
+
+Board: `web-19` was still marked blocked on a note from 25 Aug saying
+`server-status.yml` was failing. It has been green since the socket fix and
+`status.mjs` reads it as succeeded, so it is now done. `web-20` stays blocked;
+it needs `SYNC_SECRET` in Settings, Secrets and variables, Actions.
