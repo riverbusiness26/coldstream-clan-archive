@@ -20,24 +20,31 @@ const DEFAULT_SERVERS = [
     query_port: 27018,
     protocol: 'source',
   },
-  {
-    server_key: 'valheim-dev',
-    game: 'VAL',
-    name: 'Coldstream Valheim DEV',
-    address: '40.160.84.169:2456',
-    host: '40.160.84.169',
-    query_port: 2457,
-    protocol: 'source',
-  },
-  {
-    server_key: 'minecraft-dev',
-    game: 'MC',
-    name: 'Coldstream Minecraft DEV',
-    address: '40.160.84.169:25565',
-    host: '40.160.84.169',
-    query_port: 25565,
-    protocol: 'minecraft',
-  },
+  // Off the list from 2026-08-30 while both hosts are down. Each one cost a
+  // 5 second query timeout on every run, so a poll that had two dead servers
+  // in it spent ten of its seconds waiting to fail. Ports and protocols are
+  // kept here so restoring is one uncomment, not a research job. The matching
+  // seed entries in site/src/lib/content.ts are commented out too, and both
+  // have to come back together or the page will render a server the poll
+  // never writes to.
+  // {
+  //   server_key: 'valheim-dev',
+  //   game: 'VAL',
+  //   name: 'Coldstream Valheim DEV',
+  //   address: '40.160.84.169:2456',
+  //   host: '40.160.84.169',
+  //   query_port: 2457,
+  //   protocol: 'source',
+  // },
+  // {
+  //   server_key: 'minecraft-dev',
+  //   game: 'MC',
+  //   name: 'Coldstream Minecraft DEV',
+  //   address: '40.160.84.169:25565',
+  //   host: '40.160.84.169',
+  //   query_port: 25565,
+  //   protocol: 'minecraft',
+  // },
 ];
 
 function serversFromEnv() {

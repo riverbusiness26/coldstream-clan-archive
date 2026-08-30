@@ -23,6 +23,11 @@ export const news = newsSeed as NewsItem[];
 // private until their access rules are ready.
 export const servers: ServerInfo[] = [
   { server_key: 'holdfast-dev', game: 'HOL', name: 'Coldstream Gaming Holdfast DEV', address: '40.160.84.169:20100', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
-  { server_key: 'minecraft-dev', game: 'MC', name: 'Coldstream Minecraft DEV', address: '40.160.84.169:25565', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
-  { server_key: 'valheim-dev', game: 'VAL', name: 'Coldstream Valheim DEV', address: '40.160.84.169:2456', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
+  // Minecraft and Valheim are off the list from 2026-08-30 while both are
+  // down. A server that has never once answered reads as neglect, not as a
+  // tracker working correctly. Put the line back when the host is running and
+  // answering queries; the poll list in scripts/poll-server-status.mjs has the
+  // matching entry commented out beside its ports.
+  // { server_key: 'minecraft-dev', game: 'MC', name: 'Coldstream Minecraft DEV', address: '40.160.84.169:25565', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
+  // { server_key: 'valheim-dev', game: 'VAL', name: 'Coldstream Valheim DEV', address: '40.160.84.169:2456', online: false, players: 0, max_players: 0, player_names: [], visibility: 'public' },
 ];
