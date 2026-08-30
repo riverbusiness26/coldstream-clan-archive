@@ -1077,8 +1077,16 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
    --lockup is the shared width the two pieces are measured against. The
    plaque is 0.6294 of the headline in the original artwork, and multiplying
    the same variable is what keeps that relationship exact at every size
-   instead of two clamps drifting apart. */
-.splash-copy{--lockup:min(47vw,760px)}
+   instead of two clamps drifting apart.
+
+   Desktop sits at 38vw, not the 47vw measured off River's reference
+   composition. That is deliberate and it is not drift: matching the
+   reference exactly put the headline nearly out to the crest's outer
+   points, and River chose the smaller of five renders so the crest reads
+   as the anchor and the type as the caption. Do not "restore" this to the
+   reference number. The plaque ratio is the part that came from the
+   artwork and that is still exact. */
+.splash-copy{--lockup:min(38vw,616px)}
 .splash-wordmark{margin:0;font-size:0;line-height:0}
 .splash-wordmark img{display:block;margin:0 auto;width:var(--lockup);height:auto;
   filter:drop-shadow(0 4px 22px rgba(0,0,0,.55))}
@@ -1109,6 +1117,10 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
    gives way first and the lockup narrows rather than the button dropping off
    the bottom. */
 @media (max-height:620px) and (orientation:landscape){
-  .splash-copy{--lockup:min(40vw,520px);padding:1vh 20px 2vh}
+  /* Kept below the desktop value on purpose. This override exists to pull
+     the type in when there is no vertical room, so it has to move whenever
+     desktop moves; left at its old number it would have ended up larger
+     than the tall-screen size and inverted its own reason for existing. */
+  .splash-copy{--lockup:min(33vw,440px);padding:1vh 20px 2vh}
   .splash-enter{margin-top:14px}
 }

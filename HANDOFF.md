@@ -2614,3 +2614,48 @@ red cross. The recipe is now `brightness(.84) contrast(1.12) saturate(1.18)
 sepia(.05)`: most of the warmth comes from raising saturation, not from
 sepia. Kept in CSS rather than baked into the WebP so it stays tunable beside
 the layout it has to match. Bake it and delete the filter if it settles.
+
+## 2026-08-30, Claude: desktop splash type comes down to 38vw
+
+River asked for the desktop headline "a bit smaller" and, importantly, asked
+to be shown options rather than handed one. Five renders at 1536x1024 with
+the crest held fixed at 29vw so only the type moved: 47vw (as shipped), 44,
+41, 38, 35. River picked 38.
+
+Measured after the change, not eyeballed:
+
+| viewport | headline | plaque | plaque/headline | crest |
+|---|---|---|---|---|
+| 1536x1024 | 38.0vw | 23.9vw | 0.6294 | 29.0vw |
+| 1024x600 (short landscape) | 33.0vw | n/a | n/a | unchanged |
+| 375x812 (portrait) | 84.0vw | n/a | n/a | 52.0vw |
+
+Nothing clips at any of the three. Portrait still serves
+`landing-mobile.jpg`, confirmed from `currentSrc` rather than assumed.
+
+**The trap that cost a cycle here.** After editing the CSS I navigated to
+`http://localhost:5173/#/` and measured 35vw, not 38. The edit was fine. A
+navigation that only changes the hash does not reload the document, so the
+inline `--lockup` I had set on `.splash-copy` while rendering the variations
+was still sitting there overriding the stylesheet. Anything that measures
+this page after a CSS change has to force `location.reload()`. This is the
+second reload-shaped trap on this view, the first being `<picture>` not
+re-picking a `<source>` on a devtools-only resize.
+
+**Two numbers moved, not one.** The short-landscape override was
+`min(40vw,520px)`, chosen when desktop was 47vw. Left alone it would have
+served *larger* type on a short screen than on a tall one, which inverts the
+whole reason that media query exists. It is now `min(33vw,440px)`, scaled by
+the same factor. Any future change to the desktop lockup has to carry this
+one along.
+
+**Do not "restore" desktop to 47vw.** That number came from measuring
+River's reference composition and is recorded a few entries above as a
+match, so it looks like drift when you find 38 in the file. It is not.
+River chose the smaller size deliberately from five side-by-side renders.
+The part that genuinely came from the artwork is the 0.6294 plaque ratio,
+and that is still exact, because both pieces are multiplied off the one
+variable instead of being clamped separately.
+
+Built, copied `site/dist` into the repo root the documented way
+(`cp -r site/dist/assets/. ./assets/`), committed and pushed.
