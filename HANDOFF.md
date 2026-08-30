@@ -2300,3 +2300,48 @@ Board: `web-19` was still marked blocked on a note from 25 Aug saying
 `server-status.yml` was failing. It has been green since the socket fix and
 `status.mjs` reads it as succeeded, so it is now done. `web-20` stays blocked;
 it needs `SYNC_SECRET` in Settings, Secrets and variables, Actions.
+
+## 2026-08-30 - A 404 page, a bundle purge, and two deploy paths that disagree (Claude)
+
+`site/public/404.html` is new and standalone on purpose: Cloudflare serves it
+for an unknown path, which is exactly the case where the app bundle may itself
+be the missing thing, so it depends on nothing but the self hosted fonts and
+its own rules. The palette is copied from `site/src/styles.css` rather than
+imported, and there is a comment there saying to move it if the tokens move.
+
+**It is live at https://coldstreamgaming.com/404 and it renders correctly.
+But an unknown path still returns 404 with an empty body.** Cloudflare is not
+wiring `404.html` up as the not found page, and I could not find out why from
+here: `npx wrangler pages deployment list` needs `CLOUDFLARE_API_TOKEN`, which
+is not in this environment. Somebody with the dashboard needs to look.
+
+**While chasing that I found the thing PROJECT.md warns about.** The apex and
+the pages.dev subdomain are serving different builds:
+
+    coldstreamgaming.com      -> assets/index-BW3izRQa.js   (current, from this repo)
+    coldstreamgaming.pages.dev -> assets/index-On7VicJQ.js  (a bundle not in this repo at all)
+
+`coldstreamgaming.pages.dev` also answers 200 with index.html for an unknown
+path, SPA style, where the apex answers 404. So they are not the same project
+or not the same deploy path. PROJECT.md says "One deploy path only" and
+records that a second one silently broke the push based build for ninety
+minutes. This looks like a second one still being there. Worth resolving
+before launch, because it means the pages.dev address shows visitors an old
+site.
+
+Also note the generated `_redirects` is **not** a hazard file to be avoided,
+whatever the 22 Aug entry implies. It is the www to apex fold, and the comment
+in `site/public/_redirects` explains why it matters: Supabase puts the session
+in the fragment on www, so without the fold a member signs in on www and looks
+signed out on the apex. It is currently not published to the root and the
+guard is passing anyway, so that redirect is configured in Cloudflare rather
+than by the file. Do not add a `/* /404.html 404` line to it without checking
+that, or the www session fold may go with it.
+
+**Bundle purge.** The publish root held 44 files in `assets` and only 6 were
+reachable, 5.2M down to 804K. Reachability was computed as a transitive
+closure: seed from every shipped html, then follow chunk to chunk references
+inside the bundles. Do not shortcut this to grepping the html. The lazy route
+chunks for Admin, Archive and Profile are named only inside the JS, and an
+html only scan deletes all three. Verified after: the Archive route still
+fetches its chunk, 200, console clean.
