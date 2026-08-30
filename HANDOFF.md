@@ -2578,3 +2578,39 @@ the shipped WebP, so it is as opaque as what he supplied. It is a compositing
 problem: the crest that was painted into the old plate shared the sunset's
 light, and a cutout keeps its own and lands on the low contrast misty valley.
 Grading it warm and cutting the heavy drop shadow is the likely fix. Not done.
+
+## 2026-08-30 - The splash scale is measured off the mockup, not chosen (Claude, River side)
+
+River said the scale felt off and sent the reference composition. Rather than
+nudge until it looked right, the proportions were read off that image and the
+CSS was set to them:
+
+| | reference | was | now |
+|---|---|---|---|
+| crest | 29.3vw | 27vw | 29vw |
+| headline | 47.4vw | 62vw | 47vw |
+| plaque | 29.7vw | 39vw | 29.6vw |
+
+The headline was the real error, 14.6vw too wide, and it dragged the plaque
+with it. **Worth noting the ratio check**: the plaque is 0.6266 of the
+headline in River's reference and 0.6294 in the sliced asset, so the internal
+proportions were already right and only the overall scale was wrong. That is
+why the fix is one `--lockup` value rather than three separate numbers.
+
+Verified by measuring the rendered boxes in the browser, not by eye: crest
+29.0vw, headline 47.0vw, plaque 29.6vw at 1536x1024.
+
+**One difference that cannot be closed and should not be chased.** The crest
+in the reference has an aspect of about 0.90 wide to tall. The transparent
+crest River supplied is 0.978. So matching the width leaves the crest about
+4 percent short vertically, and the stack sits around 2 percent higher than
+the reference. Widening the gap under the crest to 8.5vh absorbed most of it.
+Do not fix the rest by distorting the image.
+
+**The crest is graded in CSS, and the first attempt was wrong in an
+instructive way.** `sepia()` desaturates before it tints, so
+`brightness(.74) sepia(.14)` darkened it but greyed the shield and killed the
+red cross. The recipe is now `brightness(.84) contrast(1.12) saturate(1.18)
+sepia(.05)`: most of the warmth comes from raising saturation, not from
+sepia. Kept in CSS rather than baked into the WebP so it stays tunable beside
+the layout it has to match. Bake it and delete the filter if it settles.
