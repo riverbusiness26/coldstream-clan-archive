@@ -2345,3 +2345,40 @@ inside the bundles. Do not shortcut this to grepping the html. The lazy route
 chunks for Admin, Archive and Profile are named only inside the JS, and an
 html only scan deletes all three. Verified after: the Archive route still
 fetches its chunk, 200, console clean.
+
+## 2026-08-30 - Mobile pass, and the one thing that was actually broken (Claude)
+
+Every public page now measures 375 wide at a 375 viewport: home, gallery,
+servers, archive, members, events. Landing is deliberately not in that list,
+because Codex is rebuilding it and mobile-passing a page that is about to be
+replaced is wasted work. It needs its own pass when the new one lands, and
+`web-16` is left at `doing` for exactly that reason.
+
+**The real bug was on the archive, and it was 48px wide.** The Steam Groups
+rows put a bare `steamcommunity.com/groups/...` URL in `.era-game`. That is
+one unbroken token, and at `.1em` tracking it measured 344px inside a 259px
+column, which pushed the whole document to 423px. The parent already had
+`min-width:0`. That is not enough on its own and it is worth understanding
+why: `min-width:0` lets a flex or grid child shrink below its content, but
+the child still cannot shrink below its longest unbreakable word. There was
+no break opportunity in the string for it to take. `overflow-wrap:anywhere`
+supplies one.
+
+Worth knowing for the next long-string field: the same trap is waiting on any
+column that renders a URL, a file path, or a Steam ID.
+
+**Tap targets.** `.pulse` was an 11px tall link and the big footer links were
+23px. Both are 24px now, done with `inline-flex` and `min-height` rather than
+padding, so the text does not move and the footer keeps its 8px rhythm.
+
+One undersized target is left on purpose: the "the Archive" button inside the
+sentence "Every game, every era and every night on the calendar is in the
+Archive." WCAG 2.2 target size exempts a target in a block of text, and
+padding it out would break the line it sits in. If a future audit flags it,
+that is the answer.
+
+**The asset purge has to be repeated on every publish.** Each build renames
+the bundles, so the old ones are left behind in the root the moment you copy a
+new `site/dist` over it. This publish superseded 5 files. The closure script
+is written out in the 2026-08-30 entry above; run it after the copy, or the
+root quietly grows back to the 44 files it held this morning.
