@@ -2382,3 +2382,119 @@ the bundles, so the old ones are left behind in the root the moment you copy a
 new `site/dist` over it. This publish superseded 5 files. The closure script
 is written out in the 2026-08-30 entry above; run it after the copy, or the
 root quietly grows back to the 44 files it held this morning.
+
+## 2026-08-30 - steam-presence had been dead for six days, and the run count lied (Claude, River side)
+
+`status.mjs` flagged `steam-presence.yml` as failing. The first read of it,
+mine, was wrong twice, and both errors would have sent River to the wrong fix.
+
+**It was not "the secret was never set".** The workflow succeeded 45 times,
+runs #1 to #46, from 22 Aug through to 24 Aug 00:01:21Z, then failed on every
+run after. A working setup broke on the 24th. Adding a secret you assume is
+correct to a repo that may already hold one leaves you red and none the wiser.
+
+**It was 322 failures, not the ~1,700 I first said.** I had multiplied the
+`*/5` cron out to 288 runs a day. GitHub actually fired it about 46 times a
+day, 370 runs total across eight days. The workflow's own comments already
+say GitHub does not honour tight schedules on free runners. Believe the
+`total_count` from the API, not the cron expression.
+
+**Diagnosis that did not need the secret.** Probing the function with a
+deliberately invalid value returned `HTTP 401` / `no`, which proves it is
+deployed and rejecting. It does not say which side lost the value: line 73 of
+`site/supabase/functions/steam-presence/index.ts` reads
+`if (!SYNC_SECRET || given !== SYNC_SECRET)` and returns the same 401 whether
+the function's own env var is missing or the caller's simply does not match.
+Worth remembering before reading a 401 as an answer. Every commit to that
+function is dated 22 Aug, so the 24 Aug break was configuration, not code.
+
+The fix was setting `SYNC_SECRET` to one fresh value on both sides, Supabase
+edge function secrets and GitHub Actions repository secrets, which is correct
+regardless of which side had drifted. **Still unknown: whether GitHub already
+held a value.** River did the entry and I did not ask again afterwards. If
+anyone finds out, it explains what happened on the 24th.
+
+Verified, rather than trusting a green tick. Run #375, `workflow_dispatch`,
+success, the 46th ever. Then the tables the function actually writes:
+`steam_presence.checked_at` at 07:03:28Z, seven seconds after the run started,
+and `game_stats.checked_at` at 07:03:30Z. Both fresh, so the row is a real
+write and not a survivor from 24 Aug. `steam_recent` also populated. Note that
+presence does **not** live on `member`, which has no presence columns at all.
+
+**The thing worth fixing next.** Nothing announced six days of failure. This
+is the second time: the 29 Aug entry records `server-status.yml` reporting red
+for two months of green runs, and the 25 Aug note left `web-19` blocked on it.
+`status.mjs` catches this only when a human remembers to run it. A workflow
+that fails on a schedule needs to tell someone without being asked.
+
+Board: `web-20` is done.
+
+## 2026-08-30 - The front door is a plate and real type, and the film reel is gone (Claude, River side)
+
+The landing splash was four curated YouTube segments, double buffered with a
+crossfade. It is now a single sunset plate with the crest, and three lines of
+HTML over it. **The film version is not lost, it is at the commit before this
+one**, and it is worth reading before reviving it because it solved real
+problems: no black flash, no spinner, reduced motion handled. River asked for
+the plate. The cut is his call, not a defect.
+
+**The rule that shaped it: no words are baked into the artwork.** An earlier
+mockup had "WE'RE BACK." burned into the image and it cannot survive a phone,
+because the crop that keeps the crest is not the crop that keeps the type.
+So the plate carries sky, land and crest only, and the headline, motto and
+button are markup. They reflow, they scale, they are selectable, a screen
+reader reads them, and nothing gets sliced.
+
+**Two plates, not one scaled plate.** `landing-desktop.jpg` is 3:2 and
+`landing-mobile.jpg` is 9:16, swapped by `<picture>` at
+`(max-width:820px) and (orientation:portrait)`. Both are `cover`. `contain`
+was rejected on purpose: letterboxing a front door makes it read as an image
+viewer. Each plate is composed for its own shape, so cover has nothing
+important left to cut.
+
+Sources were the matched pair in `Desktop/web`, not the ones in `Downloads`.
+Both folders held a 3:2 sunset plate and they are not interchangeable: the
+Downloads one has a bright grass foreground that fights the type, the
+`Desktop/web` one is darker underneath and puts the crest higher. Checked by
+eye against the mockup rather than by filename.
+
+Four deviations from the brief, each on purpose:
+
+- Desktop ships at its native **1536x1024, not the 3072x2048 asked for**.
+  Enlarging cannot add detail and would double the bytes on the one image
+  that blocks first paint. Regenerate at 3072 and drop it in if wanted; no
+  code changes.
+- Mobile is 941x1672 resized up to 1080x1920, a 1.15x enlargement.
+- The button is `href="#/home"`, not `/home`. **This site is hash routed**
+  and `/home` is a 404.
+- The motto is letterspaced brass caps rather than the mockup's italic.
+  Cormorant Garamond is one variable file here with no italic axis, so
+  `font-style:italic` would be a synthetic slant on a Garamond.
+
+The headline gradient is clipped to the glyphs and is guarded behind
+`@supports`, because the fallback for an unsupported `background-clip:text`
+is transparent text, which is no headline at all. The shadow becomes a
+`drop-shadow` filter in that block for the same reason: a `text-shadow` on
+transparent glyphs paints nothing.
+
+`100svh`, not `100vh`. On a phone `100vh` is the viewport with the browser
+chrome hidden, so the button sits under the address bar until you scroll.
+
+Verified in a real browser at 1440x900 and at 375x812, not by reading the
+CSS. One trap for whoever tests next: **`<picture>` does not re-pick its
+source when you only resize the devtools viewport.** Reload after resizing or
+you will see the desktop plate cropped to a phone and think the media query
+is broken. It is not.
+
+Published the documented way, repo root, `cp -r site/dist/assets/. ./assets/`,
+and `git status` checked for the nested `assets/assets` trap before
+committing. It was clean.
+
+**Not in this commit: `.github/workflows/alert-failures.yml`.** It is written
+and sitting untracked in the working tree. It alerts Discord on a workflow
+going green to red and red to green, on the edge rather than the state, so a
+five minute cron that breaks posts once instead of 288 times a day. It needs
+a `DISCORD_ALERT_WEBHOOK` repository secret and does not work without one.
+Committing a workflow that is guaranteed to fail, in the repo whose actual
+problem was failures nobody noticed, would be the wrong thing to add. Set the
+secret, then commit it.
