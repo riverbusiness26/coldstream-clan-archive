@@ -49,23 +49,25 @@ export default function Landing({ go }: { me: Me | null; go: (v: string) => void
             made it, roughly 36 percent of the viewport with no way to change
             that short of new artwork. Here it is a number in the CSS. */}
         <img className="splash-crest" src={asset('/crest.webp')} alt="" fetchPriority="high" width={900} height={920} />
-        <h1>WE&rsquo;RE BACK.</h1>
-        {/* The rules and arrowheads either side are chrome, not content, so
-            they are empty elements a screen reader never has to announce. */}
-        <p className="splash-motto">
-          <i aria-hidden="true" />
-          <span>Second to none.</span>
-          <i aria-hidden="true" />
-        </p>
-        {/* A real anchor, not a button: it has an href, so it opens in a new
-            tab on middle click and survives JavaScript failing to boot. The
-            handler only adds the scroll reset that `go` does. */}
+        {/* Still an h1, so the page keeps a heading: the words are in the
+            alt text, which is what a screen reader and a search engine read.
+            The headline and motto are one image because the space between
+            those two lines is part of the artwork, not a margin. */}
+        <h1 className="splash-wordmark">
+          <img src={asset('/wordmark.webp')} alt="We&rsquo;re back. Second to none."
+               width={2087} height={392} fetchPriority="high" />
+        </h1>
+        {/* The plaque is sliced out as its own file rather than left in the
+            lockup, so this stays a real anchor with an href: middle click,
+            keyboard focus and a screen reader all still work, and on a phone
+            it can sit apart from the headline instead of shrinking with it.
+            The handler only adds the scroll reset that `go` does. */}
         <a
           className="splash-enter"
           href="#/home"
           onClick={(e) => { e.preventDefault(); go('home'); }}
         >
-          Enter the Site
+          <img src={asset('/enter-plaque.webp')} alt="Enter the site" width={1212} height={224} />
         </a>
       </div>
     </div>

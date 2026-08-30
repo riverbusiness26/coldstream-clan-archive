@@ -2532,3 +2532,49 @@ use and the other two are equivalent. Swapping is one path in
 Plate framing moved from `center 18%` to `center 46%`. The old value existed
 only to keep the painted crest from being clipped at the top. With no crest
 in the plate there is nothing to protect and the landscape can sit properly.
+
+## 2026-08-30 - The type becomes artwork, and the reasoning reverses (Claude, River side)
+
+The headline, motto and button were HTML type, set in Cormorant with a
+gradient clipped to the glyphs. They are now images. **This reverses the rule
+the two entries above argue for, deliberately, and it is worth understanding
+why before anyone "fixes" it back.**
+
+The rule was right as a default and is still right for the reasons given: type
+as image does not reflow, does not scale as vectors, is not selectable. What
+changed is the target. River supplied an engraved metal lockup, and the bevel
+on the letterforms, the stone texture inside them and the notched plaque
+frame are painted, not styled. CSS cannot reach it. The choice was the look
+River wanted or the properties web type has, not both.
+
+**What the slicing buys back.** The lockup arrived as one 2112x744 file with
+all three elements. Shipped whole it would be a picture with a click target
+floating over part of it. Cut into two, `wordmark.webp` and
+`enter-plaque.webp`, the heading is still an `h1` with the words in its alt
+text, and the button is still an `<a href>`, so middle click, keyboard focus
+and screen readers work. Verified in the accessibility tree, not assumed:
+`heading > image "We're back. Second to none."` and
+`link href="#/home" > image "Enter the site"`. On a phone the two pieces
+also sit apart instead of one wide lockup shrinking to a hairline.
+
+Two things that will bite whoever edits this next:
+
+- **Where to cut.** Do not eyeball it. An alpha row profile of the source
+  gives three content bands, y 64-310, y 363-438 and y 471-694, separated by
+  genuinely empty gaps of 52px and 32px. Cut inside a gap. The headline and
+  motto stay one piece on purpose: the space between those two lines is part
+  of the artwork, not a margin to recreate.
+- **sharp runs `trim` before `extract` in a single pipeline**, so chaining
+  them throws `extract_area: bad extract area` with coordinates that are
+  plainly in bounds. Extract to a buffer, then trim in a second instance.
+
+The plaque is `0.6294` of the headline width in the original art. Both are
+sized off one `--lockup` custom property and that ratio, rather than two
+clamps that would drift apart at different viewports.
+
+Still open: River said the crest looks wrong. It is not an opacity bug, which
+was the first guess. Alpha is 252 to 253 out of 255 in both his source PNG and
+the shipped WebP, so it is as opaque as what he supplied. It is a compositing
+problem: the crest that was painted into the old plate shared the sunset's
+light, and a cutout keeps its own and lands on the low contrast misty valley.
+Grading it warm and cutting the heavy drop shadow is the likely fix. Not done.
