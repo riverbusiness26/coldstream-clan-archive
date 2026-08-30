@@ -2498,3 +2498,37 @@ a `DISCORD_ALERT_WEBHOOK` repository secret and does not work without one.
 Committing a workflow that is guaranteed to fail, in the repo whose actual
 problem was failures nobody noticed, would be the wrong thing to add. Set the
 secret, then commit it.
+
+## 2026-08-30 - The crest comes out of the plate too (Claude, River side)
+
+River asked for the crest smaller. It could not be done, because the crest
+was painted into the artwork: its size on screen is the crop's business, and
+`cover` already shows as little of the image as it is allowed to. The only
+levers were extending the canvas so the crest occupied a smaller fraction of
+it, which is a mirror job with a seam, or new art.
+
+**The fix was the rule this page already had, applied one step further.** The
+type came out of the plate on the first pass. Now the crest has too. River
+supplied a transparent crest and, crucially, **crest free landscapes in both
+3:2 and 9:16**, which is the half that is easy to forget: overlaying a new
+crest without them leaves the old one showing underneath.
+
+Sizes are now numbers in the CSS rather than properties of an image:
+`27vw` capped at 400px on desktop, `50vw` capped at 300px in portrait, both
+with a `max-height` guard so a short landscape window shrinks the crest
+instead of pushing the button off the bottom. The gap above the headline is
+a floor, so the two can never close up at any viewport.
+
+`crest.webp`, 900x920, 214KB. **WebP with no PNG fallback, on purpose.** Every
+browser that supports `100svh` and `background-clip:text`, both already
+shipped on this page, has supported WebP alpha for years, so a fallback would
+guard against nothing. The PNG was 1.2MB and a 256 colour quantisation was
+302KB and banded the metal.
+
+Three crest variants and two landscapes arrived; `02_40_57` is the crest in
+use and the other two are equivalent. Swapping is one path in
+`src/views/Landing.tsx`.
+
+Plate framing moved from `center 18%` to `center 46%`. The old value existed
+only to keep the painted crest from being clipped at the top. With no crest
+in the plate there is nothing to protect and the landscape can sit properly.
