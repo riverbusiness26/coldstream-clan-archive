@@ -332,8 +332,13 @@ footer b{color:var(--muted);font-weight:500}
 .era.open .era-head{background:rgba(176,141,87,.1);box-shadow:inset 3px 0 0 var(--scarlet)}
 .era-year{font:400 15px/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:.04em}
 .era-mid{min-width:0;display:flex;flex-direction:column;gap:4px}
-.era-name{font:600 14px/1.3 var(--display);letter-spacing:.04em;color:var(--ink)}
-.era-game{font:400 10px/1.4 var(--mono);color:var(--faint);letter-spacing:.1em;text-transform:uppercase}
+/* anywhere, not break-word: the Steam Groups rows put a bare URL in .era-game,
+   which is one unbroken token, and at .1em tracking it was 344px wide inside a
+   259px column. min-width:0 on the parent is not enough on its own, because
+   there is no break opportunity in the string for the parent to take. That
+   pushed the whole archive page to 423px against a 375px viewport. */
+.era-name{font:600 14px/1.3 var(--display);letter-spacing:.04em;color:var(--ink);overflow-wrap:anywhere}
+.era-game{font:400 10px/1.4 var(--mono);color:var(--faint);letter-spacing:.1em;text-transform:uppercase;overflow-wrap:anywhere}
 .era-bar{height:6px;background:#0e0f12;border:1px solid var(--line);display:block}
 .era-fill{display:block;height:100%;background:linear-gradient(90deg,var(--accent-deep),var(--accent))}
 .era-events{font:400 11px/1.4 var(--mono);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
@@ -466,7 +471,11 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .bigfoot{max-width:1120px;margin:48px auto 0;padding:28px 20px 36px;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:22px;font-size:13px}
 .bigfoot .fcol{display:flex;flex-direction:column;gap:8px}
 .bigfoot .fcol b{font:600 11px var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
-.bigfoot .fcol a{color:var(--muted)}
+/* The footer links sat at 23px, which passes WCAG 2.2 only by way of the
+   spacing exception. On a phone that is a thumb-sized miss, so give them the
+   24px outright. inline-flex rather than padding keeps the 8px column gap
+   reading as the same rhythm. */
+.bigfoot .fcol a{color:var(--muted);display:inline-flex;align-items:center;min-height:24px}
 .bigfoot .fcol a:hover{color:var(--ink);text-decoration:underline}
 .bigfoot .meta{line-height:1.7}
 
@@ -486,7 +495,10 @@ select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50
 .land-motto{margin-top:22px;font:400 13px/1.5 var(--display);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-shadow:0 1px 8px rgba(0,0,0,.9)}
 
 /* ---- the online pulse and the next event module ---- */
-.pulse{color:var(--muted);letter-spacing:.1em}
+/* 11px of link is not a touch target. inline-flex with a min-height gets it to
+   the 24px WCAG 2.2 asks for without changing where the text sits, since the
+   padding is vertical only and the line stays put. */
+.pulse{color:var(--muted);letter-spacing:.1em;display:inline-flex;align-items:center;gap:4px;min-height:24px}
 .pulse:hover{color:var(--ink)}
 .pulse b{color:var(--live)}
 .pdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);box-shadow:0 0 6px rgba(154,161,154,.85);margin-right:2px;vertical-align:1px}
