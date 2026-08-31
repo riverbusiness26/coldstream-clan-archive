@@ -2748,3 +2748,11 @@ VERIFIED:    A live POST from `https://coldstreamgaming.com` created a queued We
 UNVERIFIED:  Nothing in the task-entry path.
 BLOCKED:     Nothing.
 NEXT:        Publish commits through `9b65e54` plus this completion update, then verify the live crest, form and automatic activity record at `/progress/`.
+
+## 2026-08-30 - Submitter removal and workstream icons completed (Codex, River side)
+
+DONE:        Added device-scoped Undo and Remove controls for public tasks, removed the approved test entries, and replaced all seven letter tiles with distinct brass-and-frost line icons.
+VERIFIED:    The Edge Function returned a private removal token, rejected an incorrect token and removed the task with the correct token. Deno check, the site build and the 22-task board build passed. The tablet browser showed seven icons, seven brass accents and no horizontal overflow.
+UNVERIFIED:  Nothing in this release.
+BLOCKED:     Nothing.
+NEXT:        Publish commits `ecb5b48` and the icon update, then verify the live board exposes Undo and same-device Remove without returning any test tasks.
