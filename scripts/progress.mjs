@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const boardPath = path.join(root, 'progress', 'board.json');
 const outPath = path.join(root, 'progress', 'index.html');
+const feedPath = path.join(root, 'progress', 'activity.json');
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -78,7 +79,7 @@ function laneMarkup(lane, tasks) {
   </article>`;
 }
 
-function activityMarkup(board, changes) {
+function activityItems(board, changes) {
   const taskActivity = [...(board.history ?? [])].reverse().slice(0, 8).map((item) => ({
     at: item.at,
     title: item.text,
@@ -93,7 +94,28 @@ function activityMarkup(board, changes) {
   }));
   return [...taskActivity, ...commitActivity]
     .sort((a, b) => new Date(b.at) - new Date(a.at))
-    .slice(0, 14)
+    .slice(0, 14);
+}
+
+// The page sidebar mixes board events with repository commits, which is right
+// for a workshop display and wrong for Discord: a commit subject tells a member
+// nothing. The published feed therefore carries board events only, and grows on
+// its own because scripts/task.mjs records every task change as history.
+function boardEvents(board) {
+  return [...(board.history ?? [])]
+    .reverse()
+    .slice(0, 20)
+    .map((item) => ({
+      at: item.at,
+      title: item.text,
+      lane: item.lane ?? null,
+      meta: board.lanes.find((lane) => lane.id === item.lane)?.label ?? 'Board',
+      kind: 'board',
+    }));
+}
+
+function activityMarkup(items) {
+  return items
     .map((item) => `<li><i class="activity-mark ${item.kind}"></i><span><b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.meta)} · <time datetime="${escapeHtml(item.at)}">${escapeHtml(item.at)}</time></small></span></li>`)
     .join('');
 }
@@ -107,7 +129,8 @@ const blocked = board.tasks.filter((task) => task.status === 'blocked').length;
 const queued = board.tasks.filter((task) => task.status === 'todo').length;
 const completion = total ? Math.round((done / total) * 100) : 0;
 const lanes = board.lanes.map((lane) => laneMarkup(lane, board.tasks)).join('');
-const activity = activityMarkup(board, changes);
+const feed = activityItems(board, changes);
+const activity = activityMarkup(feed);
 const laneOptions = board.lanes.map((lane) => `<option value="${escapeHtml(lane.id)}">${escapeHtml(lane.label)}</option>`).join('');
 
 const html = `<!doctype html>
@@ -325,5 +348,43 @@ const html = `<!doctype html>
 </html>`;
 
 fs.writeFileSync(outPath, html);
+
+// Published so Coldstream Guard can report the same record in Discord without
+// a GitHub token or a second copy of the board drifting out of date.
+const feedFile = {
+  schema: 1,
+  generatedAt: new Date().toISOString(),
+  boardUpdatedAt: board.updatedAt,
+  title: board.title,
+  summary: { total, done, doing, blocked, queued, completion },
+  lanes: board.lanes.map((lane) => {
+    const laneTasks = board.tasks.filter((task) => task.lane === lane.id);
+    return {
+      id: lane.id,
+      label: lane.label,
+      done: laneTasks.filter((task) => task.status === 'done').length,
+      total: laneTasks.length,
+    };
+  }),
+  activity: boardEvents(board),
+  open: board.tasks
+    .filter((task) => task.status !== 'done')
+    .sort((a, b) => {
+      const order = { doing: 0, blocked: 1, todo: 2 };
+      return (order[a.status] ?? 9) - (order[b.status] ?? 9);
+    })
+    .map((task) => ({
+      id: task.id,
+      lane: task.lane,
+      laneLabel: board.lanes.find((lane) => lane.id === task.lane)?.label ?? 'Board',
+      title: task.title,
+      status: task.status,
+      note: task.note || null,
+      updatedAt: task.updatedAt ?? null,
+    })),
+};
+fs.writeFileSync(feedPath, `${JSON.stringify(feedFile, null, 2)}\n`);
+
 console.log(`Progress board: ${total} tasks, ${done} done, ${doing} in progress, ${blocked} blocked.`);
 console.log(`Wrote ${path.relative(root, outPath)} with ${changes.length} recent repository changes.`);
+console.log(`Wrote ${path.relative(root, feedPath)} with ${feedFile.activity.length} board events and ${feedFile.open.length} open tasks.`);

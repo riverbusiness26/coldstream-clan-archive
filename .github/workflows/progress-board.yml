@@ -29,12 +29,12 @@ jobs:
 
       - name: Publish the change record
         run: |
-          if git diff --quiet -- progress/index.html; then
+          if git diff --quiet -- progress/index.html progress/activity.json; then
             echo "The progress board is already current."
             exit 0
           fi
           git config user.name "Coldstream board"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add progress/index.html
+          git add progress/index.html progress/activity.json
           git commit -m "board: refresh the progress board"
           git push

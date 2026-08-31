@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-08-31T06:23:22.665Z",
+  "boardUpdatedAt": "2026-08-31T02:41:49.053Z",
+  "title": "Coldstream Progress Board",
+  "summary": {
+    "total": 22,
+    "done": 15,
+    "doing": 3,
+    "blocked": 2,
+    "queued": 2,
+    "completion": 68
+  },
+  "lanes": [
+    {
+      "id": "website",
+      "label": "Website",
+      "done": 3,
+      "total": 3
+    },
+    {
+      "id": "game-servers",
+      "label": "Game Servers",
+      "done": 2,
+      "total": 3
+    },
+    {
+      "id": "discord",
+      "label": "Discord",
+      "done": 2,
+      "total": 4
+    },
+    {
+      "id": "graphics",
+      "label": "Graphics",
+      "done": 2,
+      "total": 3
+    },
+    {
+      "id": "archive",
+      "label": "Archive",
+      "done": 2,
+      "total": 3
+    },
+    {
+      "id": "2nd-coldstream",
+      "label": "2nd Coldstream",
+      "done": 2,
+      "total": 3
+    },
+    {
+      "id": "training-map",
+      "label": "Training Map",
+      "done": 2,
+      "total": 3
+    }
+  ],
+  "activity": [
+    {
+      "at": "2026-08-31T01:48:14.866Z",
+      "title": "Leadership board curated from the project records.",
+      "lane": "website",
+      "meta": "Website",
+      "kind": "board"
+    },
+    {
+      "at": "2026-08-31T00:48:23.229Z",
+      "title": "Build the tablet progress board moved from doing to done.",
+      "lane": "website",
+      "meta": "Website",
+      "kind": "board"
+    },
+    {
+      "at": "2026-08-30T00:00:00.000Z",
+      "title": "Progress board opened for work.",
+      "lane": "website",
+      "meta": "Website",
+      "kind": "board"
+    }
+  ],
+  "open": [
+    {
+      "id": "srv-3",
+      "lane": "game-servers",
+      "laneLabel": "Game Servers",
+      "title": "Complete the first tested Pterodactyl backup restore",
+      "status": "doing",
+      "note": "The runbook is written. A real restore is still required before backups are proven.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "dsc-3",
+      "lane": "discord",
+      "laneLabel": "Discord",
+      "title": "Verify /games controls against the live Pterodactyl panel",
+      "status": "doing",
+      "note": "The commands are built. A real deployment through the live panel is not yet recorded.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "2cg-3",
+      "lane": "2nd-coldstream",
+      "laneLabel": "2nd Coldstream",
+      "title": "Produce the first original medal concept set",
+      "status": "doing",
+      "note": "Concepts must balance importance, regiment humour and recognisable Holdfast play.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "dsc-4",
+      "lane": "discord",
+      "laneLabel": "Discord",
+      "title": "Turn on workflow failure and recovery alerts",
+      "status": "blocked",
+      "note": "Waiting for the DISCORD_ALERT_WEBHOOK repository secret.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "map-3",
+      "lane": "training-map",
+      "laneLabel": "Training Map",
+      "title": "Complete a live server join and spawn test",
+      "status": "blocked",
+      "note": "The server must download the latest Workshop build, then a player must join and spawn successfully.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "gfx-3",
+      "lane": "graphics",
+      "laneLabel": "Graphics",
+      "title": "Finish the shared banner set for Discord, Steam and the site",
+      "status": "todo",
+      "note": "One consistent set is still needed across the three public surfaces.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "arc-3",
+      "lane": "archive",
+      "laneLabel": "Archive",
+      "title": "Caption the remaining recovered media with confidence labels",
+      "status": "todo",
+      "note": "The inventory exists. The remaining material needs a human-reviewed caption pass.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    }
+  ]
+}
