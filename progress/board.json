@@ -1,6 +1,6 @@
 {
   "title": "Coldstream Progress Board",
-  "updatedAt": "2026-08-31T01:48:14.866Z",
+  "updatedAt": "2026-08-31T02:41:49.053Z",
   "lanes": [
     {
       "id": "website",
@@ -65,9 +65,9 @@
     {
       "id": "web-3", "lane": "website",
       "title": "Let leadership add board tasks without signing in",
-      "status": "doing", "priority": "high",
-      "note": "Public task entry is being connected now. Sign-in and moderation come later.",
-      "updatedAt": "2026-08-31T01:48:14.866Z"
+      "status": "done", "priority": "high",
+      "note": "The public task form is live and tested. Sign-in and moderation can be added later.",
+      "updatedAt": "2026-08-31T02:41:49.053Z"
     },
     {
       "id": "srv-1", "lane": "game-servers",

@@ -2740,3 +2740,11 @@ VERIFIED:    `node scripts/progress.mjs` rebuilt the 22-task board successfully.
 UNVERIFIED:  The crest is not live yet because the leadership-board release is still being held for its public task-entry backend.
 BLOCKED:     The Supabase dashboard still needs River to sign in before migration 0022 and the progress-board Edge Function can be applied.
 NEXT:        Sign in to the open Supabase tab, then deploy and test the public task-entry flow before publishing the complete board update.
+
+## 2026-08-30 - Public leadership task entry completed (Codex, River side)
+
+DONE:        Applied migration 0022, deployed the `progress-board` Edge Function with legacy JWT verification off, and marked the leadership task-entry work complete on the board.
+VERIFIED:    A live POST from `https://coldstreamgaming.com` created a queued Website task and a following GET returned it. The single temporary verification row was then deleted and a final GET returned zero remaining public tasks.
+UNVERIFIED:  Nothing in the task-entry path.
+BLOCKED:     Nothing.
+NEXT:        Publish commits through `9b65e54` plus this completion update, then verify the live crest, form and automatic activity record at `/progress/`.
