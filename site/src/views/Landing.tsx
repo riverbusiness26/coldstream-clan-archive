@@ -7,18 +7,24 @@
 // River asked for the sunset plate instead. The film reel did not survive the
 // change; the reasoning for the cut is River's call, not a defect.
 //
-// The rule that shapes this file: **nothing is baked into the artwork.**
-// The plate is sky and land. The crest, "WE'RE BACK.", the motto and the
+// The rule that shapes this file: **no words are baked into the artwork.**
+// The plate is sky and land. The crest, the headline, the motto and the
 // button are all real elements, so they reflow, they scale with the
 // viewport, the type is selectable and readable by a screen reader, and
-// none of it ends up sliced in half by a crop. An earlier mockup had the
-// type burned into the image and it could not survive a phone.
+// none of it ends up sliced in half by a crop.
 //
-// The crest was the second thing to come out of the plate, and for a
-// concrete reason: painted in, it was whatever size the crop made it, about
-// 36 percent of the viewport width, and River wanted it smaller. With the
-// plate as the only lever the options were all bad, because `cover` already
-// shows as little of the image as it can. As an element it is one number.
+// There was a middle version, between c2bb632 and here, where the headline
+// and motto shipped as one engraved bitmap and the button as another. It
+// looked better and it could not survive a phone: an image scales but it
+// cannot reflow, so at a 375px viewport the lockup came down to about 330px
+// wide and the motto inside it to roughly seventeen pixels tall, with the
+// line break painted in and no way to wrap. Live type holds its size and
+// wraps instead. The trade, stated plainly rather than discovered later: the
+// engraved stone texture, the bevels and the drawn leaf ornaments are
+// painted effects that CSS cannot reach, so the fill below is a clipped
+// gradient and the flourishes are drawn rules. It approximates the artwork.
+// It does not reproduce it. That was the price of the two things River asked
+// for, which were responsive and editable.
 //
 // Two plates, not one scaled plate. The desktop file is 3:2 and the mobile
 // file is 9:16, swapped by <picture>. `contain` was rejected deliberately:
@@ -27,6 +33,22 @@
 // shape it serves.
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
+
+// The whole of the front door's copy, in one place, so changing what it says
+// is an edit to three strings rather than a hunt through markup. It lives
+// here and not in lib/content because content imports news.json, and the
+// splash is the first thing every visitor downloads.
+//
+// This is as editable as it gets without a deploy in the loop: a change here
+// still needs a build and a push. The version River can edit from the admin
+// panel is the same three strings read from the database, which is a small
+// job on top of the pattern Admin.tsx already uses for news, and it is
+// waiting on migration 0017 being run.
+export const copy = {
+  headline: 'WE’RE BACK.',
+  motto: 'Second to none.',
+  enter: 'Enter the Site',
+};
 
 export default function Landing({ go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   return (
@@ -49,25 +71,23 @@ export default function Landing({ go }: { me: Me | null; go: (v: string) => void
             made it, roughly 36 percent of the viewport with no way to change
             that short of new artwork. Here it is a number in the CSS. */}
         <img className="splash-crest" src={asset('/crest.webp')} alt="" fetchPriority="high" width={900} height={920} />
-        {/* Still an h1, so the page keeps a heading: the words are in the
-            alt text, which is what a screen reader and a search engine read.
-            The headline and motto are one image because the space between
-            those two lines is part of the artwork, not a margin. */}
-        <h1 className="splash-wordmark">
-          <img src={asset('/wordmark.webp')} alt="We&rsquo;re back. Second to none."
-               width={2087} height={392} fetchPriority="high" />
-        </h1>
-        {/* The plaque is sliced out as its own file rather than left in the
-            lockup, so this stays a real anchor with an href: middle click,
-            keyboard focus and a screen reader all still work, and on a phone
-            it can sit apart from the headline instead of shrinking with it.
-            The handler only adds the scroll reset that `go` does. */}
+        <h1>{copy.headline}</h1>
+        {/* The rules and arrowheads either side are chrome, not content, so
+            they are empty elements a screen reader never has to announce. */}
+        <p className="splash-motto">
+          <i aria-hidden="true" />
+          <span>{copy.motto}</span>
+          <i aria-hidden="true" />
+        </p>
+        {/* A real anchor, not a button: it has an href, so it opens in a new
+            tab on middle click and survives JavaScript failing to boot. The
+            handler only adds the scroll reset that `go` does. */}
         <a
           className="splash-enter"
           href="#/home"
           onClick={(e) => { e.preventDefault(); go('home'); }}
         >
-          <img src={asset('/enter-plaque.webp')} alt="Enter the site" width={1212} height={224} />
+          {copy.enter}
         </a>
       </div>
     </div>
