@@ -2659,3 +2659,60 @@ variable instead of being clamped separately.
 
 Built, copied `site/dist` into the repo root the documented way
 (`cp -r site/dist/assets/. ./assets/`), committed and pushed.
+
+---
+
+## 2026-08-30 - The splash type goes back to live HTML, and why that is not a revert
+
+The engraved lockup shipped at `c2bb632` as two bitmaps, `wordmark.webp`
+(headline plus motto) and `enter-plaque.webp` (the button). Both are now
+unreferenced. The type is HTML again.
+
+**The reason is one measurement.** An image scales; it cannot reflow. On a
+375px phone `--lockup` resolved to `min(84vw,500px)`, so the wordmark
+rendered about 315px wide, and since the motto is roughly the lower third of
+that file it landed near seventeen pixels tall, with its line break painted
+in. There is no CSS that gets a wrap out of a picture. River asked for the
+front door to be responsive and editable and a bitmap is neither.
+
+**What it cost, so nobody rediscovers it as a bug.** The bevels, the stone
+texture inside the letterforms and the drawn leaf ornaments are painted
+effects. CSS does not reach them. The headline is a linear-gradient clipped
+to the glyphs, guarded by `@supports` because the fallback for an
+unsupported `background-clip` is invisible text, and the flourishes are two
+drawn rules with CSS arrowheads. It approximates the artwork. It does not
+reproduce it. If River wants the engraving back, the price is the phone, and
+that is River's call rather than a tidy-up somebody does in passing.
+
+**What was deliberately kept from the bitmap era.** The crest stays an
+element and the plates stay crest-free. That was a separate improvement, it
+is the only way the crest size is a number rather than whatever the crop
+gives you, and it is not part of the trade above. This is not a revert to
+`d67fc6a`.
+
+**The scale is River's, not the old file's.** River chose the smallest of
+five renders, where the headline sits at 38 percent of the viewport width.
+The clamps were tuned until the rendered headline measured to that rather
+than copied back from the pre-bitmap commit: `clamp(38px,5.9vw,96px)` on
+desktop measures 38.0 percent at 1440, and the portrait override
+`clamp(38px,13vw,60px)` measures 83.7 percent at 389px, which is what the
+old lockup occupied there. Do not "restore" either number to what was in
+the file before `c2bb632`; those were sized against a plate with the crest
+baked into it.
+
+Measured, not assumed, at 1440x900, 1366x620 landscape, 389x600, 375x812 and
+320x640: no overflow in either axis, headline on one line even at 320, and
+the plaque above the fold at every size.
+
+**Editable, and what "editable" still does not mean.** The three strings are
+one exported `copy` const at the top of `src/views/Landing.tsx`. Changing
+what the front door says is now an edit to three strings, but it is still a
+build and a push. The version River can change from the admin panel is the
+same three strings read from the database, which is a small job on top of
+the pattern `Admin.tsx` already uses for news, and it is waiting on
+migration `0017` being run.
+
+`wordmark.webp` and `enter-plaque.webp` are still on disk in `site/public`
+and unreferenced. They were left there on purpose: they cost nothing at
+runtime once nothing links them, and reviving the engraved look is a smaller
+job with the files present than with them only in git history.
