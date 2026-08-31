@@ -24,12 +24,22 @@ const cors = (origin: string) => ({
     ? origin
     : "https://coldstreamgaming.com",
   "Access-Control-Allow-Headers": "content-type",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
   "Vary": "Origin",
 });
 
 const reply = (origin: string, body: Record<string, unknown>, status = 200) =>
   Response.json(body, { status, headers: cors(origin) });
+
+const hashDeleteToken = async (token: string) => {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(token),
+  );
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+};
 
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin") ?? "";
@@ -56,6 +66,39 @@ Deno.serve(async (req) => {
 
     if (error) return reply(origin, { ok: false, error: "Tasks could not be read" }, 500);
     return reply(origin, { ok: true, tasks: data ?? [] });
+  }
+
+  if (req.method === "DELETE") {
+    if (!allowedOrigin(origin)) {
+      return reply(origin, { ok: false, error: "This action only accepts the Coldstream site" }, 403);
+    }
+
+    let input: Record<string, unknown>;
+    try {
+      input = await req.json();
+    } catch {
+      return reply(origin, { ok: false, error: "The removal request was not valid" }, 400);
+    }
+
+    const id = String(input.id ?? "").trim();
+    const deleteToken = String(input.delete_token ?? "").trim();
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)
+      || !/^[0-9a-f-]{36}$/i.test(deleteToken)) {
+      return reply(origin, { ok: false, error: "This task cannot be removed from this device" }, 400);
+    }
+
+    const deleteTokenHash = await hashDeleteToken(deleteToken);
+    const { data, error } = await admin
+      .from("progress_task")
+      .delete()
+      .eq("id", id)
+      .eq("delete_token_hash", deleteTokenHash)
+      .select("id")
+      .maybeSingle();
+
+    if (error) return reply(origin, { ok: false, error: "The task could not be removed" }, 500);
+    if (!data) return reply(origin, { ok: false, error: "This task cannot be removed from this device" }, 404);
+    return reply(origin, { ok: true }, 200);
   }
 
   if (req.method !== "POST") {
@@ -111,13 +154,21 @@ Deno.serve(async (req) => {
     return reply(origin, { ok: false, error: "That task is already on this workstream" }, 409);
   }
 
+  const deleteToken = crypto.randomUUID();
+  const deleteTokenHash = await hashDeleteToken(deleteToken);
   const { data, error } = await admin
     .from("progress_task")
-    .insert({ lane, title, note, status: "todo", source: "public" })
+    .insert({
+      lane,
+      title,
+      note,
+      status: "todo",
+      source: "public",
+      delete_token_hash: deleteTokenHash,
+    })
     .select("id,lane,title,note,status,created_at")
     .single();
 
   if (error) return reply(origin, { ok: false, error: "The task could not be added" }, 500);
-  return reply(origin, { ok: true, task: data }, 201);
+  return reply(origin, { ok: true, task: data, delete_token: deleteToken }, 201);
 });
-
