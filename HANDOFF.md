@@ -2716,3 +2716,11 @@ migration `0017` being run.
 and unreferenced. They were left there on purpose: they cost nothing at
 runtime once nothing links them, and reviving the engraved look is a smaller
 job with the files present than with them only in git history.
+
+## 2026-08-30 - The progress board is live and records the work (Codex, River side)
+
+DONE:        Added `progress/`, `scripts/progress.mjs`, `scripts/task.mjs` and the automatic refresh workflow. The board uses the parent CSG visual direction and carries seven workstreams.
+VERIFIED:    `node scripts/progress.mjs` printed `Progress board: 1 tasks, 1 done, 0 in progress, 0 blocked.` The site build passed. A 1920 by 1080 browser check showed all seven lanes with no page overflow. `https://coldstreamgaming.com/progress/` returned 200 with the live board and current commit activity.
+UNVERIFIED:  The Wrangler deployment list could not be read without a Cloudflare API token. The live route itself was checked instead.
+BLOCKED:     Nothing.
+NEXT:        Add real work with `node scripts/task.mjs add`, or tell Codex the task and workstream in plain language.
