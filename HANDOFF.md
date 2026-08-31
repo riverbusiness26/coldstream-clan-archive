@@ -2724,3 +2724,11 @@ VERIFIED:    `node scripts/progress.mjs` printed `Progress board: 1 tasks, 1 don
 UNVERIFIED:  The Wrangler deployment list could not be read without a Cloudflare API token. The live route itself was checked instead.
 BLOCKED:     Nothing.
 NEXT:        Add real work with `node scripts/task.mjs add`, or tell Codex the task and workstream in plain language.
+
+## 2026-08-30 - Leadership board curation and public entry prepared (Codex, River side)
+
+DONE:        Curated 22 leadership-level tasks across the seven requested workstreams and built the open task-entry form, migration 0022 and the progress-board Edge Function.
+VERIFIED:    `node scripts/progress.mjs` printed 22 tasks, 14 done, 4 in progress and 2 blocked; `npm run build --prefix site` passed; Deno check passed; tablet and phone form layouts passed in the browser.
+UNVERIFIED:  A real public task submission cannot be tested until the migration and Edge Function are applied to Supabase.
+BLOCKED:     The Supabase dashboard session expired. River needs to sign in in the open browser tab.
+NEXT:        After River signs in, apply migration 0022, deploy progress-board with JWT verification off, submit one test task and publish the board.
