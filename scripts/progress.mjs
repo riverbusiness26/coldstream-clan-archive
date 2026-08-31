@@ -115,7 +115,7 @@ const html = `<!doctype html>
     body:before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.15;background-image:repeating-radial-gradient(circle at 30% 40%,rgba(255,255,255,.08) 0,rgba(255,255,255,.08) .45px,transparent .65px,transparent 3px);mix-blend-mode:soft-light}
     button,input,select{font:inherit}button{color:inherit}.shell{width:min(100%,1800px);margin:auto;padding:clamp(18px,2.2vw,36px)}
     .top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-    .seal{width:74px;height:74px;display:grid;place-items:center;border:1px solid var(--hair);background:rgba(10,12,13,.48);position:relative}.seal:after{content:'';position:absolute;inset:5px;border:1px solid rgba(197,208,216,.12)}.seal img{width:58px;height:58px;object-fit:contain}
+    .seal{width:74px;height:74px;display:grid;place-items:center;border:1px solid var(--hair);background:rgba(10,12,13,.48);position:relative}.seal:after{content:'';position:absolute;inset:5px;border:1px solid rgba(197,208,216,.12)}.seal img{width:68px;height:68px;object-fit:contain;position:relative;z-index:1}
     .eyebrow,.label{font-size:10px;line-height:1;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}h1{margin:5px 0 2px;font:600 clamp(30px,3.1vw,52px)/.95 var(--display);letter-spacing:.025em}.subtitle{margin:0;color:var(--muted);font-size:13px}
     .clock{text-align:right;font-variant-numeric:tabular-nums}.clock b{display:block;font:500 clamp(24px,2.2vw,38px)/1 var(--display);color:var(--frost)}.clock span{display:block;margin-top:7px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
     .summary{display:grid;grid-template-columns:minmax(240px,1.4fr) repeat(4,minmax(105px,.6fr));gap:1px;margin-top:18px;background:var(--line);border:1px solid var(--hair)}.metric{background:linear-gradient(103deg,rgba(255,255,255,.018),transparent 38%),rgba(27,31,34,.97);min-height:102px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between}.metric b{font:500 34px/1 var(--display);color:var(--ink)}.metric small{font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--faint)}.metric.major{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px}.ring{--p:${completion};width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brass) calc(var(--p)*1%),var(--hair) 0);position:relative}.ring:before{content:'';position:absolute;inset:6px;border-radius:50%;background:var(--panel)}.ring b{position:relative;font:500 20px/1 var(--display);color:var(--brass)}.major-copy b{font-size:19px}.major-copy small{display:block;margin-top:7px;line-height:1.5}.metric.blocked b{color:var(--frost)}
@@ -127,14 +127,14 @@ const html = `<!doctype html>
     .filters{display:none}
     @media (min-width:1400px){.board{grid-template-columns:repeat(3,minmax(0,1fr))}.work{grid-template-columns:minmax(0,1fr) minmax(330px,22%)}}
     @media (max-width:980px){.work{grid-template-columns:1fr}.side{position:static}.summary{grid-template-columns:repeat(4,1fr)}.metric.major{grid-column:1/-1}.board{grid-template-columns:1fr 1fr}}
-    @media (max-width:660px){.shell{padding:14px}.top{grid-template-columns:auto 1fr}.seal{width:58px;height:58px}.seal img{width:44px;height:44px}.clock{grid-column:1/-1;display:flex;justify-content:space-between;text-align:left;padding-top:12px;border-top:1px solid var(--line)}.summary{grid-template-columns:1fr 1fr}.metric.major{grid-column:1/-1}.board{grid-template-columns:1fr}.work{gap:12px}.foot{flex-direction:column}.subtitle{font-size:11px}}
+    @media (max-width:660px){.shell{padding:14px}.top{grid-template-columns:auto 1fr}.seal{width:58px;height:58px}.seal img{width:52px;height:52px}.clock{grid-column:1/-1;display:flex;justify-content:space-between;text-align:left;padding-top:12px;border-top:1px solid var(--line)}.summary{grid-template-columns:1fr 1fr}.metric.major{grid-column:1/-1}.board{grid-template-columns:1fr}.work{gap:12px}.foot{flex-direction:column}.subtitle{font-size:11px}}
     @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
   <div class="shell">
     <header class="top">
-      <div class="seal"><img src="/logo.png?v=2" alt="Coldstream Gaming"></div>
+      <div class="seal"><img src="/progress/coldstream-crest.png" alt="Coldstream Gaming crest"></div>
       <div><span class="eyebrow">Operations record · live board</span><h1>${escapeHtml(board.title)}</h1><p class="subtitle">Established. Welcoming. Built to last.</p></div>
       <div class="clock"><b id="clock">00:00</b><span id="date">Central time</span></div>
     </header>

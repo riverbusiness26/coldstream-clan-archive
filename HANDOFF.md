@@ -2732,3 +2732,11 @@ VERIFIED:    `node scripts/progress.mjs` printed 22 tasks, 14 done, 4 in progres
 UNVERIFIED:  A real public task submission cannot be tested until the migration and Edge Function are applied to Supabase.
 BLOCKED:     The Supabase dashboard session expired. River needs to sign in in the open browser tab.
 NEXT:        After River signs in, apply migration 0022, deploy progress-board with JWT verification off, submit one test task and publish the board.
+
+## 2026-08-30 - Progress board crest updated (Codex, River side)
+
+DONE:        Replaced the progress board's former CSG logo with the supplied Second to None Coldstream crest and kept the original transparent artwork unchanged.
+VERIFIED:    `node scripts/progress.mjs` rebuilt the 22-task board successfully. The browser loaded the new 1230 by 1278 crest at `/progress/coldstream-crest.png` and rendered it cleanly at the board header size.
+UNVERIFIED:  The crest is not live yet because the leadership-board release is still being held for its public task-entry backend.
+BLOCKED:     The Supabase dashboard still needs River to sign in before migration 0022 and the progress-board Edge Function can be applied.
+NEXT:        Sign in to the open Supabase tab, then deploy and test the public task-entry flow before publishing the complete board update.
