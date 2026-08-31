@@ -1,6 +1,6 @@
 {
   "title": "Coldstream Progress Board",
-  "updatedAt": "2026-08-31T00:48:23.229Z",
+  "updatedAt": "2026-08-31T01:48:14.866Z",
   "lanes": [
     {
       "id": "website",
@@ -49,11 +49,158 @@
     {
       "id": "web-1",
       "lane": "website",
-      "title": "Build the tablet progress board",
+      "title": "Community website, Steam sign-in and member profiles live",
       "status": "done",
       "priority": "high",
-      "note": "Built, checked at 1920 by 1080 and ready to publish.",
-      "updatedAt": "2026-08-31T00:48:23.228Z"
+      "note": "The public site and its main member path are working end to end.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "web-2", "lane": "website",
+      "title": "Responsive pass completed across the public site",
+      "status": "done", "priority": "normal",
+      "note": "The public views have been checked at phone and desktop sizes.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "web-3", "lane": "website",
+      "title": "Let leadership add board tasks without signing in",
+      "status": "doing", "priority": "high",
+      "note": "Public task entry is being connected now. Sign-in and moderation come later.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "srv-1", "lane": "game-servers",
+      "title": "Pterodactyl foundation and reusable game configurations built",
+      "status": "done", "priority": "high",
+      "note": "The panel, base server setup, eggs and configuration templates are in place.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "srv-2", "lane": "game-servers",
+      "title": "Live server tracking restored on the website",
+      "status": "done", "priority": "normal",
+      "note": "The status workflow is green and current player data feeds the site.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "srv-3", "lane": "game-servers",
+      "title": "Complete the first tested Pterodactyl backup restore",
+      "status": "doing", "priority": "high",
+      "note": "The runbook is written. A real restore is still required before backups are proven.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "dsc-1", "lane": "discord",
+      "title": "Core community and moderation bot commands built",
+      "status": "done", "priority": "high",
+      "note": "LFG, polls, ranks, moderation, server information and member tools are on disk.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "dsc-2", "lane": "discord",
+      "title": "Game Scout report and event poll tools built",
+      "status": "done", "priority": "normal",
+      "note": "The weekly game report and reusable polling path are ready.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "dsc-3", "lane": "discord",
+      "title": "Verify /games controls against the live Pterodactyl panel",
+      "status": "doing", "priority": "high",
+      "note": "The commands are built. A real deployment through the live panel is not yet recorded.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "dsc-4", "lane": "discord",
+      "title": "Turn on workflow failure and recovery alerts",
+      "status": "blocked", "priority": "high",
+      "note": "Waiting for the DISCORD_ALERT_WEBHOOK repository secret.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "gfx-1", "lane": "graphics",
+      "title": "Parent Coldstream visual system defined and applied",
+      "status": "done", "priority": "high",
+      "note": "The shared typography, palette and material direction are in use.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "gfx-2", "lane": "graphics",
+      "title": "Responsive landing artwork and header lockup completed",
+      "status": "done", "priority": "normal",
+      "note": "Desktop and mobile plates, crest treatment and responsive live type are in place.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "gfx-3", "lane": "graphics",
+      "title": "Finish the shared banner set for Discord, Steam and the site",
+      "status": "todo", "priority": "normal",
+      "note": "One consistent set is still needed across the three public surfaces.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "arc-1", "lane": "archive",
+      "title": "Fifteen-year record recovered and reconciled",
+      "status": "done", "priority": "high",
+      "note": "1,210 archived announcements support six eras and 362 recorded events.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "arc-2", "lane": "archive",
+      "title": "Archive timeline, statistics and sourced gallery live",
+      "status": "done", "priority": "high",
+      "note": "The public record carries era sources, reconciled totals and recovered media.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "arc-3", "lane": "archive",
+      "title": "Caption the remaining recovered media with confidence labels",
+      "status": "todo", "priority": "normal",
+      "note": "The inventory exists. The remaining material needs a human-reviewed caption pass.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "2cg-1", "lane": "2nd-coldstream",
+      "title": "Regiment rank boards and visual reference pack organized",
+      "status": "done", "priority": "normal",
+      "note": "The regiment reference lane is separated from the parent Coldstream brand.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "2cg-2", "lane": "2nd-coldstream",
+      "title": "Original Holdfast medal brief completed",
+      "status": "done", "priority": "high",
+      "note": "The system covers event and public play without reusing legacy medal artwork.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "2cg-3", "lane": "2nd-coldstream",
+      "title": "Produce the first original medal concept set",
+      "status": "doing", "priority": "high",
+      "note": "Concepts must balance importance, regiment humour and recognisable Holdfast play.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "map-1", "lane": "training-map",
+      "title": "Compact training camp v1 built and validated",
+      "status": "done", "priority": "high",
+      "note": "The firing ranges, artillery lanes and functional Army Battlefield spawns are packaged.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "map-2", "lane": "training-map",
+      "title": "Corrected map package published to Steam Workshop",
+      "status": "done", "priority": "high",
+      "note": "The client camera and deployment hierarchy fix passed 39 checks before upload.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
+    },
+    {
+      "id": "map-3", "lane": "training-map",
+      "title": "Complete a live server join and spawn test",
+      "status": "blocked", "priority": "high",
+      "note": "The server must download the latest Workshop build, then a player must join and spawn successfully.",
+      "updatedAt": "2026-08-31T01:48:14.866Z"
     }
   ],
   "history": [
@@ -66,6 +213,11 @@
       "at": "2026-08-31T00:48:23.229Z",
       "lane": "website",
       "text": "Build the tablet progress board moved from doing to done."
+    },
+    {
+      "at": "2026-08-31T01:48:14.866Z",
+      "lane": "website",
+      "text": "Leadership board curated from the project records."
     }
   ]
 }
