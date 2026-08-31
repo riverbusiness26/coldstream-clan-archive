@@ -1,0 +1,71 @@
+{
+  "title": "Coldstream Progress Board",
+  "updatedAt": "2026-08-31T00:48:23.229Z",
+  "lanes": [
+    {
+      "id": "website",
+      "label": "Website",
+      "code": "WEB",
+      "description": "Public site, member tools and live services"
+    },
+    {
+      "id": "game-servers",
+      "label": "Game Servers",
+      "code": "SRV",
+      "description": "Pterodactyl, game instances and server health"
+    },
+    {
+      "id": "discord",
+      "label": "Discord",
+      "code": "DSC",
+      "description": "Bot, channels, roles and community operations"
+    },
+    {
+      "id": "graphics",
+      "label": "Graphics",
+      "code": "GFX",
+      "description": "Brand work, site plates and community media"
+    },
+    {
+      "id": "archive",
+      "label": "Archive",
+      "code": "ARC",
+      "description": "Recovered history, records and source material"
+    },
+    {
+      "id": "2nd-coldstream",
+      "label": "2nd Coldstream",
+      "code": "2CG",
+      "description": "Holdfast regiment work and event material"
+    },
+    {
+      "id": "training-map",
+      "label": "Training Map",
+      "code": "MAP",
+      "description": "Design, build, testing and release work"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "web-1",
+      "lane": "website",
+      "title": "Build the tablet progress board",
+      "status": "done",
+      "priority": "high",
+      "note": "Built, checked at 1920 by 1080 and ready to publish.",
+      "updatedAt": "2026-08-31T00:48:23.228Z"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-08-30T00:00:00.000Z",
+      "lane": "website",
+      "text": "Progress board opened for work."
+    },
+    {
+      "at": "2026-08-31T00:48:23.229Z",
+      "lane": "website",
+      "text": "Build the tablet progress board moved from doing to done."
+    }
+  ]
+}

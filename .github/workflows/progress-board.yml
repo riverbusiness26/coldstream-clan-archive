@@ -1,0 +1,40 @@
+name: Refresh progress board
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: progress-board-main
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 30
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
+      - name: Build the latest board
+        run: node scripts/progress.mjs
+
+      - name: Publish the change record
+        run: |
+          if git diff --quiet -- progress/index.html; then
+            echo "The progress board is already current."
+            exit 0
+          fi
+          git config user.name "Coldstream board"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add progress/index.html
+          git commit -m "board: refresh the progress board"
+          git push
