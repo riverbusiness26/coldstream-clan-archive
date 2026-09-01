@@ -9,6 +9,7 @@ const HOME_FILMS = [
   { id: 'dqgcg0if-3U', start: 25, seconds: 9, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
   { id: 'ThhbfRP95w8', start: 10, seconds: 9, label: '2nd Coldstream · Mount & Musket · 2012' },
   { id: '8AU7hzl8w5M', start: 42, seconds: 9, label: '2nd Coldstream · Napoleonic Wars · 2012' },
+  { id: 'gS2xlbD6b4k', start: 35, seconds: 9, label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars' },
   { id: 'QgziRNt4nnM', start: 12, seconds: 9, label: '2nd Coldstream · Napoleonic Wars · 2015' },
   { id: 'kwokOGLWLdU', start: 12, seconds: 9, label: '2nd Coldstream · Holdfast · 2020' },
 ] as const;
@@ -39,8 +40,6 @@ function HomeFilm() {
 
   useEffect(() => {
     let reveal: number | undefined;
-    let recycle: number | undefined;
-    let finish: number | undefined;
     const timer = window.setTimeout(() => {
       const incoming = activeSlot === 0 ? 1 : 0;
       const outgoing = activeSlot;
@@ -52,20 +51,18 @@ function HomeFilm() {
 
       reveal = window.setTimeout(() => {
         setActiveSlot(incoming);
-        recycle = window.setTimeout(() => {
+        window.setTimeout(() => {
           frames.current[outgoing]?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
           const following = (slots[incoming].film + 1) % HOME_FILMS.length;
           setLoaded((value) => value.map((state, index) => index === outgoing ? false : state) as [boolean, boolean]);
           setSlots((value) => value.map((slot, index) => index === outgoing ? { film: following, autoplay: false } : slot) as [FilmSlot, FilmSlot]);
         }, 1100);
-        finish = window.setTimeout(() => setTransitioning(false), 550);
+        window.setTimeout(() => setTransitioning(false), 550);
       }, 900);
     }, Math.max(1000, film.seconds * 1000 - 1200));
     return () => {
       window.clearTimeout(timer);
       if (reveal) window.clearTimeout(reveal);
-      if (recycle) window.clearTimeout(recycle);
-      if (finish) window.clearTimeout(finish);
     };
   }, [activeSlot, film.seconds, slots]);
 
