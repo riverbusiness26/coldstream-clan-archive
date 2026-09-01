@@ -3,7 +3,7 @@
 // Everything here says what it is, where it came from, and when. The deep
 // archive, every recovered page and forum thread, lives on the archive site
 // and is linked, never folded in and never deleted.
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type CSSProperties } from 'react';
 import { eventStats, people } from '../lib/data';
 import erasSeed from '../seed/eras.json';
 import filmsSeed from '../seed/films.json';
@@ -78,8 +78,8 @@ const HISTORY = [
     group: '21st Pennsylvania Regiment of Foot',
     game: 'Battlegrounds 2',
     note: 'The first recorded era.',
-    video: 'ZypEBUL_hs4',
-    evidence: 'Watch: 4 May 2011',
+    video: 'dqgcg0if-3U',
+    evidence: 'Watch: 9 May 2011',
   },
   {
     years: '2011–2012',
@@ -90,36 +90,36 @@ const HISTORY = [
     evidence: 'Watch: 18 April 2012',
   },
   {
-    years: '2012–2014',
+    years: '2012–2016',
     group: '2nd Coldstream Regiment of Footguards',
     game: 'Napoleonic Wars',
-    note: 'The regiment moved into the Warband DLC, then became inactive in 2014.',
+    note: 'The regiment moved into the Warband DLC, became inactive in 2014, returned in 2015, and became inactive again in 2016.',
     video: '8AU7hzl8w5M',
     evidence: 'Watch: 14 December 2012',
   },
   {
-    years: '2015–2016',
-    group: '2nd Coldstream Regiment of Footguards',
-    game: 'Napoleonic Wars',
-    note: 'Revived in 2015, then became inactive in the game again in 2016.',
-    video: 'QgziRNt4nnM',
-    evidence: 'Watch: 16 June 2015',
-  },
-  {
     years: '2016–2020',
-    group: 'The gaming community carried on',
-    game: 'Different games, same people',
-    note: 'The regiment was quiet, but the gaming community continued.',
+    group: 'Coldstream Gaming carried on',
+    game: 'Different games, same gaming community',
+    note: 'The regiment was quiet, but Coldstream Gaming continued.',
   },
   {
     years: '2020–Now',
-    group: '2nd Coldstream and Coldstream Gaming',
-    game: 'Holdfast and Garry’s Mod',
-    note: 'The regiment returned in Holdfast. Coldstream Gaming also ran TTT, Prop Hunt and Deathrun servers.',
+    group: '2nd Coldstream Regiment of Footguards and Coldstream Gaming',
+    game: 'Holdfast: Nations at War and game servers',
+    note: 'The regiment returned to Holdfast in 2020 and became inactive in 2021. We are working toward a full return as the 2nd Coldstream Regiment of Footguards, while Coldstream Gaming carries on with game servers.',
     video: 'kwokOGLWLdU',
     evidence: 'Watch: 15 July 2020',
   },
 ] as const;
+
+const TIMELINE_STYLES = [
+  { id: 'rail', label: '1. Brass rail' },
+  { id: 'ledger', label: '2. Campaign ledger' },
+  { id: 'bands', label: '3. Era bands' },
+] as const;
+
+type TimelineStyle = typeof TIMELINE_STYLES[number]['id'];
 
 const FEATURED_HISTORY = [
   { id: 'ZypEBUL_hs4', title: '21st Pennsylvania Regiment of Foot · 2011' },
@@ -130,6 +130,9 @@ const FEATURED_HISTORY = [
 export default function Archive({ me }: { me: Me | null }) {
   const [openEra, setOpenEra] = useState<string | null>(null);
   const [deepOpen, setDeepOpen] = useState(false);
+  const requestedTimeline = new URLSearchParams(window.location.search).get('timeline');
+  const timelineStyle: TimelineStyle = TIMELINE_STYLES.some((style) => style.id === requestedTimeline) ? requestedTimeline as TimelineStyle : 'rail';
+  const showTimelinePicker = import.meta.env.DEV || window.location.pathname.startsWith('/homepage');
 
   // Ranks somebody on the roster actually held, so the ladder marks them.
   const held = useMemo(
@@ -178,10 +181,15 @@ export default function Archive({ me }: { me: Me | null }) {
           </div>
         </section>
 
-        <section className="archive-timeline" aria-labelledby="archive-timeline-title">
+        {showTimelinePicker && <nav className="archive-style-picker" aria-label="Archive timeline design previews">
+          <span>Timeline previews</span>
+          {TIMELINE_STYLES.map((style) => <a className={style.id === timelineStyle ? 'active' : undefined} href={`?timeline=${style.id}#/archive`} key={style.id}>{style.label}</a>)}
+        </nav>}
+
+        <section className={`archive-timeline timeline-${timelineStyle}`} aria-labelledby="archive-timeline-title">
           <div className="mhead"><h2 id="archive-timeline-title">The games we played</h2><span className="sub">a short history</span></div>
           <ol>
-            {HISTORY.map((item) => <li key={`${item.years}-${item.group}`}>
+            {HISTORY.map((item) => <li key={`${item.years}-${item.group}`} style={'video' in item ? { '--era-image': `url(https://i.ytimg.com/vi/${item.video}/hqdefault.jpg)` } as CSSProperties : undefined}>
               <time>{item.years}</time>
               <span>
                 <b>{item.group}</b>
