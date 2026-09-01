@@ -84,12 +84,28 @@ const FEATURED_HISTORY = [
   { id: 'QgziRNt4nnM', title: 'The Napoleonic Wars revival · 2015' },
 ] as const;
 
+const ARCHIVE_FILM_DESIGNS = [
+  { id: 'cinematic', label: '1. Cinematic frame' },
+  { id: 'split', label: '2. Split record' },
+  { id: 'projector', label: '3. Projector strip' },
+] as const;
+
+type ArchiveFilmDesign = typeof ARCHIVE_FILM_DESIGNS[number]['id'];
+
 export default function Archive({ me: _me }: { me: Me | null }) {
   const [deepOpen, setDeepOpen] = useState(false);
+  const requestedDesign = new URLSearchParams(window.location.search).get('archiveFilm');
+  const filmDesign: ArchiveFilmDesign = ARCHIVE_FILM_DESIGNS.some((design) => design.id === requestedDesign)
+    ? requestedDesign as ArchiveFilmDesign
+    : 'cinematic';
 
   return (
     <>
-    <section className="archive-memory cg-film-flashes" aria-label="Coldstream Gaming memories by era">
+    <nav className="archive-film-picker" aria-label="Archive film design previews">
+      <span>Archive film designs</span>
+      {ARCHIVE_FILM_DESIGNS.map((design) => <a className={design.id === filmDesign ? 'active' : undefined} href={`?archiveFilm=${design.id}#/archive`} key={design.id}>{design.label}</a>)}
+    </nav>
+    <section className={`archive-memory archive-film-${filmDesign} cg-film-flashes`} aria-label="Coldstream Gaming memories by era">
       <HomeFilm />
     </section>
     <div className="wrap solo recordroom">

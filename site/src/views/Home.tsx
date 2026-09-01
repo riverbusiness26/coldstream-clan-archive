@@ -55,7 +55,7 @@ export function HomeFilm() {
           }} onEnded={index === activeSlot ? advance : undefined} />
         </div>;
       })}
-      <span><img src={asset(film.icon)} alt="" />{film.label}</span>
+      <span><img src={asset(film.icon)} alt="" /><b>{film.label}</b></span>
     </div>
   );
 }
