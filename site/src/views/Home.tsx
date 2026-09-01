@@ -6,15 +6,23 @@ const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
 const HOME_FILMS = [
-  { id: 'ZypEBUL_hs4', start: 8, seconds: 28, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
-  { id: 'ThhbfRP95w8', start: 4, seconds: 24, label: '2nd Coldstream · Mount & Musket · 2012' },
-  { id: '8AU7hzl8w5M', start: 18, seconds: 22, label: '2nd Coldstream · Napoleonic Wars · 2012' },
-  { id: 'QgziRNt4nnM', start: 5, seconds: 25, label: '2nd Coldstream · Napoleonic Wars · 2015' },
-  { id: 'kwokOGLWLdU', start: 5, seconds: 25, label: '2nd Coldstream · Holdfast · 2020' },
+  { id: 'ZypEBUL_hs4', start: 12, seconds: 8, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
+  { id: 'ThhbfRP95w8', start: 10, seconds: 8, label: '2nd Coldstream · Mount & Musket · 2012' },
+  { id: '8AU7hzl8w5M', start: 42, seconds: 8, label: '2nd Coldstream · Napoleonic Wars · 2012' },
+  { id: 'QgziRNt4nnM', start: 12, seconds: 8, label: '2nd Coldstream · Napoleonic Wars · 2015' },
+  { id: 'kwokOGLWLdU', start: 12, seconds: 8, label: '2nd Coldstream · Holdfast · 2020' },
 ] as const;
 
+const FILM_STYLES = [
+  { id: 'framed', label: '1. Framed archive film' },
+  { id: 'flashes', label: '2. Memory flashes' },
+  { id: 'strip', label: '3. Film strip' },
+] as const;
+
+type FilmStyle = typeof FILM_STYLES[number]['id'];
+
 const filmSrc = (film: typeof HOME_FILMS[number]) =>
-  `https://www.youtube-nocookie.com/embed/${film.id}?autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&start=${film.start}&end=${film.start + film.seconds + 20}`;
+  `https://www.youtube-nocookie.com/embed/${film.id}?autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&start=${film.start}&end=${film.start + film.seconds + 3}`;
 
 function HomeFilm() {
   const [current, setCurrent] = useState(0);
@@ -115,9 +123,18 @@ export function SiteFooter() {
 }
 
 export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
+  const requestedStyle = new URLSearchParams(window.location.search).get('film');
+  const filmStyle: FilmStyle = FILM_STYLES.some((style) => style.id === requestedStyle) ? requestedStyle as FilmStyle : 'framed';
+  const showFilmPicker = import.meta.env.DEV || window.location.pathname.startsWith('/homepage');
+
   return (
-    <div className="cg-home">
+    <div className={`cg-home cg-film-${filmStyle}`}>
       <SiteNav active="Home" />
+
+      {showFilmPicker && <nav className="cg-film-picker" aria-label="Homepage film design previews">
+        <span>Design previews</span>
+        {FILM_STYLES.map((style) => <a className={style.id === filmStyle ? 'active' : undefined} href={`?film=${style.id}#/home`} key={style.id}>{style.label}</a>)}
+      </nav>}
 
       <main>
         <section className="cg-hero" aria-labelledby="cg-home-title">
