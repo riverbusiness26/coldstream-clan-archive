@@ -7,7 +7,7 @@ const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
 type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'globe' | 'arrow';
 
-function Icon({ name }: { name: IconName }) {
+export function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, ReactNode> = {
     menu: <path d="M4 7h16M4 12h16M4 17h16" />,
     discord: <><path d="M6 7.5c3-2 9-2 12 0 1.2 2 2 4.5 2 7-2.3 1.8-4.4 2.5-6.3 2.8l-.8-1.1" /><path d="M18 7.5c-1-.8-2-1.2-3-1.5M6 7.5C7 6.7 8 6.3 9 6" /><circle cx="9" cy="12" r="1" /><circle cx="15" cy="12" r="1" /></>,
@@ -29,6 +29,25 @@ const NAV = [
   ['Community', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
 ] as const;
 
+export function SiteNav({ active = 'Home' }: { active?: string }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  return (
+    <header className="cg-nav">
+      <button className="cg-menu" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
+        <Icon name="menu" />
+      </button>
+      <nav aria-label="Primary" className={menuOpen ? 'open' : undefined}>
+        {NAV.map(([label, href]) => <a key={label} className={label === active ? 'active' : undefined} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
+      </nav>
+      <div className="cg-social" aria-label="Community links">
+        <a href={DISCORD} target="_blank" rel="noopener" aria-label="Discord"><Icon name="discord" /></a>
+        <a href={STEAM} target="_blank" rel="noopener" aria-label="Steam group"><Icon name="steam" /></a>
+        <a href="mailto:contact@coldstreamgaming.com" aria-label="Email Coldstream Gaming"><Icon name="mail" /></a>
+      </div>
+    </header>
+  );
+}
+
 const PILLARS = [
   { icon: 'server', title: 'Game Servers', copy: 'High quality game servers with active admins and lag-free performance.', href: '#/servers', image: '/gallery/2f2f6869d3.jpg' },
   { icon: 'calendar', title: 'Events', copy: 'Organised events and operations across a range of titles year-round.', href: '#/archive', image: '/gallery/7a32547d74.jpg' },
@@ -49,25 +68,23 @@ function Ornament() {
   return <span className="cg-ornament" aria-hidden="true"><i /><b>◆</b><i /></span>;
 }
 
-export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+export function SiteFooter() {
   const year = new Date().getFullYear();
+  return (
+    <footer className="cg-footer">
+      <div className="cg-width">
+        <span>© 2011–{year} Coldstream Gaming. All rights reserved.</span>
+        <span className="cg-footer-motto"><Ornament /><em>Second to none.</em><Ornament /></span>
+        <nav aria-label="Footer"><a href="#/archive">Rules</a><a href="#/archive">Code of Conduct</a><a href="#/archive">Privacy Policy</a><a href="mailto:contact@coldstreamgaming.com">Contact</a><a href="/progress/">Progress</a></nav>
+      </div>
+    </footer>
+  );
+}
 
+export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   return (
     <div className="cg-home">
-      <header className="cg-nav">
-        <button className="cg-menu" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
-          <Icon name="menu" />
-        </button>
-        <nav aria-label="Primary" className={menuOpen ? 'open' : undefined}>
-          {NAV.map(([label, href]) => <a key={label} className={label === 'Home' ? 'active' : undefined} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
-        </nav>
-        <div className="cg-social" aria-label="Community links">
-          <a href={DISCORD} target="_blank" rel="noopener" aria-label="Discord"><Icon name="discord" /></a>
-          <a href={STEAM} target="_blank" rel="noopener" aria-label="Steam group"><Icon name="steam" /></a>
-          <a href="mailto:contact@coldstreamgaming.com" aria-label="Email Coldstream Gaming"><Icon name="mail" /></a>
-        </div>
-      </header>
+      <SiteNav active="Home" />
 
       <main>
         <section className="cg-hero" aria-labelledby="cg-home-title">
@@ -114,13 +131,7 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
         </section>
       </main>
 
-      <footer className="cg-footer">
-        <div className="cg-width">
-          <span>© 2011–{year} Coldstream Gaming. All rights reserved.</span>
-          <span className="cg-footer-motto"><Ornament /><em>Second to none.</em><Ornament /></span>
-          <nav aria-label="Footer"><a href="#/archive">Rules</a><a href="#/archive">Code of Conduct</a><a href="#/archive">Privacy Policy</a><a href="mailto:contact@coldstreamgaming.com">Contact</a><a href="/progress/">Progress</a></nav>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

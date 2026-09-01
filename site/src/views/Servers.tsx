@@ -17,6 +17,10 @@ export default function Servers() {
   return (
     <div className="wrap solo">
       <main>
+        <div className="page-head">
+          <h1>Game Servers</h1>
+          <p className="page-sub">Live status from the field.</p>
+        </div>
         <div className="module">
           <div className="mhead"><h3>Servers</h3><span className="sub">live player counts refresh every few minutes</span></div>
           <div className="srv-grid">

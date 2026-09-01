@@ -104,7 +104,7 @@ export default function Archive({ me }: { me: Me | null }) {
             what it is before any module does, and the section marks sit on the
             page rather than on a box lid. */}
         <div className="page-head">
-          <h2>The Archive</h2>
+          <h1>The Archive</h1>
           <p className="page-sub">The record room.</p>
         </div>
 
