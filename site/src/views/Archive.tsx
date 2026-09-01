@@ -72,8 +72,17 @@ interface RibEra { slug: string; label: string; foundedIso: string | null; ran?:
 const ERAS = (erasSeed as unknown as { eras: RibEra[] }).eras;
 const PEAK = Math.max(...ERAS.map((e) => e.events), 1);
 
+const HISTORY = [
+  { years: '2011', group: '21st Pennsylvania Regiment of Foot', game: 'Battlegrounds 2' },
+  { years: '2011–2012', group: 'Midnight Mercenaries and 2nd Coldstream', game: 'Battlegrounds 2, Mount & Musket to Napoleonic Wars' },
+  { years: '2013–2015', group: '2nd Coldstream Regiment of Footguards', game: 'Napoleonic Wars' },
+  { years: '2020', group: '2nd Coldstream returned', game: 'Napoleonic Wars' },
+  { years: 'Now', group: 'Coldstream Gaming', game: 'Holdfast and other games' },
+] as const;
+
 export default function Archive({ me }: { me: Me | null }) {
   const [openEra, setOpenEra] = useState<string | null>(null);
+  const [deepOpen, setDeepOpen] = useState(false);
 
   // Ranks somebody on the roster actually held, so the ladder marks them.
   const held = useMemo(
@@ -105,8 +114,45 @@ export default function Archive({ me }: { me: Me | null }) {
             page rather than on a box lid. */}
         <div className="page-head">
           <h1>The Archive</h1>
-          <p className="page-sub">The record room.</p>
+          <p className="page-sub">The games changed. The community carried on.</p>
         </div>
+
+        <section className="archive-intro" aria-labelledby="archive-story-title">
+          <div>
+            <p className="cg-eyebrow">Since 2011</p>
+            <h2 id="archive-story-title">A long history, kept simple.</h2>
+            <p>Coldstream Gaming has moved through different games and group names since 2011. The details are kept in the record, but the important part is straightforward: people kept coming back to play together.</p>
+          </div>
+          <div className="archive-quick-stats" aria-label="Archive totals">
+            <span><b>{people.length}</b> members</span>
+            <span><b>{eventStats.reduce((n, e) => n + e.events, 0)}</b> events</span>
+            <span><b>{FILMS.length}</b> films</span>
+            <span><b>2011</b> established</span>
+          </div>
+        </section>
+
+        <section className="archive-timeline" aria-labelledby="archive-timeline-title">
+          <div className="mhead"><h2 id="archive-timeline-title">The games we played</h2><span className="sub">a short history</span></div>
+          <ol>
+            {HISTORY.map((item) => <li key={`${item.years}-${item.group}`}>
+              <time>{item.years}</time>
+              <span><b>{item.group}</b><small>{item.game}</small></span>
+            </li>)}
+          </ol>
+        </section>
+
+        <section className="archive-featured" aria-labelledby="archive-featured-title">
+          <div className="mhead"><h2 id="archive-featured-title">From the record</h2><span className="sub">three films from the archive</span></div>
+          <div className="archive-film-row">
+            {FILMS.slice(0, 3).map((film) => <a href={`https://www.youtube.com/watch?v=${film.id}`} target="_blank" rel="noopener" key={film.id}>
+              <img src={`https://i.ytimg.com/vi/${film.id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+              <span>{film.title}</span>
+            </a>)}
+          </div>
+        </section>
+
+        <details className="archive-depth" open={deepOpen} onToggle={(event) => setDeepOpen(event.currentTarget.open)}>
+          <summary>Open the full archive <span>Roster, ranks, records, groups and every surviving film</span></summary>
 
         <div className="module">
           <div className="mhead"><h3>The Numbers</h3><span className="sub">the community, counted</span></div>
@@ -297,6 +343,7 @@ export default function Archive({ me }: { me: Me | null }) {
             ))}
           </div>
         </div>
+        </details>
       </main>
     </div>
   );

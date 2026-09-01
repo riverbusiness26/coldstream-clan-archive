@@ -1,9 +1,41 @@
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
+
+const HOME_FILMS = [
+  { id: 'ZypEBUL_hs4', start: 8, seconds: 28, label: '21st Pennsylvania, Battlegrounds 2' },
+  { id: '8AU7hzl8w5M', start: 18, seconds: 22, label: '2nd Coldstream, Napoleonic Wars' },
+  { id: 'OnesY-EczqY', start: 45, seconds: 35, label: '2nd Coldstream vs. the 8th' },
+  { id: 'vOk5eMxv7Dc', start: 5, seconds: 25, label: 'Coldstream, Planetside 2' },
+] as const;
+
+const filmSrc = (film: typeof HOME_FILMS[number]) =>
+  `https://www.youtube-nocookie.com/embed/${film.id}?autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&start=${film.start}&end=${film.start + film.seconds + 20}`;
+
+function HomeFilm() {
+  const [current, setCurrent] = useState(0);
+  const [ready, setReady] = useState(false);
+  const film = HOME_FILMS[current];
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setReady(false);
+      setCurrent((value) => (value + 1) % HOME_FILMS.length);
+    }, film.seconds * 1000);
+    return () => window.clearTimeout(timer);
+  }, [current, film.seconds]);
+
+  return (
+    <div className={'cg-home-film' + (ready ? ' ready' : '')} aria-hidden="true">
+      <img src={asset('/landing-desktop.jpg')} alt="" />
+      <iframe key={film.id} src={filmSrc(film)} allow="autoplay; encrypted-media" tabIndex={-1} title="" onLoad={() => window.setTimeout(() => setReady(true), 2200)} />
+      <span>{film.label}</span>
+    </div>
+  );
+}
 
 type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'globe' | 'arrow';
 
@@ -88,6 +120,7 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
 
       <main>
         <section className="cg-hero" aria-labelledby="cg-home-title">
+          <HomeFilm />
           <div className="cg-hero-inner">
             <div className="cg-emblem-wrap"><img src={asset('/crest.webp')} width="900" height="920" alt="" fetchPriority="high" /></div>
             <div className="cg-hero-copy">
