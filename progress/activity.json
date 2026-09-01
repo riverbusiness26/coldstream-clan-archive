@@ -1,13 +1,13 @@
 {
   "schema": 1,
-  "generatedAt": "2026-09-01T00:38:41.003Z",
-  "boardUpdatedAt": "2026-08-31T02:41:49.053Z",
+  "generatedAt": "2026-09-01T00:40:32.179Z",
+  "boardUpdatedAt": "2026-09-01T00:39:47.787Z",
   "title": "Coldstream Progress Board",
   "summary": {
-    "total": 22,
-    "done": 15,
+    "total": 19,
+    "done": 13,
     "doing": 3,
-    "blocked": 2,
+    "blocked": 1,
     "queued": 2,
     "completion": 68
   },
@@ -47,15 +47,16 @@
       "label": "2nd Coldstream",
       "done": 2,
       "total": 3
-    },
-    {
-      "id": "training-map",
-      "label": "Training Map",
-      "done": 2,
-      "total": 3
     }
   ],
   "activity": [
+    {
+      "at": "2026-09-01T00:39:47.787Z",
+      "title": "Training Map workstream removed from the public board.",
+      "lane": "website",
+      "meta": "Website",
+      "kind": "board"
+    },
     {
       "at": "2026-08-31T01:48:14.866Z",
       "title": "Leadership board curated from the project records.",
@@ -113,15 +114,6 @@
       "title": "Turn on workflow failure and recovery alerts",
       "status": "blocked",
       "note": "Waiting for the DISCORD_ALERT_WEBHOOK repository secret.",
-      "updatedAt": "2026-08-31T01:48:14.866Z"
-    },
-    {
-      "id": "map-3",
-      "lane": "training-map",
-      "laneLabel": "Training Map",
-      "title": "Complete a live server join and spawn test",
-      "status": "blocked",
-      "note": "The server must download the latest Workshop build, then a player must join and spawn successfully.",
       "updatedAt": "2026-08-31T01:48:14.866Z"
     },
     {

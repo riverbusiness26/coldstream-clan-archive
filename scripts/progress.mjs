@@ -51,7 +51,6 @@ function laneIcon(id) {
     graphics: '<path d="M4 4h16v16H4Z"/><path class="accent" d="m12 6 1.4 3.2L17 10.5l-3 2.1.8 3.6-2.8-2.1-2.8 2.1.8-3.6-3-2.1 3.6-1.3Z"/>',
     archive: '<path d="M4 8h16v12H4Z"/><path d="M3 4h18v5H3Z"/><path class="accent" d="M9 12h6"/>',
     '2nd-coldstream': '<path d="M12 3 19 6v5c0 4.7-2.7 7.8-7 10-4.3-2.2-7-5.3-7-10V6Z"/><path class="accent" d="M8 10h8M12 6v9"/>',
-    'training-map': '<path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z"/><path class="accent" d="M9 3v15M15 6v15M12 9h.01M12 9c0 2-2 2.2-2 4"/>',
   };
   return `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[id] ?? icons.website}</svg>`;
 }

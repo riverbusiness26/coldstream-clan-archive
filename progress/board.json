@@ -1,6 +1,6 @@
 {
   "title": "Coldstream Progress Board",
-  "updatedAt": "2026-08-31T02:41:49.053Z",
+  "updatedAt": "2026-09-01T00:39:47.787Z",
   "lanes": [
     {
       "id": "website",
@@ -37,12 +37,6 @@
       "label": "2nd Coldstream",
       "code": "2CG",
       "description": "Holdfast regiment work and event material"
-    },
-    {
-      "id": "training-map",
-      "label": "Training Map",
-      "code": "MAP",
-      "description": "Design, build, testing and release work"
     }
   ],
   "tasks": [
@@ -180,27 +174,6 @@
       "status": "doing", "priority": "high",
       "note": "Concepts must balance importance, regiment humour and recognisable Holdfast play.",
       "updatedAt": "2026-08-31T01:48:14.866Z"
-    },
-    {
-      "id": "map-1", "lane": "training-map",
-      "title": "Compact training camp v1 built and validated",
-      "status": "done", "priority": "high",
-      "note": "The firing ranges, artillery lanes and functional Army Battlefield spawns are packaged.",
-      "updatedAt": "2026-08-31T01:48:14.866Z"
-    },
-    {
-      "id": "map-2", "lane": "training-map",
-      "title": "Corrected map package published to Steam Workshop",
-      "status": "done", "priority": "high",
-      "note": "The client camera and deployment hierarchy fix passed 39 checks before upload.",
-      "updatedAt": "2026-08-31T01:48:14.866Z"
-    },
-    {
-      "id": "map-3", "lane": "training-map",
-      "title": "Complete a live server join and spawn test",
-      "status": "blocked", "priority": "high",
-      "note": "The server must download the latest Workshop build, then a player must join and spawn successfully.",
-      "updatedAt": "2026-08-31T01:48:14.866Z"
     }
   ],
   "history": [
@@ -218,6 +191,11 @@
       "at": "2026-08-31T01:48:14.866Z",
       "lane": "website",
       "text": "Leadership board curated from the project records."
+    },
+    {
+      "at": "2026-09-01T00:39:47.787Z",
+      "lane": "website",
+      "text": "Training Map workstream removed from the public board."
     }
   ]
 }
