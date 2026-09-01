@@ -9,6 +9,7 @@ import filmsSeed from '../seed/films.json';
 import Roster from '../components/Roster';
 import SteamGroups from '../components/SteamGroups';
 import type { Me } from '../lib/auth';
+import { HomeFilm } from './Home';
 
 interface Film {
   id: string;
@@ -87,6 +88,10 @@ export default function Archive({ me: _me }: { me: Me | null }) {
   const [deepOpen, setDeepOpen] = useState(false);
 
   return (
+    <>
+    <section className="archive-memory cg-film-flashes" aria-label="Coldstream Gaming memories by era">
+      <HomeFilm />
+    </section>
     <div className="wrap solo recordroom">
       <main>
         {/* The record room, per CSG Archive.png and artwork.png: the page says
@@ -221,5 +226,6 @@ export default function Archive({ me: _me }: { me: Me | null }) {
         </details>
       </main>
     </div>
+    </>
   );
 }

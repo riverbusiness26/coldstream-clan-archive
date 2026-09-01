@@ -15,15 +15,7 @@ const HOME_FILMS = [
   { src: '/video/memories/friday-linebattle-2012.mp4', label: '2nd Coldstream · Friday Linebattle · 2012' },
 ] as const;
 
-const FILM_STYLES = [
-  { id: 'framed', label: '1. Framed archive film' },
-  { id: 'flashes', label: '2. Memory flashes' },
-  { id: 'strip', label: '3. Film strip' },
-] as const;
-
-type FilmStyle = typeof FILM_STYLES[number]['id'];
-
-function HomeFilm() {
+export function HomeFilm() {
   const [slots, setSlots] = useState<[number, number]>([0, 1]);
   const [activeSlot, setActiveSlot] = useState(0);
   const [loaded, setLoaded] = useState<[boolean, boolean]>([false, false]);
@@ -145,22 +137,12 @@ export function SiteFooter() {
 }
 
 export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
-  const requestedStyle = new URLSearchParams(window.location.search).get('film');
-  const filmStyle: FilmStyle = FILM_STYLES.some((style) => style.id === requestedStyle) ? requestedStyle as FilmStyle : 'strip';
-  const showFilmPicker = import.meta.env.DEV || window.location.pathname.startsWith('/homepage');
-
   return (
-    <div className={`cg-home cg-film-${filmStyle}`}>
+    <div className="cg-home">
       <SiteNav active="Home" />
-
-      {showFilmPicker && <nav className="cg-film-picker" aria-label="Homepage film design previews">
-        <span>Design previews</span>
-        {FILM_STYLES.map((style) => <a className={style.id === filmStyle ? 'active' : undefined} href={`?film=${style.id}#/home`} key={style.id}>{style.label}</a>)}
-      </nav>}
 
       <main>
         <section className="cg-hero" aria-labelledby="cg-home-title">
-          {filmStyle !== 'strip' && <HomeFilm />}
           <div className="cg-hero-inner">
             <div className="cg-emblem-wrap"><img src={asset('/crest.webp')} width="900" height="920" alt="" fetchPriority="high" /></div>
             <div className="cg-hero-copy">
@@ -175,8 +157,6 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
             </div>
           </div>
         </section>
-
-        {filmStyle === 'strip' && <section className="cg-memory-reel" aria-label="Coldstream Gaming memories by era"><HomeFilm /></section>}
 
         <section className="cg-pillars" aria-labelledby="cg-pillars-title">
           <h2 className="cg-sr" id="cg-pillars-title">Explore Coldstream Gaming</h2>
