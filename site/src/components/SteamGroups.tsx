@@ -46,10 +46,11 @@ interface GroupMember {
 // So the heading is the group's own name as Steam has it, and the eras it
 // was part of go underneath. Trying to stamp one era label on each group
 // would have to pick a winner, and there is no honest way to pick.
-interface SeedEra { slug: string; label: string; sources?: string[] }
+interface SeedEra { slug: string; label: string; sources?: string[]; ran?: string; foundedIso?: string | null }
 const ERAS_FOR: Record<string, string[]> = {};
 for (const e of (erasSeed as unknown as { eras: SeedEra[] }).eras) {
-  for (const slug of e.sources ?? [e.slug]) (ERAS_FOR[slug] ??= []).push(e.label);
+  const years = e.ran ?? e.foundedIso?.slice(0, 4) ?? 'Year not recorded';
+  for (const slug of e.sources ?? [e.slug]) (ERAS_FOR[slug] ??= []).push(`${years} · ${e.label}`);
 }
 
 function when(iso: string | null): string {
@@ -155,11 +156,7 @@ export default function SteamGroups() {
                   : <span className="sg-av sg-av-none" aria-hidden="true" />}
                 <span className="era-mid">
                   <span className="era-name">{g.name}</span>
-                  {/* The slug rather than the era labels: it is the group's
-                      identity on Steam, and era labels already contain a
-                      middle dot, so listing several of them here would read
-                      as more eras than there are. They go in the body. */}
-                  <span className="era-game">steamcommunity.com/groups/{g.url_slug}</span>
+                  <span className="era-game">{(ERAS_FOR[g.url_slug] ?? ['Year not recorded']).join(' · ')}</span>
                 </span>
                 <span className="era-bar" aria-hidden="true">
                   <span className="era-fill" style={{ width: `${Math.round((shown / peak) * 100)}%` }} />
