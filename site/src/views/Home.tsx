@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 
@@ -6,11 +6,11 @@ const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
 const HOME_FILMS = [
-  { id: 'ZypEBUL_hs4', start: 12, seconds: 8, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
-  { id: 'ThhbfRP95w8', start: 10, seconds: 8, label: '2nd Coldstream · Mount & Musket · 2012' },
-  { id: '8AU7hzl8w5M', start: 42, seconds: 8, label: '2nd Coldstream · Napoleonic Wars · 2012' },
-  { id: 'QgziRNt4nnM', start: 12, seconds: 8, label: '2nd Coldstream · Napoleonic Wars · 2015' },
-  { id: 'kwokOGLWLdU', start: 12, seconds: 8, label: '2nd Coldstream · Holdfast · 2020' },
+  { id: 'dqgcg0if-3U', start: 25, seconds: 9, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
+  { id: 'ThhbfRP95w8', start: 10, seconds: 9, label: '2nd Coldstream · Mount & Musket · 2012' },
+  { id: '8AU7hzl8w5M', start: 42, seconds: 9, label: '2nd Coldstream · Napoleonic Wars · 2012' },
+  { id: 'QgziRNt4nnM', start: 12, seconds: 9, label: '2nd Coldstream · Napoleonic Wars · 2015' },
+  { id: 'kwokOGLWLdU', start: 12, seconds: 9, label: '2nd Coldstream · Holdfast · 2020' },
 ] as const;
 
 const FILM_STYLES = [
@@ -21,26 +21,66 @@ const FILM_STYLES = [
 
 type FilmStyle = typeof FILM_STYLES[number]['id'];
 
-const filmSrc = (film: typeof HOME_FILMS[number]) =>
-  `https://www.youtube-nocookie.com/embed/${film.id}?autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&start=${film.start}&end=${film.start + film.seconds + 3}`;
+const filmSrc = (film: typeof HOME_FILMS[number], autoplay: boolean) =>
+  `https://www.youtube-nocookie.com/embed/${film.id}?autoplay=${autoplay ? 1 : 0}&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1&start=${film.start}&end=${film.start + film.seconds + 3}`;
+
+type FilmSlot = { film: number; autoplay: boolean };
 
 function HomeFilm() {
-  const [current, setCurrent] = useState(0);
-  const [ready, setReady] = useState(false);
-  const film = HOME_FILMS[current];
+  const [slots, setSlots] = useState<[FilmSlot, FilmSlot]>([
+    { film: 0, autoplay: true },
+    { film: 1, autoplay: false },
+  ]);
+  const [activeSlot, setActiveSlot] = useState(0);
+  const [loaded, setLoaded] = useState<[boolean, boolean]>([false, false]);
+  const [transitioning, setTransitioning] = useState(true);
+  const frames = useRef<(HTMLIFrameElement | null)[]>([]);
+  const film = HOME_FILMS[slots[activeSlot].film];
 
   useEffect(() => {
+    let reveal: number | undefined;
+    let recycle: number | undefined;
+    let finish: number | undefined;
     const timer = window.setTimeout(() => {
-      setReady(false);
-      setCurrent((value) => (value + 1) % HOME_FILMS.length);
-    }, film.seconds * 1000);
-    return () => window.clearTimeout(timer);
-  }, [current, film.seconds]);
+      const incoming = activeSlot === 0 ? 1 : 0;
+      const outgoing = activeSlot;
+      const player = frames.current[incoming]?.contentWindow;
+      setTransitioning(true);
+      player?.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
+      player?.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [HOME_FILMS[slots[incoming].film].start, true] }), '*');
+      player?.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+
+      reveal = window.setTimeout(() => {
+        setActiveSlot(incoming);
+        recycle = window.setTimeout(() => {
+          frames.current[outgoing]?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
+          const following = (slots[incoming].film + 1) % HOME_FILMS.length;
+          setLoaded((value) => value.map((state, index) => index === outgoing ? false : state) as [boolean, boolean]);
+          setSlots((value) => value.map((slot, index) => index === outgoing ? { film: following, autoplay: false } : slot) as [FilmSlot, FilmSlot]);
+        }, 1100);
+        finish = window.setTimeout(() => setTransitioning(false), 550);
+      }, 900);
+    }, Math.max(1000, film.seconds * 1000 - 1200));
+    return () => {
+      window.clearTimeout(timer);
+      if (reveal) window.clearTimeout(reveal);
+      if (recycle) window.clearTimeout(recycle);
+      if (finish) window.clearTimeout(finish);
+    };
+  }, [activeSlot, film.seconds, slots]);
 
   return (
-    <div className={'cg-home-film' + (ready ? ' ready' : '')} aria-hidden="true">
+    <div className={`cg-home-film${transitioning ? ' transitioning' : ''}`} aria-hidden="true">
       <img src={asset('/landing-desktop.jpg')} alt="" />
-      <iframe key={film.id} src={filmSrc(film)} allow="autoplay; encrypted-media" tabIndex={-1} title="" onLoad={() => window.setTimeout(() => setReady(true), 2200)} />
+      {slots.map((slot, index) => {
+        const slotFilm = HOME_FILMS[slot.film];
+        return <div className={`cg-film-frame${index === activeSlot && loaded[index] ? ' active' : ''}`} key={`${index}-${slotFilm.id}`}>
+          <iframe ref={(node) => { frames.current[index] = node; }} src={filmSrc(slotFilm, slot.autoplay)} allow="autoplay; encrypted-media" tabIndex={-1} title="" onLoad={() => window.setTimeout(() => {
+            setLoaded((value) => value.map((state, loadedIndex) => loadedIndex === index ? true : state) as [boolean, boolean]);
+            if (index === 0 && slot.film === 0) window.setTimeout(() => setTransitioning(false), 2200);
+          }, 500)} />
+        </div>;
+      })}
       <span>{film.label}</span>
     </div>
   );
@@ -124,7 +164,7 @@ export function SiteFooter() {
 
 export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   const requestedStyle = new URLSearchParams(window.location.search).get('film');
-  const filmStyle: FilmStyle = FILM_STYLES.some((style) => style.id === requestedStyle) ? requestedStyle as FilmStyle : 'framed';
+  const filmStyle: FilmStyle = FILM_STYLES.some((style) => style.id === requestedStyle) ? requestedStyle as FilmStyle : 'strip';
   const showFilmPicker = import.meta.env.DEV || window.location.pathname.startsWith('/homepage');
 
   return (
@@ -138,7 +178,7 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
 
       <main>
         <section className="cg-hero" aria-labelledby="cg-home-title">
-          <HomeFilm />
+          {filmStyle !== 'strip' && <HomeFilm />}
           <div className="cg-hero-inner">
             <div className="cg-emblem-wrap"><img src={asset('/crest.webp')} width="900" height="920" alt="" fetchPriority="high" /></div>
             <div className="cg-hero-copy">
@@ -153,6 +193,8 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
             </div>
           </div>
         </section>
+
+        {filmStyle === 'strip' && <section className="cg-memory-reel" aria-label="Coldstream Gaming memories by era"><HomeFilm /></section>}
 
         <section className="cg-pillars" aria-labelledby="cg-pillars-title">
           <h2 className="cg-sr" id="cg-pillars-title">Explore Coldstream Gaming</h2>
