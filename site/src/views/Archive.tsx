@@ -104,25 +104,23 @@ const HISTORY = [
     note: 'The regiment was quiet, but Coldstream Gaming continued.',
   },
   {
-    years: '2020–Now',
+    years: '2020–2021',
     group: '2nd Coldstream Regiment of Footguards and Coldstream Gaming',
-    game: 'Holdfast: Nations at War and game servers',
-    note: 'The regiment returned to Holdfast in 2020 and became inactive in 2021. We are working toward a full return as the 2nd Coldstream Regiment of Footguards, while Coldstream Gaming carries on with game servers.',
+    game: 'Holdfast: Nations at War and Garry’s Mod',
+    note: 'A short return to Holdfast, alongside successful TTT, Prop Hunt and Deathrun servers on Garry’s Mod.',
     video: 'kwokOGLWLdU',
     evidence: 'Watch: 15 July 2020',
   },
+  {
+    years: 'Present',
+    group: 'The return of the 2nd Coldstream and Coldstream Gaming',
+    game: 'Holdfast: Nations at War and game servers',
+    note: 'We are returning to Holdfast and bringing Coldstream Gaming’s game servers with us. We have learned from every era, kept what worked, and are coming back better prepared to build something that lasts.',
+  },
 ] as const;
-
-const TIMELINE_STYLES = [
-  { id: 'rail', label: '1. Brass rail' },
-  { id: 'ledger', label: '2. Campaign ledger' },
-  { id: 'bands', label: '3. Era bands' },
-] as const;
-
-type TimelineStyle = typeof TIMELINE_STYLES[number]['id'];
 
 const FEATURED_HISTORY = [
-  { id: 'ZypEBUL_hs4', title: '21st Pennsylvania Regiment of Foot · 2011' },
+  { id: 'dqgcg0if-3U', title: '21st Pennsylvania Regiment of Foot · 2011' },
   { id: 'ThhbfRP95w8', title: 'The last Mount & Musket linebattle · 2012' },
   { id: 'QgziRNt4nnM', title: 'The Napoleonic Wars revival · 2015' },
 ] as const;
@@ -130,9 +128,6 @@ const FEATURED_HISTORY = [
 export default function Archive({ me }: { me: Me | null }) {
   const [openEra, setOpenEra] = useState<string | null>(null);
   const [deepOpen, setDeepOpen] = useState(false);
-  const requestedTimeline = new URLSearchParams(window.location.search).get('timeline');
-  const timelineStyle: TimelineStyle = TIMELINE_STYLES.some((style) => style.id === requestedTimeline) ? requestedTimeline as TimelineStyle : 'rail';
-  const showTimelinePicker = import.meta.env.DEV || window.location.pathname.startsWith('/homepage');
 
   // Ranks somebody on the roster actually held, so the ladder marks them.
   const held = useMemo(
@@ -181,12 +176,7 @@ export default function Archive({ me }: { me: Me | null }) {
           </div>
         </section>
 
-        {showTimelinePicker && <nav className="archive-style-picker" aria-label="Archive timeline design previews">
-          <span>Timeline previews</span>
-          {TIMELINE_STYLES.map((style) => <a className={style.id === timelineStyle ? 'active' : undefined} href={`?timeline=${style.id}#/archive`} key={style.id}>{style.label}</a>)}
-        </nav>}
-
-        <section className={`archive-timeline timeline-${timelineStyle}`} aria-labelledby="archive-timeline-title">
+        <section className="archive-timeline timeline-bands" aria-labelledby="archive-timeline-title">
           <div className="mhead"><h2 id="archive-timeline-title">The games we played</h2><span className="sub">a short history</span></div>
           <ol>
             {HISTORY.map((item) => <li key={`${item.years}-${item.group}`} style={'video' in item ? { '--era-image': `url(https://i.ytimg.com/vi/${item.video}/hqdefault.jpg)` } as CSSProperties : undefined}>
