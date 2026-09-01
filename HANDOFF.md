@@ -2756,3 +2756,11 @@ VERIFIED:    The Edge Function returned a private removal token, rejected an inc
 UNVERIFIED:  Nothing in this release.
 BLOCKED:     Nothing.
 NEXT:        Publish commits `ecb5b48` and the icon update, then verify the live board exposes Undo and same-device Remove without returning any test tasks.
+
+## 2026-08-31 - Progress board categories and flow summary completed (Codex, River side)
+
+DONE:        Replaced public-facing workstream language with category language and installed the Now, Next and Needs Attention summary with collapsible categories, smaller add controls and River attribution.
+VERIFIED:    The progress generator and production site build passed. Browser checks at 1280 by 800 and 1024 by 768 showed the expected 3, 2 and 2 counts, seven working category toggles, no visible workstream or Codex wording, and no horizontal overflow.
+UNVERIFIED:  The production page has not been checked against this commit yet.
+BLOCKED:     Nothing.
+NEXT:        Commit and publish the generated board, then verify the live page wording and category controls.

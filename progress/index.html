@@ -19,16 +19,16 @@
     .seal{width:74px;height:74px;display:grid;place-items:center;border:1px solid var(--hair);background:rgba(10,12,13,.48);position:relative}.seal:after{content:'';position:absolute;inset:5px;border:1px solid rgba(197,208,216,.12)}.seal img{width:68px;height:68px;object-fit:contain;position:relative;z-index:1}
     .eyebrow,.label{font-size:10px;line-height:1;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)}h1{margin:5px 0 2px;font:600 clamp(30px,3.1vw,52px)/.95 var(--display);letter-spacing:.025em}.subtitle{margin:0;color:var(--muted);font-size:13px}
     .clock{text-align:right;font-variant-numeric:tabular-nums}.clock b{display:block;font:500 clamp(24px,2.2vw,38px)/1 var(--display);color:var(--frost)}.clock span{display:block;margin-top:7px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-    .summary{display:grid;grid-template-columns:minmax(240px,1.4fr) repeat(4,minmax(105px,.6fr));gap:1px;margin-top:18px;background:var(--line);border:1px solid var(--hair)}.metric{background:linear-gradient(103deg,rgba(255,255,255,.018),transparent 38%),rgba(27,31,34,.97);min-height:102px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between}.metric b{font:500 34px/1 var(--display);color:var(--ink)}.metric small{font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--faint)}.metric.major{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px}.ring{--p:68;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--brass) calc(var(--p)*1%),var(--hair) 0);position:relative}.ring:before{content:'';position:absolute;inset:6px;border-radius:50%;background:var(--panel)}.ring b{position:relative;font:500 20px/1 var(--display);color:var(--brass)}.major-copy b{font-size:19px}.major-copy small{display:block;margin-top:7px;line-height:1.5}.metric.blocked b{color:var(--frost)}
-    .work{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,24%);gap:18px;margin-top:18px}.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-content:start}.lane{background:linear-gradient(107deg,rgba(197,208,216,.018),transparent 42%),rgba(27,31,34,.97);border:1px solid var(--hair);min-width:0}.lane[data-status=empty]{background:rgba(27,31,34,.68)}.lane-head{display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;padding:15px 16px 13px}.lane-code{width:44px;height:40px;display:grid;place-items:center;border:1px solid var(--hair);color:var(--frost);background:linear-gradient(145deg,rgba(26,39,64,.62),rgba(10,12,13,.48));box-shadow:inset 0 0 0 4px rgba(197,208,216,.025)}.lane-code svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}.lane-code svg .accent{stroke:var(--brass)}.lane-title{min-width:0}.lane-title b{display:block;font:600 22px/1 var(--display);color:var(--ink)}.lane-title small{display:block;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:var(--faint)}.lane-actions{display:flex;align-items:center;gap:10px}.lane-count{text-align:right}.lane-count b{display:block;font:500 18px/1 var(--display);color:var(--brass)}.lane-count small{display:block;margin-top:3px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}.lane-add{width:42px;height:42px;border:1px solid var(--hair);background:rgba(26,39,64,.5);color:var(--frost);font:400 22px/1 var(--display);cursor:pointer;touch-action:manipulation}.lane-add:hover,.lane-add:focus-visible{border-color:var(--brass);color:var(--brass);outline:0}.rail{height:2px;background:var(--line)}.rail i{display:block;height:100%;background:var(--brass)}
+    .summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:18px;background:var(--line);border:1px solid var(--hair)}.metric{background:linear-gradient(103deg,rgba(255,255,255,.018),transparent 38%),rgba(27,31,34,.97);min-height:102px;padding:18px 22px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;align-content:center;column-gap:18px;row-gap:8px}.metric .metric-label{grid-column:1/-1;font-size:10px;line-height:1.2;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}.metric b{font:500 36px/.9 var(--display);color:var(--ink)}.metric .metric-unit{align-self:end;padding-bottom:2px;font-size:10px;line-height:1.2;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.metric.attention{box-shadow:inset 3px 0 0 rgba(197,208,216,.42)}.metric.attention b{color:var(--frost)}
+    .work{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,24%);gap:18px;margin-top:18px}.board-region{min-width:0}.category-tools{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-bottom:10px}.category-tools .label{margin-right:auto}.category-tools button{min-height:32px;padding:0 11px;border:1px solid var(--hair);background:rgba(27,31,34,.82);color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.category-tools button:hover,.category-tools button:focus-visible{border-color:var(--brass);color:var(--brass);outline:0}.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-content:start}.lane{background:linear-gradient(107deg,rgba(197,208,216,.018),transparent 42%),rgba(27,31,34,.97);border:1px solid var(--hair);min-width:0}.lane[data-status=empty]{background:rgba(27,31,34,.68)}.lane[data-collapsed=true] .tasks{display:none}.lane-head{display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;padding:15px 16px 13px}.lane-code{width:44px;height:40px;display:grid;place-items:center;border:1px solid var(--hair);color:var(--frost);background:linear-gradient(145deg,rgba(26,39,64,.62),rgba(10,12,13,.48));box-shadow:inset 0 0 0 4px rgba(197,208,216,.025)}.lane-code svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}.lane-code svg .accent{stroke:var(--brass)}.lane-title{min-width:0}.lane-title b{display:block;font:600 22px/1 var(--display);color:var(--ink)}.lane-title small{display:block;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:var(--faint)}.lane-actions{display:flex;align-items:center;gap:7px}.lane-count{text-align:right;min-width:42px}.lane-count b{display:block;font:500 18px/1 var(--display);color:var(--brass)}.lane-count small{display:block;margin-top:3px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}.lane-add,.lane-toggle{width:34px;height:34px;padding:0;border:1px solid var(--hair);background:rgba(26,39,64,.5);color:var(--frost);cursor:pointer;touch-action:manipulation}.lane-add{font:400 20px/1 var(--display)}.lane-toggle{font:400 25px/1 var(--display);transition:transform .16s ease}.lane-toggle[aria-expanded=true]{transform:rotate(90deg)}.lane-add:hover,.lane-add:focus-visible,.lane-toggle:hover,.lane-toggle:focus-visible{border-color:var(--brass);color:var(--brass);outline:0}
     .tasks{list-style:none;padding:0;margin:0;max-height:174px;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--hair) transparent}.task{display:grid;grid-template-columns:12px 1fr auto;gap:11px;align-items:center;padding:13px 16px;border-top:1px solid var(--hair)}.task-state{width:8px;height:8px;border:1px solid var(--faint);transform:rotate(45deg)}.task-doing .task-state{border-color:var(--brass);background:var(--brass);box-shadow:0 0 0 3px rgba(176,141,87,.1)}.task-blocked .task-state{border-color:var(--frost);background:repeating-linear-gradient(45deg,var(--navy) 0,var(--navy) 2px,var(--frost) 2px,var(--frost) 3px)}.task-done .task-state{border-color:var(--frost);background:var(--frost)}.task-copy{min-width:0}.task-copy b{display:block;font-size:12px;font-weight:500}.task-copy small{display:block;margin-top:4px;font-size:10px;line-height:1.45;color:var(--faint)}.task-label{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}.task-doing .task-label{color:var(--brass)}.task-blocked .task-label{color:var(--frost)}.task-controls{display:flex;align-items:center;gap:8px}.task-remove{min-width:58px;min-height:32px;padding:0 9px;border:1px solid var(--hair);background:rgba(10,12,13,.5);color:var(--muted);font-size:9px;cursor:pointer;touch-action:manipulation}.task-remove:hover,.task-remove:focus-visible{border-color:var(--brass);color:var(--brass);outline:0}.task-remove:disabled{opacity:.45;cursor:wait}.lane-empty{padding:18px 16px 20px;border-top:1px solid var(--hair);color:var(--faint)}.lane-empty b{display:block;font:500 15px/1.2 var(--display);color:var(--muted)}.lane-empty span{display:block;margin-top:5px;font-size:10px;line-height:1.5}
     .side{background:linear-gradient(110deg,rgba(197,208,216,.018),transparent 45%),rgba(27,31,34,.97);border:1px solid var(--hair);align-self:start;position:sticky;top:18px}.side-head{padding:17px 18px 14px;border-bottom:1px solid var(--hair)}.side-head h2{margin:5px 0 0;font:600 24px/1 var(--display)}.activity{list-style:none;margin:0;padding:0 18px;max-height:520px;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--hair) transparent}.activity li{display:grid;grid-template-columns:10px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid var(--hair)}.activity li:last-child{border-bottom:0}.activity-mark{width:7px;height:7px;margin-top:5px;border:1px solid var(--brass);transform:rotate(45deg)}.activity-mark.change{border-color:var(--frost)}.activity b{display:block;font-size:11px;font-weight:500;line-height:1.35}.activity small{display:block;margin-top:5px;font-size:8px;line-height:1.4;letter-spacing:.05em;text-transform:uppercase;color:var(--faint)}
     .update{margin-top:18px;border:1px solid var(--hair);background:rgba(26,39,64,.22)}.update summary{cursor:pointer;list-style:none;padding:14px 18px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--frost);touch-action:manipulation}.update summary::-webkit-details-marker{display:none}.update summary:after{content:'+';float:right;font-size:16px;line-height:.6}.update[open] summary:after{content:'−'}.update-body{padding:0 18px 17px;border-top:1px solid var(--hair)}.update-body p{font-size:11px;line-height:1.6;color:var(--muted)}.commands{display:grid;gap:7px}.command{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;background:rgba(10,12,13,.6);border:1px solid var(--hair);font-size:10px;color:var(--muted)}.command b{color:var(--ink);font-weight:500}.foot{display:flex;justify-content:space-between;gap:16px;margin-top:15px;padding-top:14px;border-top:1px solid var(--hair);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
     dialog{width:min(92vw,560px);padding:0;border:1px solid var(--hair);background:var(--panel);color:var(--ink);box-shadow:0 26px 80px rgba(0,0,0,.66)}dialog::backdrop{background:rgba(5,7,8,.82);backdrop-filter:blur(4px)}.task-form-head{padding:22px 24px 18px;border-bottom:1px solid var(--hair)}.task-form-head h2{margin:5px 0 0;font:600 29px/1 var(--display)}.task-form{padding:20px 24px 24px}.field{display:grid;gap:7px;margin-bottom:15px}.field label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}.field input,.field textarea,.field select{width:100%;border:1px solid var(--hair);background:#111416;color:var(--ink);padding:12px 13px;outline:0}.field textarea{min-height:92px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--brass)}.field-help{font-size:9px;color:var(--faint)}.trap{position:absolute!important;left:-9999px!important}.form-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:19px}.form-btn{min-height:44px;padding:0 18px;border:1px solid var(--hair);background:transparent;color:var(--muted);cursor:pointer}.form-btn.primary{border-color:var(--brass);background:rgba(176,141,87,.1);color:var(--brass)}.form-btn:disabled{opacity:.45;cursor:wait}.form-status{min-height:18px;margin:13px 0 0;font-size:11px;color:var(--muted)}.form-status.error{color:var(--frost)}.toast{position:fixed;z-index:10;right:22px;bottom:22px;max-width:360px;padding:13px 16px;border:1px solid var(--brass);background:var(--panel);color:var(--ink);font-size:11px;box-shadow:0 12px 40px rgba(0,0,0,.45)}.toast button{margin-left:14px;padding:5px 9px;border:1px solid var(--brass);background:transparent;color:var(--brass);font-size:10px;cursor:pointer}
     .filters{display:none}
     @media (min-width:1400px){.board{grid-template-columns:repeat(3,minmax(0,1fr))}.work{grid-template-columns:minmax(0,1fr) minmax(330px,22%)}}
-    @media (max-width:980px){.work{grid-template-columns:1fr}.side{position:static}.summary{grid-template-columns:repeat(4,1fr)}.metric.major{grid-column:1/-1}.board{grid-template-columns:1fr 1fr}}
-    @media (max-width:660px){.shell{padding:14px}.top{grid-template-columns:auto 1fr}.seal{width:58px;height:58px}.seal img{width:52px;height:52px}.clock{grid-column:1/-1;display:flex;justify-content:space-between;text-align:left;padding-top:12px;border-top:1px solid var(--line)}.summary{grid-template-columns:1fr 1fr}.metric.major{grid-column:1/-1}.board{grid-template-columns:1fr}.work{gap:12px}.foot{flex-direction:column}.subtitle{font-size:11px}}
+    @media (max-width:980px){.work{grid-template-columns:1fr}.side{position:static}.board{grid-template-columns:1fr 1fr}}
+    @media (max-width:660px){.shell{padding:14px}.top{grid-template-columns:auto 1fr}.seal{width:58px;height:58px}.seal img{width:52px;height:52px}.clock{grid-column:1/-1;display:flex;justify-content:space-between;text-align:left;padding-top:12px;border-top:1px solid var(--line)}.summary{grid-template-columns:1fr}.metric{min-height:84px}.board{grid-template-columns:1fr}.work{gap:12px}.lane-add,.lane-toggle{width:38px;height:38px}.lane-count{display:none}.foot{flex-direction:column}.subtitle{font-size:11px}}
     @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
   </style>
 </head>
@@ -39,23 +39,20 @@
       <div><span class="eyebrow">Operations record · live board</span><h1>Coldstream Progress Board</h1><p class="subtitle">Established. Welcoming. Built to last.</p></div>
       <div class="clock"><b id="clock">00:00</b><span id="date">Central time</span></div>
     </header>
-    <section class="summary" aria-label="Board summary">
-      <div class="metric major"><span class="ring" id="overall-ring"><b id="overall-percent">68%</b></span><span class="major-copy"><small>Overall progress</small><b id="overall-count">15 of 22 tasks complete</b><small>Progress is calculated from the task record, never typed in by hand.</small></span></div>
-      <div class="metric"><small>In progress</small><b id="metric-doing">3</b></div>
-      <div class="metric"><small>Queued</small><b id="metric-queued">2</b></div>
-      <div class="metric blocked"><small>Blocked</small><b id="metric-blocked">2</b></div>
-      <div class="metric"><small>Workstreams</small><b>7</b></div>
+    <section class="summary" aria-label="Board status">
+      <div class="metric"><span class="metric-label">Now</span><b id="metric-doing">3</b><span class="metric-unit">tasks</span></div>
+      <div class="metric"><span class="metric-label">Next</span><b id="metric-queued">2</b><span class="metric-unit">tasks</span></div>
+      <div class="metric attention"><span class="metric-label">Needs attention</span><b id="metric-blocked">2</b><span class="metric-unit">tasks</span></div>
     </section>
     <main class="work">
-      <section class="board" aria-label="Workstreams">
-  <article class="lane" data-lane="website" data-status="active" data-static-done="3" data-static-total="3">
+      <section class="board-region" aria-label="Categories"><div class="category-tools"><span class="label">Categories</span><button type="button" id="expand-all">Expand all</button><button type="button" id="collapse-all">Collapse all</button></div><div class="board">
+  <article class="lane" data-lane="website" data-status="active" data-collapsed="true" data-static-done="3" data-static-total="3">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path class="accent" d="M4 12h16M12 4c2.2 2.3 3.4 5 3.4 8S14.2 17.7 12 20c-2.2-2.3-3.4-5-3.4-8S9.8 6.3 12 4Z"/></svg></span>
       <span class="lane-title"><b>Website</b><small>Public site, member tools and live services</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>3/3</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="website" aria-label="Add a task to Website">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>Clear</b><small>3 filed</small></span><button class="lane-toggle" type="button" aria-expanded="false" aria-controls="tasks-website" aria-label="Expand Website category">›</button><button class="lane-add" type="button" data-add-lane="website" aria-label="Add a task to Website">+</button></span>
     </header>
-    <div class="rail" aria-label="100% complete"><i style="width:100%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-website" data-task-list>
     <li class="task task-done">
       <span class="task-state" aria-label="Done"></span>
       <span class="task-copy"><b>Community website, Steam sign-in and member profiles live</b><small>The public site and its main member path are working end to end.</small></span>
@@ -72,14 +69,13 @@
       <span class="task-label">Done</span>
     </li></ul>
   </article>
-  <article class="lane" data-lane="game-servers" data-status="active" data-static-done="2" data-static-total="3">
+  <article class="lane" data-lane="game-servers" data-status="active" data-collapsed="false" data-static-done="2" data-static-total="3">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="6" rx="1"/><rect x="4" y="14" width="16" height="6" rx="1"/><path class="accent" d="M8 7h.01M8 17h.01M12 7h5M12 17h5"/></svg></span>
       <span class="lane-title"><b>Game Servers</b><small>Pterodactyl, game instances and server health</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>2/3</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="game-servers" aria-label="Add a task to Game Servers">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>1</b><small>open</small></span><button class="lane-toggle" type="button" aria-expanded="true" aria-controls="tasks-game-servers" aria-label="Collapse Game Servers category">›</button><button class="lane-add" type="button" data-add-lane="game-servers" aria-label="Add a task to Game Servers">+</button></span>
     </header>
-    <div class="rail" aria-label="67% complete"><i style="width:67%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-game-servers" data-task-list>
     <li class="task task-doing">
       <span class="task-state" aria-label="In progress"></span>
       <span class="task-copy"><b>Complete the first tested Pterodactyl backup restore</b><small>The runbook is written. A real restore is still required before backups are proven.</small></span>
@@ -96,14 +92,13 @@
       <span class="task-label">Done</span>
     </li></ul>
   </article>
-  <article class="lane" data-lane="discord" data-status="active" data-static-done="2" data-static-total="4">
+  <article class="lane" data-lane="discord" data-status="active" data-collapsed="false" data-static-done="2" data-static-total="4">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v11H9l-4 4v-4H5Z"/><path class="accent" d="M9 10h.01M15 10h.01M9 13h6"/></svg></span>
       <span class="lane-title"><b>Discord</b><small>Bot, channels, roles and community operations</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>2/4</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="discord" aria-label="Add a task to Discord">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>2</b><small>open</small></span><button class="lane-toggle" type="button" aria-expanded="true" aria-controls="tasks-discord" aria-label="Collapse Discord category">›</button><button class="lane-add" type="button" data-add-lane="discord" aria-label="Add a task to Discord">+</button></span>
     </header>
-    <div class="rail" aria-label="50% complete"><i style="width:50%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-discord" data-task-list>
     <li class="task task-doing">
       <span class="task-state" aria-label="In progress"></span>
       <span class="task-copy"><b>Verify /games controls against the live Pterodactyl panel</b><small>The commands are built. A real deployment through the live panel is not yet recorded.</small></span>
@@ -125,14 +120,13 @@
       <span class="task-label">Done</span>
     </li></ul>
   </article>
-  <article class="lane" data-lane="graphics" data-status="active" data-static-done="2" data-static-total="3">
+  <article class="lane" data-lane="graphics" data-status="active" data-collapsed="false" data-static-done="2" data-static-total="3">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4Z"/><path class="accent" d="m12 6 1.4 3.2L17 10.5l-3 2.1.8 3.6-2.8-2.1-2.8 2.1.8-3.6-3-2.1 3.6-1.3Z"/></svg></span>
       <span class="lane-title"><b>Graphics</b><small>Brand work, site plates and community media</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>2/3</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="graphics" aria-label="Add a task to Graphics">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>1</b><small>open</small></span><button class="lane-toggle" type="button" aria-expanded="true" aria-controls="tasks-graphics" aria-label="Collapse Graphics category">›</button><button class="lane-add" type="button" data-add-lane="graphics" aria-label="Add a task to Graphics">+</button></span>
     </header>
-    <div class="rail" aria-label="67% complete"><i style="width:67%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-graphics" data-task-list>
     <li class="task task-todo">
       <span class="task-state" aria-label="Queued"></span>
       <span class="task-copy"><b>Finish the shared banner set for Discord, Steam and the site</b><small>One consistent set is still needed across the three public surfaces.</small></span>
@@ -149,14 +143,13 @@
       <span class="task-label">Done</span>
     </li></ul>
   </article>
-  <article class="lane" data-lane="archive" data-status="active" data-static-done="2" data-static-total="3">
+  <article class="lane" data-lane="archive" data-status="active" data-collapsed="false" data-static-done="2" data-static-total="3">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4Z"/><path d="M3 4h18v5H3Z"/><path class="accent" d="M9 12h6"/></svg></span>
       <span class="lane-title"><b>Archive</b><small>Recovered history, records and source material</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>2/3</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="archive" aria-label="Add a task to Archive">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>1</b><small>open</small></span><button class="lane-toggle" type="button" aria-expanded="true" aria-controls="tasks-archive" aria-label="Collapse Archive category">›</button><button class="lane-add" type="button" data-add-lane="archive" aria-label="Add a task to Archive">+</button></span>
     </header>
-    <div class="rail" aria-label="67% complete"><i style="width:67%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-archive" data-task-list>
     <li class="task task-todo">
       <span class="task-state" aria-label="Queued"></span>
       <span class="task-copy"><b>Caption the remaining recovered media with confidence labels</b><small>The inventory exists. The remaining material needs a human-reviewed caption pass.</small></span>
@@ -173,14 +166,13 @@
       <span class="task-label">Done</span>
     </li></ul>
   </article>
-  <article class="lane" data-lane="2nd-coldstream" data-status="active" data-static-done="2" data-static-total="3">
+  <article class="lane" data-lane="2nd-coldstream" data-status="active" data-collapsed="false" data-static-done="2" data-static-total="3">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.7-2.7 7.8-7 10-4.3-2.2-7-5.3-7-10V6Z"/><path class="accent" d="M8 10h8M12 6v9"/></svg></span>
       <span class="lane-title"><b>2nd Coldstream</b><small>Holdfast regiment work and event material</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>2/3</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="2nd-coldstream" aria-label="Add a task to 2nd Coldstream">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>1</b><small>open</small></span><button class="lane-toggle" type="button" aria-expanded="true" aria-controls="tasks-2nd-coldstream" aria-label="Collapse 2nd Coldstream category">›</button><button class="lane-add" type="button" data-add-lane="2nd-coldstream" aria-label="Add a task to 2nd Coldstream">+</button></span>
     </header>
-    <div class="rail" aria-label="67% complete"><i style="width:67%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-2nd-coldstream" data-task-list>
     <li class="task task-doing">
       <span class="task-state" aria-label="In progress"></span>
       <span class="task-copy"><b>Produce the first original medal concept set</b><small>Concepts must balance importance, regiment humour and recognisable Holdfast play.</small></span>
@@ -197,14 +189,13 @@
       <span class="task-label">Done</span>
     </li></ul>
   </article>
-  <article class="lane" data-lane="training-map" data-status="active" data-static-done="2" data-static-total="3">
+  <article class="lane" data-lane="training-map" data-status="active" data-collapsed="false" data-static-done="2" data-static-total="3">
     <header class="lane-head">
       <span class="lane-code"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z"/><path class="accent" d="M9 3v15M15 6v15M12 9h.01M12 9c0 2-2 2.2-2 4"/></svg></span>
       <span class="lane-title"><b>Training Map</b><small>Design, build, testing and release work</small></span>
-      <span class="lane-actions"><span class="lane-count"><b>2/3</b><small>complete</small></span><button class="lane-add" type="button" data-add-lane="training-map" aria-label="Add a task to Training Map">+</button></span>
+      <span class="lane-actions"><span class="lane-count"><b>1</b><small>open</small></span><button class="lane-toggle" type="button" aria-expanded="true" aria-controls="tasks-training-map" aria-label="Collapse Training Map category">›</button><button class="lane-add" type="button" data-add-lane="training-map" aria-label="Add a task to Training Map">+</button></span>
     </header>
-    <div class="rail" aria-label="67% complete"><i style="width:67%"></i></div>
-    <ul class="tasks" data-task-list>
+    <ul class="tasks" id="tasks-training-map" data-task-list>
     <li class="task task-blocked">
       <span class="task-state" aria-label="Blocked"></span>
       <span class="task-copy"><b>Complete a live server join and spawn test</b><small>The server must download the latest Workshop build, then a player must join and spawn successfully.</small></span>
@@ -220,11 +211,11 @@
       <span class="task-copy"><b>Corrected map package published to Steam Workshop</b><small>The client camera and deployment hierarchy fix passed 39 checks before upload.</small></span>
       <span class="task-label">Done</span>
     </li></ul>
-  </article></section>
+  </article></div></section>
       <aside class="side">
         <header class="side-head"><span class="label">Automatic record</span><h2>Recent changes</h2></header>
-        <ol class="activity"><li><i class="activity-mark change"></i><span><b>publish the board feed so Coldstream Guard reads the same record</b><small>Claude · 2ab9233 · <time datetime="2026-08-31T06:40:58Z">2026-08-31T06:40:58Z</time></small></span></li><li><i class="activity-mark change"></i><span><b>refresh progress activity for icon release</b><small>Codex · 3f8cef8 · <time datetime="2026-08-30T22:16:35-05:00">2026-08-30T22:16:35-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>give progress workstreams distinct icons</b><small>Codex · 785f24e · <time datetime="2026-08-30T22:16:23-05:00">2026-08-30T22:16:23-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>let submitters remove progress tasks</b><small>Codex · 50dc448 · <time datetime="2026-08-30T22:01:03-05:00">2026-08-30T22:01:03-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>refresh progress activity before release</b><small>Codex · dcd36a1 · <time datetime="2026-08-30T21:43:19-05:00">2026-08-30T21:43:19-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>complete public progress task entry</b><small>Codex · ece9cea · <time datetime="2026-08-30T21:42:25-05:00">2026-08-30T21:42:25-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>use the Coldstream crest on the progress board</b><small>Codex · c5d1e4c · <time datetime="2026-08-30T21:00:47-05:00">2026-08-30T21:00:47-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>record the Supabase handoff</b><small>Codex · bd5ee8f · <time datetime="2026-08-30T20:58:01-05:00">2026-08-30T20:58:01-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>prepare the leadership board and public task entry</b><small>Codex · f6d44fc · <time datetime="2026-08-30T20:57:21-05:00">2026-08-30T20:57:21-05:00</time></small></span></li><li><i class="activity-mark board"></i><span><b>Leadership board curated from the project records.</b><small>Website · <time datetime="2026-08-31T01:48:14.866Z">2026-08-31T01:48:14.866Z</time></small></span></li><li><i class="activity-mark change"></i><span><b>claim the leadership board update</b><small>Codex · 333f18b · <time datetime="2026-08-30T20:45:44-05:00">2026-08-30T20:45:44-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>hand off the live progress board</b><small>Codex · 1eaa12b · <time datetime="2026-08-30T19:50:47-05:00">2026-08-30T19:50:47-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>add the Coldstream progress board</b><small>Codex · 5998eb6 · <time datetime="2026-08-30T19:48:48-05:00">2026-08-30T19:48:48-05:00</time></small></span></li><li><i class="activity-mark board"></i><span><b>Build the tablet progress board moved from doing to done.</b><small>Website · <time datetime="2026-08-31T00:48:23.229Z">2026-08-31T00:48:23.229Z</time></small></span></li></ol>
-        <details class="update"><summary>Update this board</summary><div class="update-body"><p>Use the + button on any workstream to add a task. New entries start in the queue. Codex still handles status changes and completion reports for now.</p><div class="commands"><span class="command"><b>Add work</b>Use the + button in the right category</span><span class="command"><b>Move work</b>Tell Codex “Mark web-3 done”</span></div></div></details>
+        <ol class="activity"><li><i class="activity-mark change"></i><span><b>publish the board feed so Coldstream Guard reads the same record</b><small>Claude · 2ab9233 · <time datetime="2026-08-31T06:40:58Z">2026-08-31T06:40:58Z</time></small></span></li><li><i class="activity-mark change"></i><span><b>refresh progress activity for icon release</b><small>River · 3f8cef8 · <time datetime="2026-08-30T22:16:35-05:00">2026-08-30T22:16:35-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>give progress categories distinct icons</b><small>River · 785f24e · <time datetime="2026-08-30T22:16:23-05:00">2026-08-30T22:16:23-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>let submitters remove progress tasks</b><small>River · 50dc448 · <time datetime="2026-08-30T22:01:03-05:00">2026-08-30T22:01:03-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>refresh progress activity before release</b><small>River · dcd36a1 · <time datetime="2026-08-30T21:43:19-05:00">2026-08-30T21:43:19-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>complete public progress task entry</b><small>River · ece9cea · <time datetime="2026-08-30T21:42:25-05:00">2026-08-30T21:42:25-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>use the Coldstream crest on the progress board</b><small>River · c5d1e4c · <time datetime="2026-08-30T21:00:47-05:00">2026-08-30T21:00:47-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>record the Supabase handoff</b><small>River · bd5ee8f · <time datetime="2026-08-30T20:58:01-05:00">2026-08-30T20:58:01-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>prepare the leadership board and public task entry</b><small>River · f6d44fc · <time datetime="2026-08-30T20:57:21-05:00">2026-08-30T20:57:21-05:00</time></small></span></li><li><i class="activity-mark board"></i><span><b>Leadership board curated from the project records.</b><small>Website · <time datetime="2026-08-31T01:48:14.866Z">2026-08-31T01:48:14.866Z</time></small></span></li><li><i class="activity-mark change"></i><span><b>claim the leadership board update</b><small>River · 333f18b · <time datetime="2026-08-30T20:45:44-05:00">2026-08-30T20:45:44-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>hand off the live progress board</b><small>River · 1eaa12b · <time datetime="2026-08-30T19:50:47-05:00">2026-08-30T19:50:47-05:00</time></small></span></li><li><i class="activity-mark change"></i><span><b>add the Coldstream progress board</b><small>River · 5998eb6 · <time datetime="2026-08-30T19:48:48-05:00">2026-08-30T19:48:48-05:00</time></small></span></li><li><i class="activity-mark board"></i><span><b>Build the tablet progress board moved from doing to done.</b><small>Website · <time datetime="2026-08-31T00:48:23.229Z">2026-08-31T00:48:23.229Z</time></small></span></li></ol>
+        <details class="update"><summary>Update this board</summary><div class="update-body"><p>Use the + button on any category to add a task. New entries start in Next. River handles status changes and completion reports for now.</p><div class="commands"><span class="command"><b>Add work</b>Use the + button in the right category</span><span class="command"><b>Move work</b>Tell River “Mark web-3 done”</span></div></div></details>
       </aside>
     </main>
     <footer class="foot"><span>Coldstream Gaming · Established 2011</span><span>Board refreshes every five minutes · Last task update <time datetime="2026-08-31T02:41:49.053Z">2026-08-31T02:41:49.053Z</time></span></footer>
@@ -232,7 +223,7 @@
   <dialog id="task-dialog">
     <header class="task-form-head"><span class="label">Leadership entry</span><h2>Add a task</h2></header>
     <form class="task-form" id="task-form">
-      <div class="field"><label for="task-lane">Workstream</label><select id="task-lane" name="lane" required><option value="website">Website</option><option value="game-servers">Game Servers</option><option value="discord">Discord</option><option value="graphics">Graphics</option><option value="archive">Archive</option><option value="2nd-coldstream">2nd Coldstream</option><option value="training-map">Training Map</option></select></div>
+      <div class="field"><label for="task-lane">Category</label><select id="task-lane" name="lane" required><option value="website">Website</option><option value="game-servers">Game Servers</option><option value="discord">Discord</option><option value="graphics">Graphics</option><option value="archive">Archive</option><option value="2nd-coldstream">2nd Coldstream</option><option value="training-map">Training Map</option></select></div>
       <div class="field"><label for="task-title">Task</label><input id="task-title" name="title" maxlength="120" required autocomplete="off" placeholder="What needs to be done?"><span class="field-help">Keep it short enough to scan during a leadership check-in.</span></div>
       <div class="field"><label for="task-note">Context, optional</label><textarea id="task-note" name="note" maxlength="280" placeholder="What matters, or what is blocking it?"></textarea></div>
       <div class="field trap" aria-hidden="true"><label for="task-company">Company</label><input id="task-company" name="company" tabindex="-1" autocomplete="off"></div>
@@ -255,10 +246,28 @@
     const submitButton=document.querySelector('#task-submit');
     const toast=document.querySelector('#toast');
     const OWNED_KEY='csg.progress.owned.v1';
+    const COLLAPSED_KEY='csg.progress.collapsed.v1';
     let ownedTasks={};
+    let collapsedCategories={};
     try{ownedTasks=JSON.parse(localStorage.getItem(OWNED_KEY)||'{}')||{}}catch{}
+    try{collapsedCategories=JSON.parse(localStorage.getItem(COLLAPSED_KEY)||'{}')||{}}catch{}
 
     function saveOwnedTasks(){try{localStorage.setItem(OWNED_KEY,JSON.stringify(ownedTasks))}catch{}}
+    function saveCollapsedCategories(){try{localStorage.setItem(COLLAPSED_KEY,JSON.stringify(collapsedCategories))}catch{}}
+    function setCategoryCollapsed(category,collapsed,save=true){
+      const button=category.querySelector('.lane-toggle');
+      const name=category.querySelector('.lane-title b')?.textContent||'category';
+      category.dataset.collapsed=String(collapsed);
+      if(button){button.setAttribute('aria-expanded',String(!collapsed));button.setAttribute('aria-label',(collapsed?'Expand ':'Collapse ')+name+' category')}
+      if(save){collapsedCategories[category.dataset.lane]=collapsed;saveCollapsedCategories()}
+    }
+    document.querySelectorAll('.lane').forEach((category)=>{
+      const saved=collapsedCategories[category.dataset.lane];
+      if(typeof saved==='boolean')setCategoryCollapsed(category,saved,false);
+      category.querySelector('.lane-toggle')?.addEventListener('click',()=>setCategoryCollapsed(category,category.dataset.collapsed!=='true'));
+    });
+    document.querySelector('#expand-all').addEventListener('click',()=>document.querySelectorAll('.lane').forEach((category)=>setCategoryCollapsed(category,false)));
+    document.querySelector('#collapse-all').addEventListener('click',()=>document.querySelectorAll('.lane').forEach((category)=>setCategoryCollapsed(category,true)));
     function rememberOwnedTask(id,deleteToken){if(!id||!deleteToken)return;ownedTasks[id]={deleteToken,createdAt:Date.now()};saveOwnedTasks()}
     function showToast(text,actionLabel='',action=null){toast.replaceChildren(document.createTextNode(text));if(actionLabel&&action){const button=document.createElement('button');button.type='button';button.textContent=actionLabel;button.addEventListener('click',async()=>{button.disabled=true;try{await action()}catch(error){showToast(error.message||'The action could not be completed.')}});toast.append(button)}toast.hidden=false;clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>{toast.hidden=true},action?9000:4500)}
     function setFormStatus(text,error=false){formStatus.textContent=text;formStatus.classList.toggle('error',error)}
@@ -276,22 +285,17 @@
         const tasks=[...lane.querySelectorAll('.task')];
         const done=tasks.filter((task)=>task.classList.contains('task-done')).length;
         const total=tasks.length;
+        const open=total-done;
         lane.dataset.status=total?'active':'empty';
         const count=lane.querySelector('.lane-count b');
-        const rail=lane.querySelector('.rail i');
-        if(count)count.textContent=done+'/'+total;
-        if(rail)rail.style.width=(total?Math.round(done/total*100):0)+'%';
+        const countLabel=lane.querySelector('.lane-count small');
+        if(count)count.textContent=open||'Clear';
+        if(countLabel)countLabel.textContent=open?'open':done+' filed';
         const empty=lane.querySelector('.lane-empty');
         if(empty)empty.hidden=total>0;
       });
       const tasks=[...document.querySelectorAll('.task')];
       const count=(status)=>tasks.filter((task)=>task.classList.contains('task-'+status)).length;
-      const done=count('done');
-      const total=tasks.length;
-      const percent=total?Math.round(done/total*100):0;
-      document.querySelector('#overall-count').textContent=done+' of '+total+' tasks complete';
-      document.querySelector('#overall-percent').textContent=percent+'%';
-      document.querySelector('#overall-ring').style.setProperty('--p',percent);
       document.querySelector('#metric-doing').textContent=count('doing');
       document.querySelector('#metric-queued').textContent=count('todo');
       document.querySelector('#metric-blocked').textContent=count('blocked');
@@ -356,6 +360,7 @@
     }
     document.querySelectorAll('[data-add-lane]').forEach((button)=>button.addEventListener('click',()=>{
       laneSelect.value=button.dataset.addLane;
+      setCategoryCollapsed(button.closest('.lane'),false);
       setFormStatus('');
       dialog.showModal();
       requestAnimationFrame(()=>titleInput.focus());

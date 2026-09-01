@@ -3,7 +3,7 @@
 The board is the work record for Coldstream Gaming. The public page is
 `/progress/` and the source of truth is `progress/board.json`.
 
-Leadership can add queued work from the + button on each workstream. Those
+Leadership can add queued work from the + button on each category. Those
 public additions live in `progress_task` through the `progress-board` Edge
 Function. Anonymous visitors may add, but they cannot edit or delete tasks.
 The temporary open-entry path is separate from the sign-in and moderation
