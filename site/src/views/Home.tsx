@@ -75,8 +75,8 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
             <div className="cg-emblem-wrap"><img src={asset('/crest.webp')} width="900" height="920" alt="" fetchPriority="high" /></div>
             <div className="cg-hero-copy">
               <p className="cg-eyebrow">Coldstream Gaming</p>
-              <h1 id="cg-home-title">We’re Back.</h1>
-              <div className="cg-motto"><Ornament /><span>Second to none.</span><Ornament /></div>
+              <h1 className="cg-sr" id="cg-home-title">Coldstream Gaming. We’re Back. Second to none.</h1>
+              <img className="cg-wordmark" src={asset('/wordmark.webp')} width="2087" height="392" alt="" fetchPriority="high" />
               <p className="cg-sub">A multi-gaming community, established 2011.</p>
               <div className="cg-actions">
                 <a className="cg-action discord" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join us on Discord</a>
