@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 
@@ -6,12 +6,13 @@ const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
 const HOME_FILMS = [
-  { id: 'dqgcg0if-3U', start: 25, seconds: 9, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
-  { id: 'ThhbfRP95w8', start: 10, seconds: 9, label: '2nd Coldstream · Mount & Musket · 2012' },
-  { id: '8AU7hzl8w5M', start: 42, seconds: 9, label: '2nd Coldstream · Napoleonic Wars · 2012' },
-  { id: 'gS2xlbD6b4k', start: 35, seconds: 9, label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars' },
-  { id: 'QgziRNt4nnM', start: 12, seconds: 9, label: '2nd Coldstream · Napoleonic Wars · 2015' },
-  { id: 'kwokOGLWLdU', start: 12, seconds: 9, label: '2nd Coldstream · Holdfast · 2020' },
+  { src: '/video/memories/tribute-2011.mp4', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
+  { src: '/video/memories/militia-2011.mp4', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
+  { src: '/video/memories/mount-musket-2012.mp4', label: '2nd Coldstream · Mount & Musket · February 2012' },
+  { src: '/video/memories/rwl-opening-2012.mp4', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
+  { src: '/video/memories/rwl-volley-2012.mp4', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
+  { src: '/video/memories/eighth-regiment-2012.mp4', label: '2nd Coldstream vs. 8th Regiment · Napoleonic Wars · October 2012' },
+  { src: '/video/memories/friday-linebattle-2012.mp4', label: '2nd Coldstream · Friday Linebattle · 2012' },
 ] as const;
 
 const FILM_STYLES = [
@@ -22,60 +23,44 @@ const FILM_STYLES = [
 
 type FilmStyle = typeof FILM_STYLES[number]['id'];
 
-const filmSrc = (film: typeof HOME_FILMS[number], autoplay: boolean) =>
-  `https://www.youtube-nocookie.com/embed/${film.id}?autoplay=${autoplay ? 1 : 0}&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0&enablejsapi=1&start=${film.start}&end=${film.start + film.seconds + 3}`;
-
-type FilmSlot = { film: number; autoplay: boolean };
-
 function HomeFilm() {
-  const [slots, setSlots] = useState<[FilmSlot, FilmSlot]>([
-    { film: 0, autoplay: true },
-    { film: 1, autoplay: false },
-  ]);
+  const [slots, setSlots] = useState<[number, number]>([0, 1]);
   const [activeSlot, setActiveSlot] = useState(0);
   const [loaded, setLoaded] = useState<[boolean, boolean]>([false, false]);
-  const [transitioning, setTransitioning] = useState(true);
-  const frames = useRef<(HTMLIFrameElement | null)[]>([]);
-  const film = HOME_FILMS[slots[activeSlot].film];
+  const [transitioning, setTransitioning] = useState(false);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
+  const film = HOME_FILMS[slots[activeSlot]];
 
-  useEffect(() => {
-    let reveal: number | undefined;
-    const timer = window.setTimeout(() => {
-      const incoming = activeSlot === 0 ? 1 : 0;
-      const outgoing = activeSlot;
-      const player = frames.current[incoming]?.contentWindow;
-      setTransitioning(true);
-      player?.postMessage(JSON.stringify({ event: 'command', func: 'mute', args: [] }), '*');
-      player?.postMessage(JSON.stringify({ event: 'command', func: 'seekTo', args: [HOME_FILMS[slots[incoming].film].start, true] }), '*');
-      player?.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
-
-      reveal = window.setTimeout(() => {
-        setActiveSlot(incoming);
-        window.setTimeout(() => {
-          frames.current[outgoing]?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
-          const following = (slots[incoming].film + 1) % HOME_FILMS.length;
-          setLoaded((value) => value.map((state, index) => index === outgoing ? false : state) as [boolean, boolean]);
-          setSlots((value) => value.map((slot, index) => index === outgoing ? { film: following, autoplay: false } : slot) as [FilmSlot, FilmSlot]);
-        }, 1100);
-        window.setTimeout(() => setTransitioning(false), 550);
-      }, 900);
-    }, Math.max(1000, film.seconds * 1000 - 1200));
-    return () => {
-      window.clearTimeout(timer);
-      if (reveal) window.clearTimeout(reveal);
-    };
-  }, [activeSlot, film.seconds, slots]);
+  const advance = async () => {
+    if (transitioning) return;
+    const incoming = activeSlot === 0 ? 1 : 0;
+    const outgoing = activeSlot;
+    const incomingVideo = videos.current[incoming];
+    if (!incomingVideo) return;
+    setTransitioning(true);
+    incomingVideo.currentTime = 0;
+    await incomingVideo.play().catch(() => undefined);
+    window.setTimeout(() => {
+      setActiveSlot(incoming);
+      window.setTimeout(() => {
+        videos.current[outgoing]?.pause();
+        const following = (slots[incoming] + 1) % HOME_FILMS.length;
+        setLoaded((value) => value.map((state, index) => index === outgoing ? false : state) as [boolean, boolean]);
+        setSlots((value) => value.map((slot, index) => index === outgoing ? following : slot) as [number, number]);
+        setTransitioning(false);
+      }, 1200);
+    }, 120);
+  };
 
   return (
     <div className={`cg-home-film${transitioning ? ' transitioning' : ''}`} aria-hidden="true">
       <img src={asset('/landing-desktop.jpg')} alt="" />
       {slots.map((slot, index) => {
-        const slotFilm = HOME_FILMS[slot.film];
-        return <div className={`cg-film-frame${index === activeSlot && loaded[index] ? ' active' : ''}`} key={`${index}-${slotFilm.id}`}>
-          <iframe ref={(node) => { frames.current[index] = node; }} src={filmSrc(slotFilm, slot.autoplay)} allow="autoplay; encrypted-media" tabIndex={-1} title="" onLoad={() => window.setTimeout(() => {
+        const slotFilm = HOME_FILMS[slot];
+        return <div className={`cg-film-frame${index === activeSlot && loaded[index] ? ' active' : ''}`} key={`${index}-${slotFilm.src}`}>
+          <video ref={(node) => { videos.current[index] = node; }} src={asset(slotFilm.src)} autoPlay={index === 0 && slot === 0} muted playsInline preload="auto" tabIndex={-1} onCanPlay={() => {
             setLoaded((value) => value.map((state, loadedIndex) => loadedIndex === index ? true : state) as [boolean, boolean]);
-            if (index === 0 && slot.film === 0) window.setTimeout(() => setTransitioning(false), 2200);
-          }, 500)} />
+          }} onEnded={index === activeSlot ? advance : undefined} />
         </div>;
       })}
       <span>{film.label}</span>
