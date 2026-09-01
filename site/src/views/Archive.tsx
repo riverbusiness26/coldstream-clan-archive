@@ -73,11 +73,58 @@ const ERAS = (erasSeed as unknown as { eras: RibEra[] }).eras;
 const PEAK = Math.max(...ERAS.map((e) => e.events), 1);
 
 const HISTORY = [
-  { years: '2011', group: '21st Pennsylvania Regiment of Foot', game: 'Battlegrounds 2' },
-  { years: '2011–2012', group: 'Midnight Mercenaries and 2nd Coldstream', game: 'Battlegrounds 2, Mount & Musket to Napoleonic Wars' },
-  { years: '2013–2015', group: '2nd Coldstream Regiment of Footguards', game: 'Napoleonic Wars' },
-  { years: '2020', group: '2nd Coldstream returned', game: 'Napoleonic Wars' },
-  { years: 'Now', group: 'Coldstream Gaming', game: 'Holdfast and other games' },
+  {
+    years: '2011',
+    group: '21st Pennsylvania Regiment of Foot',
+    game: 'Battlegrounds 2',
+    note: 'The first recorded era.',
+    video: 'ZypEBUL_hs4',
+    evidence: 'Watch: 4 May 2011',
+  },
+  {
+    years: '2011–2012',
+    group: '2nd Coldstream Regiment of Footguards',
+    game: 'Mount & Musket',
+    note: 'A new name and a move into linebattles.',
+    video: 'ThhbfRP95w8',
+    evidence: 'Watch: 18 April 2012',
+  },
+  {
+    years: '2012–2014',
+    group: '2nd Coldstream Regiment of Footguards',
+    game: 'Napoleonic Wars',
+    note: 'The regiment moved into the Warband DLC, then became inactive in 2014.',
+    video: '8AU7hzl8w5M',
+    evidence: 'Watch: 14 December 2012',
+  },
+  {
+    years: '2015–2016',
+    group: '2nd Coldstream Regiment of Footguards',
+    game: 'Napoleonic Wars',
+    note: 'Revived in 2015, then became inactive in the game again in 2016.',
+    video: 'QgziRNt4nnM',
+    evidence: 'Watch: 16 June 2015',
+  },
+  {
+    years: '2016–2020',
+    group: 'The gaming community carried on',
+    game: 'Different games, same people',
+    note: 'The regiment was quiet, but the gaming community continued.',
+  },
+  {
+    years: '2020–Now',
+    group: '2nd Coldstream and Coldstream Gaming',
+    game: 'Holdfast and Garry’s Mod',
+    note: 'The regiment returned in Holdfast. Coldstream Gaming also ran TTT, Prop Hunt and Deathrun servers.',
+    video: 'kwokOGLWLdU',
+    evidence: 'Watch: 15 July 2020',
+  },
+] as const;
+
+const FEATURED_HISTORY = [
+  { id: 'ZypEBUL_hs4', title: '21st Pennsylvania Regiment of Foot · 2011' },
+  { id: 'ThhbfRP95w8', title: 'The last Mount & Musket linebattle · 2012' },
+  { id: 'QgziRNt4nnM', title: 'The Napoleonic Wars revival · 2015' },
 ] as const;
 
 export default function Archive({ me }: { me: Me | null }) {
@@ -136,7 +183,12 @@ export default function Archive({ me }: { me: Me | null }) {
           <ol>
             {HISTORY.map((item) => <li key={`${item.years}-${item.group}`}>
               <time>{item.years}</time>
-              <span><b>{item.group}</b><small>{item.game}</small></span>
+              <span>
+                <b>{item.group}</b>
+                <small>{item.game}</small>
+                <p>{item.note}</p>
+                {'video' in item && <a href={`https://www.youtube.com/watch?v=${item.video}`} target="_blank" rel="noopener">{item.evidence}</a>}
+              </span>
             </li>)}
           </ol>
         </section>
@@ -144,7 +196,7 @@ export default function Archive({ me }: { me: Me | null }) {
         <section className="archive-featured" aria-labelledby="archive-featured-title">
           <div className="mhead"><h2 id="archive-featured-title">From the record</h2><span className="sub">three films from the archive</span></div>
           <div className="archive-film-row">
-            {FILMS.slice(0, 3).map((film) => <a href={`https://www.youtube.com/watch?v=${film.id}`} target="_blank" rel="noopener" key={film.id}>
+            {FEATURED_HISTORY.map((film) => <a href={`https://www.youtube.com/watch?v=${film.id}`} target="_blank" rel="noopener" key={film.id}>
               <img src={`https://i.ytimg.com/vi/${film.id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
               <span>{film.title}</span>
             </a>)}

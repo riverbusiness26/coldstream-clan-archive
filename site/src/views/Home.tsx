@@ -6,10 +6,11 @@ const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
 const HOME_FILMS = [
-  { id: 'ZypEBUL_hs4', start: 8, seconds: 28, label: '21st Pennsylvania, Battlegrounds 2' },
-  { id: '8AU7hzl8w5M', start: 18, seconds: 22, label: '2nd Coldstream, Napoleonic Wars' },
-  { id: 'OnesY-EczqY', start: 45, seconds: 35, label: '2nd Coldstream vs. the 8th' },
-  { id: 'vOk5eMxv7Dc', start: 5, seconds: 25, label: 'Coldstream, Planetside 2' },
+  { id: 'ZypEBUL_hs4', start: 8, seconds: 28, label: '21st Pennsylvania · Battlegrounds 2 · 2011' },
+  { id: 'ThhbfRP95w8', start: 4, seconds: 24, label: '2nd Coldstream · Mount & Musket · 2012' },
+  { id: '8AU7hzl8w5M', start: 18, seconds: 22, label: '2nd Coldstream · Napoleonic Wars · 2012' },
+  { id: 'QgziRNt4nnM', start: 5, seconds: 25, label: '2nd Coldstream · Napoleonic Wars · 2015' },
+  { id: 'kwokOGLWLdU', start: 5, seconds: 25, label: '2nd Coldstream · Holdfast · 2020' },
 ] as const;
 
 const filmSrc = (film: typeof HOME_FILMS[number]) =>
