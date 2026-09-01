@@ -6,13 +6,13 @@ const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
 const HOME_FILMS = [
-  { src: '/video/memories/tribute-2011.mp4', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
-  { src: '/video/memories/militia-2011.mp4', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
-  { src: '/video/memories/mount-musket-2012.mp4', label: '2nd Coldstream · Mount & Musket · February 2012' },
-  { src: '/video/memories/rwl-opening-2012.mp4', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
-  { src: '/video/memories/rwl-volley-2012.mp4', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
-  { src: '/video/memories/eighth-regiment-2012.mp4', label: '2nd Coldstream vs. 8th Regiment · Napoleonic Wars · October 2012' },
-  { src: '/video/memories/friday-linebattle-2012.mp4', label: '2nd Coldstream · Friday Linebattle · 2012' },
+  { src: '/video/memories/tribute-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
+  { src: '/video/memories/militia-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
+  { src: '/video/memories/mount-musket-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Mount & Musket · February 2012' },
+  { src: '/video/memories/rwl-opening-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
+  { src: '/video/memories/rwl-volley-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
+  { src: '/video/memories/eighth-regiment-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 8th Regiment · Napoleonic Wars · October 2012' },
+  { src: '/video/memories/friday-linebattle-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Friday Linebattle · 2012' },
 ] as const;
 
 export function HomeFilm() {
@@ -55,7 +55,7 @@ export function HomeFilm() {
           }} onEnded={index === activeSlot ? advance : undefined} />
         </div>;
       })}
-      <span>{film.label}</span>
+      <span><img src={asset(film.icon)} alt="" />{film.label}</span>
     </div>
   );
 }

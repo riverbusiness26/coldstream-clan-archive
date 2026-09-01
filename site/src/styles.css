@@ -1130,8 +1130,8 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
   background-size:cover;background-position:center 55%}
 .cg-film-picker{min-height:42px;padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:8px;border-bottom:1px solid var(--cg-rule);background:#090b0e;color:var(--cg-muted);font:600 9px/1 var(--cg-body);letter-spacing:.09em;text-transform:uppercase}.cg-film-picker span{margin-right:6px;color:var(--cg-gold)}.cg-film-picker a{padding:8px 12px;border:1px solid var(--cg-hairline);border-radius:2px;color:var(--cg-muted)}.cg-film-picker a:hover,.cg-film-picker a.active{border-color:var(--cg-gold);background:rgba(176,141,87,.12);color:var(--cg-cream)}
 .cg-home-film{position:absolute;z-index:0;overflow:hidden;background:#08090b}
-.cg-home-film img,.cg-film-frame,.cg-film-frame video{position:absolute;border:0;pointer-events:none}.cg-home-film img,.cg-film-frame{inset:0;width:100%;height:100%}.cg-film-frame{z-index:0;overflow:hidden;opacity:0;filter:blur(8px) brightness(.72);transform:scale(1.035);transition:opacity 1s ease,filter 1.15s ease,transform 1.15s ease}.cg-film-frame.active{opacity:.82;filter:blur(0) brightness(.82);transform:scale(1)}.cg-film-frame video{inset:0;width:100%;height:100%;object-fit:cover}
-.cg-home-film img{object-fit:cover;opacity:.7}
+.cg-home-film>img,.cg-film-frame,.cg-film-frame video{position:absolute;border:0;pointer-events:none}.cg-home-film>img,.cg-film-frame{inset:0;width:100%;height:100%}.cg-film-frame{z-index:0;overflow:hidden;opacity:0;filter:blur(8px) brightness(.72);transform:scale(1.035);transition:opacity 1s ease,filter 1.15s ease,transform 1.15s ease}.cg-film-frame.active{opacity:.82;filter:blur(0) brightness(.82);transform:scale(1)}.cg-film-frame video{inset:0;width:100%;height:100%;object-fit:cover}
+.cg-home-film>img{object-fit:cover;opacity:.7}
 .cg-home-film::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,11,.58),rgba(8,9,11,.2) 42%,rgba(8,9,11,.9)),radial-gradient(circle at 30% 48%,rgba(8,9,11,.12),rgba(8,9,11,.68) 47%,transparent 72%)}
 .cg-home-film::before{content:"";position:absolute;top:50%;left:50%;z-index:3;width:62px;height:62px;opacity:.24;pointer-events:none;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(8,9,11,.32),rgba(8,9,11,.08) 62%,transparent 76%);backdrop-filter:blur(6px);transition:width .45s ease,height .45s ease,opacity .45s ease}.cg-home-film.transitioning::before{width:92px;height:92px;opacity:.48}.cg-home-film.transitioning .cg-film-frame.active{filter:blur(4px) brightness(.76);transform:scale(1.012)}
 .cg-home-film span{position:absolute;z-index:4;right:14px;bottom:10px;color:rgba(242,237,227,.48);font:500 8px/1 var(--cg-body);letter-spacing:.12em;text-transform:uppercase}
@@ -1226,7 +1226,10 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 .archive-memory .cg-film-frame video{object-position:center 64%}
 .archive-memory .cg-film-frame.active{opacity:.92}
 .archive-memory .cg-home-film::after{background:linear-gradient(180deg,rgba(8,9,11,.2),rgba(8,9,11,.05) 45%,rgba(8,9,11,.86)),radial-gradient(ellipse at center,transparent 34%,rgba(8,9,11,.5) 100%)}
-.archive-memory .cg-home-film span{right:max(20px,calc((100% - var(--cg-max))/2));bottom:20px;padding:8px 11px;border-left:1px solid var(--cg-gold);background:rgba(8,9,11,.68);color:rgba(242,237,227,.8)}
+.archive-memory .cg-home-film span{right:max(20px,calc((100% - var(--cg-max))/2));bottom:20px;padding:0;display:flex;align-items:center;gap:10px;border:0;background:none;color:#f2d69a;font-size:10px;font-variant-position:normal;font-feature-settings:"ordn" 0;text-shadow:0 2px 3px #000,0 0 12px #000,0 0 24px rgba(0,0,0,.9)}
+.archive-memory .cg-home-film span img{position:static;width:32px;height:32px;flex:0 0 32px;object-fit:cover;border:1px solid rgba(242,214,154,.7);box-shadow:0 2px 8px #000}
+.cg-site .wrap.recordroom{width:100%;padding:0}
+.recordroom .page-head,.recordroom .archive-intro,.recordroom .archive-timeline,.recordroom .archive-featured,.recordroom .archive-depth>summary{border-left:0;border-right:0;border-radius:0}
 .cg-site .frame img,.cg-site .film img,.cg-site .shotbtn img{filter:saturate(.82) contrast(1.06);transition:filter .18s ease}
 .cg-site .frame:hover img,.cg-site .film:hover img,.cg-site .shotbtn:hover img{filter:saturate(1) contrast(1.02)}
 
