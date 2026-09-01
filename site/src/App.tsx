@@ -158,6 +158,18 @@ export default function App() {
     );
   }
 
+  // Home owns its full shell. The supplied direction has a purpose-built
+  // navigation bar and footer, so wrapping it in the archive masthead would
+  // duplicate both landmarks and break the one-page composition.
+  if (view === 'home') {
+    return (
+      <>
+        <Home me={me} go={go} signIn={signIn} />
+        {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
+      </>
+    );
+  }
+
   return (
     <>
       {demo && <div className="devbadge">DEMO BUILD · NO BACKEND YET</div>}
@@ -207,7 +219,6 @@ export default function App() {
         </nav>
       </header>
 
-      {view === 'home' && <Home me={me} go={go} signIn={signIn} />}
       {!['home','members','gallery','events','servers','archive','admin'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}

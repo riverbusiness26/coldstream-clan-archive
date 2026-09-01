@@ -1,118 +1,126 @@
-// The front page.
-//
-// Rebuilt 28 Aug 2026 against "Site refs/website". What came off, on River's
-// call: the news blurb, the shoutbox, the next event module, and the Join tab
-// with them. Between them they filled the page with boxes that were either
-// empty, historical, or asking the visitor for something before the page had
-// told them anything.
-//
-// What is left is the shape the reference mockups actually show, and the rule
-// behind it is that every block answers one question a visitor really asks:
-//
-//   who are you            the hero, and the crest that spans every era
-//   what do you play       the games, in the community's own words
-//   is anyone about        Discord, and who is on Steam right now
-//   can I play tonight     the servers, live
-//   are you for real       the numbers, off the archive
-//
-// Nothing here is invented copy and nothing here is a placeholder. If a
-// module has no data it says so plainly rather than pretending.
-import { GAME_NAMES } from '../lib/games';
-import summary from '../seed/summary.json';
-import { useLiveServers } from '../lib/useLiveServers';
-import MembersOnline from '../components/MembersOnline';
-import Discord from '../components/Discord';
-import type { Me } from '../lib/auth';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { asset } from '../lib/asset';
+import type { Me } from '../lib/auth';
 
-// The eras, in the wording from the reference mockup rather than anything
-// written here. These are the four the community is actually known for; the
-// full run of games lives in the Archive, which is where the record belongs.
-const ERAS: [string, string][] = [
-  ['Mount and Blade: Warband', 'sword lines and saddle nights'],
-  ['Holdfast: Nations At War', 'line battles and bugles'],
-  ['Planetside 2', 'continents and combined arms'],
-  ['Arma and Squad', 'realism, coordination, and trust'],
-];
+const DISCORD = 'https://discord.gg/75sfq5VPY';
+const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
 
-export default function Home({ go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
-  const servers = useLiveServers();
+type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'globe' | 'arrow';
+
+function Icon({ name }: { name: IconName }) {
+  const paths: Record<IconName, ReactNode> = {
+    menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+    discord: <><path d="M6 7.5c3-2 9-2 12 0 1.2 2 2 4.5 2 7-2.3 1.8-4.4 2.5-6.3 2.8l-.8-1.1" /><path d="M18 7.5c-1-.8-2-1.2-3-1.5M6 7.5C7 6.7 8 6.3 9 6" /><circle cx="9" cy="12" r="1" /><circle cx="15" cy="12" r="1" /></>,
+    steam: <><circle cx="8" cy="15.5" r="2.4" /><circle cx="16.5" cy="8" r="3.2" /><path d="m10 14.5 3.8-3.7M5.8 14.7 3 13.5" /></>,
+    mail: <><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m4 7 8 6 8-6" /></>,
+    server: <><rect x="3" y="4" width="18" height="6" rx="1" /><rect x="3" y="14" width="18" height="6" rx="1" /><path d="M7 7h.01M7 17h.01M11 7h7M11 17h7" /></>,
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="1" /><path d="M7 3v5M17 3v5M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" /></>,
+    banner: <><path d="M6 3h12v18l-6-3-6 3Z" /><path d="m12 7 1.2 2.4 2.8.4-2 2 .5 2.8-2.5-1.3-2.5 1.3.5-2.8-2-2 2.8-.4Z" /></>,
+    people: <><circle cx="12" cy="7" r="3" /><circle cx="5" cy="9" r="2" /><circle cx="19" cy="9" r="2" /><path d="M6 20v-2c0-3 2.2-5 6-5s6 2 6 5v2M2 19v-1c0-2.2 1.3-3.7 3.5-4.2M22 19v-1c0-2.2-1.3-3.7-3.5-4.2" /></>,
+    gamepad: <><path d="M7 8h10c2 0 3.5 1.4 4 4l1 5c.4 2-1.7 3.2-3.2 1.8L16 16H8l-2.8 2.8C3.7 20.2 1.6 19 2 17l1-5c.5-2.6 2-4 4-4Z" /><path d="M8 11v4M6 13h4M16.5 12h.01M19 14h.01" /></>,
+    globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" /></>,
+    arrow: <path d="M5 12h13M14 7l5 5-5 5" />,
+  };
+  return <svg viewBox="0 0 24 24" aria-hidden="true">{paths[name]}</svg>;
+}
+
+const NAV = [
+  ['Home', '#/home'], ['About', '#/archive'], ['Games', '#/servers'],
+  ['Community', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
+] as const;
+
+const PILLARS = [
+  { icon: 'server', title: 'Game Servers', copy: 'High quality game servers with active admins and lag-free performance.', href: '#/servers', image: '/gallery/2f2f6869d3.jpg' },
+  { icon: 'calendar', title: 'Events', copy: 'Organised events and operations across a range of titles year-round.', href: '#/archive', image: '/gallery/7a32547d74.jpg' },
+  { icon: 'banner', title: 'Regiments', copy: 'Play together. Train together. Fight together as one.', href: '#/archive', image: '/gallery/5e8775785e.jpg' },
+  { icon: 'people', title: 'Community Hub', copy: 'Connect with members, share moments, and be part of something bigger.', href: DISCORD, image: '/gallery/210325a830.png' },
+] as const satisfies readonly { icon: IconName; title: string; copy: string; href: string; image: string }[];
+
+// Draft values supplied by the design spec. Keep them together so the
+// source check before release changes data rather than markup.
+const STATS = [
+  { icon: 'people', number: '1,250+', label: 'Members' },
+  { icon: 'gamepad', number: '12+', label: 'Games' },
+  { icon: 'globe', number: '8', label: 'Regions' },
+  { icon: 'calendar', number: '2011', label: 'Established' },
+] as const satisfies readonly { icon: IconName; number: string; label: string }[];
+
+function Ornament() {
+  return <span className="cg-ornament" aria-hidden="true"><i /><b>◆</b><i /></span>;
+}
+
+export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const year = new Date().getFullYear();
 
   return (
-    <>
-      {/* The crest art carries the whole pitch on its own: one badge over
-          medieval, Napoleonic, modern and science fiction at once. It says
-          "we have played all of this" faster than a paragraph can. */}
-      <section className="hero">
-        <img className="bg" src={asset('/hero-csg.jpg')} alt="" />
-        <div className="scrim" />
-        <div className="in">
-          <div className="hero-eyebrow">Established 2011 · Second to None</div>
-          <h2 className="hero-title">Coldstream Gaming</h2>
-          <p>
-            Fifteen years, one community, and a long list of games behind us.
-            Muskets to retakes and most things in between. The games changed.
-            We did not.
-          </p>
-          <div className="cta">
-            <button className="btn primary" onClick={() => go('archive')}>The Archive</button>
-            <button className="btn" onClick={() => go('servers')}>Servers</button>
-            <button className="btn" onClick={() => go('gallery')}>Gallery</button>
-          </div>
+    <div className="cg-home">
+      <header className="cg-nav">
+        <button className="cg-menu" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}>
+          <Icon name="menu" />
+        </button>
+        <nav aria-label="Primary" className={menuOpen ? 'open' : undefined}>
+          {NAV.map(([label, href]) => <a key={label} className={label === 'Home' ? 'active' : undefined} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener' : undefined} onClick={() => setMenuOpen(false)}>{label}</a>)}
+        </nav>
+        <div className="cg-social" aria-label="Community links">
+          <a href={DISCORD} target="_blank" rel="noopener" aria-label="Discord"><Icon name="discord" /></a>
+          <a href={STEAM} target="_blank" rel="noopener" aria-label="Steam group"><Icon name="steam" /></a>
+          <a href="mailto:contact@coldstreamgaming.com" aria-label="Email Coldstream Gaming"><Icon name="mail" /></a>
         </div>
-      </section>
+      </header>
 
-      <div className="wrap">
-        <main>
-          <div className="module">
-            <div className="mhead"><h3>The Games</h3><span className="sub">what we have played, and still do</span></div>
-            <ul className="eralist">
-              {ERAS.map(([name, note]) => (
-                <li className="eraline" key={name}>
-                  <span className="eraline-name">{name}</span>
-                  <span className="eraline-note">{note}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="note">
-              Every game, every era and every night on the calendar is in <button className="lnk" onClick={() => go('archive')}>the Archive</button>.
-            </div>
-          </div>
-
-          <div className="module">
-            <div className="mhead"><h3>Servers</h3><span className="sub">live status</span></div>
-            {servers.length === 0 ? (
-              <div className="note">No servers are published yet.</div>
-            ) : (
-              <div className="srv-grid">
-                {servers.map((s) => (
-                  <div className="srv" key={s.server_key}>
-                    <div className="srv-top">
-                      <span className="srv-game"><span className="gtag">{s.game}</span>{GAME_NAMES[s.game] ?? s.game}</span>
-                      <span className={'pill' + (s.online ? ' live' : '')}>{s.online ? `${s.players}/${s.max_players}` : 'OFFLINE'}</span>
-                    </div>
-                    <div className="srv-name">{s.name}</div>
-                  </div>
-                ))}
+      <main>
+        <section className="cg-hero" aria-labelledby="cg-home-title">
+          <div className="cg-hero-inner">
+            <div className="cg-emblem-wrap"><img src={asset('/crest.webp')} width="900" height="920" alt="" fetchPriority="high" /></div>
+            <div className="cg-hero-copy">
+              <p className="cg-eyebrow">Coldstream Gaming</p>
+              <h1 id="cg-home-title">We’re Back.</h1>
+              <div className="cg-motto"><Ornament /><span>Second to none.</span><Ornament /></div>
+              <p className="cg-sub">A multi-gaming community, established 2011.</p>
+              <div className="cg-actions">
+                <a className="cg-action discord" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join us on Discord</a>
+                <a className="cg-action steam" href={STEAM} target="_blank" rel="noopener"><Icon name="steam" />Steam Group</a>
               </div>
-            )}
-          </div>
-        </main>
-
-        <aside>
-          <Discord />
-          <MembersOnline />
-          <div className="module">
-            <div className="mhead"><h3>The Numbers</h3><span className="sub">off the record</span></div>
-            <div className="stats">
-              <div className="stat"><div className="n">{summary.people}</div><div className="l">members on the roll</div></div>
-              <div className="stat"><div className="n">{summary.events}</div><div className="l">events on record</div></div>
-              <div className="stat"><div className="n">2011</div><div className="l">established</div></div>
-              <div className="stat"><div className="n">15</div><div className="l">years running</div></div>
             </div>
           </div>
-        </aside>
-      </div>
-    </>
+        </section>
+
+        <section className="cg-pillars" aria-labelledby="cg-pillars-title">
+          <h2 className="cg-sr" id="cg-pillars-title">Explore Coldstream Gaming</h2>
+          <div className="cg-width cg-pillar-grid">
+            {PILLARS.map((pillar) => <a className="cg-pillar" href={pillar.href} key={pillar.title} target={pillar.href.startsWith('http') ? '_blank' : undefined} rel={pillar.href.startsWith('http') ? 'noopener' : undefined} style={{ '--pillar-image': `url(${asset(pillar.image)})` } as CSSProperties}>
+              <span className="cg-pillar-icon"><Icon name={pillar.icon} /></span>
+              <span className="cg-pillar-copy"><h3>{pillar.title}</h3><p>{pillar.copy}</p></span>
+              <span className="cg-pillar-arrow"><Icon name="arrow" /></span>
+            </a>)}
+          </div>
+        </section>
+
+        <section className="cg-about" aria-labelledby="cg-about-title">
+          <div className="cg-width cg-about-grid">
+            <div className="cg-about-copy">
+              <div className="cg-fleur" aria-hidden="true">⚜</div>
+              <div className="cg-about-text">
+                <h2 id="cg-about-title">About Coldstream Gaming</h2>
+                <p>Coldstream Gaming was founded in 2011 by a group of friends who shared a passion for teamwork, community, and great games. Over a decade later, we continue to welcome new members, forge lasting friendships, and build memories that go far beyond the battlefield.</p>
+                <a className="cg-more" href="#/archive"><span>Learn more about us</span><i><Icon name="arrow" /></i></a>
+              </div>
+            </div>
+            <div className="cg-stats" aria-label="Coldstream Gaming statistics">
+              {STATS.map((stat) => <div className="cg-stat" key={stat.label}><Icon name={stat.icon} /><b>{stat.number}</b><span>{stat.label}</span></div>)}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="cg-footer">
+        <div className="cg-width">
+          <span>© 2011–{year} Coldstream Gaming. All rights reserved.</span>
+          <span className="cg-footer-motto"><Ornament /><em>Second to none.</em><Ornament /></span>
+          <nav aria-label="Footer"><a href="#/archive">Rules</a><a href="#/archive">Code of Conduct</a><a href="#/archive">Privacy Policy</a><a href="mailto:contact@coldstreamgaming.com">Contact</a><a href="/progress/">Progress</a></nav>
+        </div>
+      </footer>
+    </div>
   );
 }
