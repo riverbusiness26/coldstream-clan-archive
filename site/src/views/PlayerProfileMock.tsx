@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Icon } from './Home';
 
 const EMPTY_STATS = [
-  ['Events attended', '—', 'Updates after each event'],
-  ['Game nights', '—', 'All supported games'],
-  ['Attendance rate', '—', 'Based on confirmed events'],
-  ['Last played', '—', 'Waiting for Discord activity'],
+  ['Events attended', 'Pending', 'Updates after each event'],
+  ['Game nights', 'Pending', 'All supported games'],
+  ['Attendance rate', 'Pending', 'Based on confirmed events'],
+  ['Last played', 'Pending', 'Waiting for Discord activity'],
 ] as const;
 
 export default function PlayerProfileMock() {
