@@ -11,6 +11,7 @@ import {
   FaServer,
   FaShieldHalved,
   FaSteam,
+  FaTimeline,
   FaUserGroup,
 } from 'react-icons/fa6';
 import { asset } from '../lib/asset';
@@ -74,7 +75,7 @@ export function HomeFilm() {
   );
 }
 
-type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'shield' | 'arrow';
+type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'timeline' | 'shield' | 'arrow';
 
 const ICONS: Record<IconName, IconType> = {
   menu: FaBars,
@@ -86,6 +87,7 @@ const ICONS: Record<IconName, IconType> = {
   banner: FaFlag,
   people: FaUserGroup,
   gamepad: FaGamepad,
+  timeline: FaTimeline,
   shield: FaShieldHalved,
   arrow: FaArrowRight,
 };
@@ -128,9 +130,9 @@ const PILLARS = [
 
 const STATS = [
   { icon: 'calendar', value: '2011', label: 'Established' },
-  { icon: 'banner', value: 'Holdfast', label: 'Regiment' },
-  { icon: 'discord', value: 'Discord', label: 'Community' },
-  { icon: 'steam', value: 'Steam', label: 'Group' },
+  { icon: 'timeline', value: '4', label: 'Line-Battle Eras' },
+  { icon: 'people', value: '315+', label: 'Members' },
+  { icon: 'calendar', value: '627', label: 'Recorded Events' },
 ] as const satisfies readonly { icon: IconName; value: string; label: string }[];
 
 function Ornament() {
