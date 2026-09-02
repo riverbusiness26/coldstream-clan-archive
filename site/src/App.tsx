@@ -8,6 +8,7 @@ import Gallery from './views/Gallery';
 const Archive = lazy(() => import('./views/Archive'));
 const Profile = lazy(() => import('./views/Profile'));
 const Admin = lazy(() => import('./views/Admin'));
+const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
 
 // Routing is by hash, and coming back from Steam the session arrives in the
 // hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
@@ -143,20 +144,21 @@ export default function App() {
         <div className={'toast ' + toast.kind} onClick={() => setToast(null)}
           role="status" title="Click to dismiss">{toast.text}</div>
       )}
-      <SiteNav active={view === 'gallery' ? 'Media' : view === 'servers' ? 'Games' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'About' : ''} />
+      <SiteNav active={view === 'gallery' ? 'Media' : view === 'servers' ? 'Games' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'About' : ''} />
 
       <div className="cg-account-strip">
         {me ? <><span>Signed in as <b>{me.display_name}</b></span>{(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Admin</a>}<button type="button" onClick={signOut}>Sign out</button></> : <button type="button" onClick={signIn}>Sign in through Steam</button>}
       </div>
 
       <div className="cg-page-stage">
-      {!['home','members','gallery','events','servers','archive','admin'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
+      {!['home','members','gallery','events','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {view === 'servers' && <Servers />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
       {view === 'admin' && <Admin me={me} />}
+      {view === 'player-profile' && <PlayerProfileMock />}
       </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       </div>
