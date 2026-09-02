@@ -130,7 +130,7 @@ export function SiteFooter() {
       <div className="cg-width">
         <span>© 2011–{year} Coldstream Gaming. All rights reserved.</span>
         <span className="cg-footer-motto"><Ornament /><em>Second to none.</em><Ornament /></span>
-        <nav aria-label="Footer"><a href="#/archive">Rules</a><a href="#/archive">Code of Conduct</a><a href="#/archive">Privacy Policy</a><a href="mailto:contact@coldstreamgaming.com">Contact</a><a href="/progress/">Progress</a></nav>
+        <nav aria-label="Footer"><a href="#/archive">Rules</a><a href="#/archive">Code of Conduct</a><a href="#/archive">Privacy Policy</a><a href="mailto:contact@coldstreamgaming.com">Contact</a></nav>
       </div>
     </footer>
   );
@@ -148,7 +148,10 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
             <div className="cg-hero-copy">
               <p className="cg-eyebrow">Coldstream Gaming</p>
               <h1 className="cg-sr" id="cg-home-title">Coldstream Gaming. We’re Back. Second to none.</h1>
-              <img className="cg-wordmark" src={asset('/wordmark.webp')} width="2087" height="392" alt="" fetchPriority="high" />
+              <div className="cg-wordmark-crop" aria-hidden="true">
+                <img className="cg-wordmark" src={asset('/wordmark.webp')} width="2087" height="392" alt="" fetchPriority="high" />
+              </div>
+              <div className="cg-motto"><Ornament /><span>Second to none.</span><Ornament /></div>
               <p className="cg-sub">A multi-gaming community, established 2011.</p>
               <div className="cg-actions">
                 <a className="cg-action discord" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join us on Discord</a>
