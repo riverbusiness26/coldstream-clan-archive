@@ -132,7 +132,7 @@ const STATS = [
   { icon: 'calendar', value: '2011', label: 'Established' },
   { icon: 'timeline', value: '4', label: 'Line-Battle Eras' },
   { icon: 'people', value: '315+', label: 'Members' },
-  { icon: 'calendar', value: '627', label: 'Recorded Events' },
+  { icon: 'calendar', value: '1,227+', label: 'Recorded Events' },
 ] as const satisfies readonly { icon: IconName; value: string; label: string }[];
 
 function Ornament() {
@@ -199,7 +199,7 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
               </div>
             </div>
             <div className="cg-stats" aria-label="Coldstream Gaming statistics">
-              {STATS.map((stat) => <div className="cg-stat" key={stat.label}><Icon name={stat.icon} /><b className={stat.value.length > 4 ? 'word' : undefined}>{stat.value}</b><span>{stat.label}</span></div>)}
+              {STATS.map((stat) => <div className="cg-stat" key={stat.label}><Icon name={stat.icon} /><b className={/^\d/.test(stat.value) ? undefined : 'word'}>{stat.value}</b><span>{stat.label}</span></div>)}
             </div>
           </div>
         </section>
