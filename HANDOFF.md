@@ -2764,3 +2764,11 @@ VERIFIED:    The progress generator and production site build passed. Local and 
 UNVERIFIED:  Nothing in this release.
 BLOCKED:     Nothing.
 NEXT:        Keep using category language in future board entries and let the automatic record refresh with each published change.
+
+## 2026-09-02 - Discord personnel Command Board built locally (Codex, River side)
+
+DONE:        Built Discord sign in, Discord server role synchronization, the rank and medal artwork catalogue, admin-only image uploads, admin and moderator assignments, bulk assignment, removals, member search, audit history, and the closed Evidence Queue foundation. Added `site/db/0024_discord_personnel.sql`, `site/supabase/functions/discord-member-sync/index.ts`, `site/src/views/Admin.tsx`, the Discord sign-in surfaces, and `site/DISCORD_PERSONNEL_SETUP.md` on `codex/discord-command-board` at `9074d6c`.
+VERIFIED:    `npm run build --prefix site` passed with TypeScript and Vite, `npx --yes deno check site/supabase/functions/discord-member-sync/index.ts` passed, and `git diff --check` passed. The source grep found no banned vocabulary or em dashes in the changed product files.
+UNVERIFIED:  Discord OAuth, role synchronization, database policies, artwork storage and live assignments were not exercised against production because migration 0024, the provider and the function have not been activated. `node scripts/status.mjs` confirmed the existing public site is unchanged, but the clean worktree has no `site/.env`, so its database checks were skipped.
+BLOCKED:     Live activation needs River's approval plus the Discord provider and Edge Function secrets entered directly in Supabase. No secret belongs in this public repository or in chat.
+NEXT:        Follow `site/DISCORD_PERSONNEL_SETUP.md`, test one admin, one moderator and one ordinary member, then publish only after all three permission checks pass.
