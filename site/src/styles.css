@@ -1310,3 +1310,70 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 @media(max-width:900px){.portal-stat-grid{grid-template-columns:repeat(3,1fr)}.portal-stat-grid article:nth-child(4){border-left:0}.portal-stat-grid article:nth-child(n+4){border-top:1px solid var(--cg-rule)}}
 @media(max-width:800px){.portal-account{grid-template-columns:90px 1fr}.portal-avatar{width:84px;height:84px}.portal-discord{grid-column:1/-1;width:100%}.portal-grid{grid-template-columns:1fr}.tracking-grid{grid-template-columns:1fr}.tracking-grid article+article{border-left:0;border-top:1px solid var(--cg-rule)}}
 @media(max-width:520px){.player-portal{width:calc(100% - 24px)}.portal-preview-note{align-items:flex-start;flex-direction:column;gap:4px;padding:10px 12px}.portal-account{padding:20px;grid-template-columns:72px 1fr;gap:15px}.portal-avatar{width:68px;height:68px}.portal-avatar svg{width:30px;height:30px}.portal-identity h1{font-size:25px}.portal-identity>p:not(.cg-eyebrow){font-size:12px}.portal-panel,.portal-stats,.portal-tracking{padding:17px}.portal-panel h2,.portal-stats h2,.portal-tracking h2{font-size:20px}.portal-field{grid-template-columns:90px 1fr}.service-identity{grid-template-columns:1fr 1fr}.game-night-record{grid-template-columns:1fr}.portal-stats>header,.portal-tracking>header{align-items:flex-start;flex-direction:column}.portal-stat-grid{grid-template-columns:1fr 1fr}.portal-stat-grid article:nth-child(odd){border-left:0}.portal-stat-grid article:nth-child(n+3){border-top:1px solid var(--cg-rule)}}
+/* Phone type scale and tap targets.
+ *
+ * Measured at 375x812 on 1 Sep 2026 before any of this existed. Nothing
+ * overflowed: the layout blocks above already stack correctly at 640. What
+ * they never did is change the type scale, so the desktop sizes arrived on a
+ * phone unchanged. Body copy read at 11px, stat labels and the footer at 9px,
+ * and the footer navigation at 8px, which is smaller than the smallest text
+ * iOS will render in its own chrome.
+ *
+ * The other half is hit area. The account strip button measured 149x12, the
+ * social icons 15x15 and the footer links 11px tall. Apple and Google both
+ * ask for 44px, and the reason is not style: a 12px tall control on a phone
+ * gets missed, and a missed sign in button reads as a broken site.
+ *
+ * Sizes here are floors, not a redesign. Headings, the hero and the emblem
+ * are untouched, and so is .splash-enter, which is sized off the lockup by
+ * the clamp math that HANDOFF warns against restoring. This block sits last
+ * so it wins on equal specificity without raising any selector's weight.
+ */
+@media (max-width:640px){
+  /* Reading copy. 14px is the floor for anything set in sentences. */
+  .cg-about-text p,.cg-pillar-copy p,.archive-timeline p{font-size:14px;line-height:1.5}
+
+  /* Labels and eyebrows. Uppercase with wide tracking, so 11px stays legible
+   * where 9px did not. */
+  .cg-stat span,.archive-depth>summary span,.archive-timeline small{font-size:11px}
+  .archive-timeline a{font-size:11px}
+
+  /* The footer carried the smallest text on the site. */
+  .cg-footer{font-size:12px}
+  .cg-footer nav{gap:6px 20px;font-size:11px}
+  .cg-footer nav a{min-height:44px;display:inline-flex;align-items:center}
+
+  /* Account strip. 30px tall with a 12px button was the worst hit area
+   * measured, and it holds the only way to sign in on every page but Home. */
+  .cg-account-strip{min-height:44px;font-size:12px}
+  .cg-account-strip button,.cg-account-strip a{min-height:44px;display:inline-flex;align-items:center}
+
+  /* Social icons: a 44px target with the mark still drawn at 20px, so the
+   * row looks the same and stops being a game of darts. */
+  .cg-social{gap:4px;padding-right:8px}
+  .cg-social a{width:44px;height:44px;display:grid;place-items:center}
+  .cg-social a svg{width:20px;height:20px}
+
+  /* Filter chips and the about link, both a shade under the threshold. */
+  .chip{min-height:40px;padding:11px 14px}
+  .cg-more{height:44px;font-size:11px}
+
+  /* The mono micro-labels. Same floor as above, applied to the classes the
+   * Games and Media pages use for counts, tags and provenance. Every one of
+   * these is uppercase mono with wide tracking, which survives the size cut
+   * on a monitor and stops being readable in the hand. */
+  .srv-game,.gtag,.pill,.stat .l,.land-stat .l,.cg-site .mhead .sub,.facet-l,.chip-n{font-size:11px}
+  .stats.sourced .stat .src,.lcap-src{font-size:11px}
+  .srv-meta{font-size:12px}
+  .srv-empty{font-size:13px}
+
+  /* One pixel under the threshold, which is not a real difference to a
+   * thumb but is the kind of thing that stays wrong for a year. */
+  .steam-btn.compact{padding:12px 15px}
+
+  /* Three more found on the Archive after the first pass. The film caption
+   * sits over moving video, where 10px against a bright frame is the worst
+   * case on the site for contrast as well as size. */
+  .archive-quick-stats span,.film-category>summary small{font-size:11px}
+  .archive-memory .cg-home-film span{font-size:12px}
+}

@@ -2780,3 +2780,12 @@ VERIFIED:    The migration returned `true`, `true`, `false` for staff assignment
 UNVERIFIED:  Completing the OAuth callback needs River to sign in to Discord in the browser. Moderator and ordinary-member behavior still needs a real account for each role. No test rank or medal was created because no approved artwork was supplied.
 BLOCKED:     Nothing blocks the launched feature. Role-specific live checks remain follow-up verification.
 NEXT:        Complete one Discord sign-in with River's account, then test moderator and ordinary-member permissions and upload the first approved rank or medal artwork.
+## 2026-09-01 - Phone type scale and tap targets (Claude, cloud session)
+
+DONE:        Added one `@media (max-width:640px)` block at the end of `site/src/styles.css`. It raises the smallest type to an 11px floor, sentence copy to 14px, and gives the account strip, footer links and social icons a 44px hit area. Purely additive, 68 lines, one file, no markup or component changes.
+VERIFIED:    Measured in headless Chromium at 375x812 before and after, plus 320x640, 768x1024 and 1440x900. No horizontal overflow at any of the four, before or after. At 375 the before pass found body copy at 11px, stat labels and footer text at 9px, footer navigation at 8px, the account strip sign in button at 149x12, and the social icons at 15x15. The after pass leaves nothing under 11px except the demo badge, which does not ship, and the decorative footer diamond. Every tap target except inline links inside prose now clears 40px. `npm run build` passed. The em dash and vocabulary greps from `house-rules.yml` both pass locally.
+UNVERIFIED:  Not seen on real hardware or in Safari. Headless Chromium at deviceScaleFactor 2 is not an iPhone, and the one thing it cannot tell you is whether 14px actually reads well in the hand.
+BLOCKED:     Nothing.
+NEXT:        Push and look at it on a phone. `.splash-enter` is still a 198x37 target on the landing splash and was deliberately left alone, because it is sized off the lockup by the clamp math this file warns against restoring. If it should clear 44px, that is a change to the lockup math and wants doing on purpose.
+
+OBSERVED, not changed: the Home stats read `1,250+ MEMBERS` while the Archive reads `384 members` on the same build. One of those is the seed placeholder. Given the never invent a number rule, worth reconciling.
