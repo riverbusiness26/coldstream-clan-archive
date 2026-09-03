@@ -37,6 +37,9 @@ export default function Admin({ me }: { me: Me | null }) {
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  // Delete is two clicks, not a browser confirm dialog: it is irreversible and
+  // the artwork does not come back.
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [catalogueFilter, setCatalogueFilter] = useState<'all' | ItemKind>('all');
   const [memberSearch, setMemberSearch] = useState('');
   const [assignMembers, setAssignMembers] = useState<string[]>([]);
@@ -93,6 +96,7 @@ export default function Admin({ me }: { me: Me | null }) {
   const itemById = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
   const memberById = useMemo(() => new Map(members.map((member) => [member.id, member])), [members]);
   const currentItem = items.find((item) => item.id === selectedItem) ?? null;
+  useEffect(() => { setConfirmDelete(null); }, [selectedItem]);
   const visibleItems = items.filter((item) => catalogueFilter === 'all' || item.kind === catalogueFilter);
   const visibleMembers = members.filter((member) => member.display_name.toLowerCase().includes(memberSearch.toLowerCase()));
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
@@ -134,6 +138,31 @@ export default function Admin({ me }: { me: Me | null }) {
     const result = await supa.from('personnel_item').update({ active: !item.active, updated_at: new Date().toISOString() }).eq('id', item.id);
     if (result.error) { setError(result.error.message); return; }
     setDone(item.active ? 'Item archived.' : 'Item restored.'); await load();
+  }
+
+  async function removeItem(item: PersonnelItem) {
+    setError(null); setDone(null);
+    if (!canUpload) { setError('Only admins can delete catalogue items.'); return; }
+    // A held item cannot be deleted without silently rewriting somebody's
+    // service record, and the database would refuse it anyway: assignments
+    // reference the item. Archiving keeps the record and hides the item.
+    const holders = assignments.filter((row) => row.item_id === item.id).length;
+    if (holders > 0) {
+      setConfirmDelete(null);
+      setError(`This ${item.kind} is held by ${holders} member${holders === 1 ? '' : 's'}. Remove those assignments first, or archive it instead to keep the record.`);
+      return;
+    }
+    if (confirmDelete !== item.id) { setConfirmDelete(item.id); return; }
+    if (!supa) { setConfirmDelete(null); setDone('Preview only. Nothing was deleted.'); return; }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    // The row first. If it will not go, the image is still attached to
+    // something rather than orphaned in the bucket.
+    const removed = await supa.from('personnel_item').delete().eq('id', item.id);
+    if (removed.error) { setBusy(false); setConfirmDelete(null); setError(removed.error.message); return; }
+    if (item.storage_key) await supa.storage.from('personnel-artwork').remove([item.storage_key]);
+    setBusy(false); setConfirmDelete(null); setSelectedItem(null);
+    setDone(`${item.name} was deleted.`); await load();
   }
 
   async function assign() {
@@ -202,7 +231,7 @@ export default function Admin({ me }: { me: Me | null }) {
           <div className="catalogue-filters"><button className={catalogueFilter === 'all' ? 'active' : ''} onClick={() => setCatalogueFilter('all')}>All</button><button className={catalogueFilter === 'rank' ? 'active' : ''} onClick={() => setCatalogueFilter('rank')}>Ranks</button><button className={catalogueFilter === 'medal' ? 'active' : ''} onClick={() => setCatalogueFilter('medal')}>Medals</button></div>
           <div className="catalogue-scroll">{visibleItems.length === 0 && <div className="command-empty">No artwork has been uploaded in this section yet.</div>}{visibleItems.map((item) => { const url = artworkUrl(item); return <button className={`catalogue-row ${selectedItem === item.id ? 'active' : ''}`} key={item.id} onClick={() => setSelectedItem(item.id)}><span className={`catalogue-thumb ${item.kind}`}>{url ? <img src={url} alt="" /> : item.kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><span><small>{item.kind}</small><b>{item.name}</b><em>{item.active ? 'Available' : 'Archived'}</em></span></button>; })}</div>
         </div>
-        <div className="catalogue-detail">{currentItem ? <><div className="catalogue-art">{artworkUrl(currentItem) ? <img src={artworkUrl(currentItem)!} alt={`${currentItem.name} artwork`} /> : currentItem.kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</div><p className="command-kicker">{currentItem.kind}</p><h2>{currentItem.name}</h2><p>{currentItem.description || 'No description has been added.'}</p><dl className="catalogue-facts"><div><dt>Current holders</dt><dd>{assignments.filter((row) => row.item_id === currentItem.id).length}</dd></div><div><dt>Status</dt><dd>{currentItem.active ? 'Available' : 'Archived'}</dd></div><div><dt>Added</dt><dd>{date(currentItem.created_at)}</dd></div></dl>{canUpload && <button className="command-secondary" onClick={() => toggleItem(currentItem)}>{currentItem.active ? 'Archive item' : 'Restore item'}</button>}</> : <div className="command-empty">Select an item to inspect it.</div>}</div>
+        <div className="catalogue-detail">{currentItem ? <><div className="catalogue-art">{artworkUrl(currentItem) ? <img src={artworkUrl(currentItem)!} alt={`${currentItem.name} artwork`} /> : currentItem.kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</div><p className="command-kicker">{currentItem.kind}</p><h2>{currentItem.name}</h2><p>{currentItem.description || 'No description has been added.'}</p><dl className="catalogue-facts"><div><dt>Current holders</dt><dd>{assignments.filter((row) => row.item_id === currentItem.id).length}</dd></div><div><dt>Status</dt><dd>{currentItem.active ? 'Available' : 'Archived'}</dd></div><div><dt>Added</dt><dd>{date(currentItem.created_at)}</dd></div></dl>{canUpload && <div className="catalogue-actions"><button className="command-secondary" onClick={() => toggleItem(currentItem)}>{currentItem.active ? 'Archive item' : 'Restore item'}</button>{confirmDelete === currentItem.id ? <><button className="command-danger" disabled={busy} onClick={() => removeItem(currentItem)}>{busy ? 'Deleting' : 'Confirm delete'}</button><button className="command-secondary" onClick={() => setConfirmDelete(null)}>Cancel</button></> : <button className="command-danger ghost" onClick={() => removeItem(currentItem)}>Delete item</button>}</div>}{confirmDelete === currentItem.id && <p className="catalogue-warning">This removes the {currentItem.kind} and its artwork for good. Archive it instead if you only want it out of the way.</p>}</> : <div className="command-empty">Select an item to inspect it.</div>}</div>
         <aside className="catalogue-upload"><div className="command-section-head"><div><span>Admin only</span><h2>Upload artwork</h2></div><FaImage /></div>{canUpload ? <div className="command-form"><label>Type<select value={itemKind} onChange={(event) => setItemKind(event.target.value as ItemKind)}><option value="rank">Rank</option><option value="medal">Medal</option></select></label><label>Name<input value={itemName} maxLength={80} onChange={(event) => setItemName(event.target.value)} placeholder="Item name" /></label><label>Description<textarea value={itemDescription} maxLength={500} onChange={(event) => setItemDescription(event.target.value)} placeholder="What this rank or medal represents" /></label><label className="command-file"><span>PNG, JPEG or WebP, up to 5 MB</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setItemFile(event.target.files?.[0] ?? null)} /></label><button className="command-primary" onClick={uploadItem} disabled={busy}>{busy ? 'Uploading' : 'Add to catalogue'}</button></div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>Moderators can assign existing artwork but cannot upload or replace image files.</p></div>}</aside>
       </section>}
 
