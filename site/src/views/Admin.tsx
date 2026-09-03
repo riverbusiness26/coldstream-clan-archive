@@ -53,6 +53,15 @@ export default function Admin({ me }: { me: Me | null }) {
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
 
+  // The message banner sits at the top of the board and the upload form is a
+  // long way below it, so a failed upload looked like nothing happening at
+  // all. That is how the audit trigger bug went unnoticed: the error was on
+  // screen the whole time, just not on the part of the screen being used.
+  useEffect(() => {
+    if (!error && !done) return;
+    document.querySelector('.command-message')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [error, done]);
+
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
