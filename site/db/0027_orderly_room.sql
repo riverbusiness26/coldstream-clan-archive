@@ -82,9 +82,14 @@ alter table personnel_item add constraint personnel_item_ladder_is_rank_only che
   or (seniority is null and band is null and discord_role_id is null and is_default_recruit = false)
 );
 
+-- The spec lists four bands and folds NCOs into `officer`. The regiment's own
+-- rank sheet does not: it draws a line between Junior grades and
+-- Non-Commissioned Officers, and a Colour Sergeant is not a Lieutenant. Band
+-- is structure only and drives no permissions, so a fifth value costs nothing
+-- and keeps `officer` free for the commissioned ranks.
 alter table personnel_item drop constraint if exists personnel_item_band_known;
 alter table personnel_item add constraint personnel_item_band_known check (
-  band is null or band in ('command', 'officer', 'enlisted', 'recruit')
+  band is null or band in ('command', 'officer', 'nco', 'enlisted', 'recruit')
 );
 
 -- Exactly one rank can be the one a new recruit lands on. §8.4 accept reads
@@ -432,30 +437,67 @@ alter table personnel_item add constraint personnel_item_artwork_whole check (
   (storage_key is null and image_mime is null) or (storage_key is not null and image_mime is not null)
 );
 
--- The ladder from the spec's §6, with Discord role ids left empty on purpose.
--- An invented role id is worse than a missing one: missing fails loudly the
--- first time somebody is promoted, wrong quietly grants the wrong role. Fill
--- them on the structure page.
+-- The Line Infantry ladder, from the regiment's own rank sheet. Seniority is
+-- spaced in fives with room left above 70 for the commissioned ranks, which
+-- are on a sheet I have not been given yet.
 --
--- Inserted only where that rank name does not already exist, so the Volunteer
--- rank River uploaded is left exactly as it is.
+-- Ranks are matched by name, so this both inserts the ones that are missing
+-- and fills in band and seniority on any that already exist. That is how the
+-- Volunteer rank River uploaded keeps its artwork and still joins the ladder.
 
-insert into personnel_item (kind, name, band, seniority, is_default_recruit, sort_order)
-select 'rank'::personnel_item_kind, v.name, v.band, v.seniority, v.is_recruit, v.seniority
-from (values
-  ('Colonel',    'command',  90, false),
-  ('Lt Colonel', 'command',  85, false),
-  ('Major',      'command',  80, false),
-  ('Captain',    'officer',  70, false),
-  ('Lieutenant', 'officer',  65, false),
-  ('Sergeant',   'officer',  60, false),
-  ('Corporal',   'enlisted', 40, false),
-  ('Private',    'enlisted', 30, false),
-  ('Recruit',    'recruit',  10, true)
-) as v(name, band, seniority, is_recruit)
-where not exists (
-  select 1 from personnel_item p where p.kind = 'rank' and lower(p.name) = lower(v.name)
-);
+-- One DO block, because a temporary table does not survive between statements
+-- when the script is run a statement at a time, which is how psql and some
+-- editors send it. Inside the block it is a single transaction and the list
+-- only has to be written once.
+do $$
+begin
+  create temporary table ladder(name text, band text, seniority int, is_recruit boolean) on commit drop;
+  insert into ladder values
+    ('Volunteer',       'recruit',  10, true),
+    ('Cadet',           'enlisted', 15, false),
+    ('Private',         'enlisted', 20, false),
+    ('Regular',         'enlisted', 25, false),
+    ('Lance Corporal',  'enlisted', 30, false),
+    ('Fusilier',        'enlisted', 35, false),
+    ('Guard',           'enlisted', 40, false),
+    ('Royal Guard',     'enlisted', 45, false),
+    ('Corporal',        'nco',      50, false),
+    ('Sergeant',        'nco',      55, false),
+    ('Colour Sergeant', 'nco',      60, false),
+    ('Sergeant Major',  'nco',      65, false);
+
+  -- Clear the recruit flag first: the unique index allows only one, and
+  -- setting the new one before releasing the old would collide.
+  update personnel_item set is_default_recruit = false
+   where kind = 'rank' and is_default_recruit;
+
+  update personnel_item p set
+    band = l.band,
+    seniority = l.seniority,
+    is_default_recruit = l.is_recruit,
+    sort_order = l.seniority,
+    updated_at = now()
+  from ladder l
+  where p.kind = 'rank' and lower(p.name) = lower(l.name);
+
+  insert into personnel_item (kind, name, band, seniority, is_default_recruit, sort_order)
+  select 'rank'::personnel_item_kind, l.name, l.band, l.seniority, l.is_recruit, l.seniority
+  from ladder l
+  where not exists (
+    select 1 from personnel_item p where p.kind = 'rank' and lower(p.name) = lower(l.name)
+  );
+
+  -- Tidy up if an earlier version of this migration seeded a different ladder.
+  -- Only placeholder rows go: anything with artwork, or held by a member, or
+  -- named on the sheet above, is left exactly where it is.
+  delete from personnel_item p
+   where p.kind = 'rank'
+     and p.storage_key is null
+     and not exists (select 1 from ladder l where lower(l.name) = lower(p.name))
+     and not exists (select 1 from personnel_assignment a where a.item_id = p.id);
+
+  drop table ladder;
+end $$;
 
 -- One company to start, named for the regiment. Officers add more.
 insert into company (name, tag, sort_order)
@@ -467,7 +509,7 @@ where not exists (select 1 from company);
 -- Run this after the migration. Every line should read true.
 
 select
-  (select count(*) from personnel_item where kind = 'rank' and band is not null) >= 9
+  (select count(*) from personnel_item where kind = 'rank' and band is not null) >= 12
     as ladder_seeded,
   (select count(*) from personnel_item where is_default_recruit) = 1
     as exactly_one_recruit_rank,
@@ -480,4 +522,8 @@ select
   has_function_privilege('anon', 'mark_attendance(uuid, uuid, text)', 'EXECUTE') = false
     as attendance_not_public,
   (select count(*) from personnel_item where kind = 'medal' and seniority is not null) = 0
-    as no_ladder_columns_on_medals;
+    as no_ladder_columns_on_medals,
+  (select name from personnel_item where is_default_recruit) = 'Volunteer'
+    as volunteer_is_the_recruit_rank,
+  (select count(*) from personnel_item where kind = 'rank' and band = 'nco') = 4
+    as four_ncos;
