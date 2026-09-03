@@ -75,10 +75,24 @@ worth having.
 5. **Applications.** Panel, modal, queue, accept assigns the recruit role.
 6. **Companies, settings, audit page.** The remainder of §8.5 to §8.7.
 
-## Open question for River
+## Decisions taken since
 
-The spec calls the middle band `officer` throughout, and it is a band name that
-ends up in the schema. The house voice rules say admin and moderator, never
-officer. The rest of this database already says `moderator`. Worth settling
-before 0027 rather than renaming a column later, the way `0000_role_rename`
-had to.
+**Band naming: `officer`.** The spec's word wins over the house style note,
+which was written about member-facing copy rather than schema identifiers.
+
+**Band and role both stay, meaning different things.** `member.role` is admin,
+moderator or member: it answers who may open the panel, it is set from Discord
+roles, and every RLS policy in this database is built on it. `band` is command,
+officer, enlisted or recruit: it answers what somebody is in the regiment. A
+Captain is officer band whether or not anyone gives them the panel. The spec
+reads as though these are one thing and they are not.
+
+**Ranks stay in the shared catalogue.** The spec models Rank and Award as
+separate tables. Here they are one `personnel_item` with a `kind`, one
+assignment table, one audit trail and a live unique index enforcing one current
+rank per member. The ladder columns are null for medals and a constraint keeps
+them that way.
+
+## Status
+
+Step 1 is written: `site/db/0027_orderly_room.sql`. Steps 2 onward are next.
