@@ -2772,3 +2772,11 @@ VERIFIED:    `npm run build --prefix site` passed with TypeScript and Vite, `npx
 UNVERIFIED:  Discord OAuth, role synchronization, database policies, artwork storage and live assignments were not exercised against production because migration 0024, the provider and the function have not been activated. `node scripts/status.mjs` confirmed the existing public site is unchanged, but the clean worktree has no `site/.env`, so its database checks were skipped.
 BLOCKED:     Live activation needs River's approval plus the Discord provider and Edge Function secrets entered directly in Supabase. No secret belongs in this public repository or in chat.
 NEXT:        Follow `site/DISCORD_PERSONNEL_SETUP.md`, test one admin, one moderator and one ordinary member, then publish only after all three permission checks pass.
+
+## 2026-09-02 - Discord personnel backend activated and release prepared (Codex, River side)
+
+DONE:        Applied migration 0024 to production, deployed `discord-member-sync`, configured the Coldstream guild and staff role identifiers, enabled Discord OAuth, confirmed the live bot token already matches the Supabase function secret, and generated the production Command Board assets.
+VERIFIED:    The migration returned `true`, `true`, `false` for staff assignment, authenticated catalogue grant and anonymous catalogue writes. Supabase reported the function deployed successfully. Discord OAuth returned HTTP 302 to Discord. The live bot token returned HTTP 200 from Discord and matched the Supabase secret. `npm run build --prefix site` passed and one built JavaScript asset contains the Supabase endpoint.
+UNVERIFIED:  Moderator and ordinary-member behavior still needs a real account for each role. No test rank or medal was created because no approved artwork was supplied.
+BLOCKED:     Nothing blocks publishing. Role-specific live checks remain follow-up verification.
+NEXT:        Publish this fast-forward release to `main`, verify the live asset hash and Discord sign-in entry point, then test moderator and ordinary-member permissions with real accounts.
