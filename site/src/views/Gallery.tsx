@@ -29,7 +29,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
 import type { MediaItem } from '../lib/media';
 import { fetchMedia, recordView, selectMedia, shownDate } from '../lib/media';
-import SteamButton from '../components/SteamButton';
+import DiscordButton from '../components/DiscordButton';
 import PlateViewer from '../components/PlateViewer';
 import UploadDrawer from '../components/UploadDrawer';
 import MediaToolbar, { type Facets } from '../components/MediaToolbar';
@@ -374,11 +374,11 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
               <div className="railcta">
                 {me
                   ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button>
-                  : <SteamButton me={me} signIn={signIn} />}
+                  : <DiscordButton me={me} signIn={signIn} />}
                 <p className="railterms">
                   {me
                     ? 'An admin checks every submission in. By submitting you grant Coldstream Gaming permission to feature the image.'
-                    : 'Sign in through Steam to add to the wall. An admin checks each one in before it goes up.'}
+                    : 'Sign in through Discord to add to the wall. An admin checks each one in before it goes up.'}
                 </p>
               </div>
             </div>

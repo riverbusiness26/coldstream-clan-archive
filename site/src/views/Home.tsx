@@ -152,7 +152,7 @@ export function SiteFooter() {
   );
 }
 
-export default function Home({ go: _go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
+export default function Home({ me, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   return (
     <div className="cg-home">
       <SiteNav active="Home" />
@@ -171,6 +171,9 @@ export default function Home({ go: _go }: { me: Me | null; go: (v: string) => vo
               <p className="cg-sub">A multi-gaming community, established 2011.</p>
               <div className="cg-actions">
                 <a className="cg-action discord" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join us on Discord</a>
+                {me
+                  ? <a className="cg-action member-login" href={(me.role === 'admin' || me.role === 'moderator') ? '#/admin' : '#/player-profile'}><Icon name="shield" />{(me.role === 'admin' || me.role === 'moderator') ? 'Open Command Board' : 'Open profile'}</a>
+                  : <button className="cg-action member-login" type="button" onClick={signIn}><Icon name="discord" />Member sign in</button>}
                 <a className="cg-action steam" href={STEAM} target="_blank" rel="noopener"><Icon name="steam" />Steam Group</a>
               </div>
             </div>

@@ -10,7 +10,7 @@ const Profile = lazy(() => import('./views/Profile'));
 const Admin = lazy(() => import('./views/Admin'));
 const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
 
-// Routing is by hash, and coming back from Steam the session arrives in the
+// Routing is by hash, and coming back from authentication the session arrives in the
 // hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
 // this the app would try to route to a view called "access_token=..." and land
 // the user on a blank page the moment they signed in. The client reads those
@@ -28,12 +28,13 @@ function routeFromHash(): string {
   return h.replace(/^#\/?/, '').split('/')[0] || 'landing';
 }
 
-// Whether this page load began with Steam handing back a session, or an
+// Whether this page load began with authentication handing back a session, or an
 // error, in the fragment. It has to be read once at load, before anything
 // else touches the URL: supabase-js consumes those tokens and then clears
 // the fragment itself, and the empty fragment it leaves behind is
 // indistinguishable from somebody arriving at the site cold.
 const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
+const AUTH_RETURN = sessionStorage.getItem('coldstream-auth-return') || '#/home';
 
 export default function App() {
   const { me, signIn, signOut, demo, orphanSession } = useAuth();
@@ -58,13 +59,13 @@ export default function App() {
     if (me && !wasMe.current) {
       wasMe.current = true;
       if (!authReturn.current) return;
-      setToast({ kind: 'ok', text: 'Signed in through Steam as ' + me.display_name });
+      setToast({ kind: 'ok', text: 'Signed in through Discord as ' + me.display_name });
     }
     if (!me) wasMe.current = false;
   }, [me]);
   useEffect(() => {
-    if (new URLSearchParams(location.search).has('login')) {
-      setToast({ kind: 'err', text: 'Steam sign in did not complete. Try again.', ms: 6000 });
+    if (new URLSearchParams(location.search).get('login') === 'failed') {
+      setToast({ kind: 'err', text: 'Discord sign in did not complete. Try again.', ms: 6000 });
       history.replaceState(null, '', location.pathname + location.hash);
       return;
     }
@@ -74,7 +75,7 @@ export default function App() {
     const err = frag.get('error_description') || frag.get('error_code') || frag.get('error');
     if (err) {
       awaitingHashCleanup.current = false;
-      setToast({ kind: 'err', text: 'Steam sign in did not complete: ' + err.replace(/\+/g, ' '), ms: 8000 });
+      setToast({ kind: 'err', text: 'Discord sign in did not complete: ' + err.replace(/\+/g, ' '), ms: 8000 });
       history.replaceState(null, '', location.pathname + location.search + '#/home');
     }
   }, []);
@@ -82,7 +83,7 @@ export default function App() {
   // a signed-in person the guest view and no explanation.
   useEffect(() => {
     if (!orphanSession) return;
-    setToast({ kind: 'err', text: 'Signed in through Steam, but your member record did not save. Try signing in again.', ms: 9000 });
+    setToast({ kind: 'err', text: 'Signed in through Discord, but your member record did not save. Try signing in again.', ms: 9000 });
   }, [orphanSession]);
   const [view, setView] = useState(routeFromHash);
 
@@ -104,8 +105,9 @@ export default function App() {
       // carried through to Home instead.
       if (awaitingHashCleanup.current && !location.hash.replace(/^#\/?/, '')) {
         awaitingHashCleanup.current = false;
-        history.replaceState(null, '', location.pathname + location.search + '#/home');
-        setView('home');
+        history.replaceState(null, '', location.pathname + location.search + AUTH_RETURN);
+        setView(AUTH_RETURN.replace(/^#\/?/, '').split('/')[0] || 'home');
+        sessionStorage.removeItem('coldstream-auth-return');
         return;
       }
       setView(routeFromHash());
@@ -147,7 +149,7 @@ export default function App() {
       <SiteNav active={view === 'gallery' ? 'Media' : view === 'servers' ? 'Games' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'About' : ''} />
 
       <div className="cg-account-strip">
-        {me ? <><span>Signed in as <b>{me.display_name}</b></span>{(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Admin</a>}<button type="button" onClick={signOut}>Sign out</button></> : <button type="button" onClick={signIn}>Sign in through Steam</button>}
+        {me ? <><span>Signed in as <b>{me.display_name}</b></span>{(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}<button type="button" onClick={signOut}>Sign out</button></> : <button type="button" onClick={signIn}>Sign in through Discord</button>}
       </div>
 
       <div className="cg-page-stage">
@@ -158,7 +160,7 @@ export default function App() {
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
       {view === 'admin' && <Admin me={me} />}
-      {view === 'player-profile' && <PlayerProfileMock />}
+      {view === 'player-profile' && <PlayerProfileMock me={me} signIn={signIn} />}
       </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       </div>

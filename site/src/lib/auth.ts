@@ -1,14 +1,14 @@
-// Session state. With a real backend: Supabase session created by the Steam
-// edge function. In demo mode: a local pretend sign-in so flows can be
-// reviewed end to end.
+// Session state. Discord is the community identity. Steam remains a separate
+// optional game identity for statistics already collected by the site.
 import { useEffect, useState } from 'react';
-import { supa, DEMO, STEAM_LOGIN_URL } from './supa';
+import { supa, DEMO } from './supa';
 
 export interface Me {
   id: string;
   display_name: string;
   avatar_url: string | null;
-  steam_id64: string;
+  steam_id64: string | null;
+  discord_id: string | null;
   role: string;
 }
 
@@ -25,10 +25,17 @@ export function useAuth() {
     const load = async () => {
       const { data: { session } } = await sb.auth.getSession();
       if (!session) { setMe(null); setOrphanSession(false); return; }
+      // The edge function checks current Discord server membership and roles,
+      // then creates or refreshes the member row. A stale browser value never
+      // promotes anybody.
+      if (session.user.app_metadata.provider === 'discord') {
+        const { error: syncError } = await sb.functions.invoke('discord-member-sync', { body: {} });
+        if (syncError) console.warn('Discord member sync failed:', syncError.message);
+      }
       // maybeSingle, not single: no member row is a state to report, not a
       // PGRST116 error to swallow.
       const { data, error } = await sb.from('member')
-        .select('id, display_name, avatar_url, steam_id64, role')
+        .select('id, display_name, avatar_url, steam_id64, discord_id, role')
         .eq('auth_user_id', session.user.id).maybeSingle();
       if (error) console.warn('member row lookup failed:', error.message);
       setMe((data as Me | null) ?? null);
@@ -39,12 +46,23 @@ export function useAuth() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const signIn = () => {
+  const signIn = async () => {
     if (DEMO) {
-      setMe({ id: '00000000-0000-0000-0000-000000000001', display_name: 'RiveRcs', avatar_url: null, steam_id64: '76561198044997257', role: 'admin' });
+      setMe({
+        id: '00000000-0000-0000-0000-000000000001',
+        display_name: 'Command Board Preview',
+        avatar_url: null,
+        steam_id64: null,
+        discord_id: 'preview',
+        role: 'admin',
+      });
       return;
     }
-    window.location.href = STEAM_LOGIN_URL!;
+    sessionStorage.setItem('coldstream-auth-return', location.hash.startsWith('#/') ? location.hash : '#/home');
+    await supa!.auth.signInWithOAuth({
+      provider: 'discord',
+      options: { redirectTo: `${location.origin}${location.pathname}` },
+    });
   };
   const signOut = () => {
     if (DEMO) { setMe(null); return; }

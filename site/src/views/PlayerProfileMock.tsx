@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { Me } from '../lib/auth';
 import { Icon } from './Home';
 
 const EVENT_STATS = [
@@ -10,34 +11,34 @@ const EVENT_STATS = [
   ['Last event', 'Pending', 'Waiting for first record'],
 ] as const;
 
-export default function PlayerProfileMock() {
-  const [connected, setConnected] = useState(false);
+export default function PlayerProfileMock({ me, signIn }: { me: Me | null; signIn: () => void }) {
+  const connected = Boolean(me);
   const [avatarStyle, setAvatarStyle] = useState<'discord' | 'crest' | 'initials'>('discord');
 
   return (
     <main className="player-portal" aria-labelledby="player-portal-title">
-      <div className="portal-preview-note"><b>Profile mockup</b><span>No Discord account is connected and nothing is saved.</span></div>
+      <div className="portal-preview-note"><b>Profile groundwork</b><span>{connected ? 'Discord identity connected. Profile editing comes after the Command Board.' : 'Sign in is live. Profile editing comes after the Command Board.'}</span></div>
 
       <section className="portal-account">
         <div className={`portal-avatar ${avatarStyle}`}>
-          {avatarStyle === 'crest' ? <img src="/crest.webp" alt="" /> : avatarStyle === 'initials' ? <b>CG</b> : <Icon name="discord" />}
+          {avatarStyle === 'crest' ? <img src="/crest.webp" alt="" /> : avatarStyle === 'initials' ? <b>{me?.display_name.slice(0, 2).toUpperCase() || 'CG'}</b> : me?.avatar_url ? <img src={me.avatar_url} alt="" /> : <Icon name="discord" />}
           <span className="portal-live-dot" title="Live status" />
         </div>
         <div className="portal-identity">
           <p className="cg-eyebrow">Coldstream player profile</p>
-          <h1 id="player-portal-title">{connected ? 'Discord Player' : 'Your profile starts here'}</h1>
-          <p>{connected ? 'Profile preview created. Discord roles and activity would synchronize automatically.' : 'Sign in through Discord once. We create the profile and keep your community activity together.'}</p>
-          <div className="portal-badges"><span>{connected ? 'Member' : 'Rank pending'}</span><span>{connected ? 'Discord linked' : 'Not connected'}</span></div>
+          <h1 id="player-portal-title">{connected ? me!.display_name : 'Your profile starts here'}</h1>
+          <p>{connected ? 'Discord is connected. Ranks and medals will come from the staff-managed service record.' : 'Sign in through Discord once. We create the member record and keep your community activity together.'}</p>
+          <div className="portal-badges"><span>{connected ? me!.role : 'Rank pending'}</span><span>{connected ? 'Discord linked' : 'Not connected'}</span></div>
         </div>
-        <button className="portal-discord" type="button" onClick={() => setConnected((value) => !value)}>
-          <Icon name="discord" />{connected ? 'Reset preview' : 'Preview Discord sign in'}
-        </button>
+        {connected
+          ? <a className="portal-discord" href={(me!.role === 'admin' || me!.role === 'moderator') ? '#/admin' : '#/home'}><Icon name="discord" />{(me!.role === 'admin' || me!.role === 'moderator') ? 'Open Command Board' : 'Discord connected'}</a>
+          : <button className="portal-discord" type="button" onClick={signIn}><Icon name="discord" />Sign in through Discord</button>}
       </section>
 
       <div className="portal-grid">
         <section className="portal-panel portal-customize" aria-labelledby="customize-title">
           <header><span>Profile</span><h2 id="customize-title">Make it yours</h2></header>
-          <div className="portal-field"><b>Display name</b><span>{connected ? 'Discord Player' : 'Imported from Discord'}</span><button type="button">Edit</button></div>
+          <div className="portal-field"><b>Display name</b><span>{connected ? me!.display_name : 'Imported from Discord'}</span><button type="button" disabled>Edit later</button></div>
           <div className="portal-field avatar-field"><b>Avatar</b><span>Choose a preview style</span></div>
           <div className="avatar-choices" aria-label="Avatar preview options">
             <button className={avatarStyle === 'discord' ? 'active' : ''} type="button" onClick={() => setAvatarStyle('discord')}><Icon name="discord" /><span>Discord</span></button>
