@@ -1423,3 +1423,24 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 .command-danger.ghost{background:transparent;color:#c98b8b}
 .command-danger.ghost:hover{background:rgba(185,75,75,.12);color:#f0c9c9}
 .catalogue-warning{margin:10px 0 0;color:#d99b9b;font-size:11px;line-height:1.5}
+
+/* The artwork preview in the catalogue detail panel.
+ *
+ * `.catalogue-art img` was sized with max-width and max-height at 82%, and the
+ * max-height was doing nothing. The image is a centered grid item, so during
+ * intrinsic sizing there is no definite height for a percentage to resolve
+ * against. A square 1408px rank therefore took its size from the width and ran
+ * 382px tall inside a 190px frame, out of the bottom of its own panel and over
+ * the text below it.
+ *
+ * Taking it out of flow fixes that, but not by insetting all four edges: an
+ * absolutely positioned replaced element with width:auto takes its intrinsic
+ * size and ignores the opposite edge, so a 1408px image stayed 1408px. It
+ * needs a stated width and height, and against a positioned containing block
+ * a percentage is definite, so calc off 100% works where the grid percentage
+ * did not. object-fit:contain then letterboxes the artwork, so any shape and
+ * any source size sits in the frame with the same margin around it. The
+ * placeholder mark stays a centered grid item and is untouched.
+ */
+.catalogue-art{position:relative}
+.catalogue-art img{position:absolute;top:18px;left:18px;width:calc(100% - 36px);height:calc(100% - 36px);max-width:none;max-height:none;object-fit:contain}

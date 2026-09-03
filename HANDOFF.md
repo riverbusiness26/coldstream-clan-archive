@@ -2821,3 +2821,13 @@ VERIFIED:    `npm run build --prefix site` passed with TypeScript and Vite. Both
 UNVERIFIED:  0026 has not been applied, so the delete path has not been exercised against the live database. The refusal path and the holder count have not been seen with a real assignment in place. Nothing has been checked on a phone.
 BLOCKED:     Nothing, but two steps are River's: run 0026 in the Supabase SQL editor, and push, since this session has neither Supabase access nor GitHub push credentials.
 NEXT:        Run 0026 and push, then delete the archived `Migration check (delete me)` row through the new button as the live proof. 0026 also deletes that row itself, so whichever happens first is fine.
+
+## 2026-09-03 - Rank artwork ran out of the bottom of its own frame (Claude, cloud session)
+
+DONE:        Fixed the artwork preview in the catalogue detail panel. River uploaded the Volunteer rank, clicked it, and the image sat 382px tall inside a 190px frame, over the text below it. `.catalogue-art img` was sized with `max-width:82%` and `max-height:82%`, and the max-height was doing nothing at all: the image is a centered grid item, so during intrinsic sizing there is no definite height for a percentage to resolve against, and a square 1408px source therefore took its size from the width alone. The image is now absolutely positioned inside the frame with a stated width and height.
+VERIFIED:    Measured in headless Chromium at 645x790, 1440x900 and 390x844, on a harness with the real markup, the real built stylesheet and a real 1408x1408 square. Before: 1408x1408 rendered in a 190px frame, 1237px past the bottom edge, with the document scrolling horizontally. After: 18px clear on every side at all three widths, centered, no horizontal scroll. A 2000x600 banner shape letterboxes correctly in the same frame, and the placeholder mark is untouched at 58px. `npm run build --prefix site` passed. The em dash and vocabulary greps pass, and every asset `index.html` names is present.
+UNVERIFIED:  Not yet seen on the live site, since this needs pushing first. Not checked on real phone hardware.
+BLOCKED:     Nothing. River pushes.
+NEXT:        Push, then click Volunteer and confirm.
+
+Worth knowing for the next person, because I got it wrong once on the way: insetting all four edges of an absolutely positioned image does not stretch it. A replaced element with `width:auto` takes its intrinsic size and ignores the opposite edge, so the 1408px image stayed 1408px with `inset:18px` applied and looked exactly as broken as before. It needs a stated width and height. Against a positioned containing block a percentage is definite, so `calc(100% - 36px)` resolves where the grid percentage never could.
