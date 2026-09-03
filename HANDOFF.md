@@ -2773,10 +2773,10 @@ UNVERIFIED:  Discord OAuth, role synchronization, database policies, artwork sto
 BLOCKED:     Live activation needs River's approval plus the Discord provider and Edge Function secrets entered directly in Supabase. No secret belongs in this public repository or in chat.
 NEXT:        Follow `site/DISCORD_PERSONNEL_SETUP.md`, test one admin, one moderator and one ordinary member, then publish only after all three permission checks pass.
 
-## 2026-09-02 - Discord personnel backend activated and release prepared (Codex, River side)
+## 2026-09-02 - Discord personnel Command Board launched (Codex, River side)
 
-DONE:        Applied migration 0024 to production, deployed `discord-member-sync`, configured the Coldstream guild and staff role identifiers, enabled Discord OAuth, confirmed the live bot token already matches the Supabase function secret, and generated the production Command Board assets.
-VERIFIED:    The migration returned `true`, `true`, `false` for staff assignment, authenticated catalogue grant and anonymous catalogue writes. Supabase reported the function deployed successfully. Discord OAuth returned HTTP 302 to Discord. The live bot token returned HTTP 200 from Discord and matched the Supabase secret. `npm run build --prefix site` passed and one built JavaScript asset contains the Supabase endpoint.
-UNVERIFIED:  Moderator and ordinary-member behavior still needs a real account for each role. No test rank or medal was created because no approved artwork was supplied.
-BLOCKED:     Nothing blocks publishing. Role-specific live checks remain follow-up verification.
-NEXT:        Publish this fast-forward release to `main`, verify the live asset hash and Discord sign-in entry point, then test moderator and ordinary-member permissions with real accounts.
+DONE:        Applied migration 0024 to production, deployed `discord-member-sync`, configured the Coldstream guild and staff role identifiers, enabled Discord OAuth, confirmed the live bot token already matches the Supabase function secret, and published the Discord Command Board release to `main`.
+VERIFIED:    The migration returned `true`, `true`, `false` for staff assignment, authenticated catalogue grant and anonymous catalogue writes. Supabase reported the function deployed successfully. The live bot token returned HTTP 200 from Discord and matched the Supabase secret. `npm run build --prefix site` passed. GitHub Pages deployed `946314f`, the live domain served `index-MtVd-DOc.js`, the player-profile entry rendered, and its sign-in button opened Discord OAuth with the expected Supabase callback.
+UNVERIFIED:  Completing the OAuth callback needs River to sign in to Discord in the browser. Moderator and ordinary-member behavior still needs a real account for each role. No test rank or medal was created because no approved artwork was supplied.
+BLOCKED:     Nothing blocks the launched feature. Role-specific live checks remain follow-up verification.
+NEXT:        Complete one Discord sign-in with River's account, then test moderator and ordinary-member permissions and upload the first approved rank or medal artwork.
