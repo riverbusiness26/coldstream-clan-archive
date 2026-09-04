@@ -15,10 +15,9 @@
 # red says nothing. Red to green posts the recovery, so the all clear arrives
 # the same way the alarm did. A six day outage is one message, not 1,700.
 #
-# There is deliberately no list of workflows to keep in step here. The
-# `workflows:` filter is omitted so this covers every workflow in the repo,
-# including ones added after today. status.mjs learned that lesson first, and
-# its comments say so: a hand maintained list is how the dead poller hid.
+# GitHub requires workflow_run to name the workflows it watches. Review this
+# list whenever another workflow is added. status.mjs still discovers every
+# workflow independently, which is the backstop if this list falls behind.
 #
 # Needs one repository secret: DISCORD_ALERT_WEBHOOK, a Discord webhook URL
 # for the channel that should receive these. Server Settings, Integrations,
@@ -28,6 +27,14 @@ name: Alert on failure
 
 on:
   workflow_run:
+    workflows:
+      - Backup database
+      - House rules
+      - Refresh progress board
+      - Game server status
+      - Steam presence
+      - Supabase keep-alive
+      - pages-build-deployment
     types: [completed]
 
 # Read-only. This job inspects run history and posts outward, it never writes
