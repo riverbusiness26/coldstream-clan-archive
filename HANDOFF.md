@@ -3077,3 +3077,86 @@ UNVERIFIED:  No browser surface was available for a real desktop or phone visual
 BLOCKED:     Publishing the accumulated frontend remains blocked until production migrations 0031 and 0032 are applied and checked. Publishing now would include personnel features that expect those migrations.
 
 NEXT:        Apply and prove 0031 then 0032, complete one desktop and phone browser review, then rebuild and publish the root production assets.
+
+## 2026-09-04 - SuperGrok reopen kit rejected; art-direction brief instead (Grok Bot)
+
+WHO:        Grok Bot, agent Chief of Staff. No code change.
+
+DONE:       River rejected the draft 2ndCS reopen kit (welcome pin, recruiter reply, buddy card, Shorts, 14-day calendar, reconnect DM). That copy is dead and must not be reused. SuperGrok redirected to rank/medal VISUAL art direction only: bands and purpose types, image prompts, kill list. No official rank table or medal names as doctrine. Logo and homepage remain River-decided and closed.
+
+VERIFIED:   River's chat feedback this session.
+
+UNVERIFIED: Whether SuperGrok will run the art brief.
+
+BLOCKED:    Nothing on this redirect. Website publish still waits on 0031 then 0032.
+
+NEXT:       River pastes SuperGrok art-direction output, or names a different SuperGrok lane.
+
+## 2026-09-04 - Authorized production publish (Codex)
+
+DONE:        River explicitly authorized publishing the current frontend. Copied the built homepage, profiles and Command Board into root assets. Preserved the Steam linking return handler and synchronized its public source so later builds retain it.
+VERIFIED:    Production build passed with 118 modules. Root index names index-BZvpfVjM.js. Public database probes confirmed emblem columns exist and anonymous reorder calls are denied.
+UNVERIFIED:  Real signed-in rank drag and emblem upload walkthroughs remain outstanding. The previously recorded privacy findings are not fixed by this publish. Live bundle verification follows the push.
+BLOCKED:     No remaining authorization gate for this publish.
+NEXT:        Verify the domain serves the new bundle and the Admin chunk, then have River refresh the Command Board.
+
+
+## 2026-09-04 - Listing brand pass (Grok Bot / Chief of Staff)
+
+WHO:        Grok Bot, agent Chief of Staff. No live posts. River asked Clan Growth; Clan Growth asked for a brand pass.
+
+DONE:       Brand-passed Discord.me/top.gg and Steam CSG About drafts. Killed meme/casual listing framing (Dank Memer, giveaways, radio). Flagged invite mismatch: site discord.gg/75sfq5VPY vs 2ndCS Steam discord.gg/WdUXpaZHd — one canonical invite required before listings go live. Edited copy toward website voice (gaming community est. 2011, lineage eras, 2ndCS as Holdfast division). Dropped defensive "staff who actually help" and "revolving door." Held "We're Back. Second to none." off Discord listings unless River opts in for Steam only. Sent redlines to Clan Growth. Awaiting River's invite pick and go/no-go.
+
+VERIFIED:   Clan Growth message text and existing house rules (gaming community not clan; no Discord posts without River).
+
+UNVERIFIED: Which invite is currently valid; whether Discord.me/top.gg pages still show the old meme copy live.
+
+BLOCKED:    River picks the canonical Discord invite and approves or redlines the listing copy before anything is posted.
+
+NEXT:       River decides. Clan Growth updates listings only after explicit approval.
+
+
+## 2026-09-04 - Listing updates on HOLD (River via Grok Bot)
+
+WHO:        Grok Bot, agent Chief of Staff. Relayed River's decision to Clan Growth.
+
+DONE:       River ordered HOLD — do not post any Discord.me, top.gg, Steam About, or other listing updates. Brand-passed drafts remain unpublished. Canonical Discord invite still unresolved (site discord.gg/75sfq5VPY vs 2ndCS Steam discord.gg/WdUXpaZHd); do not choose without River.
+
+VERIFIED:   River's widget reply in Chief of Staff chat.
+
+UNVERIFIED: Whether the meme framing is still live on discord.me/top.gg right now.
+
+BLOCKED:    Nothing further until River reopens listings or picks an invite.
+
+NEXT:       Leave listings alone. Website SQL gate remains 0031 then 0032 when River is ready.
+
+
+## 2026-09-04 - Canonical Discord invite picked; listings still HOLD
+
+WHO:        Grok Bot, agent Chief of Staff. Clan Growth reported River's pick.
+
+DONE:       Canonical Discord invite recorded as discord.gg/75sfq5VPY. discord.gg/WdUXpaZHd remains the non-canonical invite still on 2ndCS Steam. Brand-passed listing drafts may use the canonical invite on ice only. HOLD still stands: no live Discord.me / top.gg / Steam About posts, and no live replacement of the Steam invite until River lifts the hold.
+
+VERIFIED:   Clan Growth message to Chief of Staff this session.
+
+UNVERIFIED: Whether the site, Guard bot, and every Steam page already match 75sfq5VPY.
+
+BLOCKED:    Live invite cleanup and listing posts wait on River lifting HOLD.
+
+NEXT:       Leave listings iced. Website SQL gate remains 0031 then 0032.
+
+
+## 2026-09-04 - Server Ops live status into CoS (Grok Bot)
+
+WHO:        Grok Bot, agent Chief of Staff. Summarized Server Ops report for River. Did not change infra.
+
+DONE:       Recorded Server Ops 2026-09-04 status: Minecraft DEV and Valheim DEV deleted per River. Holdfast container still live at 40.160.84.169:20100 (2nd Coldstream Official Training Server). GMod TTT DEV created on 40.160.84.169:27015 (classic TTT, ULX, River superadmin, password soft-open, no GSLT). Workshop collection 3795708106 public; Raf MapVote add failed. TTT lane is active under Server Ops. Training map remains parked. 2ndCS "joinable tonight" blockers are policy/staffing/listing, not a missing egg.
+
+VERIFIED:   Server Ops message to Chief of Staff this session.
+
+UNVERIFIED: Whether host_workshop_collection is fully wired in server.cfg yet; whether GSLT exists.
+
+BLOCKED:    Public TTT browser listing waits on GSLT and soft-open path. Listings HOLD elsewhere unchanged.
+
+NEXT:       Server Ops continues workshop/CSS/MapVote. Await 2ndCS Ops and Clan Growth packets.
+
