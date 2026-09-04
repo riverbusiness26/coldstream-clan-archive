@@ -2971,3 +2971,15 @@ UNVERIFIED:  Migration 0031 has not been applied to production. Its PostgreSQL t
 BLOCKED:     The frontend cannot be published safely before 0031 is applied, because it selects the new emblem columns. Live assignment and emblem-upload proof also require real staff accounts and an approved detachment emblem.
 
 NEXT:        Apply 0031 and run its four proof columns, then test one admin emblem upload, one moderator detachment assignment and one ordinary-member denial before publishing the root site assets.
+
+## 2026-09-04 - Catalogue artwork controls and attendance tab (Codex)
+
+DONE:        Added admin artwork replacement to the catalogue detail panel. The replacement uploads first, changes the catalogue row only after storage succeeds, and removes the old object last. Rank and medal rows now carry drag handles and persist their order through the new atomic admin-only `reorder_personnel_items()` function in `site/db/0032_personnel_reorder.sql`; assigned member records keep the same item ids. Added the missing Attendance tab between Members and Evidence. Staff can choose a current-era event, compare RSVP intent with grouped Discord voice samples, and explicitly mark attended, no-show or clear through `mark_attendance()`. Unlinked Discord presence is shown separately and cannot be assigned to a guessed member.
+
+VERIFIED:    `npm run build --prefix site` completed with 118 modules. The built Admin bundle contains `reorder_personnel_items`, `Replace image`, `Human review` and `Voice samples`. `git diff --check` passed. Live anonymous probes returned HTTP 401 for both `event_presence_roll` and `mark_attendance`, so the attendance review and write paths remain closed to signed-out visitors.
+
+UNVERIFIED:  Migration 0032 has not been applied to production and its PostgreSQL function could not be executed locally because no Postgres service is running. The drag save, artwork replacement and Attendance tab have not been exercised through a real admin or moderator browser session. The Discord bot still does not write presence samples, so the tab may show only RSVPs until that sampler exists. Root production assets were not rebuilt, so these controls are not live.
+
+BLOCKED:     Publishing remains blocked on applying 0031 and 0032 first. Populated attendance evidence remains blocked on the Discord presence sampler.
+
+NEXT:        Apply migrations 0031 and 0032, run their proof queries, then test one real rank reorder, one artwork replacement and one staff attendance mark before publishing the root site assets.
