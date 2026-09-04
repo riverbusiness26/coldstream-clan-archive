@@ -2959,3 +2959,15 @@ UNVERIFIED:  No live member currently has a personnel assignment, so the assigne
 BLOCKED:     Nothing blocks the profile implementation. A populated live proof requires staff to upload the remaining artwork and assign a real rank or medal without inventing one for a member.
 
 NEXT:        Upload the approved rank and medal files through the Command Board, assign one real member record, then publish the built root assets and inspect that member's profile on desktop and phone.
+
+## 2026-09-04 - Detachment assignments and emblem-ready profiles (Codex)
+
+DONE:        Added the detachment workflow to the Command Board Members tab. Admins and moderators can place or remove a member through the existing audited `set_member_file()` path. Admins can create and rename detachments, set their short tag, and upload or replace a PNG, JPEG or WebP emblem. `site/db/0031_detachment_emblems.sql` adds optional emblem storage fields to the existing `company` structure and audits structure changes. The player profile now displays the assigned detachment name and tag beside its emblem, falling back to the Coldstream crest until that detachment has its own artwork.
+
+VERIFIED:    `npm run build --prefix site` completed with 118 modules. The production bundles contain `set_member_file`, `emblem_storage_key` and `personnel-artwork`. `git diff --check` passed. A live unsigned REST call to `set_member_file` returned HTTP 401, confirming anonymous visitors cannot change a member's detachment. Existing database policy and function definitions keep detachment structure admin-only while permitting admins and moderators through the audited member-file function.
+
+UNVERIFIED:  Migration 0031 has not been applied to production. Its PostgreSQL trigger has been reviewed locally but could not be executed against a local Postgres service because none is running. The new Command Board controls and populated emblem state have not been walked through with real admin, moderator and ordinary-member sessions. Root production assets were not rebuilt, so none of this is live yet.
+
+BLOCKED:     The frontend cannot be published safely before 0031 is applied, because it selects the new emblem columns. Live assignment and emblem-upload proof also require real staff accounts and an approved detachment emblem.
+
+NEXT:        Apply 0031 and run its four proof columns, then test one admin emblem upload, one moderator detachment assignment and one ordinary-member denial before publishing the root site assets.

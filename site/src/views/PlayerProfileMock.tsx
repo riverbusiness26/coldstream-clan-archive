@@ -21,6 +21,11 @@ interface PersonnelAssignment {
   assigned_at: string;
   note: string | null;
 }
+interface Detachment {
+  name: string;
+  tag: string | null;
+  emblem_storage_key: string | null;
+}
 
 const EVENT_STATS = [
   ['Events attended', 'Pending', 'Recorded events'],
@@ -36,7 +41,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
   const [avatarStyle, setAvatarStyle] = useState<'discord' | 'crest' | 'initials'>('discord');
   const [items, setItems] = useState<PersonnelItem[]>([]);
   const [assignments, setAssignments] = useState<PersonnelAssignment[]>([]);
-  const [companyName, setCompanyName] = useState<string | null>(null);
+  const [detachment, setDetachment] = useState<Detachment | null>(null);
   const [recordLoading, setRecordLoading] = useState(false);
   const [recordError, setRecordError] = useState<string | null>(null);
 
@@ -69,7 +74,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
     if (!supa || !me) {
       setItems([]);
       setAssignments([]);
-      setCompanyName(null);
+      setDetachment(null);
       setRecordLoading(false);
       setRecordError(null);
       return;
@@ -102,10 +107,11 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
 
       const companyId = memberResult.data?.company_id as string | null | undefined;
       if (companyId) {
-        const companyResult = await db.from('company').select('name').eq('id', companyId).maybeSingle();
-        if (!cancelled) setCompanyName((companyResult.data?.name as string | undefined) ?? null);
+        const companyResult = await db.from('company').select('name,tag,emblem_storage_key').eq('id', companyId).maybeSingle();
+        if (!cancelled && companyResult.error) setRecordError('The detachment record could not be opened.');
+        if (!cancelled) setDetachment((companyResult.data as Detachment | null) ?? null);
       } else {
-        setCompanyName(null);
+        setDetachment(null);
       }
       if (!cancelled) setRecordLoading(false);
     };
@@ -126,6 +132,9 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
     ? null
     : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
   const rankArtwork = artworkUrl(currentRank?.item);
+  const detachmentArtwork = !detachment?.emblem_storage_key || !supa
+    ? null
+    : supa.storage.from('personnel-artwork').getPublicUrl(detachment.emblem_storage_key).data.publicUrl;
   const assignedDate = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 
   async function unlink() {
@@ -200,8 +209,8 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
               {currentRank && <time dateTime={currentRank.assignment.assigned_at}>Awarded {assignedDate(currentRank.assignment.assigned_at)}</time>}
               {currentRank?.assignment.note && <blockquote>{currentRank.assignment.note}</blockquote>}
               <div className="service-detachment">
-                <img src="/crest.webp" alt="" />
-                <div><small>Detachment</small><b>{companyName ?? (connected ? 'Not assigned' : 'Shown after sign in')}</b></div>
+                <span>{detachmentArtwork ? <img src={detachmentArtwork} alt={`${detachment!.name} emblem`} /> : <img src="/crest.webp" alt="" />}</span>
+                <div><small>Detachment</small><b>{detachment?.name ?? (connected ? 'Not assigned' : 'Shown after sign in')}</b>{detachment?.tag && <em>{detachment.tag}</em>}</div>
               </div>
             </div>
           </div>

@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaAward, FaClipboardCheck, FaHistory, FaImage, FaMedal, FaNewspaper, FaSearch, FaShieldAlt, FaUsers } from 'react-icons/fa';
+import { FaAward, FaClipboardCheck, FaFlag, FaHistory, FaImage, FaMedal, FaNewspaper, FaSearch, FaShieldAlt, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 
 type Tab = 'catalogue' | 'assignments' | 'members' | 'evidence' | 'audit' | 'news';
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem { id: string; kind: ItemKind; name: string; description: string | null; storage_key: string; image_mime: string; active: boolean; sort_order: number; created_at: string }
-interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string }
+interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null }
+interface CompanyRow { id: string; name: string; tag: string | null; color: string | null; emblem_storage_key: string | null; emblem_image_mime: string | null; sort_order: number }
 interface AssignmentRow { id: string; member_id: string; item_id: string; item_kind: ItemKind; assigned_by: string; assigned_at: string; note: string | null; removed_at: string | null }
 interface AuditRow { id: number; actor_id: string | null; action: string; member_id: string | null; item_id: string | null; created_at: string }
 interface NewsRow { id: string; title: string; body: string; author: string | null; created_at: string }
@@ -15,7 +16,8 @@ const PREVIEW_ITEMS: PersonnelItem[] = [
   { id: 'preview-rank', kind: 'rank', name: 'Rank artwork', description: 'Upload the approved insignia and place it in the rank ladder.', storage_key: '', image_mime: 'image/webp', active: true, sort_order: 0, created_at: new Date().toISOString() },
   { id: 'preview-medal', kind: 'medal', name: 'Medal artwork', description: 'Medals stay in the catalogue and can be assigned to more than one member.', storage_key: '', image_mime: 'image/webp', active: true, sort_order: 1, created_at: new Date().toISOString() },
 ];
-const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member' }];
+const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member', company_id: null }];
+const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Coldstream Guards', tag: '2ndCS', color: null, emblem_storage_key: null, emblem_image_mime: null, sort_order: 0 }];
 const tabs: { id: Tab; label: string; icon: typeof FaImage }[] = [
   { id: 'catalogue', label: 'Catalogue', icon: FaImage },
   { id: 'assignments', label: 'Assignments', icon: FaAward },
@@ -34,6 +36,7 @@ export default function Admin({ me }: { me: Me | null }) {
   const [tab, setTab] = useState<Tab>('catalogue');
   const [items, setItems] = useState<PersonnelItem[]>([]);
   const [members, setMembers] = useState<MemberRow[]>([]);
+  const [companies, setCompanies] = useState<CompanyRow[]>([]);
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -45,6 +48,11 @@ export default function Admin({ me }: { me: Me | null }) {
   const [assignMembers, setAssignMembers] = useState<string[]>([]);
   const [assignItem, setAssignItem] = useState('');
   const [assignNote, setAssignNote] = useState('');
+  const [detachmentDrafts, setDetachmentDrafts] = useState<Record<string, string>>({});
+  const [companyEdit, setCompanyEdit] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [companyTag, setCompanyTag] = useState('');
+  const [companyFile, setCompanyFile] = useState<File | null>(null);
   const [itemName, setItemName] = useState('');
   const [itemKind, setItemKind] = useState<ItemKind>('rank');
   const [itemDescription, setItemDescription] = useState('');
@@ -68,20 +76,23 @@ export default function Admin({ me }: { me: Me | null }) {
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setAssignments([]); setAudit([]); setNews([]); setGalleryPending(0);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setNews([]); setGalleryPending(0);
       return;
     }
-    const [itemResult, memberResult, assignmentResult, auditResult, newsResult, galleryResult] = await Promise.all([
+    const [itemResult, memberResult, companyResult, assignmentResult, auditResult, newsResult, galleryResult] = await Promise.all([
       supa.from('personnel_item').select('id,kind,name,description,storage_key,image_mime,active,sort_order,created_at').order('kind').order('sort_order').order('name'),
-      supa.from('member').select('id,display_name,avatar_url,discord_id,role').order('display_name'),
+      supa.from('member').select('id,display_name,avatar_url,discord_id,role,company_id').order('display_name'),
+      supa.from('company').select('id,name,tag,color,emblem_storage_key,emblem_image_mime,sort_order').order('sort_order').order('name'),
       supa.from('personnel_assignment').select('id,member_id,item_id,item_kind,assigned_by,assigned_at,note,removed_at').is('removed_at', null).order('assigned_at', { ascending: false }),
       supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,created_at').order('created_at', { ascending: false }).limit(100),
       supa.from('news_item').select('id,title,body,author,created_at').order('created_at', { ascending: false }).limit(40),
       supa.from('gallery_item').select('id').eq('approved', false),
     ]);
-    const firstError = itemResult.error || memberResult.error || assignmentResult.error || auditResult.error;
+    const firstError = itemResult.error || memberResult.error || companyResult.error || assignmentResult.error || auditResult.error;
     if (firstError) { setError(/personnel_/i.test(firstError.message) ? 'The Command Board database migration has not been applied yet.' : firstError.message); return; }
     setItems((itemResult.data ?? []) as PersonnelItem[]); setMembers((memberResult.data ?? []) as MemberRow[]);
+    setCompanies((companyResult.data ?? []) as CompanyRow[]);
+    setDetachmentDrafts(Object.fromEntries(((memberResult.data ?? []) as MemberRow[]).map((member) => [member.id, member.company_id ?? ''])));
     setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]);
     setNews((newsResult.data ?? []) as NewsRow[]); setGalleryPending(galleryResult.data?.length ?? 0);
   }, []);
@@ -95,11 +106,13 @@ export default function Admin({ me }: { me: Me | null }) {
 
   const itemById = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
   const memberById = useMemo(() => new Map(members.map((member) => [member.id, member])), [members]);
+  const companyById = useMemo(() => new Map(companies.map((company) => [company.id, company])), [companies]);
   const currentItem = items.find((item) => item.id === selectedItem) ?? null;
   useEffect(() => { setConfirmDelete(null); }, [selectedItem]);
   const visibleItems = items.filter((item) => catalogueFilter === 'all' || item.kind === catalogueFilter);
   const visibleMembers = members.filter((member) => member.display_name.toLowerCase().includes(memberSearch.toLowerCase()));
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
+  const companyArtworkUrl = (company: CompanyRow) => !company.emblem_storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(company.emblem_storage_key).data.publicUrl;
 
   async function confirmDiscordRole() {
     if (!supa) return true;
@@ -187,6 +200,75 @@ export default function Admin({ me }: { me: Me | null }) {
     setDone(result.data ? 'Assignment removed.' : 'That assignment was already removed.'); await load();
   }
 
+  async function saveMemberDetachment(memberId: string) {
+    setError(null); setDone(null);
+    const companyId = detachmentDrafts[memberId] ?? '';
+    if (!supa) { setDone('Detachment preview complete. Nothing was saved.'); return; }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    const result = await supa.rpc('set_member_file', {
+      target_member: memberId,
+      new_status: null,
+      new_company: companyId || null,
+      new_notes: null,
+      clear_company: !companyId,
+    });
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    setDone(companyId ? 'Detachment assigned.' : 'Detachment cleared.');
+    await load();
+  }
+
+  function openCompanyEditor(id: string) {
+    const company = companies.find((row) => row.id === id);
+    setCompanyEdit(id);
+    setCompanyName(company?.name ?? '');
+    setCompanyTag(company?.tag ?? '');
+    setCompanyFile(null);
+  }
+
+  async function saveCompany() {
+    setError(null); setDone(null);
+    if (!canUpload) { setError('Only admins can change detachments or their emblems.'); return; }
+    if (!companyName.trim()) { setError('Give the detachment a name.'); return; }
+    if (companyFile && !['image/png', 'image/jpeg', 'image/webp'].includes(companyFile.type)) { setError('Use a PNG, JPEG or WebP emblem.'); return; }
+    if (companyFile && companyFile.size > 5 * 1024 * 1024) { setError('The emblem must be 5 MB or smaller.'); return; }
+    if (!supa) { setDone('Detachment preview complete. Nothing was saved.'); return; }
+    if (!await confirmDiscordRole()) return;
+
+    const db = supa;
+    const existing = companies.find((row) => row.id === companyEdit);
+    let newStorageKey: string | null = null;
+    setBusy(true);
+    if (companyFile) {
+      const extension = companyFile.type === 'image/png' ? 'png' : companyFile.type === 'image/jpeg' ? 'jpg' : 'webp';
+      newStorageKey = `detachments/${crypto.randomUUID()}.${extension}`;
+      const upload = await db.storage.from('personnel-artwork').upload(newStorageKey, companyFile, { contentType: companyFile.type, upsert: false });
+      if (upload.error) { setBusy(false); setError(upload.error.message); return; }
+    }
+
+    const payload: Record<string, string | null> = {
+      name: companyName.trim(),
+      tag: companyTag.trim() || null,
+      updated_at: new Date().toISOString(),
+    };
+    if (newStorageKey && companyFile) {
+      payload.emblem_storage_key = newStorageKey;
+      payload.emblem_image_mime = companyFile.type;
+    }
+    const result = existing
+      ? await db.from('company').update(payload).eq('id', existing.id).select('id').single()
+      : await db.from('company').insert(payload).select('id').single();
+    if (result.error) {
+      if (newStorageKey) await db.storage.from('personnel-artwork').remove([newStorageKey]);
+      setBusy(false); setError(result.error.message); return;
+    }
+    if (newStorageKey && existing?.emblem_storage_key) await db.storage.from('personnel-artwork').remove([existing.emblem_storage_key]);
+    setBusy(false); setCompanyEdit(result.data.id); setCompanyFile(null);
+    setDone(existing ? 'Detachment saved.' : 'Detachment added.');
+    await load();
+  }
+
   async function saveNews() {
     setError(null); setDone(null);
     const title = newsDraft.title.trim(); const body = newsDraft.body.trim();
@@ -240,7 +322,48 @@ export default function Admin({ me }: { me: Me | null }) {
         <div className="command-card"><div className="command-section-head"><div><span>Current</span><h2>Active assignments</h2></div><b>{assignments.length}</b></div><div className="assignment-list">{assignments.length === 0 && <div className="command-empty">No ranks or medals have been assigned yet.</div>}{assignments.map((row) => <article key={row.id}><span className={`assignment-mark ${row.item_kind}`}>{row.item_kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><div><b>{itemById.get(row.item_id)?.name ?? 'Unknown item'}</b><span>{memberById.get(row.member_id)?.display_name ?? 'Unknown member'} · {date(row.assigned_at)}</span>{row.note && <small>{row.note}</small>}</div><button onClick={() => removeAssignment(row.id)}>Remove</button></article>)}</div></div>
       </section>}
 
-      {tab === 'members' && <section className="command-card"><div className="command-section-head"><div><span>Discord roster</span><h2>Members</h2></div><b>{members.length}</b></div><label className="command-search"><FaSearch /><input value={memberSearch} onChange={(event) => setMemberSearch(event.target.value)} placeholder="Search members" /></label><div className="member-command-list">{visibleMembers.map((member) => { const records = assignments.filter((row) => row.member_id === member.id); const rank = records.find((row) => row.item_kind === 'rank'); return <article key={member.id}><span className="member-avatar">{member.avatar_url ? <img src={member.avatar_url} alt="" /> : member.display_name.slice(0, 1).toUpperCase()}</span><div><b>{member.display_name}</b><span>{member.role} · {member.discord_id ? 'Discord linked' : 'Discord not linked'}</span></div><div className="member-record"><span>{rank ? itemById.get(rank.item_id)?.name : 'No rank'}</span><span>{records.filter((row) => row.item_kind === 'medal').length} medals</span></div><button onClick={() => { setAssignMembers([member.id]); setTab('assignments'); }}>Assign</button></article>; })}</div></section>}
+      {tab === 'members' && <section className="command-panel-grid members-grid">
+        <div className="command-card">
+          <div className="command-section-head"><div><span>Discord roster</span><h2>Members</h2></div><b>{members.length}</b></div>
+          <label className="command-search"><FaSearch /><input value={memberSearch} onChange={(event) => setMemberSearch(event.target.value)} placeholder="Search members" /></label>
+          <div className="member-command-list">{visibleMembers.map((member) => {
+            const records = assignments.filter((row) => row.member_id === member.id);
+            const rank = records.find((row) => row.item_kind === 'rank');
+            const currentCompany = member.company_id ? companyById.get(member.company_id) : null;
+            return <article key={member.id}>
+              <span className="member-avatar">{member.avatar_url ? <img src={member.avatar_url} alt="" /> : member.display_name.slice(0, 1).toUpperCase()}</span>
+              <div className="member-summary"><b>{member.display_name}</b><span>{member.role} · {member.discord_id ? 'Discord linked' : 'Discord not linked'}</span><small>{currentCompany?.name ?? 'No detachment'}</small></div>
+              <div className="member-record"><span>{rank ? itemById.get(rank.item_id)?.name : 'No rank'}</span><span>{records.filter((row) => row.item_kind === 'medal').length} medals</span></div>
+              <div className="member-detachment-control">
+                <select aria-label={`Detachment for ${member.display_name}`} value={detachmentDrafts[member.id] ?? ''} onChange={(event) => setDetachmentDrafts((current) => ({ ...current, [member.id]: event.target.value }))}>
+                  <option value="">No detachment</option>
+                  {companies.map((company) => <option value={company.id} key={company.id}>{company.name}{company.tag ? ` (${company.tag})` : ''}</option>)}
+                </select>
+                <button disabled={busy || (detachmentDrafts[member.id] ?? '') === (member.company_id ?? '')} onClick={() => saveMemberDetachment(member.id)}>Save detachment</button>
+                <button onClick={() => { setAssignMembers([member.id]); setTab('assignments'); }}>Rank or medal</button>
+              </div>
+            </article>;
+          })}</div>
+        </div>
+
+        <aside className="command-card detachment-card">
+          <div className="command-section-head"><div><span>Unit structure</span><h2>Detachments</h2></div><FaFlag /></div>
+          <div className="detachment-list">{companies.map((company) => {
+            const emblem = companyArtworkUrl(company);
+            return <button className={companyEdit === company.id ? 'active' : ''} key={company.id} onClick={() => openCompanyEditor(company.id)}>
+              <span>{emblem ? <img src={emblem} alt="" /> : <FaShieldAlt />}</span>
+              <div><b>{company.name}</b><small>{company.tag || 'No tag'} · {members.filter((member) => member.company_id === company.id).length} members</small></div>
+            </button>;
+          })}</div>
+          {canUpload ? <div className="command-form detachment-form">
+            <label>Detachment<select value={companyEdit} onChange={(event) => openCompanyEditor(event.target.value)}><option value="">Add a detachment</option>{companies.map((company) => <option value={company.id} key={company.id}>{company.name}</option>)}</select></label>
+            <label>Name<input value={companyName} maxLength={80} onChange={(event) => setCompanyName(event.target.value)} placeholder="Detachment name" /></label>
+            <label>Tag<input value={companyTag} maxLength={12} onChange={(event) => setCompanyTag(event.target.value)} placeholder="Optional short tag" /></label>
+            <label className="command-file"><span>{companyEdit ? 'Leave empty to keep the current emblem.' : 'Optional emblem.'} PNG, JPEG or WebP, up to 5 MB</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setCompanyFile(event.target.files?.[0] ?? null)} /></label>
+            <button className="command-primary" disabled={busy} onClick={saveCompany}>{busy ? 'Saving' : companyEdit ? 'Save detachment' : 'Add detachment'}</button>
+          </div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>Moderators can assign an existing detachment. Admins manage the structure and emblems.</p></div>}
+        </aside>
+      </section>}
 
       {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Future profile feature</span><h2>Evidence Queue</h2></div><span className="future-pill">Intake closed</span></div><div className="evidence-intro"><FaClipboardCheck /><div><h3>The foundation is in place</h3><p>Member submissions will land here for staff review. Nothing can be submitted yet, and no unverified claim will appear on a profile.</p></div></div><div className="evidence-types"><article><FaAward /><span>Event record</span><h3>Event kills</h3><p>Members will name the event, report the result and attach proof.</p></article><article><FaShieldAlt /><span>Server record</span><h3>Public server kills</h3><p>Claims will include the server, game and supporting screenshot.</p></article><article><FaImage /><span>Proof</span><h3>Screenshots</h3><p>Images will be stored separately from rank and medal artwork.</p></article></div><div className="evidence-flow"><span>Member submits</span><i /><span>Staff reviews</span><i /><span>Accepted record</span><i /><span>Player profile</span></div></section>}
 
