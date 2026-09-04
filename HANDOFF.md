@@ -2935,3 +2935,15 @@ UNVERIFIED:  There is no attendance-review screen in the React app and the Disco
 BLOCKED:     Nothing blocks the live database foundation. A visible review workflow requires the staff screen and the bot sampler to be built.
 
 NEXT:        Build the Command Board attendance-review screen against `event_presence_roll` and `event_presence_window`, then add the Discord bot presence sampler without posting test messages unless River approves them.
+
+## 2026-09-04 - Failure alert workflow parser repair (Codex)
+
+DONE:        Repaired `.github/workflows/alert-failures.yml` after GitHub rejected its first trigger definition. GitHub requires `workflow_run.workflows`; the workflow now names every current repository workflow, including the Pages deployment. The comment beside the trigger records that this list must be reviewed when a workflow is added.
+
+VERIFIED:    GitHub recognized the workflow as `Alert on failure`. Runs 3 through 6 completed successfully after the repair. The inspected successful job completed its transition check and skipped `Post to Discord`, proving the quiet path without sending a message. The automatic progress-board refresh completed successfully and advanced `main` to `dcb9e92`.
+
+UNVERIFIED:  The Discord webhook path has not been exercised, so the presence or validity of `DISCORD_ALERT_WEBHOOK` remains unknown. No test message was sent.
+
+BLOCKED:     Nothing.
+
+NEXT:        Build the visible attendance-review screen and the Discord presence sampler. Test alert delivery only if River explicitly asks for a Discord test message.
