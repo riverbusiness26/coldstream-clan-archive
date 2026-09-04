@@ -314,7 +314,8 @@ grant execute on function mark_attendance(uuid, uuid, text) to authenticated;
 
 -- The existing event_attendance view counts intent only. Confirmed turnout is
 -- the number anybody actually wants, so it goes in the same place.
-create or replace view event_attendance as
+create or replace view event_attendance
+with (security_invoker = true) as
   select event_id,
          count(*) filter (where status = 'going') as going,
          count(*) filter (where status = 'maybe') as maybe,
@@ -388,7 +389,8 @@ create index if not exists personnel_audit_entity on personnel_audit(entity, cre
 
 update personnel_audit set entity = split_part(action, '_', 1) where entity is null;
 
-create or replace view audit_event as
+create or replace view audit_event
+with (security_invoker = true) as
   select id, actor_id, action, member_id, item_id, entity, entity_id, detail, created_at
   from personnel_audit;
 
