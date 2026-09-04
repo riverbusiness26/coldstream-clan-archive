@@ -2861,3 +2861,11 @@ VERIFIED:    The website production build, Discord sync function check and patch
 UNVERIFIED:  A full browser walkthrough with one real Discord moderator and one real ordinary member is still outstanding. Both members currently present in production are admins, so the database rules are proven live but the two remaining role journeys cannot be honestly claimed yet.
 BLOCKED:     Real role walkthroughs require one moderator and one ordinary member to sign in through Discord.
 NEXT:        Have one moderator and one ordinary member sign in, then confirm the moderator can assign and remove a test rank but cannot upload artwork, and that the ordinary member can view profiles but cannot perform either staff action.
+
+## 2026-09-03 - Primary website checkout synchronized (Codex)
+
+DONE:        Fast-forwarded the primary main checkout from 3c92ac2 to 5823358. No unpublished tracked website work remained. Left the untracked Discord alert workflow, recovery bundles and stale Git lock debris untouched.
+VERIFIED:    `git push origin main` printed `Everything up-to-date`. After `npm ci --prefix site`, `npm run build --prefix site` completed with 117 modules transformed. `node scripts/status.mjs` reported the checkout, live domain, sign in, database and every monitored workflow OK at 5823358.
+UNVERIFIED:  The untracked failure-alert workflow was not validated or activated because it creates a new Discord notification path. The production-only npm audit stalled without output and was stopped after a bounded wait.
+BLOCKED:     Nothing.
+NEXT:        Decide explicitly whether to review and activate `.github/workflows/alert-failures.yml`; otherwise leave the recovery folders uncommitted.
