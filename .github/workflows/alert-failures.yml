@@ -1,0 +1,126 @@
+# Tells someone when a workflow breaks, without being asked.
+#
+# This exists because steam-presence.yml failed 322 times over six days and
+# nothing said a word. It was found by a human happening to run status.mjs.
+# That is the second time: server-status.yml reported red through two months
+# of green runs and left a board item wrongly blocked. status.mjs is a good
+# tool that only works when someone remembers to point it at the repo.
+#
+# The hard part is not noticing, it is not crying wolf. house-rules.yml puts
+# it well: an ignored check is worse than no check, because it looks like
+# coverage. steam-presence runs every five minutes, so alerting on the state
+# would have posted 288 messages a day and been muted inside an hour.
+#
+# So this alerts on the EDGE, not the level. Green to red posts once. Red to
+# red says nothing. Red to green posts the recovery, so the all clear arrives
+# the same way the alarm did. A six day outage is one message, not 1,700.
+#
+# There is deliberately no list of workflows to keep in step here. The
+# `workflows:` filter is omitted so this covers every workflow in the repo,
+# including ones added after today. status.mjs learned that lesson first, and
+# its comments say so: a hand maintained list is how the dead poller hid.
+#
+# Needs one repository secret: DISCORD_ALERT_WEBHOOK, a Discord webhook URL
+# for the channel that should receive these. Server Settings, Integrations,
+# Webhooks, New Webhook, Copy Webhook URL.
+
+name: Alert on failure
+
+on:
+  workflow_run:
+    types: [completed]
+
+# Read-only. This job inspects run history and posts outward, it never writes
+# to the repository.
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    # Never alert about itself. Without this, a failed alert run triggers
+    # another alert run, and a broken webhook becomes an infinite loop that
+    # burns the Actions quota of a repo nobody is watching.
+    if: github.event.workflow_run.name != 'Alert on failure'
+
+    steps:
+      - name: Decide whether this is a transition worth reporting
+        id: edge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WF_ID: ${{ github.event.workflow_run.workflow_id }}
+          RUN_NUM: ${{ github.event.workflow_run.run_number }}
+          NOW: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          set -euo pipefail
+
+          # Only these three conclusions count as a state. A cancelled or
+          # skipped run is not evidence of health either way, so it is
+          # excluded from the history rather than treated as a recovery.
+          # Otherwise one manual cancel mid outage fakes an all clear.
+          prev=$(gh api \
+            "/repos/${GITHUB_REPOSITORY}/actions/workflows/${WF_ID}/runs?per_page=30&status=completed" \
+            --jq "[.workflow_runs[]
+                   | select(.run_number < ${RUN_NUM})
+                   | select(.conclusion == \"success\" or .conclusion == \"failure\" or .conclusion == \"timed_out\")]
+                  | sort_by(.run_number) | last | .conclusion // \"none\"")
+
+          echo "previous state: ${prev}, this run: ${NOW}"
+
+          is_bad() { [ "$1" = "failure" ] || [ "$1" = "timed_out" ]; }
+
+          verdict=quiet
+          if is_bad "${NOW}" && ! is_bad "${prev}"; then
+            verdict=broke
+          elif [ "${NOW}" = "success" ] && is_bad "${prev}"; then
+            verdict=recovered
+          fi
+
+          echo "verdict=${verdict}" >> "$GITHUB_OUTPUT"
+          echo "previous=${prev}" >> "$GITHUB_OUTPUT"
+          echo "verdict: ${verdict}"
+
+      - name: Post to Discord
+        if: steps.edge.outputs.verdict != 'quiet'
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_ALERT_WEBHOOK }}
+          VERDICT: ${{ steps.edge.outputs.verdict }}
+          WF_NAME: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${WEBHOOK}" ]; then
+            echo "DISCORD_ALERT_WEBHOOK is not set as a repository secret."
+            echo "Settings, Secrets and variables, Actions, New repository secret."
+            echo "The value is a Discord webhook URL for the alert channel."
+            exit 1
+          fi
+
+          if [ "${VERDICT}" = "broke" ]; then
+            title="${WF_NAME} is failing"
+            colour=15548997
+            body="It was passing before this run. It will not post again until it recovers, so treat this as the only notice."
+          else
+            title="${WF_NAME} is green again"
+            colour=5763719
+            body="Back to passing after a failing run."
+          fi
+
+          # Built with jq rather than string interpolation. A workflow name
+          # with a quote in it would otherwise produce invalid JSON, and the
+          # alert would fail silently at exactly the moment it is needed.
+          payload=$(jq -nc \
+            --arg t "$title" --arg d "$body" --arg u "$RUN_URL" --argjson c "$colour" \
+            '{embeds:[{title:$t, description:$d, url:$u, color:$c}]}')
+
+          code=$(curl -sS --max-time 30 -o /dev/null -w '%{http_code}' \
+            -H 'Content-Type: application/json' -d "$payload" "$WEBHOOK")
+
+          # Discord answers 204 with no body on success.
+          if [ "$code" != "204" ] && [ "$code" != "200" ]; then
+            echo "Discord returned $code"
+            exit 1
+          fi
+          echo "posted: $title"
