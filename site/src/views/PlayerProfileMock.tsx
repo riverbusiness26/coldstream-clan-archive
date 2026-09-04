@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
 import { Icon } from './Home';
+import { beginSteamLink, clearSteamAssertion, completeSteamLink, pendingSteamAssertion, unlinkSteam } from '../lib/steamLink';
 
 const EVENT_STATS = [
   ['Events attended', 'Pending', 'Recorded events'],
@@ -11,9 +12,42 @@ const EVENT_STATS = [
   ['Last event', 'Pending', 'Waiting for first record'],
 ] as const;
 
-export default function PlayerProfileMock({ me, signIn }: { me: Me | null; signIn: () => void }) {
+export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | null; signIn: () => void; refresh: () => void }) {
   const connected = Boolean(me);
   const [avatarStyle, setAvatarStyle] = useState<'discord' | 'crest' | 'initials'>('discord');
+
+  const [steamBusy, setSteamBusy] = useState(false);
+  const [steamMsg, setSteamMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  // Finishing a link the member started before they left for Steam.
+  //
+  // Held until `me` has loaded rather than run on mount, because the member
+  // row is what the function writes to and it arrives a moment after the page
+  // does. The ref is what keeps this to one attempt: `me` changing from null
+  // to a member is a second render, and Steam refuses a replayed assertion,
+  // so without it a successful link reports itself as a failure straight after.
+  const handled = useRef(false);
+  useEffect(() => {
+    if (handled.current || !me) return;
+    const params = pendingSteamAssertion();
+    if (!params) return;
+    handled.current = true;
+    clearSteamAssertion();
+    setSteamBusy(true);
+    completeSteamLink(params).then((result) => {
+      setSteamBusy(false);
+      setSteamMsg({ ok: result.ok, text: result.ok ? 'Steam account linked.' : (result.error ?? 'That did not work.') });
+      if (result.ok) refresh();
+    });
+  }, [me, refresh]);
+
+  async function unlink() {
+    setSteamBusy(true);
+    const result = await unlinkSteam();
+    setSteamBusy(false);
+    setSteamMsg({ ok: result.ok, text: result.ok ? 'Steam account unlinked.' : (result.error ?? 'That did not work.') });
+    if (result.ok) refresh();
+  }
 
   return (
     <main className="player-portal" aria-labelledby="player-portal-title">
@@ -46,6 +80,20 @@ export default function PlayerProfileMock({ me, signIn }: { me: Me | null; signI
             <button className={avatarStyle === 'initials' ? 'active' : ''} type="button" onClick={() => setAvatarStyle('initials')}><b>CG</b><span>Initials</span></button>
           </div>
           <button className="portal-secondary" type="button">Upload custom avatar</button>
+
+          <div className="portal-field">
+            <b>Steam account</b>
+            <span>{me?.steam_id64
+              ? 'Linked. Your Steam presence and game statistics can find this record.'
+              : 'Optional. Link it and your Steam presence and game statistics attach to this record.'}</span>
+            {connected
+              ? me!.steam_id64
+                ? <button type="button" onClick={unlink} disabled={steamBusy}>{steamBusy ? 'Working' : 'Unlink'}</button>
+                : <button type="button" onClick={beginSteamLink} disabled={steamBusy}>{steamBusy ? 'Working' : 'Link Steam'}</button>
+              : <button type="button" disabled>Sign in first</button>}
+          </div>
+          {steamMsg && <p className={steamMsg.ok ? 'portal-empty' : 'ferr'}>{steamMsg.text}</p>}
+          <p className="portal-empty">Signing in is Discord only. Steam is a link on this record, never a way in.</p>
         </section>
 
         <section className="portal-panel portal-rank" aria-labelledby="rank-title">

@@ -270,7 +270,7 @@ export default function ProfileLive({
               </button>
             </div>
           ) : (
-            <div className="note">Sign in through Steam to post on this wall.</div>
+            <div className="note">Sign in through Discord to post on this wall.</div>
           )}
 
           {wall?.length === 0 && (

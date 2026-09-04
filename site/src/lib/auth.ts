@@ -1,6 +1,6 @@
 // Session state. Discord is the community identity. Steam remains a separate
 // optional game identity for statistics already collected by the site.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { supa, DEMO } from './supa';
 
 export interface Me {
@@ -46,6 +46,22 @@ export function useAuth() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
+  // Re-read the member row without re-running the Discord role sync.
+  //
+  // Something that changes the row rather than the session, such as linking a
+  // Steam account, leaves `me` stale: there is no auth state change to react
+  // to, so nothing would otherwise refresh it and the page would keep showing
+  // the state from before the change.
+  const refresh = useCallback(async () => {
+    if (!supa) return;
+    const { data: { session } } = await supa.auth.getSession();
+    if (!session) return;
+    const { data } = await supa.from('member')
+      .select('id, display_name, avatar_url, steam_id64, discord_id, role')
+      .eq('auth_user_id', session.user.id).maybeSingle();
+    if (data) setMe(data as Me);
+  }, []);
+
   const signIn = async () => {
     if (DEMO) {
       setMe({
@@ -70,5 +86,5 @@ export function useAuth() {
     supa!.auth.signOut();
   };
 
-  return { me, signIn, signOut, demo: DEMO, orphanSession };
+  return { me, signIn, signOut, refresh, demo: DEMO, orphanSession };
 }

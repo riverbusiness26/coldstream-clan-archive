@@ -1,7 +1,7 @@
 // The roster, now a room in the Archive. Every person in the record since
 // 2011: when they were in the group (the span of their dated records), the
 // events they called, and the games they played with us. Provenance one click
-// away, and deliberately not connected to Steam sign-in.
+// away, and deliberately not connected to sign-in.
 //
 // Closed by default, 28 Aug 2026, on River's call. 384 names arriving at once
 // is a wall, not a record: you cannot read it, and it buried every other

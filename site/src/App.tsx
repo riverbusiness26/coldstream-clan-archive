@@ -37,7 +37,7 @@ const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
 const AUTH_RETURN = sessionStorage.getItem('coldstream-auth-return') || '#/home';
 
 export default function App() {
-  const { me, signIn, signOut, demo, orphanSession } = useAuth();
+  const { me, signIn, signOut, refresh, demo, orphanSession } = useAuth();
 
   // Feedback the moment the session lands or the sign in fails.
   const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string; ms?: number } | null>(null);
@@ -149,7 +149,7 @@ export default function App() {
       <SiteNav active={view === 'gallery' ? 'Media' : view === 'servers' ? 'Games' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'About' : ''} />
 
       <div className="cg-account-strip">
-        {me ? <><span>Signed in as <b>{me.display_name}</b></span>{(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}<button type="button" onClick={signOut}>Sign out</button></> : <button type="button" onClick={signIn}>Sign in through Discord</button>}
+        {me ? <><span>Signed in as <b>{me.display_name}</b></span><a href="#/player-profile">My profile</a>{(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}<button type="button" onClick={signOut}>Sign out</button></> : <button type="button" onClick={signIn}>Sign in through Discord</button>}
       </div>
 
       <div className="cg-page-stage">
@@ -160,7 +160,7 @@ export default function App() {
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
       {view === 'admin' && <Admin me={me} />}
-      {view === 'player-profile' && <PlayerProfileMock me={me} signIn={signIn} />}
+      {view === 'player-profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
       </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       </div>

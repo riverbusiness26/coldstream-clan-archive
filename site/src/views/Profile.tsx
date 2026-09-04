@@ -63,7 +63,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
   const stats: Stats = STATS[personKey] ?? { forumPosts: 0, announcements: 0, shots: [] };
   const shots = stats.shots.map((i) => SHOTS[i]).filter(Boolean);
 
-  // Not on the roster, but signed in through Steam: a real member with no
+  // Known by a linked Steam ID but not on the roster: a real member with no
   // archive behind them yet. That is a page worth having rather than a dead
   // link, and it will fill in as they turn up in screenshots and events.
   if (!person && bySteam) {
@@ -92,7 +92,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
             </div>
           </div>
           <div className="note">
-            This member signed in through Steam and is not in the recovered
+            This member linked their Steam account and is not in the recovered
             archive, which only reaches as far as the records we could get
             back. Nothing is missing here: there is simply nothing to show
             yet. They will appear in the record as they turn up in events and

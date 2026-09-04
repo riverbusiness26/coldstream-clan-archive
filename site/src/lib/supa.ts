@@ -9,4 +9,3 @@ const anon = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 export const supa: SupabaseClient | null = url && anon ? createClient(url, anon) : null;
 export const DEMO = !supa;
 
-export const STEAM_LOGIN_URL = url ? `${url}/functions/v1/steam-auth` : null;
