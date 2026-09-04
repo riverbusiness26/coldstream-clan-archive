@@ -2853,3 +2853,11 @@ BLOCKED:     Nothing.
 NEXT:        Officer and command ranks once that sheet arrives. Then attendance.
 
 Worth knowing: the ladder seed is one `do $$ ... $$` block rather than a bare temporary table. A temp table declared `on commit drop` does not survive between statements when the script is sent a statement at a time, which is how psql and some editors run it, and the first version failed on exactly that.
+
+## 2026-09-03 - Orderly Room production reconciliation (Codex)
+
+DONE:        Reconciled Claude's 0027 Orderly Room schema and real twelve-rank Line Infantry ladder onto the current website line. Added and applied 0028 so `audit_event` and `event_attendance` use the querying member's permissions, and so only moderators or admins can append manual audit entries. The future evidence-submission tables remain a closed skeleton for event kills, public-server kills and proof screenshots.
+VERIFIED:    The website production build, Discord sync function check and patch hygiene all pass locally. Production returned `true` for caller-permission mode on both views. Six live catalogue, assignment, artwork, RPC and anonymous-access checks all returned `true`: admins alone can create catalogue artwork records and upload files, while moderators and admins can assign or remove ranks and medals. The live ladder contains twelve ranks with Volunteer as the default recruit.
+UNVERIFIED:  A full browser walkthrough with one real Discord moderator and one real ordinary member is still outstanding. Both members currently present in production are admins, so the database rules are proven live but the two remaining role journeys cannot be honestly claimed yet.
+BLOCKED:     Real role walkthroughs require one moderator and one ordinary member to sign in through Discord.
+NEXT:        Have one moderator and one ordinary member sign in, then confirm the moderator can assign and remove a test rank but cannot upload artwork, and that the ordinary member can view profiles but cannot perform either staff action.
