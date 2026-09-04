@@ -1293,7 +1293,7 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 @media (max-width:1080px){.command-workspace{grid-template-columns:300px 1fr}.catalogue-detail{border-right:0}.catalogue-upload{grid-column:1/-1;border-top:1px solid var(--cg-hairline)}.catalogue-upload .command-form{grid-template-columns:1fr 1fr}.catalogue-upload .command-form .command-file,.catalogue-upload .command-form button{grid-column:1/-1}}
 @media (max-width:760px){.command-board{width:min(100% - 22px,1460px);padding-top:22px}.command-head{align-items:flex-start;flex-direction:column}.command-session{width:100%}.command-tabs{justify-content:flex-start}.command-tabs button{min-width:128px;padding:0 12px}.command-workspace,.command-panel-grid{grid-template-columns:1fr}.catalogue-list,.catalogue-detail{border-right:0;border-bottom:1px solid var(--cg-hairline)}.catalogue-scroll{max-height:320px}.catalogue-detail{padding:24px 18px}.catalogue-art{height:190px}.catalogue-upload{grid-column:auto}.catalogue-upload .command-form,.command-form.horizontal{grid-template-columns:1fr}.catalogue-upload .command-form .command-file,.catalogue-upload .command-form button,.command-form.horizontal label:last-of-type,.command-form.horizontal button{grid-column:auto}.catalogue-facts{grid-template-columns:1fr}.catalogue-facts div{border-right:0;border-bottom:1px solid var(--cg-hairline)}.catalogue-facts div:last-child{border-bottom:0}.member-command-list article{align-items:flex-start;flex-wrap:wrap}.member-record{order:3;flex-basis:100%!important}.evidence-types{grid-template-columns:1fr}.evidence-types article{min-height:0;border-right:0;border-bottom:1px solid var(--cg-hairline)}.evidence-flow{align-items:stretch;flex-direction:column}.evidence-flow i{width:1px;height:18px;margin-left:24px}}
 
-/* Discord player profile concept. This route is a visual prototype only. */
+/* Discord player profile. */
 .player-portal{width:min(calc(100% - 36px),var(--cg-max));margin:0 auto;color:var(--cg-cream)}
 .portal-preview-note{min-height:42px;margin-bottom:14px;padding:0 15px;display:flex;align-items:center;gap:12px;border:1px solid rgba(88,101,242,.42);background:rgba(88,101,242,.08);font:500 11px/1.4 var(--cg-body)}.portal-preview-note b{color:#aab2ff;text-transform:uppercase;letter-spacing:.1em}.portal-preview-note span{color:var(--cg-muted)}
 .portal-account{min-height:190px;padding:28px;display:grid;grid-template-columns:126px minmax(0,1fr) auto;align-items:center;gap:26px;border:1px solid var(--cg-hairline);background:linear-gradient(100deg,rgba(12,15,20,.98),rgba(19,23,31,.88)),url('/gallery/7a32547d74.jpg') center/cover;box-shadow:0 22px 55px rgba(0,0,0,.4)}
@@ -1444,3 +1444,34 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
  */
 .catalogue-art{position:relative}
 .catalogue-art img{position:absolute;top:18px;left:18px;width:calc(100% - 36px);height:calc(100% - 36px);max-width:none;max-height:none;object-fit:contain}
+
+/* A rank is the main earned object on a player's record. The source artwork
+ * includes tall shoulder boards and square command insignia, so the stage has
+ * a fixed visual height and contains either shape without cropping it. Medals
+ * use the same rule at a smaller scale and never compete with the current rank. */
+.service-rank-showcase{min-height:286px;margin-top:18px;display:grid;grid-template-columns:minmax(190px,42%) minmax(0,1fr);overflow:hidden;border:1px solid rgba(198,160,92,.32);background:linear-gradient(125deg,#080a0d,#11151b 68%,#0b0e12)}
+.service-rank-art{position:relative;min-height:286px;padding:20px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 44%,rgba(145,23,24,.24),transparent 58%),linear-gradient(145deg,#11141a,#07090c)}
+.service-rank-art:after{content:'';position:absolute;inset:12px;border:1px solid rgba(198,160,92,.15);pointer-events:none}
+.service-rank-art>img{position:relative;z-index:1;width:100%;height:242px;object-fit:contain;filter:drop-shadow(0 16px 16px rgba(0,0,0,.72))}
+.service-rank-placeholder{position:relative;z-index:1;display:grid;place-items:center;gap:12px;color:var(--cg-muted);font:600 9px/1 var(--cg-body);letter-spacing:.12em;text-transform:uppercase}
+.service-rank-placeholder img{width:78px;height:78px;object-fit:contain;opacity:.38;filter:grayscale(.35)}
+.service-rank-copy{min-width:0;padding:25px 22px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--cg-rule)}
+.service-rank-copy>span,.service-medals-head span{color:var(--cg-gold);font:600 9px/1 var(--cg-body);letter-spacing:.14em;text-transform:uppercase}
+.service-rank-copy h3{margin:8px 0 10px;color:var(--cg-cream);font:700 clamp(25px,2.2vw,34px)/.98 var(--cg-display);letter-spacing:.035em;text-transform:uppercase}
+.service-rank-copy>p{margin:0;color:var(--cg-muted);font:400 11px/1.55 var(--cg-body)}
+.service-rank-copy>time{margin-top:12px;color:var(--cg-gold-bright);font:600 9px/1 var(--cg-body);letter-spacing:.08em;text-transform:uppercase}
+.service-rank-copy blockquote{margin:12px 0 0;padding:0 0 0 12px;border-left:2px solid rgba(198,160,92,.45);color:var(--cg-muted);font:italic 11px/1.45 var(--cg-body)}
+.service-detachment{margin-top:auto;padding-top:18px;display:flex;align-items:center;gap:11px}
+.service-detachment>img{width:38px;height:38px;object-fit:contain;opacity:.85}
+.service-detachment div{min-width:0}.service-detachment small{display:block;color:var(--cg-muted);font:600 8px/1 var(--cg-body);letter-spacing:.11em;text-transform:uppercase}.service-detachment b{display:block;margin-top:5px;overflow:hidden;color:var(--cg-cream);font:700 13px/1.1 var(--cg-display);text-overflow:ellipsis;text-transform:uppercase}
+.service-medals-head{margin-top:20px;padding-top:17px;display:flex;align-items:end;justify-content:space-between;border-top:1px solid var(--cg-rule)}
+.service-medals-head h3{margin:5px 0 0;color:var(--cg-cream);font:700 18px/1 var(--cg-display);letter-spacing:.05em;text-transform:uppercase}
+.service-medals-head>b{min-width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--cg-hairline);color:var(--cg-gold);font:700 12px/1 var(--cg-display)}
+.service-medal-row{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.service-medal{min-width:0;margin:0;padding:10px;border:1px solid var(--cg-rule);background:#090b0e}
+.service-medal>div{height:142px;display:grid;place-items:center;background:radial-gradient(circle,rgba(176,141,87,.1),transparent 68%)}
+.service-medal>div img{width:100%;height:132px;object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.62))}
+.service-medal>div>span{color:rgba(176,141,87,.35);font:700 32px/1 var(--cg-display)}
+.service-medal figcaption{padding:10px 2px 2px;display:grid;gap:5px}.service-medal figcaption b{overflow:hidden;color:var(--cg-cream);font:700 13px/1.1 var(--cg-display);text-overflow:ellipsis;text-transform:uppercase}.service-medal figcaption time,.service-medal figcaption small{color:var(--cg-muted);font:500 9px/1.35 var(--cg-body)}
+.service-medals-empty{margin:12px 0 0;padding:20px;border:1px dashed var(--cg-hairline);color:var(--cg-muted);font:400 11px/1.5 var(--cg-body);text-align:center}
+@media(max-width:520px){.service-rank-showcase{grid-template-columns:1fr}.service-rank-art{min-height:242px}.service-rank-art>img{height:210px}.service-rank-copy{min-height:220px;border-top:1px solid var(--cg-rule);border-left:0}.service-medal-row{grid-template-columns:repeat(2,minmax(0,1fr))}.service-medal>div{height:118px}.service-medal>div img{height:108px}}

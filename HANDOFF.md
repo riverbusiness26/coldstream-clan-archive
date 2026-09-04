@@ -2947,3 +2947,15 @@ UNVERIFIED:  The Discord webhook path has not been exercised, so the presence or
 BLOCKED:     Nothing.
 
 NEXT:        Build the visible attendance-review screen and the Discord presence sampler. Test alert delivery only if River explicitly asks for a Discord test message.
+
+## 2026-09-04 - Member rank and medal showcase (Codex)
+
+DONE:        Rebuilt the service-record area of `#/player-profile` around the member's real personnel assignments. The current rank now has a large contained artwork stage that accommodates both tall shoulder boards and square officer insignia without cropping. Its name, description, award date, note and detachment sit beside it as one coherent identity block. Awarded medals appear below in a responsive shelf at a deliberately smaller scale, with their names, dates and notes. Empty, loading and failed-record states are explicit, and the website role is no longer presented as a military rank.
+
+VERIFIED:    `npm run build --prefix site` completed successfully with 118 modules and Supabase retained in the production bundle. `git diff --check` passed. The signed-out profile was inspected in the local site at desktop size: the rank stage, record copy, detachment and medal area fit the existing two-column profile without overflow. The supplied line-infantry artwork includes tall 1024 by 1536 boards, while the supplied skirmisher officer artwork includes square and portrait shapes; the display uses `object-fit: contain` and a fixed visual stage for those variants. Mobile rules stack the rank image and record at 520px and reduce the art from 242px to 210px, while medals reduce from 132px to 108px in two columns.
+
+UNVERIFIED:  No live member currently has a personnel assignment, so the assigned-rank and populated-medal variants have not been exercised through a real account. Only Volunteer currently has uploaded catalogue artwork; the remaining rank art still needs to be uploaded through the admin catalogue, and no medal artwork was supplied in this task. The updated source has not been copied into the root production assets, so this design is not live yet.
+
+BLOCKED:     Nothing blocks the profile implementation. A populated live proof requires staff to upload the remaining artwork and assign a real rank or medal without inventing one for a member.
+
+NEXT:        Upload the approved rank and medal files through the Command Board, assign one real member record, then publish the built root assets and inspect that member's profile on desktop and phone.

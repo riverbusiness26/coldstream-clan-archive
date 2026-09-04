@@ -1,7 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
 import { Icon } from './Home';
 import { beginSteamLink, clearSteamAssertion, completeSteamLink, pendingSteamAssertion, unlinkSteam } from '../lib/steamLink';
+import { supa } from '../lib/supa';
+
+type ItemKind = 'rank' | 'medal';
+interface PersonnelItem {
+  id: string;
+  kind: ItemKind;
+  name: string;
+  description: string | null;
+  storage_key: string | null;
+  active: boolean;
+  sort_order: number;
+}
+interface PersonnelAssignment {
+  id: string;
+  item_id: string;
+  item_kind: ItemKind;
+  assigned_at: string;
+  note: string | null;
+}
 
 const EVENT_STATS = [
   ['Events attended', 'Pending', 'Recorded events'],
@@ -15,6 +34,11 @@ const EVENT_STATS = [
 export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | null; signIn: () => void; refresh: () => void }) {
   const connected = Boolean(me);
   const [avatarStyle, setAvatarStyle] = useState<'discord' | 'crest' | 'initials'>('discord');
+  const [items, setItems] = useState<PersonnelItem[]>([]);
+  const [assignments, setAssignments] = useState<PersonnelAssignment[]>([]);
+  const [companyName, setCompanyName] = useState<string | null>(null);
+  const [recordLoading, setRecordLoading] = useState(false);
+  const [recordError, setRecordError] = useState<string | null>(null);
 
   const [steamBusy, setSteamBusy] = useState(false);
   const [steamMsg, setSteamMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -41,6 +65,69 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
     });
   }, [me, refresh]);
 
+  useEffect(() => {
+    if (!supa || !me) {
+      setItems([]);
+      setAssignments([]);
+      setCompanyName(null);
+      setRecordLoading(false);
+      setRecordError(null);
+      return;
+    }
+
+    const db = supa;
+    let cancelled = false;
+    const loadRecord = async () => {
+      setRecordLoading(true);
+      setRecordError(null);
+      const [itemResult, assignmentResult, memberResult] = await Promise.all([
+        db.from('personnel_item')
+          .select('id,kind,name,description,storage_key,active,sort_order')
+          .order('kind').order('sort_order').order('name'),
+        db.from('personnel_assignment')
+          .select('id,item_id,item_kind,assigned_at,note')
+          .eq('member_id', me.id).is('removed_at', null)
+          .order('assigned_at', { ascending: false }),
+        db.from('member').select('company_id').eq('id', me.id).maybeSingle(),
+      ]);
+      if (cancelled) return;
+      const firstError = itemResult.error || assignmentResult.error || memberResult.error;
+      if (firstError) {
+        setRecordError('The service record could not be opened.');
+        setRecordLoading(false);
+        return;
+      }
+      setItems((itemResult.data ?? []) as PersonnelItem[]);
+      setAssignments((assignmentResult.data ?? []) as PersonnelAssignment[]);
+
+      const companyId = memberResult.data?.company_id as string | null | undefined;
+      if (companyId) {
+        const companyResult = await db.from('company').select('name').eq('id', companyId).maybeSingle();
+        if (!cancelled) setCompanyName((companyResult.data?.name as string | undefined) ?? null);
+      } else {
+        setCompanyName(null);
+      }
+      if (!cancelled) setRecordLoading(false);
+    };
+    loadRecord();
+    return () => { cancelled = true; };
+  }, [me]);
+
+  const itemById = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
+  const currentRank = assignments
+    .filter((row) => row.item_kind === 'rank')
+    .map((row) => ({ assignment: row, item: itemById.get(row.item_id) }))
+    .find((row): row is { assignment: PersonnelAssignment; item: PersonnelItem } => Boolean(row.item));
+  const medals = assignments
+    .filter((row) => row.item_kind === 'medal')
+    .map((row) => ({ assignment: row, item: itemById.get(row.item_id) }))
+    .filter((row): row is { assignment: PersonnelAssignment; item: PersonnelItem } => Boolean(row.item));
+  const artworkUrl = (item: PersonnelItem | undefined) => !item?.storage_key || !supa
+    ? null
+    : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
+  const rankArtwork = artworkUrl(currentRank?.item);
+  const assignedDate = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+
   async function unlink() {
     setSteamBusy(true);
     const result = await unlinkSteam();
@@ -51,8 +138,6 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
 
   return (
     <main className="player-portal" aria-labelledby="player-portal-title">
-      <div className="portal-preview-note"><b>Profile groundwork</b><span>{connected ? 'Discord identity connected. Profile editing comes after the Command Board.' : 'Sign in is live. Profile editing comes after the Command Board.'}</span></div>
-
       <section className="portal-account">
         <div className={`portal-avatar ${avatarStyle}`}>
           {avatarStyle === 'crest' ? <img src="/crest.webp" alt="" /> : avatarStyle === 'initials' ? <b>{me?.display_name.slice(0, 2).toUpperCase() || 'CG'}</b> : me?.avatar_url ? <img src={me.avatar_url} alt="" /> : <Icon name="discord" />}
@@ -61,8 +146,11 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
         <div className="portal-identity">
           <p className="cg-eyebrow">Coldstream player profile</p>
           <h1 id="player-portal-title">{connected ? me!.display_name : 'Your profile starts here'}</h1>
-          <p>{connected ? 'Discord is connected. Ranks and medals will come from the staff-managed service record.' : 'Sign in through Discord once. We create the member record and keep your community activity together.'}</p>
-          <div className="portal-badges"><span>{connected ? me!.role : 'Rank pending'}</span><span>{connected ? 'Discord linked' : 'Not connected'}</span></div>
+          <p>{connected ? 'Your identity, current rank and awarded medals stay together in one service record.' : 'Sign in through Discord once. We create the member record and keep your community activity together.'}</p>
+          <div className="portal-badges">
+            <span>{connected ? recordLoading ? 'Opening service record' : currentRank?.item.name ?? 'Rank not assigned' : 'Rank pending'}</span>
+            <span>{connected ? me!.role === 'admin' ? 'Site admin' : me!.role === 'moderator' ? 'Site moderator' : 'Discord linked' : 'Not connected'}</span>
+          </div>
         </div>
         {connected
           ? <a className="portal-discord" href={(me!.role === 'admin' || me!.role === 'moderator') ? '#/admin' : '#/home'}><Icon name="discord" />{(me!.role === 'admin' || me!.role === 'moderator') ? 'Open Command Board' : 'Discord connected'}</a>
@@ -97,25 +185,46 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
         </section>
 
         <section className="portal-panel portal-rank" aria-labelledby="rank-title">
-          <header><span>Service record</span><h2 id="rank-title">Rank and detachment</h2></header>
-          <div className="service-identity">
-            <article className="service-mark">
-              <div className="service-image rank-image"><span>Rank image</span></div>
-              <small>Current rank</small>
-              <b>{connected ? 'Member' : 'Not synchronized'}</b>
-            </article>
-            <article className="service-mark">
-              <div className="service-image detachment-image"><img src="/crest.webp" alt="Detachment badge preview" /></div>
-              <small>Detachment</small>
-              <b>{connected ? 'Assigned through Discord' : 'Not assigned'}</b>
-            </article>
+          <header><span>Service record</span><h2 id="rank-title">Rank and distinctions</h2></header>
+          {recordError && <p className="ferr">{recordError}</p>}
+          <div className={`service-rank-showcase ${rankArtwork ? 'has-artwork' : ''}`}>
+            <div className="service-rank-art">
+              {rankArtwork
+                ? <img src={rankArtwork} alt={`${currentRank!.item.name} rank insignia`} />
+                : <div className="service-rank-placeholder"><img src="/crest.webp" alt="" /><span>{recordLoading ? 'Opening record' : connected ? 'Awaiting assignment' : 'Sign in to view'}</span></div>}
+            </div>
+            <div className="service-rank-copy">
+              <span>Current rank</span>
+              <h3>{recordLoading ? 'Opening record' : currentRank?.item.name ?? (connected ? 'Not assigned' : 'Your rank')}</h3>
+              {currentRank?.item.description && <p>{currentRank.item.description}</p>}
+              {currentRank && <time dateTime={currentRank.assignment.assigned_at}>Awarded {assignedDate(currentRank.assignment.assigned_at)}</time>}
+              {currentRank?.assignment.note && <blockquote>{currentRank.assignment.note}</blockquote>}
+              <div className="service-detachment">
+                <img src="/crest.webp" alt="" />
+                <div><small>Detachment</small><b>{companyName ?? (connected ? 'Not assigned' : 'Shown after sign in')}</b></div>
+              </div>
+            </div>
           </div>
-          <p className="service-note">Rank insignia and detachment artwork have their own image slots. Discord roles determine which record appears.</p>
-          <h3 className="medal-heading">Medals</h3>
-          <div className="medal-row">
-            {[1, 2, 3].map((medal) => <div className="medal-empty" key={medal}><i>◇</i><span>Medal slot</span></div>)}
+
+          <div className="service-medals-head">
+            <div><span>Distinctions</span><h3>Medals</h3></div>
+            {medals.length > 0 && <b>{medals.length}</b>}
           </div>
-          <p className="portal-empty">Medals appear here when they are awarded by an admin.</p>
+          {medals.length > 0 ? (
+            <div className="service-medal-row">
+              {medals.map(({ assignment, item }) => {
+                const url = artworkUrl(item);
+                return (
+                  <figure className="service-medal" key={assignment.id}>
+                    <div>{url ? <img src={url} alt={`${item.name} medal`} /> : <span>◇</span>}</div>
+                    <figcaption><b>{item.name}</b><time dateTime={assignment.assigned_at}>{assignedDate(assignment.assigned_at)}</time>{assignment.note && <small>{assignment.note}</small>}</figcaption>
+                  </figure>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="service-medals-empty">{recordLoading ? 'Opening medal record.' : connected ? 'No medals have been awarded yet.' : 'Sign in to view your awarded medals.'}</p>
+          )}
         </section>
       </div>
 
