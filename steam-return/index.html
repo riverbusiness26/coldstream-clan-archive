@@ -52,7 +52,18 @@
     window.location.replace(SITE);
     return;
   }
-  // Return the assertion to the signed-in member for Steam linking.
+
+  // Two different journeys come back through this one doorstep, and they are
+  // told apart by the link flag the site put in its own return_to.
+  //
+  // Linking hands the assertion back to the site rather than to a function,
+  // because the check has to be made as the member who is already signed in
+  // and only the browser holds that session. The site reads the assertion out
+  // of the query string, calls steam-link with its own token, and clears it.
+  //
+  // The apex rather than www, so the assertion is not spent on a redirect: the
+  // www fold in index.html carries the query across, but arriving already
+  // folded is one less hop through a one time value.
   if (q.indexOf('link=1') !== -1) {
     window.location.replace(APEX + q + '#/player-profile');
     return;
