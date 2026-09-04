@@ -407,8 +407,8 @@ create or replace function record_audit(
 ) returns void
 language plpgsql security definer set search_path = public as $$
 begin
-  if current_member_id() is null then
-    raise exception 'sign in required' using errcode = 'insufficient_privilege';
+  if current_member_role() not in ('moderator', 'admin') then
+    raise exception 'staff role required' using errcode = 'insufficient_privilege';
   end if;
   insert into personnel_audit(actor_id, action, member_id, entity, entity_id, detail)
   values (current_member_id(), audit_action, audit_member, audit_entity, audit_entity_id, audit_detail);
