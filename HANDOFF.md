@@ -2995,3 +2995,85 @@ UNVERIFIED:  The signed-in homepage strip has not been exercised through a real 
 BLOCKED:     The redesign direction needs River's choice. Live publishing still depends on migrations 0031 and 0032 being applied before the accumulated personnel frontend is copied to the root assets.
 
 NEXT:        River chooses the homepage direction, then build the selected page as one coherent redesign and verify it at desktop and phone sizes.
+
+## 2026-09-04 - SQL gate check by Grok Bot (Chief of Staff)
+
+WHO:        Grok Bot, agent Chief of Staff, coordinating for River. Did not apply SQL. Did not edit application code.
+
+DONE:       River asked to knock out the website SQL gates. Read `site/db/` and the last handful of this file. The 30 Aug ops board still lists web-14 / RUN_ME_next.sql / 0017 / 0020 as the gate. That is stale. Codex already recorded 0029 live, 0030 applied, and River's Steam plus Discord member rows merged. The remaining production SQL is 0031 then 0032. Training-camp map work is parked on River's word. `Plans/ranks-medals-ceremony.md` is outdated and must not be treated as current rank doctrine.
+
+VERIFIED:   File dates and this log: `RUN_ME_next.sql` last written 22 Aug 2026 and only bundles through 0020. `0031_detachment_emblems.sql` and `0032_personnel_reorder.sql` exist in `site/db/` and the 4 Sep Codex entries still mark both unapplied.
+
+UNVERIFIED: Did not query live Supabase in this pass. Proof still has to come from River running the files in the SQL editor.
+
+BLOCKED:    River applies 0031, then 0032, in Supabase SQL Editor, and pastes the proof-query results. Do not paste `RUN_ME_next.sql` for this gate.
+
+NEXT:       After both proof queries return true: one admin emblem upload, one catalogue reorder, then publish root site assets. Do not publish the personnel frontend before 0031 and 0032 are live.
+
+## 2026-09-04 - Current push, from River to Grok Bot (Chief of Staff)
+
+WHO:        Grok Bot, agent Chief of Staff. No code change. Direction from River in chat.
+
+DONE:       River said anything dated 22 Aug 2026 is probably outdated, and the live mission is finishing the website and bringing 2nd Coldstream back in full effect. Do not brief from RUN_ME_next.sql, the 30 Aug ops board, or other 22 Aug artifacts. Current production SQL still waiting, per the 4 Sep Codex entries in this file, is 0031 then 0032. TTT remains a later pilot. The Holdfast training-camp map stays parked. Rank and medal doctrine is being reworked; Plans/ranks-medals-ceremony.md is not current.
+
+VERIFIED:   River's words in this session, plus the last HANDOFF entries already in this file.
+
+UNVERIFIED: Live schema was not queried in this pass.
+
+BLOCKED:    River runs 0031 then 0032 in the Supabase SQL editor.
+
+NEXT:       Proof rows from 0031 and 0032, then publish is unblocked for the personnel frontend. Parallel 2ndCS reopen work waits on the rank/medal rework, not the old ceremony pack.
+
+## 2026-09-04 - Reviewer pass over the unshipped Command Board path (Claude, review only)
+
+WHO:        Claude, reviewer stance, at River's ask. Read only. No SQL applied, no code edited, nothing published, nothing pushed. Read the last 150 lines of this file, `site/db/0031` and `0032` with the migrations they build on (0001, 0004, 0010, 0024 to 0029), `site/src/views/Admin.tsx`, `site/src/views/PlayerProfileMock.tsx`, `site/src/lib/auth.ts`, `site/src/lib/steamLink.ts`, `site/supabase/functions/discord-member-sync/index.ts`, `_headers`, `.github/workflows/house-rules.yml`, and cross-checked the bot at `CSG Discord\coldstream-bot`: `src/lib/orderly.js`, `src/lib/attendance.js`, `src/commands/event.js`.
+
+DONE:       Four findings that should be settled before the personnel frontend is published, and two that should not stop it.
+
+            PUBLIC ATTENDANCE VERDICTS. `0010_events.sql:56` is `rsvp_read on event_rsvp for select using (true)` and `:77` grants select on `event_rsvp` to anon. 0027 then added `attendance`, `attendance_by` and `attendance_at` to that table at `0027_orderly_room.sql:241` to `:243`. 0029 saw this trap from one side and closed it: `0029_attendance_review.sql:139` to `:141` revokes anon on `event_presence_sample` and both roll-up views, with a comment about what sits between a public site and a list of who was in voice. The raw evidence is hidden and the human conclusion is not. Anyone holding the anon key, which ships in the bundle by design, can list every no-show, which event it was, and which staff member marked it, and join it to real names and Discord ids through `member_read ... using (true)` at `0001_init.sql:142`. The table is empty today. The first attendance mark made through the new tab is what fills it.
+
+            THE WHOLE MEMBER ROW IS WORLD READABLE AND 0027 PUT THE SERVICE RECORD ON IT. `0001_init.sql:142` plus `0004_grants.sql:24`. The row now carries `notes` (`0027_orderly_room.sql:106`), `status`, `enlisted_at`, `discharged_at`, alongside `discord_id`, `steam_id64` and `auth_user_id`. `set_member_file()` exists precisely so staff can write service notes through an audited path, and nothing stops anonymous reading them back. The Command Board does not write notes yet, so this is loaded rather than fired.
+
+            THE CSP BLOCKS EVERY DISCORD AVATAR. `_headers:26` lists `img-src 'self' data: blob:` plus ytimg, imgur, steamstatic, akamaihd and the Supabase project. `cdn.discordapp.com` is not there. `discord-member-sync/index.ts:93` stores the Discord CDN avatar url on the member row, and the three surfaces this batch exists to ship all render it: `Admin.tsx:454`, `Admin.tsx:508`, `PlayerProfileMock.tsx:152`, plus the new shared homepage account strip. Publishing lights up broken images across the whole of the new interface. One entry in `img-src` fixes it.
+
+            A DISCORD ROLE CHANGE LOCKS THE LAST ADMIN OUT OF THE BOARD, AND THE MESSAGE NAMES THE WRONG CAUSE. `Admin.tsx:160` to `:168` gates every mutation on `discord-member-sync` answering `ok: true`. `guard_member_row` raises "cannot remove the last admin" at `0027_orderly_room.sql:154` to `:157`, and that branch sits outside the `from_browser` test, so it applies to the service role too. Production holds one member row and it is admin. If `DISCORD_ADMIN_ROLE_IDS` drifts, or the role is renamed or removed in Discord, `discord-member-sync/index.ts:83` computes `member`, the update at `:112` raises, the function returns 500 at `:117`, and the board says "Your current Discord role could not be confirmed." Sign in still works, because `auth.ts:34` only warns on a sync failure, so the site looks healthy while the board refuses every write. The guard written to protect the last admin is the thing that strands him.
+
+            Medium, in order of how likely they are to be met on the first real day. Clearing attendance fails for anybody who never RSVP'd: `mark_attendance` upserts with `status = null` at `0027_orderly_room.sql:302`, and `event_rsvp_says_something` at `:250` requires one of the two columns to say something. The Attendance tab lists voice-seen members as "RSVP: No reply" at `Admin.tsx:509` and enables Clear once a mark exists at `:513`, so mark then clear on one of those raises 23514 and shows the raw Postgres text. One drag floods the audit log: `personnel_item_audit` is a per row after-update trigger at `0024_discord_personnel.sql:251`, `reorder_personnel_items` updates every item of the kind at `0032:32`, and then writes its own row at `:38`, so a twelve rank ladder is thirteen rows per drag against the hundred `Admin.tsx:100` reads back. Attendance sampling stops an hour early: `event.js:378` flips a running event to `awaiting-aar` at start plus sixty minutes, `attendance.js:33` will only sample while status is `open`, and the window at `attendance.js:24` runs to start plus duration plus thirty, which is start plus one hundred and twenty by default, so the last hour of every linebattle is never sampled and the flip is never mirrored to the site either. Discord rate limits sit on the critical path: every board mutation triggers a live guild member fetch at `discord-member-sync/index.ts:65`, so marking a thirty person roll is thirty Discord calls, and a 429 becomes a 502 at `:72` that refuses the write. Deleting a populated detachment cannot succeed: `member.company_id ... on delete set null` at `0027:105` fires `guard_member_row`, which refuses at `:144` because `app.service_record_write` is not set, which makes the DELETE branch that 0031 adds to its audit trigger at `0031:24` unreachable while anybody is posted there.
+
+            On 2ndCS claims. Nothing in this batch invents a fact, but three things assert one. `PlayerProfileMock.tsx:199` to `:216` publishes whatever is in the catalogue as "Current rank" with an award date and a staff note, and the entries above this one say `Plans/ranks-medals-ceremony.md` is not current doctrine and the rank and medal work is being reworked, so publishing now puts an unratified ladder on public profiles with dates attached to it. `PlayerProfileMock.tsx:212` falls back to the Coldstream crest whenever a detachment has no emblem, so an unnamed detachment appears under regimental colours it has not been granted. Assignment notes are anon readable through `personnel_assignment_read` at `0024:154` and rendered at `PlayerProfileMock.tsx:210`, so a note written as internal is public the moment it is saved. Smaller: `Admin.tsx:24` hardcodes "2nd Coldstream Guards" and the tag "2ndCS" as preview data rather than reading the `company` table, and the always-on "Live status" dot at `PlayerProfileMock.tsx:153` asserts a presence state nothing computes.
+
+            Low. `assets/` holds 169 files and many stale bundles still carry the retired `steam-auth` path and stay publicly fetchable, so the six-bundle cleanup recorded on 4 Sep did not take. Three answers exist to what is current: root `index.html` names `index-RiXr00pu.js`, the entries above say the domain serves `index-wl-FnyFi.js`, and `site/dist` holds `index-BqRA0hWL.js`. 0031 adds `updated_at` with no trigger to maintain it and `Admin.tsx:353` sets it by hand, so any other writer leaves it stale. `Admin.tsx:225` returns silently when a non admin drags. Emblem keys are `detachments/<uuid>` at `Admin.tsx:345` while catalogue keys are prefixed with the uploader's member uuid at `Admin.tsx:181`, and the bucket is public, so member uuids appear in public artwork urls.
+
+VERIFIED:   Nothing was executed. Every line above is read from the files named, at the lines named, in this checkout. The storage side of 0031 does hold up on reading: `personnel_artwork_admin_insert` at `0024:275` is scoped to the bucket and the admin role with no folder condition, so the new `detachments/` prefix uploads without a policy change. 0031's audit insert cannot violate a foreign key, because `personnel_audit` has no key back to `company` and `actor_id` is nullable. 0032's whole-section check at `:26` to `:28` is satisfied by `Admin.tsx:229`, which builds its list from the unfiltered `items` state loaded at `:96`, so archived items are included and the count matches. Every table in `site/db` that gets created also gets `enable row level security`, so the `alter default privileges ... grant select ... to anon` at the foot of `0004_grants.sql` is contained by policy everywhere I looked. No literal secret is present in any tracked file: every hit for a service role key is an environment variable name, and both `site/.env` and `dist/` are covered by `site/.gitignore`.
+
+UNVERIFIED: Production was not queried and no SQL was run, here or against a replica. No browser session, no build, no `tsc`, and `scripts/status.mjs` was not run, so none of this is confirmed against live state. Whether `_headers` is honoured at all is unknown and it decides the third finding: the repo carries `.nojekyll` and `CNAME`, which is the GitHub Pages shape, alongside `vercel.json`, while the CSP allowlists Cloudflare Insights. On GitHub Pages that file is inert, every header in it including the CSP is absent, and the avatar finding disappears while several others get worse. Whether `DISCORD_ADMIN_ROLE_IDS` currently matches River's Discord role is unknown, and the fourth finding's severity is entirely that. That the repository is public is inferred from START-HERE.md and from the house-rules workflow comment, not checked. Git history was not examined: git calls against this mount timed out, so whether `site/.env` or the `_to_delete` tarball ever reached a commit is unknown, though the current ignore rules cover both. `0002_seed.sql` and `RUN_ME_next.sql` were not read.
+
+BLOCKED:    Nothing here needs anybody. It is a reading, not a change.
+
+NEXT:       Recommendation, which is River's to accept or refuse. Apply 0031 and 0032; both files are sound and the problems around them live elsewhere. Do not publish the root assets in the same pass. Add `https://cdn.discordapp.com` to `img-src` in `_headers` first, or confirm the file is inert and stop pretending the site has a CSP. Then decide the attendance question deliberately, because publishing the Command Board is what starts generating the data that leaks: either revoke anon select on `event_rsvp` and give the calendar a view that exposes counts only, or accept a public no-show list as intended. After that, publish, and expect the audit log to need the reorder trigger sorted before the first ladder drag is worth doing.
+
+## 2026-09-04 - SuperGrok redirected off logo/homepage (Grok Bot, Chief of Staff)
+
+WHO:        Grok Bot, agent Chief of Staff. No code change.
+
+DONE:       River said logo and homepage direction are already decided. Do not re-prompt SuperGrok or River on v5_A–D or the three homepage directions. SuperGrok's remaining window is pointed at a 2ndCS reopen kit (welcome pin, recruiter reply, buddy card, Shorts hooks, 14-day calendar, reconnect DM) with no invented rank/medal table. Production SQL gate remains 0031 then 0032.
+
+VERIFIED:   River's words in chat this session.
+
+UNVERIFIED: The actual logo and homepage choices were not written into this file by River yet.
+
+BLOCKED:    Nothing on the SuperGrok redirect. Website publish still blocked on 0031 and 0032.
+
+NEXT:       River pastes SuperGrok's reopen kit back here or into chat. Apply 0031 then 0032 when ready.
+
+## 2026-09-04 - Regiment-first community headquarters homepage (Codex)
+
+DONE:        Rebuilt the homepage around the approved community-headquarters direction with a regiment-first opening. The new hero leads with the 2nd Coldstream Guards, a direct Discord enlist action, and three in-game steps that tell recruits to search 2ndCS. Added live upcoming-event, game-server, member-record and staff-notice cards; retained the signed-in account bar; and moved the archive story and the confirmed 2011, 4, 315+ and 1,227+ figures into a quieter closing section.
+
+VERIFIED:    `npm run build --prefix site` completed with 118 modules. The built main bundle contains The line forms here, Community headquarters and Recorded Events, and it retains the Supabase and Discord member-sync paths. `node scripts/status.mjs` confirmed the current live domain still serves `index-RiXr00pu.js` and the deployed auth functions refuse unsigned requests.
+
+UNVERIFIED:  No browser surface was available for a real desktop or phone visual walkthrough. Root production assets were not rebuilt, so this redesign is committed source only and is not live. Empty live events or notices will show the designed fallback copy.
+
+BLOCKED:     Publishing the accumulated frontend remains blocked until production migrations 0031 and 0032 are applied and checked. Publishing now would include personnel features that expect those migrations.
+
+NEXT:        Apply and prove 0031 then 0032, complete one desktop and phone browser review, then rebuild and publish the root production assets.
