@@ -33,7 +33,7 @@
 <body>
   <div>
     <b>COLDSTREAM GAMING</b>
-    <div class="m">signing you in through Steam</div>
+    <div class="m">checking with Steam</div>
     <noscript class="m">
       This step needs JavaScript.
       <a href="https://www.coldstreamgaming.com/">Back to the site</a>.
@@ -43,6 +43,7 @@
 (function () {
   var FN = 'https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-auth';
   var SITE = 'https://www.coldstreamgaming.com/';
+  var APEX = 'https://coldstreamgaming.com/';
   var q = window.location.search;
 
   // Only ever forward a genuine OpenID response. Anything else is somebody
@@ -51,6 +52,12 @@
     window.location.replace(SITE);
     return;
   }
+  // Return the assertion to the signed-in member for Steam linking.
+  if (q.indexOf('link=1') !== -1) {
+    window.location.replace(APEX + q + '#/player-profile');
+    return;
+  }
+
   // replace() rather than assign() so the back button does not walk the user
   // into a spent one time assertion.
   window.location.replace(FN + q);
