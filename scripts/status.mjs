@@ -17,7 +17,7 @@ import { execFileSync } from 'node:child_process';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://coldstreamgaming.com';
-const FN = 'https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1/steam-auth';
+const FNS = 'https://zcpbpcktinlqnxmqddzc.supabase.co/functions/v1';
 const API = 'https://zcpbpcktinlqnxmqddzc.supabase.co/rest/v1';
 const GH = 'https://api.github.com/repos/riverbusiness26/coldstream-clan-archive';
 
@@ -234,26 +234,73 @@ async function siteState() {
   return out;
 }
 
-async function authState() {
+// Sign in, since 4 Sep 2026: Discord is the identity and Steam is a link on a
+// member row that already exists. This section used to check steam-auth alone,
+// back when Steam was the way in.
+//
+// Each function is asked with no Authorization header, the way a signed out
+// browser would. For the two that require a member, 401 is the healthy answer:
+// the gateway refused before the function ran. 403 is the function's own "only
+// accepts the Coldstream site" reply, which is only reachable if the gateway
+// let an unauthenticated request through, so it means Verify JWT is off. That
+// distinction is the whole reason this asks without a token: a curl carrying a
+// key looks fine either way.
+async function authState(key) {
   const out = [];
+
+  for (const name of ['discord-member-sync', 'steam-link']) {
+    try {
+      const res = await fetch(`${FNS}/${name}`, { method: 'POST', redirect: 'manual' });
+      if (res.status === 401) out.push(ok(`${name} is deployed and refuses an unsigned request`));
+      else if (res.status === 404) out.push(bad(`${name} is not deployed`));
+      else if (res.status === 403) out.push(bad(`${name} answered 403 with no token: Verify JWT is off`));
+      else out.push(bad(`${name} returned ${res.status}`));
+    } catch (e) {
+      out.push(bad(`${name} unreachable: ${e.message}`));
+    }
+  }
+
+  // steam-auth is the old Steam sign in. Nothing on the site has referenced it
+  // since 4 Sep, and it should be taken out of service, because it does not
+  // sign anybody in: it mints a fresh auth user and a fresh member row, which
+  // is how one person ended up with two.
+  //
+  // How bad that is depends on whether 0030 has run, so this asks the database
+  // before deciding. Before the merge a stray Steam sign in makes a duplicate,
+  // which is untidy and already the state we are in. After it, the Steam ID
+  // sits on the Discord row, so steam-auth finds that row and overwrites the
+  // member's Discord name and avatar with their Steam persona, then fails at
+  // the magic link because 0030 deleted the account it points at. Reporting
+  // both of those as the same red line would be crying wolf for a fortnight.
+  let merged = null;
+  if (key) {
+    try {
+      const res = await fetch(`${API}/member?select=discord_id,steam_id64`,
+        { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+      const rows = await res.json();
+      if (Array.isArray(rows)) merged = !rows.some((r) => r.steam_id64 && !r.discord_id);
+    } catch { /* leave it unknown rather than guessing */ }
+  }
+
   try {
-    // No auth header, the way a browser asks. 302 to Steam is healthy, 401
-    // means Verify JWT came back on and every member is locked out while a
-    // curl carrying the anon key still looks fine.
-    const res = await fetch(FN, { redirect: 'manual' });
+    const res = await fetch(`${FNS}/steam-auth`, { redirect: 'manual' });
     const loc = res.headers.get('location') ?? '';
-    if (res.status === 302 && loc.includes('steamcommunity.com')) {
-      out.push(ok('steam-auth redirects to Steam'));
-      const realm = decodeURIComponent(loc).match(/openid\.realm=([^&]+)/)?.[1];
-      if (realm) out.push(ok(`Steam shows the realm as ${realm}`));
-    } else if (res.status === 401) {
-      out.push(bad('steam-auth returns 401: Verify JWT is ON, sign in is broken for browsers'));
+    const live = res.status === 302 && loc.includes('steamcommunity.com');
+    if (res.status === 404) {
+      out.push(ok('steam-auth is retired'));
+    } else if (live && merged === true) {
+      out.push(bad('steam-auth still redirects to Steam after the 0030 merge: a Steam sign in would now overwrite the member name and avatar, then fail. Retire it'));
+    } else if (live && merged === false) {
+      out.push(note('steam-auth still redirects to Steam. Harmless until 0030 runs, and must be retired in the same pass'));
+    } else if (live) {
+      out.push(note('steam-auth still redirects to Steam, and the merge state could not be read'));
     } else {
-      out.push(bad(`steam-auth returned ${res.status}`));
+      out.push(bad(`steam-auth returned ${res.status}, which is neither retired nor working`));
     }
   } catch (e) {
     out.push(bad(`steam-auth unreachable: ${e.message}`));
   }
+
   return out;
 }
 
@@ -287,7 +334,7 @@ async function dbState(key) {
 }
 
 const sections = await Promise.all([
-  checkoutState(), siteState(), authState(), dbState(anonKey()), workflowState(),
+  checkoutState(), siteState(), authState(anonKey()), dbState(anonKey()), workflowState(),
 ]);
 console.log('\nColdstream Gaming, live state\n');
 // Checkout goes first on purpose: if this tree is stale, every other line
@@ -296,7 +343,7 @@ console.log('Checkout');
 sections[0].forEach((l) => console.log(l));
 console.log('\nSite');
 sections[1].forEach((l) => console.log(l));
-console.log('\nSteam sign in');
+console.log('\nSign in');
 sections[2].forEach((l) => console.log(l));
 console.log('\nDatabase');
 sections[3].forEach((l) => console.log(l));

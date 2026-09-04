@@ -15,3 +15,12 @@ desktop.ini
 # on every compile, so with two agents working it conflicts on almost every
 # rebase and carries no information worth keeping.
 site/tsconfig.tsbuildinfo
+
+# Recovery and scratch folders, from sessions that could not delete files on
+# this machine. They hold exported patches, build tarballs and git lock debris,
+# and at least one of those tarballs has carried a copy of site/.env. None of it
+# belongs in a public repository, and the rule that keeps it out is "stage by
+# name, never git add -A", which is a rule an agent can forget. This is the
+# version a machine enforces.
+_to_delete/
+_handoff_patches/
