@@ -1,7 +1,7 @@
 // Site shell and hash routing.
 import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAuth } from './lib/auth';
-import Home, { SiteFooter, SiteNav } from './views/Home';
+import Home, { AccountStrip, SiteFooter, SiteNav } from './views/Home';
 import Landing from './views/Landing';
 import Servers from './views/Servers';
 import Gallery from './views/Gallery';
@@ -133,7 +133,7 @@ export default function App() {
   if (view === 'home') {
     return (
       <>
-        <Home me={me} go={go} signIn={signIn} />
+        <Home me={me} go={go} signIn={signIn} signOut={signOut} />
         {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
       </>
     );
@@ -148,12 +148,10 @@ export default function App() {
       )}
       <SiteNav active={view === 'gallery' ? 'Media' : view === 'servers' ? 'Games' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'About' : ''} />
 
-      <div className="cg-account-strip">
-        {me ? <><span>Signed in as <b>{me.display_name}</b></span><a href="#/player-profile">My profile</a>{(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}<button type="button" onClick={signOut}>Sign out</button></> : <button type="button" onClick={signIn}>Sign in through Discord</button>}
-      </div>
+      <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
       <div className="cg-page-stage">
-      {!['home','members','gallery','events','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} />}
+      {!['home','members','gallery','events','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {view === 'servers' && <Servers />}

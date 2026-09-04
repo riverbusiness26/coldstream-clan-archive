@@ -121,6 +121,19 @@ export function SiteNav({ active = 'Home' }: { active?: string }) {
   );
 }
 
+export function AccountStrip({ me, signIn, signOut }: { me: Me | null; signIn: () => void; signOut: () => void }) {
+  return (
+    <div className="cg-account-strip" aria-label="Member account">
+      {me ? <>
+        <span className="cg-account-member">{me.avatar_url ? <img src={me.avatar_url} alt="" /> : <i aria-hidden="true" />}<span>Signed in as <b>{me.display_name}</b></span></span>
+        <a href="#/player-profile">My profile</a>
+        {(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}
+        <button type="button" onClick={signOut}>Sign out</button>
+      </> : <button type="button" onClick={signIn}>Sign in through Discord</button>}
+    </div>
+  );
+}
+
 const PILLARS = [
   { icon: 'server', title: 'Game Servers', copy: 'Community servers maintained by active admins and moderators.', href: '#/servers', image: '/gallery/2f2f6869d3.jpg' },
   { icon: 'calendar', title: 'Events', copy: 'Scheduled game nights and organised events across the games we play.', href: DISCORD, image: '/gallery/7a32547d74.jpg' },
@@ -152,10 +165,11 @@ export function SiteFooter() {
   );
 }
 
-export default function Home({ me, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
+export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void }) {
   return (
     <div className="cg-home">
       <SiteNav active="Home" />
+      <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
       <main>
         <section className="cg-hero" aria-labelledby="cg-home-title">

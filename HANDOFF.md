@@ -2983,3 +2983,15 @@ UNVERIFIED:  Migration 0032 has not been applied to production and its PostgreSQ
 BLOCKED:     Publishing remains blocked on applying 0031 and 0032 first. Populated attendance evidence remains blocked on the Discord presence sampler.
 
 NEXT:        Apply migrations 0031 and 0032, run their proof queries, then test one real rank reorder, one artwork replacement and one staff attendance mark before publishing the root site assets.
+
+## 2026-09-04 - Shared homepage account bar and redesign directions (Codex)
+
+DONE:        Extracted one shared account strip for Home and every interior route. The homepage now shows the signed-in member at the top with their Discord avatar or an online placeholder, My profile, Command Board for admins and moderators, and Sign out. Signed-out visitors get the Discord sign-in control in the same position. The strip keeps those controls usable on narrow screens. Inspected the existing Home composition and prepared three redesign directions without changing the page structure before River chooses one: regiment-first, community headquarters, or living history. Recommended a community-headquarters page with a regiment-first opening.
+
+VERIFIED:    `npm run build --prefix site` completed with 118 modules. The built main bundle contains Signed in as, My profile, Command Board and Sign out. `git diff --check` passed.
+
+UNVERIFIED:  The signed-in homepage strip has not been exercised through a real browser session because no browser surface was available. Root production assets were not rebuilt, so the new bar is not live. The wider homepage redesign is deliberately not implemented until River chooses a direction.
+
+BLOCKED:     The redesign direction needs River's choice. Live publishing still depends on migrations 0031 and 0032 being applied before the accumulated personnel frontend is copied to the root assets.
+
+NEXT:        River chooses the homepage direction, then build the selected page as one coherent redesign and verify it at desktop and phone sizes.
