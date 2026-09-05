@@ -6,8 +6,6 @@ import {
   FaCalendarDays,
   FaDiscord,
   FaFlag,
-  FaGamepad,
-  FaServer,
   FaShieldHalved,
   FaSteam,
   FaTimeline,
@@ -18,7 +16,6 @@ import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 import { supa } from '../lib/supa';
-import { useLiveServers } from '../lib/useLiveServers';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/2ndColdstreamOfficial';
@@ -79,18 +76,16 @@ export function HomeFilm() {
   );
 }
 
-type IconName = 'menu' | 'discord' | 'steam' | 'youtube' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'timeline' | 'shield' | 'arrow';
+type IconName = 'menu' | 'discord' | 'steam' | 'youtube' | 'calendar' | 'banner' | 'people' | 'timeline' | 'shield' | 'arrow';
 
 const ICONS: Record<IconName, IconType> = {
   menu: FaBars,
   discord: FaDiscord,
   steam: FaSteam,
   youtube: FaYoutube,
-  server: FaServer,
   calendar: FaCalendarDays,
   banner: FaFlag,
   people: FaUserGroup,
-  gamepad: FaGamepad,
   timeline: FaTimeline,
   shield: FaShieldHalved,
   arrow: FaArrowRight,
@@ -102,7 +97,7 @@ export function Icon({ name }: { name: IconName }) {
 }
 
 const NAV = [
-  ['Home', '#/home'], ['About', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
+  ['Home', '#/home'], ['Our History', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
 ] as const;
 
 export function SiteNav({ active = 'Home' }: { active?: string }) {
@@ -155,90 +150,111 @@ export function SiteFooter() {
       <div className="cg-width">
         <span>© 2011–{year} Coldstream Gaming. All rights reserved.</span>
         <span className="cg-footer-motto"><Ornament /><em>Second to none.</em><Ornament /></span>
-        <nav aria-label="Footer"><a href="#/archive">History</a><a href="#/gallery">Gallery</a><a href="#/servers">Game Servers</a><a href="mailto:contact@coldstreamgaming.com">Contact</a></nav>
+        <nav aria-label="Footer"><a href="#/archive">Our History</a><a href="#/gallery">Gallery</a><a href="mailto:contact@coldstreamgaming.com">Contact</a></nav>
       </div>
     </footer>
   );
 }
 
-interface HomeEvent { id: string; title: string; game: string | null; starts_at: string; duration_minutes: number }
+interface HomeEvent {
+  id: string;
+  title: string;
+  game: string | null;
+  starts_at: string;
+  duration_minutes: number;
+  event_type?: string | null;
+}
+
+const PERIODS = ['Day', 'Week', 'Month'] as const;
+const MODES = ['Public Play', 'Events', 'Competitive'] as const;
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+function localDateKey(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
 
 export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void }) {
-  const servers = useLiveServers();
+  const now = new Date();
+  const [period, setPeriod] = useState<typeof PERIODS[number]>('Month');
+  const [monthCursor, setMonthCursor] = useState(new Date(now.getFullYear(), now.getMonth(), 1));
   const [events, setEvents] = useState<HomeEvent[]>([]);
+  const [eventsLoading, setEventsLoading] = useState(true);
+  const [eventsError, setEventsError] = useState(false);
 
   useEffect(() => {
-    if (!supa) return;
-    const db = supa;
+    if (!supa) { setEventsLoading(false); return; }
     let cancelled = false;
-    db.from('event').select('id,title,game,starts_at,duration_minutes').eq('historic', false).eq('cancelled', false).gte('starts_at', new Date().toISOString()).order('starts_at').limit(3).then((eventResult) => {
-      if (!cancelled && eventResult.data) setEvents(eventResult.data as HomeEvent[]);
-    });
+    const monthStart = new Date(monthCursor.getFullYear(), monthCursor.getMonth(), 1);
+    const monthEnd = new Date(monthCursor.getFullYear(), monthCursor.getMonth() + 1, 1);
+    setEventsLoading(true);
+    setEventsError(false);
+    supa.from('event')
+      .select('id,title,game,starts_at,duration_minutes,event_type')
+      .eq('historic', false)
+      .eq('cancelled', false)
+      .gte('starts_at', monthStart.toISOString())
+      .lt('starts_at', monthEnd.toISOString())
+      .order('starts_at')
+      .then((result) => {
+        if (cancelled) return;
+        if (result.error) setEventsError(true);
+        setEvents((result.data as HomeEvent[] | null) ?? []);
+        setEventsLoading(false);
+      });
     return () => { cancelled = true; };
-  }, []);
+  }, [monthCursor]);
 
-  const onlineServers = servers.filter((server) => server.online);
-  const playersOnline = onlineServers.reduce((total, server) => total + server.players, 0);
+  const monthLabel = monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  const firstOffset = (new Date(monthCursor.getFullYear(), monthCursor.getMonth(), 1).getDay() + 6) % 7;
+  const cells = Array.from({ length: 42 }, (_, index) => new Date(monthCursor.getFullYear(), monthCursor.getMonth(), index - firstOffset + 1));
+  const eventsByDay = events.reduce<Record<string, HomeEvent[]>>((byDay, event) => {
+    const key = localDateKey(new Date(event.starts_at));
+    (byDay[key] ||= []).push(event);
+    return byDay;
+  }, {});
+  const nextThree = events.filter((event) => new Date(event.starts_at).getTime() >= Date.now()).slice(0, 3);
 
   return (
-    <div className="cg-home">
+    <div className="cg-home hub-home">
       <SiteNav active="Home" />
       <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
-      <main className="hq-home">
-        <section className="hq-hero" aria-labelledby="cg-home-title">
-          <div className="hq-hero-copy">
+      <main className="hub-main">
+        <section className="hub-hero" aria-labelledby="cg-home-title">
+          <div className="hub-hero-copy">
             <p className="cg-eyebrow">2nd Coldstream Guards · Holdfast</p>
-            <h1 id="cg-home-title">The line forms here.</h1>
-            <p className="hq-lede">Weekly 200+ player linebattles, backed by 15+ years across Napoleonic-era games. Join the regiment, earn your place and keep the record on your own profile.</p>
+            <h1 id="cg-home-title">Coldstream headquarters.</h1>
+            <p className="hub-lede">The place to see what is happening, how you are doing, and where the regiment is forming up next.</p>
             <div className="hq-actions">
               <a className="hq-primary" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join the 2ndCS</a>
-              {me
-                ? <a className="hq-secondary" href="#/player-profile"><Icon name="shield" />View my profile</a>
-                : <button className="hq-secondary" type="button" onClick={signIn}><Icon name="discord" />Member sign in</button>}
-            </div>
-            <div className="hq-enlist-path" aria-label="How to enlist in Holdfast">
-              <span><b>01</b>Pause Holdfast</span><i />
-              <span><b>02</b>Open Regiments</span><i />
-              <span><b>03</b>Search <strong>2ndCS</strong> and Enlist</span>
+              {me ? <a className="hq-secondary" href="#/player-profile"><Icon name="shield" />View my profile</a> : <button className="hq-secondary" type="button" onClick={signIn}><Icon name="discord" />Member sign in</button>}
             </div>
           </div>
-          <div className="hq-hero-visual">
-            <HomeFilm />
+          <div className="hub-hero-visual"><HomeFilm /></div>
+        </section>
+
+        <section className="hub-personal" aria-labelledby="your-coldstream-title">
+          <header className="hub-section-head"><div><p className="cg-eyebrow">For the member signed in</p><h2 id="your-coldstream-title">Your Coldstream</h2></div><div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div></header>
+          {me ? <>
+            <div className="hub-member-intro"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><div><strong>{me.display_name}</strong><span>Personal stats will appear here as the Discord bot records activity.</span></div></div>
+            <div className="hub-mode-grid">{MODES.map((mode) => <article key={mode} className="hub-stat-block"><h3>{mode}</h3><div><span><b>—</b><small>Kills</small></span><span><b>—</b><small>K/D</small></span><span><b>—</b><small>MVPs</small></span></div><p>Waiting for stat tracking</p></article>)}</div>
+            <div className="hub-personal-foot"><div><span>Attendance</span><strong>— / —</strong><small>Awaiting confirmed event records</small></div><div><span>Next rank</span><strong>Placeholder</strong><small>Requirements will be connected to the rank tree</small></div></div>
+          </> : <div className="hub-signin-prompt"><p>Sign in with Discord to see your stats, attendance, rank progress and place on the leaderboard.</p><button type="button" onClick={signIn}>Sign in through Discord</button></div>}
+        </section>
+
+        <section className="hub-events" aria-labelledby="hub-events-title">
+          <header className="hub-section-head"><div><p className="cg-eyebrow">The schedule</p><h2 id="hub-events-title">{monthLabel}</h2></div><div className="hub-month-controls"><button type="button" aria-label="Previous month" onClick={() => setMonthCursor(new Date(monthCursor.getFullYear(), monthCursor.getMonth() - 1, 1))}>←</button><button type="button" aria-label="Next month" onClick={() => setMonthCursor(new Date(monthCursor.getFullYear(), monthCursor.getMonth() + 1, 1))}>→</button></div></header>
+          <div className="hub-calendar" aria-label={`${monthLabel} event calendar`}>
+            <div className="hub-calendar-weekdays">{WEEKDAYS.map((day) => <span key={day}>{day}</span>)}</div>
+            <div className="hub-calendar-grid">{cells.map((day) => { const key = localDateKey(day); const dayEvents = eventsByDay[key] ?? []; const inMonth = day.getMonth() === monthCursor.getMonth(); return <div key={key} className={`hub-calendar-day${inMonth ? '' : ' outside'}${key === localDateKey(now) ? ' today' : ''}`}><time dateTime={key}>{day.getDate()}</time>{dayEvents.slice(0, 2).map((event) => <span key={event.id} title={event.title}>{event.title}</span>)}{dayEvents.length > 2 && <small>+{dayEvents.length - 2} more</small>}</div>; })}</div>
           </div>
+          <div className="hub-next-events"><div className="hub-subhead"><span>Next three</span><a href="#/archive">Open event records <Icon name="arrow" /></a></div>{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); return <article key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h3>{event.title}</h3><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.duration_minutes} minutes</p></div><span className="hub-event-kind">{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div>
         </section>
 
-        <section className="hq-section" aria-labelledby="hq-title">
-          <header className="hq-section-head"><div><p className="cg-eyebrow">Coldstream today</p><h2 id="hq-title">Community headquarters</h2></div><p>Events, servers and member records in one place.</p></header>
-          <div className="hq-grid">
-            <article className="hq-card hq-events">
-              <header><span><Icon name="calendar" /></span><div><small>Schedule</small><h3>Upcoming events</h3></div><a href={DISCORD} target="_blank" rel="noopener">Discord <Icon name="arrow" /></a></header>
-              <div className="hq-event-list">{events.length > 0 ? events.map((event) => {
-                const starts = new Date(event.starts_at);
-                return <div key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h4>{event.title}</h4><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.duration_minutes} minutes</p></div></div>;
-              }) : <p className="hq-empty">The next event will appear here when staff posts it.</p>}</div>
-            </article>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Current archive film while submissions are being connected</span></header><HomeFilm /></section>
 
-            <article className="hq-card hq-servers">
-              <header><span><Icon name="server" /></span><div><small>Live status</small><h3>Game servers</h3></div><a href="#/servers">All servers <Icon name="arrow" /></a></header>
-              <div className="hq-server-total"><b>{playersOnline}</b><span>players online</span><small>{onlineServers.length} of {servers.length} servers reporting online</small></div>
-              <div className="hq-server-list">{servers.slice(0, 3).map((server) => <div key={server.server_key}><i className={server.online ? 'online' : ''} /><span><b>{server.name}</b><small>{server.online ? `${server.players}/${server.max_players}${server.map ? ` · ${server.map}` : ''}` : server.visibility === 'private' ? 'Private development server' : 'Offline'}</small></span></div>)}</div>
-            </article>
-
-            <article className="hq-card hq-member">
-              <header><span><Icon name="shield" /></span><div><small>{me ? 'Your account' : 'Member record'}</small><h3>{me ? me.display_name : 'Your place in the regiment'}</h3></div></header>
-              {me ? <><div className="hq-member-row"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><div><b>Discord connected</b><span>Profile ready to view</span></div></div><div className="hq-member-links"><a href="#/player-profile">Open profile</a>{(me.role === 'admin' || me.role === 'moderator') && <a href="#/admin">Admin Panel</a>}</div></> : <><p>Your rank, medals, detachment and confirmed event record stay together here.</p><button type="button" onClick={signIn}>Sign in through Discord</button></>}
-            </article>
-          </div>
-        </section>
-
-        <section className="hq-history" aria-labelledby="hq-history-title">
-          <div className="hq-history-copy"><p className="cg-eyebrow">The record</p><h2 id="hq-history-title">Built over more than one era.</h2><p>Coldstream Gaming began in 2011. The games changed, the regiment returned, and the same gaming community kept forming up.</p><a href="#/archive">Open the full archive <Icon name="arrow" /></a></div>
-          <div className="hq-stats" aria-label="Coldstream Gaming statistics">{STATS.map((stat) => <div key={stat.label}><span><Icon name={stat.icon} /></span><b>{stat.value}</b><small>{stat.label}</small></div>)}</div>
-          <div className="hq-links"><a href="#/gallery"><span>Gallery</span><b>See the nights we kept.</b><Icon name="arrow" /></a><a href="#/servers"><span>Games</span><b>Find the servers.</b><Icon name="arrow" /></a><a href={STEAM} target="_blank" rel="noopener"><span>Steam</span><b>Join the group.</b><Icon name="arrow" /></a></div>
-        </section>
+        <section className="hub-community-grid"><article className="hub-leaderboard" aria-labelledby="hub-leaderboard-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Community standing</p><h2 id="hub-leaderboard-title">Leaderboard</h2></div><span className="hub-coming">Bot data coming soon</span></header><div className="hub-podium"><div><b>—</b><span>Second</span></div><div className="first"><b>—</b><span>First</span></div><div><b>—</b><span>Third</span></div></div><p className="hub-empty">Public Play, Events and Competitive rankings will appear when the Discord bot begins recording results.</p></article><article className="hub-activity" aria-labelledby="hub-activity-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Live from the community</p><h2 id="hub-activity-title">Recent activity</h2></div><span className="hub-coming">Waiting for bot events</span></header><p className="hub-empty">Rank changes, completed events, featured clips and new members will appear here.</p></article></section>
       </main>
-
       <SiteFooter />
     </div>
   );

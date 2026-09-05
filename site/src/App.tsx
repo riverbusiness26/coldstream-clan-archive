@@ -3,7 +3,6 @@ import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAuth } from './lib/auth';
 import Home, { AccountStrip, SiteFooter, SiteNav } from './views/Home';
 import Landing from './views/Landing';
-import Servers from './views/Servers';
 import Gallery from './views/Gallery';
 const Archive = lazy(() => import('./views/Archive'));
 const Profile = lazy(() => import('./views/Profile'));
@@ -150,7 +149,7 @@ export default function App() {
         <div className={'toast ' + toast.kind} onClick={() => setToast(null)}
           role="status" title="Click to dismiss">{toast.text}</div>
       )}
-      <SiteNav active={view === 'gallery' ? 'Media' : view === 'servers' ? 'Games' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'About' : ''} />
+      <SiteNav active={view === 'gallery' ? 'Media' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'Our History' : ''} />
 
       <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
@@ -158,7 +157,6 @@ export default function App() {
       {!['home','members','gallery','events','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
-      {view === 'servers' && <Servers />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
       {view === 'admin' && <Admin me={me} signOut={signOut} />}

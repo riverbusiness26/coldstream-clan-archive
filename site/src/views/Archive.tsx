@@ -29,7 +29,7 @@ const FILMS_BY_CHANNEL = CHANNELS.map((channel) => ({
 }));
 
 // The deep archive page, now a sibling of the site rather than its root.
-const ARCHIVE_URL = '/lineage/';
+const ARCHIVE_URL = '/#/archive';
 
 const HISTORY = [
   {
