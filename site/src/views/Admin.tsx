@@ -68,6 +68,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [presenceWindows, setPresenceWindows] = useState<PresenceWindowRow[]>([]);
   const [selectedEvent, setSelectedEvent] = useState('');
   const [editingEvent, setEditingEvent] = useState(false);
+  const [creatingEvent, setCreatingEvent] = useState(false);
   const [eventTitle, setEventTitle] = useState('');
   const [eventBody, setEventBody] = useState('');
   const [eventGame, setEventGame] = useState('');
@@ -189,16 +190,67 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setEventDuration(String(currentEvent.duration_minutes));
     setEventKind(currentEvent.event_type);
     setConfirmEventDelete(false);
+    setCreatingEvent(false);
     setEditingEvent(true);
+  }
+
+  function openEventCreator() {
+    setEventTitle('');
+    setEventBody('');
+    setEventGame('Holdfast: Nations At War');
+    setEventStartsAt('');
+    setEventDuration('90');
+    setEventKind('linebattle');
+    setConfirmEventDelete(false);
+    setEditingEvent(false);
+    setCreatingEvent(true);
+  }
+
+  function eventFormError() {
+    if (!eventTitle.trim()) return 'Give the event a title.';
+    if (!eventStartsAt || Number.isNaN(new Date(eventStartsAt).getTime())) return 'Choose a valid start date and time.';
+    const duration = Number(eventDuration);
+    if (!Number.isInteger(duration) || duration < 15 || duration > 1440) return 'Duration must be between 15 and 1440 minutes.';
+    return null;
+  }
+
+  async function createEvent() {
+    setError(null); setDone(null);
+    const validationError = eventFormError();
+    if (validationError) { setError(validationError); return; }
+    const duration = Number(eventDuration);
+    if (!supa) {
+      const id = `preview-${Date.now()}`;
+      setEvents((current) => [{ id, title: eventTitle.trim(), body: eventBody.trim() || null, game: eventGame.trim() || null, starts_at: new Date(eventStartsAt).toISOString(), duration_minutes: duration, cancelled: false, event_type: eventKind, deleted_at: null }, ...current]);
+      setSelectedEvent(id);
+      setCreatingEvent(false);
+      setDone('Preview only. The event was not posted to Discord.');
+      return;
+    }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    const result = await supa.rpc('create_managed_event', {
+      event_title: eventTitle.trim(),
+      event_body: eventBody.trim() || null,
+      event_game: eventGame.trim() || null,
+      event_starts_at: new Date(eventStartsAt).toISOString(),
+      event_duration_minutes: duration,
+      event_kind: eventKind,
+    });
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    setCreatingEvent(false);
+    setSelectedEvent(result.data as string);
+    setDone('Event created. Its #staffchat Discord post is queued.');
+    await load();
   }
 
   async function saveEvent() {
     setError(null); setDone(null);
     if (!currentEvent) return;
-    if (!eventTitle.trim()) { setError('Give the event a title.'); return; }
-    if (!eventStartsAt || Number.isNaN(new Date(eventStartsAt).getTime())) { setError('Choose a valid start date and time.'); return; }
+    const validationError = eventFormError();
+    if (validationError) { setError(validationError); return; }
     const duration = Number(eventDuration);
-    if (!Number.isInteger(duration) || duration < 15 || duration > 1440) { setError('Duration must be between 15 and 1440 minutes.'); return; }
     if (!supa) { setDone('Preview only. The event was not changed.'); setEditingEvent(false); return; }
     if (!await confirmDiscordRole()) return;
     setBusy(true);
@@ -591,12 +643,24 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
 
       {tab === 'attendance' && <section className="command-panel-grid attendance-grid">
         <aside className="command-card attendance-events">
-          <div className="command-section-head"><div><span>Event record</span><h2>Attendance</h2></div><b>{events.length}</b></div>
-          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No current-era events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id ? 'active' : ''} key={event.id} onClick={() => setSelectedEvent(event.id)}><time>{date(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}</small></div></button>)}</div>
+          <div className="command-section-head"><div><span>Event record</span><h2>Attendance</h2></div><div className="event-list-actions"><b>{events.length}</b><button className="command-primary" onClick={openEventCreator}>Add event</button></div></div>
+          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No current-era events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{date(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}</small></div></button>)}</div>
         </aside>
 
         <div className="command-card attendance-review">
-          <div className="command-section-head"><div><span>Event management</span><h2>{currentEvent?.title ?? 'Choose an event'}</h2></div>{currentEvent ? <div className="event-manage-actions"><button className="command-secondary" onClick={openEventEditor}>{editingEvent ? 'Reset form' : 'Edit event'}</button><button className="command-danger ghost" onClick={() => { setEditingEvent(false); setConfirmEventDelete(true); }}>Remove event</button></div> : <FaCalendarCheck />}</div>
+          <div className="command-section-head"><div><span>Event management</span><h2>{creatingEvent ? 'Add an event' : currentEvent?.title ?? 'Choose an event'}</h2></div>{currentEvent && !creatingEvent ? <div className="event-manage-actions"><button className="command-secondary" onClick={openEventEditor}>{editingEvent ? 'Reset form' : 'Edit event'}</button><button className="command-danger ghost" onClick={() => { setEditingEvent(false); setConfirmEventDelete(true); }}>Remove event</button></div> : <FaCalendarCheck />}</div>
+          {creatingEvent && <div className="event-edit-form">
+            <div className="command-section-head"><div><span>Posts in #staffchat</span><h3>Create event</h3></div></div>
+            <div className="command-form event-form-grid">
+              <label>Title<input value={eventTitle} maxLength={100} onChange={(event) => setEventTitle(event.target.value)} placeholder="Friday Linebattle" /></label>
+              <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} /></label>
+              <label>Start date and time<input type="datetime-local" value={eventStartsAt} onChange={(event) => setEventStartsAt(event.target.value)} /></label>
+              <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
+              <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="linebattle">Linebattle</option><option value="training">Training</option><option value="social">Social</option><option value="campaign">Campaign</option><option value="other">Other</option></select></label>
+              <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
+              <div className="event-form-actions"><button className="command-primary" disabled={busy} onClick={createEvent}>{busy ? 'Creating' : 'Create event'}</button><button className="command-secondary" disabled={busy} onClick={() => setCreatingEvent(false)}>Cancel</button></div>
+            </div>
+          </div>}
           {editingEvent && currentEvent && <div className="event-edit-form">
             <div className="command-section-head"><div><span>Discord synchronized</span><h3>Edit event</h3></div></div>
             <div className="command-form event-form-grid">
