@@ -56,7 +56,6 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
           <a className="splash-choice join" href={DISCORD} target="_blank" rel="noopener">Join us!</a>
           <button className="splash-choice login" type="button" onClick={() => me ? go('home') : signIn()}>Member Login</button>
         </div>
-        <p className="splash-access-note">Member, Moderator or Admin role required.</p>
       </div>
     </div>
   );
