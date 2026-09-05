@@ -4,15 +4,16 @@ import {
   FaArrowRight,
   FaBars,
   FaDiscord,
-  FaEnvelope,
   FaSteam,
+  FaYoutube,
 } from 'react-icons/fa6';
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
-const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
+const STEAM = 'https://steamcommunity.com/groups/2ndColdstreamOfficial';
+const YOUTUBE = 'https://www.youtube.com/@2ndColdstreamGuards';
 
 const HOME_FILMS = [
   { src: '/video/memories/tribute-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
@@ -69,13 +70,13 @@ export function HomeFilm() {
   );
 }
 
-type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'arrow';
+type IconName = 'menu' | 'discord' | 'steam' | 'youtube' | 'arrow';
 
 const ICONS: Record<IconName, IconType> = {
   menu: FaBars,
   discord: FaDiscord,
   steam: FaSteam,
-  mail: FaEnvelope,
+  youtube: FaYoutube,
   arrow: FaArrowRight,
 };
 
@@ -85,11 +86,10 @@ export function Icon({ name }: { name: IconName }) {
 }
 
 const NAV = [
-  ['Home', '#/home'], ['About', '#/archive'], ['Games', '#/servers'],
-  ['Community', DISCORD], ['Media', '#/gallery'], ['Join', DISCORD],
+  ['Home', '#/home'], ['About', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
 ] as const;
 
-export function SiteNav({ active = 'Home', showSteam = true }: { active?: string; showSteam?: boolean }) {
+export function SiteNav({ active = 'Home' }: { active?: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="cg-nav">
@@ -101,8 +101,8 @@ export function SiteNav({ active = 'Home', showSteam = true }: { active?: string
       </nav>
       <div className="cg-social" aria-label="Community links">
         <a href={DISCORD} target="_blank" rel="noopener" aria-label="Discord"><Icon name="discord" /></a>
-        {showSteam && <a href={STEAM} target="_blank" rel="noopener" aria-label="Steam group"><Icon name="steam" /></a>}
-        <a href="mailto:contact@coldstreamgaming.com" aria-label="Email Coldstream Gaming"><Icon name="mail" /></a>
+        <a href={STEAM} target="_blank" rel="noopener" aria-label="2nd Coldstream Official Steam group"><Icon name="steam" /></a>
+        <a href={YOUTUBE} target="_blank" rel="noopener" aria-label="2nd Coldstream YouTube channel"><Icon name="youtube" /></a>
       </div>
     </header>
   );
@@ -148,7 +148,7 @@ export function SiteFooter() {
 export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void }) {
   return (
     <div className="cg-home csg-homepage">
-      <SiteNav active="Home" showSteam={false} />
+      <SiteNav active="Home" />
       <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
       <main className="csg-home-main">
@@ -176,7 +176,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
             <p className="cg-eyebrow">Who we are</p>
             <h2 id="csg-home-about-title">A regiment with a record.</h2>
           </div>
-          <p>Coldstream Gaming is a multi-gaming community established in 2011. We are the home of the 2nd Coldstream (2ndCS) Holdfast regiment.</p>
+          <p>Coldstream Gaming is a multi-gaming community established in 2011. We are the home of the 2nd Coldstream [2ndCS] Holdfast regiment.</p>
           <a href="#/archive">See our history <Icon name="arrow" /></a>
         </section>
       </main>
