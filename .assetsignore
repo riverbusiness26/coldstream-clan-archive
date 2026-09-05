@@ -18,6 +18,8 @@
 /.gitignore
 /.assetsignore
 /.claude/
+/.traycer/
+/.wrangler/
 /.gitattributes
 
 # Toolchain and dependencies
@@ -33,6 +35,8 @@
 /data/
 /brand/
 /backup/
+/docs/
+/_handoff_patches/
 
 # Scraper and build scripts that live at the root
 /*.js
