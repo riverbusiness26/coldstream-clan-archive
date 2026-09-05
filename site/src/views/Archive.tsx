@@ -91,15 +91,11 @@ export default function Archive({ me: _me }: { me: Me | null }) {
         {/* The record room, per CSG Archive.png and artwork.png: the page says
             what it is before any module does, and the section marks sit on the
             page rather than on a box lid. */}
-        <div className="page-head">
-          <h1>A long history, kept simple.</h1>
-          <p className="page-sub">The games changed. The community carried on.</p>
-        </div>
-
         <section className="archive-intro" aria-labelledby="archive-story-title">
           <div>
             <p className="cg-eyebrow">Since 2011</p>
-            <h2 id="archive-story-title">Coldstream Gaming, kept together.</h2>
+            <h1 id="archive-story-title">A long history, kept simple.</h1>
+            <h2>Coldstream Gaming, kept together.</h2>
             <p>Coldstream Gaming has moved through different games and group names since 2011. The details are kept in the record, but the important part is straightforward: people kept coming back to play together.</p>
           </div>
           <div className="archive-quick-stats" aria-label="Archive totals">

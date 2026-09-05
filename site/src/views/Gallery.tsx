@@ -200,37 +200,6 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         <p className="page-sub">The plate room.</p>
       </div>
 
-      {/* Label, figure, then where it came from. The refs put a source line
-          under every count and they are right to: a bare number on a record
-          page is a claim. These say what the seeds actually are. */}
-      <div className="pr-numbers">
-        <div className="module">
-          <div className="mhead"><h2>The Numbers</h2><span className="sub">what is in the room</span></div>
-          <div className="stats sourced" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
-            <div className="stat">
-              <div className="l">plates recovered</div>
-              <div className="n">{loading ? '·' : record.length}</div>
-              <div className="src">from the community archives</div>
-            </div>
-            <div className="stat">
-              <div className="l">on the wall</div>
-              <div className="n">{loading ? '·' : members.length}</div>
-              <div className="src">added by members</div>
-            </div>
-            <div className="stat">
-              <div className="l">films</div>
-              <div className="n">{loading ? '·' : films}</div>
-              <div className="src">gathered, not hosted</div>
-            </div>
-            <div className="stat">
-              <div className="l">years covered</div>
-              <div className="n">{loading ? '·' : years.size}</div>
-              <div className="src">earliest dated plate on</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {loadError && (
         <div className="pr-alert">
           <div className="module alert">
