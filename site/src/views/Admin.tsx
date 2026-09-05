@@ -165,6 +165,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const currentRsvps = rsvps.filter((row) => row.event_id === selectedEvent);
   const currentPresence = presenceRoll.filter((row) => row.event_id === selectedEvent);
   const currentWindow = presenceWindows.find((row) => row.event_id === selectedEvent) ?? null;
+  const trackedMinutes = currentWindow
+    ? Math.max(0, Math.round((new Date(currentWindow.last_sample).getTime() - new Date(currentWindow.first_sample).getTime()) / 60_000))
+    : 0;
   const presenceByDiscord = new Map(currentPresence.map((row) => [row.discord_id, row]));
   const rsvpByMember = new Map(currentRsvps.map((row) => [row.member_id, row]));
   const attendanceMembers = members
@@ -720,18 +723,26 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           {confirmEventDelete && currentEvent && <div className="event-delete-confirm" role="alertdialog" aria-labelledby="event-delete-title"><FaCalendarCheck /><div><h3 id="event-delete-title">Remove {currentEvent.title}?</h3><p>This removes the event from the website and tells the Discord bot to delete its public and staff posts. Attendance records remain in the audit trail.</p></div><div><button className="command-danger" disabled={busy} onClick={removeEvent}>{busy ? 'Removing' : 'Confirm removal'}</button><button className="command-secondary" disabled={busy} onClick={() => setConfirmEventDelete(false)}>Keep event</button></div></div>}
           {currentEvent && <div className="attendance-summary">
             <div><small>Starts</small><b>{dateTime(currentEvent.starts_at)}</b></div>
-            <div><small>Voice samples</small><b>{currentWindow?.samples_taken ?? 0}</b></div>
+            <div><small>Tracked time</small><b>{currentWindow ? trackedMinutes > 0 ? `${trackedMinutes} minutes` : 'Just started' : 'Not started'}</b></div>
             <div><small>People seen</small><b>{currentWindow?.people_seen ?? 0}</b></div>
             <div><small>Confirmed</small><b>{currentRsvps.filter((row) => row.attendance === 'attended').length}</b></div>
           </div>}
-          {currentEvent && attendanceMembers.length === 0 && unlinkedPresence.length === 0 && <div className="command-empty">No RSVPs or voice-presence samples are recorded for this event yet.</div>}
+          {currentEvent && attendanceMembers.length === 0 && unlinkedPresence.length === 0 && <div className="command-empty">No RSVPs or voice activity was recorded for this event.</div>}
           <div className="attendance-roll">{attendanceMembers.map((member) => {
             const rsvp = rsvpByMember.get(member.id);
             const presence = member.discord_id ? presenceByDiscord.get(member.discord_id) : null;
             const coverage = presence && currentWindow?.samples_taken ? Math.min(100, Math.round((presence.samples / currentWindow.samples_taken) * 100)) : 0;
+            const rsvpLabel = rsvp?.status === 'going' ? 'Attending' : rsvp?.status === 'maybe' ? 'Maybe' : rsvp?.status === 'out' ? 'Not attending' : 'No reply';
+            const voiceSummary = !presence
+              ? 'Not detected in voice during this event'
+              : trackedMinutes < 1
+                ? 'Detected in voice when tracking started'
+                : coverage >= 95
+                  ? `In voice for the full ${trackedMinutes}-minute tracking window`
+                  : `In voice for about ${Math.max(1, Math.round(trackedMinutes * coverage / 100))} of ${trackedMinutes} tracked minutes`;
             return <article key={member.id}>
               <DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" />
-              <div><b>{member.display_name}</b><span>RSVP: {rsvp?.status ?? 'No reply'}</span><small>{presence ? `Seen in voice for ${presence.samples} of ${currentWindow?.samples_taken ?? presence.samples} samples (${coverage}%)` : 'Not seen in the voice samples'}</small></div>
+              <div><b>{member.display_name}</b><span>RSVP: {rsvpLabel}</span><small>{voiceSummary}</small></div>
               <div className="attendance-actions" aria-label={`Attendance for ${member.display_name}`}>
                 <button className={rsvp?.attendance === 'attended' ? 'active attended' : ''} disabled={busy} onClick={() => setAttendance(member.id, 'attended')}>Attended</button>
                 <button className={rsvp?.attendance === 'no_show' ? 'active no-show' : ''} disabled={busy} onClick={() => setAttendance(member.id, 'no_show')}>No-show</button>
