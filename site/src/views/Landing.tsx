@@ -22,7 +22,9 @@
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 
-export default function Landing({ go }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
+const DISCORD = 'https://discord.gg/75sfq5VPY';
+
+export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void }) {
   return (
     <div className="splash">
       {/* Decorative. Every word a reader needs is in the markup below, so
@@ -50,15 +52,11 @@ export default function Landing({ go }: { me: Me | null; go: (v: string) => void
           <img src={asset('/wordmark.webp')} alt="We&rsquo;re back. Second to none."
                width={2087} height={392} fetchPriority="high" />
         </h1>
-        {/* The plaque remains a real anchor, so keyboard focus, middle click
-            and the hash-route fallback still work. */}
-        <a
-          className="splash-enter"
-          href="#/home"
-          onClick={(e) => { e.preventDefault(); go('home'); }}
-        >
-          <img src={asset('/enter-plaque.webp')} alt="Enter the site" width={1212} height={224} />
-        </a>
+        <div className="splash-actions">
+          <a className="splash-choice join" href={DISCORD} target="_blank" rel="noopener">Join us!</a>
+          <button className="splash-choice login" type="button" onClick={() => me ? go('home') : signIn()}>Member Login</button>
+        </div>
+        <p className="splash-access-note">Member, Moderator or Admin role required.</p>
       </div>
     </div>
   );

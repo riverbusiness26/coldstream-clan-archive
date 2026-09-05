@@ -37,7 +37,7 @@ const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
 const AUTH_RETURN = sessionStorage.getItem('coldstream-auth-return') || '#/home';
 
 export default function App() {
-  const { me, signIn, signOut, refresh, demo, orphanSession } = useAuth();
+  const { me, signIn, signOut, refresh, demo, orphanSession, authReady, accessDenied } = useAuth();
 
   // Feedback the moment the session lands or the sign in fails.
   const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string; ms?: number } | null>(null);
@@ -85,6 +85,10 @@ export default function App() {
     if (!orphanSession) return;
     setToast({ kind: 'err', text: 'Signed in through Discord, but your member record did not save. Try signing in again.', ms: 9000 });
   }, [orphanSession]);
+  useEffect(() => {
+    if (!accessDenied) return;
+    setToast({ kind: 'err', text: 'Member access is required. Join us on Discord or contact staff if you should have access.', ms: 9000 });
+  }, [accessDenied]);
   const [view, setView] = useState(routeFromHash);
 
   useEffect(() => {
@@ -118,7 +122,7 @@ export default function App() {
   const go = (v: string) => { location.hash = '#/' + v; window.scrollTo(0, 0); };
 
 
-  if (view === 'landing') {
+  if (view === 'landing' || !authReady || !me) {
     return (
       <>
         <Landing me={me} go={go} signIn={signIn} />

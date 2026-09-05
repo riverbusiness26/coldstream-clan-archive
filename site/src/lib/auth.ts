@@ -14,6 +14,8 @@ export interface Me {
 
 export function useAuth() {
   const [me, setMe] = useState<Me | null>(null);
+  const [authReady, setAuthReady] = useState(DEMO);
+  const [accessDenied, setAccessDenied] = useState(false);
   // A live session whose member row is missing. It means the edge function
   // issued the session but its member upsert did not land, and without this
   // the site would render a signed-in person as a guest and say nothing.
@@ -24,13 +26,20 @@ export function useAuth() {
     const sb = supa;
     const load = async () => {
       const { data: { session } } = await sb.auth.getSession();
-      if (!session) { setMe(null); setOrphanSession(false); return; }
+      if (!session) { setMe(null); setOrphanSession(false); setAccessDenied(false); setAuthReady(true); return; }
       // The edge function checks current Discord server membership and roles,
       // then creates or refreshes the member row. A stale browser value never
       // promotes anybody.
       if (session.user.app_metadata.provider === 'discord') {
         const { error: syncError } = await sb.functions.invoke('discord-member-sync', { body: {} });
-        if (syncError) console.warn('Discord member sync failed:', syncError.message);
+        if (syncError) {
+          console.warn('Discord member sync failed:', syncError.message);
+          setMe(null);
+          setOrphanSession(false);
+          setAccessDenied(true);
+          setAuthReady(true);
+          return;
+        }
       }
       // maybeSingle, not single: no member row is a state to report, not a
       // PGRST116 error to swallow.
@@ -40,6 +49,8 @@ export function useAuth() {
       if (error) console.warn('member row lookup failed:', error.message);
       setMe((data as Me | null) ?? null);
       setOrphanSession(!error && !data);
+      setAccessDenied(false);
+      setAuthReady(true);
     };
     load();
     const { data: sub } = sb.auth.onAuthStateChange(() => load());
@@ -72,8 +83,11 @@ export function useAuth() {
         discord_id: 'preview',
         role: 'admin',
       });
+      setAuthReady(true);
       return;
     }
+    const { data: { session } } = await supa!.auth.getSession();
+    if (session && !me) await supa!.auth.signOut();
     sessionStorage.setItem('coldstream-auth-return', location.hash.startsWith('#/') ? location.hash : '#/home');
     await supa!.auth.signInWithOAuth({
       provider: 'discord',
@@ -83,8 +97,9 @@ export function useAuth() {
   const signOut = () => {
     if (DEMO) { setMe(null); return; }
     setOrphanSession(false);
+    setAccessDenied(false);
     supa!.auth.signOut();
   };
 
-  return { me, signIn, signOut, refresh, demo: DEMO, orphanSession };
+  return { me, signIn, signOut, refresh, demo: DEMO, orphanSession, authReady, accessDenied };
 }

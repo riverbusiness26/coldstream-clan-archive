@@ -96,9 +96,24 @@ Deno.serve(async (req) => {
     user?: { username?: string; global_name?: string | null; avatar?: string | null; discriminator?: string | null };
   };
   const roles = guildMember.roles ?? [];
-  const role = overlaps(roles, ADMIN_ROLES)
+  const isAdmin = overlaps(roles, ADMIN_ROLES);
+  const isModerator = overlaps(roles, MODERATOR_ROLES);
+  const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
+  const { data: byDiscord, error: discordLookupError } = await admin.from("member").select("id").eq("discord_id", discordId).maybeSingle();
+  const { data: byAuth, error: authLookupError } = byDiscord
+    ? { data: null, error: null }
+    : await admin.from("member").select("id").eq("auth_user_id", user.id).maybeSingle();
+  if (discordLookupError || authLookupError) {
+    console.error("Member access lookup failed", discordLookupError ?? authLookupError);
+    return reply(origin, { ok: false, error: "Member access could not be checked" }, 500);
+  }
+  const existingId = byDiscord?.id ?? byAuth?.id ?? null;
+  if (!existingId && !isAdmin && !isModerator) {
+    return reply(origin, { ok: false, error: "Member, Moderator or Admin role required" }, 403);
+  }
+  const role = isAdmin
     ? "admin"
-    : overlaps(roles, MODERATOR_ROLES)
+    : isModerator
     ? "moderator"
     : "member";
   const username = guildMember.user?.username
@@ -110,13 +125,6 @@ Deno.serve(async (req) => {
   // metadata URL. That makes Discord the only avatar source and also respects
   // server-specific profile pictures.
   const avatarUrl = discordAvatarUrl(discordId, guildMember.user?.avatar, guildMember.avatar, guildMember.user?.discriminator);
-
-  const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
-  const { data: byDiscord } = await admin.from("member").select("id").eq("discord_id", discordId).maybeSingle();
-  const { data: byAuth } = byDiscord
-    ? { data: null }
-    : await admin.from("member").select("id").eq("auth_user_id", user.id).maybeSingle();
-  const existingId = byDiscord?.id ?? byAuth?.id ?? null;
 
   const values = {
     auth_user_id: user.id,
