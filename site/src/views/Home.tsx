@@ -136,7 +136,7 @@ const STATS = [
   { icon: 'calendar', value: '2011', label: 'Established' },
   { icon: 'timeline', value: '4', label: 'Line-Battle Eras' },
   { icon: 'people', value: '315+', label: 'Members' },
-  { icon: 'calendar', value: '1,227+', label: 'Recorded Events' },
+  { icon: 'calendar', value: '1227', label: 'Recorded Events' },
 ] as const satisfies readonly { icon: IconName; value: string; label: string }[];
 
 function Ornament() {

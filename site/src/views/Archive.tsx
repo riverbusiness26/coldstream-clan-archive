@@ -134,7 +134,7 @@ export default function Archive({ me: _me }: { me: Me | null }) {
         </section>
 
         <section className="archive-featured" aria-labelledby="archive-featured-title">
-          <div className="mhead"><h2 id="archive-featured-title">From the record</h2><span className="sub">three films from the archive</span></div>
+          <div className="mhead"><h2 id="archive-featured-title">From the record</h2><span className="sub">three videos from the archive</span></div>
           <div className="archive-film-row">
             {FEATURED_HISTORY.map((film) => <a href={`https://www.youtube.com/watch?v=${film.id}`} target="_blank" rel="noopener" key={film.id}>
               <img src={`https://i.ytimg.com/vi/${film.id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
@@ -163,7 +163,7 @@ export default function Archive({ me: _me }: { me: Me | null }) {
 
         <div className="module">
           <div className="mhead">
-            <h3>The Archive</h3>
+            <h3>Record room</h3>
             <span className="sub">the record room · everything labeled, nothing deleted</span>
           </div>
           <div className="note">
