@@ -11,7 +11,7 @@ interface MemberRow { id: string; display_name: string; avatar_url: string | nul
 interface CompanyRow { id: string; name: string; tag: string | null; color: string | null; emblem_storage_key: string | null; emblem_image_mime: string | null; sort_order: number }
 interface AssignmentRow { id: string; member_id: string; item_id: string; item_kind: ItemKind; assigned_by: string; assigned_at: string; note: string | null; removed_at: string | null }
 interface AuditRow { id: number; actor_id: string | null; action: string; member_id: string | null; item_id: string | null; created_at: string }
-interface EventRow { id: string; title: string; starts_at: string; duration_minutes: number; cancelled: boolean; event_type: string }
+interface EventRow { id: string; title: string; body: string | null; game: string | null; starts_at: string; duration_minutes: number; cancelled: boolean; event_type: string; deleted_at: string | null }
 interface RsvpRow { event_id: string; member_id: string; status: string | null; attendance: 'attended' | 'no_show' | null }
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
 interface PresenceWindowRow { event_id: string; samples_taken: number; people_seen: number; first_sample: string; last_sample: string }
@@ -22,6 +22,7 @@ const PREVIEW_ITEMS: PersonnelItem[] = [
 ];
 const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member', company_id: null }];
 const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Coldstream Guards', tag: '2ndCS', color: null, emblem_storage_key: null, emblem_image_mime: null, sort_order: 0 }];
+const PREVIEW_EVENTS: EventRow[] = [{ id: 'preview-event', title: 'Friday Linebattle', body: 'Form up 15 minutes before the event.', game: 'Holdfast: Nations At War', starts_at: new Date(Date.now() + 86_400_000).toISOString(), duration_minutes: 90, cancelled: false, event_type: 'linebattle', deleted_at: null }];
 const date = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 const dateTime = (value: string) => new Date(value).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const labelAction = (value: string) => value.replaceAll('_', ' ').replaceAll('.', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -66,6 +67,14 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [presenceRoll, setPresenceRoll] = useState<PresenceRollRow[]>([]);
   const [presenceWindows, setPresenceWindows] = useState<PresenceWindowRow[]>([]);
   const [selectedEvent, setSelectedEvent] = useState('');
+  const [editingEvent, setEditingEvent] = useState(false);
+  const [eventTitle, setEventTitle] = useState('');
+  const [eventBody, setEventBody] = useState('');
+  const [eventGame, setEventGame] = useState('');
+  const [eventStartsAt, setEventStartsAt] = useState('');
+  const [eventDuration, setEventDuration] = useState('90');
+  const [eventKind, setEventKind] = useState('other');
+  const [confirmEventDelete, setConfirmEventDelete] = useState(false);
   const [galleryPending, setGalleryPending] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,7 +96,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents([]); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0);
       return;
     }
     const [itemResult, memberResult, companyResult, assignmentResult, auditResult, galleryResult, eventResult] = await Promise.all([
@@ -97,7 +106,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       supa.from('personnel_assignment').select('id,member_id,item_id,item_kind,assigned_by,assigned_at,note,removed_at').is('removed_at', null).order('assigned_at', { ascending: false }),
       supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,created_at').order('created_at', { ascending: false }).limit(100),
       supa.from('gallery_item').select('id').eq('approved', false),
-      supa.from('event').select('id,title,starts_at,duration_minutes,cancelled,event_type').eq('historic', false).order('starts_at', { ascending: false }).limit(50),
+      supa.from('event').select('id,title,body,game,starts_at,duration_minutes,cancelled,event_type,deleted_at').eq('historic', false).is('deleted_at', null).order('starts_at', { ascending: false }).limit(50),
     ]);
     const firstError = itemResult.error || memberResult.error || companyResult.error || assignmentResult.error || auditResult.error || eventResult.error;
     if (firstError) { setError(/personnel_/i.test(firstError.message) ? 'The Command Board database migration has not been applied yet.' : firstError.message); return; }
@@ -139,6 +148,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const companyById = useMemo(() => new Map(companies.map((company) => [company.id, company])), [companies]);
   const currentItem = items.find((item) => item.id === selectedItem) ?? null;
   useEffect(() => { setConfirmDelete(null); setReplacementFile(null); }, [selectedItem]);
+  useEffect(() => { setEditingEvent(false); setConfirmEventDelete(false); }, [selectedEvent]);
   const visibleItems = items.filter((item) => catalogueFilter === 'all' || item.kind === catalogueFilter);
   const visibleMembers = members.filter((member) => member.display_name.toLowerCase().includes(memberSearch.toLowerCase()));
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
@@ -166,6 +176,71 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setNavOpen(false);
     setError(null);
     setDone(null);
+  }
+
+  function openEventEditor() {
+    if (!currentEvent) return;
+    const localStart = new Date(currentEvent.starts_at);
+    localStart.setMinutes(localStart.getMinutes() - localStart.getTimezoneOffset());
+    setEventTitle(currentEvent.title);
+    setEventBody(currentEvent.body ?? '');
+    setEventGame(currentEvent.game ?? '');
+    setEventStartsAt(localStart.toISOString().slice(0, 16));
+    setEventDuration(String(currentEvent.duration_minutes));
+    setEventKind(currentEvent.event_type);
+    setConfirmEventDelete(false);
+    setEditingEvent(true);
+  }
+
+  async function saveEvent() {
+    setError(null); setDone(null);
+    if (!currentEvent) return;
+    if (!eventTitle.trim()) { setError('Give the event a title.'); return; }
+    if (!eventStartsAt || Number.isNaN(new Date(eventStartsAt).getTime())) { setError('Choose a valid start date and time.'); return; }
+    const duration = Number(eventDuration);
+    if (!Number.isInteger(duration) || duration < 15 || duration > 1440) { setError('Duration must be between 15 and 1440 minutes.'); return; }
+    if (!supa) { setDone('Preview only. The event was not changed.'); setEditingEvent(false); return; }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    const result = await supa.rpc('manage_event', {
+      target_event: currentEvent.id,
+      operation: 'edit',
+      event_title: eventTitle.trim(),
+      event_body: eventBody.trim() || null,
+      event_game: eventGame.trim() || null,
+      event_starts_at: new Date(eventStartsAt).toISOString(),
+      event_duration_minutes: duration,
+      event_kind: eventKind,
+    });
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    setEditingEvent(false);
+    setDone('Event saved. The Discord post is queued to update.');
+    await load();
+  }
+
+  async function removeEvent() {
+    setError(null); setDone(null);
+    if (!currentEvent || !confirmEventDelete) return;
+    if (!supa) { setEvents((current) => current.filter((event) => event.id !== currentEvent.id)); setDone('Preview only. The event was removed from this preview.'); return; }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    const result = await supa.rpc('manage_event', {
+      target_event: currentEvent.id,
+      operation: 'delete',
+      event_title: null,
+      event_body: null,
+      event_game: null,
+      event_starts_at: null,
+      event_duration_minutes: null,
+      event_kind: null,
+    });
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    setEvents((current) => current.filter((event) => event.id !== currentEvent.id));
+    setSelectedEvent('');
+    setConfirmEventDelete(false);
+    setDone('Event removed. The Discord posts are queued for removal.');
   }
 
   async function confirmDiscordRole() {
@@ -521,7 +596,20 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </aside>
 
         <div className="command-card attendance-review">
-          <div className="command-section-head"><div><span>Human review</span><h2>{currentEvent?.title ?? 'Choose an event'}</h2></div><FaCalendarCheck /></div>
+          <div className="command-section-head"><div><span>Event management</span><h2>{currentEvent?.title ?? 'Choose an event'}</h2></div>{currentEvent ? <div className="event-manage-actions"><button className="command-secondary" onClick={openEventEditor}>{editingEvent ? 'Reset form' : 'Edit event'}</button><button className="command-danger ghost" onClick={() => { setEditingEvent(false); setConfirmEventDelete(true); }}>Remove event</button></div> : <FaCalendarCheck />}</div>
+          {editingEvent && currentEvent && <div className="event-edit-form">
+            <div className="command-section-head"><div><span>Discord synchronized</span><h3>Edit event</h3></div></div>
+            <div className="command-form event-form-grid">
+              <label>Title<input value={eventTitle} maxLength={100} onChange={(event) => setEventTitle(event.target.value)} /></label>
+              <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} placeholder="Holdfast: Nations At War" /></label>
+              <label>Start date and time<input type="datetime-local" value={eventStartsAt} onChange={(event) => setEventStartsAt(event.target.value)} /></label>
+              <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
+              <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="linebattle">Linebattle</option><option value="training">Training</option><option value="social">Social</option><option value="campaign">Campaign</option><option value="other">Other</option></select></label>
+              <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
+              <div className="event-form-actions"><button className="command-primary" disabled={busy} onClick={saveEvent}>{busy ? 'Saving' : 'Save changes'}</button><button className="command-secondary" disabled={busy} onClick={() => setEditingEvent(false)}>Cancel</button></div>
+            </div>
+          </div>}
+          {confirmEventDelete && currentEvent && <div className="event-delete-confirm" role="alertdialog" aria-labelledby="event-delete-title"><FaCalendarCheck /><div><h3 id="event-delete-title">Remove {currentEvent.title}?</h3><p>This removes the event from the website and tells the Discord bot to delete its public and staff posts. Attendance records remain in the audit trail.</p></div><div><button className="command-danger" disabled={busy} onClick={removeEvent}>{busy ? 'Removing' : 'Confirm removal'}</button><button className="command-secondary" disabled={busy} onClick={() => setConfirmEventDelete(false)}>Keep event</button></div></div>}
           {currentEvent && <div className="attendance-summary">
             <div><small>Starts</small><b>{dateTime(currentEvent.starts_at)}</b></div>
             <div><small>Voice samples</small><b>{currentWindow?.samples_taken ?? 0}</b></div>
