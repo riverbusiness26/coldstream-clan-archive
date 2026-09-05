@@ -122,10 +122,10 @@ export function AccountStrip({ me, signIn, signOut }: { me: Me | null; signIn: (
 }
 
 const STATS = [
-  { value: '2011', label: 'Established' },
-  { value: '4', label: 'Line-Battle Eras' },
+  { value: '2011', label: 'Founded' },
+  { value: '4', label: 'Eras' },
   { value: '315+', label: 'Members' },
-  { value: '1,227+', label: 'Recorded Events' },
+  { value: '1,227+', label: 'Events' },
 ] as const;
 
 function Ornament() {
@@ -155,15 +155,13 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
         <section className="csg-home-hero" aria-labelledby="cg-home-title">
           <div className="csg-home-glow" aria-hidden="true" />
           <img className="csg-home-crest" src={asset('/home/hero-crest-blood.png')} width="1228" height="1228" alt="Coldstream Gaming Second to None crest" fetchPriority="high" />
-          <p className="csg-home-kicker">The 2nd Coldstream Guards</p>
           <h1 id="cg-home-title">Coldstream Gaming</h1>
           <div className="csg-home-motto" aria-label="Second to none"><i /><span>Second to none.</span><i /></div>
-          <p className="csg-home-intro">A gaming community with more than a decade of history, built around organized play and the people who keep showing up.</p>
           <div className="csg-home-actions">
-            <a className="csg-home-primary" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join us</a>
+            <a className="csg-home-primary" href={DISCORD} target="_blank" rel="noopener">Join us (Discord)</a>
             {me
               ? <a className="csg-home-secondary" href="#/player-profile">My profile <Icon name="arrow" /></a>
-              : <button className="csg-home-secondary" type="button" onClick={signIn}><Icon name="discord" />Member login</button>}
+              : <button className="csg-home-secondary" type="button" onClick={signIn}>Member login</button>}
           </div>
         </section>
 
@@ -173,15 +171,13 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
 
         <section className="csg-home-about" aria-labelledby="csg-home-about-title">
           <div>
-            <p className="cg-eyebrow">Who we are</p>
-            <h2 id="csg-home-about-title">A regiment with a record.</h2>
+            <h2 id="csg-home-about-title">Who we are</h2>
+            <p>A multi-gaming community established in 2011, home of the 2nd Coldstream Holdfast regiment.</p>
           </div>
-          <p>Coldstream Gaming is a multi-gaming community established in 2011. We are the home of the 2nd Coldstream [2ndCS] Holdfast regiment.</p>
           <a href="#/archive">See our history <Icon name="arrow" /></a>
         </section>
+        <div className="csg-home-values" aria-label="Discipline, loyalty, excellence"><i />Discipline <b>•</b> Loyalty <b>•</b> Excellence <i /></div>
       </main>
-
-      <SiteFooter />
     </div>
   );
 }
