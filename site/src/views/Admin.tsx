@@ -25,6 +25,12 @@ const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Col
 const PREVIEW_EVENTS: EventRow[] = [{ id: 'preview-event', title: 'Friday Linebattle', body: 'Form up 15 minutes before the event.', game: 'Holdfast: Nations At War', starts_at: new Date(Date.now() + 86_400_000).toISOString(), duration_minutes: 90, cancelled: false, event_type: 'linebattle', deleted_at: null }];
 const date = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 const dateTime = (value: string) => new Date(value).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const dateInputValue = (value: Date) => {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, '0');
+  const day = String(value.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 const labelAction = (value: string) => value.replaceAll('_', ' ').replaceAll('.', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 
 export default function Admin({ me, signOut }: { me: Me | null; signOut: () => void }) {
@@ -72,7 +78,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [eventTitle, setEventTitle] = useState('');
   const [eventBody, setEventBody] = useState('');
   const [eventGame, setEventGame] = useState('');
-  const [eventStartsAt, setEventStartsAt] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventTime, setEventTime] = useState('19:00');
   const [eventDuration, setEventDuration] = useState('90');
   const [eventKind, setEventKind] = useState('other');
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
@@ -186,7 +193,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setEventTitle(currentEvent.title);
     setEventBody(currentEvent.body ?? '');
     setEventGame(currentEvent.game ?? '');
-    setEventStartsAt(localStart.toISOString().slice(0, 16));
+    const localValue = localStart.toISOString().slice(0, 16);
+    setEventDate(localValue.slice(0, 10));
+    setEventTime(localValue.slice(11, 16));
     setEventDuration(String(currentEvent.duration_minutes));
     setEventKind(currentEvent.event_type);
     setConfirmEventDelete(false);
@@ -198,7 +207,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setEventTitle('');
     setEventBody('');
     setEventGame('Holdfast: Nations At War');
-    setEventStartsAt('');
+    setEventDate('');
+    setEventTime('19:00');
     setEventDuration('90');
     setEventKind('linebattle');
     setConfirmEventDelete(false);
@@ -208,11 +218,30 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
 
   function eventFormError() {
     if (!eventTitle.trim()) return 'Give the event a title.';
-    if (!eventStartsAt || Number.isNaN(new Date(eventStartsAt).getTime())) return 'Choose a valid start date and time.';
+    if (!eventDate) return 'Choose the event date.';
+    if (!eventTime) return 'Choose the start time.';
+    if (Number.isNaN(new Date(`${eventDate}T${eventTime}`).getTime())) return 'Choose a valid event date and start time.';
     const duration = Number(eventDuration);
     if (!Number.isInteger(duration) || duration < 15 || duration > 1440) return 'Duration must be between 15 and 1440 minutes.';
     return null;
   }
+
+  function chooseEventDay(day: 'today' | 'tomorrow' | 'friday' | 'saturday') {
+    const chosen = new Date();
+    chosen.setHours(12, 0, 0, 0);
+    if (day === 'tomorrow') chosen.setDate(chosen.getDate() + 1);
+    if (day === 'friday' || day === 'saturday') {
+      const target = day === 'friday' ? 5 : 6;
+      const daysAhead = (target - chosen.getDay() + 7) % 7;
+      chosen.setDate(chosen.getDate() + daysAhead);
+    }
+    setEventDate(dateInputValue(chosen));
+  }
+
+  const eventStartValue = eventDate && eventTime ? `${eventDate}T${eventTime}` : '';
+  const eventStartPreview = eventStartValue && !Number.isNaN(new Date(eventStartValue).getTime())
+    ? new Date(eventStartValue).toLocaleString(undefined, { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' })
+    : null;
 
   async function createEvent() {
     setError(null); setDone(null);
@@ -221,7 +250,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     const duration = Number(eventDuration);
     if (!supa) {
       const id = `preview-${Date.now()}`;
-      setEvents((current) => [{ id, title: eventTitle.trim(), body: eventBody.trim() || null, game: eventGame.trim() || null, starts_at: new Date(eventStartsAt).toISOString(), duration_minutes: duration, cancelled: false, event_type: eventKind, deleted_at: null }, ...current]);
+      setEvents((current) => [{ id, title: eventTitle.trim(), body: eventBody.trim() || null, game: eventGame.trim() || null, starts_at: new Date(eventStartValue).toISOString(), duration_minutes: duration, cancelled: false, event_type: eventKind, deleted_at: null }, ...current]);
       setSelectedEvent(id);
       setCreatingEvent(false);
       setDone('Preview only. The event was not posted to Discord.');
@@ -233,7 +262,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       event_title: eventTitle.trim(),
       event_body: eventBody.trim() || null,
       event_game: eventGame.trim() || null,
-      event_starts_at: new Date(eventStartsAt).toISOString(),
+      event_starts_at: new Date(eventStartValue).toISOString(),
       event_duration_minutes: duration,
       event_kind: eventKind,
     });
@@ -260,7 +289,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       event_title: eventTitle.trim(),
       event_body: eventBody.trim() || null,
       event_game: eventGame.trim() || null,
-      event_starts_at: new Date(eventStartsAt).toISOString(),
+      event_starts_at: new Date(eventStartValue).toISOString(),
       event_duration_minutes: duration,
       event_kind: eventKind,
     });
@@ -518,6 +547,21 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
 
   if (!canStaff) return <div className="wrap solo"><main><div className="module"><div className="mhead"><h3>Admin Panel</h3></div><div className="note">This part of the site is for moderators and admins. Sign in through Discord so the site can check your current role.</div></div></main></div>;
 
+  const eventScheduleFields = <fieldset className="event-schedule">
+    <legend>Schedule</legend>
+    <div className="event-day-shortcuts" aria-label="Quick event dates">
+      <button type="button" onClick={() => chooseEventDay('today')}>Today</button>
+      <button type="button" onClick={() => chooseEventDay('tomorrow')}>Tomorrow</button>
+      <button type="button" onClick={() => chooseEventDay('friday')}>Friday</button>
+      <button type="button" onClick={() => chooseEventDay('saturday')}>Saturday</button>
+    </div>
+    <div className="event-date-time-fields">
+      <label>Event date<input type="date" value={eventDate} onChange={(event) => setEventDate(event.target.value)} /></label>
+      <label>Start time<input type="time" value={eventTime} step="900" onChange={(event) => setEventTime(event.target.value)} /></label>
+    </div>
+    <p className={eventStartPreview ? 'event-time-preview ready' : 'event-time-preview'}>{eventStartPreview ? `Starts ${eventStartPreview}` : 'Choose a date. Times use this device’s local timezone.'}</p>
+  </fieldset>;
+
   return (
     <main className={`command-board ${navOpen ? 'nav-open' : ''}`}>
       <button className="admin-menu-button" onClick={() => setNavOpen((open) => !open)} aria-expanded={navOpen}><FaBars /> Menu</button>
@@ -654,7 +698,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
             <div className="command-form event-form-grid">
               <label>Title<input value={eventTitle} maxLength={100} onChange={(event) => setEventTitle(event.target.value)} placeholder="Friday Linebattle" /></label>
               <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} /></label>
-              <label>Start date and time<input type="datetime-local" value={eventStartsAt} onChange={(event) => setEventStartsAt(event.target.value)} /></label>
+              {eventScheduleFields}
               <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
               <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="linebattle">Linebattle</option><option value="training">Training</option><option value="social">Social</option><option value="campaign">Campaign</option><option value="other">Other</option></select></label>
               <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
@@ -666,7 +710,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
             <div className="command-form event-form-grid">
               <label>Title<input value={eventTitle} maxLength={100} onChange={(event) => setEventTitle(event.target.value)} /></label>
               <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} placeholder="Holdfast: Nations At War" /></label>
-              <label>Start date and time<input type="datetime-local" value={eventStartsAt} onChange={(event) => setEventStartsAt(event.target.value)} /></label>
+              {eventScheduleFields}
               <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
               <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="linebattle">Linebattle</option><option value="training">Training</option><option value="social">Social</option><option value="campaign">Campaign</option><option value="other">Other</option></select></label>
               <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
