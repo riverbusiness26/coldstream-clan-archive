@@ -205,8 +205,6 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
           </div>
           <div className="hq-hero-visual">
             <HomeFilm />
-            <div className="hq-standard"><img src={asset('/crest.webp')} width="900" height="920" alt="Coldstream Gaming crest" fetchPriority="high" /><span>Second to none.</span></div>
-            <div className="hq-hero-record"><span>Service record</span><b>Ranks, medals and attendance</b><small>Kept with your member profile</small></div>
           </div>
         </section>
 
