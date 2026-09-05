@@ -1083,10 +1083,10 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 .splash-enter:active{transform:translateY(1px)}
 .splash-enter:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
 @media (prefers-reduced-motion:reduce){.splash-enter{transition:none}}
-.splash-actions{width:min(620px,calc(100% - 32px));margin:clamp(24px,4vh,44px) auto 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.splash-choice{min-height:58px;padding:0 22px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(198,160,92,.74);clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));color:#f3e4c2;font:700 14px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 1px #000;box-shadow:inset 0 1px rgba(255,232,181,.24),inset 0 -1px rgba(0,0,0,.8),0 10px 24px rgba(0,0,0,.42);transition:filter .18s ease,transform .18s ease}
-.splash-choice.join{background:linear-gradient(180deg,#9d2933,#67111a 58%,#460a10)}
-.splash-choice.login{background:linear-gradient(180deg,rgba(25,27,26,.96),rgba(8,10,10,.98));cursor:pointer}
+.splash-actions{width:min(512px,calc(100% - 32px));margin:clamp(24px,4vh,44px) auto 0;display:grid;grid-template-columns:repeat(2,minmax(0,250px));justify-content:center;gap:12px}
+.splash-choice{min-height:48px;padding:0 14px;display:flex;align-items:center;justify-content:center;border:1px solid #e1c07b;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));font:700 14px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;box-shadow:inset 0 2px rgba(255,242,198,.54),inset 0 -3px rgba(57,34,8,.6),0 7px 16px rgba(0,0,0,.45);transition:filter .18s ease,transform .18s ease}
+.splash-choice.join{color:#20170b;text-shadow:0 1px rgba(255,231,170,.35);background:linear-gradient(110deg,transparent 25%,rgba(255,244,201,.3) 47%,transparent 64%),linear-gradient(#d1ae69,#9c7436 54%,#69481d)}
+.splash-choice.login{color:#ead49e;border-color:#9a753c;background:linear-gradient(#272925,#111311 55%,#080908);box-shadow:inset 0 1px rgba(255,255,255,.1),inset 0 -3px #030403,0 7px 16px rgba(0,0,0,.45);text-shadow:0 1px 2px #000;cursor:pointer}
 .splash-choice:hover{filter:brightness(1.12);transform:translateY(-1px)}
 .splash-choice:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 
@@ -1096,7 +1096,7 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
   .splash-crest{width:clamp(170px,52vw,320px);max-height:36vh;margin-bottom:clamp(18px,4vh,44px)}
   .splash-copy{--lockup:min(84vw,500px);padding:4vh 20px 5vh}
   .splash-enter{margin-top:clamp(20px,3vh,34px)}
-  .splash-actions{width:min(84vw,500px);grid-template-columns:1fr}
+  .splash-actions{width:min(78vw,280px);grid-template-columns:1fr;gap:9px}
 }
 
 /* Short landscape windows narrow the lockup so the button stays visible. */

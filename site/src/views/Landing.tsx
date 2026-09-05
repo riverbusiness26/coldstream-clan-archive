@@ -53,7 +53,7 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
                width={2087} height={392} fetchPriority="high" />
         </h1>
         <div className="splash-actions">
-          <a className="splash-choice join" href={DISCORD} target="_blank" rel="noopener">Join us!</a>
+          <a className="splash-choice join" href={DISCORD} target="_blank" rel="noopener">Join the Coldstream</a>
           <button className="splash-choice login" type="button" onClick={() => me ? go('home') : signIn()}>Member Login</button>
         </div>
       </div>
