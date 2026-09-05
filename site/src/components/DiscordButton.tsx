@@ -1,13 +1,12 @@
 import { FaDiscord } from 'react-icons/fa';
 import type { Me } from '../lib/auth';
+import DiscordAvatar from './DiscordAvatar';
 
 export default function DiscordButton({ me, signIn }: { me: Me | null; signIn: () => void }) {
   if (me) {
     return (
       <span className="discord-auth compact signed" title="Signed in through Discord">
-        {me.avatar_url
-          ? <img className="savi" src={me.avatar_url} alt="" />
-          : <FaDiscord aria-hidden="true" />}
+        <DiscordAvatar url={me.avatar_url} name={me.display_name} className="savi" />
         <span>Signed in as <b>{me.display_name}</b></span>
       </span>
     );

@@ -127,7 +127,7 @@ Deno.serve(async (req) => {
 
   const { data: known } = await admin
     .from("member")
-    .select("auth_user_id, display_name, avatar_url")
+    .select("auth_user_id, display_name")
     .eq("steam_id64", steamId)
     .maybeSingle();
   if (known?.auth_user_id) userId = known.auth_user_id as string;
@@ -182,9 +182,8 @@ Deno.serve(async (req) => {
   // what the whole site reads, so without it a signed-in browser shows the
   // guest view and explains nothing.
   const keepName = !persona.ok && known?.display_name ? (known.display_name as string) : persona.name;
-  const keepAvatar = !persona.ok && known?.avatar_url ? (known.avatar_url as string | null) : persona.avatar;
   const { error: upsertError } = await admin.from("member").upsert(
-    { auth_user_id: userId, steam_id64: steamId, display_name: keepName, avatar_url: keepAvatar },
+    { auth_user_id: userId, steam_id64: steamId, display_name: keepName },
     { onConflict: "steam_id64" },
   );
   if (upsertError) {

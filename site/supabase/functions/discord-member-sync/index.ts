@@ -33,6 +33,21 @@ const reply = (origin: string, body: Record<string, unknown>, status = 200) =>
 
 const overlaps = (roles: string[], allowed: Set<string>) => roles.some((role) => allowed.has(role));
 
+const discordAvatarUrl = (discordId: string, userAvatar: string | null | undefined, guildAvatar: string | null | undefined, discriminator: string | null | undefined) => {
+  if (guildAvatar) {
+    const extension = guildAvatar.startsWith("a_") ? "gif" : "webp";
+    return `https://cdn.discordapp.com/guilds/${GUILD_ID}/users/${discordId}/avatars/${guildAvatar}.${extension}?size=256`;
+  }
+  if (userAvatar) {
+    const extension = userAvatar.startsWith("a_") ? "gif" : "webp";
+    return `https://cdn.discordapp.com/avatars/${discordId}/${userAvatar}.${extension}?size=256`;
+  }
+  const defaultIndex = discriminator && discriminator !== "0"
+    ? Number(discriminator) % 5
+    : Number((BigInt(discordId) >> 22n) % 6n);
+  return `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`;
+};
+
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin") ?? "";
   if (req.method === "OPTIONS") {
@@ -76,8 +91,9 @@ Deno.serve(async (req) => {
 
   const guildMember = await memberResponse.json() as {
     nick?: string | null;
+    avatar?: string | null;
     roles?: string[];
-    user?: { username?: string; global_name?: string | null; avatar?: string | null };
+    user?: { username?: string; global_name?: string | null; avatar?: string | null; discriminator?: string | null };
   };
   const roles = guildMember.roles ?? [];
   const role = overlaps(roles, ADMIN_ROLES)
@@ -90,7 +106,10 @@ Deno.serve(async (req) => {
   const displayName = guildMember.nick
     ?? guildMember.user?.global_name
     ?? String(identity.full_name ?? identity.name ?? username);
-  const avatarUrl = String(identity.avatar_url ?? "") || null;
+  // Build this from Discord's live response instead of retaining the OAuth
+  // metadata URL. That makes Discord the only avatar source and also respects
+  // server-specific profile pictures.
+  const avatarUrl = discordAvatarUrl(discordId, guildMember.user?.avatar, guildMember.avatar, guildMember.user?.discriminator);
 
   const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
   const { data: byDiscord } = await admin.from("member").select("id").eq("discord_id", discordId).maybeSingle();

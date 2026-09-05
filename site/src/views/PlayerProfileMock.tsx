@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
 import { Icon } from './Home';
+import DiscordAvatar from '../components/DiscordAvatar';
 import { beginSteamLink, clearSteamAssertion, completeSteamLink, pendingSteamAssertion, unlinkSteam } from '../lib/steamLink';
 import { supa } from '../lib/supa';
 
@@ -38,7 +39,6 @@ const EVENT_STATS = [
 
 export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | null; signIn: () => void; refresh: () => void }) {
   const connected = Boolean(me);
-  const [avatarStyle, setAvatarStyle] = useState<'discord' | 'crest' | 'initials'>('discord');
   const [items, setItems] = useState<PersonnelItem[]>([]);
   const [assignments, setAssignments] = useState<PersonnelAssignment[]>([]);
   const [detachment, setDetachment] = useState<Detachment | null>(null);
@@ -148,8 +148,8 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
   return (
     <main className="player-portal" aria-labelledby="player-portal-title">
       <section className="portal-account">
-        <div className={`portal-avatar ${avatarStyle}`}>
-          {avatarStyle === 'crest' ? <img src="/crest.webp" alt="" /> : avatarStyle === 'initials' ? <b>{me?.display_name.slice(0, 2).toUpperCase() || 'CG'}</b> : me?.avatar_url ? <img src={me.avatar_url} alt="" /> : <Icon name="discord" />}
+        <div className="portal-avatar">
+          <DiscordAvatar url={me?.avatar_url ?? null} name={me?.display_name ?? 'Coldstream member'} />
           <span className="portal-live-dot" title="Live status" />
         </div>
         <div className="portal-identity">
@@ -168,15 +168,9 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
 
       <div className="portal-grid">
         <section className="portal-panel portal-customize" aria-labelledby="customize-title">
-          <header><span>Profile</span><h2 id="customize-title">Make it yours</h2></header>
+          <header><span>Profile</span><h2 id="customize-title">Discord identity</h2></header>
           <div className="portal-field"><b>Display name</b><span>{connected ? me!.display_name : 'Imported from Discord'}</span><button type="button" disabled>Edit later</button></div>
-          <div className="portal-field avatar-field"><b>Avatar</b><span>Choose a preview style</span></div>
-          <div className="avatar-choices" aria-label="Avatar preview options">
-            <button className={avatarStyle === 'discord' ? 'active' : ''} type="button" onClick={() => setAvatarStyle('discord')}><Icon name="discord" /><span>Discord</span></button>
-            <button className={avatarStyle === 'crest' ? 'active' : ''} type="button" onClick={() => setAvatarStyle('crest')}><img src="/crest.webp" alt="" /><span>Crest</span></button>
-            <button className={avatarStyle === 'initials' ? 'active' : ''} type="button" onClick={() => setAvatarStyle('initials')}><b>CG</b><span>Initials</span></button>
-          </div>
-          <button className="portal-secondary" type="button">Upload custom avatar</button>
+          <div className="portal-field avatar-field"><b>Profile picture</b><span>{connected ? 'Synced from your Discord account' : 'Available after Discord sign in'}</span></div>
 
           <div className="portal-field">
             <b>Steam account</b>

@@ -1,23 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   FaArrowRight,
   FaBars,
-  FaCalendarDays,
   FaDiscord,
   FaEnvelope,
-  FaFlag,
-  FaGamepad,
-  FaServer,
-  FaShieldHalved,
   FaSteam,
-  FaTimeline,
-  FaUserGroup,
 } from 'react-icons/fa6';
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
-import { supa } from '../lib/supa';
-import { useLiveServers } from '../lib/useLiveServers';
+import DiscordAvatar from '../components/DiscordAvatar';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/coldstreamgaming';
@@ -77,20 +69,13 @@ export function HomeFilm() {
   );
 }
 
-type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'server' | 'calendar' | 'banner' | 'people' | 'gamepad' | 'timeline' | 'shield' | 'arrow';
+type IconName = 'menu' | 'discord' | 'steam' | 'mail' | 'arrow';
 
 const ICONS: Record<IconName, IconType> = {
   menu: FaBars,
   discord: FaDiscord,
   steam: FaSteam,
   mail: FaEnvelope,
-  server: FaServer,
-  calendar: FaCalendarDays,
-  banner: FaFlag,
-  people: FaUserGroup,
-  gamepad: FaGamepad,
-  timeline: FaTimeline,
-  shield: FaShieldHalved,
   arrow: FaArrowRight,
 };
 
@@ -104,7 +89,7 @@ const NAV = [
   ['Community', DISCORD], ['Media', '#/gallery'], ['Join', DISCORD],
 ] as const;
 
-export function SiteNav({ active = 'Home' }: { active?: string }) {
+export function SiteNav({ active = 'Home', showSteam = true }: { active?: string; showSteam?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="cg-nav">
@@ -116,7 +101,7 @@ export function SiteNav({ active = 'Home' }: { active?: string }) {
       </nav>
       <div className="cg-social" aria-label="Community links">
         <a href={DISCORD} target="_blank" rel="noopener" aria-label="Discord"><Icon name="discord" /></a>
-        <a href={STEAM} target="_blank" rel="noopener" aria-label="Steam group"><Icon name="steam" /></a>
+        {showSteam && <a href={STEAM} target="_blank" rel="noopener" aria-label="Steam group"><Icon name="steam" /></a>}
         <a href="mailto:contact@coldstreamgaming.com" aria-label="Email Coldstream Gaming"><Icon name="mail" /></a>
       </div>
     </header>
@@ -127,7 +112,7 @@ export function AccountStrip({ me, signIn, signOut }: { me: Me | null; signIn: (
   return (
     <div className="cg-account-strip" aria-label="Member account">
       {me ? <>
-        <span className="cg-account-member">{me.avatar_url ? <img src={me.avatar_url} alt="" /> : <i aria-hidden="true" />}<span>Signed in as <b>{me.display_name}</b></span></span>
+        <span className="cg-account-member"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><span>Signed in as <b>{me.display_name}</b></span></span>
         <a href="#/player-profile">My profile</a>
         {(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}
         <button type="button" onClick={signOut}>Sign out</button>
@@ -137,11 +122,11 @@ export function AccountStrip({ me, signIn, signOut }: { me: Me | null; signIn: (
 }
 
 const STATS = [
-  { icon: 'calendar', value: '2011', label: 'Established' },
-  { icon: 'timeline', value: '4', label: 'Line-Battle Eras' },
-  { icon: 'people', value: '315+', label: 'Members' },
-  { icon: 'calendar', value: '1,227+', label: 'Recorded Events' },
-] as const satisfies readonly { icon: IconName; value: string; label: string }[];
+  { value: '2011', label: 'Established' },
+  { value: '4', label: 'Line-Battle Eras' },
+  { value: '315+', label: 'Members' },
+  { value: '1,227+', label: 'Recorded Events' },
+] as const;
 
 function Ornament() {
   return <span className="cg-ornament" aria-hidden="true"><i /><b>◆</b><i /></span>;
@@ -160,95 +145,39 @@ export function SiteFooter() {
   );
 }
 
-interface HomeEvent { id: string; title: string; game: string | null; starts_at: string; duration_minutes: number }
-interface HomeNews { id: string; title: string; body: string; author: string | null; created_at: string }
-
 export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void }) {
-  const servers = useLiveServers();
-  const [events, setEvents] = useState<HomeEvent[]>([]);
-  const [news, setNews] = useState<HomeNews[]>([]);
-
-  useEffect(() => {
-    if (!supa) return;
-    const db = supa;
-    let cancelled = false;
-    Promise.all([
-      db.from('event').select('id,title,game,starts_at,duration_minutes').eq('historic', false).eq('cancelled', false).gte('starts_at', new Date().toISOString()).order('starts_at').limit(3),
-      db.from('news_item').select('id,title,body,author,created_at').eq('source_site', 'coldstreamgaming.com').order('created_at', { ascending: false }).limit(2),
-    ]).then(([eventResult, newsResult]) => {
-      if (cancelled) return;
-      if (eventResult.data) setEvents(eventResult.data as HomeEvent[]);
-      if (newsResult.data) setNews(newsResult.data as HomeNews[]);
-    });
-    return () => { cancelled = true; };
-  }, []);
-
-  const onlineServers = servers.filter((server) => server.online);
-  const playersOnline = onlineServers.reduce((total, server) => total + server.players, 0);
-
   return (
-    <div className="cg-home">
-      <SiteNav active="Home" />
+    <div className="cg-home csg-homepage">
+      <SiteNav active="Home" showSteam={false} />
       <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
-      <main className="hq-home">
-        <section className="hq-hero" aria-labelledby="cg-home-title">
-          <div className="hq-hero-copy">
-            <p className="cg-eyebrow">2nd Coldstream Guards · Holdfast</p>
-            <h1 id="cg-home-title">The line forms here.</h1>
-            <p className="hq-lede">Weekly 200+ player linebattles, backed by 15+ years across Napoleonic-era games. Join the regiment, earn your place and keep the record on your own profile.</p>
-            <div className="hq-actions">
-              <a className="hq-primary" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join the 2ndCS</a>
-              {me
-                ? <a className="hq-secondary" href="#/player-profile"><Icon name="shield" />View my profile</a>
-                : <button className="hq-secondary" type="button" onClick={signIn}><Icon name="discord" />Member sign in</button>}
-            </div>
-            <div className="hq-enlist-path" aria-label="How to enlist in Holdfast">
-              <span><b>01</b>Pause Holdfast</span><i />
-              <span><b>02</b>Open Regiments</span><i />
-              <span><b>03</b>Search <strong>2ndCS</strong> and Enlist</span>
-            </div>
-          </div>
-          <div className="hq-hero-visual">
-            <HomeFilm />
-            <div className="hq-standard"><img src={asset('/crest.webp')} width="900" height="920" alt="Coldstream Gaming crest" fetchPriority="high" /><span>Second to none.</span></div>
-            <div className="hq-hero-record"><span>Service record</span><b>Ranks, medals and attendance</b><small>Kept with your member profile</small></div>
+      <main className="csg-home-main">
+        <section className="csg-home-hero" aria-labelledby="cg-home-title">
+          <div className="csg-home-glow" aria-hidden="true" />
+          <img className="csg-home-crest" src={asset('/home/hero-crest-blood.png')} width="1228" height="1228" alt="Coldstream Gaming Second to None crest" fetchPriority="high" />
+          <p className="csg-home-kicker">The 2nd Coldstream Guards</p>
+          <h1 id="cg-home-title">Coldstream Gaming</h1>
+          <div className="csg-home-motto" aria-label="Second to none"><i /><span>Second to none.</span><i /></div>
+          <p className="csg-home-intro">A gaming community with more than a decade of history, built around organized play and the people who keep showing up.</p>
+          <div className="csg-home-actions">
+            <a className="csg-home-primary" href={DISCORD} target="_blank" rel="noopener"><Icon name="discord" />Join us</a>
+            {me
+              ? <a className="csg-home-secondary" href="#/player-profile">My profile <Icon name="arrow" /></a>
+              : <button className="csg-home-secondary" type="button" onClick={signIn}><Icon name="discord" />Member login</button>}
           </div>
         </section>
 
-        <section className="hq-section" aria-labelledby="hq-title">
-          <header className="hq-section-head"><div><p className="cg-eyebrow">Coldstream today</p><h2 id="hq-title">Community headquarters</h2></div><p>Events, servers and member records in one place.</p></header>
-          <div className="hq-grid">
-            <article className="hq-card hq-events">
-              <header><span><Icon name="calendar" /></span><div><small>Schedule</small><h3>Upcoming events</h3></div><a href={DISCORD} target="_blank" rel="noopener">Discord <Icon name="arrow" /></a></header>
-              <div className="hq-event-list">{events.length > 0 ? events.map((event) => {
-                const starts = new Date(event.starts_at);
-                return <div key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h4>{event.title}</h4><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.duration_minutes} minutes</p></div></div>;
-              }) : <p className="hq-empty">The next event will appear here when staff posts it.</p>}</div>
-            </article>
-
-            <article className="hq-card hq-servers">
-              <header><span><Icon name="server" /></span><div><small>Live status</small><h3>Game servers</h3></div><a href="#/servers">All servers <Icon name="arrow" /></a></header>
-              <div className="hq-server-total"><b>{playersOnline}</b><span>players online</span><small>{onlineServers.length} of {servers.length} servers reporting online</small></div>
-              <div className="hq-server-list">{servers.slice(0, 3).map((server) => <div key={server.server_key}><i className={server.online ? 'online' : ''} /><span><b>{server.name}</b><small>{server.online ? `${server.players}/${server.max_players}${server.map ? ` · ${server.map}` : ''}` : server.visibility === 'private' ? 'Private development server' : 'Offline'}</small></span></div>)}</div>
-            </article>
-
-            <article className="hq-card hq-member">
-              <header><span><Icon name="shield" /></span><div><small>{me ? 'Your account' : 'Member record'}</small><h3>{me ? me.display_name : 'Your place in the regiment'}</h3></div></header>
-              {me ? <><div className="hq-member-row">{me.avatar_url ? <img src={me.avatar_url} alt="" /> : <img src={asset('/crest.webp')} alt="" />}<div><b>Discord connected</b><span>Profile ready to view</span></div></div><div className="hq-member-links"><a href="#/player-profile">Open profile</a>{(me.role === 'admin' || me.role === 'moderator') && <a href="#/admin">Command Board</a>}</div></> : <><p>Your rank, medals, detachment and confirmed event record stay together here.</p><button type="button" onClick={signIn}>Sign in through Discord</button></>}
-            </article>
-
-            <article className="hq-card hq-news">
-              <header><span><Icon name="banner" /></span><div><small>From staff</small><h3>Latest notice</h3></div></header>
-              {news.length > 0 ? news.map((post) => <div className="hq-news-item" key={post.id}><time dateTime={post.created_at}>{new Date(post.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</time><h4>{post.title}</h4><p>{post.body.length > 180 ? `${post.body.slice(0, 177)}...` : post.body}</p>{post.author && <small>Posted by {post.author}</small>}</div>) : <p className="hq-empty">Staff notices posted through the Command Board will appear here.</p>}
-            </article>
-          </div>
+        <section className="csg-home-stats" aria-label="Coldstream Gaming history in numbers">
+          {STATS.map((stat) => <div key={stat.label}><b>{stat.value}</b><span>{stat.label}</span></div>)}
         </section>
 
-        <section className="hq-history" aria-labelledby="hq-history-title">
-          <div className="hq-history-copy"><p className="cg-eyebrow">The record</p><h2 id="hq-history-title">Built over more than one era.</h2><p>Coldstream Gaming began in 2011. The games changed, the regiment returned, and the same gaming community kept forming up.</p><a href="#/archive">Open the full archive <Icon name="arrow" /></a></div>
-          <div className="hq-stats" aria-label="Coldstream Gaming statistics">{STATS.map((stat) => <div key={stat.label}><span><Icon name={stat.icon} /></span><b>{stat.value}</b><small>{stat.label}</small></div>)}</div>
-          <div className="hq-links"><a href="#/gallery"><span>Gallery</span><b>See the nights we kept.</b><Icon name="arrow" /></a><a href="#/servers"><span>Games</span><b>Find the servers.</b><Icon name="arrow" /></a><a href={STEAM} target="_blank" rel="noopener"><span>Steam</span><b>Join the group.</b><Icon name="arrow" /></a></div>
+        <section className="csg-home-about" aria-labelledby="csg-home-about-title">
+          <div>
+            <p className="cg-eyebrow">Who we are</p>
+            <h2 id="csg-home-about-title">A regiment with a record.</h2>
+          </div>
+          <p>Coldstream Gaming is a multi-gaming community established in 2011. We are the home of the 2nd Coldstream (2ndCS) Holdfast regiment.</p>
+          <a href="#/archive">See our history <Icon name="arrow" /></a>
         </section>
       </main>
 

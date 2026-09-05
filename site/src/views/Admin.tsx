@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FaArrowsAltV, FaAward, FaCalendarCheck, FaClipboardCheck, FaFlag, FaHistory, FaImage, FaMedal, FaNewspaper, FaSearch, FaShieldAlt, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
+import DiscordAvatar from '../components/DiscordAvatar';
 
 type Tab = 'catalogue' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'audit' | 'news';
 type ItemKind = 'rank' | 'medal';
@@ -464,7 +465,7 @@ export default function Admin({ me }: { me: Me | null }) {
             const rank = records.find((row) => row.item_kind === 'rank');
             const currentCompany = member.company_id ? companyById.get(member.company_id) : null;
             return <article key={member.id}>
-              <span className="member-avatar">{member.avatar_url ? <img src={member.avatar_url} alt="" /> : member.display_name.slice(0, 1).toUpperCase()}</span>
+              <DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" />
               <div className="member-summary"><b>{member.display_name}</b><span>{member.role} · {member.discord_id ? 'Discord linked' : 'Discord not linked'}</span><small>{currentCompany?.name ?? 'No detachment'}</small></div>
               <div className="member-record"><span>{rank ? itemById.get(rank.item_id)?.name : 'No rank'}</span><span>{records.filter((row) => row.item_kind === 'medal').length} medals</span></div>
               <div className="member-detachment-control">
@@ -518,7 +519,7 @@ export default function Admin({ me }: { me: Me | null }) {
             const presence = member.discord_id ? presenceByDiscord.get(member.discord_id) : null;
             const coverage = presence && currentWindow?.samples_taken ? Math.min(100, Math.round((presence.samples / currentWindow.samples_taken) * 100)) : 0;
             return <article key={member.id}>
-              <span className="member-avatar">{member.avatar_url ? <img src={member.avatar_url} alt="" /> : member.display_name.slice(0, 1).toUpperCase()}</span>
+              <DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" />
               <div><b>{member.display_name}</b><span>RSVP: {rsvp?.status ?? 'No reply'}</span><small>{presence ? `Seen in voice for ${presence.samples} of ${currentWindow?.samples_taken ?? presence.samples} samples (${coverage}%)` : 'Not seen in the voice samples'}</small></div>
               <div className="attendance-actions" aria-label={`Attendance for ${member.display_name}`}>
                 <button className={rsvp?.attendance === 'attended' ? 'active attended' : ''} disabled={busy} onClick={() => setAttendance(member.id, 'attended')}>Attended</button>
