@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaArrowsAltV, FaAward, FaCalendarCheck, FaClipboardCheck, FaFlag, FaHistory, FaImage, FaMedal, FaNewspaper, FaSearch, FaShieldAlt, FaUsers } from 'react-icons/fa';
+import { FaArrowsAltV, FaAward, FaCalendarCheck, FaClipboardCheck, FaFlag, FaHistory, FaImage, FaMedal, FaSearch, FaShieldAlt, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 
-type Tab = 'catalogue' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'audit' | 'news';
+type Tab = 'catalogue' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'audit';
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem { id: string; kind: ItemKind; name: string; description: string | null; storage_key: string | null; image_mime: string | null; active: boolean; sort_order: number; created_at: string }
 interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null }
 interface CompanyRow { id: string; name: string; tag: string | null; color: string | null; emblem_storage_key: string | null; emblem_image_mime: string | null; sort_order: number }
 interface AssignmentRow { id: string; member_id: string; item_id: string; item_kind: ItemKind; assigned_by: string; assigned_at: string; note: string | null; removed_at: string | null }
 interface AuditRow { id: number; actor_id: string | null; action: string; member_id: string | null; item_id: string | null; created_at: string }
-interface NewsRow { id: string; title: string; body: string; author: string | null; created_at: string }
 interface EventRow { id: string; title: string; starts_at: string; duration_minutes: number; cancelled: boolean; event_type: string }
 interface RsvpRow { event_id: string; member_id: string; status: string | null; attendance: 'attended' | 'no_show' | null }
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
@@ -30,9 +29,7 @@ const tabs: { id: Tab; label: string; icon: typeof FaImage }[] = [
   { id: 'attendance', label: 'Attendance', icon: FaCalendarCheck },
   { id: 'evidence', label: 'Evidence', icon: FaClipboardCheck },
   { id: 'audit', label: 'Audit log', icon: FaHistory },
-  { id: 'news', label: 'News', icon: FaNewspaper },
 ];
-const emptyNews = { id: null as string | null, title: '', body: '' };
 const date = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 const dateTime = (value: string) => new Date(value).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const labelAction = (value: string) => value.replaceAll('_', ' ').replaceAll('.', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -67,8 +64,6 @@ export default function Admin({ me }: { me: Me | null }) {
   const [itemKind, setItemKind] = useState<ItemKind>('rank');
   const [itemDescription, setItemDescription] = useState('');
   const [itemFile, setItemFile] = useState<File | null>(null);
-  const [news, setNews] = useState<NewsRow[]>([]);
-  const [newsDraft, setNewsDraft] = useState(emptyNews);
   const [events, setEvents] = useState<EventRow[]>([]);
   const [rsvps, setRsvps] = useState<RsvpRow[]>([]);
   const [presenceRoll, setPresenceRoll] = useState<PresenceRollRow[]>([]);
@@ -91,16 +86,15 @@ export default function Admin({ me }: { me: Me | null }) {
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setNews([]); setEvents([]); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents([]); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0);
       return;
     }
-    const [itemResult, memberResult, companyResult, assignmentResult, auditResult, newsResult, galleryResult, eventResult] = await Promise.all([
+    const [itemResult, memberResult, companyResult, assignmentResult, auditResult, galleryResult, eventResult] = await Promise.all([
       supa.from('personnel_item').select('id,kind,name,description,storage_key,image_mime,active,sort_order,created_at').order('kind').order('sort_order').order('name'),
       supa.from('member').select('id,display_name,avatar_url,discord_id,role,company_id').order('display_name'),
       supa.from('company').select('id,name,tag,color,emblem_storage_key,emblem_image_mime,sort_order').order('sort_order').order('name'),
       supa.from('personnel_assignment').select('id,member_id,item_id,item_kind,assigned_by,assigned_at,note,removed_at').is('removed_at', null).order('assigned_at', { ascending: false }),
       supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,created_at').order('created_at', { ascending: false }).limit(100),
-      supa.from('news_item').select('id,title,body,author,created_at').order('created_at', { ascending: false }).limit(40),
       supa.from('gallery_item').select('id').eq('approved', false),
       supa.from('event').select('id,title,starts_at,duration_minutes,cancelled,event_type').eq('historic', false).order('starts_at', { ascending: false }).limit(50),
     ]);
@@ -110,7 +104,7 @@ export default function Admin({ me }: { me: Me | null }) {
     setCompanies((companyResult.data ?? []) as CompanyRow[]);
     setDetachmentDrafts(Object.fromEntries(((memberResult.data ?? []) as MemberRow[]).map((member) => [member.id, member.company_id ?? ''])));
     setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]);
-    setNews((newsResult.data ?? []) as NewsRow[]); setGalleryPending(galleryResult.data?.length ?? 0);
+    setGalleryPending(galleryResult.data?.length ?? 0);
 
     const loadedEvents = (eventResult.data ?? []) as EventRow[];
     setEvents(loadedEvents);
@@ -380,28 +374,6 @@ export default function Admin({ me }: { me: Me | null }) {
     await load();
   }
 
-  async function saveNews() {
-    setError(null); setDone(null);
-    const title = newsDraft.title.trim(); const body = newsDraft.body.trim();
-    if (!title || !body) { setError('Give the post a title and something to say.'); return; }
-    if (!supa || !me) { setDone('Preview only. Nothing was posted.'); return; }
-    setBusy(true);
-    const result = newsDraft.id ? await supa.from('news_item').update({ title, body }).eq('id', newsDraft.id) : await supa.from('news_item').insert({ title, body, author: me.display_name, source_site: 'coldstreamgaming.com', posted_by: me.id });
-    setBusy(false);
-    if (result.error) { setError(result.error.message); return; }
-    setNewsDraft(emptyNews); setDone(newsDraft.id ? 'News post saved.' : 'News post published.'); await load();
-  }
-
-  async function removeNews(id: string) {
-    setError(null); setDone(null);
-    if (!supa) { setDone('Preview only. Nothing was removed.'); return; }
-    const result = await supa.from('news_item').delete().eq('id', id).select('id');
-    if (result.error) { setError(result.error.message); return; }
-    if (!result.data?.length) { setError('The database did not allow that deletion.'); return; }
-    if (newsDraft.id === id) setNewsDraft(emptyNews);
-    setDone('News post removed.'); await load();
-  }
-
   if (!canStaff) return <div className="wrap solo"><main><div className="module"><div className="mhead"><h3>Personnel Command Board</h3></div><div className="note">This part of the site is for moderators and admins. Sign in through Discord so the site can check your current role.</div></div></main></div>;
 
   return (
@@ -536,7 +508,6 @@ export default function Admin({ me }: { me: Me | null }) {
 
       {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{audit.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div></section>}
 
-      {tab === 'news' && <section className="command-panel-grid news-grid"><div className="command-card"><div className="command-section-head"><div><span>Front page</span><h2>{newsDraft.id ? 'Edit news' : 'Post news'}</h2></div><FaNewspaper /></div><div className="command-form"><label>Headline<input value={newsDraft.title} maxLength={140} onChange={(event) => setNewsDraft({ ...newsDraft, title: event.target.value })} /></label><label>Post<textarea value={newsDraft.body} maxLength={4000} onChange={(event) => setNewsDraft({ ...newsDraft, body: event.target.value })} /></label><button className="command-primary" onClick={saveNews} disabled={busy}>{busy ? 'Saving' : newsDraft.id ? 'Save changes' : 'Post it'}</button></div></div><div className="command-card"><div className="command-section-head"><div><span>Published</span><h2>News posts</h2></div><b>{news.length}</b></div><div className="news-command-list">{news.length === 0 && <div className="command-empty">No editable news posts yet.</div>}{news.map((row) => <article key={row.id}><b>{row.title}</b><span>{date(row.created_at)}{row.author ? ` · ${row.author}` : ''}</span><p>{row.body}</p><div className="news-actions"><button onClick={() => setNewsDraft({ id: row.id, title: row.title, body: row.body })}>Edit</button><button onClick={() => removeNews(row.id)}>Delete</button></div></article>)}</div></div></section>}
     </main>
   );
 }
