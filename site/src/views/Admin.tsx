@@ -656,7 +656,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
             return <article key={member.id}>
               <DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" />
               <div className="member-summary"><b>{member.display_name}</b><span>{member.role} · {member.discord_id ? 'Discord linked' : 'Discord not linked'}</span><small>{currentCompany?.name ?? 'No detachment'}</small></div>
-              <div className="member-record"><span>{rank ? itemById.get(rank.item_id)?.name : 'No rank'}</span><span>{records.filter((row) => row.item_kind === 'medal').length} medals</span></div>
+              <div className="member-record"><span>{rank ? itemById.get(rank.item_id)?.name : 'No rank'}</span><span>{records.filter((row) => row.item_kind === 'medal').length} medals</span>{rank && <button className="command-link-danger" type="button" onClick={() => removeAssignment(rank.id)} disabled={busy}>Remove rank</button>}</div>
               <div className="member-detachment-control">
                 <select aria-label={`Detachment for ${member.display_name}`} value={detachmentDrafts[member.id] ?? ''} onChange={(event) => setDetachmentDrafts((current) => ({ ...current, [member.id]: event.target.value }))}>
                   <option value="">No detachment</option>

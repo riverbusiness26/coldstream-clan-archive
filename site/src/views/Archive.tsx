@@ -56,12 +56,6 @@ const HISTORY = [
     evidence: 'Watch: 14 December 2012',
   },
   {
-    years: '2016–2020',
-    group: 'Coldstream Gaming carried on',
-    game: 'Different games, same gaming community',
-    note: 'The regiment was quiet, but Coldstream Gaming continued.',
-  },
-  {
     years: '2020–2021',
     group: '2nd Coldstream Regiment of Footguards and Coldstream Gaming',
     game: 'Holdfast: Nations at War and Garry’s Mod',

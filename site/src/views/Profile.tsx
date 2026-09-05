@@ -162,7 +162,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
             <div className="stats prof-stats">
               <div className="stat"><div className="n">{records.length}</div><div className="l">records on file</div></div>
               <div className="stat"><div className="n">{stats.forumPosts}</div><div className="l">forum posts</div></div>
-              <div className="stat"><div className="n">{stats.announcements}</div><div className="l">events called</div></div>
+              <div className="stat"><div className="n">{stats.announcements}</div><div className="l">events lead / announced</div><div className="src">only what we have recorded</div></div>
               <div className="stat"><div className="n">{shots.length}</div><div className="l">screenshots in</div></div>
             </div>
           </div>
