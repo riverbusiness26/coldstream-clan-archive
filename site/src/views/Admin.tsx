@@ -48,6 +48,7 @@ export default function Admin({ me }: { me: Me | null }) {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [replacementFile, setReplacementFile] = useState<File | null>(null);
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
+  const [dragOverItem, setDragOverItem] = useState<string | null>(null);
   // Delete is two clicks, not a browser confirm dialog: it is irreversible and
   // the artwork does not come back.
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
@@ -221,7 +222,7 @@ export default function Admin({ me }: { me: Me | null }) {
   }
 
   async function reorderItem(sourceId: string, targetId: string) {
-    setDraggingItem(null); setError(null); setDone(null);
+    setDraggingItem(null); setDragOverItem(null); setError(null); setDone(null);
     if (!canUpload || sourceId === targetId) return;
     const source = items.find((item) => item.id === sourceId);
     const target = items.find((item) => item.id === targetId);
@@ -238,6 +239,15 @@ export default function Admin({ me }: { me: Me | null }) {
     setBusy(false);
     if (result.error) { setError(result.error.message); return; }
     setDone(`${source.kind === 'rank' ? 'Rank' : 'Medal'} order saved.`); await load();
+  }
+
+  function nudgeItem(itemId: string, direction: -1 | 1) {
+    const item = items.find((row) => row.id === itemId);
+    if (!item) return;
+    const ordered = items.filter((row) => row.kind === item.kind);
+    const itemIndex = ordered.findIndex((row) => row.id === itemId);
+    const target = ordered[itemIndex + direction];
+    if (target) reorderItem(itemId, target.id);
   }
 
   async function removeItem(item: PersonnelItem) {
@@ -411,19 +421,22 @@ export default function Admin({ me }: { me: Me | null }) {
         <div className="catalogue-list">
           <div className="command-section-head"><div><span>Artwork library</span><h2>Ranks and medals</h2></div><b>{items.length}</b></div>
           <div className="catalogue-filters"><button className={catalogueFilter === 'all' ? 'active' : ''} onClick={() => setCatalogueFilter('all')}>All</button><button className={catalogueFilter === 'rank' ? 'active' : ''} onClick={() => setCatalogueFilter('rank')}>Ranks</button><button className={catalogueFilter === 'medal' ? 'active' : ''} onClick={() => setCatalogueFilter('medal')}>Medals</button></div>
-          {canUpload && <p className="catalogue-order-note"><FaArrowsAltV /> Drag within Ranks or Medals to set the display order.</p>}
+          {canUpload && <p className="catalogue-order-note"><FaArrowsAltV /><span><b>Reorder the display.</b> Grab any Drag handle, or use the arrow buttons on smaller screens.</span></p>}
           <div className="catalogue-scroll">{visibleItems.length === 0 && <div className="command-empty">No artwork has been uploaded in this section yet.</div>}{visibleItems.map((item) => {
             const url = artworkUrl(item);
-            return <button
-              className={`catalogue-row ${selectedItem === item.id ? 'active' : ''} ${draggingItem === item.id ? 'dragging' : ''}`}
+            const kindItems = items.filter((row) => row.kind === item.kind);
+            const kindIndex = kindItems.findIndex((row) => row.id === item.id);
+            return <div
+              className={`catalogue-row ${selectedItem === item.id ? 'active' : ''} ${draggingItem === item.id ? 'dragging' : ''} ${dragOverItem === item.id && draggingItem !== item.id ? 'drop-target' : ''}`}
               key={item.id}
               draggable={canUpload}
-              onDragStart={() => setDraggingItem(item.id)}
-              onDragEnd={() => setDraggingItem(null)}
-              onDragOver={(event) => { if (canUpload) event.preventDefault(); }}
+              onDragStart={(event) => { event.dataTransfer.effectAllowed = 'move'; event.dataTransfer.setData('text/plain', item.id); setDraggingItem(item.id); }}
+              onDragEnd={() => { setDraggingItem(null); setDragOverItem(null); }}
+              onDragEnter={() => { if (canUpload && draggingItem && draggingItem !== item.id) setDragOverItem(item.id); }}
+              onDragOver={(event) => { if (canUpload) { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; } }}
               onDrop={(event) => { event.preventDefault(); if (draggingItem) reorderItem(draggingItem, item.id); }}
-              onClick={() => setSelectedItem(item.id)}
-            ><span className="catalogue-grip" title={canUpload ? 'Drag to reorder' : undefined}><FaArrowsAltV /></span><span className={`catalogue-thumb ${item.kind}`}>{url ? <img src={url} alt="" /> : item.kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><span><small>{item.kind}</small><b>{item.name}</b><em>{item.active ? 'Available' : 'Archived'}</em></span></button>;
+              title={canUpload ? `Drag ${item.name} to reorder` : undefined}
+            >{canUpload && <span className="catalogue-grip" aria-hidden="true"><FaArrowsAltV /><b>Drag</b></span>}<button className="catalogue-row-main" type="button" aria-pressed={selectedItem === item.id} onClick={() => setSelectedItem(item.id)}><span className={`catalogue-thumb ${item.kind}`}>{url ? <img src={url} alt="" /> : item.kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><span className="catalogue-row-copy"><small>{item.kind}</small><b>{item.name}</b><em>{item.active ? 'Available' : 'Archived'}</em></span></button>{canUpload && <span className="catalogue-nudge"><button type="button" disabled={busy || kindIndex === 0} aria-label={`Move ${item.name} up`} onClick={() => nudgeItem(item.id, -1)}>↑</button><button type="button" disabled={busy || kindIndex === kindItems.length - 1} aria-label={`Move ${item.name} down`} onClick={() => nudgeItem(item.id, 1)}>↓</button></span>}</div>;
           })}</div>
         </div>
         <div className="catalogue-detail">{currentItem ? <>
