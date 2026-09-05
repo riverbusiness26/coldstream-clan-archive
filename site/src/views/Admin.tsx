@@ -644,7 +644,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       {tab === 'attendance' && <section className="command-panel-grid attendance-grid">
         <aside className="command-card attendance-events">
           <div className="command-section-head"><div><span>Event record</span><h2>Attendance</h2></div><div className="event-list-actions"><b>{events.length}</b><button className="command-primary" onClick={openEventCreator}>Add event</button></div></div>
-          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No current-era events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{date(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}</small></div></button>)}</div>
+          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{date(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}</small></div></button>)}</div>
         </aside>
 
         <div className="command-card attendance-review">
