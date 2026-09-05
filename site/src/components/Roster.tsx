@@ -18,10 +18,6 @@
 //     the wall of 384 is something you choose, not something you land on.
 import { Fragment, useMemo, useState } from 'react';
 import { people, rosterEntries, GAME_NAMES } from '../lib/data';
-import statsSeed from '../seed/profile-stats.json';
-
-interface PStats { forumPosts: number; announcements: number; shots: number[] }
-const STATS = statsSeed as Record<string, PStats>;
 
 // No year picked. Distinct from 'all', which is a real choice a member makes.
 const NONE = '';
@@ -47,7 +43,7 @@ export default function Roster() {
   }, []);
   const games = useMemo(() => {
     const gs = new Set<string>();
-    for (const p of people) p.games.forEach((g) => gs.add(g));
+    for (const p of people) p.games.filter((g) => !/csgo/i.test(g)).forEach((g) => gs.add(g));
     return [...gs].sort();
   }, []);
 
@@ -78,6 +74,8 @@ export default function Roster() {
     // With no year picked, a search still reaches every year.
     (year === NONE || year === 'all' || String(p.firstYear) === year) &&
     (game === 'all' || p.games.includes(game)) &&
+    p.firstYear !== 2017 &&
+    !p.games.some((g) => /csgo/i.test(g)) &&
     // Searching an old handle should still find the person it belongs to.
     (!q || p.name.toLowerCase().includes(q.toLowerCase())
         || p.aka.some((a) => a.toLowerCase().includes(q.toLowerCase()))),
@@ -145,13 +143,12 @@ export default function Roster() {
         <div className="tscroll">
           <table className="rtable">
             <thead>
-              <tr><th>Member</th><th>In the group</th><th>Rank / class</th><th>Games</th><th>Events called</th><th></th></tr>
+              <tr><th>Member</th><th>Year joined</th><th>Games</th><th></th></tr>
             </thead>
             <tbody>
               {rows.map((p) => {
                 const key = p.key;
                 const span = spans[key];
-                const called = STATS[key]?.announcements ?? 0;
                 return (
                   <Fragment key={key}>
                     <tr>
@@ -161,15 +158,13 @@ export default function Roster() {
                           <div className="raka">also on the record as {p.aka.join(', ')}</div>
                         )}
                       </td>
-                      <td className="ryears">{span ?? (p.firstYear ? `since ${p.firstYear}` : 'on the roll')}</td>
-                      <td>{(p as { title?: string }).title ? <b className="ptitle">{(p as { title?: string }).title}</b> : (p.rank ?? '')}</td>
-                      <td>{p.games.map((g) => <span key={g} className="gtag">{g}</span>)}</td>
-                      <td className="ryears">{called || '·'}</td>
+                      <td className="ryears">{span ?? (p.firstYear ? String(p.firstYear) : '—')}</td>
+                      <td>{p.games.filter((g) => !/csgo/i.test(g)).map((g) => <span key={g} className="gtag">{/mount.*warband/i.test(g) ? 'M&B Napoleonic Wars DLC' : g}</span>)}</td>
                       <td><button className="btn" style={{ padding: '4px 10px', fontSize: 10 }} onClick={() => setOpen(open === key ? null : key)}>record</button></td>
                     </tr>
                     {open === key && rosterEntries.filter((e) => e.person_key === key).map((e, i) => (
-                      <tr key={key + i}>
-                        <td colSpan={6} className="meta" style={{ paddingLeft: 32 }}>
+                    <tr key={key + i}>
+                        <td colSpan={4} className="meta" style={{ paddingLeft: 32 }}>
                           <span className="gtag">{e.game}</span>
                           {e.rank_or_class ? `${e.rank_or_class} · ` : ''}{e.year ?? 'undated'}
                           <span className="prov">source: {e.source_detail}{e.notes ? ` (${e.notes})` : ''}</span>
@@ -185,10 +180,9 @@ export default function Roster() {
       )}
 
       <div className="note">
-        "In the group" is the span of a member's dated records in the archives.
-        Event sign-up sheets did not survive, so attendance cannot be counted;
-        "events called" are the ones a member personally posted, which the
-        record can prove. Every row's sources are one click away under
+        "Year joined" is based on the earliest dated record in the archives.
+        Rank / class and events lead / announced are shown on each player record;
+        events lead / announced means only what we have recorded. Every row's sources are one click away under
         "record", and each name opens the member's own page.
       </div>
     </div>

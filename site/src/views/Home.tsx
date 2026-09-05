@@ -97,7 +97,7 @@ export function Icon({ name }: { name: IconName }) {
 }
 
 const NAV = [
-  ['Home', '#/home'], ['Our History', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
+  ['Home', '#/home'], ['Events', '#/events'], ['Our History', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
 ] as const;
 
 export function SiteNav({ active = 'Home' }: { active?: string }) {
@@ -233,8 +233,10 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
           <div className="hub-hero-visual"><HomeFilm /></div>
         </section>
 
-        <section className="hub-personal" aria-labelledby="your-coldstream-title">
-          <header className="hub-section-head"><div><p className="cg-eyebrow">For the member signed in</p><h2 id="your-coldstream-title">Your Coldstream</h2></div><div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div></header>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Current archive video while submissions are being connected</span></header><HomeFilm /></section>
+
+        <section className="hub-personal" aria-labelledby="your-statistics-title">
+          <header className="hub-section-head"><div><p className="cg-eyebrow">For the member signed in</p><h2 id="your-statistics-title">Your Statistics</h2></div><div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div></header>
           {me ? <>
             <div className="hub-member-intro"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><div><strong>{me.display_name}</strong><span>Personal stats will appear here as the Discord bot records activity.</span></div></div>
             <div className="hub-mode-grid">{MODES.map((mode) => <article key={mode} className="hub-stat-block"><h3>{mode}</h3><div><span><b>Pending</b><small>Kills</small></span><span><b>Pending</b><small>K/D</small></span><span><b>Pending</b><small>MVPs</small></span></div><p>Waiting for stat tracking</p></article>)}</div>
@@ -242,16 +244,10 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
           </> : <div className="hub-signin-prompt"><p>Sign in with Discord to see your stats, attendance, rank progress and place on the leaderboard.</p><button type="button" onClick={signIn}>Sign in through Discord</button></div>}
         </section>
 
-        <section className="hub-events" aria-labelledby="hub-events-title">
-          <header className="hub-section-head"><div><p className="cg-eyebrow">The schedule</p><h2 id="hub-events-title">{monthLabel}</h2></div><div className="hub-month-controls"><button type="button" aria-label="Previous month" onClick={() => setMonthCursor(new Date(monthCursor.getFullYear(), monthCursor.getMonth() - 1, 1))}>←</button><button type="button" aria-label="Next month" onClick={() => setMonthCursor(new Date(monthCursor.getFullYear(), monthCursor.getMonth() + 1, 1))}>→</button></div></header>
-          <div className="hub-calendar" aria-label={`${monthLabel} event calendar`}>
-            <div className="hub-calendar-weekdays">{WEEKDAYS.map((day) => <span key={day}>{day}</span>)}</div>
-            <div className="hub-calendar-grid">{cells.map((day) => { const key = localDateKey(day); const dayEvents = eventsByDay[key] ?? []; const inMonth = day.getMonth() === monthCursor.getMonth(); return <div key={key} className={`hub-calendar-day${inMonth ? '' : ' outside'}${key === localDateKey(now) ? ' today' : ''}`}><time dateTime={key}>{day.getDate()}</time>{dayEvents.slice(0, 2).map((event) => <span key={event.id} title={event.title}>{event.title}</span>)}{dayEvents.length > 2 && <small>+{dayEvents.length - 2} more</small>}</div>; })}</div>
-          </div>
-          <div className="hub-next-events"><div className="hub-subhead"><span>Next three</span><a href="#/archive">Open event records <Icon name="arrow" /></a></div>{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); return <article key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h3>{event.title}</h3><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.duration_minutes} minutes</p></div><span className="hub-event-kind">{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div>
+        <section className="hub-events hub-events-compact" aria-labelledby="hub-events-title">
+          <header className="hub-section-head"><div><p className="cg-eyebrow">The schedule</p><h2 id="hub-events-title">Upcoming events</h2></div><a className="hub-open-events" href="#/events">Open full calendar <Icon name="arrow" /></a></header>
+          <div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); return <article key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h3>{event.title}</h3><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.duration_minutes} minutes</p></div><span className="hub-event-kind">{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div>
         </section>
-
-        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Current archive film while submissions are being connected</span></header><HomeFilm /></section>
 
         <section className="hub-community-grid"><article className="hub-leaderboard" aria-labelledby="hub-leaderboard-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Community standing</p><h2 id="hub-leaderboard-title">Leaderboard</h2></div><span className="hub-coming">Bot data coming soon</span></header><div className="hub-podium"><div><b>Pending</b><span>Second</span></div><div className="first"><b>Pending</b><span>First</span></div><div><b>Pending</b><span>Third</span></div></div><p className="hub-empty">Public Play, Events and Competitive rankings will appear when the Discord bot begins recording results.</p></article><article className="hub-activity" aria-labelledby="hub-activity-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Live from the community</p><h2 id="hub-activity-title">Recent activity</h2></div><span className="hub-coming">Waiting for bot events</span></header><p className="hub-empty">Rank changes, completed events, featured clips and new members will appear here.</p></article></section>
       </main>

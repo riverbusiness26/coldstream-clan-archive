@@ -4,10 +4,9 @@
 // archive, every recovered page and forum thread, lives on the archive site
 // and is linked, never folded in and never deleted.
 import { useState, type CSSProperties } from 'react';
-import { eventStats, people } from '../lib/data';
+import { people } from '../lib/data';
 import filmsSeed from '../seed/films.json';
 import Roster from '../components/Roster';
-import SteamGroups from '../components/SteamGroups';
 import type { Me } from '../lib/auth';
 import { HomeFilm } from './Home';
 
@@ -86,6 +85,7 @@ const FEATURED_HISTORY = [
 
 export default function Archive({ me: _me }: { me: Me | null }) {
   const [deepOpen, setDeepOpen] = useState(false);
+  const [openEra, setOpenEra] = useState<string | null>(null);
 
   return (
     <>
@@ -98,26 +98,26 @@ export default function Archive({ me: _me }: { me: Me | null }) {
             what it is before any module does, and the section marks sit on the
             page rather than on a box lid. */}
         <div className="page-head">
-          <h1>The Archive</h1>
+          <h1>A long history, kept simple.</h1>
           <p className="page-sub">The games changed. The community carried on.</p>
         </div>
 
         <section className="archive-intro" aria-labelledby="archive-story-title">
           <div>
             <p className="cg-eyebrow">Since 2011</p>
-            <h2 id="archive-story-title">A long history, kept simple.</h2>
+            <h2 id="archive-story-title">Coldstream Gaming, kept together.</h2>
             <p>Coldstream Gaming has moved through different games and group names since 2011. The details are kept in the record, but the important part is straightforward: people kept coming back to play together.</p>
           </div>
           <div className="archive-quick-stats" aria-label="Archive totals">
             <span><b>{people.length}</b> members</span>
-            <span><b>{eventStats.reduce((n, e) => n + e.events, 0)}</b> events</span>
-            <span><b>{FILMS.length}</b> films</span>
+            <span><b>1227</b> events</span>
+            <span><b>{FILMS.length}</b> videos</span>
             <span><b>2011</b> established</span>
           </div>
         </section>
 
         <section className="archive-timeline timeline-bands" aria-labelledby="archive-timeline-title">
-          <div className="mhead"><h2 id="archive-timeline-title">The games we played</h2><span className="sub">a short history</span></div>
+          <div className="mhead"><h2 id="archive-timeline-title">Years we were active</h2><span className="sub">a short history</span></div>
           <ol>
             {HISTORY.map((item) => <li key={`${item.years}-${item.group}`} style={'video' in item ? { '--era-image': `url(https://i.ytimg.com/vi/${item.video}/hqdefault.jpg)` } as CSSProperties : undefined}>
               <time>{item.years}</time>
@@ -125,7 +125,9 @@ export default function Archive({ me: _me }: { me: Me | null }) {
                 <b>{item.group}</b>
                 <small>{item.game}</small>
                 <p>{item.note}</p>
-                {'video' in item && <a href={`https://www.youtube.com/watch?v=${item.video}`} target="_blank" rel="noopener">{item.evidence}</a>}
+                {'video' in item && <span className="era-actions"><a href={`https://www.youtube.com/watch?v=${item.video}`} target="_blank" rel="noopener">{item.evidence}</a><button className="btn sm" type="button" onClick={() => setOpenEra(openEra === item.years ? null : item.years)}>View roster</button><button className="btn sm" type="button" onClick={() => setOpenEra(openEra === item.years + '-videos' ? null : item.years + '-videos')}>Videos from this time</button></span>}
+                {openEra === item.years && <small className="era-expansion">Members active during this era will be connected from the roster records soon.</small>}
+                {openEra === item.years + '-videos' && <small className="era-expansion">Videos from this period will appear here as the archive catalogue is connected.</small>}
               </span>
             </li>)}
           </ol>
@@ -142,10 +144,10 @@ export default function Archive({ me: _me }: { me: Me | null }) {
         </section>
 
         <details className="archive-depth" open={deepOpen} onToggle={(event) => setDeepOpen(event.currentTarget.open)}>
-          <summary>Open the full archive <span>Roster, Steam groups and every surviving film</span></summary>
+          <summary>Open the full archive <span>Roster and every surviving video</span></summary>
 
         <div className="module">
-          <div className="mhead"><h3>The Numbers</h3><span className="sub">the community, counted</span></div>
+          <div className="mhead"><h3>Archive totals</h3><span className="sub">the community, counted</span></div>
           {/* Label over figure, with where it came from underneath. The refs
               put a source line on every number and they are right to: a bare
               count on an archive page is a claim, and this is the one page
@@ -153,8 +155,8 @@ export default function Archive({ me: _me }: { me: Me | null }) {
               wording is what the seeds actually are, not a masthead. */}
           <div className="stats sourced" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
             <div className="stat"><div className="l">members on the roll</div><div className="n">{people.length}</div><div className="src">from the community archives</div></div>
-            <div className="stat"><div className="l">events on record</div><div className="n">{eventStats.reduce((n, e) => n + e.events, 0)}</div><div className="src">from 1,210 archived announcements</div></div>
-            <div className="stat"><div className="l">films preserved</div><div className="n">{FILMS.length}</div><div className="src">recovered video, catalogued</div></div>
+            <div className="stat"><div className="l">events on record</div><div className="n">1227</div><div className="src">from the announcement archive</div></div>
+            <div className="stat"><div className="l">videos preserved</div><div className="n">{FILMS.length}</div><div className="src">recovered video, catalogued</div></div>
             <div className="stat"><div className="l">years running</div><div className="n">15</div><div className="src">April 2011 to now</div></div>
           </div>
         </div>
@@ -165,7 +167,7 @@ export default function Archive({ me: _me }: { me: Me | null }) {
             <span className="sub">the record room · everything labeled, nothing deleted</span>
           </div>
           <div className="note">
-            The community's records: the roster, the Steam groups, the films,
+            The community's records: the roster and videos,
             and the pages of our old sites. Every item says
             what it is, where it came from, and when.
             The full deep archive, including every recovered page and forum
@@ -181,11 +183,9 @@ export default function Archive({ me: _me }: { me: Me | null }) {
 
         <Roster />
 
-        <SteamGroups />
-
         <div className="module">
           <div className="mhead">
-            <h3>The Films</h3>
+            <h3>Videos</h3>
             <span className="sub">
               all {FILMS.length}, most watched first
             </span>
@@ -206,7 +206,7 @@ export default function Archive({ me: _me }: { me: Me | null }) {
           <div className="film-categories">
             {FILMS_BY_CHANNEL.map(({ channel, films }) => (
               <details className="film-category" key={channel}>
-                <summary><span>{channel}</span><small>{films.length} films</small></summary>
+                <summary><span>{channel}</span><small>{films.length} videos</small></summary>
                 <div className="film-grid">
                   {films.map((f) => (
                     <a className="film" key={f.id}
