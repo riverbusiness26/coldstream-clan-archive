@@ -157,7 +157,7 @@ export default function App() {
       {view === 'servers' && <Servers />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members' || view === 'events') && <Archive me={me} />}
-      {view === 'admin' && <Admin me={me} />}
+      {view === 'admin' && <Admin me={me} signOut={signOut} />}
       {view === 'player-profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
       </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaArrowsAltV, FaAward, FaCalendarCheck, FaClipboardCheck, FaFlag, FaHistory, FaImage, FaMedal, FaSearch, FaShieldAlt, FaUsers } from 'react-icons/fa';
+import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaClipboardCheck, FaCog, FaFlag, FaHistory, FaHome, FaImage, FaMedal, FaSearch, FaShieldAlt, FaSignOutAlt, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 
-type Tab = 'catalogue' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'audit';
+type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'audit' | 'settings';
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem { id: string; kind: ItemKind; name: string; description: string | null; storage_key: string | null; image_mime: string | null; active: boolean; sort_order: number; created_at: string }
 interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null }
@@ -22,22 +22,18 @@ const PREVIEW_ITEMS: PersonnelItem[] = [
 ];
 const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member', company_id: null }];
 const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Coldstream Guards', tag: '2ndCS', color: null, emblem_storage_key: null, emblem_image_mime: null, sort_order: 0 }];
-const tabs: { id: Tab; label: string; icon: typeof FaImage }[] = [
-  { id: 'catalogue', label: 'Catalogue', icon: FaImage },
-  { id: 'assignments', label: 'Assignments', icon: FaAward },
-  { id: 'members', label: 'Members', icon: FaUsers },
-  { id: 'attendance', label: 'Attendance', icon: FaCalendarCheck },
-  { id: 'evidence', label: 'Evidence', icon: FaClipboardCheck },
-  { id: 'audit', label: 'Audit log', icon: FaHistory },
-];
 const date = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 const dateTime = (value: string) => new Date(value).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const labelAction = (value: string) => value.replaceAll('_', ' ').replaceAll('.', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 
-export default function Admin({ me }: { me: Me | null }) {
+export default function Admin({ me, signOut }: { me: Me | null; signOut: () => void }) {
   const canStaff = me?.role === 'moderator' || me?.role === 'admin';
   const canUpload = me?.role === 'admin';
-  const [tab, setTab] = useState<Tab>('catalogue');
+  const [tab, setTab] = useState<Tab>(() => {
+    const saved = window.localStorage.getItem('coldstream-admin-section') as Tab | null;
+    return saved && ['overview', 'catalogue', 'detachments', 'assignments', 'members', 'attendance', 'evidence', 'audit', 'settings'].includes(saved) ? saved : 'overview';
+  });
+  const [navOpen, setNavOpen] = useState(false);
   const [items, setItems] = useState<PersonnelItem[]>([]);
   const [members, setMembers] = useState<MemberRow[]>([]);
   const [companies, setCompanies] = useState<CompanyRow[]>([]);
@@ -50,8 +46,9 @@ export default function Admin({ me }: { me: Me | null }) {
   // Delete is two clicks, not a browser confirm dialog: it is irreversible and
   // the artwork does not come back.
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-  const [catalogueFilter, setCatalogueFilter] = useState<'all' | ItemKind>('all');
-  const [memberSearch, setMemberSearch] = useState('');
+  const [catalogueFilter, setCatalogueFilter] = useState<'all' | ItemKind>(() => (window.localStorage.getItem('coldstream-admin-catalogue-filter') as 'all' | ItemKind | null) ?? 'all');
+  const [memberSearch, setMemberSearch] = useState(() => window.localStorage.getItem('coldstream-admin-member-search') ?? '');
+  const [globalSearch, setGlobalSearch] = useState('');
   const [assignMembers, setAssignMembers] = useState<string[]>([]);
   const [assignItem, setAssignItem] = useState('');
   const [assignNote, setAssignNote] = useState('');
@@ -73,6 +70,10 @@ export default function Admin({ me }: { me: Me | null }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
+
+  useEffect(() => { window.localStorage.setItem('coldstream-admin-section', tab); }, [tab]);
+  useEffect(() => { window.localStorage.setItem('coldstream-admin-catalogue-filter', catalogueFilter); }, [catalogueFilter]);
+  useEffect(() => { window.localStorage.setItem('coldstream-admin-member-search', memberSearch); }, [memberSearch]);
 
   // The message banner sits at the top of the board and the upload form is a
   // long way below it, so a failed upload looked like nothing happening at
@@ -152,6 +153,20 @@ export default function Admin({ me }: { me: Me | null }) {
     .filter((member) => rsvpByMember.has(member.id) || Boolean(member.discord_id && presenceByDiscord.has(member.discord_id)))
     .sort((a, b) => a.display_name.localeCompare(b.display_name));
   const unlinkedPresence = currentPresence.filter((row) => !members.some((member) => member.discord_id === row.discord_id));
+  const globalResults = globalSearch.trim().length < 2 ? [] : [
+    ...members.filter((member) => member.display_name.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((member) => ({ id: member.id, kind: 'Member', label: member.display_name, tab: 'members' as Tab })),
+    ...items.filter((item) => item.name.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((item) => ({ id: item.id, kind: item.kind === 'rank' ? 'Rank' : 'Medal', label: item.name, tab: 'catalogue' as Tab })),
+    ...events.filter((event) => event.title.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((event) => ({ id: event.id, kind: 'Event', label: event.title, tab: 'attendance' as Tab })),
+  ].slice(0, 8);
+  const attendanceReviewCount = events.filter((event) => !event.cancelled && new Date(event.starts_at).getTime() < Date.now() && rsvps.some((row) => row.event_id === event.id && !row.attendance)).length;
+  const upcomingEventCount = events.filter((event) => !event.cancelled && new Date(event.starts_at).getTime() >= Date.now()).length;
+
+  function openTab(next: Tab) {
+    setTab(next);
+    setNavOpen(false);
+    setError(null);
+    setDone(null);
+  }
 
   async function confirmDiscordRole() {
     if (!supa) return true;
@@ -374,21 +389,49 @@ export default function Admin({ me }: { me: Me | null }) {
     await load();
   }
 
-  if (!canStaff) return <div className="wrap solo"><main><div className="module"><div className="mhead"><h3>Personnel Command Board</h3></div><div className="note">This part of the site is for moderators and admins. Sign in through Discord so the site can check your current role.</div></div></main></div>;
+  if (!canStaff) return <div className="wrap solo"><main><div className="module"><div className="mhead"><h3>Admin Panel</h3></div><div className="note">This part of the site is for moderators and admins. Sign in through Discord so the site can check your current role.</div></div></main></div>;
 
   return (
-    <main className="command-board">
+    <main className={`command-board ${navOpen ? 'nav-open' : ''}`}>
+      <button className="admin-menu-button" onClick={() => setNavOpen((open) => !open)} aria-expanded={navOpen}><FaBars /> Menu</button>
+      <div className="admin-shell">
+        <aside className="admin-sidebar">
+          <div className="admin-sidebar-brand"><FaShieldAlt /><div><span>2nd Coldstream</span><b>Admin Panel</b></div></div>
+          <nav aria-label="Admin Panel sections">
+            <button className={tab === 'overview' ? 'active' : ''} onClick={() => openTab('overview')}><FaHome /><span>Overview</span><small>{attendanceReviewCount}</small></button>
+            <button className={tab === 'members' || tab === 'assignments' ? 'active' : ''} onClick={() => openTab('members')}><FaUsers /><span>Members</span></button>
+            <button className={tab === 'evidence' ? 'active' : ''} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat Tracking</span><small>0</small></button>
+            <button className={tab === 'attendance' ? 'active' : ''} onClick={() => openTab('attendance')}><FaCalendarCheck /><span>Events</span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
+            <p>Regiment</p>
+            <button className={tab === 'catalogue' || tab === 'detachments' ? 'active' : ''} onClick={() => openTab('catalogue')}><FaAward /><span>Ranks, Medals & Detachments</span></button>
+            <p>More</p>
+            <button className={tab === 'audit' ? 'active' : ''} onClick={() => openTab('audit')}><FaHistory /><span>Audit Log</span></button>
+            <button className={tab === 'settings' ? 'active' : ''} onClick={() => openTab('settings')}><FaCog /><span>Settings</span></button>
+          </nav>
+          <div className="admin-sidebar-account"><DiscordAvatar url={me!.avatar_url} name={me!.display_name} className="member-avatar" /><div><b>{me!.display_name}</b><span>{me!.role}</span></div><button onClick={signOut} aria-label="Sign out"><FaSignOutAlt /></button></div>
+        </aside>
+        <div className="admin-main">
       <header className="command-head">
-        <div><p className="command-kicker"><FaShieldAlt /> Coldstream personnel</p><h1>Command Board</h1><p>Manage rank and medal artwork, assign service records, and keep every change accountable.</p></div>
+        <div><p className="command-kicker"><FaShieldAlt /> Coldstream personnel</p><h1>Admin Panel</h1><p>Review what needs attention, manage members, and keep regiment records in one place.</p></div>
         <div className="command-session"><span>{me!.role}</span><b>{me!.display_name}</b><small>Role checked through Discord</small></div>
       </header>
-      <nav className="command-tabs" aria-label="Command Board sections">
-        {tabs.map((entry) => { const Icon = entry.icon; return <button key={entry.id} className={tab === entry.id ? 'active' : ''} onClick={() => { setTab(entry.id); setError(null); setDone(null); }}><Icon />{entry.label}{entry.id === 'evidence' && <small>Future</small>}</button>; })}
-      </nav>
+      <div className="admin-global-search"><label><FaSearch /><input value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search members, ranks, medals and events" /></label>{globalSearch.trim().length >= 2 && <div className="admin-search-results">{globalResults.length === 0 ? <span>No matching records</span> : globalResults.map((result) => <button key={`${result.kind}-${result.id}`} onClick={() => { if (result.tab === 'members') setMemberSearch(result.label); if (result.tab === 'catalogue') setSelectedItem(result.id); if (result.tab === 'attendance') setSelectedEvent(result.id); setGlobalSearch(''); openTab(result.tab); }}><small>{result.kind}</small><b>{result.label}</b></button>)}</div>}</div>
       {DEMO && <div className="command-banner"><b>Preview mode.</b> Sign in, uploads and assignments are simulated.</div>}
       {galleryPending !== null && galleryPending > 0 && <div className="command-banner"><b>{galleryPending}</b> gallery {galleryPending === 1 ? 'submission is' : 'submissions are'} waiting. <a href="#/gallery">Open the gallery.</a></div>}
       {error && <div className="command-message error" role="alert">{error}</div>}
       {done && <div className="command-message ok" role="status">{done}</div>}
+
+      {tab === 'overview' && <section className="admin-overview">
+        <div className="admin-welcome"><div><span>Daily command view</span><h2>What needs attention</h2><p>The three queues staff use most are kept first. Open a queue to continue the work.</p></div><FaShieldAlt /></div>
+        <div className="admin-attention-grid">
+          <article><header><FaClipboardCheck /><span>Stat submissions</span><b>0</b></header><h3>No connected reports yet</h3><p>The Discord report intake is the next build phase. It will appear here oldest first.</p><button onClick={() => openTab('evidence')}>Open Stat Tracking</button></article>
+          <article><header><FaUsers /><span>New volunteers</span><b>0</b></header><h3>Enlistment is not connected</h3><p>Accepted recruits will appear here as Volunteer, assigned to Line Infantry until acknowledged.</p><button onClick={() => openTab('members')}>Open Members</button></article>
+          <article><header><FaCalendarCheck /><span>Attendance review</span><b>{attendanceReviewCount}</b></header><h3>{attendanceReviewCount ? `${attendanceReviewCount} event${attendanceReviewCount === 1 ? '' : 's'} may need review` : 'Nothing waiting'}</h3><p>Events with unresolved attendance appear here after they end.</p><button onClick={() => openTab('attendance')}>Open Events</button></article>
+        </div>
+        <div className="admin-summary-grid"><article><span>Members</span><b>{members.length}</b><small>Discord roster records</small></article><article><span>Ranks & medals</span><b>{items.length}</b><small>{items.filter((item) => item.active).length} available</small></article><article><span>Detachments</span><b>{companies.length}</b><small>Regiment structure</small></article><article><span>Upcoming events</span><b>{upcomingEventCount}</b><small>Current calendar</small></article></div>
+      </section>}
+
+      {(tab === 'catalogue' || tab === 'detachments') && <nav className="admin-subnav" aria-label="Regiment tools"><button className={tab === 'catalogue' ? 'active' : ''} onClick={() => openTab('catalogue')}>Ranks & medals</button><button className={tab === 'detachments' ? 'active' : ''} onClick={() => openTab('detachments')}>Detachments</button></nav>}
 
       {tab === 'catalogue' && <section className="command-workspace">
         <div className="catalogue-list">
@@ -424,12 +467,12 @@ export default function Admin({ me }: { me: Me | null }) {
       </section>}
 
       {tab === 'assignments' && <section className="command-panel-grid">
-        <div className="command-card assign-card"><div className="command-section-head"><div><span>Service record</span><h2>Assign an item</h2></div><FaAward /></div><div className="command-form horizontal"><label>Members <small>Use Ctrl or Shift to select several.</small><select className="member-multi" multiple value={assignMembers} onChange={(event) => setAssignMembers(Array.from(event.currentTarget.selectedOptions, (option) => option.value))}>{members.map((member) => <option value={member.id} key={member.id}>{member.display_name}</option>)}</select></label><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional reason or event" /></label><button className="command-primary" onClick={assign} disabled={busy || !items.length || !members.length}>{busy ? 'Saving' : assignMembers.length > 1 ? `Assign to ${assignMembers.length} members` : 'Assign item'}</button></div></div>
+        <div className="command-card assign-card"><div className="command-section-head"><div><span>Service record</span><h2>Assign an item</h2></div><button className="command-secondary" onClick={() => openTab('members')}>Back to members</button></div><div className="command-form horizontal"><label>Members <small>Use Ctrl or Shift to select several.</small><select className="member-multi" multiple value={assignMembers} onChange={(event) => setAssignMembers(Array.from(event.currentTarget.selectedOptions, (option) => option.value))}>{members.map((member) => <option value={member.id} key={member.id}>{member.display_name}</option>)}</select></label><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional reason or event" /></label><button className="command-primary" onClick={assign} disabled={busy || !items.length || !members.length}>{busy ? 'Saving' : assignMembers.length > 1 ? `Assign to ${assignMembers.length} members` : 'Assign item'}</button></div></div>
         <div className="command-card"><div className="command-section-head"><div><span>Current</span><h2>Active assignments</h2></div><b>{assignments.length}</b></div><div className="assignment-list">{assignments.length === 0 && <div className="command-empty">No ranks or medals have been assigned yet.</div>}{assignments.map((row) => <article key={row.id}><span className={`assignment-mark ${row.item_kind}`}>{row.item_kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><div><b>{itemById.get(row.item_id)?.name ?? 'Unknown item'}</b><span>{memberById.get(row.member_id)?.display_name ?? 'Unknown member'} · {date(row.assigned_at)}</span>{row.note && <small>{row.note}</small>}</div><button onClick={() => removeAssignment(row.id)}>Remove</button></article>)}</div></div>
       </section>}
 
-      {tab === 'members' && <section className="command-panel-grid members-grid">
-        <div className="command-card">
+      {(tab === 'members' || tab === 'detachments') && <section className={`command-panel-grid members-grid ${tab === 'detachments' ? 'detachment-only' : ''}`}>
+        {tab === 'members' && <div className="command-card">
           <div className="command-section-head"><div><span>Discord roster</span><h2>Members</h2></div><b>{members.length}</b></div>
           <label className="command-search"><FaSearch /><input value={memberSearch} onChange={(event) => setMemberSearch(event.target.value)} placeholder="Search members" /></label>
           <div className="member-command-list">{visibleMembers.map((member) => {
@@ -450,9 +493,9 @@ export default function Admin({ me }: { me: Me | null }) {
               </div>
             </article>;
           })}</div>
-        </div>
+        </div>}
 
-        <aside className="command-card detachment-card">
+        {tab === 'detachments' && <aside className="command-card detachment-card">
           <div className="command-section-head"><div><span>Unit structure</span><h2>Detachments</h2></div><FaFlag /></div>
           <div className="detachment-list">{companies.map((company) => {
             const emblem = companyArtworkUrl(company);
@@ -468,7 +511,7 @@ export default function Admin({ me }: { me: Me | null }) {
             <label className="command-file"><span>{companyEdit ? 'Leave empty to keep the current emblem.' : 'Optional emblem.'} PNG, JPEG or WebP, up to 5 MB</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setCompanyFile(event.target.files?.[0] ?? null)} /></label>
             <button className="command-primary" disabled={busy} onClick={saveCompany}>{busy ? 'Saving' : companyEdit ? 'Save detachment' : 'Add detachment'}</button>
           </div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>Moderators can assign an existing detachment. Admins manage the structure and emblems.</p></div>}
-        </aside>
+        </aside>}
       </section>}
 
       {tab === 'attendance' && <section className="command-panel-grid attendance-grid">
@@ -504,10 +547,14 @@ export default function Admin({ me }: { me: Me | null }) {
         </div>
       </section>}
 
-      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Future profile feature</span><h2>Evidence Queue</h2></div><span className="future-pill">Intake closed</span></div><div className="evidence-intro"><FaClipboardCheck /><div><h3>The foundation is in place</h3><p>Member submissions will land here for staff review. Nothing can be submitted yet, and no unverified claim will appear on a profile.</p></div></div><div className="evidence-types"><article><FaAward /><span>Event record</span><h3>Event kills</h3><p>Members will name the event, report the result and attach proof.</p></article><article><FaShieldAlt /><span>Server record</span><h3>Public server kills</h3><p>Claims will include the server, game and supporting screenshot.</p></article><article><FaImage /><span>Proof</span><h3>Screenshots</h3><p>Images will be stored separately from rank and medal artwork.</p></article></div><div className="evidence-flow"><span>Member submits</span><i /><span>Staff reviews</span><i /><span>Accepted record</span><i /><span>Player profile</span></div></section>}
+      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">Intake not connected</span></div><div className="evidence-intro"><FaClipboardCheck /><div><h3>The review workspace is ready for the next phase</h3><p>Reports will arrive here oldest first after a member submits up to 30 rounds and the required screenshots through Discord.</p><small>Competitive · Public Linebattle · Public Server</small></div></div><div className="evidence-types"><article><FaAward /><span>Four recorded stats</span><h3>Kills & deaths</h3><p>Each round records kills and deaths as separate values.</p></article><article><FaShieldAlt /><span>Leaderboard results</span><h3>MVP & Top 5</h3><p>MVP means the player finished #1 on the leaderboard. Top 5 is recorded separately.</p></article><article><FaImage /><span>Required proof</span><h3>One image per round</h3><p>Staff approve or reject the entire report. Approved proof images are then deleted.</p></article></div><div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
 
       {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{audit.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div></section>}
 
+      {tab === 'settings' && <section className="command-card settings-shell"><div className="command-section-head"><div><span>System controls</span><h2>Settings</h2></div><FaCog /></div>{canUpload ? <div className="command-empty">Discord role mappings, scheduled sync and event defaults will live here as each integration is connected.</div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>You can see that Settings exists, but only admins can change system-wide controls.</p></div>}</section>}
+
+        </div>
+      </div>
     </main>
   );
 }
