@@ -227,6 +227,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
             <p className="hub-lede">The place to see what is happening, how you are doing, and where the regiment is forming up next.</p>
             <div className="hq-actions">
               {me ? <a className="hq-secondary" href="#/player-profile"><Icon name="shield" />View my profile</a> : <button className="hq-secondary" type="button" onClick={signIn}><Icon name="discord" />Member sign in</button>}
+              {me && (me.role === 'moderator' || me.role === 'admin') && <a className="hq-secondary mobile-command-panel" href="#/admin"><Icon name="shield" />Open command panel</a>}
             </div>
           </div>
           <div className="hub-hero-visual"><HomeFilm /></div>
