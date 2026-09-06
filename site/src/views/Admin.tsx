@@ -585,6 +585,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       <button className="admin-menu-button" onClick={() => setNavOpen((open) => !open)} aria-expanded={navOpen}><FaBars /> Menu</button>
       <div className="admin-shell">
         <aside className="admin-sidebar">
+          <button className="admin-sidebar-toggle" type="button" onClick={() => setNavOpen(false)} aria-label="Hide admin sidebar"><FaChevronLeft /></button>
           <div className="admin-sidebar-brand"><FaShieldAlt /><div><span>2nd Coldstream</span><b>Admin Panel</b></div></div>
           <nav aria-label="Admin Panel sections">
             <button className={tab === 'overview' ? 'active' : ''} onClick={() => openTab('overview')}><FaHome /><span>Overview</span><small>{attendanceReviewCount}</small></button>
@@ -601,7 +602,6 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </aside>
       <div className="admin-main">
       <header className="command-head">
-        <button className="admin-sidebar-toggle" type="button" onClick={() => setNavOpen((open) => !open)} aria-label={navOpen ? 'Hide admin sidebar' : 'Show admin sidebar'} aria-expanded={navOpen}>{navOpen ? <FaChevronLeft /> : <FaChevronRight />}</button>
         <div><p className="command-kicker"><FaShieldAlt /> Coldstream personnel</p><h1>Admin Panel</h1><p>Review what needs attention, manage members, and keep regiment records in one place.</p></div>
         <div className="command-session"><span>{me!.role}</span><b>{me!.display_name}</b><small>Role checked through Discord</small></div>
       </header>
