@@ -53,7 +53,12 @@ export function useAuth() {
       setAuthReady(true);
     };
     load();
-    const { data: sub } = sb.auth.onAuthStateChange(() => load());
+    const { data: sub } = sb.auth.onAuthStateChange((event) => {
+      // A token refresh keeps the same member session. Re-running Discord
+      // guild sync on every refresh made mobile sessions look like repeated
+      // logins and could race the initial member lookup.
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED') void load();
+    });
     return () => sub.subscription.unsubscribe();
   }, []);
 
@@ -87,7 +92,9 @@ export function useAuth() {
       return;
     }
     const { data: { session } } = await supa!.auth.getSession();
-    if (session && !me) await supa!.auth.signOut();
+    // A persisted session may still be loading its member row. Never sign it
+    // out just because React has not received `me` yet, especially on mobile.
+    if (session) { setAuthReady(true); return; }
     sessionStorage.setItem('coldstream-auth-return', location.hash.startsWith('#/') ? location.hash : '#/home');
     await supa!.auth.signInWithOAuth({
       provider: 'discord',
