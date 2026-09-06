@@ -4,6 +4,7 @@ import { useAuth } from './lib/auth';
 import Home, { AccountStrip, SiteFooter, SiteNav } from './views/Home';
 import Landing from './views/Landing';
 import Gallery from './views/Gallery';
+import Servers from './views/Servers';
 const Archive = lazy(() => import('./views/Archive'));
 const Calendar = lazy(() => import('./views/Calendar'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
@@ -26,7 +27,7 @@ const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error|erro
 function routeFromHash(): string {
   const h = location.hash;
   if (AUTH_HASH.test(h)) return 'home';
-  return h.replace(/^#\/?/, '').split('/')[0] || 'landing';
+  return (h.replace(/^#\/?/, '').split('/')[0] || 'landing').split('?')[0] || 'landing';
 }
 
 // Whether this page load began with authentication handing back a session, or an
@@ -36,6 +37,7 @@ function routeFromHash(): string {
 // indistinguishable from somebody arriving at the site cold.
 const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
 const AUTH_RETURN = sessionStorage.getItem('coldstream-auth-return') || '#/home';
+const PUBLIC_VIEWS = new Set(['archive', 'members', 'gallery', 'servers', 'progress']);
 
 export default function App() {
   const { me, signIn, signOut, refresh, demo, orphanSession, authReady, accessDenied } = useAuth();
@@ -123,7 +125,10 @@ export default function App() {
   const go = (v: string) => { location.hash = '#/' + v; window.scrollTo(0, 0); };
 
 
-  if (view === 'landing' || !authReady || !me) {
+  // The splash is the member gate for the hub and private tools. The record
+  // room, gallery and public server board remain useful to guests and should
+  // not throw away shareable deep links.
+  if (view === 'landing' || !authReady || (!me && !PUBLIC_VIEWS.has(view))) {
     return (
       <>
         <Landing me={me} go={go} signIn={signIn} />
@@ -161,6 +166,7 @@ export default function App() {
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members') && <Archive me={me} />}
+      {view === 'servers' && <Servers />}
       {view === 'events' && <Calendar me={me} />}
       {view === 'leaderboard' && <Leaderboard me={me} />}
       {view === 'admin' && <Admin me={me} signOut={signOut} />}

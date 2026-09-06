@@ -9,9 +9,9 @@ desktop, mobile, and pages with different content heights.
 
 | Token | Value | Purpose |
 | --- | --- | --- |
-| `--cloth-base` | `#121416` | Warm near-obsidian fallback colour |
-| `--cloth-deep` | `#080a0c` | Edge/canvas fallback behind the body |
-| `--cloth-dim` | `rgba(0,0,0,.2)` | Subtle overall darkening wash |
+| `--cloth-base` | `#0b0d0f` | Warm near-obsidian fallback colour |
+| `--cloth-deep` | `#050607` | Edge/canvas fallback behind the body |
+| `--cloth-dim` | `rgba(0,0,0,.34)` | Subtle overall darkening wash |
 | `--cloth-vignette` | `rgba(0,0,0,.46)` | Soft edge darkening |
 | `--cloth-noise-strength` | `.12` | Intended low contrast for the tile; no animated noise |
 | `--cloth-top-light` | `rgba(220,190,145,.035)` | Barely perceptible warm top light |

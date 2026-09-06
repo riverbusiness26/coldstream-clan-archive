@@ -54,7 +54,12 @@ export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: str
         </h1>
         <div className="splash-actions">
           <a className="splash-choice join" href={DISCORD} target="_blank" rel="noopener">Join the Coldstream</a>
-          <button className="splash-choice login" type="button" onClick={() => me ? go('home') : signIn()}>Member Login</button>
+          <button className="splash-choice login" type="button" onClick={() => me ? go('home') : signIn()}>Continue with Discord</button>
+        </div>
+        <p className="splash-login-note">Sign in with Discord to see your rank, stats, and weekly brief.</p>
+        <div className="splash-context">
+          <p>Coldstream Gaming is a multi-gaming community established in 2011, home of the 2nd Coldstream Guards.</p>
+          <div aria-label="Coldstream at a glance"><span><b>2011</b>Founded</span><i aria-hidden="true">•</i><span><b>4</b>Gaming eras</span><i aria-hidden="true">•</i><span><b>315+</b>Members</span></div>
         </div>
       </div>
     </div>
