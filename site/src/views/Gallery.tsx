@@ -176,17 +176,6 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
         </div>
       )}
 
-      <div className="pr-tools">
-        <div className="module">
-          <MediaToolbar
-            scope={items ?? []}
-            value={facets}
-            onChange={setFacets}
-            showViews={anyViews}
-          />
-        </div>
-      </div>
-
       {loading && (
         <div className="pr-results">
           <div className="module">
@@ -204,12 +193,16 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       {!loading && !browsing && (
         <div className="pr-results">
           <div className="module">
+            <MediaToolbar scope={items ?? []} value={facets} onChange={setFacets} showViews={anyViews} />
             <div className="mhead">
               <h2>Results</h2>
               <span className="sub">
                 {results.length} of {items?.length ?? 0}
                 {facets.search.trim() ? ` for "${facets.search.trim()}"` : ''}
               </span>
+              <div className="gallery-actions">
+                {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button> : <DiscordButton me={me} signIn={signIn} />}
+              </div>
             </div>
             {results.length === 0 ? (
               <div className="empty">
@@ -243,18 +236,18 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       {!loading && browsing && (
         <div className="pr-results">
           <div className="module">
+            <MediaToolbar scope={items ?? []} value={facets} onChange={setFacets} showViews={anyViews} />
             <div className="mhead">
               <h2>Gallery</h2>
               <span className="sub">{results.length} items</span>
+              <div className="gallery-actions">
+                {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button> : <DiscordButton me={me} signIn={signIn} />}
+              </div>
             </div>
             {results.length === 0 ? <div className="empty"><p className="empty-h">Nothing on the wall yet.</p></div> : <>
               <MediaGrid items={resultPage} onOpen={openItem} />
               {results.length > shown && <div className="more"><button className="btn" onClick={() => setShown((n) => n + PAGE)}>Show more</button><span className="more-n">showing {Math.min(shown, results.length)} of {results.length}</span></div>}
             </>}
-            <div className="gallery-submit">
-              {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button> : <DiscordButton me={me} signIn={signIn} />}
-              <p className="railterms">{me ? 'An admin checks every submission before it goes up.' : 'Sign in through Discord to add to the gallery. An admin checks each one in before it goes up.'}</p>
-            </div>
           </div>
         </div>
       )}
