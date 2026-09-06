@@ -1,30 +1,6 @@
-// The gallery: a record room for the pictures.
-//
-// Two halves that are deliberately kept apart, and one way of looking at
-// anything in either. That split is River's call and it is editorial, not
-// cosmetic:
-//
-//   "From the Record" is recovered material, pulled back off Photobucket and
-//   imgur before the links died. Every plate carries its date, the names still
-//   legible in it, and the address it came from, because the whole point of
-//   the record is that you can check it.
-//
-//   "From Members" is the live half. It carries an author and a date and no
-//   provenance at all, and it must never be dressed up as though it had any.
-//
-// The layout is River's ref, Site refs/website/games.png: the record on the
-// left, members in a rail on the right under one button. Above RAIL_HOLDS
-// approved items the wall breaks out full width beneath both columns, because
-// a 336px rail becomes a second and worse gallery once it has to hold a set.
-//
-// Searching or filtering leaves that composition on purpose. A result set is
-// one list, and splitting it across two columns of different widths would ask
-// the reader to scan twice to answer one question.
-//
-// A note so nobody wires the wrong things together: the recovered half is the
-// bundled seed at src/seed/gallery.json. The locked 'the-archive' category in
-// gallery_category is a different object, it is empty, and nothing here reads
-// from it.
+// The gallery: one shared wall for recovered record items and member uploads.
+// Origin details remain available when an item is opened, but never split the
+// page into separate sections.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
 import type { MediaItem } from '../lib/media';
