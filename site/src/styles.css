@@ -64,6 +64,7 @@
      the lighting so the same surface stays calm behind every view. */
   --cloth-base:#121416;
   --cloth-deep:#080a0c;
+  --cloth-dim:rgba(0,0,0,.2);
   --cloth-vignette:rgba(0,0,0,.46);
   --cloth-noise-strength:.12;
   --cloth-top-light:rgba(220,190,145,.035);
@@ -107,12 +108,13 @@ body{
   -webkit-font-smoothing:antialiased;
   background-color:var(--cloth-base);
   background-image:
+    linear-gradient(var(--cloth-dim),var(--cloth-dim)),
     radial-gradient(ellipse at 50% 20%,var(--cloth-top-light),transparent 58%),
     radial-gradient(ellipse at center,transparent 34%,var(--cloth-vignette) 100%),
     url('/textures/coldstream-felt-tile.png');
-  background-repeat:no-repeat,no-repeat,repeat;
-  background-size:cover,cover,1024px 1024px;
-  background-attachment:fixed,fixed,fixed;
+  background-repeat:no-repeat,no-repeat,no-repeat,repeat;
+  background-size:cover,cover,cover,1024px 1024px;
+  background-attachment:fixed,fixed,fixed,fixed;
 }
 a{color:inherit;text-decoration:none}
 img{max-width:100%}
@@ -1663,7 +1665,7 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 @media(max-width:760px){.csg-home-hero{min-height:420px}.csg-home-stats{grid-template-columns:repeat(2,1fr)}.csg-home-stats>div:nth-child(n+3){border-top:1px solid rgba(198,160,92,.17)}.csg-home-stats>div:nth-child(2):after{display:none}.csg-home-about{grid-template-columns:1fr;gap:18px}.csg-home-about>a{justify-self:start}.csg-home-values{padding:17px 0;flex-wrap:wrap;line-height:1.8}}
 @media(max-width:520px){.csg-home-hero{padding:24px 18px 30px}.csg-home-crest{width:155px;height:155px}.csg-home-hero h1{font-size:39px}.csg-home-motto span{font-size:20px;letter-spacing:.1em}.csg-home-actions{gap:10px}.csg-home-actions a,.csg-home-actions button{min-width:0}.csg-home-stats b{font-size:31px}.csg-home-about{padding:28px 0}.csg-home-values{gap:9px;letter-spacing:.25em}}
 @media(max-width:680px){
-  body{background-size:cover,cover,768px 768px;background-attachment:scroll,scroll,scroll}
+  body{background-size:cover,cover,cover,768px 768px;background-attachment:scroll,scroll,scroll,scroll}
 }
 .hub-events-compact{padding-top:28px}.hub-open-events{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase}.hub-open-events svg{width:14px}.era-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.era-expansion{display:block;margin-top:10px;color:var(--cg-muted);font-size:12px;line-height:1.5}.full-calendar .mhead{display:flex;align-items:center;justify-content:space-between;gap:12px}.full-calendar .mhead h2{margin:0;text-align:center;flex:1}.full-calendar .hub-calendar-day{appearance:none;border:1px solid var(--line);color:inherit;text-align:left;width:100%;font:inherit;cursor:pointer}.full-calendar .hub-calendar-day:hover{border-color:var(--accent);background:rgba(176,141,87,.1)}.event-detail-meta{color:var(--cg-muted);font-size:13px}.event-detail p{max-width:760px}
 .full-calendar .hub-calendar-day{background:rgba(20,23,27,.92);color:var(--ink)}.lb-acts{gap:8px;align-items:center}.lb-close{margin-left:4px}
