@@ -16,6 +16,7 @@ import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 import { supa } from '../lib/supa';
+import gallerySeed from '../seed/gallery.json';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/2ndColdstreamOfficial';
@@ -31,47 +32,48 @@ const HOME_FILMS = [
   { src: '/video/memories/friday-linebattle-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Friday Linebattle · 2012' },
 ] as const;
 
-export function HomeFilm({ controls = false }: { controls?: boolean } = {}) {
-  const [slots, setSlots] = useState<[number, number]>([0, 1]);
-  const [activeSlot, setActiveSlot] = useState(0);
-  const [loaded, setLoaded] = useState<[boolean, boolean]>([false, false]);
-  const [transitioning, setTransitioning] = useState(false);
-  const videos = useRef<(HTMLVideoElement | null)[]>([]);
-  const film = HOME_FILMS[slots[activeSlot]];
+const GALLERY_STILLS = (gallerySeed as Array<{ src: string; caption: string }>).slice(0, 6).map((shot) => ({
+  type: 'image' as const,
+  src: shot.src,
+  icon: '',
+  label: shot.caption,
+}));
 
-  const advance = async () => {
+const HOME_MEDIA = [
+  ...HOME_FILMS.map((film) => ({ ...film, type: 'video' as const })),
+  ...GALLERY_STILLS,
+];
+
+export function HomeFilm({ controls = false }: { controls?: boolean } = {}) {
+  const [activeMedia, setActiveMedia] = useState(0);
+  const [transitioning, setTransitioning] = useState(false);
+  const video = useRef<HTMLVideoElement | null>(null);
+  const media = HOME_MEDIA[activeMedia];
+
+  const chooseMedia = (next: number) => {
     if (transitioning) return;
-    const incoming = activeSlot === 0 ? 1 : 0;
-    const outgoing = activeSlot;
-    const incomingVideo = videos.current[incoming];
-    if (!incomingVideo) return;
     setTransitioning(true);
-    incomingVideo.currentTime = 0;
-    await incomingVideo.play().catch(() => undefined);
+    video.current?.pause();
     window.setTimeout(() => {
-      setActiveSlot(incoming);
-      window.setTimeout(() => {
-        videos.current[outgoing]?.pause();
-        const following = (slots[incoming] + 1) % HOME_FILMS.length;
-        setLoaded((value) => value.map((state, index) => index === outgoing ? false : state) as [boolean, boolean]);
-        setSlots((value) => value.map((slot, index) => index === outgoing ? following : slot) as [number, number]);
-        setTransitioning(false);
-      }, 1200);
+      setActiveMedia((next + HOME_MEDIA.length) % HOME_MEDIA.length);
+      window.setTimeout(() => setTransitioning(false), 480);
     }, 120);
   };
 
+  const advanceVideo = () => {
+    const nextVideo = (activeMedia + 1) % HOME_FILMS.length;
+    chooseMedia(nextVideo);
+  };
+
   return (
-    <div className={`cg-home-film${transitioning ? ' transitioning' : ''}`} aria-hidden="true">
+    <div className={`cg-home-film${transitioning ? ' transitioning' : ''}`}>
       <img src={asset('/landing-desktop.jpg')} alt="" />
-      {slots.map((slot, index) => {
-        const slotFilm = HOME_FILMS[slot];
-        return <div className={`cg-film-frame${index === activeSlot && loaded[index] ? ' active' : ''}`} key={`${index}-${slotFilm.src}`}>
-          <video ref={(node) => { videos.current[index] = node; }} src={asset(slotFilm.src)} autoPlay={index === 0 && slot === 0} muted playsInline controls={controls} preload="auto" tabIndex={-1} onCanPlay={() => {
-            setLoaded((value) => value.map((state, loadedIndex) => loadedIndex === index ? true : state) as [boolean, boolean]);
-          }} onEnded={index === activeSlot ? advance : undefined} />
-        </div>;
-      })}
-      <span><img src={asset(film.icon)} alt="" /><b>{film.label}</b></span>
+      <div className="cg-film-frame active">
+        {media.type === 'video' ? <video ref={video} src={asset(media.src)} autoPlay muted playsInline controls={controls} preload="auto" tabIndex={-1} onEnded={advanceVideo} /> : <img className="cg-film-still" src={asset(media.src)} alt={media.label} />}
+      </div>
+      <button className="cg-film-nav cg-film-nav-prev" type="button" onClick={() => chooseMedia(activeMedia - 1)} aria-label="Previous weekly media">←</button>
+      <button className="cg-film-nav cg-film-nav-next" type="button" onClick={() => chooseMedia(activeMedia + 1)} aria-label="Next weekly media">→</button>
+      <span><img src={media.icon ? asset(media.icon) : undefined} alt="" /><b>{media.label}</b></span>
     </div>
   );
 }
