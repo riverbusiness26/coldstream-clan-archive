@@ -18,7 +18,7 @@ import { compressImage, compressToDataUrl } from '../lib/image';
 import { demoGallery } from '../lib/demoGallery';
 
 const BUCKET = 'gallery';
-const MAX_BYTES = 8 * 1024 * 1024;
+const MAX_BYTES = 5 * 1024 * 1024;
 const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 const SENT = 'Submitted. An admin checks it in and then it joins the wall.';
 
@@ -82,7 +82,7 @@ export default function UploadDrawer({
       return;
     }
     if (f.size > MAX_BYTES) {
-      setFormError(`That image is ${(f.size / 1048576).toFixed(1)} MB. The limit is 8 MB.`);
+      setFormError(`That image is ${(f.size / 1048576).toFixed(1)} MB. The limit is 5 MB.`);
       setFile(null);
       return;
     }
@@ -252,7 +252,7 @@ export default function UploadDrawer({
               <label className="flab" htmlFor="up-file">The image</label>
               <input id="up-file" className="inp" type="file" accept="image/*"
                 onChange={(e) => pick(e.target.files?.[0] ?? null)} />
-              <p className="fhint">JPG, PNG, WEBP or GIF, up to 8 MB. It is resized here before it is sent.</p>
+              <p className="fhint">JPG, PNG, WEBP or GIF, up to 5 MB. It is resized here before it is sent.</p>
             </>
           )}
 

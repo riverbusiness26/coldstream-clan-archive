@@ -9,7 +9,7 @@
 // grab lost its top and bottom. The size is free here: the image is decoded on
 // this path anyway.
 
-const MAX_EDGE = 1920;
+const MAX_EDGE = 1600;
 const QUALITY = 0.82;
 
 export interface Sized { w: number | null; h: number | null }
