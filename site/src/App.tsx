@@ -6,6 +6,7 @@ import Landing from './views/Landing';
 import Gallery from './views/Gallery';
 const Archive = lazy(() => import('./views/Archive'));
 const Calendar = lazy(() => import('./views/Calendar'));
+const Leaderboard = lazy(() => import('./views/Leaderboard'));
 const Profile = lazy(() => import('./views/Profile'));
 const Admin = lazy(() => import('./views/Admin'));
 const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
@@ -150,17 +151,18 @@ export default function App() {
         <div className={'toast ' + toast.kind} onClick={() => setToast(null)}
           role="status" title="Click to dismiss">{toast.text}</div>
       )}
-      <SiteNav active={view === 'gallery' ? 'Media' : view === 'events' ? 'Events' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'Our History' : ''} />
+      <SiteNav active={view === 'gallery' ? 'Media' : view === 'events' ? 'Events' : view === 'leaderboard' ? 'Leaderboard' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'Our History' : ''} />
 
       <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
       <div className="cg-page-stage">
-      {!['home','members','gallery','events','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
+      {!['home','members','gallery','events','leaderboard','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
       {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members') && <Archive me={me} />}
       {view === 'events' && <Calendar me={me} />}
+      {view === 'leaderboard' && <Leaderboard me={me} />}
       {view === 'admin' && <Admin me={me} signOut={signOut} />}
       {view === 'player-profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
       </Suspense>

@@ -31,7 +31,7 @@ const HOME_FILMS = [
   { src: '/video/memories/friday-linebattle-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Friday Linebattle · 2012' },
 ] as const;
 
-export function HomeFilm() {
+export function HomeFilm({ controls = false }: { controls?: boolean } = {}) {
   const [slots, setSlots] = useState<[number, number]>([0, 1]);
   const [activeSlot, setActiveSlot] = useState(0);
   const [loaded, setLoaded] = useState<[boolean, boolean]>([false, false]);
@@ -66,7 +66,7 @@ export function HomeFilm() {
       {slots.map((slot, index) => {
         const slotFilm = HOME_FILMS[slot];
         return <div className={`cg-film-frame${index === activeSlot && loaded[index] ? ' active' : ''}`} key={`${index}-${slotFilm.src}`}>
-          <video ref={(node) => { videos.current[index] = node; }} src={asset(slotFilm.src)} autoPlay={index === 0 && slot === 0} muted playsInline preload="auto" tabIndex={-1} onCanPlay={() => {
+          <video ref={(node) => { videos.current[index] = node; }} src={asset(slotFilm.src)} autoPlay={index === 0 && slot === 0} muted playsInline controls={controls} preload="auto" tabIndex={-1} onCanPlay={() => {
             setLoaded((value) => value.map((state, loadedIndex) => loadedIndex === index ? true : state) as [boolean, boolean]);
           }} onEnded={index === activeSlot ? advance : undefined} />
         </div>;
@@ -97,7 +97,7 @@ export function Icon({ name }: { name: IconName }) {
 }
 
 const NAV = [
-  ['Home', '#/home'], ['Events', '#/events'], ['Our History', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
+  ['Home', '#/home'], ['Events', '#/events'], ['Leaderboard', '#/leaderboard'], ['Our History', '#/archive'], ['Media', '#/gallery'], ['Join', DISCORD],
 ] as const;
 
 export function SiteNav({ active = 'Home' }: { active?: string }) {
@@ -232,7 +232,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
           <div className="hub-hero-visual"><HomeFilm /></div>
         </section>
 
-        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Current archive video while submissions are being connected</span></header><HomeFilm /></section>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Top player of the week overall: <b>Pending</b></span></header><HomeFilm controls /></section>
 
         <section className="hub-personal" aria-labelledby="your-statistics-title">
           <header className="hub-section-head"><div><p className="cg-eyebrow">For the member signed in</p><h2 id="your-statistics-title">Your Statistics</h2></div><div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div></header>
