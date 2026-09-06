@@ -1648,3 +1648,8 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 /* The weekly feature reveals a quiet, full-width caption panel on hover. */
 .hub-weekly .cg-home-film>span{left:0;right:0;bottom:0;width:100%;max-width:none;box-sizing:border-box;max-height:0;overflow:hidden;padding:0 16px;display:flex;align-items:center;justify-content:flex-end;border-left:0;border-top:1px solid transparent;background:linear-gradient(180deg,rgba(8,9,11,0),rgba(8,9,11,.9) 34%);opacity:0;transform:translateY(8px);transition:max-height .35s ease,padding .35s ease,opacity .25s ease,transform .35s ease,border-color .35s ease}
 .hub-weekly .cg-home-film:hover>span,.hub-weekly .cg-home-film:focus-within>span{max-height:58px;padding:16px 16px 13px;opacity:1;transform:translateY(0);border-top-color:rgba(198,160,92,.35)}
+
+/* Let the weekly film open downward into its natural widescreen shape. */
+.hub-weekly .cg-home-film{height:260px;min-height:0;transform-origin:top center;transition:height .9s cubic-bezier(.22,1,.36,1)}
+@media(min-width:821px){.hub-weekly .cg-home-film:hover,.hub-weekly .cg-home-film:focus-within{height:min(56.25vw,660px)}}
+@media(max-width:820px){.hub-weekly .cg-home-film{height:240px}.hub-weekly .cg-home-film:hover,.hub-weekly .cg-home-film:focus-within{height:360px}}
