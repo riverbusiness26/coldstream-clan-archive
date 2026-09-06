@@ -56,7 +56,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       setLoadError(e instanceof Error ? e.message : 'The gallery could not be loaded.');
     });
     const db = supa;
-    if (db) { void db.rpc('archive_expired_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,provider,archived_at').eq('status', 'archived').order('archived_at', { ascending: false }).limit(24).then(({ data }) => setWeeklyArchive((data as WeeklyArchiveRow[] | null) ?? []))); }
+    if (db) { void db.rpc('deploy_weekly_content').then(() => db.rpc('archive_expired_weekly_content')).then(() => db.from('weekly_content_submission').select('id,url,title,provider,archived_at').eq('status', 'archived').order('archived_at', { ascending: false }).limit(24).then(({ data }) => setWeeklyArchive((data as WeeklyArchiveRow[] | null) ?? []))); }
   }, []);
 
   useEffect(() => { load(); }, [load]);

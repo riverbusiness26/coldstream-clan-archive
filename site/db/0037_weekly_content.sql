@@ -12,6 +12,7 @@ create table if not exists weekly_content_submission (
   submitted_at timestamptz not null default now(),
   reviewed_at timestamptz,
   approved_at timestamptz,
+  deployed_at timestamptz,
   featured_until timestamptz,
   archived_at timestamptz
 );
@@ -35,7 +36,7 @@ returns trigger language plpgsql as $$
 begin
   if new.status = 'approved' and (old.status is distinct from 'approved' or new.approved_at is null) then
     new.approved_at := coalesce(new.approved_at, now());
-    new.featured_until := weekly_feature_end(new.approved_at);
+    new.featured_until := null;
     new.reviewed_at := coalesce(new.reviewed_at, now());
   elsif new.status = 'archived' and new.archived_at is null then
     new.archived_at := now();
@@ -43,6 +44,25 @@ begin
   return new;
 end;
 $$;
+
+create or replace function deploy_weekly_content()
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  now_local timestamp := timezone('America/Chicago', now());
+  monday_start timestamp := date_trunc('week', now_local);
+  monday_utc timestamptz := monday_start at time zone 'America/Chicago';
+begin
+  update weekly_content_submission
+     set status = 'archived', archived_at = coalesce(archived_at, now())
+   where status = 'approved' and deployed_at is not null and featured_until is not null and featured_until <= now();
+  update weekly_content_submission
+     set deployed_at = monday_utc,
+         featured_until = weekly_feature_end(now())
+   where status = 'approved' and deployed_at is null and approved_at < monday_utc;
+end;
+$$;
+revoke all on function deploy_weekly_content() from public;
+grant execute on function deploy_weekly_content() to anon, authenticated;
 
 create or replace function archive_expired_weekly_content()
 returns void language sql security definer set search_path = public as $$

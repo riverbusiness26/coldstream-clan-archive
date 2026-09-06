@@ -49,7 +49,7 @@ interface WeeklyFeature { id: string; url: string; title: string; description: s
 
 export function HomeFilm({ controls = false, weekly = [] }: { controls?: boolean; weekly?: WeeklyFeature[] } = {}) {
   const [remoteWeekly, setRemoteWeekly] = useState<WeeklyFeature[]>([]);
-  const loadRemoteWeekly = () => { if (!supa) return; supa.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setRemoteWeekly((data as WeeklyFeature[] | null) ?? [])); };
+  const loadRemoteWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setRemoteWeekly((data as WeeklyFeature[] | null) ?? []))); };
   useEffect(() => { loadRemoteWeekly(); const refresh = () => loadRemoteWeekly(); window.addEventListener('weekly-content-updated', refresh); return () => window.removeEventListener('weekly-content-updated', refresh); }, []);
   const mediaList = [...HOME_MEDIA, ...[...weekly, ...remoteWeekly].map((item) => ({ type: 'image' as const, src: item.provider === 'youtube' && youtubeId(item.url) ? youtubeThumb(youtubeId(item.url)!) : '/landing-desktop.jpg', icon: '', label: item.title }))];
   const [activeMedia, setActiveMedia] = useState(0);
@@ -227,7 +227,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
     return () => { cancelled = true; };
   }, [monthCursor]);
 
-  const loadWeekly = () => { if (!supa) return; supa.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? [])); };
+  const loadWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? []))); };
   useEffect(() => { loadWeekly(); }, []);
 
   const monthLabel = monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });

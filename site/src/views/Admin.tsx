@@ -132,6 +132,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setGalleryPending(galleryResult.data?.length ?? 0);
     const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5)').order('created_at', { ascending: true });
     setStatSubmissions((statResult.data ?? []) as StatSubmissionRow[]);
+    await supa.rpc('deploy_weekly_content');
     const weeklyResult = await supa.from('weekly_content_submission').select('id,submitter_id,url,provider,title,description,status,rejection_reason,submitted_at,approved_at').order('submitted_at', { ascending: true });
     setWeeklySubmissions((weeklyResult.data ?? []) as WeeklySubmissionRow[]);
 
