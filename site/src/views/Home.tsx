@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import type { IconType } from 'react-icons';
 import {
   FaArrowRight,
@@ -17,6 +17,7 @@ import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 import { supa } from '../lib/supa';
 import gallerySeed from '../seed/gallery.json';
+import { youtubeId, youtubeThumb } from '../lib/gallery';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/2ndColdstreamOfficial';
@@ -44,18 +45,24 @@ const HOME_MEDIA = [
   ...GALLERY_STILLS,
 ];
 
-export function HomeFilm({ controls = false }: { controls?: boolean } = {}) {
+interface WeeklyFeature { id: string; url: string; title: string; description: string | null; provider: string; }
+
+export function HomeFilm({ controls = false, weekly = [] }: { controls?: boolean; weekly?: WeeklyFeature[] } = {}) {
+  const [remoteWeekly, setRemoteWeekly] = useState<WeeklyFeature[]>([]);
+  const loadRemoteWeekly = () => { if (!supa) return; supa.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setRemoteWeekly((data as WeeklyFeature[] | null) ?? [])); };
+  useEffect(() => { loadRemoteWeekly(); const refresh = () => loadRemoteWeekly(); window.addEventListener('weekly-content-updated', refresh); return () => window.removeEventListener('weekly-content-updated', refresh); }, []);
+  const mediaList = [...HOME_MEDIA, ...[...weekly, ...remoteWeekly].map((item) => ({ type: 'image' as const, src: item.provider === 'youtube' && youtubeId(item.url) ? youtubeThumb(youtubeId(item.url)!) : '/landing-desktop.jpg', icon: '', label: item.title }))];
   const [activeMedia, setActiveMedia] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const video = useRef<HTMLVideoElement | null>(null);
-  const media = HOME_MEDIA[activeMedia];
+  const media = mediaList[activeMedia] ?? mediaList[0];
 
   const chooseMedia = (next: number) => {
     if (transitioning) return;
     setTransitioning(true);
     video.current?.pause();
     window.setTimeout(() => {
-      setActiveMedia((next + HOME_MEDIA.length) % HOME_MEDIA.length);
+      setActiveMedia((next + mediaList.length) % mediaList.length);
       window.setTimeout(() => setTransitioning(false), 480);
     }, 120);
   };
@@ -76,6 +83,19 @@ export function HomeFilm({ controls = false }: { controls?: boolean } = {}) {
       <span><img src={media.icon ? asset(media.icon) : undefined} alt="" /><b>{media.label}</b></span>
     </div>
   );
+}
+
+function WeeklyUpload({ me, onSubmitted }: { me: Me | null; onSubmitted: () => void }) {
+  const [open, setOpen] = useState(false); const [url, setUrl] = useState(''); const [title, setTitle] = useState(''); const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
+  if (!me) return <p className="hub-weekly-submit-note">Sign in with Discord to submit a highlight, funny moment or screenshot.</p>;
+  async function submit(event: FormEvent) {
+    event.preventDefault(); if (!me) return; setMessage(''); if (!/^https?:\/\//i.test(url.trim())) { setMessage('Paste a YouTube or stream link.'); return; }
+    if (!supa) { setMessage('Submissions are unavailable in preview mode.'); return; }
+    setBusy(true); const provider = youtubeId(url) ? 'youtube' : 'stream'; const memberId = me.id;
+    const result = await supa.from('weekly_content_submission').insert({ submitter_id: memberId, url: url.trim(), provider, title: title.trim() || 'Weekly submission' });
+    setBusy(false); if (result.error) { setMessage(result.error.message); return; } setUrl(''); setTitle(''); setOpen(false); setMessage('Sent to staff for review.'); window.dispatchEvent(new Event('weekly-content-updated')); onSubmitted();
+  }
+  return <div className="hub-weekly-submit"><p>Want to be featured? Submit your favorite highlights, funny moments or screenshots by clicking the button below and wait! You may be the next Coldstreamer that’s featured!</p>{open ? <form onSubmit={submit}><input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title (optional)" maxLength={160} /><input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="YouTube or stream link" required /><div><button type="submit" disabled={busy}>{busy ? 'Sending…' : 'Send submission'}</button><button type="button" onClick={() => setOpen(false)}>Cancel</button></div>{message && <small>{message}</small>}</form> : <button type="button" onClick={() => setOpen(true)}>Upload</button>}{!open && message && <small>{message}</small>}</div>;
 }
 
 type IconName = 'menu' | 'discord' | 'steam' | 'youtube' | 'calendar' | 'banner' | 'people' | 'timeline' | 'shield' | 'arrow';
@@ -182,6 +202,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
   const [events, setEvents] = useState<HomeEvent[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [eventsError, setEventsError] = useState(false);
+  const [weekly, setWeekly] = useState<WeeklyFeature[]>([]);
 
   useEffect(() => {
     if (!supa) { setEventsLoading(false); return; }
@@ -205,6 +226,9 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
       });
     return () => { cancelled = true; };
   }, [monthCursor]);
+
+  const loadWeekly = () => { if (!supa) return; supa.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? [])); };
+  useEffect(() => { loadWeekly(); }, []);
 
   const monthLabel = monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
   const firstOffset = (new Date(monthCursor.getFullYear(), monthCursor.getMonth(), 1).getDay() + 6) % 7;
@@ -238,7 +262,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
           </section>
         </section>
 
-        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Top player of the week overall: <b>Pending</b></span></header><HomeFilm controls /><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">The schedule</p><h3>Upcoming events</h3></div><a className="hub-open-events" href="#/events">Open full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); return <article key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h3>{event.title}</h3><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind">{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Weekly feature</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Top player of the week overall: <b>Pending</b></span></header><HomeFilm controls weekly={weekly} /><WeeklyUpload me={me} onSubmitted={loadWeekly} /><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">The schedule</p><h3>Upcoming events</h3></div><a className="hub-open-events" href="#/events">Open full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); return <article key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { month: 'short' })}</span></time><div><h3>{event.title}</h3><p>{event.game || 'Community event'} · {starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind">{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
 
         <section className="hub-community-grid"><article className="hub-leaderboard" aria-labelledby="hub-leaderboard-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Top players</p><h2 id="hub-leaderboard-title">Leaderboard</h2></div><span className="hub-coming">Bot data coming soon</span></header><div className="hub-podium"><div><b>Pending</b><span>Second</span></div><div className="first"><b>Pending</b><span>First</span></div><div><b>Pending</b><span>Third</span></div></div><p className="hub-empty">Public Play, Events and Competitive rankings will appear when the Discord bot begins recording results.</p></article><article className="hub-activity" aria-labelledby="hub-activity-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Live from the community</p><h2 id="hub-activity-title">Recent activity</h2></div><span className="hub-coming">Waiting for bot events</span></header><p className="hub-empty">Rank changes, completed events, featured clips and new members will appear here.</p></article></section>
       </main>

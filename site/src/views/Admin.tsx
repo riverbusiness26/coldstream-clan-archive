@@ -4,7 +4,7 @@ import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 
-type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'audit' | 'settings';
+type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'weekly' | 'audit' | 'settings';
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem { id: string; kind: ItemKind; name: string; description: string | null; storage_key: string | null; image_mime: string | null; active: boolean; sort_order: number; created_at: string }
 interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null }
@@ -16,6 +16,7 @@ interface RsvpRow { event_id: string; member_id: string; status: string | null; 
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
 interface PresenceWindowRow { event_id: string; samples_taken: number; people_seen: number; first_sample: string; last_sample: string }
 interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean }[] }
+interface WeeklySubmissionRow { id: string; submitter_id: string; url: string; provider: string; title: string; description: string | null; status: string; rejection_reason: string | null; submitted_at: string; approved_at: string | null; }
 
   const statCategoryLabel = (category: string) => ({ public_linebattle: 'Linebattle event', public_server: 'Public Server', competitive: 'Competitive' } as Record<string, string>)[category] || category.replaceAll('_', ' ');
 
@@ -41,7 +42,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const canUpload = me?.role === 'admin';
   const [tab, setTab] = useState<Tab>(() => {
     const saved = window.localStorage.getItem('coldstream-admin-section') as Tab | null;
-    return saved && ['overview', 'catalogue', 'detachments', 'assignments', 'members', 'attendance', 'evidence', 'audit', 'settings'].includes(saved) ? saved : 'overview';
+    return saved && ['overview', 'catalogue', 'detachments', 'assignments', 'members', 'attendance', 'evidence', 'weekly', 'audit', 'settings'].includes(saved) ? saved : 'overview';
   });
   const [navOpen, setNavOpen] = useState(false);
   const [items, setItems] = useState<PersonnelItem[]>([]);
@@ -89,6 +90,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
   const [galleryPending, setGalleryPending] = useState<number | null>(null);
   const [statSubmissions, setStatSubmissions] = useState<StatSubmissionRow[]>([]);
+  const [weeklySubmissions, setWeeklySubmissions] = useState<WeeklySubmissionRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
@@ -109,7 +111,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setStatSubmissions([]);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setStatSubmissions([]); setWeeklySubmissions([]);
       return;
     }
     const [itemResult, memberResult, companyResult, assignmentResult, auditResult, galleryResult, eventResult] = await Promise.all([
@@ -130,6 +132,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setGalleryPending(galleryResult.data?.length ?? 0);
     const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5)').order('created_at', { ascending: true });
     setStatSubmissions((statResult.data ?? []) as StatSubmissionRow[]);
+    const weeklyResult = await supa.from('weekly_content_submission').select('id,submitter_id,url,provider,title,description,status,rejection_reason,submitted_at,approved_at').order('submitted_at', { ascending: true });
+    setWeeklySubmissions((weeklyResult.data ?? []) as WeeklySubmissionRow[]);
 
     const loadedEvents = (eventResult.data ?? []) as EventRow[];
     setEvents(loadedEvents);
@@ -486,6 +490,12 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setDone(`Submission ${status}.`); await load();
   }
 
+  async function reviewWeeklySubmission(id: string, status: 'approved' | 'rejected' | 'archived') {
+    if (!supa) { setDone('Preview only. No submission was changed.'); return; }
+    setBusy(true); const result = await supa.from('weekly_content_submission').update({ status, reviewed_by: me?.id ?? null, reviewed_at: new Date().toISOString(), ...(status === 'rejected' ? { rejection_reason: 'Not approved by staff.' } : {}) }).eq('id', id); setBusy(false);
+    if (result.error) { setError(result.error.message); return; } setDone(`Weekly submission ${status}.`); await load();
+  }
+
   async function saveMemberDetachment(memberId: string) {
     setError(null); setDone(null);
     const companyId = detachmentDrafts[memberId] ?? '';
@@ -596,6 +606,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
             <button className={tab === 'overview' ? 'active' : ''} onClick={() => openTab('overview')}><FaHome /><span>Overview</span><small>{attendanceReviewCount}</small></button>
             <button className={tab === 'members' || tab === 'assignments' ? 'active' : ''} onClick={() => openTab('members')}><FaUsers /><span>Members</span></button>
             <button className={tab === 'evidence' ? 'active' : ''} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat Tracking</span><small>0</small></button>
+            <button className={tab === 'weekly' ? 'active' : ''} onClick={() => openTab('weekly')}><FaImage /><span>Weekly Content Submissions</span><small>{weeklySubmissions.filter((submission) => submission.status === 'pending').length}</small></button>
             <button className={tab === 'attendance' ? 'active' : ''} onClick={() => openTab('attendance')}><FaCalendarCheck /><span>Events</span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
             <p>Regiment</p>
             <button className={tab === 'catalogue' || tab === 'detachments' ? 'active' : ''} onClick={() => openTab('catalogue')}><FaAward /><span>Ranks, Medals & Detachments</span></button>
@@ -779,6 +790,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
 
       {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
 
+      {tab === 'weekly' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Homepage moderation</span><h2>Weekly Content Submissions</h2></div><span className="future-pill">{weeklySubmissions.filter((s) => s.status === 'pending').length} pending</span></div>{weeklySubmissions.length === 0 ? <div className="command-empty">No weekly content submissions yet.</div> : <div className="stat-review-list">{weeklySubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.title}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Member'} · {submission.provider} · <a href={submission.url} target="_blank" rel="noreferrer">Open link</a></span>{submission.description && <small>{submission.description}</small>}</div><small>{dateTime(submission.submitted_at)} · {submission.status}</small>{submission.status === 'pending' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'rejected')}>Deny</button></> : submission.status === 'approved' ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'archived')}>Archive</button> : <span className="future-pill">{submission.status}</span>}</article>)}</div>}</section>}
       {tab === 'settings' && <section className="command-card settings-shell"><div className="command-section-head"><div><span>System controls</span><h2>Settings</h2></div><FaCog /></div>{canUpload ? <div className="command-empty">Discord role mappings, scheduled sync and event defaults will live here as each integration is connected.</div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>You can see that Settings exists, but only admins can change system-wide controls.</p></div>}</section>}
 
         </div>

@@ -15,6 +15,7 @@ import { demoGallery } from '../lib/demoGallery';
 
 /** How many results to render before asking. */
 const PAGE = 24;
+interface WeeklyArchiveRow { id: string; url: string; title: string; provider: string; archived_at: string | null; }
 
 const BLANK: Facets = {
   search: '', sort: 'newest', collection: 'all', category: 'all', type: 'all', year: 'all',
@@ -37,6 +38,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   const [facets, setFacets] = useState<Facets>(BLANK);
   const [shown, setShown] = useState(PAGE);
   const [drawer, setDrawer] = useState(false);
+  const [weeklyArchive, setWeeklyArchive] = useState<WeeklyArchiveRow[]>([]);
 
   // The hash is the single source of truth for what is open, which is what
   // makes a deep link, the back button and a click on a tile the same thing.
@@ -53,6 +55,8 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       setItems([]);
       setLoadError(e instanceof Error ? e.message : 'The gallery could not be loaded.');
     });
+    const db = supa;
+    if (db) { void db.rpc('archive_expired_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,provider,archived_at').eq('status', 'archived').order('archived_at', { ascending: false }).limit(24).then(({ data }) => setWeeklyArchive((data as WeeklyArchiveRow[] | null) ?? []))); }
   }, []);
 
   useEffect(() => { load(); }, [load]);
@@ -253,6 +257,8 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       )}
 
       <div className="pr-wall">
+
+        {weeklyArchive.length > 0 && <section className="module weekly-archive"><div className="mhead"><h2>Weekly Archive</h2><span className="sub">past featured submissions</span></div><div className="weekly-archive-list">{weeklyArchive.map((item) => <a key={item.id} href={item.url} target="_blank" rel="noreferrer"><b>{item.title}</b><small>{item.provider}</small></a>)}</div></section>}
 
         {/* Its own module, and only for the people it concerns. It used to be
             a dimmed strip under the wall that everybody scrolled past. */}
