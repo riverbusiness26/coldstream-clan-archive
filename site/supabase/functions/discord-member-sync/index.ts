@@ -15,6 +15,11 @@ const ids = (name: string) => new Set(
 );
 const ADMIN_ROLES = ids("DISCORD_ADMIN_ROLE_IDS");
 const MODERATOR_ROLES = ids("DISCORD_MODERATOR_ROLE_IDS");
+const MEMBER_ROLES = ids("DISCORD_MEMBER_ROLE_IDS");
+// This is the current Coldstream member role. Keep the environment override
+// available for future role rotations, while ensuring a newly enlisted member
+// can sign in before the secret is updated.
+MEMBER_ROLES.add("1545198564597301298");
 
 const allowedOrigin = (origin: string) =>
   origin === "https://coldstreamgaming.com"
@@ -98,6 +103,7 @@ Deno.serve(async (req) => {
   const roles = guildMember.roles ?? [];
   const isAdmin = overlaps(roles, ADMIN_ROLES);
   const isModerator = overlaps(roles, MODERATOR_ROLES);
+  const isMember = overlaps(roles, MEMBER_ROLES);
   const admin = createClient(SB_URL, SERVICE_KEY, { auth: { persistSession: false } });
   const { data: byDiscord, error: discordLookupError } = await admin.from("member").select("id").eq("discord_id", discordId).maybeSingle();
   const { data: byAuth, error: authLookupError } = byDiscord
@@ -108,7 +114,7 @@ Deno.serve(async (req) => {
     return reply(origin, { ok: false, error: "Member access could not be checked" }, 500);
   }
   const existingId = byDiscord?.id ?? byAuth?.id ?? null;
-  if (!existingId && !isAdmin && !isModerator) {
+  if (!existingId && !isAdmin && !isModerator && !isMember) {
     return reply(origin, { ok: false, error: "Member, Moderator or Admin role required" }, 403);
   }
   const role = isAdmin

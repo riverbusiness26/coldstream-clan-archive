@@ -44,6 +44,7 @@ Set these Edge Function secrets in Supabase:
 - `DISCORD_GUILD_ID`
 - `DISCORD_ADMIN_ROLE_IDS`
 - `DISCORD_MODERATOR_ROLE_IDS`
+- `DISCORD_MEMBER_ROLE_IDS` (the current member role is also safely included in the function)
 
 The role id values may be comma-separated. Deploy `discord-member-sync` with
 JWT verification on. This function requires a signed-in Supabase user and
