@@ -3160,3 +3160,270 @@ BLOCKED:    Public TTT browser listing waits on GSLT and soft-open path. Listing
 
 NEXT:       Server Ops continues workshop/CSS/MapVote. Await 2ndCS Ops and Clan Growth packets.
 
+
+## 2026-09-04 - Homepage SIMPLE pack for Sol High (Grok Bot / 2ndCS Ops)
+
+WHO:        Grok Bot, agent 2ndCS Ops. No site code changed.
+
+DONE:       River rejected ornate V1-V3 homepage mocks. Locked simple #/home brief: Join us to Discord (75sfq5VPY), Member login, brief who-we-are, history stats + archive link; remove Steam from homepage. Landing unchanged. Wrote docs/homepage-redesign/SOL-HIGH-HOMEPAGE-SIMPLE-PACK.md and v4-simple.png for Sol High.
+
+BLOCKED:    Sol High implements; River reviews build before publish.
+
+NEXT:       Sol High edits site/src/views/Home.tsx per the pack; update this file again when code lands.
+
+## 2026-09-04 - Selective Command Board publish (Codex)
+
+DONE:        Built a selective production release from current main with Home.tsx and styles.css restored exactly to commit 8b2478a. The previous homepage remains in place while the live bundle gains Attendance, detachment management and emblems, rank and medal drag ordering, and artwork replacement.
+
+VERIFIED:    `npm run build --prefix site` completed with 118 modules in an isolated worktree. The hybrid Home.tsx and styles.css match 8b2478a exactly. The generated Admin chunk contains Attendance, reorder_personnel_items, emblem_storage_key, Replace artwork and Detachments, and the main bundle retains Supabase. Live verification follows the push.
+
+UNVERIFIED:  A signed-in admin mutation walkthrough still requires River's browser session. Moderator and ordinary-member journeys remain outstanding.
+
+BLOCKED:     Nothing blocks this explicitly authorized selective publish.
+
+NEXT:        Confirm the domain serves index-BqRA0hWL.js and Admin-US9oJeeB.js, then River refreshes and tests one rank drag, one emblem upload and one attendance mark.
+
+## 2026-09-04 - Responsive catalogue ordering controls (Codex)
+
+DONE:        Removed the frame around rank and medal thumbnails. Made the full desktop row a grab target with a labeled Drag rail, visible hover state and gold drop line. Added responsive up and down controls for touch and narrow screens. Kept the previous homepage through the selective build path.
+
+VERIFIED:    `npm run build --prefix site` completed with 118 modules for source and the selective production build. The 8b2478a homepage baseline remains in the selective build. A local 408px browser walkthrough showed frameless artwork, readable rows and large arrow controls. The built Admin and CSS chunks contain the new ordering controls.
+
+UNVERIFIED:  The saved reorder still needs one real signed-in admin action because the local browser used preview data. Live verification follows the push.
+
+BLOCKED:     Nothing blocks the authorized Admin refinement publish.
+
+NEXT:        Confirm the domain serves index-spqngOez.js and Admin-BW1n1hEU.js, then River reorders two real ranks on desktop or with the responsive arrows.
+
+## 2026-09-04 - Homepage crest lock (2ndCS Ops)
+
+DONE: River confirmed blood Second to None crest for #/home hero. Asset: docs/homepage-redesign/crests/hero-crest-blood.png. Pack: docs/homepage-redesign/SOL-HIGH-HOMEPAGE-TF-MERGE-PACK.md + CREST-LOCK.txt.
+
+## 2026-09-04 - Grok-shaped homepage redesign and Discord-only avatars (Codex)
+
+DONE:       Rebuilt #/home around the selected simple crest hero, two primary actions, four history statistics and a short archive introduction using the established black, blood red, cream and brass Coldstream palette. Removed Steam from the homepage navigation only. Removed the profile avatar picker and custom-upload control, made member avatars use Discord everywhere, added a broken-image fallback, and made Discord sync construct current CDN URLs including server-specific avatars.
+
+VERIFIED:   `npm run build --prefix site` passes with 119 modules. Local 408px browser checks confirmed the homepage composition, 50px mobile actions, Discord-only profile language and fallback Discord mark. Source diff checks pass; Deno is unavailable locally, so the Edge Function was reviewed but not type-checked with Deno.
+
+UNVERIFIED: The redesign is not published. Migration 0033 and the revised discord-member-sync function are not live. A real signed-in profile remains necessary to confirm a current Discord avatar and role-specific navigation.
+
+BLOCKED:    Nothing blocks review of the local frontend. Backend avatar enforcement waits for the eventual approved release and migration/function deployment.
+
+NEXT:       River reviews the local homepage. After approval, publish the frontend, run 0033_discord_avatar_source.sql, deploy discord-member-sync, and verify one real Discord member profile.
+
+## 2026-09-04 - Textured reference-match homepage pass (Codex)
+
+DONE:       Matched River's supplied homepage reference copy and composition in site/src/views/Home.tsx, including Join us (Discord), the shortened Founded/Eras/Members/Events labels, the exact Who we are paragraph, and the Discipline/Loyalty/Excellence line. Added smoky noise, engraved gold text, beveled controls, and dot-separated statistics in site/src/styles.css with site/public/home/noise.svg. Kept the selected blood crest and blood-red primary action.
+
+VERIFIED:   `npm run build --prefix site` completed successfully with 119 modules. A local 1066x813 browser review confirmed the textured hero, beveled buttons, four-item dotted statistics rail, and the reference copy hierarchy.
+
+UNVERIFIED: The design remains local and is not published. Narrow mobile behavior is covered by responsive CSS but was not re-screenshotted in this pass.
+
+BLOCKED:    Nothing blocks River's local visual review.
+
+NEXT:       River approves or marks the next visual adjustment before publication.
+
+## 2026-09-05 - News removed from the Command Board (Codex)
+
+DONE:       Removed the News tab, editor, published-post list, Supabase loading query, component state, write actions and admin-specific styles from site/src/views/Admin.tsx and site/src/styles.css. Existing news_item rows and the database table were left untouched.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules. The Admin chunk fell from roughly 34.8 kB to 32.1 kB, and targeted searches found no News UI or news_item query remaining in Admin.tsx.
+
+UNVERIFIED: The change is not published live and was not walked through with a signed-in admin session.
+
+BLOCKED:    Nothing blocks the remaining Command Board redesign work.
+
+NEXT:       Continue River's workflow questions and lock the streamlined navigation structure.
+
+## 2026-09-04 - Shared header social links (Codex)
+
+DONE:       Removed Games and Community from the shared top navigation, removed the header email shortcut, and added the 2nd Coldstream Official Steam group plus the 2nd Coldstream YouTube channel with their proper icons. Updated the homepage introduction to River's exact [2ndCS] wording in site/src/views/Home.tsx.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules. Local desktop browser review showed Home, About, Media and Join only, followed by Discord, Steam and YouTube icons.
+
+UNVERIFIED: The navigation change is not published live.
+
+BLOCKED:    Nothing blocks local review.
+
+NEXT:       River reviews the refreshed local homepage before approving publication.
+
+## 2026-09-05 - Streamlined Admin Panel shell (Codex)
+
+DONE:       Replaced the Command Board tab row with an Admin Panel shell: desktop sidebar, mobile drawer, Overview queues, universal record search, Members, Stat Tracking, Events, Regiment sub-navigation, Audit Log, Settings, and sidebar account/sign-out controls. Moved detachments under Regiment and updated stat language for Kills, Deaths, MVP (#1), Top 5, three report categories, 30 rounds, and one required image per round.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules after rebasing onto current main. Local browser walkthrough opened Overview, Stat Tracking, Ranks & Medals, and Detachments successfully in demo admin mode.
+
+UNVERIFIED: The redesign is source-only and is not published live. Discord report intake, volunteer acknowledgement, event creation, member statuses/notes, Discord role mapping, and new database records remain future implementation phases.
+
+BLOCKED:    Nothing blocks the next implementation phase.
+
+NEXT:       Build the stat-report schema and existing Coldstream Discord-bot intake, then connect the oldest-first review queue to this Admin Panel.
+
+## 2026-09-05 - Streamlined Admin Panel published (Codex)
+
+DONE:       Copied the approved production build from site/dist into the root index.html and assets/ served by Cloudflare Pages, then pushed publish commit c6aa6ca.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules; the production bundle contained a Supabase reference; a no-cache request to coldstreamgaming.com returned index-5NKko739.js and index-BFW5AOOM.css; the live #/admin route rendered the new Admin Panel heading.
+
+UNVERIFIED: A signed-in production admin walkthrough was not performed because the verification browser had no authenticated Discord session. Wrangler deployment history was unavailable because this machine has no Cloudflare API token.
+
+BLOCKED:    Nothing blocks use of the published Admin Panel.
+
+NEXT:       Sign in on the live site and review the Admin Panel with real member and attendance data.
+
+## 2026-09-05 - Previous homepage restored, Admin Panel preserved (Codex)
+
+DONE:       Restored the previous community-headquarters homepage in site/src/views/Home.tsx, kept News removed, preserved the simplified shared navigation, official Steam and YouTube links, Discord-only avatars, and the redesigned Admin Panel, then published root bundle commit 088ecaa.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules and one production Supabase reference. Local and live browser walkthroughs showed The line forms here on #/home and Admin Panel on #/admin. The live domain serves index-N30-CPsL.js.
+
+UNVERIFIED: A signed-in live admin workflow was not exercised during this rollback.
+
+BLOCKED:    Nothing blocks use of the restored homepage or the Admin Panel.
+
+NEXT:       River reviews the restored live homepage and continues Admin Panel implementation separately.
+
+## 2026-09-05 - Event editing and Discord-synced removal published (Codex)
+
+DONE:       Added staff controls to edit or remove upcoming events, a protected Supabase action queue, confirmation for removals, and Discord synchronization for both the public and staff event messages.
+
+VERIFIED:   The site build passed with 119 modules; migration 0034 is live with authenticated-only event management and a service-role-only queue; coldstreamgaming.com serves Admin-C5AJruc-.js containing Edit Event, Remove Event, and manage_event; the Discord bot is online at 54b549c and its 13 orderly tests plus 10 scheduling tests passed.
+
+UNVERIFIED: No real Discord event was edited or removed during verification, so the complete production round trip remains intentionally untested against member-visible messages.
+
+BLOCKED:    Nothing blocks staff use of the feature.
+
+NEXT:       Use Edit Event or Remove Event on a disposable upcoming event and confirm both Discord event messages change or disappear within roughly 10 seconds.
+
+## 2026-09-05 - Admin event creation published (Codex)
+
+DONE:       Added the Add event form in site/src/views/Admin.tsx, responsive controls in site/src/styles.css, and live migration 0035_event_creation.sql. Creating an event records it atomically, queues Discord delivery, and targets the bot's configured #staff-chat channel.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules and one Supabase reference. Database proof returned true for staff RPC access, anonymous denial, create queue support, and bot queue access. The live site serves Admin-RjwK5tFK.js with Add event, create_managed_event, and the #staffchat notice. `node scripts/status.mjs` returned OK across checkout, site, sign-in, database, and workflows.
+
+UNVERIFIED: No real event was created, so no live Discord message was posted during verification.
+
+BLOCKED:    Nothing blocks staff use of Add event.
+
+NEXT:       Create the next real event from Admin Panel, Events, Add event and confirm the #staff-chat post appears within roughly 10 seconds.
+
+## 2026-09-05 - Event calendar empty-state copy (Codex)
+
+DONE:       Changed the Admin Panel Events empty state in site/src/views/Admin.tsx to "No events are on the calendar yet." and published the rebuilt site bundle.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules and one Supabase reference. The live Admin-vnmt7jfU.js contains the new sentence and does not contain the old current-era wording.
+
+UNVERIFIED: The empty state was verified in the live bundle rather than through a signed-in browser with an empty production calendar.
+
+BLOCKED:    Nothing.
+
+NEXT:       Continue the Admin Panel redesign from the current live build.
+
+## 2026-09-05 - Intuitive event scheduling controls (Codex)
+
+DONE:       Replaced the combined event datetime input with separate Event date and Start time controls, 7:00 PM as the new-event default, Today, Tomorrow, Friday, and Saturday shortcuts, and a readable local-timezone preview. The same scheduler is used for creation and editing.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules and one Supabase reference. A local Admin Panel walkthrough selected Friday and displayed "Starts Friday, September 11 at 7:00 PM CDT." The live Admin-CblCfSzA.js contains the new date, time, quick-date, and timezone controls, and the live site serves index-aOl_f6gS.js.
+
+UNVERIFIED: A signed-in production event was not changed, so no real event or Discord post was affected during verification.
+
+BLOCKED:    Nothing.
+
+NEXT:       Staff use the new scheduler on the next real event and confirm the interpreted start preview before saving.
+
+## 2026-09-05 - Discord avatars allowed across the live site (Codex)
+
+DONE:       Added https://cdn.discordapp.com to the production image Content Security Policy in _headers. The existing DiscordAvatar component and discord-member-sync remain the only current-member profile-picture path across the homepage, profile, signed-in account surfaces, and Admin Panel.
+
+VERIFIED:   The live coldstreamgaming.com Content-Security-Policy now includes https://cdn.discordapp.com. Source inspection confirmed discord-member-sync builds live global or server-specific Discord avatar URLs and the current member surfaces render member.avatar_url through DiscordAvatar.
+
+UNVERIFIED: No second member account was available for a multi-user visual comparison. Historical Steam group and Archive records intentionally retain Steam imagery because those are source records, not current member profile pictures.
+
+BLOCKED:    Nothing.
+
+NEXT:       Have another member sign in once so discord-member-sync stores their current Discord avatar, then confirm it appears on their member profile and the Admin Panel.
+
+## 2026-09-05 - Clearer attendance evidence and RSVP repair (Codex)
+
+DONE:       Replaced raw Voice samples with Tracked time and rewrote each member's evidence as a plain-language tracking-window summary in site/src/views/Admin.tsx. RSVP codes now display as Attending, Maybe, Not attending, or No reply.
+
+VERIFIED:   `npm run build --prefix site` passed with 119 modules and one Supabase reference. Production event_rsvp now contains River's going response for the current Saturday test event after the bot reconciliation.
+
+UNVERIFIED: The new display bundle was published but the Cloudflare edge was still serving the prior cached index during the first verification window.
+
+BLOCKED:    Nothing in the feature. Final edge propagation remained pending at report time.
+
+NEXT:       Confirm coldstreamgaming.com serves index-QFykv1_D.js and that the Events tab shows Tracked time plus RSVP: Attending.
+
+## 2026-09-05 - Simplified homepage video frame (Codex)
+
+DONE:       Removed the crest and service-record overlays from the homepage video, kept the active-film caption, constrained its Steam group mark, simplified the frame, and normalized the header social icon size in site/src/views/Home.tsx and site/src/styles.css.
+
+VERIFIED:   npm run build --prefix site passed with 119 modules. The live domain serves index-CnDthW86.js and index-CFS5x-16.css with the caption present, both promotional overlays absent, the caption image constrained to 22px, the header social icons constrained to 17px, and the video frame set to 16:9. node scripts/status.mjs returned no CHECK findings after the final sync.
+
+UNVERIFIED: A screenshot-based visual comparison was not performed because River did not request browser testing.
+
+BLOCKED:    Nothing.
+
+NEXT:       River refreshes the homepage and confirms the simpler media treatment feels right on the device being used.
+
+## 2026-09-05 - Golden-hour homepage backdrop (Codex)
+
+DONE:       Reused the landing screen's golden-hour field as the homepage hero backdrop, with landing-desktop.jpg on wide screens and landing-mobile.jpg on portrait phones. Added a restrained blur and dusk scrim while preserving the foreground video and existing homepage content.
+
+VERIFIED:   npm run build --prefix site passed with 119 modules. The live domain serves index-sQNisChL.js and index-B56nfQsk.css, both golden-hour image paths are present in the public stylesheet, both images return 200, and node scripts/status.mjs returned no CHECK findings after the final sync.
+
+UNVERIFIED: A screenshot-based visual comparison was not performed because River did not request browser testing.
+
+BLOCKED:    Nothing.
+
+NEXT:       River refreshes the homepage and confirms the background strength feels right on the current display.
+
+## 2026-09-05 - Members-only landing access (Codex)
+
+DONE:       Replaced the landing entry plaque with Join us! and Member Login actions. Join us opens the Coldstream Discord. Direct routes now return signed-out visitors to the landing page, and Discord sign-in only admits existing website members or users holding the configured Moderator or Admin role.
+
+VERIFIED:   The site build and edge-function type check passed. discord-member-sync was deployed and returns 401 without authentication. The production domain serves index-udOunn3T.js and index-DuXbI9X8.css with both landing actions, the Discord invite, and the access-denied message. The live browser exposes only Join us!, Member Login, and the required-role notice. node scripts/status.mjs returned no CHECK findings after the final sync.
+
+UNVERIFIED: A real login walkthrough with an unauthorized Discord account has not been performed.
+
+BLOCKED:    Nothing.
+
+NEXT:       Confirm one authorized Member account and one unauthorized Discord account receive the expected result during normal sign-in.
+
+## 2026-09-05 - Landing access notice removal (Codex)
+
+DONE:       Removed the Member, Moderator or Admin role required notice and its unused styling from the landing screen while preserving the Join us! and Member Login actions.
+
+VERIFIED:   npm run build --prefix site passed with 119 modules. The public domain serves index-IEOl5YEV.js and index-OnGK_HYX.css; the removed notice is absent while both actions remain present. node scripts/status.mjs returned no CHECK findings after the final sync.
+
+UNVERIFIED: No visual button redesign was applied because River requested design options first.
+
+BLOCKED:    Waiting only on River's preferred button direction.
+
+NEXT:       Apply the selected landing-button direction and verify it on desktop and phone.
+
+## 2026-09-05 - Regimental landing plaques (Codex)
+
+DONE:       Implemented the selected Option 1 treatment in site/src/views/Landing.tsx and site/src/styles.css: a compact aged-brass Join the Coldstream plaque and a compact blackened-metal Member Login plaque, with a narrower stacked mobile layout.
+
+VERIFIED:   npm run build --prefix site passed with 119 modules. The public domain serves index-j42QNwOa.js and index-3xQMFGDN.css with both labels, the brass surface, the 512px desktop action group, and the 280px mobile action group. node scripts/status.mjs returned no CHECK findings after the final sync.
+
+UNVERIFIED: A screenshot comparison on River's exact desktop and phone displays was not performed.
+
+BLOCKED:    Nothing.
+
+NEXT:       River refreshes the landing page on desktop and phone and confirms the plaque scale feels right.
+
+## 2026-09-05 - Community hub first slice (Codex)
+
+DONE:       Reworked the homepage into a community-hub shell in site/src/views/Home.tsx and site/src/styles.css. Added a live month calendar with next-three events, Your Coldstream placeholder stats, weekly feature framing, leaderboard placeholder, and recent-activity placeholder. Removed Game Servers from the active homepage, navigation, and router while preserving the /archive page.
+
+VERIFIED:   npm run build --prefix site passed with 116 modules. The public domain serves index-BTuQOI1s.js and index-DS6ntk0F.css with Community headquarters, Your Coldstream, This Week in the Coldstream, Leaderboard, and Recent activity present; Game servers is absent. node scripts/status.mjs returned no CHECK findings after the final sync.
+
+UNVERIFIED: Discord bot stat/activity feeds, screenshot submissions, host-versus-attending event metadata, and a screenshot comparison on River's displays are not connected yet.
+
+BLOCKED:    Nothing for this first slice. The next data-backed stages depend on the Discord bot schema and event/submission workflow details.
+
+NEXT:       Build the event management and Discord posting workflow, then add the screenshot submission moderation queue.
+
