@@ -230,7 +230,6 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
               {me && (me.role === 'moderator' || me.role === 'admin') && <a className="hq-secondary mobile-command-panel" href="#/admin"><Icon name="shield" />Open command panel</a>}
             </div>
           </div>
-          <div className="hub-hero-visual"><HomeFilm /></div>
           <section className="hub-hero-stats" aria-labelledby="hero-statistics-title">
             <header><div><p className="cg-eyebrow">For the member signed in</p><h2 id="hero-statistics-title">Your Statistics</h2></div>{me && <div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div>}</header>
             {me ? <div className="hub-quick-stats"><div className="hub-stat-person"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><strong>{me.display_name}</strong></div><div><b>Pending</b><small>Kills</small></div><div><b>Pending</b><small>K/D</small></div><div><b>Pending</b><small>MVPs</small></div><div><b>Pending</b><small>Top 5s</small></div><div><b>Pending</b><small>Attendance</small></div><div><b>Placeholder</b><small>Rank</small></div><div><b>Placeholder</b><small>Detachment</small></div></div> : <div className="hub-quick-signin"><span>Sign in with Discord to see your kills, K/D, MVPs, Top 5s, attendance, rank and detachment.</span><button type="button" onClick={signIn}>Sign in</button></div>}
