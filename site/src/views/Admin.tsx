@@ -49,6 +49,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [companies, setCompanies] = useState<CompanyRow[]>([]);
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
+  const [auditPage, setAuditPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [replacementFile, setReplacementFile] = useState<File | null>(null);
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
@@ -116,7 +117,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       supa.from('member').select('id,display_name,avatar_url,discord_id,role,company_id').order('display_name'),
       supa.from('company').select('id,name,tag,color,emblem_storage_key,emblem_image_mime,sort_order').order('sort_order').order('name'),
       supa.from('personnel_assignment').select('id,member_id,item_id,item_kind,assigned_by,assigned_at,note,removed_at').is('removed_at', null).order('assigned_at', { ascending: false }),
-      supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,created_at').order('created_at', { ascending: false }).limit(100),
+      supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,created_at').order('created_at', { ascending: false }).limit(500),
       supa.from('gallery_item').select('id').eq('approved', false),
       supa.from('event').select('id,title,body,game,starts_at,duration_minutes,cancelled,event_type,deleted_at').eq('historic', false).is('deleted_at', null).order('starts_at', { ascending: false }).limit(50),
     ]);
@@ -125,7 +126,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setItems((itemResult.data ?? []) as PersonnelItem[]); setMembers((memberResult.data ?? []) as MemberRow[]);
     setCompanies((companyResult.data ?? []) as CompanyRow[]);
     setDetachmentDrafts(Object.fromEntries(((memberResult.data ?? []) as MemberRow[]).map((member) => [member.id, member.company_id ?? ''])));
-    setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]);
+    setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]); setAuditPage(1);
     setGalleryPending(galleryResult.data?.length ?? 0);
     const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5)').order('created_at', { ascending: true });
     setStatSubmissions((statResult.data ?? []) as StatSubmissionRow[]);
@@ -165,6 +166,10 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   useEffect(() => { setEditingEvent(false); setConfirmEventDelete(false); }, [selectedEvent]);
   const visibleItems = items.filter((item) => catalogueFilter === 'all' || item.kind === catalogueFilter);
   const visibleMembers = members.filter((member) => member.display_name.toLowerCase().includes(memberSearch.toLowerCase()));
+  const auditPageSize = 25;
+  const auditPageCount = Math.max(1, Math.ceil(audit.length / auditPageSize));
+  const auditPageRows = audit.slice((auditPage - 1) * auditPageSize, auditPage * auditPageSize);
+  useEffect(() => { if (auditPage > auditPageCount) setAuditPage(auditPageCount); }, [auditPage, auditPageCount]);
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
   const companyArtworkUrl = (company: CompanyRow) => !company.emblem_storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(company.emblem_storage_key).data.publicUrl;
   const currentEvent = events.find((event) => event.id === selectedEvent) ?? null;
@@ -772,7 +777,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
 
       {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">{statSubmissions.filter((s) => s.status === 'submitted').length} pending · {statSubmissions.filter((s) => s.status === 'approved').length} approved</span></div>{statSubmissions.length === 0 ? <div className="evidence-intro"><FaClipboardCheck /><div><h3>No submissions recorded</h3><p>Discord reports will appear here oldest first after members submit their rounds and proof screenshots.</p></div></div> : <div className="stat-review-list">{statSubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.event_name || 'Unnamed event'}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Discord member'} · {statCategoryLabel(submission.category)} · {submission.stat_round?.length || 0} rounds</span></div><small>{dateTime(submission.created_at)} · {submission.status}</small>{submission.status === 'submitted' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'rejected')}>Deny</button></> : <span className="future-pill">{submission.status}</span>}</article>)}</div>}<div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
 
-      {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{audit.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div></section>}
+      {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
 
       {tab === 'settings' && <section className="command-card settings-shell"><div className="command-section-head"><div><span>System controls</span><h2>Settings</h2></div><FaCog /></div>{canUpload ? <div className="command-empty">Discord role mappings, scheduled sync and event defaults will live here as each integration is connected.</div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>You can see that Settings exists, but only admins can change system-wide controls.</p></div>}</section>}
 
