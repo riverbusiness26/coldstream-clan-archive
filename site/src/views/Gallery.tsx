@@ -37,7 +37,6 @@ import { MediaGrid, MediaTile } from '../components/MediaGrid';
 import { supa } from '../lib/supa';
 import { demoGallery } from '../lib/demoGallery';
 
-const RAIL_HOLDS = 4;
 /** How many results to render before asking. */
 const PAGE = 24;
 
@@ -94,11 +93,6 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
 
   const browsing = isBrowsing(facets);
 
-  const record = useMemo(() => (items ?? []).filter((m) => m.origin === 'record'), [items]);
-  const members = useMemo(() => (items ?? []).filter((m) => m.origin === 'member'), [items]);
-
-  const recordHits = useMemo(() => selectMedia(record, facets), [record, facets]);
-  const memberHits = useMemo(() => selectMedia(members, facets), [members, facets]);
   const results = useMemo(
     () => selectMedia(items ?? [], facets),
     [items, facets]);
@@ -116,13 +110,13 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   const clickedIn = useRef<MediaItem[] | null>(null);
   const viewer = useMemo(() => {
     if (!openId || !items) return null;
-    const lists = [clickedIn.current, results, recordHits, memberHits, featured, items];
+    const lists = [clickedIn.current, results, featured, items];
     for (const list of lists) {
       const i = list ? list.findIndex((m) => m.id === openId) : -1;
       if (list && i >= 0) return { list, i };
     }
     return null;
-  }, [openId, items, results, recordHits, memberHits, featured]);
+  }, [openId, items, results, featured]);
 
   // Count the view once per opening, not once per render.
   const counted = useRef<string | null>(null);
@@ -182,16 +176,8 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   // and the tiles under it are not all re-rendered whenever some unrelated
   // piece of state moves.
   const resultPage = useMemo(() => results.slice(0, shown), [results, shown]);
-  const recordPage = useMemo(() => recordHits.slice(0, shown), [recordHits, shown]);
-  const memberPage = useMemo(() => memberHits.slice(0, shown), [memberHits, shown]);
 
-  const openFeatured = useCallback((m: MediaItem) => openItem(m, featured), [openItem, featured]);
-  const openRail = useCallback((m: MediaItem) => openItem(m, memberHits), [openItem, memberHits]);
   const openPending = useCallback((m: MediaItem) => openItem(m, pending), [openItem, pending]);
-
-  const railFeatured = memberHits[0] ?? null;
-  const breakout = memberHits.length > RAIL_HOLDS;
-  const railRest = breakout ? [] : memberHits.slice(1);
 
   return (
     <div className={'wrap plateroom' + (browsing ? '' : ' searching')}>
@@ -210,19 +196,6 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
               part that did not answer.
             </p>
             <p className="note"><button className="btn sm" onClick={load}>Try again</button></p>
-          </div>
-        </div>
-      )}
-
-      {!loading && featured.length > 0 && (
-        <div className="pr-featured">
-          <div className="module">
-            <div className="mhead"><h2>Featured</h2><span className="sub">picked out by a moderator</span></div>
-            <div className="wall feature-wall">
-              {featured.map((m, i) => (
-                <MediaTile key={m.id} item={m} onOpen={openFeatured} size={i === 0 ? 'feature' : undefined} />
-              ))}
-            </div>
           </div>
         </div>
       )}
@@ -292,85 +265,25 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
       )}
 
       {!loading && browsing && (
-        <>
-          <main className="pr-record">
-            <div className="module">
-              <div className="mhead">
-                <h2>From the Record</h2>
-                <span className="sub">{record.length} recovered before the links died</span>
-              </div>
-              <p className="note">
-                These came off Photobucket and imgur, where most of them were one
-                outage away from being gone. Open any of them for the date, the
-                names still legible in the shot, and the address it was pulled from.
-              </p>
-              <MediaGrid items={recordPage} onOpen={openItem} className="filmstrip" />
-              {recordHits.length > shown && (
-                <div className="more">
-                  <button className="btn" onClick={() => setShown((n) => n + PAGE)}>Show more</button>
-                  <span className="more-n">showing {shown} of {recordHits.length}</span>
-                </div>
-              )}
+        <div className="pr-results">
+          <div className="module">
+            <div className="mhead">
+              <h2>Gallery</h2>
+              <span className="sub">{results.length} items</span>
             </div>
-          </main>
-
-          <aside className="pr-rail">
-            <div className="module">
-              <div className="mhead">
-                <h2>From Members</h2>
-                <span className="sub">{members.length} on the wall</span>
-              </div>
-
-              {railFeatured ? (
-                <>
-                  <div className="railfeat">
-                    <MediaTile item={railFeatured} onOpen={openRail} />
-                  </div>
-                  {railRest.length > 0 && (
-                    <div className="railrest">
-                      {railRest.map((m) => <MediaTile key={m.id} item={m} onOpen={openRail} />)}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <p className="note">
-                  Nothing on the wall yet. The half beside this one survived on
-                  its own, so this one is up to us. Anything you still have from
-                  back then belongs here.
-                </p>
-              )}
-
-              <div className="railcta">
-                {me
-                  ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button>
-                  : <DiscordButton me={me} signIn={signIn} />}
-                <p className="railterms">
-                  {me
-                    ? 'An admin checks every submission in. By submitting you grant Coldstream Gaming permission to feature the image.'
-                    : 'Sign in through Discord to add to the wall. An admin checks each one in before it goes up.'}
-                </p>
-              </div>
+            {results.length === 0 ? <div className="empty"><p className="empty-h">Nothing on the wall yet.</p></div> : <>
+              <MediaGrid items={resultPage} onOpen={openItem} />
+              {results.length > shown && <div className="more"><button className="btn" onClick={() => setShown((n) => n + PAGE)}>Show more</button><span className="more-n">showing {Math.min(shown, results.length)} of {results.length}</span></div>}
+            </>}
+            <div className="gallery-submit">
+              {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button> : <DiscordButton me={me} signIn={signIn} />}
+              <p className="railterms">{me ? 'An admin checks every submission before it goes up.' : 'Sign in through Discord to add to the gallery. An admin checks each one in before it goes up.'}</p>
             </div>
-          </aside>
-        </>
+          </div>
+        </div>
       )}
 
       <div className="pr-wall">
-        {!loading && browsing && breakout && (
-          <div className="module">
-            <div className="mhead">
-              <h2>The Members' Wall</h2>
-              <span className="sub">{memberHits.length} items</span>
-            </div>
-            <MediaGrid items={memberPage} onOpen={openItem} />
-            {memberHits.length > shown && (
-              <div className="more">
-                <button className="btn" onClick={() => setShown((n) => n + PAGE)}>Show more</button>
-                <span className="more-n">showing {shown} of {memberHits.length}</span>
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Its own module, and only for the people it concerns. It used to be
             a dimmed strip under the wall that everybody scrolled past. */}
