@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaClipboardCheck, FaCog, FaFlag, FaHistory, FaHome, FaImage, FaMedal, FaSearch, FaShieldAlt, FaSignOutAlt, FaUsers } from 'react-icons/fa';
+import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaChevronLeft, FaChevronRight, FaClipboardCheck, FaCog, FaFlag, FaHistory, FaHome, FaImage, FaMedal, FaSearch, FaShieldAlt, FaSignOutAlt, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
@@ -597,8 +597,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           </nav>
           <div className="admin-sidebar-account"><DiscordAvatar url={me!.avatar_url} name={me!.display_name} className="member-avatar" /><div><b>{me!.display_name}</b><span>{me!.role}</span></div><button onClick={signOut} aria-label="Sign out"><FaSignOutAlt /></button></div>
         </aside>
-        <div className="admin-main">
+      <div className="admin-main">
       <header className="command-head">
+        <button className="admin-sidebar-toggle" type="button" onClick={() => setNavOpen((open) => !open)} aria-label={navOpen ? 'Hide admin sidebar' : 'Show admin sidebar'} aria-expanded={navOpen}>{navOpen ? <FaChevronLeft /> : <FaChevronRight />}</button>
         <div><p className="command-kicker"><FaShieldAlt /> Coldstream personnel</p><h1>Admin Panel</h1><p>Review what needs attention, manage members, and keep regiment records in one place.</p></div>
         <div className="command-session"><span>{me!.role}</span><b>{me!.display_name}</b><small>Role checked through Discord</small></div>
       </header>
