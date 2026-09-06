@@ -15,6 +15,7 @@ interface EventRow { id: string; title: string; body: string | null; game: strin
 interface RsvpRow { event_id: string; member_id: string; status: string | null; attendance: 'attended' | 'no_show' | null }
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
 interface PresenceWindowRow { event_id: string; samples_taken: number; people_seen: number; first_sample: string; last_sample: string }
+interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean }[] }
 
 const PREVIEW_ITEMS: PersonnelItem[] = [
   { id: 'preview-rank', kind: 'rank', name: 'Rank artwork', description: 'Upload the approved insignia and place it in the rank ladder.', storage_key: '', image_mime: 'image/webp', active: true, sort_order: 0, created_at: new Date().toISOString() },
@@ -84,6 +85,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [eventKind, setEventKind] = useState('other');
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
   const [galleryPending, setGalleryPending] = useState<number | null>(null);
+  const [statSubmissions, setStatSubmissions] = useState<StatSubmissionRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
@@ -104,7 +106,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setStatSubmissions([]);
       return;
     }
     const [itemResult, memberResult, companyResult, assignmentResult, auditResult, galleryResult, eventResult] = await Promise.all([
@@ -123,6 +125,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setDetachmentDrafts(Object.fromEntries(((memberResult.data ?? []) as MemberRow[]).map((member) => [member.id, member.company_id ?? ''])));
     setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]);
     setGalleryPending(galleryResult.data?.length ?? 0);
+    const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5)').in('status', ['submitted']).order('created_at', { ascending: true });
+    setStatSubmissions((statResult.data ?? []) as StatSubmissionRow[]);
 
     const loadedEvents = (eventResult.data ?? []) as EventRow[];
     setEvents(loadedEvents);
@@ -466,6 +470,15 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setDone(result.data ? 'Assignment removed.' : 'That assignment was already removed.'); await load();
   }
 
+  async function reviewStatSubmission(id: string, status: 'approved' | 'rejected') {
+    if (!supa) { setDone('Preview only. No submission was changed.'); return; }
+    setBusy(true); setError(null);
+    const result = await supa.from('stat_submission').update({ status, reviewed_at: new Date().toISOString() }).eq('id', id);
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    setDone(`Submission ${status}.`); await load();
+  }
+
   async function saveMemberDetachment(memberId: string) {
     setError(null); setDone(null);
     const companyId = detachmentDrafts[memberId] ?? '';
@@ -754,7 +767,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </div>
       </section>}
 
-      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">Intake not connected</span></div><div className="evidence-intro"><FaClipboardCheck /><div><h3>The review workspace is ready for the next phase</h3><p>Reports will arrive here oldest first after a member submits up to 30 rounds and the required screenshots through Discord.</p><small>Competitive · Public Linebattle · Public Server</small></div></div><div className="evidence-types"><article><FaAward /><span>Four recorded stats</span><h3>Kills & deaths</h3><p>Each round records kills and deaths as separate values.</p></article><article><FaShieldAlt /><span>Leaderboard results</span><h3>MVP & Top 5</h3><p>MVP means the player finished #1 on the leaderboard. Top 5 is recorded separately.</p></article><article><FaImage /><span>Required proof</span><h3>One image per round</h3><p>Staff approve or reject the entire report. Approved proof images are then deleted.</p></article></div><div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
+      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">{statSubmissions.length} pending</span></div>{statSubmissions.length === 0 ? <div className="evidence-intro"><FaClipboardCheck /><div><h3>No submissions waiting</h3><p>Discord reports will appear here oldest first after members submit their rounds and proof screenshots.</p></div></div> : <div className="stat-review-list">{statSubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.event_name || 'Unnamed event'}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Discord member'} · {submission.category.replaceAll('_',' ')} · {submission.stat_round?.length || 0} rounds</span></div><small>{dateTime(submission.created_at)}</small><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'rejected')}>Deny</button></article>)}</div>}<div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
 
       {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{audit.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div></section>}
 
