@@ -1657,6 +1657,9 @@ video.lb-film{max-width:100%;max-height:100%;background:#000}
 /* Weekly media controls and a gentle return to the source video's full colour. */
 .hub-weekly .cg-home-film .cg-film-frame{opacity:.82;filter:blur(0) brightness(.82);transition:opacity 1.2s ease,filter 1.2s ease}
 .hub-weekly .cg-home-film:hover .cg-film-frame,.hub-weekly .cg-home-film:focus-within .cg-film-frame{opacity:1;filter:none}
+.hub-weekly .cg-home-film::after{transition:opacity 1.6s ease}
+.hub-weekly .cg-home-film:hover::after,.hub-weekly .cg-home-film:focus-within::after{opacity:.12}
+.hub-weekly .cg-home-film .cg-film-frame{transition-duration:1.6s}
 .cg-film-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cg-film-nav{position:absolute;top:50%;z-index:5;width:34px;height:52px;padding:0;border:1px solid rgba(242,237,227,.26);background:rgba(8,9,11,.26);color:rgba(242,237,227,.62);font:400 24px/1 var(--body);opacity:0;transform:translateY(-50%);transition:opacity .45s ease,background .45s ease,color .45s ease}
 .cg-film-nav:hover,.cg-film-nav:focus-visible{background:rgba(8,9,11,.68);color:var(--ink);outline:none}
