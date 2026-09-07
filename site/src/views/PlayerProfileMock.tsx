@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Me } from '../lib/auth';
 import { Icon } from './Home';
 import DiscordAvatar from '../components/DiscordAvatar';
+import DetachmentEmblem from '../components/DetachmentEmblem';
 import { beginSteamLink, clearSteamAssertion, completeSteamLink, pendingSteamAssertion, unlinkSteam } from '../lib/steamLink';
 import { supa } from '../lib/supa';
 
@@ -203,7 +204,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
               {currentRank && <time dateTime={currentRank.assignment.assigned_at}>Awarded {assignedDate(currentRank.assignment.assigned_at)}</time>}
               {currentRank?.assignment.note && <blockquote>{currentRank.assignment.note}</blockquote>}
               <div className="service-detachment">
-                <span>{detachmentArtwork ? <img src={detachmentArtwork} alt={`${detachment!.name} emblem`} /> : <img src="/crest.webp" alt="" />}</span>
+                <span><DetachmentEmblem name={detachment?.name} src={detachmentArtwork} alt={`${detachment?.name ?? 'Detachment'} emblem`} /></span>
                 <div><small>Detachment</small><b>{detachment?.name ?? (connected ? 'Not assigned' : 'Shown after sign in')}</b>{detachment?.tag && <em>{detachment.tag}</em>}</div>
               </div>
             </div>

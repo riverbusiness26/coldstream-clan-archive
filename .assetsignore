@@ -45,6 +45,11 @@
 # Project documentation
 /*.md
 
+# Design reference renders. Static mockups with sample member names and sample
+# figures, kept in git for whoever is building against them. Publishing one to
+# the live domain would put fake stats on coldstreamgaming.com.
+/design/
+
 # Earlier generated pages, superseded by the site itself. Kept in git, not served.
 /coldstream-*.html
 /thumb-compare.png

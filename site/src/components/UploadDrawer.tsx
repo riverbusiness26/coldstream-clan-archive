@@ -174,10 +174,15 @@ export default function UploadDrawer({
           }, me.display_name);
           if (!res.ok) { setFormError(res.reason); return; }
         } else {
+          const { data: { session } } = await supa.auth.getSession();
+          if (!session) { setFormError('Your Discord session expired. Sign in again, then retry the upload.'); return; }
           const squeezed = await compressImage(file);
-          const key = `${me.id}/${crypto.randomUUID()}.${squeezed.ext}`;
+          const id = typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+          const key = `${me.id}/${id}.${squeezed.ext}`;
           const up = await supa.storage.from(BUCKET).upload(key, squeezed.blob, {
-            cacheControl: '31536000', contentType: squeezed.type,
+            cacheControl: '31536000', contentType: squeezed.type, upsert: false,
           });
           if (up.error) {
             setFormError(/bucket/i.test(up.error.message)
@@ -194,7 +199,14 @@ export default function UploadDrawer({
             // wall used to crop everything to 16:9.
             width: squeezed.w, height: squeezed.h,
           }, extra);
-          if (error) { setFormError(error); return; }
+          if (error) {
+            // Do not leave an object behind when the database write is the
+            // part that failed. A future retry should not create orphaned
+            // files or collide with the previous path.
+            await supa.storage.from(BUCKET).remove([key]);
+            setFormError(`The image reached storage, but its gallery record could not be saved: ${error}`);
+            return;
+          }
           if (degraded) setDone(`${SENT} The description and tags were not saved: the database has not had 0021 run yet.`);
         }
       }

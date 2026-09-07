@@ -9,6 +9,7 @@ import filmsSeed from '../seed/films.json';
 import Roster from '../components/Roster';
 import type { Me } from '../lib/auth';
 import { HomeFilm } from './Home';
+import '../archive-graphics.css';
 
 interface Film {
   id: string;

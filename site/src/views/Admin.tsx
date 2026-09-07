@@ -3,6 +3,7 @@ import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaChevronLeft, FaChevro
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
+import DetachmentEmblem from '../components/DetachmentEmblem';
 
 type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'weekly' | 'audit' | 'settings';
 type ItemKind = 'rank' | 'medal';
@@ -15,10 +16,11 @@ interface EventRow { id: string; title: string; body: string | null; game: strin
 interface RsvpRow { event_id: string; member_id: string; status: string | null; attendance: 'attended' | 'no_show' | null }
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
 interface PresenceWindowRow { event_id: string; samples_taken: number; people_seen: number; first_sample: string; last_sample: string }
-interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean }[] }
+interface StatProofRow { id: string; storage_key: string; content_type: string; deleted_at: string | null }
+interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean; stat_proof?: StatProofRow[] }[] }
 interface WeeklySubmissionRow { id: string; submitter_id: string; url: string; provider: string; title: string; description: string | null; status: string; rejection_reason: string | null; submitted_at: string; approved_at: string | null; }
 
-  const statCategoryLabel = (category: string) => ({ public_linebattle: 'Linebattle event', public_server: 'Public Server', competitive: 'Competitive' } as Record<string, string>)[category] || category.replaceAll('_', ' ');
+  const statCategoryLabel = (category: string) => ({ public_linebattle: 'Linebattle Event', public_server: 'Public Server', competitive: 'Competitive' } as Record<string, string>)[category] || category.replaceAll('_', ' ');
 
   const PREVIEW_ITEMS: PersonnelItem[] = [
   { id: 'preview-rank', kind: 'rank', name: 'Rank artwork', description: 'Upload the approved insignia and place it in the rank ladder.', storage_key: '', image_mime: 'image/webp', active: true, sort_order: 0, created_at: new Date().toISOString() },
@@ -90,6 +92,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
   const [galleryPending, setGalleryPending] = useState<number | null>(null);
   const [statSubmissions, setStatSubmissions] = useState<StatSubmissionRow[]>([]);
+  const [statStatusFilter, setStatStatusFilter] = useState<'all' | 'submitted' | 'approved' | 'rejected'>('submitted');
+  const [statCategoryFilter, setStatCategoryFilter] = useState('all');
+  const [statSort, setStatSort] = useState<'oldest' | 'newest'>('oldest');
   const [weeklySubmissions, setWeeklySubmissions] = useState<WeeklySubmissionRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -130,7 +135,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setDetachmentDrafts(Object.fromEntries(((memberResult.data ?? []) as MemberRow[]).map((member) => [member.id, member.company_id ?? ''])));
     setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]); setAuditPage(1);
     setGalleryPending(galleryResult.data?.length ?? 0);
-    const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5)').order('created_at', { ascending: true });
+    const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5,stat_proof(id,storage_key,content_type,deleted_at))').order('created_at', { ascending: true });
     setStatSubmissions((statResult.data ?? []) as StatSubmissionRow[]);
     await supa.rpc('deploy_weekly_content');
     const weeklyResult = await supa.from('weekly_content_submission').select('id,submitter_id,url,provider,title,description,status,rejection_reason,submitted_at,approved_at').order('submitted_at', { ascending: true });
@@ -176,6 +181,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const auditPageRows = audit.slice((auditPage - 1) * auditPageSize, auditPage * auditPageSize);
   useEffect(() => { if (auditPage > auditPageCount) setAuditPage(auditPageCount); }, [auditPage, auditPageCount]);
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
+  const statProofUrl = (proof: StatProofRow) => !supa ? null : supa.storage.from('stat-proof').getPublicUrl(proof.storage_key).data.publicUrl;
   const companyArtworkUrl = (company: CompanyRow) => !company.emblem_storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(company.emblem_storage_key).data.publicUrl;
   const currentEvent = events.find((event) => event.id === selectedEvent) ?? null;
   const currentRsvps = rsvps.filter((row) => row.event_id === selectedEvent);
@@ -197,6 +203,13 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   ].slice(0, 8);
   const attendanceReviewCount = events.filter((event) => !event.cancelled && new Date(event.starts_at).getTime() < Date.now() && rsvps.some((row) => row.event_id === event.id && !row.attendance)).length;
   const upcomingEventCount = events.filter((event) => !event.cancelled && new Date(event.starts_at).getTime() >= Date.now()).length;
+  const visibleStatSubmissions = useMemo(() => statSubmissions
+    .filter((submission) => statStatusFilter === 'all' || submission.status === statStatusFilter)
+    .filter((submission) => statCategoryFilter === 'all' || submission.category === statCategoryFilter)
+    .sort((a, b) => {
+      const difference = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      return statSort === 'oldest' ? difference : -difference;
+    }), [statSubmissions, statStatusFilter, statCategoryFilter, statSort]);
 
   function openTab(next: Tab) {
     setTab(next);
@@ -713,7 +726,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           <div className="detachment-list">{companies.map((company) => {
             const emblem = companyArtworkUrl(company);
             return <button className={companyEdit === company.id ? 'active' : ''} key={company.id} onClick={() => openCompanyEditor(company.id)}>
-              <span>{emblem ? <img src={emblem} alt="" /> : <FaShieldAlt />}</span>
+              <span><DetachmentEmblem name={company.name} src={emblem} alt={`${company.name} emblem`} /></span>
               <div><b>{company.name}</b><small>{company.tag || 'No tag'} · {members.filter((member) => member.company_id === company.id).length} members</small></div>
             </button>;
           })}</div>
@@ -793,7 +806,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </div>
       </section>}
 
-      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">{statSubmissions.filter((s) => s.status === 'submitted').length} pending · {statSubmissions.filter((s) => s.status === 'approved').length} approved</span></div>{statSubmissions.length === 0 ? <div className="evidence-intro"><FaClipboardCheck /><div><h3>No submissions recorded</h3><p>Discord reports will appear here oldest first after members submit their rounds and proof screenshots.</p></div></div> : <div className="stat-review-list">{statSubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.event_name || 'Unnamed event'}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Discord member'} · {statCategoryLabel(submission.category)} · {submission.stat_round?.length || 0} rounds</span></div><small>{dateTime(submission.created_at)} · {submission.status}</small>{submission.status === 'submitted' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'rejected')}>Deny</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></> : <><span className="future-pill">{submission.status}</span><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></>}</article>)}</div>}<div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
+      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">{statSubmissions.filter((s) => s.status === 'submitted').length} pending · {statSubmissions.filter((s) => s.status === 'approved').length} approved</span></div>{statSubmissions.length === 0 ? <div className="evidence-intro"><FaClipboardCheck /><div><h3>No submissions recorded</h3><p>Discord reports will appear here oldest first after members submit their rounds and proof screenshots.</p></div></div> : <><div className="stat-review-filters" aria-label="Stat submission filters"><label>Status<select value={statStatusFilter} onChange={(event) => setStatStatusFilter(event.target.value as typeof statStatusFilter)}><option value="submitted">Needs review</option><option value="all">All statuses</option><option value="approved">Approved</option><option value="rejected">Denied</option></select></label><label>Type<select value={statCategoryFilter} onChange={(event) => setStatCategoryFilter(event.target.value)}><option value="all">All types</option><option value="public_server">Public Server</option><option value="public_linebattle">Linebattle event</option><option value="competitive">Competitive</option></select></label><label>Order<select value={statSort} onChange={(event) => setStatSort(event.target.value as typeof statSort)}><option value="oldest">Oldest first</option><option value="newest">Newest first</option></select></label><span className="stat-review-count">Showing {visibleStatSubmissions.length} of {statSubmissions.length}</span></div><div className="stat-review-list">{visibleStatSubmissions.length === 0 ? <div className="command-empty">No submissions match these filters.</div> : visibleStatSubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.event_name || statCategoryLabel(submission.category)}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Discord member'} · {statCategoryLabel(submission.category)} · {submission.stat_round?.length || 0} rounds</span><div className="stat-proof-links">{submission.stat_round?.flatMap((round) => (round.stat_proof ?? []).filter((proof) => !proof.deleted_at).map((proof) => { const url = statProofUrl(proof); return url ? <a key={proof.id} href={url} target="_blank" rel="noopener noreferrer">View round {round.round_number} proof</a> : null; }))}</div></div><small>{dateTime(submission.created_at)} · {submission.status}</small>{submission.status === 'submitted' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'rejected')}>Deny</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></> : <><span className="future-pill">{submission.status}</span><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></>}</article>)}</div></>}<div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
 
       {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
 

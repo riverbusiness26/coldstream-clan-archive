@@ -3427,3 +3427,13 @@ BLOCKED:    Nothing for this first slice. The next data-backed stages depend on 
 
 NEXT:       Build the event management and Discord posting workflow, then add the screenshot submission moderation queue.
 
+
+## 2026-09-06 - Homepage direction D packaged for build (Claude, cloud session)
+
+DONE:        Added `HUB_BUILD_SPEC.md` and `design/hub-order-of-the-day.html`. The spec covers the signed-in homepage only: section order fixed by the redesign brief, per-section structure with data sources named against real tables, the material rules, the empty-state rule, one breakpoint at 640, and seven acceptance checks. The HTML is a static reference render at 1440 wide with Satoshi and Cormorant inlined, so it opens with no network and no server. It is not application code and must not be imported.
+VERIFIED:    Measured in headless Chromium. At 1440 the page has no horizontal overflow and no grid column pair differs by more than 120px. At 375 the body scroll width is 375 and no control measures under 44px tall, with the leaderboard scope strip scrolling inside its own container rather than clipping. The reference file loads with zero failed requests. The em dash and vocabulary greps from `house-rules.yml` both pass on the spec.
+UNVERIFIED:  Nothing has been built from it yet, and no Supabase query in the spec has been run. The featured member card names a `featured_member_id` field that does not exist in the schema; the spec says to omit the card until it does.
+BLOCKED:     Nothing.
+NEXT:        Codex builds `site/src/views/Home.tsx` and the `hub-` block of `site/src/styles.css` against the spec. Three things in the current build that the spec deliberately reverses: the eight hardcoded Pending and Placeholder strings come out, `.hub-calendar` / `.hub-stat-block` / `.hub-signin-prompt` lose `backdrop-filter: blur(5px)` for an opaque panel, and `.hub-hero` is replaced by a 58px status strip.
+
+Two rejected directions are recorded so they are not re-done by accident: The Board runs about 25 percent taller for the same content, and The Weekly Brief reads as a document rather than a dashboard. Both are in the design canvas alongside D.

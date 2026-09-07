@@ -1,0 +1,14 @@
+.recordroom{position:relative;isolation:isolate}
+.recordroom:before{content:'';position:absolute;z-index:-1;inset:0;background:url('/brass-ornaments.png') center top/100% auto no-repeat;opacity:.13;pointer-events:none}
+.archive-timeline{position:relative}
+.archive-timeline:before{content:'';display:block;height:74px;margin:0 12px;background:url('/archive-era-headers.png') center 0/100% 400% no-repeat;opacity:.92;border-bottom:1px solid rgba(198,160,92,.2)}
+.archive-timeline li{background-image:linear-gradient(90deg,rgba(8,9,11,.98) 0 20%,rgba(8,9,11,.88) 48%,rgba(8,9,11,.96)),var(--era-image,linear-gradient(135deg,#171b20,#090b0e))}
+.archive-timeline li:after{content:'';position:absolute;inset:9px;border:1px solid rgba(198,160,92,.12);pointer-events:none}
+.archive-featured{position:relative;overflow:hidden}
+.archive-featured:after{content:'';position:absolute;left:12%;right:12%;bottom:4px;height:28px;background:url('/brass-ornaments.png') center 47%/260% 520% no-repeat;opacity:.55;pointer-events:none}
+@media(max-width:760px){
+  .recordroom{background-image:url('/mobile-cloth-crops.png');background-position:50% center;background-size:300% auto;background-attachment:fixed}
+  .recordroom:before{opacity:.08}
+  .archive-timeline:before{height:58px;margin:0 8px}
+  .archive-featured:after{left:6%;right:6%;opacity:.38}
+}

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { supa } from '../lib/supa';
 import type { Me } from '../lib/auth';
+import EventTypeIcon from '../components/EventTypeIcon';
+import '../event-type-icons.css';
 
 interface EventRow { id: string; title: string; game: string | null; starts_at: string; duration_minutes: number | null; event_type: string | null; body?: string | null; }
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -28,6 +30,7 @@ export default function Calendar({ me: _me }: { me: Me | null }) {
   const dayEvents = selectedDay ? (byDay[selectedDay] || []) : [];
   return <div className="wrap solo events-page"><main>
     <div className="page-head"><p className="cg-eyebrow">The schedule</p><h1>Events</h1><p className="page-sub">The full Coldstream calendar. Select an event to see its details.</p></div>
+    <div className="event-type-legend" aria-label="Event types"><span><EventTypeIcon type="public_server" />Public Server</span><span><EventTypeIcon type="linebattle" />Linebattle Event</span><span><EventTypeIcon type="competitive" />Competitive</span></div>
     <section className="module full-calendar" aria-label={`${monthLabel} calendar`}>
       <div className="mhead"><button className="btn sm" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth()-1, 1))}>← Previous</button><h2>{monthLabel}</h2><button className="btn sm" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth()+1, 1))}>Next →</button></div>
       {loading ? <div className="note">Loading events.</div> : error ? <div className="note">The calendar could not be opened right now.</div> : <><div className="hub-calendar-weekdays">{['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d => <span key={d}>{d}</span>)}</div><div className="hub-calendar-grid">{cells.map(day => { const k=keyFor(day); const list=byDay[k]||[]; return <button type="button" key={k} className={`hub-calendar-day${day.getMonth()===cursor.getMonth()?'':' outside'}${k===keyFor(today)?' today':''}${k===selectedDay?' selected':''}`} onClick={() => { setSelectedDay(k); setSelected(list[0] || null); }}><time dateTime={k}>{day.getDate()}</time>{list.slice(0,3).map(e => <span key={e.id}>{e.title}</span>)}{list.length>3&&<small>+{list.length-3} more</small>}</button>; })}</div></>}
