@@ -3,7 +3,7 @@ import type { Me } from '../lib/auth';
 import { supa } from '../lib/supa';
 import '../leaderboard-podium.css';
 
-const MODES = ['Overall', 'Public Servers Stats', 'Event Stats', 'Competitive Stats', 'Attendance'] as const;
+const MODES = ['Overall', 'Public Servers Stats', 'Linebattle Stats', 'Competitive Stats', 'Attendance'] as const;
 const labels = ['MVPs', 'Kills', 'K/D', 'Attendance'] as const;
 export default function Leaderboard({ me }: { me: Me | null }) {
   const [mode, setMode] = useState<typeof MODES[number]>('Overall');
@@ -11,8 +11,8 @@ export default function Leaderboard({ me }: { me: Me | null }) {
   const [liveRows, setLiveRows] = useState<{ member_id: string; name: string; discord_id: string | null; kills: number; deaths: number; mvps: number; top5: number; kdr: number }[]>([]);
   useEffect(() => {
     setLiveRows([]);
-    if (!supa || mode === 'Attendance' || mode === 'Event Stats') return;
-    const category = mode === 'Public Servers Stats' ? 'public_server' : mode === 'Competitive Stats' ? 'competitive' : null;
+    if (!supa || mode === 'Attendance') return;
+    const category = mode === 'Public Servers Stats' ? 'public_server' : mode === 'Linebattle Stats' ? 'public_linebattle' : mode === 'Competitive Stats' ? 'competitive' : null;
     const source = mode === 'Public Servers Stats' && period === 'Monthly' ? 'stat_leaderboard_public_server_month' : 'stat_leaderboard';
     Promise.all([
       supa.from(source).select('member_id,category,kills,deaths,mvps,top5,kdr').then((r) => category ? { ...r, data: (r.data ?? []).filter((row: any) => row.category === category) } : r),
