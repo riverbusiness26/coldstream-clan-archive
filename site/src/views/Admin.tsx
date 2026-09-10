@@ -922,7 +922,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
               <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} /></label>
               {eventScheduleFields}
               <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
-              <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="linebattle">Linebattle</option><option value="training">Training</option><option value="social">Social</option><option value="campaign">Campaign</option><option value="other">Other</option></select></label>
+              <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="public_server">Public Server</option><option value="linebattle">Linebattle Event</option><option value="competitive">Competitive</option></select></label>
               <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
               <div className="event-form-actions"><button className="command-primary" disabled={busy} onClick={createEvent}>{busy ? 'Creating' : 'Create event'}</button><button className="command-secondary" disabled={busy} onClick={() => setCreatingEvent(false)}>Cancel</button></div>
             </div>
@@ -934,7 +934,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
               <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} placeholder="Holdfast: Nations At War" /></label>
               {eventScheduleFields}
               <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
-              <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="linebattle">Linebattle</option><option value="training">Training</option><option value="social">Social</option><option value="campaign">Campaign</option><option value="other">Other</option></select></label>
+              <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="public_server">Public Server</option><option value="linebattle">Linebattle Event</option><option value="competitive">Competitive</option></select></label>
               <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
               <div className="event-form-actions"><button className="command-primary" disabled={busy} onClick={saveEvent}>{busy ? 'Saving' : 'Save changes'}</button><button className="command-secondary" disabled={busy} onClick={() => setEditingEvent(false)}>Cancel</button></div>
             </div>
