@@ -498,7 +498,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   async function reviewStatSubmission(id: string, status: 'approved' | 'rejected') {
     if (!supa) { setDone('Preview only. No submission was changed.'); return; }
     setBusy(true); setError(null);
-    const result = await supa.from('stat_submission').update({ status, reviewed_at: new Date().toISOString() }).eq('id', id);
+    const result = await supa.from('stat_submission').update({ status, reviewed_by: me?.id ?? null, reviewed_at: new Date().toISOString() }).eq('id', id);
     setBusy(false);
     if (result.error) { setError(result.error.message); return; }
     setDone(`Submission ${status}.`); await load();

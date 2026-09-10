@@ -3437,3 +3437,11 @@ BLOCKED:     Nothing.
 NEXT:        Codex builds `site/src/views/Home.tsx` and the `hub-` block of `site/src/styles.css` against the spec. Three things in the current build that the spec deliberately reverses: the eight hardcoded Pending and Placeholder strings come out, `.hub-calendar` / `.hub-stat-block` / `.hub-signin-prompt` lose `backdrop-filter: blur(5px)` for an opaque panel, and `.hub-hero` is replaced by a 58px status strip.
 
 Two rejected directions are recorded so they are not re-done by accident: The Board runs about 25 percent taller for the same content, and The Weekly Brief reads as a document rather than a dashboard. Both are in the design canvas alongside D.
+
+## 2026-09-09 - Stat approval permission repaired (Codex)
+
+DONE:        Added `site/db/0045_stat_submission_review.sql`, applied it to production, and updated `site/src/views/Admin.tsx` so approvals and denials record the reviewing member.
+VERIFIED:    Production changed from no authenticated UPDATE grant and no UPDATE policy to a staff policy with review-field-only grants. A transaction impersonating a real admin updated one submission and rolled back with `admin_rows_reviewable = 1`; `submitter_id` remains non-editable. `npm run build --prefix site` passed with 124 modules.
+UNVERIFIED:  The final Approve button was not clicked in River's browser, so the exact browser session was not exercised after the policy change.
+BLOCKED:     Nothing blocks moderators or admins from approving and denying stat submissions.
+NEXT:        Refresh the Admin panel and approve the pending valid submission.
