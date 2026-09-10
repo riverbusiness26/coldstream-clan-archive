@@ -17,7 +17,8 @@ interface RsvpRow { event_id: string; member_id: string; status: string | null; 
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
 interface PresenceWindowRow { event_id: string; samples_taken: number; people_seen: number; first_sample: string; last_sample: string }
 interface StatProofRow { id: string; storage_key: string; content_type: string; deleted_at: string | null }
-interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean; stat_proof?: StatProofRow[] }[] }
+interface StatRoundRow { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean; stat_proof?: StatProofRow[] }
+interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: StatRoundRow[] }
 interface WeeklySubmissionRow { id: string; submitter_id: string; url: string; provider: string; title: string; description: string | null; status: string; rejection_reason: string | null; submitted_at: string; approved_at: string | null; }
 interface GallerySubmissionRow { id: string; storage_key: string | null; media_type: 'image' | 'video'; video_id: string | null; external_url: string | null; caption: string | null; created_at: string; approved: boolean; uploader?: { display_name: string } | { display_name: string }[] | null; }
 
@@ -118,6 +119,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [statStatusFilter, setStatStatusFilter] = useState<'all' | 'submitted' | 'approved' | 'rejected'>('submitted');
   const [statCategoryFilter, setStatCategoryFilter] = useState('all');
   const [statSort, setStatSort] = useState<'oldest' | 'newest'>('oldest');
+  const [expandedStatId, setExpandedStatId] = useState<string | null>(null);
+  const [editingStatId, setEditingStatId] = useState<string | null>(null);
+  const [statRoundDrafts, setStatRoundDrafts] = useState<Record<string, { kills: string; deaths: string; is_mvp: boolean; is_top5: boolean }>>({});
   const [weeklySubmissions, setWeeklySubmissions] = useState<WeeklySubmissionRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -218,6 +222,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   useEffect(() => { if (auditPage > auditPageCount) setAuditPage(auditPageCount); }, [auditPage, auditPageCount]);
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
   const statProofUrl = (proof: StatProofRow) => !supa ? null : supa.storage.from('stat-proof').getPublicUrl(proof.storage_key).data.publicUrl;
+  const selectedStat = statSubmissions.find((submission) => submission.id === expandedStatId) ?? null;
   const galleryMediaUrl = (row: GallerySubmissionRow) => row.external_url || (row.video_id ? `https://www.youtube.com/watch?v=${row.video_id}` : row.storage_key && supa ? supa.storage.from('gallery').getPublicUrl(row.storage_key).data.publicUrl : null);
   const galleryPreviewUrl = (row: GallerySubmissionRow) => row.video_id
     ? `https://img.youtube.com/vi/${row.video_id}/hqdefault.jpg`
@@ -571,6 +576,25 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     const submission = statSubmissions.find((row) => row.id === id);
     void recordStaffAudit('stat.delete', 'stat_submission', id, submission?.submitter_id ?? null, { removed: true });
     setDone('Stat submission removed.'); await load();
+  }
+
+  function beginStatEdit(submission: StatSubmissionRow) {
+    setExpandedStatId(submission.id); setEditingStatId(submission.id);
+    setStatRoundDrafts(Object.fromEntries((submission.stat_round ?? []).map((round) => [`${submission.id}:${round.round_number}`, { kills: String(round.kills), deaths: String(round.deaths), is_mvp: round.is_mvp, is_top5: round.is_top5 }])));
+  }
+
+  async function saveStatRound(submissionId: string, round: StatRoundRow) {
+    if (!supa) { setDone('Preview only. No round was changed.'); return; }
+    const draft = statRoundDrafts[`${submissionId}:${round.round_number}`];
+    if (!draft) return;
+    const kills = Number(draft.kills); const deaths = Number(draft.deaths);
+    if (!Number.isInteger(kills) || kills < 0 || !Number.isInteger(deaths) || deaths < 0) { setError('Kills and deaths must be whole numbers of zero or more.'); return; }
+    setBusy(true); setError(null);
+    const result = await supa.from('stat_round').update({ kills, deaths, is_mvp: draft.is_mvp, is_top5: draft.is_top5 }).eq('submission_id', submissionId).eq('round_number', round.round_number);
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    void recordStaffAudit('stat.round_edit', 'stat_submission', submissionId, statSubmissions.find((row) => row.id === submissionId)?.submitter_id ?? null, { round_number: round.round_number, kills, deaths, is_mvp: draft.is_mvp, is_top5: draft.is_top5 });
+    setDone(`Round ${round.round_number} updated.`); await load();
   }
 
   async function reviewWeeklySubmission(id: string, status: 'approved' | 'rejected' | 'archived') {
@@ -959,6 +983,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       {tab === 'weekly' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Homepage moderation</span><h2>Weekly Content Submissions</h2></div><span className="future-pill">{weeklySubmissions.filter((s) => s.status === 'pending').length} pending</span></div>{weeklySubmissions.length === 0 ? <div className="command-empty">No weekly content submissions yet.</div> : <div className="stat-review-list">{weeklySubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.title}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Member'} · {submission.provider} · <a href={submission.url} target="_blank" rel="noreferrer">Open link</a></span>{submission.description && <small>{submission.description}</small>}</div><small>{dateTime(submission.submitted_at)} · {submission.status}</small>{submission.status === 'pending' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'rejected')}>Deny</button></> : submission.status === 'approved' ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'archived')}>Archive</button> : <span className="future-pill">{submission.status}</span>}</article>)}</div>}</section>}
       {tab === 'settings' && <section className="command-card settings-shell"><div className="command-section-head"><div><span>System controls</span><h2>Settings</h2></div><FaCog /></div>{canUpload ? <div className="command-empty">Discord role mappings, scheduled sync and event defaults will live here as each integration is connected.</div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>You can see that Settings exists, but only admins can change system-wide controls.</p></div>}</section>}
 
+        {tab === 'evidence' && <section className="command-card stat-detail-shell"><div className="command-section-head"><div><span>Review before decision</span><h2>Submission details</h2></div><span className="future-pill">Accepted and denied reports stay archived</span></div><label className="stat-detail-picker">Choose a submission<select value={expandedStatId ?? ''} onChange={(event) => { setExpandedStatId(event.target.value || null); setEditingStatId(null); }}><option value="">Select a submission</option>{statSubmissions.map((submission) => <option key={submission.id} value={submission.id}>{submission.id} · {statCategoryLabel(submission.category)} · {submission.status}</option>)}</select></label>{selectedStat ? <div className="stat-detail-body"><div className="stat-detail-meta"><b>{selectedStat.event_name || statCategoryLabel(selectedStat.category)}</b><span>{memberById.get(selectedStat.submitter_id)?.display_name || 'Discord member'} · {statCategoryLabel(selectedStat.category)} · {selectedStat.status} · {dateTime(selectedStat.created_at)}</span>{selectedStat.status === 'submitted' && <button className="command-secondary" type="button" onClick={() => editingStatId === selectedStat.id ? setEditingStatId(null) : beginStatEdit(selectedStat)}>{editingStatId === selectedStat.id ? 'Stop editing' : 'Edit before decision'}</button>}</div><div className="stat-round-detail-list">{(selectedStat.stat_round ?? []).map((round) => { const key = `${selectedStat.id}:${round.round_number}`; const draft = statRoundDrafts[key]; const proof = round.stat_proof?.filter((item) => !item.deleted_at) ?? []; return <article className="stat-round-detail" key={round.round_number}><div className="stat-round-detail-head"><b>Round {round.round_number}</b>{editingStatId === selectedStat.id && <button className="command-primary" type="button" disabled={busy} onClick={() => saveStatRound(selectedStat.id, round)}>Save round</button>}</div>{editingStatId === selectedStat.id ? <div className="stat-round-edit"><label>Kills<input type="number" min="0" value={draft?.kills ?? String(round.kills)} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: event.target.value, deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /></label><label>Deaths<input type="number" min="0" value={draft?.deaths ?? String(round.deaths)} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: event.target.value, is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /></label><label><input type="checkbox" checked={draft?.is_mvp ?? round.is_mvp} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: event.target.checked, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /> MVP</label><label><input type="checkbox" checked={draft?.is_top5 ?? round.is_top5} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: event.target.checked } }))} /> Top 5</label></div> : <div className="stat-round-values"><span><b>{round.kills}</b> kills</span><span><b>{round.deaths}</b> deaths</span><span>{round.is_mvp ? 'MVP' : 'No MVP'}</span><span>{round.is_top5 ? 'Top 5' : 'Not Top 5'}</span></div>}{proof.length > 0 ? <div className="stat-proof-gallery">{proof.map((item) => { const url = statProofUrl(item); return url ? <a href={url} target="_blank" rel="noopener noreferrer" key={item.id}><img src={url} alt={`Round ${round.round_number} leaderboard proof`} /><span>Open screenshot</span></a> : null; })}</div> : selectedStat.category === 'public_server' ? <small className="stat-proof-missing">No leaderboard screenshot attached.</small> : null}</article>; })}</div></div> : <div className="command-empty">Choose a submission to inspect its rounds, screenshots, and editable values.</div>}</section>}
         </div>
       </div>
     </main>
