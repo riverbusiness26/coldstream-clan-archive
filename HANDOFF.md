@@ -3445,3 +3445,11 @@ VERIFIED:    Production changed from no authenticated UPDATE grant and no UPDATE
 UNVERIFIED:  The final Approve button was not clicked in River's browser, so the exact browser session was not exercised after the policy change.
 BLOCKED:     Nothing blocks moderators or admins from approving and denying stat submissions.
 NEXT:        Refresh the Admin panel and approve the pending valid submission.
+
+## 2026-09-09 - Current website release published without data migration (Codex)
+
+DONE:        Rebased the accumulated current website work onto `origin/main`, built it, and copied the generated frontend plus new public artwork into the root publish directory. No data-changing migration, table reset, or storage deletion was run.
+VERIFIED:    `npm run build --prefix site` passed with 121 modules. Before publish, production contained 3 stat submissions, 9 stat rounds, 0 stat proof rows, and 7 members; migrations 0040 through 0045 were already represented by their required live schema and permission checks.
+UNVERIFIED:  Cloudflare edge deployment and the post-publish database count comparison follow the push.
+BLOCKED:     Nothing blocks this authorized publish.
+NEXT:        Push the source and root bundle, confirm the live asset hash changes, then recheck all four preserved row counts.
