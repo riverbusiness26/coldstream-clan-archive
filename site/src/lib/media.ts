@@ -113,6 +113,7 @@ interface Row {
   category_slug?: string | null;
   media_type: MediaType;
   video_id: string | null;
+  external_url?: string | null;
   caption: string | null;
   game: string | null;
   year: number | null;
@@ -137,7 +138,7 @@ interface Row {
 const BUCKET = 'gallery';
 
 const publicUrl = (k: string | null) =>
-  !k ? '' : k.startsWith('data:') ? k
+  !k ? '' : (k.startsWith('data:') || k.startsWith('blob:')) ? k
     : supa ? supa.storage.from(BUCKET).getPublicUrl(k).data.publicUrl : '';
 
 // A stable id for a recovered plate. The filenames are already content
@@ -194,8 +195,13 @@ function fromSeed(s: Shot): MediaItem {
 }
 
 function fromRow(r: Row, slugFor: (id: string | null) => string | null): MediaItem {
-  const video = r.media_type === 'video' && !!r.video_id;
-  const thumb = video ? youtubeThumb(r.video_id as string) : publicUrl(r.storage_key);
+  const youtube = r.media_type === 'video' && !!r.video_id;
+  const directVideo = r.media_type === 'video' && !r.video_id && !!r.storage_key;
+  const externalVideo = r.media_type === 'video' && !r.video_id && !r.storage_key && !!r.external_url;
+  const video = youtube || directVideo || externalVideo;
+  const thumb = youtube ? youtubeThumb(r.video_id as string)
+    : directVideo ? publicUrl(r.storage_key)
+      : externalVideo ? '/landing-desktop.jpg' : publicUrl(r.storage_key);
   const title = r.caption || (video ? 'A film' : 'A screenshot');
   return {
     id: r.id,
@@ -203,10 +209,12 @@ function fromRow(r: Row, slugFor: (id: string | null) => string | null): MediaIt
     origin: 'member',
     title,
     description: r.description ?? null,
-    src: video ? youtubeWatch(r.video_id as string) : publicUrl(r.storage_key),
+    src: youtube ? youtubeWatch(r.video_id as string)
+      : directVideo ? publicUrl(r.storage_key)
+        : externalVideo ? (r.external_url as string) : publicUrl(r.storage_key),
     thumbnail: thumb,
     poster: video ? thumb : null,
-    embed: video ? youtubeEmbed(r.video_id as string, { captions: !!r.captions_url }) : null,
+    embed: youtube ? youtubeEmbed(r.video_id as string, { captions: !!r.captions_url }) : null,
     alt: title,
     category: r.category_slug ?? slugFor(r.category_id),
     collection: isCollection(r.collection) ? r.collection : null,
@@ -220,11 +228,11 @@ function fromRow(r: Row, slugFor: (id: string | null) => string | null): MediaIt
     views: typeof r.views === 'number' ? r.views : null,
     // A YouTube film is not ours to hand over, so the default differs by type
     // and the column, once it exists, can still override either way.
-    downloadable: r.downloadable ?? !video,
+    downloadable: r.downloadable ?? !youtube,
     captions: r.captions_url ?? null,
     // A YouTube poster frame is 16:9 whatever the film is.
-    width: video ? 480 : r.width ?? null,
-    height: video ? 270 : r.height ?? null,
+    width: youtube ? 480 : r.width ?? (video ? 16 : null),
+    height: youtube ? 270 : r.height ?? (video ? 9 : null),
     videoId: r.video_id,
     source: null,
     names: [],

@@ -141,6 +141,11 @@ export default function PlateViewer({
           <iframe className="lb-film" src={item.embed ?? undefined}
             title={item.title} allowFullScreen
             allow="accelerometer; encrypted-media; picture-in-picture" />
+        ) : item.type === 'video' && item.thumbnail !== item.src ? (
+          <div className="lb-external-film">
+            <p>This film is hosted off-site.</p>
+            <a className="btn primary" href={item.src} target="_blank" rel="noopener noreferrer">Open the video link</a>
+          </div>
         ) : item.type === 'video' ? (
           // Nothing self hosted today, but the model allows it and a <video>
           // with a poster and a caption track is what it would need.

@@ -8,7 +8,6 @@ import Servers from './views/Servers';
 const Archive = lazy(() => import('./views/Archive'));
 const Calendar = lazy(() => import('./views/Calendar'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
-const Profile = lazy(() => import('./views/Profile'));
 const Admin = lazy(() => import('./views/Admin'));
 const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
 
@@ -125,9 +124,9 @@ export default function App() {
   const go = (v: string) => { location.hash = '#/' + v; window.scrollTo(0, 0); };
 
 
-  // The splash is the member gate for the hub and private tools. The record
-  // room, gallery and public server board remain useful to guests and should
-  // not throw away shareable deep links.
+  // The splash is the member gate for the hub and private tools. Legacy
+  // archive/person links are deliberately not public member profiles: the
+  // living profile is the signed-in Discord member's own service record.
   if (view === 'landing' || !authReady || (!me && !PUBLIC_VIEWS.has(view))) {
     return (
       <>
@@ -156,26 +155,52 @@ export default function App() {
         <div className={'toast ' + toast.kind} onClick={() => setToast(null)}
           role="status" title="Click to dismiss">{toast.text}</div>
       )}
-      <SiteNav active={view === 'gallery' ? 'Media' : view === 'events' ? 'Events' : view === 'leaderboard' ? 'Leaderboard' : view === 'player-profile' ? 'Community' : view === 'archive' || view === 'members' || view.startsWith('member/') ? 'Our History' : ''} />
+      <SiteNav active={view === 'gallery' ? 'Media' : view === 'events' ? 'Events' : view === 'leaderboard' ? 'Leaderboard' : view === 'player-profile' || view === 'profile' ? 'Community' : view === 'archive' || view === 'members' ? 'Our History' : ''} />
 
       <AccountStrip me={me} signIn={signIn} signOut={signOut} />
 
       <div className="cg-page-stage">
-      {!['home','members','gallery','events','leaderboard','servers','archive','admin','player-profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
+      {!['home','members','gallery','events','leaderboard','servers','archive','admin','player-profile','profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
-      {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
+      {view.startsWith('member/') && <PrivateMemberProfileNotice go={go} />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members') && <Archive me={me} />}
       {view === 'servers' && <Servers />}
       {view === 'events' && <Calendar me={me} />}
       {view === 'leaderboard' && <Leaderboard me={me} />}
       {view === 'admin' && <Admin me={me} signOut={signOut} />}
-      {view === 'player-profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
+      {(view === 'player-profile' || view === 'profile') && (me
+        ? <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />
+        : <MemberOnlyProfileNotice signIn={signIn} />)}
       </Suspense>
       {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
       </div>
 
       <SiteFooter />
     </div>
+  );
+}
+
+function PrivateMemberProfileNotice({ go }: { go: (v: string) => void }) {
+  return (
+    <div className="wrap solo"><main>
+      <div className="module">
+        <div className="mhead"><h3>Member profiles are private</h3><span className="sub">Discord-linked service records</span></div>
+        <div className="note">Player pages are only available to the member who signed in through Discord. Open your own service record to view your rank, medals, statistics and attendance.</div>
+        <p><button className="lnk" type="button" onClick={() => go('profile')}>Open my profile</button></p>
+      </div>
+    </main></div>
+  );
+}
+
+function MemberOnlyProfileNotice({ signIn }: { signIn: () => void }) {
+  return (
+    <div className="wrap solo"><main>
+      <div className="module">
+        <div className="mhead"><h3>Sign in to open your service record</h3><span className="sub">Discord members only</span></div>
+        <div className="note">Your profile contains your rank, detachment, medals, statistics and attendance. Continue with Discord to view it.</div>
+        <p><button className="btn primary" type="button" onClick={signIn}>Continue with Discord</button></p>
+      </div>
+    </main></div>
   );
 }

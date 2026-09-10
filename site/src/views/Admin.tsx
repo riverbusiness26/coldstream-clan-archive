@@ -5,13 +5,13 @@ import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
 import DetachmentEmblem from '../components/DetachmentEmblem';
 
-type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'weekly' | 'audit' | 'settings';
+type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'gallery' | 'weekly' | 'audit' | 'settings';
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem { id: string; kind: ItemKind; name: string; description: string | null; storage_key: string | null; image_mime: string | null; active: boolean; sort_order: number; created_at: string }
-interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null }
+interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null; status: string; notes: string | null; joined_year: number | null; enlisted_at: string | null; discharged_at: string | null; steam_id64: string | null }
 interface CompanyRow { id: string; name: string; tag: string | null; color: string | null; emblem_storage_key: string | null; emblem_image_mime: string | null; sort_order: number }
 interface AssignmentRow { id: string; member_id: string; item_id: string; item_kind: ItemKind; assigned_by: string; assigned_at: string; note: string | null; removed_at: string | null }
-interface AuditRow { id: number; actor_id: string | null; action: string; member_id: string | null; item_id: string | null; created_at: string }
+interface AuditRow { id: number; actor_id: string | null; action: string; member_id: string | null; item_id: string | null; detail: Record<string, unknown> | null; created_at: string }
 interface EventRow { id: string; title: string; body: string | null; game: string | null; starts_at: string; duration_minutes: number; cancelled: boolean; event_type: string; deleted_at: string | null }
 interface RsvpRow { event_id: string; member_id: string; status: string | null; attendance: 'attended' | 'no_show' | null }
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
@@ -19,6 +19,7 @@ interface PresenceWindowRow { event_id: string; samples_taken: number; people_se
 interface StatProofRow { id: string; storage_key: string; content_type: string; deleted_at: string | null }
 interface StatSubmissionRow { id: string; submitter_id: string; category: string; event_name: string | null; status: string; created_at: string; stat_round?: { round_number: number; kills: number; deaths: number; is_mvp: boolean; is_top5: boolean; stat_proof?: StatProofRow[] }[] }
 interface WeeklySubmissionRow { id: string; submitter_id: string; url: string; provider: string; title: string; description: string | null; status: string; rejection_reason: string | null; submitted_at: string; approved_at: string | null; }
+interface GallerySubmissionRow { id: string; storage_key: string | null; media_type: 'image' | 'video'; video_id: string | null; external_url: string | null; caption: string | null; created_at: string; approved: boolean; uploader?: { display_name: string } | { display_name: string }[] | null; }
 
   const statCategoryLabel = (category: string) => ({ public_linebattle: 'Linebattle Event', public_server: 'Public Server', competitive: 'Competitive' } as Record<string, string>)[category] || category.replaceAll('_', ' ');
 
@@ -26,7 +27,7 @@ interface WeeklySubmissionRow { id: string; submitter_id: string; url: string; p
   { id: 'preview-rank', kind: 'rank', name: 'Rank artwork', description: 'Upload the approved insignia and place it in the rank ladder.', storage_key: '', image_mime: 'image/webp', active: true, sort_order: 0, created_at: new Date().toISOString() },
   { id: 'preview-medal', kind: 'medal', name: 'Medal artwork', description: 'Medals stay in the catalogue and can be assigned to more than one member.', storage_key: '', image_mime: 'image/webp', active: true, sort_order: 1, created_at: new Date().toISOString() },
 ];
-const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member', company_id: null }];
+const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member', company_id: null, status: 'active', notes: null, joined_year: null, enlisted_at: null, discharged_at: null, steam_id64: null }];
 const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Coldstream Guards', tag: '2ndCS', color: null, emblem_storage_key: null, emblem_image_mime: null, sort_order: 0 }];
 const PREVIEW_EVENTS: EventRow[] = [{ id: 'preview-event', title: 'Friday Linebattle', body: 'Form up 15 minutes before the event.', game: 'Holdfast: Nations At War', starts_at: new Date(Date.now() + 86_400_000).toISOString(), duration_minutes: 90, cancelled: false, event_type: 'linebattle', deleted_at: null }];
 const date = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
@@ -38,19 +39,36 @@ const dateInputValue = (value: Date) => {
   return `${year}-${month}-${day}`;
 };
 const labelAction = (value: string) => value.replaceAll('_', ' ').replaceAll('.', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+const auditDetail = (detail: Record<string, unknown> | null) => {
+  if (!detail) return '';
+  const changed = Object.entries(detail)
+    .filter(([key, value]) => key.endsWith('_changed') && value === true)
+    .map(([key]) => key.replace(/_changed$/, '').replaceAll('_', ' '));
+  if (changed.length) return `Changed ${changed.join(', ')}`;
+  if (typeof detail.status === 'string') return `Status: ${detail.status}`;
+  if (detail.removed === true) return 'Removed';
+  if (detail.approved === true) return 'Approved';
+  return '';
+};
+// The Discord bot samples voice presence every two minutes. Attendance time
+// is deliberately derived from those samples only; there is no manual-hours
+// field that could drift away from Discord evidence.
+const VOICE_SAMPLE_MINUTES = 2;
+const presenceHours = (samples: number) => Math.round((samples * VOICE_SAMPLE_MINUTES / 60) * 10) / 10;
 
 export default function Admin({ me, signOut }: { me: Me | null; signOut: () => void }) {
   const canStaff = me?.role === 'moderator' || me?.role === 'admin';
   const canUpload = me?.role === 'admin';
   const [tab, setTab] = useState<Tab>(() => {
     const saved = window.localStorage.getItem('coldstream-admin-section') as Tab | null;
-    return saved && ['overview', 'catalogue', 'detachments', 'assignments', 'members', 'attendance', 'evidence', 'weekly', 'audit', 'settings'].includes(saved) ? saved : 'overview';
+    return saved === 'assignments' ? 'members' : saved && ['overview', 'catalogue', 'detachments', 'members', 'attendance', 'evidence', 'gallery', 'weekly', 'audit', 'settings'].includes(saved) ? saved : 'overview';
   });
   const [navOpen, setNavOpen] = useState(false);
   const [items, setItems] = useState<PersonnelItem[]>([]);
   const [members, setMembers] = useState<MemberRow[]>([]);
   const [companies, setCompanies] = useState<CompanyRow[]>([]);
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
+  const [assignmentHistory, setAssignmentHistory] = useState<AssignmentRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [auditPage, setAuditPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -62,6 +80,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [catalogueFilter, setCatalogueFilter] = useState<'all' | ItemKind>(() => (window.localStorage.getItem('coldstream-admin-catalogue-filter') as 'all' | ItemKind | null) ?? 'all');
   const [memberSearch, setMemberSearch] = useState(() => window.localStorage.getItem('coldstream-admin-member-search') ?? '');
+  const [editingMember, setEditingMember] = useState<string | null>(null);
+  const [memberDraft, setMemberDraft] = useState({ display_name: '', joined_year: '', status: 'active', notes: '', enlisted_at: '', discharged_at: '' });
   const [globalSearch, setGlobalSearch] = useState('');
   const [assignMembers, setAssignMembers] = useState<string[]>([]);
   const [assignItem, setAssignItem] = useState('');
@@ -91,6 +111,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [eventKind, setEventKind] = useState('other');
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
   const [galleryPending, setGalleryPending] = useState<number | null>(null);
+  const [gallerySubmissions, setGallerySubmissions] = useState<GallerySubmissionRow[]>([]);
+  const [galleryFilter, setGalleryFilter] = useState<'all' | 'pending' | 'approved'>('pending');
+  const [gallerySort, setGallerySort] = useState<'newest' | 'oldest'>('newest');
   const [statSubmissions, setStatSubmissions] = useState<StatSubmissionRow[]>([]);
   const [statStatusFilter, setStatStatusFilter] = useState<'all' | 'submitted' | 'approved' | 'rejected'>('submitted');
   const [statCategoryFilter, setStatCategoryFilter] = useState('all');
@@ -116,25 +139,31 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setStatSubmissions([]); setWeeklySubmissions([]);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAssignmentHistory([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setGallerySubmissions([]); setStatSubmissions([]); setWeeklySubmissions([]);
       return;
     }
-    const [itemResult, memberResult, companyResult, assignmentResult, auditResult, galleryResult, eventResult] = await Promise.all([
+    const [itemResult, memberResult, companyResult, assignmentResult, assignmentHistoryResult, auditResult, galleryResult, eventResult] = await Promise.all([
       supa.from('personnel_item').select('id,kind,name,description,storage_key,image_mime,active,sort_order,created_at').order('kind').order('sort_order').order('name'),
-      supa.from('member').select('id,display_name,avatar_url,discord_id,role,company_id').order('display_name'),
+      supa.from('member').select('id,display_name,avatar_url,discord_id,role,company_id,status,notes,joined_year,enlisted_at,discharged_at,steam_id64').order('display_name'),
       supa.from('company').select('id,name,tag,color,emblem_storage_key,emblem_image_mime,sort_order').order('sort_order').order('name'),
       supa.from('personnel_assignment').select('id,member_id,item_id,item_kind,assigned_by,assigned_at,note,removed_at').is('removed_at', null).order('assigned_at', { ascending: false }),
-      supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,created_at').order('created_at', { ascending: false }).limit(500),
-      supa.from('gallery_item').select('id').eq('approved', false),
+      // Soft-removed assignments still reference their catalogue item. Keep
+      // the history query separate from active assignments so deletion can
+      // explain why an item must be archived instead of surfacing a FK error.
+      supa.from('personnel_assignment').select('id,member_id,item_id,item_kind,assigned_by,assigned_at,note,removed_at').order('assigned_at', { ascending: false }),
+      supa.from('personnel_audit').select('id,actor_id,action,member_id,item_id,detail,created_at').order('created_at', { ascending: false }).limit(75),
+      supa.from('gallery_item').select('id,storage_key,media_type,video_id,external_url,caption,created_at,approved,uploader:member(display_name)').order('created_at', { ascending: false }).limit(200),
       supa.from('event').select('id,title,body,game,starts_at,duration_minutes,cancelled,event_type,deleted_at').eq('historic', false).is('deleted_at', null).order('starts_at', { ascending: false }).limit(50),
     ]);
-    const firstError = itemResult.error || memberResult.error || companyResult.error || assignmentResult.error || auditResult.error || eventResult.error;
+    const firstError = itemResult.error || memberResult.error || companyResult.error || assignmentResult.error || assignmentHistoryResult.error || auditResult.error || galleryResult.error || eventResult.error;
     if (firstError) { setError(/personnel_/i.test(firstError.message) ? 'The Command Board database migration has not been applied yet.' : firstError.message); return; }
     setItems((itemResult.data ?? []) as PersonnelItem[]); setMembers((memberResult.data ?? []) as MemberRow[]);
     setCompanies((companyResult.data ?? []) as CompanyRow[]);
     setDetachmentDrafts(Object.fromEntries(((memberResult.data ?? []) as MemberRow[]).map((member) => [member.id, member.company_id ?? ''])));
-    setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]); setAuditPage(1);
-    setGalleryPending(galleryResult.data?.length ?? 0);
+    setAssignments((assignmentResult.data ?? []) as AssignmentRow[]); setAssignmentHistory((assignmentHistoryResult.data ?? []) as AssignmentRow[]); setAudit((auditResult.data ?? []) as AuditRow[]); setAuditPage(1);
+    const loadedGallery = (galleryResult.data ?? []) as GallerySubmissionRow[];
+    setGallerySubmissions(loadedGallery);
+    setGalleryPending(loadedGallery.filter((row) => !row.approved).length);
     const statResult = await supa.from('stat_submission').select('id,submitter_id,category,event_name,status,created_at,stat_round(round_number,kills,deaths,is_mvp,is_top5,stat_proof(id,storage_key,content_type,deleted_at))').order('created_at', { ascending: true });
     setStatSubmissions((statResult.data ?? []) as StatSubmissionRow[]);
     await supa.rpc('deploy_weekly_content');
@@ -176,17 +205,31 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   useEffect(() => { setEditingEvent(false); setConfirmEventDelete(false); }, [selectedEvent]);
   const visibleItems = items.filter((item) => catalogueFilter === 'all' || item.kind === catalogueFilter);
   const visibleMembers = members.filter((member) => member.display_name.toLowerCase().includes(memberSearch.toLowerCase()));
+  const visibleGallerySubmissions = useMemo(() => gallerySubmissions
+    .filter((submission) => galleryFilter === 'all' || (galleryFilter === 'pending' ? !submission.approved : submission.approved))
+    .slice()
+    .sort((a, b) => gallerySort === 'newest'
+      ? Date.parse(b.created_at) - Date.parse(a.created_at)
+      : Date.parse(a.created_at) - Date.parse(b.created_at)), [galleryFilter, gallerySort, gallerySubmissions]);
+  const editingMemberRecord = editingMember ? members.find((member) => member.id === editingMember) ?? null : null;
   const auditPageSize = 25;
   const auditPageCount = Math.max(1, Math.ceil(audit.length / auditPageSize));
   const auditPageRows = audit.slice((auditPage - 1) * auditPageSize, auditPage * auditPageSize);
   useEffect(() => { if (auditPage > auditPageCount) setAuditPage(auditPageCount); }, [auditPage, auditPageCount]);
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
   const statProofUrl = (proof: StatProofRow) => !supa ? null : supa.storage.from('stat-proof').getPublicUrl(proof.storage_key).data.publicUrl;
+  const galleryMediaUrl = (row: GallerySubmissionRow) => row.external_url || (row.video_id ? `https://www.youtube.com/watch?v=${row.video_id}` : row.storage_key && supa ? supa.storage.from('gallery').getPublicUrl(row.storage_key).data.publicUrl : null);
+  const galleryPreviewUrl = (row: GallerySubmissionRow) => row.video_id
+    ? `https://img.youtube.com/vi/${row.video_id}/hqdefault.jpg`
+    : row.media_type === 'image' && row.storage_key && supa
+      ? supa.storage.from('gallery').getPublicUrl(row.storage_key).data.publicUrl
+      : null;
   const companyArtworkUrl = (company: CompanyRow) => !company.emblem_storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(company.emblem_storage_key).data.publicUrl;
   const currentEvent = events.find((event) => event.id === selectedEvent) ?? null;
   const currentRsvps = rsvps.filter((row) => row.event_id === selectedEvent);
   const currentPresence = presenceRoll.filter((row) => row.event_id === selectedEvent);
   const currentWindow = presenceWindows.find((row) => row.event_id === selectedEvent) ?? null;
+  const eventVoiceHours = currentPresence.reduce((sum, row) => sum + presenceHours(row.samples), 0);
   const trackedMinutes = currentWindow
     ? Math.max(0, Math.round((new Date(currentWindow.last_sample).getTime() - new Date(currentWindow.first_sample).getTime()) / 60_000))
     : 0;
@@ -454,10 +497,13 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     // A held item cannot be deleted without silently rewriting somebody's
     // service record, and the database would refuse it anyway: assignments
     // reference the item. Archiving keeps the record and hides the item.
-    const holders = assignments.filter((row) => row.item_id === item.id).length;
-    if (holders > 0) {
+    const activeHolders = assignments.filter((row) => row.item_id === item.id).length;
+    const references = assignmentHistory.filter((row) => row.item_id === item.id).length;
+    if (references > 0) {
       setConfirmDelete(null);
-      setError(`This ${item.kind} is held by ${holders} member${holders === 1 ? '' : 's'}. Remove those assignments first, or archive it instead to keep the record.`);
+      setError(activeHolders > 0
+        ? `This ${item.kind} is currently assigned to ${activeHolders} member${activeHolders === 1 ? '' : 's'}. Remove those assignments first, or archive it instead to keep the service record.`
+        : `This ${item.kind} has assignment history and cannot be deleted without breaking the service record. Archive it instead.`);
       return;
     }
     if (confirmDelete !== item.id) { setConfirmDelete(item.id); return; }
@@ -495,25 +541,73 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setDone(result.data ? 'Assignment removed.' : 'That assignment was already removed.'); await load();
   }
 
+  async function recordStaffAudit(action: string, entity: string, entityId: string, memberId: string | null, detail: Record<string, unknown>) {
+    if (!supa) return;
+    const result = await supa.rpc('record_audit', {
+      audit_action: action,
+      audit_entity: entity,
+      audit_entity_id: entityId,
+      audit_member: memberId,
+      audit_detail: detail,
+    });
+    if (result.error) console.warn('Audit entry could not be written:', result.error.message);
+  }
+
   async function reviewStatSubmission(id: string, status: 'approved' | 'rejected') {
     if (!supa) { setDone('Preview only. No submission was changed.'); return; }
     setBusy(true); setError(null);
     const result = await supa.from('stat_submission').update({ status, reviewed_by: me?.id ?? null, reviewed_at: new Date().toISOString() }).eq('id', id);
     setBusy(false);
     if (result.error) { setError(result.error.message); return; }
+    const submission = statSubmissions.find((row) => row.id === id);
+    void recordStaffAudit('stat.review', 'stat_submission', id, submission?.submitter_id ?? null, { status });
     setDone(`Submission ${status}.`); await load();
   }
 
   async function removeStatSubmission(id: string) {
     if (!supa) { setDone('Preview only. Nothing was removed.'); return; }
     setBusy(true); const result = await supa.from('stat_submission').delete().eq('id', id); setBusy(false);
-    if (result.error) { setError(result.error.message); return; } setDone('Stat submission removed.'); await load();
+    if (result.error) { setError(result.error.message); return; }
+    const submission = statSubmissions.find((row) => row.id === id);
+    void recordStaffAudit('stat.delete', 'stat_submission', id, submission?.submitter_id ?? null, { removed: true });
+    setDone('Stat submission removed.'); await load();
   }
 
   async function reviewWeeklySubmission(id: string, status: 'approved' | 'rejected' | 'archived') {
     if (!supa) { setDone('Preview only. No submission was changed.'); return; }
-    setBusy(true); const result = await supa.from('weekly_content_submission').update({ status, reviewed_by: me?.id ?? null, reviewed_at: new Date().toISOString(), ...(status === 'rejected' ? { rejection_reason: 'Not approved by staff.' } : {}) }).eq('id', id); setBusy(false);
-    if (result.error) { setError(result.error.message); return; } setDone(`Weekly submission ${status}.`); await load();
+    setBusy(true);
+    const result = status === 'rejected'
+      ? await supa.from('weekly_content_submission').delete().eq('id', id)
+      : await supa.from('weekly_content_submission').update({ status, reviewed_by: me?.id ?? null, reviewed_at: new Date().toISOString() }).eq('id', id);
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    const submission = weeklySubmissions.find((row) => row.id === id);
+    void recordStaffAudit('weekly.review', 'weekly_content_submission', id, submission?.submitter_id ?? null, { status, ...(status === 'rejected' ? { removed: true } : {}) });
+    setDone(status === 'rejected' ? 'Weekly submission rejected and removed from the queue.' : `Weekly submission ${status}.`); await load();
+  }
+
+  async function reviewGallerySubmission(id: string, approve: boolean) {
+    if (!supa) { setDone('Preview only. No gallery submission was changed.'); return; }
+    setBusy(true); setError(null);
+    if (approve) {
+      const result = await supa.from('gallery_item').update({ approved: true }).eq('id', id);
+      setBusy(false);
+      if (result.error) { setError(result.error.message); return; }
+      const row = gallerySubmissions.find((submission) => submission.id === id);
+      const uploader = Array.isArray(row?.uploader) ? row?.uploader[0] : row?.uploader;
+      void recordStaffAudit('gallery.approve', 'gallery_item', id, null, { approved: true, uploader: uploader?.display_name ?? null });
+      setDone('Gallery submission approved and added to the wall.');
+    } else {
+      const row = gallerySubmissions.find((submission) => submission.id === id);
+      const result = await supa.from('gallery_item').delete().eq('id', id);
+      if (!result.error && row?.storage_key) await supa.storage.from('gallery').remove([row.storage_key]);
+      setBusy(false);
+      if (result.error) { setError(result.error.message); return; }
+      const uploader = Array.isArray(row?.uploader) ? row?.uploader[0] : row?.uploader;
+      void recordStaffAudit('gallery.delete', 'gallery_item', id, null, { removed: true, uploader: uploader?.display_name ?? null });
+      setDone('Gallery submission removed.');
+    }
+    await load();
   }
 
   async function saveMemberDetachment(memberId: string) {
@@ -532,6 +626,47 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setBusy(false);
     if (result.error) { setError(result.error.message); return; }
     setDone(companyId ? 'Detachment assigned.' : 'Detachment cleared.');
+    await load();
+  }
+
+  function openMemberEditor(member: MemberRow) {
+    setEditingMember(member.id);
+    setMemberDraft({
+      display_name: member.display_name,
+      joined_year: member.joined_year ? String(member.joined_year) : '',
+      status: member.status || 'active',
+      notes: member.notes || '',
+      enlisted_at: member.enlisted_at ? dateInputValue(new Date(member.enlisted_at)) : '',
+      discharged_at: member.discharged_at ? dateInputValue(new Date(member.discharged_at)) : '',
+    });
+  }
+
+  async function saveMemberEditor(memberId: string) {
+    setError(null); setDone(null);
+    if (!supa) { setDone('Member editor preview complete. Nothing was saved.'); return; }
+    if (!await confirmDiscordRole()) return;
+    const year = memberDraft.joined_year.trim() ? Number(memberDraft.joined_year) : null;
+    if (year !== null && (!Number.isInteger(year) || year < 2011 || year > new Date().getFullYear())) { setError('Enter a valid joined year.'); return; }
+    if (memberDraft.enlisted_at && memberDraft.discharged_at && memberDraft.discharged_at < memberDraft.enlisted_at) { setError('Discharge date cannot be before enlistment date.'); return; }
+    setBusy(true);
+    const result = await supa.rpc('set_member_file', {
+      target_member: memberId,
+      new_status: memberDraft.status,
+      new_company: null,
+      new_notes: memberDraft.notes.trim() || null,
+      clear_company: false,
+      new_display_name: memberDraft.display_name.trim(),
+      new_joined_year: year,
+      new_enlisted_at: memberDraft.enlisted_at ? `${memberDraft.enlisted_at}T12:00:00.000Z` : null,
+      new_discharged_at: memberDraft.discharged_at ? `${memberDraft.discharged_at}T12:00:00.000Z` : null,
+      clear_notes: !memberDraft.notes.trim(),
+      clear_enlisted_at: !memberDraft.enlisted_at,
+      clear_discharged_at: !memberDraft.discharged_at,
+    });
+    setBusy(false);
+    if (result.error) { setError(result.error.message); return; }
+    setEditingMember(null);
+    setDone('Member record updated and added to the audit log.');
     await load();
   }
 
@@ -601,13 +736,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   if (!canStaff) return <div className="wrap solo"><main><div className="module"><div className="mhead"><h3>Admin Panel</h3></div><div className="note">This part of the site is for moderators and admins. Sign in through Discord so the site can check your current role.</div></div></main></div>;
 
   const eventScheduleFields = <fieldset className="event-schedule">
-    <legend>Schedule</legend>
-    <div className="event-day-shortcuts" aria-label="Quick event dates">
-      <button type="button" onClick={() => chooseEventDay('today')}>Today</button>
-      <button type="button" onClick={() => chooseEventDay('tomorrow')}>Tomorrow</button>
-      <button type="button" onClick={() => chooseEventDay('friday')}>Friday</button>
-      <button type="button" onClick={() => chooseEventDay('saturday')}>Saturday</button>
-    </div>
+    <legend>Event date and time</legend>
     <div className="event-date-time-fields">
       <label>Event date<input type="date" value={eventDate} onChange={(event) => setEventDate(event.target.value)} /></label>
       <label>Start time<input type="time" value={eventTime} step="900" onChange={(event) => setEventTime(event.target.value)} /></label>
@@ -625,7 +754,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           <nav aria-label="Admin Panel sections">
             <button className={tab === 'overview' ? 'active' : ''} onClick={() => openTab('overview')}><FaHome /><span>Overview</span><small>{attendanceReviewCount}</small></button>
             <button className={tab === 'members' || tab === 'assignments' ? 'active' : ''} onClick={() => openTab('members')}><FaUsers /><span>Members</span></button>
-            <button className={tab === 'evidence' ? 'active' : ''} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat Tracking</span><small>0</small></button>
+            <button className={tab === 'evidence' ? 'active' : ''} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat Tracking</span><small>{statSubmissions.filter((submission) => submission.status === 'submitted').length}</small></button>
+            <button className={tab === 'gallery' ? 'active' : ''} onClick={() => openTab('gallery')}><FaImage /><span>Gallery submissions</span><small>{gallerySubmissions.filter((submission) => !submission.approved).length}</small></button>
             <button className={tab === 'weekly' ? 'active' : ''} onClick={() => openTab('weekly')}><FaImage /><span>Weekly Content Submissions</span><small>{weeklySubmissions.filter((submission) => submission.status === 'pending').length}</small></button>
             <button className={tab === 'attendance' ? 'active' : ''} onClick={() => openTab('attendance')}><FaCalendarCheck /><span>Events</span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
             <p>Regiment</p>
@@ -647,10 +777,12 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       {error && <div className="command-message error" role="alert">{error}</div>}
       {done && <div className="command-message ok" role="status">{done}</div>}
 
+      {tab === 'gallery' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Member content review</span><h2>Gallery submissions</h2></div><span className="future-pill">{gallerySubmissions.filter((submission) => !submission.approved).length} pending · {gallerySubmissions.filter((submission) => submission.approved).length} approved</span></div><div className="catalogue-filters" role="group" aria-label="Gallery submission filters"><button className={galleryFilter === 'pending' ? 'active' : ''} onClick={() => setGalleryFilter('pending')}>Pending</button><button className={galleryFilter === 'approved' ? 'active' : ''} onClick={() => setGalleryFilter('approved')}>Approved</button><button className={galleryFilter === 'all' ? 'active' : ''} onClick={() => setGalleryFilter('all')}>All</button><select className="admin-sort" value={gallerySort} onChange={(event) => setGallerySort(event.target.value as 'newest' | 'oldest')} aria-label="Sort gallery submissions"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></div>{visibleGallerySubmissions.length === 0 ? <div className="command-empty">No gallery submissions in this view.</div> : <div className="stat-review-list">{visibleGallerySubmissions.map((submission) => { const href = galleryMediaUrl(submission); const preview = galleryPreviewUrl(submission); const author = Array.isArray(submission.uploader) ? submission.uploader[0]?.display_name : submission.uploader?.display_name; return <article className="stat-review-row gallery-review-row" key={submission.id}>{preview && (submission.media_type === 'image' || submission.video_id) ? <img className="gallery-review-preview" src={preview} alt="" loading="lazy" /> : <span className="gallery-review-preview gallery-review-placeholder" aria-hidden="true">{submission.media_type === 'video' ? '▶' : '▧'}</span>}<div><b>{submission.caption || (submission.media_type === 'video' ? 'Video submission' : 'Screenshot submission')}</b><span>{author || 'Member'} · {submission.media_type} · {dateTime(submission.created_at)}</span>{href ? <a href={href} target="_blank" rel="noopener noreferrer">Open {submission.media_type === 'video' ? 'video' : 'image'}</a> : <small>Media file is unavailable.</small>}</div><small>{submission.approved ? 'approved' : 'pending'}</small>{submission.approved ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewGallerySubmission(submission.id, false)}>Remove</button> : <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewGallerySubmission(submission.id, true)}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewGallerySubmission(submission.id, false)}>Remove</button></>}</article>; })}</div>}</section>}
+
       {tab === 'overview' && <section className="admin-overview">
         <div className="admin-welcome"><div><span>Daily command view</span><h2>What needs attention</h2><p>The three queues staff use most are kept first. Open a queue to continue the work.</p></div><FaShieldAlt /></div>
         <div className="admin-attention-grid">
-          <article><header><FaClipboardCheck /><span>Stat submissions</span><b>0</b></header><h3>No connected reports yet</h3><p>The Discord report intake is the next build phase. It will appear here oldest first.</p><button onClick={() => openTab('evidence')}>Open Stat Tracking</button></article>
+          <article><header><FaClipboardCheck /><span>Stat submissions</span><b>{statSubmissions.filter((submission) => submission.status === 'submitted').length}</b></header><h3>{statSubmissions.some((submission) => submission.status === 'submitted') ? 'Reports waiting for review' : 'Nothing waiting'}</h3><p>Review the member’s rounds and proof before approved results reach the leaderboard.</p><button onClick={() => openTab('evidence')}>Open Stat Tracking</button></article>
           <article><header><FaUsers /><span>New volunteers</span><b>0</b></header><h3>Enlistment is not connected</h3><p>Accepted recruits will appear here as Volunteer, assigned to Line Infantry until acknowledged.</p><button onClick={() => openTab('members')}>Open Members</button></article>
           <article><header><FaCalendarCheck /><span>Attendance review</span><b>{attendanceReviewCount}</b></header><h3>{attendanceReviewCount ? `${attendanceReviewCount} event${attendanceReviewCount === 1 ? '' : 's'} may need review` : 'Nothing waiting'}</h3><p>Events with unresolved attendance appear here after they end.</p><button onClick={() => openTab('attendance')}>Open Events</button></article>
         </div>
@@ -692,7 +824,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         <aside className="catalogue-upload"><div className="command-section-head"><div><span>Admin only</span><h2>Upload artwork</h2></div><FaImage /></div>{canUpload ? <div className="command-form"><label>Type<select value={itemKind} onChange={(event) => setItemKind(event.target.value as ItemKind)}><option value="rank">Rank</option><option value="medal">Medal</option></select></label><label>Name<input value={itemName} maxLength={80} onChange={(event) => setItemName(event.target.value)} placeholder="Item name" /></label><label>Description<textarea value={itemDescription} maxLength={500} onChange={(event) => setItemDescription(event.target.value)} placeholder="What this rank or medal represents" /></label><label className="command-file"><span>PNG, JPEG or WebP, up to 5 MB</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setItemFile(event.target.files?.[0] ?? null)} /></label><button className="command-primary" onClick={uploadItem} disabled={busy}>{busy ? 'Uploading' : 'Add to catalogue'}</button></div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>Moderators can assign existing artwork but cannot upload or replace image files.</p></div>}</aside>
       </section>}
 
-      {tab === 'assignments' && <section className="command-panel-grid">
+      {false && tab === 'assignments' && <section className="command-panel-grid">
         <div className="command-card assign-card"><div className="command-section-head"><div><span>Service record</span><h2>Assign an item</h2></div><button className="command-secondary" onClick={() => openTab('members')}>Back to members</button></div><div className="command-form horizontal"><label>Members <small>Use Ctrl or Shift to select several.</small><select className="member-multi" multiple value={assignMembers} onChange={(event) => setAssignMembers(Array.from(event.currentTarget.selectedOptions, (option) => option.value))}>{members.map((member) => <option value={member.id} key={member.id}>{member.display_name}</option>)}</select></label><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional reason or event" /></label><button className="command-primary" onClick={assign} disabled={busy || !items.length || !members.length}>{busy ? 'Saving' : assignMembers.length > 1 ? `Assign to ${assignMembers.length} members` : 'Assign item'}</button></div></div>
         <div className="command-card"><div className="command-section-head"><div><span>Current</span><h2>Active assignments</h2></div><b>{assignments.length}</b></div><div className="assignment-list">{assignments.length === 0 && <div className="command-empty">No ranks or medals have been assigned yet.</div>}{assignments.map((row) => <article key={row.id}><span className={`assignment-mark ${row.item_kind}`}>{row.item_kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><div><b>{itemById.get(row.item_id)?.name ?? 'Unknown item'}</b><span>{memberById.get(row.member_id)?.display_name ?? 'Unknown member'} · {date(row.assigned_at)}</span>{row.note && <small>{row.note}</small>}</div><button onClick={() => removeAssignment(row.id)}>Remove</button></article>)}</div></div>
       </section>}
@@ -701,6 +833,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         {tab === 'members' && <div className="command-card">
           <div className="command-section-head"><div><span>Discord roster</span><h2>Members</h2></div><b>{members.length}</b></div>
           <label className="command-search"><FaSearch /><input value={memberSearch} onChange={(event) => setMemberSearch(event.target.value)} placeholder="Search members" /></label>
+          {assignMembers.length > 0 && <div className="member-inline-assign command-form horizontal"><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional note" /></label><button className="command-primary" onClick={assign} disabled={busy || !assignItem}>{busy ? 'Saving' : 'Assign selected item'}</button><button className="command-secondary" onClick={() => setAssignMembers([])}>Cancel</button></div>}
           <div className="member-command-list">{visibleMembers.map((member) => {
             const records = assignments.filter((row) => row.member_id === member.id);
             const rank = records.find((row) => row.item_kind === 'rank');
@@ -715,10 +848,22 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
                   {companies.map((company) => <option value={company.id} key={company.id}>{company.name}{company.tag ? ` (${company.tag})` : ''}</option>)}
                 </select>
                 <button disabled={busy || (detachmentDrafts[member.id] ?? '') === (member.company_id ?? '')} onClick={() => saveMemberDetachment(member.id)}>Save detachment</button>
-                <button onClick={() => { setAssignMembers([member.id]); setTab('assignments'); }}>Rank or medal</button>
+                <button onClick={() => { setAssignMembers([member.id]); if (!assignItem && items[0]) setAssignItem(items[0].id); }}>Rank or medal</button>
+                <button onClick={() => openMemberEditor(member)}>{editingMember === member.id ? 'Editing record' : 'Edit member'}</button>
               </div>
             </article>;
           })}</div>
+          {editingMemberRecord && <div className="member-editor-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget && !busy) setEditingMember(null); }}><div className="member-editor command-form" role="dialog" aria-modal="true" aria-labelledby="member-editor-title">
+            <div className="member-editor-head"><div><span>Staff edit</span><h3 id="member-editor-title">{editingMemberRecord.display_name}</h3></div><button className="command-secondary" type="button" onClick={() => setEditingMember(null)} disabled={busy}>Close</button></div>
+            <label>Display name<input autoFocus value={memberDraft.display_name} maxLength={100} onChange={(event) => setMemberDraft((draft) => ({ ...draft, display_name: event.target.value }))} /></label>
+            <label>Joined year<input type="number" min="2011" max={new Date().getFullYear()} value={memberDraft.joined_year} onChange={(event) => setMemberDraft((draft) => ({ ...draft, joined_year: event.target.value }))} /></label>
+            <label>Status<select value={memberDraft.status} onChange={(event) => setMemberDraft((draft) => ({ ...draft, status: event.target.value }))}><option value="applicant">Applicant</option><option value="active">Active</option><option value="reserve">Reserve</option><option value="discharged">Discharged</option><option value="banned">Banned</option></select></label>
+            <label>Enlistment date<input type="date" value={memberDraft.enlisted_at} onChange={(event) => setMemberDraft((draft) => ({ ...draft, enlisted_at: event.target.value }))} /></label>
+            <label>Discharge date<input type="date" value={memberDraft.discharged_at} onChange={(event) => setMemberDraft((draft) => ({ ...draft, discharged_at: event.target.value }))} /></label>
+            <label>Service notes<textarea maxLength={1000} value={memberDraft.notes} onChange={(event) => setMemberDraft((draft) => ({ ...draft, notes: event.target.value }))} placeholder="Internal service notes" /></label>
+            <div className="member-editor-readonly"><span>Discord ID <b>{editingMemberRecord.discord_id || 'Not linked'}</b></span><span>Role <b>{editingMemberRecord.role}</b></span><span>Avatar <b>{editingMemberRecord.avatar_url ? 'Synced from Discord' : 'Not available'}</b></span><small>Discord identity fields are controlled by the member sync.</small></div>
+            <div className="event-form-actions"><button className="command-primary" disabled={busy || !memberDraft.display_name.trim()} onClick={() => saveMemberEditor(editingMemberRecord.id)}>{busy ? 'Saving' : 'Save member record'}</button><button className="command-secondary" disabled={busy} onClick={() => setEditingMember(null)}>Cancel</button></div>
+          </div></div>}
         </div>}
 
         {tab === 'detachments' && <aside className="command-card detachment-card">
@@ -777,6 +922,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
             <div><small>Starts</small><b>{dateTime(currentEvent.starts_at)}</b></div>
             <div><small>Tracked time</small><b>{currentWindow ? trackedMinutes > 0 ? `${trackedMinutes} minutes` : 'Just started' : 'Not started'}</b></div>
             <div><small>People seen</small><b>{currentWindow?.people_seen ?? 0}</b></div>
+            <div><small>Voice hours</small><b>{eventVoiceHours ? `${eventVoiceHours.toFixed(1)}h` : '—'}</b></div>
             <div><small>Confirmed</small><b>{currentRsvps.filter((row) => row.attendance === 'attended').length}</b></div>
           </div>}
           {currentEvent && attendanceMembers.length === 0 && unlinkedPresence.length === 0 && <div className="command-empty">No RSVPs or voice activity was recorded for this event.</div>}
@@ -790,8 +936,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
               : trackedMinutes < 1
                 ? 'Detected in voice when tracking started'
                 : coverage >= 95
-                  ? `In voice for the full ${trackedMinutes}-minute tracking window`
-                  : `In voice for about ${Math.max(1, Math.round(trackedMinutes * coverage / 100))} of ${trackedMinutes} tracked minutes`;
+                  ? `In voice for the full ${trackedMinutes}-minute tracking window · ${presenceHours(presence.samples)}h recorded`
+                  : `In voice for about ${Math.max(1, Math.round(trackedMinutes * coverage / 100))} of ${trackedMinutes} tracked minutes · ${presenceHours(presence.samples)}h recorded`;
             return <article key={member.id}>
               <DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" />
               <div><b>{member.display_name}</b><span>RSVP: {rsvpLabel}</span><small>{voiceSummary}</small></div>
@@ -802,13 +948,13 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
               </div>
             </article>;
           })}</div>
-          {unlinkedPresence.length > 0 && <div className="attendance-unlinked"><span>Not linked to a website member</span>{unlinkedPresence.map((row) => <div key={row.discord_id}><b>Discord {row.discord_id}</b><small>{row.samples} voice samples</small></div>)}</div>}
+          {unlinkedPresence.length > 0 && <div className="attendance-unlinked"><span>Not linked to a website member</span>{unlinkedPresence.map((row) => <div key={row.discord_id}><b>Discord {row.discord_id}</b><small>{row.samples} voice samples · {presenceHours(row.samples)}h recorded</small></div>)}</div>}
         </div>
       </section>}
 
       {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">{statSubmissions.filter((s) => s.status === 'submitted').length} pending · {statSubmissions.filter((s) => s.status === 'approved').length} approved</span></div>{statSubmissions.length === 0 ? <div className="evidence-intro"><FaClipboardCheck /><div><h3>No submissions recorded</h3><p>Discord reports will appear here oldest first after members submit their rounds and proof screenshots.</p></div></div> : <><div className="stat-review-filters" aria-label="Stat submission filters"><label>Status<select value={statStatusFilter} onChange={(event) => setStatStatusFilter(event.target.value as typeof statStatusFilter)}><option value="submitted">Needs review</option><option value="all">All statuses</option><option value="approved">Approved</option><option value="rejected">Denied</option></select></label><label>Type<select value={statCategoryFilter} onChange={(event) => setStatCategoryFilter(event.target.value)}><option value="all">All types</option><option value="public_server">Public Server</option><option value="public_linebattle">Linebattle event</option><option value="competitive">Competitive</option></select></label><label>Order<select value={statSort} onChange={(event) => setStatSort(event.target.value as typeof statSort)}><option value="oldest">Oldest first</option><option value="newest">Newest first</option></select></label><span className="stat-review-count">Showing {visibleStatSubmissions.length} of {statSubmissions.length}</span></div><div className="stat-review-list">{visibleStatSubmissions.length === 0 ? <div className="command-empty">No submissions match these filters.</div> : visibleStatSubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.event_name || statCategoryLabel(submission.category)}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Discord member'} · {statCategoryLabel(submission.category)} · {submission.stat_round?.length || 0} rounds</span><div className="stat-proof-links">{submission.stat_round?.flatMap((round) => (round.stat_proof ?? []).filter((proof) => !proof.deleted_at).map((proof) => { const url = statProofUrl(proof); return url ? <a key={proof.id} href={url} target="_blank" rel="noopener noreferrer">View round {round.round_number} proof</a> : null; }))}</div></div><small>{dateTime(submission.created_at)} · {submission.status}</small>{submission.status === 'submitted' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'rejected')}>Deny</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></> : <><span className="future-pill">{submission.status}</span><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></>}</article>)}</div></>}<div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
 
-      {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span></div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
+      {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span>{auditDetail(row.detail) && <small>{auditDetail(row.detail)}</small>}</div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
 
       {tab === 'weekly' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Homepage moderation</span><h2>Weekly Content Submissions</h2></div><span className="future-pill">{weeklySubmissions.filter((s) => s.status === 'pending').length} pending</span></div>{weeklySubmissions.length === 0 ? <div className="command-empty">No weekly content submissions yet.</div> : <div className="stat-review-list">{weeklySubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.title}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Member'} · {submission.provider} · <a href={submission.url} target="_blank" rel="noreferrer">Open link</a></span>{submission.description && <small>{submission.description}</small>}</div><small>{dateTime(submission.submitted_at)} · {submission.status}</small>{submission.status === 'pending' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'rejected')}>Deny</button></> : submission.status === 'approved' ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'archived')}>Archive</button> : <span className="future-pill">{submission.status}</span>}</article>)}</div>}</section>}
       {tab === 'settings' && <section className="command-card settings-shell"><div className="command-section-head"><div><span>System controls</span><h2>Settings</h2></div><FaCog /></div>{canUpload ? <div className="command-empty">Discord role mappings, scheduled sync and event defaults will live here as each integration is connected.</div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>You can see that Settings exists, but only admins can change system-wide controls.</p></div>}</section>}

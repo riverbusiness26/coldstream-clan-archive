@@ -18,9 +18,19 @@ import { compressImage, compressToDataUrl } from '../lib/image';
 import { demoGallery } from '../lib/demoGallery';
 
 const BUCKET = 'gallery';
-const MAX_BYTES = 5 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+const MAX_VIDEO_BYTES = 100 * 1024 * 1024;
 const OK_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const OK_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/quicktime'];
+const OK_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+const OK_VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov'];
 const SENT = 'Submitted. An admin checks it in and then it joins the wall.';
+
+const mimeForFile = (file: File) => {
+  if (file.type) return file.type;
+  const ext = file.name.split('.').pop()?.toLowerCase();
+  return ({ jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', mp4: 'video/mp4', webm: 'video/webm', mov: 'video/quicktime' } as Record<string, string>)[ext ?? ''] ?? 'application/octet-stream';
+};
 
 // The columns 0021 adds. Dropped together if the database has not got them.
 const EXTRAS = ['description', 'tags', 'collection', 'duration_seconds', 'captions_url'] as const;
@@ -33,6 +43,7 @@ export default function UploadDrawer({
   onUploaded: () => void;
 }) {
   const [mode, setMode] = useState<'image' | 'video'>('image');
+  const [videoSource, setVideoSource] = useState<'link' | 'upload'>('link');
   const [cat, setCat] = useState(CATEGORIES[0].slug);
   const [collection, setCollection] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
@@ -76,13 +87,22 @@ export default function UploadDrawer({
     setFormError(null);
     setDone(null);
     if (!f) { setFile(null); return; }
-    if (!OK_TYPES.includes(f.type)) {
-      setFormError('That file is not an image. JPG, PNG, WEBP and GIF work.');
+    const allowed = mode === 'video' ? OK_VIDEO_TYPES : OK_TYPES;
+    const extension = f.name.split('.').pop()?.toLowerCase() ?? '';
+    const allowedExtensions = mode === 'video' ? OK_VIDEO_EXTENSIONS : OK_EXTENSIONS;
+    // Some mobile browsers provide an empty or generic MIME type even when
+    // the filename is trustworthy. Accept a known extension in that case,
+    // while still rejecting unknown formats before they reach storage.
+    if (!allowed.includes(f.type) && !allowedExtensions.includes(extension)) {
+      setFormError(mode === 'video'
+        ? 'That video format is not supported. MP4, WebM and MOV work.'
+        : 'That file is not an image. JPG, PNG, WEBP and GIF work.');
       setFile(null);
       return;
     }
-    if (f.size > MAX_BYTES) {
-      setFormError(`That image is ${(f.size / 1048576).toFixed(1)} MB. The limit is 5 MB.`);
+    const limit = mode === 'video' ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+    if (f.size > limit) {
+      setFormError(`That ${mode} is ${(f.size / 1048576).toFixed(1)} MB. The limit is ${mode === 'video' ? '100 MB' : '10 MB'}.`);
       setFile(null);
       return;
     }
@@ -90,7 +110,7 @@ export default function UploadDrawer({
   }
 
   function clear() {
-    setFile(null); setVideoUrl(''); setCaption(''); setDescription('');
+    setFile(null); setVideoUrl(''); setVideoSource('link'); setCaption(''); setDescription('');
     setTags(''); setGame(''); setYear('');
   }
 
@@ -145,23 +165,69 @@ export default function UploadDrawer({
     setBusy(true);
     try {
       if (mode === 'video') {
-        const vid = youtubeId(videoUrl);
-        if (!vid) { setFormError('That does not look like a YouTube link. Paste the address from the browser bar.'); return; }
-        if (!supa) {
-          const res = demoGallery.add({
-            media_type: 'video', storage_key: null, video_id: vid, category_slug: cat,
-            caption: caption.trim() || null, game: game.trim() || null,
-            year: yr.value, width: null, height: null, ...extra,
-          }, me.display_name);
-          if (!res.ok) { setFormError(res.reason); return; }
+        if (videoSource === 'link') {
+          const raw = videoUrl.trim();
+          const vid = youtubeId(raw);
+          let external: string | null = null;
+          if (!vid) {
+            try {
+              const parsed = new URL(raw);
+              if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('protocol');
+              external = parsed.toString();
+            } catch {
+              setFormError('Paste a YouTube, stream, or direct video link.');
+              return;
+            }
+          }
+          if (!supa) {
+            const res = demoGallery.add({
+              media_type: 'video', storage_key: null, video_id: vid, external_url: external,
+              category_slug: cat, caption: caption.trim() || null, game: game.trim() || null,
+              year: yr.value, width: 16, height: 9, ...extra,
+            }, me.display_name);
+            if (!res.ok) { setFormError(res.reason); return; }
+          } else {
+            const { error, degraded } = await insert({
+              uploader_id: me.id, media_type: 'video', video_id: vid, external_url: external,
+              storage_key: null, category_id: catIds[cat] ?? null,
+              caption: caption.trim() || null, game: game.trim() || null, year: yr.value,
+            }, extra);
+            if (error) { setFormError(error); return; }
+            if (degraded) setDone(`${SENT} The description and tags were not saved: the database has not had 0021 run yet.`);
+          }
         } else {
-          const { error, degraded } = await insert({
-            uploader_id: me.id, media_type: 'video', video_id: vid, storage_key: null,
-            category_id: catIds[cat] ?? null, caption: caption.trim() || null,
-            game: game.trim() || null, year: yr.value,
-          }, extra);
-          if (error) { setFormError(error); return; }
-          if (degraded) setDone(`${SENT} The description and tags were not saved: the database has not had 0021 run yet.`);
+          if (!file) { setFormError('Choose a video first.'); return; }
+          if (!supa) {
+            const res = demoGallery.add({
+              media_type: 'video', storage_key: URL.createObjectURL(file), video_id: null,
+              external_url: null, category_slug: cat, caption: caption.trim() || null,
+              game: game.trim() || null, year: yr.value, width: 16, height: 9, ...extra,
+            }, me.display_name);
+            if (!res.ok) { setFormError(res.reason); return; }
+          } else {
+            const { data: { session } } = await supa.auth.getSession();
+            if (!session) { setFormError('Your Discord session expired. Sign in again, then retry the upload.'); return; }
+            const id = typeof crypto.randomUUID === 'function'
+              ? crypto.randomUUID()
+              : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+            const ext = file.name.split('.').pop()?.toLowerCase() || 'mp4';
+            const key = `${me.id}/${id}.${ext}`;
+            const up = await supa.storage.from(BUCKET).upload(key, file, {
+              cacheControl: '31536000', contentType: mimeForFile(file), upsert: false,
+            });
+            if (up.error) { setFormError(up.error.message); return; }
+            const { error, degraded } = await insert({
+              uploader_id: me.id, media_type: 'video', video_id: null, external_url: null,
+              storage_key: key, category_id: catIds[cat] ?? null,
+              caption: caption.trim() || null, game: game.trim() || null, year: yr.value,
+            }, extra);
+            if (error) {
+              await supa.storage.from(BUCKET).remove([key]);
+              setFormError(`The video reached storage, but its gallery record could not be saved: ${error}`);
+              return;
+            }
+            if (degraded) setDone(`${SENT} The description and tags were not saved: the database has not had 0021 run yet.`);
+          }
         }
       } else {
         if (!file) { setFormError('Choose an image first.'); return; }
@@ -234,9 +300,9 @@ export default function UploadDrawer({
         <div className="sheet-body">
           <div className="seg" role="group" aria-label="What kind of media">
             <button className={'segbtn' + (mode === 'image' ? ' on' : '')} aria-pressed={mode === 'image'}
-              onClick={() => { setMode('image'); setFormError(null); }}>Screenshot</button>
+              onClick={() => { setMode('image'); setFile(null); setFormError(null); }}>Screenshot</button>
             <button className={'segbtn' + (mode === 'video' ? ' on' : '')} aria-pressed={mode === 'video'}
-              onClick={() => { setMode('video'); setFormError(null); }}>Video</button>
+              onClick={() => { setMode('video'); setFile(null); setFormError(null); }}>Video</button>
           </div>
 
           <label className="flab" htmlFor="up-cat">Which game</label>
@@ -254,17 +320,30 @@ export default function UploadDrawer({
 
           {mode === 'video' ? (
             <>
+              <div className="seg" role="group" aria-label="Video source">
+                <button className={'segbtn' + (videoSource === 'link' ? ' on' : '')} aria-pressed={videoSource === 'link'}
+                  onClick={() => { setVideoSource('link'); setFile(null); setFormError(null); }}>Link</button>
+                <button className={'segbtn' + (videoSource === 'upload' ? ' on' : '')} aria-pressed={videoSource === 'upload'}
+                  onClick={() => { setVideoSource('upload'); setVideoUrl(''); setFormError(null); }}>Upload video</button>
+              </div>
+              {videoSource === 'link' ? <>
               <label className="flab" htmlFor="up-url">The link</label>
-              <input id="up-url" className="inp" placeholder="Paste a YouTube link"
+              <input id="up-url" className="inp" placeholder="Paste a YouTube, stream, or direct video link"
                 value={videoUrl} onChange={(e) => { setVideoUrl(e.target.value); setFormError(null); }} />
-              <p className="fhint">Films stay on YouTube and the site gathers them. Nothing is copied off it.</p>
+              <p className="fhint">Links stay on their host and are reviewed before they appear.</p>
+              </> : <>
+              <label className="flab" htmlFor="up-video-file">The video</label>
+              <input id="up-video-file" className="inp" type="file" accept="video/mp4,video/webm,video/quicktime"
+                onChange={(e) => pick(e.target.files?.[0] ?? null)} />
+              <p className="fhint">MP4, WebM or MOV, up to 100 MB. Direct uploads stay hidden until approved.</p>
+              </>}
             </>
           ) : (
             <>
               <label className="flab" htmlFor="up-file">The image</label>
               <input id="up-file" className="inp" type="file" accept="image/*"
                 onChange={(e) => pick(e.target.files?.[0] ?? null)} />
-              <p className="fhint">JPG, PNG, WEBP or GIF, up to 5 MB. It is resized here before it is sent.</p>
+              <p className="fhint">JPG, PNG, WEBP or GIF, up to 10 MB. It is resized here before it is sent.</p>
             </>
           )}
 
@@ -301,7 +380,7 @@ export default function UploadDrawer({
           <div className="sheet-acts">
             <button className="btn sm" onClick={onClose}>{done ? 'Close' : 'Cancel'}</button>
             <button className="btn primary sm" onClick={submit}
-              disabled={busy || (mode === 'image' ? !file : !videoUrl.trim())}>
+              disabled={busy || (mode === 'image' ? !file : videoSource === 'link' ? !videoUrl.trim() : !file)}>
               {busy ? (mode === 'video' ? 'Submitting' : 'Uploading') : (mode === 'video' ? 'Submit video' : 'Upload')}
             </button>
           </div>

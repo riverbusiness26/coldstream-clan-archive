@@ -149,7 +149,6 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
   }
 
   const loading = items === null;
-  const years = new Set((items ?? []).map((m) => m.year).filter(Boolean));
   const films = (items ?? []).filter((m) => m.type === 'video').length;
 
   // Memoised so the callback MediaGrid builds from them keeps its identity,
@@ -205,7 +204,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
                 {facets.search.trim() ? ` for "${facets.search.trim()}"` : ''}
               </span>
               <div className="gallery-actions">
-                {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button> : <DiscordButton me={me} signIn={signIn} />}
+                {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit media</button> : <DiscordButton me={me} signIn={signIn} />}
               </div>
             </div>
             {results.length === 0 ? (
@@ -245,7 +244,7 @@ export default function Gallery({ me, signIn }: { me: Me | null; signIn: () => v
               <h2>Gallery</h2>
               <span className="sub">{results.length} items</span>
               <div className="gallery-actions">
-                {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit a screenshot</button> : <DiscordButton me={me} signIn={signIn} />}
+                {me ? <button className="btn primary" onClick={() => setDrawer(true)}>Submit media</button> : <DiscordButton me={me} signIn={signIn} />}
               </div>
             </div>
             {results.length === 0 ? <div className="empty"><p className="empty-h">Nothing on the wall yet.</p></div> : <>

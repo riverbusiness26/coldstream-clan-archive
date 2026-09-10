@@ -153,7 +153,7 @@ export default function Roster() {
                   <Fragment key={key}>
                     <tr>
                       <td>
-                        <a className="rname plink" href={'#/member/' + encodeURIComponent(p.key)}>{p.name}</a>
+                        <span className="rname">{p.name}</span>
                         {p.aka.length > 0 && (
                           <div className="raka">also on the record as {p.aka.join(', ')}</div>
                         )}

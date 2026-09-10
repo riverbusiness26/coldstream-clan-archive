@@ -61,13 +61,11 @@ export default function MediaToolbar({
 
   const byCollection = countBy(scope, (m) => m.collection);
   const byCategory = countBy(scope, (m) => m.category);
-  const byYear = countBy(scope, (m) => (m.year ? String(m.year) : null));
   const films = scope.filter((m) => m.type === 'video').length;
   const photos = scope.length - films;
 
   const collections = COLLECTIONS.filter((c) => byCollection.get(c.slug));
   const categories = BROWSE_CATEGORIES.filter((c) => byCategory.get(c.slug));
-  const years = [...byYear.keys()].sort();
   const sorts = SORTS.filter((s) => s.key !== 'views' || showViews);
 
   return (
@@ -142,15 +140,6 @@ export default function MediaToolbar({
         </ChipRow>
       )}
 
-      {years.length > 1 && (
-        <ChipRow label="Year">
-          <Chip on={value.year === 'all'} onClick={() => set({ year: 'all' })}>Any year</Chip>
-          {years.map((y) => (
-            <Chip key={y} on={value.year === y} onClick={() => set({ year: y })}
-              count={byYear.get(y)}>{y}</Chip>
-          ))}
-        </ChipRow>
-      )}
 
       {value.category !== 'all' && (
         <p className="note">{categoryBySlug(value.category)?.description}</p>

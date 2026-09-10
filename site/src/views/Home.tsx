@@ -15,10 +15,11 @@ import {
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
-import EventTypeIcon from '../components/EventTypeIcon';
+import EventTypeIcon, { eventTypeSlug } from '../components/EventTypeIcon';
 import { supa } from '../lib/supa';
 import gallerySeed from '../seed/gallery.json';
 import { youtubeId, youtubeThumb } from '../lib/gallery';
+import { displayStat, EMPTY_COMBAT_STATS, loadCombatStats, type CombatStats } from '../lib/combatStats';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/2ndColdstreamOfficial';
@@ -147,7 +148,7 @@ export function AccountStrip({ me, signIn, signOut }: { me: Me | null; signIn: (
     <div className="cg-account-strip" aria-label="Member account">
       {me ? <>
         <span className="cg-account-member"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><span>Signed in as <b>{me.display_name}</b></span></span>
-        <a href="#/player-profile">My profile</a>
+        <a href="#/profile">My profile</a>
         {(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}
         <button type="button" onClick={signOut}>Sign out</button>
       </> : <button type="button" onClick={signIn}>Sign in through Discord</button>}
@@ -188,6 +189,16 @@ interface HomeEvent {
   event_type?: string | null;
 }
 
+interface TopPlayer {
+  member_id: string;
+  name: string;
+  discord_id: string | null;
+  kills: number;
+  mvps: number;
+  top5: number;
+  kdr: number;
+}
+
 const PERIODS = ['Day', 'Week', 'Month'] as const;
 const MODES = ['Public Play', 'Events', 'Competitive'] as const;
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -196,14 +207,34 @@ function localDateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+function countdownLabel(startsAt: string, now = Date.now()) {
+  const minutes = Math.max(0, Math.round((new Date(startsAt).getTime() - now) / 60_000));
+  if (minutes < 60) return `in ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  const remaining = minutes % 60;
+  if (hours < 24) return `in ${hours}h${remaining ? ` ${remaining}m` : ''}`;
+  const days = Math.floor(hours / 24);
+  return `in ${days}d${hours % 24 ? ` ${hours % 24}h` : ''}`;
+}
+
 export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void }) {
-  const now = new Date();
+  const [clock, setClock] = useState(() => Date.now());
+  const now = new Date(clock);
   const [period, setPeriod] = useState<typeof PERIODS[number]>('Month');
   const [monthCursor, setMonthCursor] = useState(new Date(now.getFullYear(), now.getMonth(), 1));
   const [events, setEvents] = useState<HomeEvent[]>([]);
   const [eventsLoading, setEventsLoading] = useState(true);
   const [eventsError, setEventsError] = useState(false);
   const [weekly, setWeekly] = useState<WeeklyFeature[]>([]);
+  const [homeStats, setHomeStats] = useState<CombatStats>(EMPTY_COMBAT_STATS);
+  const [topPlayers, setTopPlayers] = useState<TopPlayer[]>([]);
+  const [homeRank, setHomeRank] = useState('Not assigned');
+  const [homeDetachment, setHomeDetachment] = useState('Not assigned');
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setClock(Date.now()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (!supa) { setEventsLoading(false); return; }
@@ -230,6 +261,48 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
 
   const loadWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? []))); };
   useEffect(() => { loadWeekly(); }, []);
+  useEffect(() => {
+    if (!supa || !me) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not assigned'); setHomeDetachment('Not assigned'); return; }
+    const db = supa;
+    let cancelled = false;
+    void Promise.all([
+      loadCombatStats(db, me.id, period),
+      db.from('personnel_assignment').select('item_id,item_kind,assigned_at').eq('member_id', me.id).is('removed_at', null).order('assigned_at', { ascending: false }),
+      db.from('personnel_item').select('id,name,kind'),
+      db.from('member').select('company_id').eq('id', me.id).maybeSingle(),
+    ]).then(async ([stats, assignments, items, member]) => {
+      if (cancelled) return;
+      setHomeStats(stats);
+      const itemMap = new Map((items.data ?? []).map((item: any) => [item.id, item]));
+      const rank = (assignments.data ?? []).find((row: any) => row.item_kind === 'rank');
+      setHomeRank(rank ? itemMap.get(rank.item_id)?.name ?? 'Assigned rank' : 'Not assigned');
+      const companyId = member.data?.company_id as string | null | undefined;
+      if (companyId) {
+        const company = await db.from('company').select('name').eq('id', companyId).maybeSingle();
+        if (!cancelled) setHomeDetachment(company.data?.name ?? 'Assigned detachment');
+      } else setHomeDetachment('Not assigned');
+    }).catch(() => { if (!cancelled) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not assigned'); setHomeDetachment('Not assigned'); } });
+    return () => { cancelled = true; };
+  }, [me, period]);
+  useEffect(() => {
+    if (!supa) { setTopPlayers([]); return; }
+    let cancelled = false;
+    void Promise.all([
+      supa.from('stat_leaderboard').select('member_id,kills,deaths,mvps,top5,kdr'),
+      supa.from('member').select('id,display_name,discord_id'),
+    ]).then(([stats, members]) => {
+      if (cancelled) return;
+      const memberMap = new Map((members.data ?? []).map((row: any) => [row.id, row]));
+      const totals = new Map<string, { member_id: string; kills: number; deaths: number; mvps: number; top5: number }>();
+      for (const row of (stats.data ?? []) as any[]) {
+        const current = totals.get(row.member_id) ?? { member_id: row.member_id, kills: 0, deaths: 0, mvps: 0, top5: 0 };
+        current.kills += Number(row.kills) || 0; current.deaths += Number(row.deaths) || 0; current.mvps += Number(row.mvps) || 0; current.top5 += Number(row.top5) || 0;
+        totals.set(row.member_id, current);
+      }
+      setTopPlayers([...totals.values()].sort((a, b) => b.kills - a.kills || (b.deaths ? b.kills / b.deaths : b.kills) - (a.deaths ? a.kills / a.deaths : a.kills) || b.top5 - a.top5 || b.mvps - a.mvps).slice(0, 3).map((row) => ({ ...row, kdr: row.deaths ? row.kills / row.deaths : row.kills, name: memberMap.get(row.member_id)?.display_name ?? 'Discord member', discord_id: memberMap.get(row.member_id)?.discord_id ?? null })));
+    });
+    return () => { cancelled = true; };
+  }, []);
 
   const monthLabel = monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
   const firstOffset = (new Date(monthCursor.getFullYear(), monthCursor.getMonth(), 1).getDay() + 6) % 7;
@@ -239,8 +312,12 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
     (byDay[key] ||= []).push(event);
     return byDay;
   }, {});
-  const nextThree = events.filter((event) => new Date(event.starts_at).getTime() >= Date.now()).slice(0, 3);
+  const nextThree = events.filter((event) => new Date(event.starts_at).getTime() >= clock).slice(0, 3);
   const nextEvent = nextThree[0] ?? null;
+  const activityItems = [
+    ...nextThree.map((event) => ({ label: 'Upcoming event', title: event.title, detail: `${countdownLabel(event.starts_at, clock)} · ${event.game || 'Community event'}`, kind: 'Event' })),
+    ...weekly.slice(0, 2).map((feature) => ({ label: 'Weekly feature', title: feature.title, detail: 'Approved feature currently in rotation', kind: 'Weekly' })),
+  ].slice(0, 4);
 
   return (
     <div className="cg-home hub-home">
@@ -250,16 +327,16 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
       <main className="hub-main">
         <section className="hub-status" aria-label="Coldstream status">
           <div className="hub-status-member"><DiscordAvatar url={me?.avatar_url ?? null} name={me?.display_name ?? 'Guest'} /><div><span className="cg-eyebrow">{me ? 'Member headquarters' : 'Coldstream Gaming'}</span><strong>{me?.display_name ?? 'Welcome to Coldstream'}</strong><small>{me ? 'Volunteer · Line Infantry' : 'Sign in with Discord to open your member hub'}</small></div></div>
-          <div className="hub-status-next">{nextEvent ? <><span className="cg-eyebrow">Next on the calendar</span><strong>{nextEvent.title}</strong><small>{new Date(nextEvent.starts_at).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })} · Duration {nextEvent.duration_minutes} minutes</small></> : <><strong>No events on the calendar</strong><a href="#/events">Open Events</a></>}</div>
+          <div className="hub-status-next">{nextEvent ? <><span className="cg-eyebrow">Next on the calendar</span><strong>{nextEvent.title}</strong><small><time dateTime={nextEvent.starts_at}>{new Date(nextEvent.starts_at).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</time> · {countdownLabel(nextEvent.starts_at, clock)} · Duration {nextEvent.duration_minutes} minutes</small></> : <><strong>No events on the calendar</strong><a href="#/events">Open Events</a></>}</div>
         </section>
 
-        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">The week</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Week of {now.toLocaleDateString(undefined, { month: 'long' })}</span></header><div className="hub-weekly-grid"><div className="hub-weekly-media"><HomeFilm controls mode="normal" weekly={weekly} /><a className="hub-archive-link" href="#/gallery">Previous features <Icon name="arrow" /></a></div><aside className="hub-rail" aria-label="Weekly highlights"><article className="hub-rail-card"><p className="cg-eyebrow">Featured member</p><strong>Staff feature not set</strong><span>It will appear here when selected by staff.</span></article><article className="hub-rail-card"><p className="cg-eyebrow">Top player of the week</p><strong>Data will appear after approval</strong><span>Overall results across approved submissions.</span><div className="hub-rail-metrics"><span><b>—</b>Kills</span><span><b>—</b>K/D</span><span><b>—</b>MVPs</span></div></article><div className="hub-pulse" aria-label="Weekly activity"><span><b>{weekly.length}</b> approved features</span><span><b>{nextThree.length}</b> events this week</span><span><b>Mon 12 AM</b> resets CT</span></div><article className="hub-rail-card hub-rail-submit"><p className="cg-eyebrow">Get featured</p><WeeklyUpload me={me} onSubmitted={loadWeekly} /></article></aside></div><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">Upcoming events</p></div><a className="hub-open-events" href="#/events">Full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); return <article key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { weekday: 'short' })}</span></time><div><h3>{event.title}</h3><p>{starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.game || 'Community event'} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind">{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">The week</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Week of {now.toLocaleDateString(undefined, { month: 'long' })}</span></header><div className="hub-weekly-grid"><div className="hub-weekly-media"><HomeFilm controls mode="normal" weekly={weekly} /><a className="hub-archive-link" href="#/gallery">Previous features <Icon name="arrow" /></a></div><aside className="hub-rail" aria-label="Weekly highlights"><article className="hub-rail-card"><p className="cg-eyebrow">Featured member</p><strong>Staff feature not set</strong><span>It will appear here when selected by staff.</span></article><article className="hub-rail-card"><p className="cg-eyebrow">Top player of the week</p><strong>Data will appear after approval</strong><span>Overall results across approved submissions.</span><div className="hub-rail-metrics"><span><b>—</b>Kills</span><span><b>—</b>K/D</span><span><b>—</b>MVPs</span></div></article><div className="hub-pulse" aria-label="Weekly activity"><span><b>{weekly.length}</b> approved features</span><span><b>{nextThree.length}</b> events this week</span><span><b>Mon 12 AM</b> resets CT</span></div><article className="hub-rail-card hub-rail-submit"><p className="cg-eyebrow">Get featured</p><WeeklyUpload me={me} onSubmitted={loadWeekly} /></article></aside></div><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">Upcoming events</p></div><a className="hub-open-events" href="#/events">Full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); const type = eventTypeSlug(event.event_type); return <article className={`event-kind-${type}`} key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { weekday: 'short' })}</span></time><div><h3>{event.title}</h3><p>{starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.game || 'Community event'} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind"><EventTypeIcon type={event.event_type} />{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
 
-        <section className="hub-hero-stats hub-personal" aria-labelledby="hero-statistics-title"><header><div><p className="cg-eyebrow">For the member signed in</p><h2 id="hero-statistics-title">Your Statistics</h2></div>{me && <div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div>}</header>{me ? <div className="hub-quick-stats"><div className="hub-stat-person"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><strong>{me.display_name}</strong></div><div><b>Not recorded</b><small>Kills</small></div><div><b>Not recorded</b><small>K/D</small></div><div><b>Not recorded</b><small>MVPs</small></div><div><b>Not recorded</b><small>Top 5s</small></div><div><b>Not recorded</b><small>Attendance</small></div><div><b>Volunteer</b><small>Rank</small></div><div><b>Line Infantry</b><small>Detachment</small></div></div> : <div className="hub-quick-signin"><span>Sign in with Discord to see your kills, K/D, MVPs, Top 5s, attendance, rank and detachment.</span><button type="button" onClick={signIn}>Sign in</button></div>}</section>
+        <section className="hub-hero-stats hub-personal" aria-labelledby="hero-statistics-title"><header><div><p className="cg-eyebrow">For the member signed in</p><h2 id="hero-statistics-title">Your Statistics</h2></div>{me && <div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div>}</header>{me ? <div className="hub-quick-stats"><div className="hub-stat-person"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><strong>{me.display_name}</strong></div><div><b>{displayStat(homeStats.kills)}</b><small>Kills</small></div><div><b>{displayStat(homeStats.kdr, homeStats.kdr === null ? '' : '×')}</b><small>K/D</small></div><div><b>{displayStat(homeStats.mvps)}</b><small>MVPs</small></div><div><b>{displayStat(homeStats.top5)}</b><small>Top 5s</small></div><div><b>{displayStat(homeStats.attendancePercent, homeStats.attendancePercent === null ? '' : '%')}</b><small>Attendance</small></div><div><b>{homeRank}</b><small>Rank</small></div><div><b>{homeDetachment}</b><small>Detachment</small></div></div> : <div className="hub-quick-signin"><span>Sign in with Discord to see your kills, K/D, MVPs, Top 5s, attendance, rank and detachment.</span><button type="button" onClick={signIn}>Sign in</button></div>}</section>
 
-        <nav className="hub-quick-actions" aria-label="Member shortcuts"><span className="cg-eyebrow">Quick access</span><a href="#/events"><Icon name="calendar" />View events</a><a href="#/leaderboard"><Icon name="timeline" />Leaderboard</a><a href="#/gallery"><Icon name="youtube" />Gallery</a>{me ? <a href="#/player-profile"><Icon name="shield" />My profile</a> : <button type="button" onClick={signIn}><Icon name="discord" />Sign in with Discord</button>}{me && (me.role === 'moderator' || me.role === 'admin') && <a className="hub-staff-action" href="#/admin"><Icon name="shield" />Staff command panel</a>}</nav>
+        <nav className="hub-quick-actions" aria-label="Member shortcuts"><span className="cg-eyebrow">Quick access</span><a href="#/events"><Icon name="calendar" />View events</a><a href="#/leaderboard"><Icon name="timeline" />Leaderboard</a><a href="#/gallery"><Icon name="youtube" />Gallery</a>{me ? <a href="#/profile"><Icon name="shield" />My profile</a> : <button type="button" onClick={signIn}><Icon name="discord" />Sign in with Discord</button>}{me && (me.role === 'moderator' || me.role === 'admin') && <a className="hub-staff-action" href="#/admin"><Icon name="shield" />Staff command panel</a>}</nav>
 
-        <section className="hub-community-grid"><article className="hub-leaderboard" aria-labelledby="hub-leaderboard-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Top players</p><h2 id="hub-leaderboard-title">Leaderboard</h2></div><a className="hub-open-events" href="#/leaderboard">View full leaderboard <Icon name="arrow" /></a></header><p className="hub-empty">Leaderboard results will appear here as approved stat submissions arrive.</p></article><article className="hub-activity" aria-labelledby="hub-activity-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Live from the community</p><h2 id="hub-activity-title">Recent activity</h2></div><a className="hub-open-events" href="#/events">View events <Icon name="arrow" /></a></header><p className="hub-empty">Rank changes, completed events, featured clips and new members will appear here.</p></article></section>
+        <section className="hub-community-grid"><article className="hub-leaderboard" aria-labelledby="hub-leaderboard-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Top players</p><h2 id="hub-leaderboard-title">Leaderboard</h2></div><a className="hub-open-events" href="#/leaderboard">View full leaderboard <Icon name="arrow" /></a></header>{topPlayers.length === 0 ? <p className="hub-empty">Leaderboard results will appear here as approved stat submissions arrive.</p> : <div className="hub-top-players">{topPlayers.map((player, index) => player.discord_id && me?.id === player.member_id ? <a className={`hub-top-player place-${index + 1}`} href="#/profile" key={player.member_id}><span className="hub-top-badge" aria-hidden="true" /><strong>{player.name}</strong><small>{player.kills} kills · {player.kdr.toFixed(2)} K/D · {player.mvps} MVPs · {player.top5} Top 5s</small></a> : <div className={`hub-top-player place-${index + 1}`} key={player.member_id}><span className="hub-top-badge" aria-hidden="true" /><strong>{player.name}</strong><small>{player.kills} kills · {player.kdr.toFixed(2)} K/D · {player.mvps} MVPs · {player.top5} Top 5s</small></div>)}</div>}</article><article className="hub-activity" aria-labelledby="hub-activity-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Live from the community</p><h2 id="hub-activity-title">Recent activity</h2></div><a className="hub-open-events" href="#/events">View events <Icon name="arrow" /></a></header>{activityItems.length === 0 ? <p className="hub-empty">Activity will appear here as events are scheduled and weekly features are approved.</p> : <div className="hub-activity-list">{activityItems.map((item, index) => <article key={`${item.kind}-${item.title}-${index}`}><span>{item.label}</span><strong>{item.title}</strong><small>{item.detail}</small><em>{item.kind}</em></article>)}</div>}</article></section>
 
       </main>
       <SiteFooter />

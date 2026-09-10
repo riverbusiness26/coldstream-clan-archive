@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Me } from '../lib/auth';
 import { Icon } from './Home';
 import DiscordAvatar from '../components/DiscordAvatar';
 import DetachmentEmblem from '../components/DetachmentEmblem';
-import { beginSteamLink, clearSteamAssertion, completeSteamLink, pendingSteamAssertion, unlinkSteam } from '../lib/steamLink';
 import { supa } from '../lib/supa';
+import { displayStat, EMPTY_COMBAT_STATS, loadCombatStats, type CombatStats } from '../lib/combatStats';
 
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem {
@@ -29,53 +29,21 @@ interface Detachment {
   emblem_storage_key: string | null;
 }
 
-const EVENT_STATS = [
-  ['Events attended', 'Pending', 'Recorded events'],
-  ['Kills', 'Pending', 'Confirmed combat record'],
-  ['Deaths', 'Pending', 'Confirmed combat record'],
-  ['K/D ratio', 'Pending', 'Calculated automatically'],
-  ['Best event', 'Pending', 'Highest confirmed kills'],
-  ['Last event', 'Pending', 'Waiting for first record'],
-] as const;
-
-export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | null; signIn: () => void; refresh: () => void }) {
+export default function PlayerProfileMock({ me, signIn }: { me: Me | null; signIn: () => void; refresh?: () => void }) {
   const connected = Boolean(me);
   const [items, setItems] = useState<PersonnelItem[]>([]);
   const [assignments, setAssignments] = useState<PersonnelAssignment[]>([]);
   const [detachment, setDetachment] = useState<Detachment | null>(null);
   const [recordLoading, setRecordLoading] = useState(false);
   const [recordError, setRecordError] = useState<string | null>(null);
-
-  const [steamBusy, setSteamBusy] = useState(false);
-  const [steamMsg, setSteamMsg] = useState<{ ok: boolean; text: string } | null>(null);
-
-  // Finishing a link the member started before they left for Steam.
-  //
-  // Held until `me` has loaded rather than run on mount, because the member
-  // row is what the function writes to and it arrives a moment after the page
-  // does. The ref is what keeps this to one attempt: `me` changing from null
-  // to a member is a second render, and Steam refuses a replayed assertion,
-  // so without it a successful link reports itself as a failure straight after.
-  const handled = useRef(false);
-  useEffect(() => {
-    if (handled.current || !me) return;
-    const params = pendingSteamAssertion();
-    if (!params) return;
-    handled.current = true;
-    clearSteamAssertion();
-    setSteamBusy(true);
-    completeSteamLink(params).then((result) => {
-      setSteamBusy(false);
-      setSteamMsg({ ok: result.ok, text: result.ok ? 'Steam account linked.' : (result.error ?? 'That did not work.') });
-      if (result.ok) refresh();
-    });
-  }, [me, refresh]);
+  const [combatStats, setCombatStats] = useState<CombatStats>(EMPTY_COMBAT_STATS);
 
   useEffect(() => {
     if (!supa || !me) {
       setItems([]);
       setAssignments([]);
       setDetachment(null);
+      setCombatStats(EMPTY_COMBAT_STATS);
       setRecordLoading(false);
       setRecordError(null);
       return;
@@ -86,7 +54,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
     const loadRecord = async () => {
       setRecordLoading(true);
       setRecordError(null);
-      const [itemResult, assignmentResult, memberResult] = await Promise.all([
+      const [itemResult, assignmentResult, memberResult, statsResult] = await Promise.all([
         db.from('personnel_item')
           .select('id,kind,name,description,storage_key,active,sort_order')
           .order('kind').order('sort_order').order('name'),
@@ -95,6 +63,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
           .eq('member_id', me.id).is('removed_at', null)
           .order('assigned_at', { ascending: false }),
         db.from('member').select('company_id').eq('id', me.id).maybeSingle(),
+        loadCombatStats(db, me.id).catch(() => EMPTY_COMBAT_STATS),
       ]);
       if (cancelled) return;
       const firstError = itemResult.error || assignmentResult.error || memberResult.error;
@@ -105,6 +74,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
       }
       setItems((itemResult.data ?? []) as PersonnelItem[]);
       setAssignments((assignmentResult.data ?? []) as PersonnelAssignment[]);
+      setCombatStats(statsResult);
 
       const companyId = memberResult.data?.company_id as string | null | undefined;
       if (companyId) {
@@ -138,14 +108,6 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
     : supa.storage.from('personnel-artwork').getPublicUrl(detachment.emblem_storage_key).data.publicUrl;
   const assignedDate = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 
-  async function unlink() {
-    setSteamBusy(true);
-    const result = await unlinkSteam();
-    setSteamBusy(false);
-    setSteamMsg({ ok: result.ok, text: result.ok ? 'Steam account unlinked.' : (result.error ?? 'That did not work.') });
-    if (result.ok) refresh();
-  }
-
   return (
     <main className="player-portal" aria-labelledby="player-portal-title">
       <section className="portal-account">
@@ -173,19 +135,7 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
           <div className="portal-field"><b>Display name</b><span>{connected ? me!.display_name : 'Imported from Discord'}</span><button type="button" disabled>Edit later</button></div>
           <div className="portal-field avatar-field"><b>Profile picture</b><span>{connected ? 'Synced from your Discord account' : 'Available after Discord sign in'}</span></div>
 
-          <div className="portal-field">
-            <b>Steam account</b>
-            <span>{me?.steam_id64
-              ? 'Linked. Your Steam presence and game statistics can find this record.'
-              : 'Optional. Link it and your Steam presence and game statistics attach to this record.'}</span>
-            {connected
-              ? me!.steam_id64
-                ? <button type="button" onClick={unlink} disabled={steamBusy}>{steamBusy ? 'Working' : 'Unlink'}</button>
-                : <button type="button" onClick={beginSteamLink} disabled={steamBusy}>{steamBusy ? 'Working' : 'Link Steam'}</button>
-              : <button type="button" disabled>Sign in first</button>}
-          </div>
-          {steamMsg && <p className={steamMsg.ok ? 'portal-empty' : 'ferr'}>{steamMsg.text}</p>}
-          <p className="portal-empty">Signing in is Discord only. Steam is a link on this record, never a way in.</p>
+          <p className="portal-empty">Your profile is managed through Discord. We are not asking members to link a separate gaming account.</p>
         </section>
 
         <section className="portal-panel portal-rank" aria-labelledby="rank-title">
@@ -235,7 +185,16 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
       <section className="portal-stats" aria-labelledby="stats-title">
         <header><div><span>Event record</span><h2 id="stats-title">Combat statistics</h2></div><small><i />Updates after confirmed events</small></header>
         <div className="portal-stat-grid">
-          {EVENT_STATS.map(([label, value, note]) => <article key={label}><span>{label}</span><b>{value}</b><small>{note}</small></article>)}
+          {[
+            ['Events attended', displayStat(combatStats.eventsAttended), 'Confirmed attendance'],
+            ['Kills', displayStat(combatStats.kills), 'Approved stat submissions'],
+            ['Deaths', displayStat(combatStats.deaths), 'Approved stat submissions'],
+            ['K/D ratio', displayStat(combatStats.kdr, combatStats.kdr === null ? '' : '×'), 'Calculated automatically'],
+            ['MVPs', displayStat(combatStats.mvps), 'Top of the scoreboard'],
+            ['Top 5s', displayStat(combatStats.top5), 'Approved round results'],
+            ['Attendance', displayStat(combatStats.attendancePercent, combatStats.attendancePercent === null ? '' : '%'), 'Confirmed RSVP record'],
+            ['Voice hours', displayStat(combatStats.attendanceHours, combatStats.attendanceHours === null ? '' : 'h'), 'Discord presence samples'],
+          ].map(([label, value, note]) => <article key={label}><span>{label}</span><b>{value}</b><small>{note}</small></article>)}
         </div>
         <div className="game-night-record">
           <div><h3>Game-night activity</h3><p>Attendance, game, session length and results will appear here after the first recorded night.</p></div>
@@ -244,11 +203,11 @@ export default function PlayerProfileMock({ me, signIn, refresh }: { me: Me | nu
       </section>
 
       <section className="portal-tracking" aria-labelledby="tracking-title">
-        <header><div><span>Holdfast activity</span><h2 id="tracking-title">Public play tracking</h2></div><span className="tracking-status">Planned integration</span></header>
+        <header><div><span>Record provenance</span><h2 id="tracking-title">How your record is built</h2></div><span className="tracking-status">Discord controlled</span></header>
         <div className="tracking-grid">
-          <article><b>Coldstream servers</b><p>Full event and public-play records can be matched to a member through their Steam ID.</p><span>Kills, deaths, score, map, round and time played</span></article>
-          <article><b>Partner servers</b><p>Records can be included when the server owner runs our tracker or shares a compatible score log.</p><span>Requires permission from the server owner</span></article>
-          <article className="tracking-limited"><b>Other public servers</b><p>Holdfast does not provide a global public record we can query for every server.</p><span>Not available without server-side access</span></article>
+          <article><b>Confirmed events</b><p>Attendance and event results come from the Coldstream calendar, RSVP record and staff review.</p><span>Events attended, kills, deaths, MVPs and Top 5s</span></article>
+          <article><b>Voice presence</b><p>Attendance hours are calculated only from Discord voice-presence samples, with AFK channels excluded.</p><span>Two-minute samples · early and late grace windows</span></article>
+          <article className="tracking-limited"><b>Staff assignments</b><p>Rank, detachment and medals are assigned in the Command Board and remain visible in your service record.</p><span>Every change is recorded in the audit log</span></article>
         </div>
       </section>
     </main>

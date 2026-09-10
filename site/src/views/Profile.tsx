@@ -10,6 +10,8 @@ import { yearsWithUs, GAME_NAMES } from '../lib/data';
 import { asset } from '../lib/asset';
 import { supa } from '../lib/supa';
 import ProfileLive from '../components/ProfileLive';
+import DiscordAvatar from '../components/DiscordAvatar';
+import { displayStat, EMPTY_COMBAT_STATS, loadCombatStats, type CombatStats } from '../lib/combatStats';
 import type { Me } from '../lib/auth';
 
 interface Person {
@@ -22,6 +24,7 @@ interface Entry {
 }
 interface Shot { src: string; w: number; h: number; caption: string; date: string | null; year: number | null; game: string; who: string[] }
 interface Stats { forumPosts: number; announcements: number; shots: number[] }
+interface LinkedMember { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null }
 
 const PEOPLE = (rosterSeed as { people: Person[] }).people;
 const ENTRIES = (rosterSeed as { entries: Entry[] }).entries;
@@ -40,6 +43,8 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
   const steamId = person?.steam_id64 ?? bySteam;
   const [live, setLive] = useState<{ persona_name: string | null; avatar_url: string | null; persona_state: number; game: string | null; visible: boolean } | null>(null);
   const [memberId, setMemberId] = useState<string | null>(null);
+  const [linkedMember, setLinkedMember] = useState<LinkedMember | null>(null);
+  const [linkedMemberLoading, setLinkedMemberLoading] = useState(false);
   useEffect(() => {
     if (!supa || !steamId) return;
     supa.from('steam_presence')
@@ -55,6 +60,18 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
       .maybeSingle()
       .then(({ data }) => setMemberId((data?.id as string) ?? null));
   }, [steamId]);
+  const isMemberId = /^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(personKey);
+  useEffect(() => {
+    if (!supa || !isMemberId) return;
+    let cancelled = false;
+    setLinkedMemberLoading(true);
+    supa.from('member').select('id,display_name,avatar_url,discord_id,role,company_id').eq('id', personKey).maybeSingle().then(({ data }) => {
+      if (cancelled) return;
+      setLinkedMember((data as LinkedMember | null) ?? null);
+      setLinkedMemberLoading(false);
+    });
+    return () => { cancelled = true; };
+  }, [isMemberId, personKey]);
   const records = useMemo(
     () => ENTRIES.filter((e) => e.person_key === personKey)
       .sort((a, b) => (a.year ?? 9999) - (b.year ?? 9999)),
@@ -114,6 +131,8 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
   }
 
   if (!person) {
+    if (isMemberId && linkedMemberLoading) return <div className="wrap solo"><main><div className="module"><div className="note">Opening this member profile.</div></div></main></div>;
+    if (linkedMember?.discord_id) return <LinkedMemberProfile member={linkedMember} me={me} go={go} />;
     return (
       <div className="wrap solo"><main><div className="module">
         <div className="mhead"><h3>Member not found</h3></div>
@@ -203,4 +222,22 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
       </main>
     </div>
   );
+}
+
+function LinkedMemberProfile({ member, me, go }: { member: LinkedMember; me: Me | null; go: (v: string) => void }) {
+  const [stats, setStats] = useState<CombatStats>(EMPTY_COMBAT_STATS);
+  useEffect(() => {
+    if (!supa) return;
+    void loadCombatStats(supa, member.id).then(setStats);
+  }, [member.id]);
+  return <div className="wrap solo"><main>
+    <div className="crumbs"><button className="lnk" onClick={() => go('leaderboard')}>Leaderboard</button><span> › </span><span className="here">{member.display_name}</span></div>
+    <div className="module">
+      <div className="mhead"><h3>{member.display_name}</h3><span className="sub">Discord-linked member</span></div>
+      <div className="prof-head"><div className="prof-id"><DiscordAvatar url={member.avatar_url} name={member.display_name} className="prof-avi" /><div className="prof-title">{member.role === 'admin' ? 'Admin' : member.role === 'moderator' ? 'Moderator' : 'Member'}</div><div className="meta">Rank and detachment are assigned by staff.</div></div>
+        <div className="stats prof-stats"><div className="stat"><div className="n">{displayStat(stats.kills)}</div><div className="l">kills</div></div><div className="stat"><div className="n">{displayStat(stats.kdr)}</div><div className="l">K/D</div></div><div className="stat"><div className="n">{displayStat(stats.mvps)}</div><div className="l">MVPs</div></div><div className="stat"><div className="n">{displayStat(stats.top5)}</div><div className="l">Top 5s</div></div><div className="stat"><div className="n">{displayStat(stats.attendancePercent, stats.attendancePercent === null ? '' : '%')}</div><div className="l">attendance</div></div><div className="stat"><div className="n">{displayStat(stats.attendanceHours, stats.attendanceHours === null ? '' : 'h')}</div><div className="l">voice hours</div></div></div>
+      </div>
+    </div>
+    {me?.id === member.id && <p className="note"><button className="lnk" onClick={() => go('profile')}>Open your full service record</button></p>}
+  </main></div>;
 }

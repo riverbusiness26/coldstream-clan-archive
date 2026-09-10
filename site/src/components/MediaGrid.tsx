@@ -39,14 +39,26 @@ function TileInner({ item, onOpen, size }: {
       style={{ '--ar': ratio(item) } as React.CSSProperties}
       aria-label={`Open ${item.title}. ${detail}`}
     >
-      <img
-        src={asset(item.thumbnail)}
-        alt={item.alt}
-        loading="lazy"
-        decoding="async"
-        width={item.width ?? undefined}
-        height={item.height ?? undefined}
-      />
+      {item.type === 'video' && !item.videoId && !item.embed && item.thumbnail === item.src ? (
+        <video
+          src={asset(item.src)}
+          muted
+          playsInline
+          preload="metadata"
+          aria-label={item.alt}
+          width={item.width ?? undefined}
+          height={item.height ?? undefined}
+        />
+      ) : (
+        <img
+          src={asset(item.thumbnail)}
+          alt={item.alt}
+          loading="lazy"
+          decoding="async"
+          width={item.width ?? undefined}
+          height={item.height ?? undefined}
+        />
+      )}
 
       {/* A shape and a word, never colour alone. */}
       <span className={'mbadge' + (item.type === 'video' ? ' is-film' : '')}>

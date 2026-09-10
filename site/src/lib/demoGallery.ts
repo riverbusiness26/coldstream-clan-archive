@@ -16,6 +16,7 @@ export interface DemoUpload {
   storage_key: string | null;   // data: URL in demo mode, null for a video
   media_type: 'image' | 'video';
   video_id: string | null;
+  external_url: string | null;
   category_slug: string | null;
   category_id: null;            // demo mode has no ids; the slug is the link
   caption: string | null;
@@ -42,6 +43,7 @@ export interface DemoDraft {
   media_type: 'image' | 'video';
   storage_key: string | null;
   video_id: string | null;
+  external_url?: string | null;
   category_slug: string | null;
   caption: string | null;
   game: string | null;
@@ -67,6 +69,7 @@ function load(): DemoUpload[] {
       storage_key: r.storage_key ?? null,
       media_type: r.media_type ?? 'image',
       video_id: r.video_id ?? null,
+      external_url: r.external_url ?? null,
       category_slug: r.category_slug ?? null,
       category_id: null,
       caption: r.caption ?? null,
@@ -117,6 +120,7 @@ export const demoGallery = {
       description: draft.description ?? null,
       tags: draft.tags ?? [],
       collection: draft.collection ?? null,
+      external_url: draft.external_url ?? null,
     });
     save(items);
     return { ok: true };
