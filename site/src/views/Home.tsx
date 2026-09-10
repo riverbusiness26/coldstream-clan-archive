@@ -147,7 +147,7 @@ export function AccountStrip({ me, signIn, signOut }: { me: Me | null; signIn: (
   return (
     <div className="cg-account-strip" aria-label="Member account">
       {me ? <>
-        <span className="cg-account-member"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><span>Signed in as <b>{me.display_name}</b></span></span>
+        <a className="member-profile-link cg-account-member" href="#/profile"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><span>Signed in as <b>{me.display_name}</b></span></a>
         <a href="#/profile">My profile</a>
         {(me.role === 'moderator' || me.role === 'admin') && <a href="#/admin">Command Board</a>}
         <button type="button" onClick={signOut}>Sign out</button>
@@ -326,7 +326,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
 
       <main className="hub-main">
         <section className="hub-status" aria-label="Coldstream status">
-          <div className="hub-status-member"><DiscordAvatar url={me?.avatar_url ?? null} name={me?.display_name ?? 'Guest'} /><div><span className="cg-eyebrow">{me ? 'Member headquarters' : 'Coldstream Gaming'}</span><strong>{me?.display_name ?? 'Welcome to Coldstream'}</strong><small>{me ? 'Volunteer · Line Infantry' : 'Sign in with Discord to open your member hub'}</small></div></div>
+          <div className="hub-status-member">{me ? <a className="member-profile-link" href="#/profile"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><div><span className="cg-eyebrow">Member headquarters</span><strong>{me.display_name}</strong><small>Volunteer · Line Infantry</small></div></a> : <><DiscordAvatar url={null} name="Guest" /><div><span className="cg-eyebrow">Coldstream Gaming</span><strong>Welcome to Coldstream</strong><small>Sign in with Discord to open your member hub</small></div></>}</div>
           <div className="hub-status-next">{nextEvent ? <><span className="cg-eyebrow">Next on the calendar</span><strong>{nextEvent.title}</strong><small><time dateTime={nextEvent.starts_at}>{new Date(nextEvent.starts_at).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</time> · {countdownLabel(nextEvent.starts_at, clock)} · Duration {nextEvent.duration_minutes} minutes</small></> : <><strong>No events on the calendar</strong><a href="#/events">Open Events</a></>}</div>
         </section>
 

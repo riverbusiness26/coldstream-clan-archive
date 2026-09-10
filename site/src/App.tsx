@@ -10,6 +10,7 @@ const Calendar = lazy(() => import('./views/Calendar'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
 const Admin = lazy(() => import('./views/Admin'));
 const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
+const Profile = lazy(() => import('./views/Profile'));
 
 // Routing is by hash, and coming back from authentication the session arrives in the
 // hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
@@ -26,7 +27,8 @@ const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error|erro
 function routeFromHash(): string {
   const h = location.hash;
   if (AUTH_HASH.test(h)) return 'home';
-  return (h.replace(/^#\/?/, '').split('/')[0] || 'landing').split('?')[0] || 'landing';
+  const route = h.replace(/^#\/?/, '').split('?')[0];
+  return route.startsWith('member/') ? route : (route.split('/')[0] || 'landing');
 }
 
 // Whether this page load began with authentication handing back a session, or an
@@ -127,7 +129,7 @@ export default function App() {
   // The splash is the member gate for the hub and private tools. Legacy
   // archive/person links are deliberately not public member profiles: the
   // living profile is the signed-in Discord member's own service record.
-  if (view === 'landing' || !authReady || (!me && !PUBLIC_VIEWS.has(view))) {
+  if (view === 'landing' || !authReady || (!me && !PUBLIC_VIEWS.has(view) && !view.startsWith('member/'))) {
     return (
       <>
         <Landing me={me} go={go} signIn={signIn} />
@@ -162,7 +164,7 @@ export default function App() {
       <div className="cg-page-stage">
       {!['home','members','gallery','events','leaderboard','servers','archive','admin','player-profile','profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
       <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
-      {view.startsWith('member/') && <PrivateMemberProfileNotice go={go} />}
+      {view.startsWith('member/') && <Profile personKey={decodeURIComponent(location.hash.replace(/^#\/?member\//, '').split('?')[0])} me={me} go={go} />}
       {/* The roster moved into the Archive; old #/members links still land there. */}
       {(view === 'archive' || view === 'members') && <Archive me={me} />}
       {view === 'servers' && <Servers />}
