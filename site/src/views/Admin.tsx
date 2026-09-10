@@ -780,7 +780,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
             <button className={tab === 'evidence' ? 'active' : ''} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat Tracking</span><small>{statSubmissions.filter((submission) => submission.status === 'submitted').length}</small></button>
             <button className={tab === 'gallery' ? 'active' : ''} onClick={() => openTab('gallery')}><FaImage /><span>Gallery submissions</span><small>{gallerySubmissions.filter((submission) => !submission.approved).length}</small></button>
             <button className={tab === 'weekly' ? 'active' : ''} onClick={() => openTab('weekly')}><FaImage /><span>Weekly Content Submissions</span><small>{weeklySubmissions.filter((submission) => submission.status === 'pending').length}</small></button>
-            <button className={tab === 'attendance' ? 'active' : ''} onClick={() => openTab('attendance')}><FaCalendarCheck /><span>Events</span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
+            <button className={`admin-events-nav ${tab === 'attendance' ? 'active' : ''}`} onClick={() => openTab('attendance')} aria-label="Open Events calendar"><FaCalendarCheck /><span>Events <em>Open calendar</em></span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
             <p>Regiment</p>
             <button className={tab === 'catalogue' || tab === 'detachments' ? 'active' : ''} onClick={() => openTab('catalogue')}><FaAward /><span>Ranks, Medals & Detachments</span></button>
             <p>More</p>
