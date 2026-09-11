@@ -3453,3 +3453,15 @@ VERIFIED:    `npm run build --prefix site` passed with 121 modules. Before publi
 UNVERIFIED:  Cloudflare edge deployment and the post-publish database count comparison follow the push.
 BLOCKED:     Nothing blocks this authorized publish.
 NEXT:        Push the source and root bundle, confirm the live asset hash changes, then recheck all four preserved row counts.
+
+## 2026-09-10 - Weekly feature caption publish (Codex)
+
+DONE:        Added the compact top-left Weekly Feature caption with submitted title, description, and date metadata, softened the player shadow, built the site, synced the root publish bundle, and pushed main. The generated transparent frame remains in the published assets. No data migration or deletion was run.
+
+VERIFIED:    `npm run build --prefix site` passed with 124 modules. `node scripts/status.mjs` confirmed coldstreamgaming.com serves `index-AJ2Bhl-y.js`. Direct checks returned 200 for the published JavaScript, CSS, and `weekly-feature-frame-transparent.png`. The root index references the matching generated bundle.
+
+UNVERIFIED:  A signed-in visual screenshot of the caption on River's device was not performed in this publish step.
+
+BLOCKED:     Nothing blocks the published frontend update.
+
+NEXT:        River refreshes coldstreamgaming.com and checks the caption scale and shadow on the live homepage.
