@@ -3477,3 +3477,15 @@ UNVERIFIED:  Migration 0046 has not been applied to Supabase yet, so the live ho
 BLOCKED:     Production rollout waits for River to run `site/db/0046_stat_leaderboard_week.sql` in the Supabase SQL editor.
 
 NEXT:        Apply migration 0046, then publish the rebuilt root bundle and verify the live card with an approved current-week report.
+
+## 2026-09-11 - Hosting workflow and preview options queued for delegation (Codex)
+
+DONE:        Recorded the complete hosting-workflow scope for the lead: keep Cloudflare Pages as the production baseline; evaluate a source-driven `site/` build that removes manual root-bundle copying; verify branch and pull-request previews, status checks, rollback, SPA routing, asset paths, cache headers, and the custom domain; define separate preview and production environment variables; compare the existing Vite/Vercel setup; and consider migration only if Cloudflare remains materially cumbersome. Created `website-prepare-a-preview-first-hosting-workflow.md` in the operations brief inbox for delegation later today.
+
+VERIFIED:    On 2026-09-11, `git status --short --branch` showed `codex/publish-current-site` with only the known untracked `_redirects`, `site/supabase/.temp/`, and `supabase/` paths. `site/vercel.json` is configured for Vite with `npm run build`, `dist`, SPA rewrites, immutable asset caching, and security headers. `site/DEPLOY.md` documents Cloudflare Pages with root directory `site`, output `dist`, and push-to-main deploys. `HEAD https://coldstreamgaming.com/` returned `status=200` from Cloudflare.
+
+UNVERIFIED:  No preview project, hosting configuration, DNS, environment variables, auth URLs, or production deployment was changed. The brief has not yet been delegated.
+
+BLOCKED:     Nothing blocks the planning brief. Any host migration, DNS or custom-domain change, environment-variable or auth-URL change, second deploy path, or production publish requires River's explicit approval.
+
+NEXT:        Lead delegates the brief to a website agent, who returns a preview-only comparison and a single recommended next step with its approval gate.
