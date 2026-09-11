@@ -25,39 +25,57 @@ const DISCORD = 'https://discord.gg/75sfq5VPY';
 const STEAM = 'https://steamcommunity.com/groups/2ndColdstreamOfficial';
 const YOUTUBE = 'https://www.youtube.com/@2ndColdstreamGuards';
 
-const HOME_FILMS = [
-  { src: '/video/memories/tribute-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
-  { src: '/video/memories/militia-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
-  { src: '/video/memories/mount-musket-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Mount & Musket · February 2012' },
-  { src: '/video/memories/rwl-opening-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
-  { src: '/video/memories/rwl-volley-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
-  { src: '/video/memories/eighth-regiment-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 8th Regiment · Napoleonic Wars · October 2012' },
-  { src: '/video/memories/friday-linebattle-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Friday Linebattle · 2012' },
+type HomeMedia = {
+  type: 'video' | 'image';
+  src: string;
+  icon: string;
+  label: string;
+  description?: string | null;
+  provider?: string | null;
+  submitted_at?: string | null;
+  approved_at?: string | null;
+};
+
+const HOME_FILMS: HomeMedia[] = [
+  { type: 'video', src: '/video/memories/tribute-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
+  { type: 'video', src: '/video/memories/militia-2011.mp4', icon: '/steam-group-21stpa.jpg', label: '21st Pennsylvania · Battlegrounds 2 · May 2011' },
+  { type: 'video', src: '/video/memories/mount-musket-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Mount & Musket · February 2012' },
+  { type: 'video', src: '/video/memories/rwl-opening-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
+  { type: 'video', src: '/video/memories/rwl-volley-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 3eVolt · Napoleonic Wars · May 2012' },
+  { type: 'video', src: '/video/memories/eighth-regiment-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream vs. 8th Regiment · Napoleonic Wars · October 2012' },
+  { type: 'video', src: '/video/memories/friday-linebattle-2012.mp4', icon: '/steam-group-2ndcoldstream.jpg', label: '2nd Coldstream · Friday Linebattle · 2012' },
 ] as const;
 
-const GALLERY_STILLS = (gallerySeed as Array<{ src: string; caption: string }>).slice(0, 6).map((shot) => ({
+const GALLERY_STILLS: HomeMedia[] = (gallerySeed as Array<{ src: string; caption: string }>).slice(0, 6).map((shot) => ({
   type: 'image' as const,
   src: shot.src,
   icon: '',
   label: shot.caption,
 }));
 
-const HOME_MEDIA = [
+const HOME_MEDIA: HomeMedia[] = [
   ...HOME_FILMS.map((film) => ({ ...film, type: 'video' as const })),
   ...GALLERY_STILLS,
 ];
 
-interface WeeklyFeature { id: string; url: string; title: string; description: string | null; provider: string; }
+interface WeeklyFeature { id: string; url: string; title: string; description: string | null; provider: string; submitted_at?: string | null; approved_at?: string | null; }
+
+function captionDate(value?: string | null) {
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
 
 export function HomeFilm({ controls = false, weekly = [], mode = 'normal' }: { controls?: boolean; weekly?: WeeklyFeature[]; mode?: 'normal' | 'expanding' } = {}) {
   const [remoteWeekly, setRemoteWeekly] = useState<WeeklyFeature[]>([]);
-  const loadRemoteWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setRemoteWeekly((data as WeeklyFeature[] | null) ?? []))); };
+  const loadRemoteWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider,submitted_at,approved_at').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setRemoteWeekly((data as WeeklyFeature[] | null) ?? []))); };
   useEffect(() => { loadRemoteWeekly(); const refresh = () => loadRemoteWeekly(); window.addEventListener('weekly-content-updated', refresh); return () => window.removeEventListener('weekly-content-updated', refresh); }, []);
-  const mediaList = [...HOME_MEDIA, ...[...weekly, ...remoteWeekly].map((item) => ({ type: 'image' as const, src: item.provider === 'youtube' && youtubeId(item.url) ? youtubeThumb(youtubeId(item.url)!) : '/landing-desktop.jpg', icon: '', label: item.title }))];
+  const mediaList: HomeMedia[] = [...HOME_MEDIA, ...[...weekly, ...remoteWeekly].map((item) => ({ type: 'image' as const, src: item.provider === 'youtube' && youtubeId(item.url) ? youtubeThumb(youtubeId(item.url)!) : '/landing-desktop.jpg', icon: '', label: item.title || 'Weekly submission', description: item.description, provider: item.provider, submitted_at: item.submitted_at, approved_at: item.approved_at }))];
   const [activeMedia, setActiveMedia] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const video = useRef<HTMLVideoElement | null>(null);
   const media = mediaList[activeMedia] ?? mediaList[0];
+  const mediaDate = captionDate(media.approved_at ?? media.submitted_at);
 
   const chooseMedia = (next: number) => {
     if (transitioning) return;
@@ -80,9 +98,15 @@ export function HomeFilm({ controls = false, weekly = [], mode = 'normal' }: { c
       <div className="cg-film-frame active">
         {media.type === 'video' ? <video ref={video} src={asset(media.src)} autoPlay muted playsInline controls={controls} preload="auto" tabIndex={-1} onEnded={advanceVideo} /> : <img className="cg-film-still" src={asset(media.src)} alt={media.label} />}
       </div>
+      <img className="cg-weekly-frame" src={asset('/weekly-feature-frame-transparent.png')} alt="" aria-hidden="true" />
+      <div className="cg-weekly-caption" aria-label={`Weekly Feature: ${media.label}`}>
+        <strong>Weekly Feature</strong>
+        <b>{media.label}</b>
+        {media.description?.trim() && <small>{media.description.trim()}</small>}
+        {mediaDate && <time dateTime={media.approved_at ?? media.submitted_at ?? undefined}>{mediaDate}</time>}
+      </div>
       <button className="cg-film-nav cg-film-nav-prev" type="button" onClick={() => chooseMedia(activeMedia - 1)} aria-label="Previous weekly media">←</button>
       <button className="cg-film-nav cg-film-nav-next" type="button" onClick={() => chooseMedia(activeMedia + 1)} aria-label="Next weekly media">→</button>
-      <span><img src={media.icon ? asset(media.icon) : undefined} alt="" /><b>{media.label}</b></span>
     </div>
   );
 }
@@ -259,7 +283,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
     return () => { cancelled = true; };
   }, [monthCursor]);
 
-  const loadWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? []))); };
+  const loadWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider,submitted_at,approved_at').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? []))); };
   useEffect(() => { loadWeekly(); }, []);
   useEffect(() => {
     if (!supa || !me) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not assigned'); setHomeDetachment('Not assigned'); return; }
