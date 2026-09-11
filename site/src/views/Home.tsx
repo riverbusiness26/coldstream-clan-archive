@@ -223,6 +223,36 @@ interface TopPlayer {
   kdr: number;
 }
 
+type StatAggregate = { member_id: string; kills: number; deaths: number; mvps: number; top5: number };
+
+function rankTopPlayers(rows: Array<Record<string, unknown>>, members: Array<Record<string, unknown>>, limit = 3): TopPlayer[] {
+  const memberMap = new Map(members.map((row) => [String(row.id), row]));
+  const totals = new Map<string, StatAggregate>();
+  for (const row of rows) {
+    const memberId = String(row.member_id ?? '');
+    if (!memberId) continue;
+    const current = totals.get(memberId) ?? { member_id: memberId, kills: 0, deaths: 0, mvps: 0, top5: 0 };
+    current.kills += Number(row.kills) || 0;
+    current.deaths += Number(row.deaths) || 0;
+    current.mvps += Number(row.mvps) || 0;
+    current.top5 += Number(row.top5) || 0;
+    totals.set(memberId, current);
+  }
+  return [...totals.values()]
+    .sort((a, b) => {
+      const aKdr = a.deaths ? a.kills / a.deaths : a.kills;
+      const bKdr = b.deaths ? b.kills / b.deaths : b.kills;
+      return b.kills - a.kills || bKdr - aKdr || b.top5 - a.top5 || b.mvps - a.mvps;
+    })
+    .slice(0, limit)
+    .map((row) => ({
+      ...row,
+      kdr: row.deaths ? row.kills / row.deaths : row.kills,
+      name: String(memberMap.get(row.member_id)?.display_name ?? 'Discord member'),
+      discord_id: memberMap.get(row.member_id)?.discord_id ? String(memberMap.get(row.member_id)?.discord_id) : null,
+    }));
+}
+
 const PERIODS = ['Day', 'Week', 'Month'] as const;
 const MODES = ['Public Play', 'Events', 'Competitive'] as const;
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -252,6 +282,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
   const [weekly, setWeekly] = useState<WeeklyFeature[]>([]);
   const [homeStats, setHomeStats] = useState<CombatStats>(EMPTY_COMBAT_STATS);
   const [topPlayers, setTopPlayers] = useState<TopPlayer[]>([]);
+  const [weeklyTopPlayer, setWeeklyTopPlayer] = useState<TopPlayer | null>(null);
   const [homeRank, setHomeRank] = useState('Not assigned');
   const [homeDetachment, setHomeDetachment] = useState('Not assigned');
 
@@ -309,23 +340,24 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
     return () => { cancelled = true; };
   }, [me, period]);
   useEffect(() => {
-    if (!supa) { setTopPlayers([]); return; }
+    if (!supa) { setTopPlayers([]); setWeeklyTopPlayer(null); return; }
+    const db = supa;
     let cancelled = false;
-    void Promise.all([
-      supa.from('stat_leaderboard').select('member_id,kills,deaths,mvps,top5,kdr'),
-      supa.from('member').select('id,display_name,discord_id'),
-    ]).then(([stats, members]) => {
+    const loadTopPlayers = async () => {
+      const [stats, members, weeklyStats] = await Promise.all([
+        db.from('stat_leaderboard').select('member_id,kills,deaths,mvps,top5,kdr'),
+        db.from('member').select('id,display_name,discord_id'),
+        db.from('stat_leaderboard_week').select('member_id,kills,deaths,mvps,top5,kdr'),
+      ]);
       if (cancelled) return;
-      const memberMap = new Map((members.data ?? []).map((row: any) => [row.id, row]));
-      const totals = new Map<string, { member_id: string; kills: number; deaths: number; mvps: number; top5: number }>();
-      for (const row of (stats.data ?? []) as any[]) {
-        const current = totals.get(row.member_id) ?? { member_id: row.member_id, kills: 0, deaths: 0, mvps: 0, top5: 0 };
-        current.kills += Number(row.kills) || 0; current.deaths += Number(row.deaths) || 0; current.mvps += Number(row.mvps) || 0; current.top5 += Number(row.top5) || 0;
-        totals.set(row.member_id, current);
-      }
-      setTopPlayers([...totals.values()].sort((a, b) => b.kills - a.kills || (b.deaths ? b.kills / b.deaths : b.kills) - (a.deaths ? a.kills / a.deaths : a.kills) || b.top5 - a.top5 || b.mvps - a.mvps).slice(0, 3).map((row) => ({ ...row, kdr: row.deaths ? row.kills / row.deaths : row.kills, name: memberMap.get(row.member_id)?.display_name ?? 'Discord member', discord_id: memberMap.get(row.member_id)?.discord_id ?? null })));
-    });
-    return () => { cancelled = true; };
+      setTopPlayers(stats.error ? [] : rankTopPlayers((stats.data ?? []) as Array<Record<string, unknown>>, (members.data ?? []) as Array<Record<string, unknown>>));
+      setWeeklyTopPlayer(weeklyStats.error ? null : rankTopPlayers((weeklyStats.data ?? []) as Array<Record<string, unknown>>, (members.data ?? []) as Array<Record<string, unknown>>, 1)[0] ?? null);
+    };
+    void loadTopPlayers();
+    const timer = window.setInterval(() => { void loadTopPlayers(); }, 60_000);
+    const refreshWhenVisible = () => { if (document.visibilityState === 'visible') void loadTopPlayers(); };
+    document.addEventListener('visibilitychange', refreshWhenVisible);
+    return () => { cancelled = true; window.clearInterval(timer); document.removeEventListener('visibilitychange', refreshWhenVisible); };
   }, []);
 
   const monthLabel = monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
@@ -354,7 +386,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
           <div className="hub-status-next">{nextEvent ? <><span className="cg-eyebrow">Next on the calendar</span><strong>{nextEvent.title}</strong><small><time dateTime={nextEvent.starts_at}>{new Date(nextEvent.starts_at).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</time> · {countdownLabel(nextEvent.starts_at, clock)} · Duration {nextEvent.duration_minutes} minutes</small></> : <><strong>No events on the calendar</strong><a href="#/events">Open Events</a></>}</div>
         </section>
 
-        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">The week</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Week of {now.toLocaleDateString(undefined, { month: 'long' })}</span></header><div className="hub-weekly-grid"><div className="hub-weekly-media"><HomeFilm controls mode="normal" weekly={weekly} /><a className="hub-archive-link" href="#/gallery">Previous features <Icon name="arrow" /></a></div><aside className="hub-rail" aria-label="Weekly highlights"><article className="hub-rail-card"><p className="cg-eyebrow">Featured member</p><strong>Staff feature not set</strong><span>It will appear here when selected by staff.</span></article><article className="hub-rail-card"><p className="cg-eyebrow">Top player of the week</p><strong>Data will appear after approval</strong><span>Overall results across approved submissions.</span><div className="hub-rail-metrics"><span><b>—</b>Kills</span><span><b>—</b>K/D</span><span><b>—</b>MVPs</span></div></article><div className="hub-pulse" aria-label="Weekly activity"><span><b>{weekly.length}</b> approved features</span><span><b>{nextThree.length}</b> events this week</span><span><b>Mon 12 AM</b> resets CT</span></div><article className="hub-rail-card hub-rail-submit"><p className="cg-eyebrow">Get featured</p><WeeklyUpload me={me} onSubmitted={loadWeekly} /></article></aside></div><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">Upcoming events</p></div><a className="hub-open-events" href="#/events">Full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); const type = eventTypeSlug(event.event_type); return <article className={`event-kind-${type}`} key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { weekday: 'short' })}</span></time><div><h3>{event.title}</h3><p>{starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.game || 'Community event'} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind"><EventTypeIcon type={event.event_type} />{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">The week</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Week of {now.toLocaleDateString(undefined, { month: 'long' })}</span></header><div className="hub-weekly-grid"><div className="hub-weekly-media"><HomeFilm controls mode="normal" weekly={weekly} /><a className="hub-archive-link" href="#/gallery">Previous features <Icon name="arrow" /></a></div><aside className="hub-rail" aria-label="Weekly highlights"><article className="hub-rail-card"><p className="cg-eyebrow">Featured member</p><strong>Staff feature not set</strong><span>It will appear here when selected by staff.</span></article><article className="hub-rail-card" aria-live="polite"><p className="cg-eyebrow">Top player of the week</p>{weeklyTopPlayer ? <><strong>{weeklyTopPlayer.name}</strong><span>Leading approved stats from this week.</span><div className="hub-rail-metrics"><span><b>{weeklyTopPlayer.kills}</b>Kills</span><span><b>{weeklyTopPlayer.kdr.toFixed(2)}</b>K/D</span><span><b>{weeklyTopPlayer.mvps}</b>MVPs</span></div></> : <><strong>No approved stats yet</strong><span>Results will appear after staff approve this week's reports.</span></>}</article><div className="hub-pulse" aria-label="Weekly activity"><span><b>{weekly.length}</b> approved features</span><span><b>{nextThree.length}</b> events this week</span><span><b>Mon 12 AM</b> resets CT</span></div><article className="hub-rail-card hub-rail-submit"><p className="cg-eyebrow">Get featured</p><WeeklyUpload me={me} onSubmitted={loadWeekly} /></article></aside></div><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">Upcoming events</p></div><a className="hub-open-events" href="#/events">Full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); const type = eventTypeSlug(event.event_type); return <article className={`event-kind-${type}`} key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { weekday: 'short' })}</span></time><div><h3>{event.title}</h3><p>{starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.game || 'Community event'} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind"><EventTypeIcon type={event.event_type} />{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
 
         <section className="hub-hero-stats hub-personal" aria-labelledby="hero-statistics-title"><header><div><p className="cg-eyebrow">For the member signed in</p><h2 id="hero-statistics-title">Your Statistics</h2></div>{me && <div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div>}</header>{me ? <div className="hub-quick-stats"><div className="hub-stat-person"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><strong>{me.display_name}</strong></div><div><b>{displayStat(homeStats.kills)}</b><small>Kills</small></div><div><b>{displayStat(homeStats.kdr, homeStats.kdr === null ? '' : '×')}</b><small>K/D</small></div><div><b>{displayStat(homeStats.mvps)}</b><small>MVPs</small></div><div><b>{displayStat(homeStats.top5)}</b><small>Top 5s</small></div><div><b>{displayStat(homeStats.attendancePercent, homeStats.attendancePercent === null ? '' : '%')}</b><small>Attendance</small></div><div><b>{homeRank}</b><small>Rank</small></div><div><b>{homeDetachment}</b><small>Detachment</small></div></div> : <div className="hub-quick-signin"><span>Sign in with Discord to see your kills, K/D, MVPs, Top 5s, attendance, rank and detachment.</span><button type="button" onClick={signIn}>Sign in</button></div>}</section>
 

@@ -3465,3 +3465,15 @@ UNVERIFIED:  A signed-in visual screenshot of the caption on River's device was 
 BLOCKED:     Nothing blocks the published frontend update.
 
 NEXT:        River refreshes coldstreamgaming.com and checks the caption scale and shadow on the live homepage.
+
+## 2026-09-10 - Weekly top player data wiring (Codex)
+
+DONE:        Replaced the homepage Top Player of the Week placeholder with live ranking data from approved reports in the current Chicago week. The card now shows the leading member, kills, K/D, and MVPs, and refreshes every minute or when the page returns to the foreground. Added `site/db/0046_stat_leaderboard_week.sql`, a public aggregate view that keeps raw submissions protected while making weekly totals available to the homepage.
+
+VERIFIED:    `npm run build --prefix site` passed with 124 modules. The ranking helper uses kills, K/D, Top 5s, then MVPs for ties, matching the existing leaderboard order. No production SQL or frontend publish was run in this step.
+
+UNVERIFIED:  Migration 0046 has not been applied to Supabase yet, so the live homepage will keep its empty state until that view exists and the next frontend bundle is published.
+
+BLOCKED:     Production rollout waits for River to run `site/db/0046_stat_leaderboard_week.sql` in the Supabase SQL editor.
+
+NEXT:        Apply migration 0046, then publish the rebuilt root bundle and verify the live card with an approved current-week report.
