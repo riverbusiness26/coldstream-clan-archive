@@ -3489,3 +3489,157 @@ UNVERIFIED:  No preview project, hosting configuration, DNS, environment variabl
 BLOCKED:     Nothing blocks the planning brief. Any host migration, DNS or custom-domain change, environment-variable or auth-URL change, second deploy path, or production publish requires River's explicit approval.
 
 NEXT:        Lead delegates the brief to a website agent, who returns a preview-only comparison and a single recommended next step with its approval gate.
+
+## 2026-09-11 - Museum design plan and footer attribution (Codex)
+
+DONE:        Local redesign work is on codex/living-hq-redesign. River rejected the golden-hour direction; docs/living-hq/MUSEUM-DESIGN-PLAN.md now controls the imagery plan. Added the exact credit "Powered by Bannerforge Studios" beneath the shared footer copyright, in muted 11px text, without a logo or animation. Recorded the same requirement in the design plan.
+
+VERIFIED:    npm run build --prefix site exited 0, including TypeScript and Vite; 129 modules transformed.
+
+UNVERIFIED:  Full responsive and authenticated redesign testing remains incomplete. New museum imagery has not been generated. No built root assets or production deployment were updated.
+
+BLOCKED:     No technical blocker for the footer. The larger redesign remains a local draft awaiting the planned imagery review.
+
+NEXT:        Produce the two museum-inspired hero concepts and icon sample described in the plan, then review before generating the full artwork family.
+
+## 2026-09-11 - Museum concepts and updated heraldry references (Codex)
+
+DONE:        Created two original hero images and six original SVG functional icons in docs/living-hq/concepts, plus a local comparison page with live text and subtle Bannerforge Studios credit. Saved exact prompts and River's subsequent four flag and one crest reference URLs. Inspected all five references. First heroes now require flag correction; existing website crest unchanged.
+
+VERIFIED:    Both generated PNGs loaded in browser at 1672 x 941. Desktop comparison had no missing images or horizontal overflow at 1429px. Local-only server listens on 127.0.0.1:4182. References visibly include crimson and Union-pattern flags plus the silver star, blue garter, red-cross crest.
+
+UNVERIFIED:  Mobile review was interrupted by preview tab closure. No new heraldry revision or exact historical validation completed. No production publication or functional-site replacement.
+
+BLOCKED:     No technical blocker. Exact flag variant and final hero selection remain design-review decisions; crimson main flag is recommended, not yet confirmed.
+
+NEXT:        Revise the selected imagery using River's supplied flag and crest references, review the heraldry separately, then create responsive production artwork and integrate after approval.
+
+## 2026-09-11 - Restore original palette, modernise motion (Codex)
+
+DONE:        River rejected the green theme. Updated controlling plan and comparison preview to neutral charcoal/graphite, original brass #B08D57, crimson and ivory. Added gentle image fades, staggered section/icon reveals and hover lift, respecting reduced motion. Green decorative textiles in generated drafts remain pending revision; preserve Skirmisher insignia and event semantics.
+
+VERIFIED:    Browser preview at 390px had no horizontal overflow or missing images, with computed charcoal background rgb(12,13,15). Restored viewport after testing.
+
+UNVERIFIED:  This is a separate local design study, not the final functional website. No new crest/flag artwork or production publish. Remaining image revisions and full interaction performance testing are outstanding.
+
+BLOCKED:     None for local design iteration.
+
+NEXT:        Develop the selected direction with the supplied heraldry, remove green decorative fabric, and build the motion treatment into the real local landing page for review.
+
+## 2026-09-11 - Regimental button treatment (Codex)
+
+DONE:        Refined primary and secondary buttons in site/src/living-hq.css and docs/living-hq/concepts/index.html. Inset brass edging, crimson primary surface, restrained directional highlight, hover lift and tactile press state. Added explicit trailing-arrow classes in Landing.tsx. River approved continuing the overall direction and wants richer original emblems rather than treating the first six functional SVG samples as final artwork.
+
+VERIFIED:    npm run build --prefix site exited 0 with 129 modules; git diff --check exited 0. Preview keyboard test reached the secondary action with a solid 2px focus outline. At 390px the two actions stack at 52px high with no horizontal overflow. Browser viewport restored.
+
+UNVERIFIED:  Hover and press transitions have CSS definitions but have not undergone a full cross-browser or reduced-motion runtime audit. The real site's shared styles compile; full authenticated regression testing remains outstanding. No flag/crest regeneration, production publish, database or auth changes in this step.
+
+BLOCKED:     None for the next visual pass.
+
+NEXT:        Create reference-led detailed regimental emblems and corrected hero heraldry, then expand the approved local design with those assets and coordinated motion.
+
+## 2026-09-11 - Museum emblem and hero integration (Codex)
+
+DONE:        Added six original display emblems, preserved green-screen masters in docs/living-hq/concepts/chroma-masters/, and linked genuine transparent keyed PNGs in site/src/views/Landing.tsx. Added corrected v3 desktop/portrait heroes with flintlock pistol, arm and face repairs. Expanded charcoal/crimson styling and card motion in site/src/living-hq.css. Fixed reveal cleanup in SiteShell.tsx. Artwork provenance and limits: docs/living-hq/ARTWORK-PASS.md.
+
+VERIFIED:    npm run build --prefix site exited 0, TypeScript passed, Vite transformed 129 modules. git diff --check exited 0. Browser loaded v3 desktop and portrait sources at 1280px/390px without horizontal overflow; all six transparent emblems loaded; cards reached opacity 1 after reload and scroll. Chroma script reported 46.1 to 66.4 percent fully transparent pixels with opaque foreground pixels retained.
+
+UNVERIFIED:  Full authenticated regression, cross-browser motion, reduced-motion runtime and live deployment not tested. Existing crest unchanged; generated heraldry is interpretive. Earlier comparison concepts are drafts, not the current app. No publish, DB, bot or live-account changes.
+
+BLOCKED:     None for local visual review. Production remains unchanged.
+
+NEXT:        River reviews the corrected hero faces and detailed emblems at http://127.0.0.1:4180/#/landing before expanding the remaining imagery family.
+
+## 2026-09-12 - Local page redesign and selected profile display case (Codex)
+
+DONE:        Integrated the full-photo landing, cleaner crest, snug weekly media frame, all-media rotation, era timeline, historical roster, interactive events and grouped staff workspace. Selected profile uses a straight shoulder patch, eight compact medals, unlimited wrapped expansion, and separate Hide/Show without removing award records. Details and remaining gates: docs/living-hq/REVIEW-2026-09-12.md. Existing work preserved; no publish.
+
+VERIFIED:    npm run build --prefix site passed TypeScript/Vite with 141 modules; node --test site/tests/*.test.mjs passed 70/70; git diff --check passed; built main bundle contains the configured Supabase host. Offline browser tested 20-medal expansion/hiding/restoring, phone/desktop layout, weekly frame/rotation, roster 2017 CS:GO filtering and page 2, 42-cell calendar date selection, all admin tabs and Chicago DST inputs. Viewport reset.
+
+UNVERIFIED:  Draft site/db/0048_medal_profile_visibility.sql was not executed. Static SQL checks do not prove owner/staff permissions, audit rollback or concurrent 75-row retention. No live authentication, RSVP/Discord, proof-upload, preference persistence or deployment round trip. Existing background-job and backend aggregate findings remain open in the review.
+
+BLOCKED:     Persistent medal hiding needs reviewed 0048 application and role/audit tests before frontend publication. Period voice totals, sampled-event counts and contribution counts need verified safe aggregates. Existing monthly/weekly public views still use upload timestamps; personal filtered stats now use event occurrence in Chicago.
+
+NEXT:        River reviews http://127.0.0.1:4180/#/design/profile and the other local pages, then approves the database verification/application step. Do not publish the current frontend ahead of its visibility schema.
+
+## 2026-09-12 - Medal database preflight and execution checks (Codex)
+
+DONE:        Authenticated read-only live preflight and new site/tests/medal-database-check.mjs. Findings: docs/living-hq/medal-database-preflight.md. No live schema/data change or publish.
+
+VERIFIED:    Isolated PostgreSQL execution passed 13 checks using actual migration 0048, catalogue DDL, audit and retention functions. Owner/staff authorization, no-op audit, rollback, re-apply and sequential 75-row retention passed. Live read-only dashboard confirms 374 audit rows, enabled assignment audit, missing visibility column and missing retention function/trigger.
+
+UNVERIFIED:  Live migration, role/session persistence, concurrent retention and full Supabase RLS. Current 0048 cannot be installed before its missing retention prerequisite. Profile aggregates remain pending.
+
+BLOCKED:     Need River's confirmation to save a private export and trim the live audit log to 75 (299 older rows at inspection). Do not run all of 0042; prepare a focused retention repair. No real awards were used for tests.
+
+NEXT:        Obtain audit-backup/trim approval, verify focused retention including concurrency, then install prerequisite and 0048 without publishing the website.
+
+## 2026-09-12 - Approved audit retention and medal migration (Codex)
+
+DONE:        Private verified 374-row backup; approved 299-row trim; focused site/db/0048_audit_retention_prerequisite.sql and medal visibility 0048 applied live. Evidence and backup location: docs/living-hq/medal-database-preflight.md. No website publication.
+
+VERIFIED:    Live results: exactly the expected newest 75 audit IDs; zero null medal preferences; authenticated RPC execute true, anon false. node site/tests/medal-database-check.mjs with the temporary PGlite module passed 15 checks. node --test site/tests/medal-visibility.test.mjs site/tests/profile-display.test.mjs passed 32 tests. git diff --check passed.
+
+UNVERIFIED:  Concurrent retention, full hosted RLS/session behavior and end-to-end browser persistence. Additional rollback-only live role tests were not performed after the dashboard tab became unavailable. Isolated tests do not prove these paths.
+
+BLOCKED:     Live owner/staff interaction verification needs a connected authenticated dashboard/browser. No new approval needed for the already completed scoped migration. Missing profile aggregates remain pending.
+
+NEXT:        Complete live medal-display owner/staff verification, then connect missing profile aggregates before publication.
+
+## 2026-09-12 - Artwork upload preparation, placeholders retained (Codex)
+
+DONE:        Added ArtworkPicker.tsx, artworkUpload.ts, artwork-picker.css and artwork-upload.test.mjs; integrated creation/replacement previews in Admin.tsx. Native file quality/proportions retained, invalid files rejected, decoding required before upload. Existing artwork and member awards unchanged. River wants placeholders retained, not regenerated.
+
+VERIFIED:    npm run build --prefix site passed TypeScript and Vite (144 modules). node --test site/tests/*.test.mjs passed 74 tests. git diff --check passed. node scripts/status.mjs confirmed domain and unsigned Discord-sync rejection; flagged house-rules failure and delayed presence/status workflows.
+
+UNVERIFIED:  Browser preview/selection lifecycle and real storage upload/replacement under authenticated admin. No live writes or publication this turn. Build and unit tests are not end-to-end upload proof.
+
+BLOCKED:     Nothing blocks continued local implementation. Live role/session verification remains outstanding; do not claim complete functionality from the build alone.
+
+NEXT:        Verify artwork selection/replacement in browser, then connect profile attendance/event and contribution totals from verified aggregates. Remaining queue: Discord proof/approval and event/RSVP flows, responsive visual review, remote/branch reconciliation, final local review before approved publication.
+
+## 2026-09-12 - Browser artwork verification (Codex)
+
+DONE:        Added development-only demo route #/design/artwork in App.tsx and ArtworkReview.tsx. It uses the real ArtworkPicker without database or upload calls. Staff and member gates unchanged; existing artwork untouched.
+
+VERIFIED:    Browser selected supplied volunteer.png, displayed 1023 x 1537 dimensions and upright uncropped artwork, enabled ready state, then cleared image and disabled action. Unsupported TypeScript file rejected with PNG/JPEG/WebP error. npm run build --prefix site passed (145 modules); git diff --check passed. Coldstream verification procedure used; no live upload implied.
+
+UNVERIFIED:  Authenticated storage replacement, rapid file changes, mobile picker, live profile persistence. Source 0044 member_attendance_hours counts samples times two minutes and rounds to one decimal; it does not itself filter AFK channels/event grace windows. Need producer verification before claiming these exclusions. No database changes or publishing.
+
+BLOCKED:     No local blocker. Current browser has no authenticated admin session for live uploads.
+
+NEXT:        Inspect bot sample provenance and event/grace filtering, then implement verified member-safe attendance/event and contribution aggregates. Keep placeholders unchanged.
+
+## 2026-09-12 - Optional event post groundwork and schedule test (Codex)
+
+DONE:        Admin.tsx now calls create_website_event for save-only creation and offers post_managed_event after saving. Draft site/db/0049_optional_event_post.sql defines these staff-only RPCs with row-lock duplicate-queue protection. NOT APPLIED: do not publish this frontend before database verification/application. Coldstream Guard posted the approved empty-schedule staff test: https://discord.com/channels/669723836165521413/1539205064747384953/1548381766333767765.
+
+VERIFIED:    npm run build --prefix site passed (145 modules), git diff --check passed. Bot schedule and AFK/grace tests passed five cases; existing orderly checks passed 17 and event reminders passed. Live test fetched zero upcoming events, checked bot identity/channel and read back its posted message.
+
+UNVERIFIED:  New SQL execution/role paths, website post action, edit/delete of an unposted event, reusable schedule publishing UI, large multi-message live schedules. No website publish, DB application or running-bot restart. Existing historical samples cannot distinguish AFK because no channel provenance was recorded.
+
+BLOCKED:     No new approval needed for the completed staff-chat test. Remaining integration is not finished; do not describe the new UI as live.
+
+NEXT:        Test 0049 including unposted-event edits/deletes, add reusable schedule queue/UI and bot handler, then verify/apply/deploy named changes. Attendance source now locally excludes AFK, but profile aggregates and live bot rollout remain pending.
+
+## 2026-09-12 - Event schedule and profile integration rollout (Codex)
+
+DONE:        Applied 0049_optional_event_post.sql and 0050_profile_activity.sql live. Admin saves events without posting, offers Post to Discord and Post or update Discord schedule. ProfileDisplayCase/combatStats now connect owner/staff activity RPC: sampled event count, deduplicated two-minute slots, deployed weekly features and retained weekly/gallery submissions. Artwork unchanged. Frontend NOT published.
+
+VERIFIED:    Build passed (145 modules), 75 website tests passed, isolated event/profile migration execution passed. Live rollback-only checks passed save without posting, edit without posting, duplicate post queue suppression; no test event retained. Live aggregate initially failed enum empty-string coercion, fixed with ::text and rechecked successfully; authenticated execute true, anon false. Audit remains 75. Schedule worker revisions 1 and 2 completed using the SAME staff message 1548388965709774910.
+
+UNVERIFIED:  Full signed-in browser user flow and dated live schedule (no upcoming records). Old voice records lack AFK/channel provenance and deployed bot had FIVE-minute cadence, while existing SQL assumed two minutes. Current totals are sample-based estimates, not a retroactive correction. Unposted website events are not yet present in the bot's local event store for sampling; this remains a data-collection gap to address before claiming every saved event is sampled. Website period-specific attendance remains unavailable.
+
+BLOCKED:     Frontend publication awaits River's final local review. Bot checkout differs from server: server has newer stats sync. Do not overwrite remote orderly.js/ready.js with local copies wholesale.
+
+NEXT:        Review the local signed-in UI, address sampling for website-only unposted events and historical cadence semantics, then reconcile bot source drift before any full deployment. Do not claim frontend published.
+
+FOLLOW-UP:   Bot now fetches website-only live events for attendance as well, deduplicating against local posted events. This fix is deployed and the service is active. The historical cadence/AFK limitation still applies. No real voice-session test or frontend publication occurred. Final website build and 75 tests passed; local signed-in review remains the next release gate.
+
+## 2026-09-12 - Approved frontend release review (Codex)
+
+DONE: Final release packaged from configured site/dist into repo root. Approved museum redesign, weekly frame, profiles, artwork tools, admin workspace and event schedule controls included. Corrected Admin fallback copy. Live profile aggregate still lacked the enum-to-text fix despite the earlier rollback test; applied it persistently during this review.
+VERIFIED: npm run build --prefix site passed; node --test site/tests/*.test.mjs passed 75 tests; git diff --check and scoped house-rules scans clean. Real signed-in production preview restores River's session, shows combat results and now loads profile contribution counts. Admin schedule button present. Weekly and event layouts inspected at desktop and 390px, without horizontal overflow. Database correction_installed returned true.
+UNVERIFIED: Real voice-session collection and populated multi-message schedule still need an actual event. Older attendance lacks cadence/channel provenance. status.mjs identified an older failing house-rules run and a delayed server-status workflow; this release must be checked after push rather than treating those as resolved.
+BLOCKED: None for the user-approved frontend release. No bot files are part of this website push; preserve the newer remote bot code.
+NEXT: Push this release through the existing main-branch Cloudflare path, then verify the domain serves index-CpMXxtpG.js and record deployment proof.

@@ -1,0 +1,46 @@
+/* Frame borders are outside the media box. The 16:9 screen has no graphic overlay. */
+.living-hq .weekly-player { margin:0; min-width:0; width:100%; }
+.living-hq .weekly-framed-player { box-sizing:border-box; border-style:solid; border-color:transparent; border-width:clamp(15px,2vw,24px) clamp(16px,2.3vw,28px) clamp(29px,4.2vw,49px); border-image-slice:95 100 160 100; border-image-repeat:stretch; background:none; }
+.living-hq .weekly-screen { position:relative; width:100%; aspect-ratio:16/9; background:#08090a; isolation:isolate; overflow:hidden; }
+.living-hq .weekly-screen video,.living-hq .weekly-screen>img,.living-hq .weekly-screen iframe { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:contain; border:0; background:#08090a; }
+.living-hq .weekly-player-caption { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin:0 clamp(16px,2.3vw,28px); padding:12px 0 16px; border-top:1px solid #b69a6b35; text-align:left; }
+.living-hq .weekly-player-copy { min-width:0; }
+.living-hq .weekly-player-copy>span { display:block; color:#b4aa9c; font:500 9px/1.5 var(--body); letter-spacing:.1em; text-transform:uppercase; }
+.living-hq .weekly-player-copy>strong { display:block; margin-top:4px; color:#e5dfd4; font:500 13px/1.5 var(--body); overflow-wrap:anywhere; }
+.living-hq .weekly-player-copy>p { margin:5px 0 0; color:#aea99f; font:400 12px/1.5 var(--body); overflow-wrap:anywhere; }
+.living-hq .weekly-player-copy>small { color:#d4af78; font-size:11px; }
+.living-hq .weekly-player-controls { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.living-hq .weekly-player-controls button { display:grid; place-items:center; min-width:34px; height:34px; padding:0 8px; border:1px solid #b69a6b35; background:#141414; color:#d3bf98; cursor:pointer; font:500 12px var(--body); }
+.living-hq .weekly-player-controls button:hover { background:#28241d; border-color:#b69a6b; }
+.living-hq .weekly-player-controls span { color:#99968e; font:11px var(--mono); white-space:nowrap; }
+.living-hq .weekly-player button:focus-visible,.living-hq .weekly-player a:focus-visible { outline:2px solid #d8bb87; outline-offset:3px; }
+.living-hq .weekly-player-empty { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px; color:#b4ada2; text-align:center; }
+.living-hq .weekly-player-empty strong { color:#eee7d9; font:500 22px/1.3 var(--display); }
+.living-hq .weekly-player-empty a,.living-hq .weekly-player-empty button { border:1px solid #ad916453; padding:10px 14px; color:#d8bb87; background:#171614; }
+.living-hq .hub-weekly-grid { grid-template-columns:minmax(0,1.65fr) minmax(270px,1fr); gap:30px; align-items:start; }
+.living-hq .hub-weekly-media { min-width:0; }
+.living-hq .hub-weekly-media>.hub-archive-link { margin-left:clamp(16px,2.3vw,28px); }
+.living-hq .hub-rail { padding-top:24px; gap:14px; }
+.living-hq .hub-home .hub-rail-card { background:#141414e8; border:1px solid #b69a6b24; border-radius:2px; padding:22px; }
+.living-hq .hub-rail-card>strong { font-size:24px; line-height:1.15; }
+.living-hq .hub-rail-card>span { color:#aca79e; }
+.living-hq .hub-rail-metrics { margin-top:20px; }
+.living-hq .hub-rail-metrics b { color:#e9ddc5; font-size:25px; }
+.living-hq .hub-rail-submit { background:transparent; }
+.living-hq .hub-rail-submit button { cursor:pointer; }
+.living-hq .hub-brief-heading h1 { font-size:clamp(36px,4vw,54px); }
+.living-hq .hub-personal,.living-hq .hub-event-list article { background:#141414; border-color:#b69a6b24; }
+.living-hq .hub-community-grid { gap:30px; }
+.living-hq .hub-empty { background:#14141480; border-color:#a9906435; }
+.living-hq .archive-memory .weekly-player { max-width:900px; margin-inline:auto; }
+@media(max-width:900px) {
+  .living-hq .hub-weekly-grid { grid-template-columns:1fr; gap:12px; }
+  .living-hq .hub-rail { padding-top:0; display:grid; grid-template-columns:1fr 1fr; }
+}
+@media(max-width:560px) {
+  .living-hq .weekly-player-caption { flex-direction:column; gap:10px; }
+  .living-hq .weekly-player-controls { align-self:flex-end; }
+  .living-hq .weekly-player-controls button { min-width:44px; height:44px; }
+  .living-hq .hub-rail { grid-template-columns:1fr; }
+  .living-hq .hub-rail-card { padding:18px; }
+}

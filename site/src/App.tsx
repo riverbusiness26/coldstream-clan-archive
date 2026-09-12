@@ -1,7 +1,11 @@
 // Site shell and hash routing.
 import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAuth } from './lib/auth';
-import Home, { AccountStrip, SiteFooter, SiteNav } from './views/Home';
+import Home from './views/Home';
+import SiteShell from './components/SiteShell';
+import Join from './views/Join';
+import { AUTH_HASH, canonicalRoute, routeFromLocation, requiresMember, isStaff } from './lib/routing';
+import { asset } from './lib/asset';
 import Landing from './views/Landing';
 import Gallery from './views/Gallery';
 import Servers from './views/Servers';
@@ -10,7 +14,10 @@ const Calendar = lazy(() => import('./views/Calendar'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
 const Admin = lazy(() => import('./views/Admin'));
 const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
+const ProfileDesigns = lazy(() => import('./views/ProfileDesigns'));
+const ArtworkReview = lazy(() => import('./views/ArtworkReview'));
 const Profile = lazy(() => import('./views/Profile'));
+const Roster = lazy(() => import('./components/Roster'));
 
 // Routing is by hash, and coming back from authentication the session arrives in the
 // hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
@@ -18,17 +25,13 @@ const Profile = lazy(() => import('./views/Profile'));
 // the user on a blank page the moment they signed in. The client reads those
 // tokens and clears them itself, so all this has to do is not treat them as a
 // route. An error handed back the same way is worth landing on Home for.
-const AUTH_HASH = /(^|[#&])(access_token|refresh_token|provider_token|error|error_description|error_code)=/;
 
 // The view is the first segment only. Anything after it belongs to the view:
 // the gallery uses "#/gallery/<media id>" so a single picture can be linked,
 // shared and reopened, and without this that whole URL would be read as the
 // name of a view nobody has ever heard of and land on nothing.
 function routeFromHash(): string {
-  const h = location.hash;
-  if (AUTH_HASH.test(h)) return 'home';
-  const route = h.replace(/^#\/?/, '').split('?')[0];
-  return route.startsWith('member/') ? route : (route.split('/')[0] || 'landing');
+  return routeFromLocation(location.hash, location.pathname);
 }
 
 // Whether this page load began with authentication handing back a session, or an
@@ -38,7 +41,6 @@ function routeFromHash(): string {
 // indistinguishable from somebody arriving at the site cold.
 const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
 const AUTH_RETURN = sessionStorage.getItem('coldstream-auth-return') || '#/home';
-const PUBLIC_VIEWS = new Set(['archive', 'members', 'gallery', 'servers', 'progress']);
 
 export default function App() {
   const { me, signIn, signOut, refresh, demo, orphanSession, authReady, accessDenied } = useAuth();
@@ -126,83 +128,56 @@ export default function App() {
   const go = (v: string) => { location.hash = '#/' + v; window.scrollTo(0, 0); };
 
 
-  // The splash is the member gate for the hub and private tools. Legacy
-  // archive/person links are deliberately not public member profiles: the
-  // living profile is the signed-in Discord member's own service record.
-  if (view === 'landing' || !authReady || (!me && !PUBLIC_VIEWS.has(view) && !view.startsWith('member/'))) {
-    return (
-      <>
-        <Landing me={me} go={go} signIn={signIn} />
-        {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
-      </>
-    );
-  }
+  // Keep old media links and new aliases on the same gallery deep-link contract.
+  useEffect(() => {
+    if (AUTH_HASH.test(location.hash)) return;
+    const raw = location.hash.replace(/^#\/?/, '');
+    const canonical = canonicalRoute(raw || location.pathname);
+    if ((!raw || canonical !== raw) && canonical !== 'landing') {
+      history.replaceState(null, '', location.pathname + location.search + '#/' + canonical);
+      setView(routeFromHash());
+    }
+  }, [view]);
 
-  // Home owns its full shell. The supplied direction has a purpose-built
-  // navigation bar and footer, so wrapping it in the archive masthead would
-  // duplicate both landmarks and break the one-page composition.
-  if (view === 'home') {
-    return (
-      <>
-        <Home me={me} go={go} signIn={signIn} signOut={signOut} />
-        {toast && <div className={'toast ' + toast.kind}>{toast.text}</div>}
-      </>
-    );
-  }
+  useEffect(() => {
+    if (authReady && me && (view === 'landing' || view === 'login')) go('home');
+  }, [authReady, me, view]);
 
-  return (
-    <div className="cg-home cg-site">
-      {demo && <div className="devbadge">DEMO BUILD · NO BACKEND YET</div>}
-      {toast && (
-        <div className={'toast ' + toast.kind} onClick={() => setToast(null)}
-          role="status" title="Click to dismiss">{toast.text}</div>
-      )}
-      <SiteNav active={view === 'gallery' ? 'Media' : view === 'events' ? 'Events' : view === 'leaderboard' ? 'Leaderboard' : view === 'player-profile' || view === 'profile' ? 'Community' : view === 'archive' || view === 'members' ? 'Our History' : ''} />
+  useEffect(() => {
+    const names: Record<string, string> = { landing: 'Second to none', home: 'Weekly brief', events: 'Events', leaderboard: 'Leaderboard', archive: 'Our History', gallery: 'Media', roster: 'Historical roster', profile: 'Service record', admin: 'Staff command', join: 'Join', 'design/profile': 'Profile design review' };
+    document.title = (names[view] || 'The record') + ' | Coldstream Gaming';
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [view]);
 
-      <AccountStrip me={me} signIn={signIn} signOut={signOut} />
-
-      <div className="cg-page-stage">
-      {!['home','members','gallery','events','leaderboard','servers','archive','admin','player-profile','profile'].includes(view) && !view.startsWith('member/') && <Home me={me} go={go} signIn={signIn} signOut={signOut} />}
-      <Suspense fallback={<div className="wrap solo"><main><div className="module"><div className="note">Opening the record room.</div></div></main></div>}>
-      {view.startsWith('member/') && <Profile personKey={decodeURIComponent(location.hash.replace(/^#\/?member\//, '').split('?')[0])} me={me} go={go} />}
-      {/* The roster moved into the Archive; old #/members links still land there. */}
-      {(view === 'archive' || view === 'members') && <Archive me={me} />}
-      {view === 'servers' && <Servers />}
-      {view === 'events' && <Calendar me={me} />}
-      {view === 'leaderboard' && <Leaderboard me={me} />}
-      {view === 'admin' && <Admin me={me} signOut={signOut} />}
-      {(view === 'player-profile' || view === 'profile') && (me
-        ? <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />
-        : <MemberOnlyProfileNotice signIn={signIn} />)}
-      </Suspense>
-      {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
-      </div>
-
-      <SiteFooter />
-    </div>
-  );
+  const artworkReview = import.meta.env.DEV && demo && view === 'design/artwork';
+  const locked = !me && requiresMember(view);
+  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
+  return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view} demo={demo}>
+    {toast && <div className={'toast ' + toast.kind} role="status" onClick={() => setToast(null)}>{toast.text}</div>}
+    {!authReady ? <div className="hq-loading" role="status"><img src={asset('/crest.webp')} width="64" height="65" alt="" /><p>Opening the Coldstream.</p></div>
+      : locked || view === 'login' ? <AccessGate view={view} signIn={signIn} />
+      : <Suspense fallback={<div className="hq-loading" role="status">Opening the record.</div>}>
+        {view === 'landing' && <Landing me={me} go={go} signIn={signIn} preview={demo} />}
+        {view === 'home' && <Home me={me} go={go} signIn={signIn} signOut={signOut} embedded />}
+        {view === 'join' && <Join signIn={signIn} />}
+        {(view === 'archive' || view === 'members') && <Archive me={me} />}
+        {view === 'servers' && <Servers />}
+        {view === 'events' && <Calendar me={me} />}
+        {view === 'leaderboard' && <Leaderboard me={me} />}
+        {view === 'admin' && (isStaff(me?.role) ? <Admin me={me} signOut={signOut} /> : <div className="hq-access"><p className="hq-eyebrow">Staff command</p><h1>Staff access required.</h1><p>This area is for Discord-authorised admins and moderators.</p><a className="hq-button" href="#/home">Return to headquarters</a></div>)}
+        {view === 'profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
+        {demo && view === 'design/profile' && <ProfileDesigns me={me} />}
+        {artworkReview && <ArtworkReview />}
+        {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
+        {view === 'gallery' && <Gallery me={me} signIn={signIn} />}
+        {view === 'roster' && <main className="hq-roster wrap solo"><header className="page-head"><p className="cg-eyebrow">The names in the record</p><h1>Historical roster.</h1><p className="page-sub">Find a name, a game or the years recorded in our archive.</p></header><Roster /></main>}
+        {view === 'progress' && <main className="hq-access"><p className="hq-eyebrow">Community work</p><h1>The progress board.</h1><a className="hq-button" href="/progress/">Open the progress board</a></main>}
+        {!known && !artworkReview && <main className="hq-access"><p className="hq-eyebrow">Off the map</p><h1>This page is not in the record.</h1><a className="hq-button" href={me ? '#/home' : '#/landing'}>Return to the Coldstream</a></main>}
+      </Suspense>}
+  </SiteShell>;
 }
 
-function PrivateMemberProfileNotice({ go }: { go: (v: string) => void }) {
-  return (
-    <div className="wrap solo"><main>
-      <div className="module">
-        <div className="mhead"><h3>Member profiles are private</h3><span className="sub">Discord-linked service records</span></div>
-        <div className="note">Player pages are only available to the member who signed in through Discord. Open your own service record to view your rank, medals, statistics and attendance.</div>
-        <p><button className="lnk" type="button" onClick={() => go('profile')}>Open my profile</button></p>
-      </div>
-    </main></div>
-  );
-}
-
-function MemberOnlyProfileNotice({ signIn }: { signIn: () => void }) {
-  return (
-    <div className="wrap solo"><main>
-      <div className="module">
-        <div className="mhead"><h3>Sign in to open your service record</h3><span className="sub">Discord members only</span></div>
-        <div className="note">Your profile contains your rank, detachment, medals, statistics and attendance. Continue with Discord to view it.</div>
-        <p><button className="btn primary" type="button" onClick={signIn}>Continue with Discord</button></p>
-      </div>
-    </main></div>
-  );
+function AccessGate({ view, signIn }: { view: string; signIn: () => void }) {
+  const label: Record<string, string> = { home: 'Your weekly brief', events: 'The calendar', leaderboard: 'The leaderboard', profile: 'Your service record', admin: 'Staff command', roster: 'The roster' };
+  return <main className="hq-access"><img src={asset('/crest.webp')} width="140" height="143" alt="Coldstream crest" /><p className="hq-eyebrow">{label[view] || 'Member headquarters'}</p><h1>Your place<br />in the Coldstream.</h1><p>Sign in with Discord to see your rank, statistics, weekly brief and events.</p><button className="hq-button primary" onClick={signIn}>Continue with Discord</button><a className="hq-text-link" href="#/join">New here? Join the community →</a></main>;
 }

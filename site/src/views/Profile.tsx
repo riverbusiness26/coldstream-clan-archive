@@ -6,12 +6,11 @@ import { useEffect, useMemo, useState } from 'react';
 import rosterSeed from '../seed/roster.json';
 import statsSeed from '../seed/profile-stats.json';
 import gallerySeed from '../seed/gallery.json';
-import { yearsWithUs, GAME_NAMES } from '../lib/data';
+import { GAME_NAMES } from '../lib/data';
 import { asset } from '../lib/asset';
 import { supa } from '../lib/supa';
 import ProfileLive from '../components/ProfileLive';
-import DiscordAvatar from '../components/DiscordAvatar';
-import { displayStat, EMPTY_COMBAT_STATS, loadCombatStats, type CombatStats } from '../lib/combatStats';
+import ProfileDisplayCase from '../components/ProfileDisplayCase';
 import type { Me } from '../lib/auth';
 
 interface Person {
@@ -73,9 +72,9 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
     return () => { cancelled = true; };
   }, [isMemberId, personKey]);
   const records = useMemo(
-    () => ENTRIES.filter((e) => e.person_key === personKey)
+    () => ENTRIES.filter((e) => e.person_key === (person?.key ?? personKey))
       .sort((a, b) => (a.year ?? 9999) - (b.year ?? 9999)),
-    [personKey],
+    [personKey, person?.key],
   );
   const stats: Stats = STATS[personKey] ?? { forumPosts: 0, announcements: 0, shots: [] };
   const shots = stats.shots.map((i) => SHOTS[i]).filter(Boolean);
@@ -115,9 +114,6 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
             yet. They will appear in the record as they turn up in events and
             screenshots from here on.
           </div>
-          <a className="ilink" href={`https://steamcommunity.com/profiles/${bySteam}`} target="_blank" rel="noopener">
-            Their Steam profile
-          </a>
         </div>
 
         <ProfileLive
@@ -132,7 +128,7 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
 
   if (!person) {
     if (isMemberId && linkedMemberLoading) return <div className="wrap solo"><main><div className="module"><div className="note">Opening this member profile.</div></div></main></div>;
-    if (linkedMember?.discord_id) return <LinkedMemberProfile member={linkedMember} me={me} go={go} />;
+    if (linkedMember?.discord_id && linkedMember.id === personKey) return <ProfileDisplayCase key={linkedMember.id} member={linkedMember} viewer={me} />;
     return (
       <div className="wrap solo"><main><div className="module">
         <div className="mhead"><h3>Member not found</h3></div>
@@ -141,11 +137,10 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
     );
   }
 
-  const yrs = yearsWithUs(person.datedYear);
-  const mine = false;
-  const yearsLine = yrs
-    ? `${yrs} years · joined ${person.datedYear}`
-    : person.firstYear ? `on the roll since ${person.firstYear}` : 'on the roll';
+  const datedYears = [...new Set(records.flatMap((entry) => entry.year === null ? [] : [entry.year]))].sort((a, b) => a - b);
+  const yearsLine = datedYears.length === 0 ? 'Undated archive record'
+    : datedYears.length === 1 ? `Recorded in ${datedYears[0]}`
+    : `Dated evidence: ${datedYears[0]} to ${datedYears[datedYears.length - 1]}`;
 
   return (
     <div className="wrap solo">
@@ -222,22 +217,4 @@ export default function Profile({ personKey, me, go }: { personKey: string; me: 
       </main>
     </div>
   );
-}
-
-function LinkedMemberProfile({ member, me, go }: { member: LinkedMember; me: Me | null; go: (v: string) => void }) {
-  const [stats, setStats] = useState<CombatStats>(EMPTY_COMBAT_STATS);
-  useEffect(() => {
-    if (!supa) return;
-    void loadCombatStats(supa, member.id).then(setStats);
-  }, [member.id]);
-  return <div className="wrap solo"><main>
-    <div className="crumbs"><button className="lnk" onClick={() => go('leaderboard')}>Leaderboard</button><span> › </span><span className="here">{member.display_name}</span></div>
-    <div className="module">
-      <div className="mhead"><h3>{member.display_name}</h3><span className="sub">Discord-linked member</span></div>
-      <div className="prof-head"><div className="prof-id"><DiscordAvatar url={member.avatar_url} name={member.display_name} className="prof-avi" /><div className="prof-title">{member.role === 'admin' ? 'Admin' : member.role === 'moderator' ? 'Moderator' : 'Member'}</div><div className="meta">Rank and detachment are assigned by staff.</div></div>
-        <div className="stats prof-stats"><div className="stat"><div className="n">{displayStat(stats.kills)}</div><div className="l">kills</div></div><div className="stat"><div className="n">{displayStat(stats.kdr)}</div><div className="l">K/D</div></div><div className="stat"><div className="n">{displayStat(stats.mvps)}</div><div className="l">MVPs</div></div><div className="stat"><div className="n">{displayStat(stats.top5)}</div><div className="l">Top 5s</div></div><div className="stat"><div className="n">{displayStat(stats.attendancePercent, stats.attendancePercent === null ? '' : '%')}</div><div className="l">attendance</div></div><div className="stat"><div className="n">{displayStat(stats.attendanceHours, stats.attendanceHours === null ? '' : 'h')}</div><div className="l">voice hours</div></div></div>
-      </div>
-    </div>
-    {me?.id === member.id && <p className="note"><button className="lnk" onClick={() => go('profile')}>Open your full service record</button></p>}
-  </main></div>;
 }

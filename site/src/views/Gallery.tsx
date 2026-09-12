@@ -12,6 +12,7 @@ import MediaToolbar, { type Facets } from '../components/MediaToolbar';
 import { MediaGrid, MediaTile } from '../components/MediaGrid';
 import { supa } from '../lib/supa';
 import { demoGallery } from '../lib/demoGallery';
+import { canonicalRoute } from '../lib/routing';
 
 /** How many results to render before asking. */
 const PAGE = 24;
@@ -27,7 +28,7 @@ const isBrowsing = (f: Facets) =>
 
 /** The item id in "#/gallery/<id>", or null. */
 function idFromHash(): string | null {
-  const parts = location.hash.replace(/^#\/?/, '').split('/');
+  const parts = canonicalRoute(location.hash || location.pathname).split('/');
   return parts[0] === 'gallery' && parts[1] ? decodeURIComponent(parts[1]) : null;
 }
 

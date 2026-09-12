@@ -1,9 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaChevronLeft, FaChevronRight, FaClipboardCheck, FaCog, FaFlag, FaHistory, FaHome, FaImage, FaMedal, FaSearch, FaShieldAlt, FaSignOutAlt, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import DiscordAvatar from '../components/DiscordAvatar';
+import ArtworkPicker from '../components/ArtworkPicker';
 import DetachmentEmblem from '../components/DetachmentEmblem';
+import { CALENDAR_TIME_ZONE, addCalendarDays, chicagoDateKey, chicagoDateTimeCandidates, chicagoDateTimeInput, chicagoDateTimeToIso, type ChicagoTimeOccurrence } from '../lib/calendarTime';
+import '../admin-redesign.css';
 
 type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'gallery' | 'weekly' | 'audit' | 'settings';
 type ItemKind = 'rank' | 'medal';
@@ -30,9 +33,25 @@ interface GallerySubmissionRow { id: string; storage_key: string | null; media_t
 ];
 const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Discord Member', avatar_url: null, discord_id: 'preview', role: 'member', company_id: null, status: 'active', notes: null, joined_year: null, enlisted_at: null, discharged_at: null, steam_id64: null }];
 const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Coldstream Guards', tag: '2ndCS', color: null, emblem_storage_key: null, emblem_image_mime: null, sort_order: 0 }];
-const PREVIEW_EVENTS: EventRow[] = [{ id: 'preview-event', title: 'Friday Linebattle', body: 'Form up 15 minutes before the event.', game: 'Holdfast: Nations At War', starts_at: new Date(Date.now() + 86_400_000).toISOString(), duration_minutes: 90, cancelled: false, event_type: 'linebattle', deleted_at: null }];
+const PREVIEW_EVENTS: EventRow[] = [{ id: 'preview-event', title: 'Example Linebattle', body: 'Form up 15 minutes before the event.', game: 'Holdfast: Nations At War', starts_at: new Date(Date.now() + 86_400_000).toISOString(), duration_minutes: 90, cancelled: false, event_type: 'linebattle', deleted_at: null }];
+const PREVIEW_STAT_SUBMISSIONS: StatSubmissionRow[] = [{ id: 'preview-report', submitter_id: 'preview-member', category: 'public_linebattle', event_name: 'Example report: Linebattle', status: 'submitted', created_at: new Date().toISOString(), stat_round: [{ round_number: 1, kills: 0, deaths: 0, is_mvp: false, is_top5: false, stat_proof: [] }] }];
+const SECTION_INFO: Record<Tab, { title: string; description: string }> = {
+  overview: { title: 'Staff overview', description: 'Review the queues, manage member records and prepare for the next event.' },
+  evidence: { title: 'Stat review', description: 'Open a report, inspect every round and its proof, then make one clear decision.' },
+  gallery: { title: 'Gallery review', description: 'View member uploads before accepting them into the gallery.' },
+  weekly: { title: 'Weekly content', description: 'Review features and manage the approved weekly rotation.' },
+  members: { title: 'Member records', description: 'Ranks, medals, detachments and member details, all in one place.' },
+  assignments: { title: 'Member records', description: 'Ranks, medals, detachments and member details, all in one place.' },
+  catalogue: { title: 'Artwork library', description: 'Create and maintain reusable ranks and medals. Award them from Members.' },
+  detachments: { title: 'Detachment library', description: 'Maintain detachment names and emblems. Manage membership from Members.' },
+  attendance: { title: 'Events and attendance', description: 'Manage the calendar, review replies and inspect Discord voice-presence evidence.' },
+  audit: { title: 'Audit log', description: 'The latest 75 recorded changes, with 25 entries per page.' },
+  settings: { title: 'Settings', description: 'Staff permissions, access information and system configuration.' },
+};
 const date = (value: string) => new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 const dateTime = (value: string) => new Date(value).toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const eventDateLabel = (value: string) => new Date(value).toLocaleDateString('en-US', { timeZone: CALENDAR_TIME_ZONE, year: 'numeric', month: 'short', day: 'numeric' });
+const eventDateTimeLabel = (value: string) => new Date(value).toLocaleString('en-US', { timeZone: CALENDAR_TIME_ZONE, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
 const dateInputValue = (value: Date) => {
   const year = value.getFullYear();
   const month = String(value.getMonth() + 1).padStart(2, '0');
@@ -56,6 +75,13 @@ const auditDetail = (detail: Record<string, unknown> | null) => {
 // field that could drift away from Discord evidence.
 const VOICE_SAMPLE_MINUTES = 2;
 const presenceHours = (samples: number) => Math.round((samples * VOICE_SAMPLE_MINUTES / 60) * 10) / 10;
+
+function ProofThumbnail({ url, title }: { url: string; title: string }) {
+  const [failed, setFailed] = useState(false);
+  return failed
+    ? <span className="staff-proof-unavailable">Preview unavailable. Open the original to check the file.</span>
+    : <img src={url} alt={title} loading="lazy" onError={() => setFailed(true)} />;
+}
 
 export default function Admin({ me, signOut }: { me: Me | null; signOut: () => void }) {
   const canStaff = me?.role === 'moderator' || me?.role === 'admin';
@@ -108,6 +134,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [eventGame, setEventGame] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventTime, setEventTime] = useState('19:00');
+  const [eventOccurrence, setEventOccurrence] = useState<ChicagoTimeOccurrence | ''>('');
   const [eventDuration, setEventDuration] = useState('90');
   const [eventKind, setEventKind] = useState('other');
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
@@ -120,8 +147,15 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [statCategoryFilter, setStatCategoryFilter] = useState('all');
   const [statSort, setStatSort] = useState<'oldest' | 'newest'>('oldest');
   const [editingStatId, setEditingStatId] = useState<string | null>(null);
+  const [selectedStatId, setSelectedStatId] = useState<string | null>(null);
+  const [statSearch, setStatSearch] = useState('');
+  const [confirmStatDelete, setConfirmStatDelete] = useState<string | null>(null);
+  const [proofPreview, setProofPreview] = useState<{ url: string; title: string } | null>(null);
+  const [proofFailed, setProofFailed] = useState(false);
+  const proofDialog = useRef<HTMLDialogElement>(null);
   const [statRoundDrafts, setStatRoundDrafts] = useState<Record<string, { kills: string; deaths: string; is_mvp: boolean; is_top5: boolean }>>({});
   const [weeklySubmissions, setWeeklySubmissions] = useState<WeeklySubmissionRow[]>([]);
+  const [weeklyFilter, setWeeklyFilter] = useState('pending');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
@@ -129,6 +163,11 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   useEffect(() => { window.localStorage.setItem('coldstream-admin-section', tab); }, [tab]);
   useEffect(() => { window.localStorage.setItem('coldstream-admin-catalogue-filter', catalogueFilter); }, [catalogueFilter]);
   useEffect(() => { window.localStorage.setItem('coldstream-admin-member-search', memberSearch); }, [memberSearch]);
+  useEffect(() => {
+    setProofFailed(false);
+    if (proofPreview && proofDialog.current && !proofDialog.current.open) proofDialog.current.showModal();
+    if (!proofPreview && proofDialog.current?.open) proofDialog.current.close();
+  }, [proofPreview]);
 
   // The message banner sits at the top of the board and the upload form is a
   // long way below it, so a failed upload looked like nothing happening at
@@ -136,13 +175,14 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   // screen the whole time, just not on the part of the screen being used.
   useEffect(() => {
     if (!error && !done) return;
-    document.querySelector('.command-message')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelector('.command-message')?.scrollIntoView({ block: 'center', behavior: reducedMotion ? 'instant' : 'smooth' });
   }, [error, done]);
 
   const load = useCallback(async () => {
     setError(null);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAssignmentHistory([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setGallerySubmissions([]); setStatSubmissions([]); setWeeklySubmissions([]);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAssignmentHistory([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setGallerySubmissions([]); setStatSubmissions(PREVIEW_STAT_SUBMISSIONS); setWeeklySubmissions([]);
       return;
     }
     const [itemResult, memberResult, companyResult, assignmentResult, assignmentHistoryResult, auditResult, galleryResult, eventResult] = await Promise.all([
@@ -172,6 +212,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     await supa.rpc('deploy_weekly_content');
     const weeklyResult = await supa.from('weekly_content_submission').select('id,submitter_id,url,provider,title,description,status,rejection_reason,submitted_at,approved_at').order('submitted_at', { ascending: true });
     setWeeklySubmissions((weeklyResult.data ?? []) as WeeklySubmissionRow[]);
+    if (statResult.error || weeklyResult.error) setError('Some review records could not be loaded. Refresh before treating a queue as empty.');
 
     const loadedEvents = (eventResult.data ?? []) as EventRow[];
     setEvents(loadedEvents);
@@ -195,8 +236,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   useEffect(() => { if (canStaff) load(); }, [canStaff, load]);
   useEffect(() => {
     if (!selectedItem && items[0]) setSelectedItem(items[0].id);
-    if (!assignItem && items[0]) setAssignItem(items[0].id);
-    if (!assignMembers.length && members[0]) setAssignMembers([members[0].id]);
+    if (!items.some((item) => item.id === assignItem && item.active)) setAssignItem(items.find((item) => item.active)?.id ?? '');
     if (!selectedEvent && events[0]) setSelectedEvent(events[0].id);
   }, [items, members, events, selectedItem, assignItem, assignMembers.length, selectedEvent]);
 
@@ -221,7 +261,6 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   useEffect(() => { if (auditPage > auditPageCount) setAuditPage(auditPageCount); }, [auditPage, auditPageCount]);
   const artworkUrl = (item: PersonnelItem) => !item.storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(item.storage_key).data.publicUrl;
   const statProofUrl = (proof: StatProofRow) => !supa ? null : supa.storage.from('stat-proof').getPublicUrl(proof.storage_key).data.publicUrl;
-    const statSubmitterGroups = useMemo(() => [...new Set(statSubmissions.map((submission) => submission.submitter_id))].map((id) => ({ id, member: memberById.get(id), submissions: statSubmissions.filter((submission) => submission.submitter_id === id) })).sort((a, b) => (a.member?.display_name || 'Discord member').localeCompare(b.member?.display_name || 'Discord member')), [memberById, statSubmissions]);
   const galleryMediaUrl = (row: GallerySubmissionRow) => row.external_url || (row.video_id ? `https://www.youtube.com/watch?v=${row.video_id}` : row.storage_key && supa ? supa.storage.from('gallery').getPublicUrl(row.storage_key).data.publicUrl : null);
   const galleryPreviewUrl = (row: GallerySubmissionRow) => row.video_id
     ? `https://img.youtube.com/vi/${row.video_id}/hqdefault.jpg`
@@ -253,10 +292,20 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const visibleStatSubmissions = useMemo(() => statSubmissions
     .filter((submission) => statStatusFilter === 'all' || submission.status === statStatusFilter)
     .filter((submission) => statCategoryFilter === 'all' || submission.category === statCategoryFilter)
+    .filter((submission) => !statSearch.trim() || `${submission.event_name ?? ''} ${memberById.get(submission.submitter_id)?.display_name ?? ''}`.toLowerCase().includes(statSearch.trim().toLowerCase()))
     .sort((a, b) => {
       const difference = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
       return statSort === 'oldest' ? difference : -difference;
-    }), [statSubmissions, statStatusFilter, statCategoryFilter, statSort]);
+    }), [statSubmissions, statStatusFilter, statCategoryFilter, statSort, statSearch, memberById]);
+  const selectedStat = visibleStatSubmissions.find((submission) => submission.id === selectedStatId) ?? visibleStatSubmissions[0] ?? null;
+  const selectedStatMember = selectedStat ? memberById.get(selectedStat.submitter_id) : null;
+  const pendingStats = statSubmissions.filter((submission) => submission.status === 'submitted').length;
+  const pendingWeekly = weeklySubmissions.filter((submission) => submission.status === 'pending').length;
+  const pendingGallery = gallerySubmissions.filter((submission) => !submission.approved).length;
+  const reviewTotal = pendingStats + pendingWeekly + pendingGallery;
+  const sectionInfo = SECTION_INFO[tab];
+  const visibleWeeklySubmissions = weeklySubmissions.filter((submission) => weeklyFilter === 'all' || submission.status === weeklyFilter);
+  useEffect(() => { setEditingStatId(null); setConfirmStatDelete(null); }, [selectedStat?.id]);
 
   function openTab(next: Tab) {
     setTab(next);
@@ -267,14 +316,25 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
 
   function openEventEditor() {
     if (!currentEvent) return;
-    const localStart = new Date(currentEvent.starts_at);
-    localStart.setMinutes(localStart.getMinutes() - localStart.getTimezoneOffset());
+    let chicagoValue: string;
+    let occurrence: ChicagoTimeOccurrence | '' = '';
+    try {
+      chicagoValue = chicagoDateTimeInput(currentEvent.starts_at);
+      const candidates = chicagoDateTimeCandidates(chicagoValue);
+      if (candidates.length > 1) {
+        const minuteTimestamp = Math.floor(Date.parse(currentEvent.starts_at) / 60_000) * 60_000;
+        occurrence = Date.parse(candidates[0]) === minuteTimestamp ? 'earlier' : 'later';
+      }
+    } catch {
+      setError('This event has an invalid start timestamp. Its date could not be opened for editing.');
+      return;
+    }
     setEventTitle(currentEvent.title);
     setEventBody(currentEvent.body ?? '');
     setEventGame(currentEvent.game ?? '');
-    const localValue = localStart.toISOString().slice(0, 16);
-    setEventDate(localValue.slice(0, 10));
-    setEventTime(localValue.slice(11, 16));
+    setEventDate(chicagoValue.slice(0, 10));
+    setEventTime(chicagoValue.slice(11, 16));
+    setEventOccurrence(occurrence);
     setEventDuration(String(currentEvent.duration_minutes));
     setEventKind(currentEvent.event_type);
     setConfirmEventDelete(false);
@@ -288,6 +348,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setEventGame('Holdfast: Nations At War');
     setEventDate('');
     setEventTime('19:00');
+    setEventOccurrence('');
     setEventDuration('90');
     setEventKind('linebattle');
     setConfirmEventDelete(false);
@@ -299,37 +360,45 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     if (!eventTitle.trim()) return 'Give the event a title.';
     if (!eventDate) return 'Choose the event date.';
     if (!eventTime) return 'Choose the start time.';
-    if (Number.isNaN(new Date(`${eventDate}T${eventTime}`).getTime())) return 'Choose a valid event date and start time.';
+    if (eventTiming.error) return eventTiming.error;
     const duration = Number(eventDuration);
     if (!Number.isInteger(duration) || duration < 15 || duration > 1440) return 'Duration must be between 15 and 1440 minutes.';
     return null;
   }
 
   function chooseEventDay(day: 'today' | 'tomorrow' | 'friday' | 'saturday') {
-    const chosen = new Date();
-    chosen.setHours(12, 0, 0, 0);
-    if (day === 'tomorrow') chosen.setDate(chosen.getDate() + 1);
+    const today = chicagoDateKey(new Date());
+    let daysAhead = day === 'tomorrow' ? 1 : 0;
     if (day === 'friday' || day === 'saturday') {
       const target = day === 'friday' ? 5 : 6;
-      const daysAhead = (target - chosen.getDay() + 7) % 7;
-      chosen.setDate(chosen.getDate() + daysAhead);
+      daysAhead = (target - new Date(`${today}T12:00:00Z`).getUTCDay() + 7) % 7;
     }
-    setEventDate(dateInputValue(chosen));
+    setEventDate(addCalendarDays(today, daysAhead));
+    setEventOccurrence('');
   }
 
   const eventStartValue = eventDate && eventTime ? `${eventDate}T${eventTime}` : '';
-  const eventStartPreview = eventStartValue && !Number.isNaN(new Date(eventStartValue).getTime())
-    ? new Date(eventStartValue).toLocaleString(undefined, { weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' })
-    : null;
+  const eventTiming = useMemo(() => {
+    let ambiguous = false;
+    if (!eventStartValue) return { iso: null, error: null, ambiguous };
+    try {
+      ambiguous = chicagoDateTimeCandidates(eventStartValue).length > 1;
+      return { iso: chicagoDateTimeToIso(eventStartValue, eventOccurrence || undefined), error: null, ambiguous };
+    } catch (cause) {
+      return { iso: null, error: cause instanceof Error ? cause.message : 'Choose a valid Chicago date and start time.', ambiguous };
+    }
+  }, [eventStartValue, eventOccurrence]);
+  const eventStartPreview = eventTiming.iso ? eventDateTimeLabel(eventTiming.iso) : null;
 
   async function createEvent() {
     setError(null); setDone(null);
     const validationError = eventFormError();
-    if (validationError) { setError(validationError); return; }
+    const startsAt = eventTiming.iso;
+    if (validationError || !startsAt) { setError(validationError || 'Choose a valid Chicago date and start time.'); return; }
     const duration = Number(eventDuration);
     if (!supa) {
       const id = `preview-${Date.now()}`;
-      setEvents((current) => [{ id, title: eventTitle.trim(), body: eventBody.trim() || null, game: eventGame.trim() || null, starts_at: new Date(eventStartValue).toISOString(), duration_minutes: duration, cancelled: false, event_type: eventKind, deleted_at: null }, ...current]);
+      setEvents((current) => [{ id, title: eventTitle.trim(), body: eventBody.trim() || null, game: eventGame.trim() || null, starts_at: startsAt, duration_minutes: duration, cancelled: false, event_type: eventKind, deleted_at: null }, ...current]);
       setSelectedEvent(id);
       setCreatingEvent(false);
       setDone('Preview only. The event was not posted to Discord.');
@@ -337,11 +406,11 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     }
     if (!await confirmDiscordRole()) return;
     setBusy(true);
-    const result = await supa.rpc('create_managed_event', {
+    const result = await supa.rpc('create_website_event', {
       event_title: eventTitle.trim(),
       event_body: eventBody.trim() || null,
       event_game: eventGame.trim() || null,
-      event_starts_at: new Date(eventStartValue).toISOString(),
+      event_starts_at: startsAt,
       event_duration_minutes: duration,
       event_kind: eventKind,
     });
@@ -349,15 +418,44 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     if (result.error) { setError(result.error.message); return; }
     setCreatingEvent(false);
     setSelectedEvent(result.data as string);
-    setDone('Event created. Its #staffchat Discord post is queued.');
+    setDone('Event saved. Choose Post to Discord when it is ready to share.');
     await load();
+  }
+
+  async function postSchedule() {
+    if (busy) return;
+    setError(null); setDone(null);
+    if (!supa) { setDone('Preview only. No schedule posted.'); return; }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    try {
+      const result = await supa.rpc('request_event_schedule');
+      if (result.error) throw result.error;
+      setDone('Schedule queued for staff chat. Coldstream Guard will update its schedule with current upcoming events.');
+    } catch { setError('Schedule could not be queued. Check the database update and bot connection.'); }
+    finally { setBusy(false); }
+  }
+
+  async function postEventToDiscord() {
+    if (!currentEvent || busy) return;
+    setError(null); setDone(null);
+    if (!supa) { setDone('Preview only. Nothing was posted.'); return; }
+    if (!await confirmDiscordRole()) return;
+    setBusy(true);
+    try {
+      const result = await supa.rpc('post_managed_event', { target_event: currentEvent.id });
+      if (result.error) throw result.error;
+      setDone('Discord post queued for staff chat. Repeated clicks do not create another post.');
+    } catch { setError('Could not queue the Discord post. Confirm the optional event-post database update is installed.'); }
+    finally { setBusy(false); }
   }
 
   async function saveEvent() {
     setError(null); setDone(null);
     if (!currentEvent) return;
     const validationError = eventFormError();
-    if (validationError) { setError(validationError); return; }
+    const startsAt = eventTiming.iso;
+    if (validationError || !startsAt) { setError(validationError || 'Choose a valid Chicago date and start time.'); return; }
     const duration = Number(eventDuration);
     if (!supa) { setDone('Preview only. The event was not changed.'); setEditingEvent(false); return; }
     if (!await confirmDiscordRole()) return;
@@ -368,7 +466,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       event_title: eventTitle.trim(),
       event_body: eventBody.trim() || null,
       event_game: eventGame.trim() || null,
-      event_starts_at: new Date(eventStartValue).toISOString(),
+      event_starts_at: startsAt,
       event_duration_minutes: duration,
       event_kind: eventKind,
     });
@@ -506,8 +604,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     if (references > 0) {
       setConfirmDelete(null);
       setError(activeHolders > 0
-        ? `This ${item.kind} is currently assigned to ${activeHolders} member${activeHolders === 1 ? '' : 's'}. Remove those assignments first, or archive it instead to keep the service record.`
-        : `This ${item.kind} has assignment history and cannot be deleted without breaking the service record. Archive it instead.`);
+        ? `This ${item.kind} is currently held by ${activeHolders} member${activeHolders === 1 ? '' : 's'}. Update those member records first, or archive the artwork to keep the service history.`
+        : `This ${item.kind} is part of a member's service history. Archive the artwork instead of deleting that history.`);
       return;
     }
     if (confirmDelete !== item.id) { setConfirmDelete(item.id); return; }
@@ -526,14 +624,14 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   async function assign() {
     setError(null); setDone(null);
     if (!assignMembers.length || !assignItem) { setError('Choose at least one member and an item.'); return; }
-    if (!supa) { setDone('Assignment preview complete. Nothing was saved.'); return; }
+    if (!supa) { setDone('Rank or medal preview complete. Nothing was saved.'); return; }
     if (!await confirmDiscordRole()) return;
     setBusy(true);
     const results = await Promise.all(assignMembers.map((memberId) => supa!.rpc('assign_personnel_item', { target_member: memberId, target_item: assignItem, assignment_note: assignNote.trim() || null })));
     setBusy(false);
     const failed = results.find((result) => result.error);
     if (failed?.error) { setError(failed.error.message); return; }
-    setAssignNote(''); setDone(assignMembers.length === 1 ? 'Assignment saved.' : `Assignments saved for ${assignMembers.length} members.`); await load();
+    setAssignNote(''); setDone(assignMembers.length === 1 ? 'Member rank or medal saved.' : `Member records updated for ${assignMembers.length} members.`); await load();
   }
 
   async function removeAssignment(id: string) {
@@ -542,7 +640,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     if (!await confirmDiscordRole()) return;
     const result = await supa.rpc('remove_personnel_assignment', { target_assignment: id });
     if (result.error) { setError(result.error.message); return; }
-    setDone(result.data ? 'Assignment removed.' : 'That assignment was already removed.'); await load();
+    setDone(result.data ? 'Member rank or medal removed. The service history is retained.' : 'That rank or medal was already removed.'); await load();
   }
 
   async function recordStaffAudit(action: string, entity: string, entityId: string, memberId: string | null, detail: Record<string, unknown>) {
@@ -761,29 +859,32 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const eventScheduleFields = <fieldset className="event-schedule">
     <legend>Event date and time</legend>
     <div className="event-date-time-fields">
-      <label>Event date<input type="date" value={eventDate} onChange={(event) => setEventDate(event.target.value)} /></label>
-      <label>Start time<input type="time" value={eventTime} step="900" onChange={(event) => setEventTime(event.target.value)} /></label>
+      <label>Event date<input type="date" value={eventDate} aria-describedby="event-time-guidance" onChange={(event) => { setEventDate(event.target.value); setEventOccurrence(''); }} /></label>
+      <label>Start time (Chicago)<input type="time" value={eventTime} step="900" aria-describedby="event-time-guidance" aria-invalid={Boolean(eventTiming.error)} onChange={(event) => { setEventTime(event.target.value); setEventOccurrence(''); }} /></label>
     </div>
-    <p className={eventStartPreview ? 'event-time-preview ready' : 'event-time-preview'}>{eventStartPreview ? `Starts ${eventStartPreview}` : 'Choose a date. Times use this device’s local timezone.'}</p>
+    {eventTiming.ambiguous && <label>Which occurrence?<select value={eventOccurrence} onChange={(event) => setEventOccurrence(event.target.value as ChicagoTimeOccurrence | '')}><option value="">Choose which time</option><option value="earlier">First occurrence (CDT, before clocks move back)</option><option value="later">Second occurrence (CST, after clocks move back)</option></select></label>}
+    <p id="event-time-guidance" role="status" className={eventStartPreview ? 'event-time-preview ready' : 'event-time-preview'}>{eventTiming.error || (eventStartPreview ? `Starts ${eventStartPreview}` : 'Choose a date. All event times use Chicago (Central Time), including daylight saving.')}</p>
   </fieldset>;
 
   return (
-    <main className={`command-board ${navOpen ? 'nav-open' : ''}`}>
+    <main className={`command-board staff-workspace ${navOpen ? 'nav-open' : ''}`}>
       <button className="admin-menu-button" onClick={() => setNavOpen((open) => !open)} aria-expanded={navOpen}><FaBars /> Menu</button>
+      {navOpen && <button className="staff-nav-backdrop" aria-label="Close staff navigation" onClick={() => setNavOpen(false)} />}
       <div className="admin-shell">
         <aside className="admin-sidebar">
           <button className="admin-sidebar-toggle" type="button" onClick={() => setNavOpen(false)} aria-label="Hide admin sidebar"><FaChevronLeft /></button>
-          <div className="admin-sidebar-brand"><FaShieldAlt /><div><span>2nd Coldstream</span><b>Admin Panel</b></div></div>
+          <div className="admin-sidebar-brand"><FaShieldAlt /><div><span>Coldstream Gaming</span><b>Staff workspace</b></div></div>
           <nav aria-label="Admin Panel sections">
-            <button className={tab === 'overview' ? 'active' : ''} onClick={() => openTab('overview')}><FaHome /><span>Overview</span><small>{attendanceReviewCount}</small></button>
+            <button className={tab === 'overview' ? 'active' : ''} aria-current={tab === 'overview' ? 'page' : undefined} onClick={() => openTab('overview')}><FaHome /><span>Overview</span>{reviewTotal > 0 && <small>{reviewTotal}</small>}</button>
+            <p>Review inbox</p>
+            <button className={tab === 'evidence' ? 'active' : ''} aria-current={tab === 'evidence' ? 'page' : undefined} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat reports</span><small>{pendingStats}</small></button>
+            <button className={tab === 'gallery' ? 'active' : ''} aria-current={tab === 'gallery' ? 'page' : undefined} onClick={() => openTab('gallery')}><FaImage /><span>Gallery</span><small>{pendingGallery}</small></button>
+            <button className={tab === 'weekly' ? 'active' : ''} aria-current={tab === 'weekly' ? 'page' : undefined} onClick={() => openTab('weekly')}><FaImage /><span>Weekly content</span><small>{pendingWeekly}</small></button>
+            <p>People and records</p>
             <button className={tab === 'members' || tab === 'assignments' ? 'active' : ''} onClick={() => openTab('members')}><FaUsers /><span>Members</span></button>
-            <button className={tab === 'evidence' ? 'active' : ''} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat Tracking</span><small>{statSubmissions.filter((submission) => submission.status === 'submitted').length}</small></button>
-            <button className={tab === 'gallery' ? 'active' : ''} onClick={() => openTab('gallery')}><FaImage /><span>Gallery submissions</span><small>{gallerySubmissions.filter((submission) => !submission.approved).length}</small></button>
-            <button className={tab === 'weekly' ? 'active' : ''} onClick={() => openTab('weekly')}><FaImage /><span>Weekly Content Submissions</span><small>{weeklySubmissions.filter((submission) => submission.status === 'pending').length}</small></button>
-            <button className={`admin-events-nav ${tab === 'attendance' ? 'active' : ''}`} onClick={() => openTab('attendance')} aria-label="Open Events calendar"><FaCalendarCheck /><span>Events <em>Open calendar</em></span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
-            <p>Regiment</p>
-            <button className={tab === 'catalogue' || tab === 'detachments' ? 'active' : ''} onClick={() => openTab('catalogue')}><FaAward /><span>Ranks, Medals & Detachments</span></button>
-            <p>More</p>
+            <button className={tab === 'attendance' ? 'active' : ''} onClick={() => openTab('attendance')}><FaCalendarCheck /><span>Events and attendance</span>{attendanceReviewCount > 0 && <small>{attendanceReviewCount}</small>}</button>
+            <button className={tab === 'catalogue' || tab === 'detachments' ? 'active' : ''} onClick={() => openTab('catalogue')}><FaAward /><span>Artwork library</span></button>
+            <p>Administration</p>
             <button className={tab === 'audit' ? 'active' : ''} onClick={() => openTab('audit')}><FaHistory /><span>Audit Log</span></button>
             <button className={tab === 'settings' ? 'active' : ''} onClick={() => openTab('settings')}><FaCog /><span>Settings</span></button>
           </nav>
@@ -791,22 +892,23 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </aside>
       <div className="admin-main">
       <header className="command-head">
-        <div><p className="command-kicker"><FaShieldAlt /> Coldstream personnel</p><h1>Admin Panel</h1><p>Review what needs attention, manage members, and keep regiment records in one place.</p></div>
-        <div className="command-session"><span>{me!.role}</span><b>{me!.display_name}</b><small>Role checked through Discord</small></div>
+        <div><p className="command-kicker">Staff workspace / {sectionInfo.title}</p><h1>{sectionInfo.title}</h1><p>{sectionInfo.description}</p></div>
+        <button className="command-secondary staff-refresh" type="button" disabled={busy} onClick={() => { void load(); }}>Refresh records</button>
       </header>
       <div className="admin-global-search"><label><FaSearch /><input value={globalSearch} onChange={(event) => setGlobalSearch(event.target.value)} placeholder="Search members, ranks, medals and events" /></label>{globalSearch.trim().length >= 2 && <div className="admin-search-results">{globalResults.length === 0 ? <span>No matching records</span> : globalResults.map((result) => <button key={`${result.kind}-${result.id}`} onClick={() => { if (result.tab === 'members') setMemberSearch(result.label); if (result.tab === 'catalogue') setSelectedItem(result.id); if (result.tab === 'attendance') setSelectedEvent(result.id); setGlobalSearch(''); openTab(result.tab); }}><small>{result.kind}</small><b>{result.label}</b></button>)}</div>}</div>
-      {DEMO && <div className="command-banner"><b>Preview mode.</b> Sign in, uploads and assignments are simulated.</div>}
-      {galleryPending !== null && galleryPending > 0 && <div className="command-banner"><b>{galleryPending}</b> gallery {galleryPending === 1 ? 'submission is' : 'submissions are'} waiting. <a href="#/gallery">Open the gallery.</a></div>}
+      {DEMO && <div className="command-banner"><b>Local preview.</b> Example records only. No live member, upload or review is changed.</div>}
+      {galleryPending !== null && galleryPending > 0 && tab === 'overview' && <div className="command-banner"><b>{galleryPending}</b> gallery {galleryPending === 1 ? 'submission is' : 'submissions are'} waiting. <button className="staff-inline-link" onClick={() => openTab('gallery')}>Review gallery</button></div>}
       {error && <div className="command-message error" role="alert">{error}</div>}
       {done && <div className="command-message ok" role="status">{done}</div>}
 
       {tab === 'gallery' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Member content review</span><h2>Gallery submissions</h2></div><span className="future-pill">{gallerySubmissions.filter((submission) => !submission.approved).length} pending · {gallerySubmissions.filter((submission) => submission.approved).length} approved</span></div><div className="catalogue-filters" role="group" aria-label="Gallery submission filters"><button className={galleryFilter === 'pending' ? 'active' : ''} onClick={() => setGalleryFilter('pending')}>Pending</button><button className={galleryFilter === 'approved' ? 'active' : ''} onClick={() => setGalleryFilter('approved')}>Approved</button><button className={galleryFilter === 'all' ? 'active' : ''} onClick={() => setGalleryFilter('all')}>All</button><select className="admin-sort" value={gallerySort} onChange={(event) => setGallerySort(event.target.value as 'newest' | 'oldest')} aria-label="Sort gallery submissions"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></div>{visibleGallerySubmissions.length === 0 ? <div className="command-empty">No gallery submissions in this view.</div> : <div className="stat-review-list">{visibleGallerySubmissions.map((submission) => { const href = galleryMediaUrl(submission); const preview = galleryPreviewUrl(submission); const author = Array.isArray(submission.uploader) ? submission.uploader[0]?.display_name : submission.uploader?.display_name; return <article className="stat-review-row gallery-review-row" key={submission.id}>{preview && (submission.media_type === 'image' || submission.video_id) ? <img className="gallery-review-preview" src={preview} alt="" loading="lazy" /> : <span className="gallery-review-preview gallery-review-placeholder" aria-hidden="true">{submission.media_type === 'video' ? '▶' : '▧'}</span>}<div><b>{submission.caption || (submission.media_type === 'video' ? 'Video submission' : 'Screenshot submission')}</b><span>{author || 'Member'} · {submission.media_type} · {dateTime(submission.created_at)}</span>{href ? <a href={href} target="_blank" rel="noopener noreferrer">Open {submission.media_type === 'video' ? 'video' : 'image'}</a> : <small>Media file is unavailable.</small>}</div><small>{submission.approved ? 'approved' : 'pending'}</small>{submission.approved ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewGallerySubmission(submission.id, false)}>Remove</button> : <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewGallerySubmission(submission.id, true)}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewGallerySubmission(submission.id, false)}>Remove</button></>}</article>; })}</div>}</section>}
 
       {tab === 'overview' && <section className="admin-overview">
-        <div className="admin-welcome"><div><span>Daily command view</span><h2>What needs attention</h2><p>The three queues staff use most are kept first. Open a queue to continue the work.</p></div><FaShieldAlt /></div>
+        <div className="admin-welcome"><div><span>Review inbox</span><h2>What needs attention</h2><p>Review submissions, check attendance and keep member records current. Counts reflect the records loaded in this workspace.</p></div><FaShieldAlt /></div>
         <div className="admin-attention-grid">
-          <article><header><FaClipboardCheck /><span>Stat submissions</span><b>{statSubmissions.filter((submission) => submission.status === 'submitted').length}</b></header><h3>{statSubmissions.some((submission) => submission.status === 'submitted') ? 'Reports waiting for review' : 'Nothing waiting'}</h3><p>Review the member’s rounds and proof before approved results reach the leaderboard.</p><button onClick={() => openTab('evidence')}>Open Stat Tracking</button></article>
-          <article><header><FaUsers /><span>New volunteers</span><b>0</b></header><h3>Enlistment is not connected</h3><p>Accepted recruits will appear here as Volunteer, assigned to Line Infantry until acknowledged.</p><button onClick={() => openTab('members')}>Open Members</button></article>
+          <article><header><FaClipboardCheck /><span>Stat reports</span><b>{pendingStats}</b></header><h3>{pendingStats ? 'Reports waiting for review' : 'Stat inbox is clear'}</h3><p>Inspect each round and its proof before accepted results reach the leaderboard.</p><button onClick={() => openTab('evidence')}>Review stat reports</button></article>
+          <article><header><FaImage /><span>Gallery</span><b>{pendingGallery}</b></header><h3>{pendingGallery ? 'Media waiting for review' : 'Gallery inbox is clear'}</h3><p>Open submitted images and videos before they appear in the gallery.</p><button onClick={() => openTab('gallery')}>Review gallery</button></article>
+          <article><header><FaImage /><span>Weekly content</span><b>{pendingWeekly}</b></header><h3>{pendingWeekly ? 'Features waiting for review' : 'Weekly inbox is clear'}</h3><p>Review the next community highlights and manage approved features.</p><button onClick={() => openTab('weekly')}>Review weekly content</button></article>
           <article><header><FaCalendarCheck /><span>Attendance review</span><b>{attendanceReviewCount}</b></header><h3>{attendanceReviewCount ? `${attendanceReviewCount} event${attendanceReviewCount === 1 ? '' : 's'} may need review` : 'Nothing waiting'}</h3><p>Events with unresolved attendance appear here after they end.</p><button onClick={() => openTab('attendance')}>Open Events</button></article>
         </div>
         <div className="admin-summary-grid"><article><span>Members</span><b>{members.length}</b><small>Discord roster records</small></article><article><span>Ranks & medals</span><b>{items.length}</b><small>{items.filter((item) => item.active).length} available</small></article><article><span>Detachments</span><b>{companies.length}</b><small>Regiment structure</small></article><article><span>Upcoming events</span><b>{upcomingEventCount}</b><small>Current calendar</small></article></div>
@@ -840,30 +942,30 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           <div className="catalogue-art">{artworkUrl(currentItem) ? <img src={artworkUrl(currentItem)!} alt={`${currentItem.name} artwork`} /> : currentItem.kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</div>
           <p className="command-kicker">{currentItem.kind}</p><h2>{currentItem.name}</h2><p>{currentItem.description || 'No description has been added.'}</p>
           <dl className="catalogue-facts"><div><dt>Current holders</dt><dd>{assignments.filter((row) => row.item_id === currentItem.id).length}</dd></div><div><dt>Status</dt><dd>{currentItem.active ? 'Available' : 'Archived'}</dd></div><div><dt>Added</dt><dd>{date(currentItem.created_at)}</dd></div></dl>
-          {canUpload && <div className="catalogue-replace"><label>Replace artwork<input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setReplacementFile(event.target.files?.[0] ?? null)} /></label><button className="command-secondary" disabled={busy || !replacementFile} onClick={() => replaceItemArtwork(currentItem)}>{busy ? 'Replacing' : 'Replace image'}</button><small>The current image stays in place unless the replacement saves successfully.</small></div>}
+          {canUpload && <div className="catalogue-replace"><ArtworkPicker key={currentItem.id} file={replacementFile} onChange={setReplacementFile} disabled={busy} /><button className="command-secondary" disabled={busy || !replacementFile} onClick={() => replaceItemArtwork(currentItem)}>{busy ? 'Replacing' : 'Replace image'}</button><small>The current image stays in place unless the replacement saves successfully.</small></div>}
           {canUpload && <div className="catalogue-actions"><button className="command-secondary" onClick={() => toggleItem(currentItem)}>{currentItem.active ? 'Archive item' : 'Restore item'}</button>{confirmDelete === currentItem.id ? <><button className="command-danger" disabled={busy} onClick={() => removeItem(currentItem)}>{busy ? 'Deleting' : 'Confirm delete'}</button><button className="command-secondary" onClick={() => setConfirmDelete(null)}>Cancel</button></> : <button className="command-danger ghost" onClick={() => removeItem(currentItem)}>Delete item</button>}</div>}
           {confirmDelete === currentItem.id && <p className="catalogue-warning">This removes the {currentItem.kind} and its artwork for good. Archive it instead if you only want it out of the way.</p>}
         </> : <div className="command-empty">Select an item to inspect it.</div>}</div>
-        <aside className="catalogue-upload"><div className="command-section-head"><div><span>Admin only</span><h2>Upload artwork</h2></div><FaImage /></div>{canUpload ? <div className="command-form"><label>Type<select value={itemKind} onChange={(event) => setItemKind(event.target.value as ItemKind)}><option value="rank">Rank</option><option value="medal">Medal</option></select></label><label>Name<input value={itemName} maxLength={80} onChange={(event) => setItemName(event.target.value)} placeholder="Item name" /></label><label>Description<textarea value={itemDescription} maxLength={500} onChange={(event) => setItemDescription(event.target.value)} placeholder="What this rank or medal represents" /></label><label className="command-file"><span>PNG, JPEG or WebP, up to 5 MB</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={(event) => setItemFile(event.target.files?.[0] ?? null)} /></label><button className="command-primary" onClick={uploadItem} disabled={busy}>{busy ? 'Uploading' : 'Add to catalogue'}</button></div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>Moderators can assign existing artwork but cannot upload or replace image files.</p></div>}</aside>
+        <aside className="catalogue-upload"><div className="command-section-head"><div><span>Admin only</span><h2>Upload artwork</h2></div><FaImage /></div>{canUpload ? <div className="command-form"><label>Type<select value={itemKind} onChange={(event) => setItemKind(event.target.value as ItemKind)}><option value="rank">Rank</option><option value="medal">Medal</option></select></label><label>Name<input value={itemName} maxLength={80} onChange={(event) => setItemName(event.target.value)} placeholder="Item name" /></label><label>Description<textarea value={itemDescription} maxLength={500} onChange={(event) => setItemDescription(event.target.value)} placeholder="What this rank or medal represents" /></label><ArtworkPicker file={itemFile} onChange={setItemFile} disabled={busy} /><button className="command-primary" onClick={uploadItem} disabled={busy || !itemFile}>{busy ? 'Uploading' : 'Add to catalogue'}</button></div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>Moderators can assign existing artwork but cannot upload or replace image files.</p></div>}</aside>
       </section>}
 
-      {false && tab === 'assignments' && <section className="command-panel-grid">
-        <div className="command-card assign-card"><div className="command-section-head"><div><span>Service record</span><h2>Assign an item</h2></div><button className="command-secondary" onClick={() => openTab('members')}>Back to members</button></div><div className="command-form horizontal"><label>Members <small>Use Ctrl or Shift to select several.</small><select className="member-multi" multiple value={assignMembers} onChange={(event) => setAssignMembers(Array.from(event.currentTarget.selectedOptions, (option) => option.value))}>{members.map((member) => <option value={member.id} key={member.id}>{member.display_name}</option>)}</select></label><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional reason or event" /></label><button className="command-primary" onClick={assign} disabled={busy || !items.length || !members.length}>{busy ? 'Saving' : assignMembers.length > 1 ? `Assign to ${assignMembers.length} members` : 'Assign item'}</button></div></div>
-        <div className="command-card"><div className="command-section-head"><div><span>Current</span><h2>Active assignments</h2></div><b>{assignments.length}</b></div><div className="assignment-list">{assignments.length === 0 && <div className="command-empty">No ranks or medals have been assigned yet.</div>}{assignments.map((row) => <article key={row.id}><span className={`assignment-mark ${row.item_kind}`}>{row.item_kind === 'rank' ? <FaShieldAlt /> : <FaMedal />}</span><div><b>{itemById.get(row.item_id)?.name ?? 'Unknown item'}</b><span>{memberById.get(row.member_id)?.display_name ?? 'Unknown member'} · {date(row.assigned_at)}</span>{row.note && <small>{row.note}</small>}</div><button onClick={() => removeAssignment(row.id)}>Remove</button></article>)}</div></div>
-      </section>}
 
       {(tab === 'members' || tab === 'detachments') && <section className={`command-panel-grid members-grid ${tab === 'detachments' ? 'detachment-only' : ''}`}>
         {tab === 'members' && <div className="command-card">
           <div className="command-section-head"><div><span>Discord roster</span><h2>Members</h2></div><b>{members.length}</b></div>
           <label className="command-search"><FaSearch /><input value={memberSearch} onChange={(event) => setMemberSearch(event.target.value)} placeholder="Search members" /></label>
-          {assignMembers.length > 0 && <div className="member-inline-assign command-form horizontal"><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional note" /></label><button className="command-primary" onClick={assign} disabled={busy || !assignItem}>{busy ? 'Saving' : 'Assign selected item'}</button><button className="command-secondary" onClick={() => setAssignMembers([])}>Cancel</button></div>}
+          {assignMembers.length > 0 && <div className="member-inline-assign command-form horizontal"><p className="staff-member-selection">{assignMembers.length} selected: {assignMembers.map((id) => memberById.get(id)?.display_name ?? 'Member').join(', ')}</p><label>Rank or medal<select value={assignItem} onChange={(event) => setAssignItem(event.target.value)}>{items.filter((item) => item.active).map((item) => <option value={item.id} key={item.id}>{item.kind === 'rank' ? 'Rank' : 'Medal'}: {item.name}</option>)}</select></label><label>Note<input value={assignNote} maxLength={300} onChange={(event) => setAssignNote(event.target.value)} placeholder="Optional note" /></label><button className="command-primary" onClick={assign} disabled={busy || !assignItem}>{busy ? 'Saving' : itemById.get(assignItem)?.kind === 'rank' ? 'Set selected rank' : 'Award selected medal'}</button><button className="command-secondary" onClick={() => setAssignMembers([])}>Clear selection</button></div>}
+          {!visibleMembers.length && <p className="command-empty">No members match this name.</p>}
           <div className="member-command-list">{visibleMembers.map((member) => {
             const records = assignments.filter((row) => row.member_id === member.id);
             const rank = records.find((row) => row.item_kind === 'rank');
+            const memberMedals = records.filter((row) => row.item_kind === 'medal');
             const currentCompany = member.company_id ? companyById.get(member.company_id) : null;
             return <article key={member.id}>
-              <a className="member-profile-link" href={`#/member/${encodeURIComponent(member.id)}`}><DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" /><div className="member-summary"><b>{member.display_name}</b><span>{member.role} · {member.discord_id ? 'Discord linked' : 'Discord not linked'}</span><small>{currentCompany?.name ?? 'No detachment'}</small></div></a>
+              <label className="staff-member-select"><input type="checkbox" aria-label={`Select ${member.display_name} for a rank or medal`} checked={assignMembers.includes(member.id)} onChange={(event) => setAssignMembers((current) => event.target.checked ? [...current, member.id] : current.filter((id) => id !== member.id))} /></label>
+              <a className="member-profile-link" href={supa ? `#/member/${encodeURIComponent(member.id)}` : '#/design/profile'}><DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" /><div className="member-summary"><b>{member.display_name}</b><span>{member.role} · {member.discord_id ? 'Discord linked' : 'Discord not linked'}</span><small>{currentCompany?.name ?? 'No detachment'}</small></div></a>
               <div className="member-record"><span>{rank ? itemById.get(rank.item_id)?.name : 'No rank'}</span><span>{records.filter((row) => row.item_kind === 'medal').length} medals</span>{rank && <button className="command-link-danger" type="button" onClick={() => removeAssignment(rank.id)} disabled={busy}>Remove rank</button>}</div>
+              {memberMedals.length > 0 && <details className="staff-member-medals"><summary>Manage {memberMedals.length} medals</summary>{memberMedals.map((record) => <div key={record.id}><span>{itemById.get(record.item_id)?.name ?? 'Medal'}<small>{date(record.assigned_at)}</small></span><button className="command-link-danger" disabled={busy} onClick={() => removeAssignment(record.id)}>Remove medal</button></div>)}</details>}
               <div className="member-detachment-control">
                 <select aria-label={`Detachment for ${member.display_name}`} value={detachmentDrafts[member.id] ?? ''} onChange={(event) => setDetachmentDrafts((current) => ({ ...current, [member.id]: event.target.value }))}>
                   <option value="">No detachment</option>
@@ -910,11 +1012,13 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       {tab === 'attendance' && <section className="command-panel-grid attendance-grid">
         <aside className="command-card attendance-events">
           <div className="command-section-head"><div><span>Event record</span><h2>Attendance</h2></div><div className="event-list-actions"><b>{events.length}</b><button className="command-primary" onClick={openEventCreator}>Add event</button></div></div>
-          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{date(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}</small></div></button>)}</div>
+          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{eventDateLabel(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}</small></div></button>)}</div>
         </aside>
 
         <div className="command-card attendance-review">
           <div className="command-section-head"><div><span>Event management</span><h2>{creatingEvent ? 'Add an event' : currentEvent?.title ?? 'Choose an event'}</h2></div>{currentEvent && !creatingEvent ? <div className="event-manage-actions"><button className="command-secondary" onClick={openEventEditor}>{editingEvent ? 'Reset form' : 'Edit event'}</button><button className="command-danger ghost" onClick={() => { setEditingEvent(false); setConfirmEventDelete(true); }}>Remove event</button></div> : <FaCalendarCheck />}</div>
+          <button className="command-secondary" disabled={busy} onClick={postSchedule}>Post or update Discord schedule</button>
+          {currentEvent && !creatingEvent && !currentEvent.cancelled && <button className="command-secondary" disabled={busy} onClick={postEventToDiscord}>Post to Discord</button>}
           {creatingEvent && <div className="event-edit-form">
             <div className="command-section-head"><div><span>Posts in #staffchat</span><h3>Create event</h3></div></div>
             <div className="command-form event-form-grid">
@@ -941,10 +1045,10 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           </div>}
           {confirmEventDelete && currentEvent && <div className="event-delete-confirm" role="alertdialog" aria-labelledby="event-delete-title"><FaCalendarCheck /><div><h3 id="event-delete-title">Remove {currentEvent.title}?</h3><p>This removes the event from the website and tells the Discord bot to delete its public and staff posts. Attendance records remain in the audit trail.</p></div><div><button className="command-danger" disabled={busy} onClick={removeEvent}>{busy ? 'Removing' : 'Confirm removal'}</button><button className="command-secondary" disabled={busy} onClick={() => setConfirmEventDelete(false)}>Keep event</button></div></div>}
           {currentEvent && <div className="attendance-summary">
-            <div><small>Starts</small><b>{dateTime(currentEvent.starts_at)}</b></div>
+            <div><small>Starts (Chicago)</small><b>{eventDateTimeLabel(currentEvent.starts_at)}</b></div>
             <div><small>Tracked time</small><b>{currentWindow ? trackedMinutes > 0 ? `${trackedMinutes} minutes` : 'Just started' : 'Not started'}</b></div>
             <div><small>People seen</small><b>{currentWindow?.people_seen ?? 0}</b></div>
-            <div><small>Voice hours</small><b>{eventVoiceHours ? `${eventVoiceHours.toFixed(1)}h` : '—'}</b></div>
+            <div><small>Voice hours</small><b>{eventVoiceHours ? `${eventVoiceHours.toFixed(1)}h` : 'Not recorded'}</b></div>
             <div><small>Confirmed</small><b>{currentRsvps.filter((row) => row.attendance === 'attended').length}</b></div>
           </div>}
           {currentEvent && attendanceMembers.length === 0 && unlinkedPresence.length === 0 && <div className="command-empty">No RSVPs or voice activity was recorded for this event.</div>}
@@ -961,7 +1065,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
                   ? `In voice for the full ${trackedMinutes}-minute tracking window · ${presenceHours(presence.samples)}h recorded`
                   : `In voice for about ${Math.max(1, Math.round(trackedMinutes * coverage / 100))} of ${trackedMinutes} tracked minutes · ${presenceHours(presence.samples)}h recorded`;
             return <article key={member.id}>
-              <a className="member-profile-link" href={`#/member/${encodeURIComponent(member.id)}`}><DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" /><div><b>{member.display_name}</b><span>RSVP: {rsvpLabel}</span><small>{voiceSummary}</small></div></a>
+              <a className="member-profile-link" href={supa ? `#/member/${encodeURIComponent(member.id)}` : '#/design/profile'}><DiscordAvatar url={member.avatar_url} name={member.display_name} className="member-avatar" /><div><b>{member.display_name}</b><span>RSVP: {rsvpLabel}</span><small>{voiceSummary}</small></div></a>
               <div className="attendance-actions" aria-label={`Attendance for ${member.display_name}`}>
                 <button className={rsvp?.attendance === 'attended' ? 'active attended' : ''} disabled={busy} onClick={() => setAttendance(member.id, 'attended')}>Attended</button>
                 <button className={rsvp?.attendance === 'no_show' ? 'active no-show' : ''} disabled={busy} onClick={() => setAttendance(member.id, 'no_show')}>No-show</button>
@@ -973,16 +1077,79 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </div>
       </section>}
 
-      {tab === 'evidence' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Discord report review</span><h2>Stat Tracking</h2></div><span className="future-pill">{statSubmissions.filter((s) => s.status === 'submitted').length} pending · {statSubmissions.filter((s) => s.status === 'approved').length} approved</span></div>{statSubmissions.length === 0 ? <div className="evidence-intro"><FaClipboardCheck /><div><h3>No submissions recorded</h3><p>Discord reports will appear here oldest first after members submit their rounds and proof screenshots.</p></div></div> : <><div className="stat-review-filters" aria-label="Stat submission filters"><label>Status<select value={statStatusFilter} onChange={(event) => setStatStatusFilter(event.target.value as typeof statStatusFilter)}><option value="submitted">Needs review</option><option value="all">All statuses</option><option value="approved">Approved</option><option value="rejected">Denied</option></select></label><label>Type<select value={statCategoryFilter} onChange={(event) => setStatCategoryFilter(event.target.value)}><option value="all">All types</option><option value="public_server">Public Servers</option><option value="public_linebattle">Linebattle Stats</option><option value="competitive">Competitive</option></select></label><label>Order<select value={statSort} onChange={(event) => setStatSort(event.target.value as typeof statSort)}><option value="oldest">Oldest first</option><option value="newest">Newest first</option></select></label><span className="stat-review-count">Showing {visibleStatSubmissions.length} of {statSubmissions.length}</span></div><div className="stat-review-list">{visibleStatSubmissions.length === 0 ? <div className="command-empty">No submissions match these filters.</div> : visibleStatSubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.event_name || statCategoryLabel(submission.category)}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Discord member'} · {statCategoryLabel(submission.category)} · {submission.stat_round?.length || 0} rounds</span><div className="stat-proof-links">{submission.stat_round?.flatMap((round) => (round.stat_proof ?? []).filter((proof) => !proof.deleted_at).map((proof) => { const url = statProofUrl(proof); return url ? <a key={proof.id} href={url} target="_blank" rel="noopener noreferrer">View round {round.round_number} proof</a> : null; }))}</div></div><small>{dateTime(submission.created_at)} · {submission.status}</small>{submission.status === 'submitted' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewStatSubmission(submission.id, 'rejected')}>Deny</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></> : <><span className="future-pill">{submission.status}</span><button className="command-danger ghost" type="button" disabled={busy} onClick={() => removeStatSubmission(submission.id)}>Remove</button></>}</article>)}</div></>}<div className="evidence-flow"><span>Discord submission</span><i /><span>Oldest-first review</span><i /><span>Approve or reject</span><i /><span>Stats updated</span></div></section>}
+      {tab === 'evidence' && <section className="staff-review-workspace">
+        <div className="stat-review-filters" aria-label="Stat submission filters">
+          <label>Find a report<input value={statSearch} onChange={(event) => setStatSearch(event.target.value)} placeholder="Member or event name" /></label>
+          <label>Status<select value={statStatusFilter} onChange={(event) => setStatStatusFilter(event.target.value as typeof statStatusFilter)}><option value="submitted">Needs review</option><option value="all">All statuses</option><option value="approved">Approved</option><option value="rejected">Denied</option></select></label>
+          <label>Type<select value={statCategoryFilter} onChange={(event) => setStatCategoryFilter(event.target.value)}><option value="all">All types</option><option value="public_server">Public Servers</option><option value="public_linebattle">Linebattle Stats</option><option value="competitive">Competitive</option></select></label>
+          <label>Order<select value={statSort} onChange={(event) => setStatSort(event.target.value as typeof statSort)}><option value="oldest">Oldest first</option><option value="newest">Newest first</option></select></label>
+          <span className="stat-review-count">{visibleStatSubmissions.length} reports</span>
+        </div>
+        <div className="staff-review-columns">
+          <aside className="staff-report-list" aria-label="Reports">
+            <header><b>Reports</b><span>{pendingStats} need review</span></header>
+            {visibleStatSubmissions.length === 0 ? <p className="command-empty">No reports match these filters.</p> : visibleStatSubmissions.map((submission) => {
+              const member = memberById.get(submission.submitter_id);
+              const proofCount = submission.stat_round?.reduce((count, round) => count + (round.stat_proof?.filter((proof) => !proof.deleted_at).length ?? 0), 0) ?? 0;
+              return <button type="button" key={submission.id} className={selectedStat?.id === submission.id ? 'selected' : ''} aria-pressed={selectedStat?.id === submission.id} onClick={() => setSelectedStatId(submission.id)}>
+                <span className="staff-report-person"><DiscordAvatar url={member?.avatar_url ?? null} name={member?.display_name ?? 'Discord member'} className="member-avatar" /><b>{member?.display_name ?? 'Discord member'}</b><span className={'stat-status stat-status-' + submission.status}>{submission.status === 'submitted' ? 'Review' : submission.status}</span></span>
+                <strong>{submission.event_name || statCategoryLabel(submission.category)}</strong>
+                <small>{dateTime(submission.created_at)} · {submission.stat_round?.length ?? 0} rounds</small>
+                <span className="staff-report-proof-count">{proofCount ? `${proofCount} proof image${proofCount === 1 ? '' : 's'}` : 'No proof attached'}</span>
+              </button>;
+            })}
+          </aside>
+          {selectedStat ? <article className="staff-report-detail" key={selectedStat.id}>
+            <header className="staff-report-header">
+              <div><span className="staff-overline">{statCategoryLabel(selectedStat.category)}</span><h2>{selectedStat.event_name || statCategoryLabel(selectedStat.category)}</h2><p>{selectedStatMember ? <a href={supa ? '#/member/' + encodeURIComponent(selectedStatMember.id) : '#/design/profile'}>{selectedStatMember.display_name}</a> : 'Discord member'} · Submitted {dateTime(selectedStat.created_at)}</p></div>
+              <span className={'stat-status stat-status-' + selectedStat.status}>{selectedStat.status === 'submitted' ? 'Needs review' : selectedStat.status}</span>
+            </header>
+            <div className="staff-report-totals"><span><b>{selectedStat.stat_round?.reduce((sum, round) => sum + round.kills, 0) ?? 0}</b> Kills</span><span><b>{selectedStat.stat_round?.reduce((sum, round) => sum + round.deaths, 0) ?? 0}</b> Deaths</span><span><b>{selectedStat.stat_round?.length ?? 0}</b> Rounds</span>{selectedStat.status === 'submitted' && <button className="command-secondary" type="button" onClick={() => editingStatId === selectedStat.id ? setEditingStatId(null) : beginStatEdit(selectedStat)}>{editingStatId === selectedStat.id ? 'Finish editing' : 'Edit round values'}</button>}</div>
+            {!selectedStat.stat_round?.length && <p className="command-empty">No rounds are attached to this report.</p>}
+            <div className="staff-report-rounds">{selectedStat.stat_round?.map((round) => {
+              const key = selectedStat.id + ':' + round.round_number;
+              const draft = statRoundDrafts[key];
+              const editing = editingStatId === selectedStat.id;
+              const proofs = round.stat_proof?.filter((proof) => !proof.deleted_at) ?? [];
+              return <section className="staff-report-round" key={round.round_number}>
+                <header><h3>Round {round.round_number}</h3>{editing && <button className="command-primary" type="button" disabled={busy} onClick={() => saveStatRound(selectedStat.id, round)}>Save round</button>}</header>
+                {editing ? <div className="stat-round-edit">
+                  <label>Kills<input type="number" min="0" value={draft?.kills ?? String(round.kills)} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: event.target.value, deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /></label>
+                  <label>Deaths<input type="number" min="0" value={draft?.deaths ?? String(round.deaths)} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: event.target.value, is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /></label>
+                  <label><input type="checkbox" checked={draft?.is_mvp ?? round.is_mvp} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: event.target.checked, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /> MVP</label>
+                  <label><input type="checkbox" checked={draft?.is_top5 ?? round.is_top5} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: event.target.checked } }))} /> Top 5</label>
+                </div> : <div className="stat-round-values"><span><b>{round.kills}</b> kills</span><span><b>{round.deaths}</b> deaths</span><span>{round.is_mvp ? 'MVP' : 'No MVP'}</span><span>{round.is_top5 ? 'Top 5' : 'Not Top 5'}</span></div>}
+                {proofs.length ? <div className="staff-proof-grid">{proofs.map((proof) => {
+                  const url = statProofUrl(proof);
+                  const title = `Round ${round.round_number} proof: ${selectedStat.event_name || statCategoryLabel(selectedStat.category)}`;
+                  return url ? <div className="staff-proof-item" key={proof.id}><button type="button" onClick={() => setProofPreview({ url, title })}><ProofThumbnail url={url} title={title} /><span>Inspect screenshot</span></button><a href={url} target="_blank" rel="noopener noreferrer">Open original ↗</a></div> : <p className="staff-proof-unavailable" key={proof.id}>The proof file is unavailable.</p>;
+                })}</div> : <p className="staff-proof-note">{DEMO ? 'Example only. Real Discord proof screenshots appear here for staff inspection.' : 'No proof is attached to this round. Check the Discord report before deciding.'}</p>}
+              </section>;
+            })}</div>
+            <footer className="staff-review-decision">
+              <p>{selectedStat.status === 'submitted' ? 'Check every round and screenshot before accepting this report.' : 'This report has already been reviewed. Its values remain available above.'}</p>
+              <div>{selectedStat.status === 'submitted' && <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewStatSubmission(selectedStat.id, 'approved')}>Accept report</button><button className="command-secondary" type="button" disabled={busy} onClick={() => reviewStatSubmission(selectedStat.id, 'rejected')}>Deny report</button></>}
+              <button className="command-link-danger" type="button" disabled={busy} onClick={() => setConfirmStatDelete(selectedStat.id)}>Remove record</button></div>
+              {confirmStatDelete === selectedStat.id && <div className="staff-delete-confirm" role="alert"><p>Remove this report and its recorded results? This is separate from denying it.</p><button className="command-danger" disabled={busy} onClick={() => { void removeStatSubmission(selectedStat.id); setConfirmStatDelete(null); }}>Confirm removal</button><button className="command-secondary" disabled={busy} onClick={() => setConfirmStatDelete(null)}>Keep report</button></div>}
+            </footer>
+          </article> : <div className="staff-report-detail staff-report-empty"><FaClipboardCheck /><h2>{statSubmissions.length ? 'No matching report' : 'The review inbox is clear'}</h2><p>{statSubmissions.length ? 'Adjust the filters to find a member or event.' : 'Submitted Discord reports will appear here with their rounds and proof.'}</p></div>}
+        </div>
+      </section>}
 
-      {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first catalogue upload or assignment.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span>{auditDetail(row.detail) && <small>{auditDetail(row.detail)}</small>}</div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
+      {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first artwork upload or member record change.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span>{auditDetail(row.detail) && <small>{auditDetail(row.detail)}</small>}</div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
 
-      {tab === 'weekly' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Homepage moderation</span><h2>Weekly Content Submissions</h2></div><span className="future-pill">{weeklySubmissions.filter((s) => s.status === 'pending').length} pending</span></div>{weeklySubmissions.length === 0 ? <div className="command-empty">No weekly content submissions yet.</div> : <div className="stat-review-list">{weeklySubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.title}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Member'} · {submission.provider} · <a href={submission.url} target="_blank" rel="noreferrer">Open link</a></span>{submission.description && <small>{submission.description}</small>}</div><small>{dateTime(submission.submitted_at)} · {submission.status}</small>{submission.status === 'pending' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'rejected')}>Deny</button></> : submission.status === 'approved' ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'archived')}>Archive</button> : <span className="future-pill">{submission.status}</span>}</article>)}</div>}</section>}
-      {tab === 'settings' && <section className="command-card settings-shell"><div className="command-section-head"><div><span>System controls</span><h2>Settings</h2></div><FaCog /></div>{canUpload ? <div className="command-empty">Discord role mappings, scheduled sync and event defaults will live here as each integration is connected.</div> : <div className="command-locked"><FaShieldAlt /><b>Admin access required</b><p>You can see that Settings exists, but only admins can change system-wide controls.</p></div>}</section>}
+      {tab === 'weekly' && <section className="command-card evidence-shell"><div className="command-section-head"><div><span>Homepage moderation</span><h2>Weekly Content Submissions</h2></div><span className="future-pill">{weeklySubmissions.filter((s) => s.status === 'pending').length} pending</span></div><div className="catalogue-filters" role="group" aria-label="Weekly content status">{[['pending', 'Needs review'], ['approved', 'Approved'], ['archived', 'Archived'], ['all', 'All records']].map(([value, label]) => <button key={value} aria-pressed={weeklyFilter === value} className={weeklyFilter === value ? 'active' : ''} onClick={() => setWeeklyFilter(value)}>{label}</button>)}</div><p className="staff-section-note">Open the submission before deciding. Denied submissions are removed from this queue; approved content follows the existing weekly publication schedule.</p>{visibleWeeklySubmissions.length === 0 ? <div className="command-empty">No weekly submissions in this view.</div> : <div className="stat-review-list">{visibleWeeklySubmissions.map((submission) => <article className="stat-review-row" key={submission.id}><div><b>{submission.title}</b><span>{memberById.get(submission.submitter_id)?.display_name || 'Member'} · {submission.provider} · <a href={submission.url} target="_blank" rel="noreferrer">Open link</a></span>{submission.description && <small>{submission.description}</small>}</div><small>{dateTime(submission.submitted_at)} · {submission.status}</small>{submission.status === 'pending' ? <><button className="command-primary" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'approved')}>Approve</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'rejected')}>Deny and remove</button></> : submission.status === 'approved' ? <button className="command-danger ghost" type="button" disabled={busy} onClick={() => reviewWeeklySubmission(submission.id, 'archived')}>Archive</button> : <span className="future-pill">{submission.status}</span>}</article>)}</div>}</section>}
+      {tab === 'settings' && <section className="command-card settings-shell">
+        <div className="command-section-head"><div><span>Access and data</span><h2>Workspace permissions</h2></div><FaCog /></div>
+        <div className="staff-settings-grid"><article><h3>Your access</h3><p><strong>{me!.display_name}</strong> is signed in as <strong>{me!.role}</strong>.</p><p>Discord synchronization controls the account identity. The database checks permission for each saved change.</p></article><article><h3>Member records</h3><p>Admins and moderators manage member records and review submissions. Artwork creation, replacement and deletion are restricted to admins.</p><button className="command-secondary" onClick={() => openTab('members')}>Open Members</button></article><article><h3>Audit history</h3><p>The workspace displays the latest 75 records. Each page shows up to 25 entries.</p><button className="command-secondary" onClick={() => openTab('audit')}>Open audit log</button></article><article><h3>Integration settings</h3><p>Discord role mappings, synchronization schedules and backend event defaults are not editable here yet. No unsaved controls are presented.</p></article></div>
+      </section>}
 
-        {tab === 'evidence' && <section className="command-card stat-detail-shell"><div className="command-section-head"><div><span>Review before decision</span><h2>Submissions by member</h2></div><span className="future-pill">Accepted and denied reports stay archived</span></div><div className="stat-submitter-groups">{statSubmitterGroups.map((group) => { const member = group.member; const profileHref = member ? '#/member/' + encodeURIComponent(member.id) : null; return <section className="stat-submitter-group" key={group.id}><a className="stat-submitter-head" href={profileHref ?? '#/admin'}><DiscordAvatar url={member?.avatar_url ?? null} name={member?.display_name ?? 'Discord member'} className="member-avatar" /><span><b>{member?.display_name ?? 'Discord member'}</b><small>{group.submissions.length} submission{group.submissions.length === 1 ? '' : 's'}</small></span></a><div className="stat-submission-list">{group.submissions.map((submission) => { const editing = editingStatId === submission.id; return <details className="stat-submission-compact" key={submission.id}><summary><span className="stat-submission-summary-main"><b>{submission.event_name || statCategoryLabel(submission.category)}</b><small>{statCategoryLabel(submission.category)} · {submission.stat_round?.length ?? 0} rounds · {dateTime(submission.created_at)}</small></span><span className={'stat-status stat-status-' + submission.status}>{submission.status}</span><span className="stat-submission-summary-actions">{submission.status === 'submitted' && <><button className="command-primary" type="button" disabled={busy} onClick={(event) => { event.preventDefault(); reviewStatSubmission(submission.id, 'approved'); }}>Accept</button><button className="command-secondary" type="button" disabled={busy} onClick={(event) => { event.preventDefault(); reviewStatSubmission(submission.id, 'rejected'); }}>Deny</button></>}<button className="command-danger" type="button" disabled={busy} onClick={(event) => { event.preventDefault(); removeStatSubmission(submission.id); }}>Remove</button></span></summary><div className="stat-detail-body"><div className="stat-detail-meta"><span>{submission.stat_round?.reduce((sum, round) => sum + round.kills, 0) ?? 0} kills total · {submission.stat_round?.reduce((sum, round) => sum + round.deaths, 0) ?? 0} deaths total</span>{submission.status === 'submitted' && <button className="command-secondary" type="button" onClick={() => editing ? setEditingStatId(null) : beginStatEdit(submission)}>{editing ? 'Stop editing' : 'Edit before decision'}</button>}</div><div className="stat-round-detail-list">{(submission.stat_round ?? []).map((round) => { const key = submission.id + ':' + round.round_number; const draft = statRoundDrafts[key]; const proof = round.stat_proof?.filter((item) => !item.deleted_at) ?? []; return <article className="stat-round-detail" key={round.round_number}><div className="stat-round-detail-head"><b>Round {round.round_number}</b>{editing && <button className="command-primary" type="button" disabled={busy} onClick={() => saveStatRound(submission.id, round)}>Save</button>}</div>{editing ? <div className="stat-round-edit"><label>Kills<input type="number" min="0" value={draft?.kills ?? String(round.kills)} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: event.target.value, deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /></label><label>Deaths<input type="number" min="0" value={draft?.deaths ?? String(round.deaths)} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: event.target.value, is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /></label><label><input type="checkbox" checked={draft?.is_mvp ?? round.is_mvp} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: event.target.checked, is_top5: current[key]?.is_top5 ?? round.is_top5 } }))} /> MVP</label><label><input type="checkbox" checked={draft?.is_top5 ?? round.is_top5} onChange={(event) => setStatRoundDrafts((current) => ({ ...current, [key]: { kills: current[key]?.kills ?? String(round.kills), deaths: current[key]?.deaths ?? String(round.deaths), is_mvp: current[key]?.is_mvp ?? round.is_mvp, is_top5: event.target.checked } }))} /> Top 5</label></div> : <div className="stat-round-values"><span><b>{round.kills}</b> kills</span><span><b>{round.deaths}</b> deaths</span><span>{round.is_mvp ? 'MVP' : 'No MVP'}</span><span>{round.is_top5 ? 'Top 5' : 'Not Top 5'}</span></div>}{proof.length > 0 && <div className="stat-proof-gallery">{proof.map((item) => { const url = statProofUrl(item); return url ? <a href={url} target="_blank" rel="noopener noreferrer" key={item.id}><img src={url} alt={'Round ' + round.round_number + ' leaderboard proof'} /><span>Open screenshot</span></a> : null; })}</div>}</article>; })}</div></div></details>; })}</div></section>; })}</div></section>}
         </div>
       </div>
+      <dialog className="staff-proof-dialog" ref={proofDialog} aria-labelledby="staff-proof-title" onClose={() => setProofPreview(null)} onClick={(event) => { if (event.target === event.currentTarget) setProofPreview(null); }}>
+        <header><h2 id="staff-proof-title">{proofPreview?.title ?? 'Proof screenshot'}</h2><button className="command-secondary" autoFocus type="button" onClick={() => setProofPreview(null)}>Close</button></header>
+        {proofPreview && <>{proofFailed ? <p className="staff-proof-unavailable" role="alert">This screenshot could not be loaded. The file may have expired or access may be restricted. Check the original before deciding.</p> : <img src={proofPreview.url} alt={proofPreview.title} onError={() => setProofFailed(true)} />}<a href={proofPreview.url} target="_blank" rel="noopener noreferrer">Open original screenshot ↗</a></>}
+      </dialog>
     </main>
   );
 }

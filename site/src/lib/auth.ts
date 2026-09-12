@@ -54,6 +54,13 @@ export function useAuth() {
     };
     load();
     const { data: sub } = sb.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        setMe(null);
+        setOrphanSession(false);
+        setAccessDenied(false);
+        setAuthReady(true);
+        return;
+      }
       // A token refresh keeps the same member session. Re-running Discord
       // guild sync on every refresh made mobile sessions look like repeated
       // logins and could race the initial member lookup.
@@ -82,7 +89,7 @@ export function useAuth() {
     if (DEMO) {
       setMe({
         id: '00000000-0000-0000-0000-000000000001',
-        display_name: 'Command Board Preview',
+        display_name: 'Preview member',
         avatar_url: null,
         steam_id64: null,
         discord_id: 'preview',

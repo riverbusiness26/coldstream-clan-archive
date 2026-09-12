@@ -18,7 +18,9 @@ import DiscordAvatar from '../components/DiscordAvatar';
 import EventTypeIcon, { eventTypeSlug } from '../components/EventTypeIcon';
 import { supa } from '../lib/supa';
 import gallerySeed from '../seed/gallery.json';
-import { youtubeId, youtubeThumb } from '../lib/gallery';
+import { youtubeId, youtubeEmbed } from '../lib/gallery';
+import { weeklyMediaItems, nextMediaIndex, type WeeklyMedia, type WeeklyFeature } from '../lib/weeklyMedia';
+import '../weekly-redesign.css';
 import { displayStat, EMPTY_COMBAT_STATS, loadCombatStats, type CombatStats } from '../lib/combatStats';
 
 const DISCORD = 'https://discord.gg/75sfq5VPY';
@@ -58,57 +60,84 @@ const HOME_MEDIA: HomeMedia[] = [
   ...GALLERY_STILLS,
 ];
 
-interface WeeklyFeature { id: string; url: string; title: string; description: string | null; provider: string; submitted_at?: string | null; approved_at?: string | null; }
-
 function captionDate(value?: string | null) {
   if (!value) return null;
   const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? null : parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' });
 }
 
-export function HomeFilm({ controls = false, weekly = [], mode = 'normal' }: { controls?: boolean; weekly?: WeeklyFeature[]; mode?: 'normal' | 'expanding' } = {}) {
+export function HomeFilm({ controls = true, weekly, mode = 'normal', autoPlay = false }: { controls?: boolean; weekly?: WeeklyFeature[]; mode?: 'normal' | 'expanding'; autoPlay?: boolean } = {}) {
   const [remoteWeekly, setRemoteWeekly] = useState<WeeklyFeature[]>([]);
-  const loadRemoteWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider,submitted_at,approved_at').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setRemoteWeekly((data as WeeklyFeature[] | null) ?? []))); };
-  useEffect(() => { loadRemoteWeekly(); const refresh = () => loadRemoteWeekly(); window.addEventListener('weekly-content-updated', refresh); return () => window.removeEventListener('weekly-content-updated', refresh); }, []);
-  const mediaList: HomeMedia[] = [...HOME_MEDIA, ...[...weekly, ...remoteWeekly].map((item) => ({ type: 'image' as const, src: item.provider === 'youtube' && youtubeId(item.url) ? youtubeThumb(youtubeId(item.url)!) : '/landing-desktop.jpg', icon: '', label: item.title || 'Weekly submission', description: item.description, provider: item.provider, submitted_at: item.submitted_at, approved_at: item.approved_at }))];
+  const [loadError, setLoadError] = useState(false);
   const [activeMedia, setActiveMedia] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
+  const [playing, setPlaying] = useState(autoPlay);
+  const [pageVisible, setPageVisible] = useState(document.visibilityState === 'visible');
+  const [mediaFailed, setMediaFailed] = useState(false);
   const video = useRef<HTMLVideoElement | null>(null);
-  const media = mediaList[activeMedia] ?? mediaList[0];
-  const mediaDate = captionDate(media.approved_at ?? media.submitted_at);
-
-  const chooseMedia = (next: number) => {
-    if (transitioning) return;
-    setTransitioning(true);
-    video.current?.pause();
-    window.setTimeout(() => {
-      setActiveMedia((next + mediaList.length) % mediaList.length);
-      window.setTimeout(() => setTransitioning(false), 480);
-    }, 120);
+  const supplied = weekly !== undefined;
+  useEffect(() => {
+    if (supplied || !supa) return;
+    const db = supa;
+    let cancelled = false;
+    const load = async () => {
+      const { data, error } = await db.from('weekly_content_submission')
+        .select('id,url,title,description,provider,submitted_at,approved_at')
+        .eq('status', 'approved').not('deployed_at', 'is', null)
+        .gt('featured_until', new Date().toISOString()).is('archived_at', null)
+        .order('approved_at', { ascending: false });
+      if (!cancelled) { setLoadError(Boolean(error)); if (!error) setRemoteWeekly((data as WeeklyFeature[]) ?? []); }
+    };
+    void load();
+    const timer = window.setInterval(() => { void load(); }, 60_000);
+    const refresh = () => { void load(); };
+    window.addEventListener('weekly-content-updated', refresh);
+    return () => { cancelled = true; clearInterval(timer); window.removeEventListener('weekly-content-updated', refresh); };
+  }, [supplied]);
+  const approved = weeklyMediaItems(weekly ?? remoteWeekly, youtubeId);
+  const archive: WeeklyMedia[] = HOME_MEDIA.map((item, index) => ({ ...item, key: 'archive-' + index, source: 'archive' }));
+  const mediaList = approved.length ? approved : archive;
+  const currentIndex = Math.min(activeMedia, mediaList.length - 1);
+  const media = mediaList[currentIndex];
+  const mediaDate = captionDate(media?.approved_at ?? media?.submitted_at);
+  const chooseMedia = (direction: number) => {
+    setMediaFailed(false);
+    setActiveMedia(nextMediaIndex(currentIndex, direction, mediaList.length));
   };
-
-  const advanceVideo = () => {
-    const nextVideo = (activeMedia + 1) % HOME_FILMS.length;
-    chooseMedia(nextVideo);
+  useEffect(() => { setMediaFailed(false); }, [media?.key]);
+  useEffect(() => {
+    const updateVisibility = () => setPageVisible(document.visibilityState === 'visible');
+    document.addEventListener('visibilitychange', updateVisibility);
+    return () => document.removeEventListener('visibilitychange', updateVisibility);
+  }, []);
+  useEffect(() => {
+    if (!playing || media?.type !== 'image' || !pageVisible) return;
+    const timer = window.setTimeout(() => setActiveMedia(nextMediaIndex(currentIndex, 1, mediaList.length)), 12_000);
+    return () => window.clearTimeout(timer);
+  }, [playing, pageVisible, media?.key, media?.type, currentIndex, mediaList.length]);
+  const togglePlayback = () => {
+    const next = !playing;
+    setPlaying(next);
+    if (video.current) {
+      if (next) void video.current.play().catch(() => setPlaying(false));
+      else video.current.pause();
+    }
   };
-
-  return (
-    <div className={`cg-home-film cg-home-film--${mode}${transitioning ? ' transitioning' : ''}`}>
-      <img src={asset('/landing-desktop.jpg')} alt="" />
-      <div className="cg-film-frame active">
-        {media.type === 'video' ? <video ref={video} src={asset(media.src)} autoPlay muted playsInline controls={controls} preload="auto" tabIndex={-1} onEnded={advanceVideo} /> : <img className="cg-film-still" src={asset(media.src)} alt={media.label} />}
+  if (!media) return <p className="weekly-player-empty">No media is available yet.</p>;
+  return <figure className={`weekly-player weekly-player--${mode}`}>
+    <div className="weekly-framed-player" style={{ borderImageSource: `url("${asset('/weekly-feature-frame-transparent.png')}")` }}>
+      <div className="weekly-screen">
+        {mediaFailed ? <div className="weekly-player-empty" role="status"><strong>This media could not be loaded.</strong><span>You can try the next feature.</span><button type="button" onClick={() => chooseMedia(1)}>Next feature</button></div>
+          : media.type === 'video' ? <video key={media.key} ref={video} src={asset(media.src)} autoPlay={playing} muted playsInline controls={controls} preload="metadata" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onError={() => setMediaFailed(true)} onEnded={() => { setPlaying(true); chooseMedia(1); }} />
+          : media.type === 'image' ? <img key={media.key} src={asset(media.src)} alt={media.label} onError={() => setMediaFailed(true)} />
+          : media.type === 'youtube' ? <iframe key={media.key} src={youtubeEmbed(media.src)} title={media.label} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+          : <div className="weekly-player-empty"><span>Community submission</span><strong>{media.label}</strong><a href={media.src} target="_blank" rel="noopener noreferrer">Watch on the original site ↗</a></div>}
       </div>
-      <img className="cg-weekly-frame" src={asset('/weekly-feature-frame-transparent.png')} alt="" aria-hidden="true" />
-      <div className="cg-weekly-caption" aria-label={`Weekly Feature: ${media.label}`}>
-        <strong>Weekly Feature</strong>
-        <b>{media.label}</b>
-        {media.description?.trim() && <small>{media.description.trim()}</small>}
-        {mediaDate && <time dateTime={media.approved_at ?? media.submitted_at ?? undefined}>{mediaDate}</time>}
-      </div>
-      <button className="cg-film-nav cg-film-nav-prev" type="button" onClick={() => chooseMedia(activeMedia - 1)} aria-label="Previous weekly media">←</button>
-      <button className="cg-film-nav cg-film-nav-next" type="button" onClick={() => chooseMedia(activeMedia + 1)} aria-label="Next weekly media">→</button>
     </div>
-  );
+    <figcaption className="weekly-player-caption">
+      <div className="weekly-player-copy"><span>{media.source === 'archive' ? 'From the archive' : 'This week’s feature'}{mediaDate && <> · <time dateTime={media.approved_at ?? media.submitted_at ?? undefined}>{media.approved_at ? 'Approved ' : 'Submitted '}{mediaDate}</time></>}</span><strong>{media.label}</strong>{media.description?.trim() && <p>{media.description.trim()}</p>}{loadError && <small role="status">Weekly features could not be loaded. Showing the archive.</small>}</div>
+      <div className="weekly-player-controls" aria-label="Feature navigation"><button type="button" onClick={() => chooseMedia(-1)} aria-label="Previous weekly media">←</button><span aria-live="polite">{currentIndex + 1} / {mediaList.length}</span><button type="button" onClick={() => chooseMedia(1)} aria-label="Next weekly media">→</button>{media.type === 'image' && <button type="button" aria-pressed={playing} onClick={togglePlayback}>{playing ? 'Pause' : 'Rotate'}</button>}</div>
+    </figcaption>
+  </figure>;
 }
 
 function WeeklyUpload({ me, onSubmitted }: { me: Me | null; onSubmitted: () => void }) {
@@ -121,7 +150,7 @@ function WeeklyUpload({ me, onSubmitted }: { me: Me | null; onSubmitted: () => v
     const result = await supa.from('weekly_content_submission').insert({ submitter_id: memberId, url: url.trim(), provider, title: title.trim() || 'Weekly submission' });
     setBusy(false); if (result.error) { setMessage(result.error.message); return; } setUrl(''); setTitle(''); setOpen(false); setMessage('Sent to staff for review.'); window.dispatchEvent(new Event('weekly-content-updated')); onSubmitted();
   }
-  return <div className="hub-weekly-submit"><p>Want to be featured? Submit your favorite highlights, funny moments or screenshots by clicking the upload button to the right, if your submission is accepted it will automatically post the next Monday morning!</p>{open ? <form onSubmit={submit}><input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title (optional)" maxLength={160} /><input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="YouTube or stream link" required /><div><button type="submit" disabled={busy}>{busy ? 'Sending…' : 'Send submission'}</button><button type="button" onClick={() => setOpen(false)}>Cancel</button></div>{message && <small>{message}</small>}</form> : <button type="button" onClick={() => setOpen(true)}>Upload</button>}{!open && message && <small>{message}</small>}</div>;
+  return <div className="hub-weekly-submit"><p>Have a highlight worth keeping? Send a link for staff review. Approved features join the weekly rotation.</p>{open ? <form onSubmit={submit}><input value={title} onChange={(e) => setTitle(e.target.value)} aria-label="Submission title" placeholder="Title (optional)" maxLength={160} /><input value={url} onChange={(e) => setUrl(e.target.value)} aria-label="YouTube or stream link" placeholder="YouTube or stream link" required /><div><button type="submit" disabled={busy}>{busy ? 'Sending…' : 'Send submission'}</button><button type="button" onClick={() => setOpen(false)}>Cancel</button></div>{message && <small>{message}</small>}</form> : <button type="button" onClick={() => setOpen(true)}>Upload</button>}{!open && message && <small>{message}</small>}</div>;
 }
 
 type IconName = 'menu' | 'discord' | 'steam' | 'youtube' | 'calendar' | 'banner' | 'people' | 'timeline' | 'shield' | 'arrow';
@@ -271,7 +300,7 @@ function countdownLabel(startsAt: string, now = Date.now()) {
   return `in ${days}d${hours % 24 ? ` ${hours % 24}h` : ''}`;
 }
 
-export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void }) {
+export default function Home({ me, signIn, signOut, embedded = false }: { me: Me | null; go: (v: string) => void; signIn: () => void; signOut: () => void; embedded?: boolean }) {
   const [clock, setClock] = useState(() => Date.now());
   const now = new Date(clock);
   const [period, setPeriod] = useState<typeof PERIODS[number]>('Month');
@@ -283,8 +312,8 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
   const [homeStats, setHomeStats] = useState<CombatStats>(EMPTY_COMBAT_STATS);
   const [topPlayers, setTopPlayers] = useState<TopPlayer[]>([]);
   const [weeklyTopPlayer, setWeeklyTopPlayer] = useState<TopPlayer | null>(null);
-  const [homeRank, setHomeRank] = useState('Not assigned');
-  const [homeDetachment, setHomeDetachment] = useState('Not assigned');
+  const [homeRank, setHomeRank] = useState('Not recorded');
+  const [homeDetachment, setHomeDetachment] = useState('Not recorded');
 
   useEffect(() => {
     const timer = window.setInterval(() => setClock(Date.now()), 60_000);
@@ -317,7 +346,7 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
   const loadWeekly = () => { const db = supa; if (!db) return; void db.rpc('deploy_weekly_content').then(() => db.from('weekly_content_submission').select('id,url,title,description,provider,submitted_at,approved_at').eq('status', 'approved').not('deployed_at', 'is', null).gt('featured_until', new Date().toISOString()).is('archived_at', null).order('approved_at', { ascending: false }).then(({ data }) => setWeekly((data as WeeklyFeature[] | null) ?? []))); };
   useEffect(() => { loadWeekly(); }, []);
   useEffect(() => {
-    if (!supa || !me) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not assigned'); setHomeDetachment('Not assigned'); return; }
+    if (!supa || !me) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not recorded'); setHomeDetachment('Not recorded'); return; }
     const db = supa;
     let cancelled = false;
     void Promise.all([
@@ -330,13 +359,13 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
       setHomeStats(stats);
       const itemMap = new Map((items.data ?? []).map((item: any) => [item.id, item]));
       const rank = (assignments.data ?? []).find((row: any) => row.item_kind === 'rank');
-      setHomeRank(rank ? itemMap.get(rank.item_id)?.name ?? 'Assigned rank' : 'Not assigned');
+      setHomeRank(rank ? itemMap.get(rank.item_id)?.name ?? 'Rank' : 'Not recorded');
       const companyId = member.data?.company_id as string | null | undefined;
       if (companyId) {
         const company = await db.from('company').select('name').eq('id', companyId).maybeSingle();
-        if (!cancelled) setHomeDetachment(company.data?.name ?? 'Assigned detachment');
-      } else setHomeDetachment('Not assigned');
-    }).catch(() => { if (!cancelled) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not assigned'); setHomeDetachment('Not assigned'); } });
+        if (!cancelled) setHomeDetachment(company.data?.name ?? 'Detachment');
+      } else setHomeDetachment('Not recorded');
+    }).catch(() => { if (!cancelled) { setHomeStats(EMPTY_COMBAT_STATS); setHomeRank('Not recorded'); setHomeDetachment('Not recorded'); } });
     return () => { cancelled = true; };
   }, [me, period]);
   useEffect(() => {
@@ -377,25 +406,26 @@ export default function Home({ me, signIn, signOut }: { me: Me | null; go: (v: s
 
   return (
     <div className="cg-home hub-home">
-      <SiteNav active="Home" />
-      <AccountStrip me={me} signIn={signIn} signOut={signOut} />
+      {!embedded && <SiteNav active="Home" />}
+      {!embedded && <AccountStrip me={me} signIn={signIn} signOut={signOut} />}
 
       <main className="hub-main">
+        <header className="page-head hq-brief-heading"><p className="cg-eyebrow">Member headquarters</p><h1>Your weekly brief.</h1><p className="page-sub">The week ahead. Your place in the line.</p></header>
         <section className="hub-status" aria-label="Coldstream status">
-          <div className="hub-status-member">{me ? <a className="member-profile-link" href="#/profile"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><div><span className="cg-eyebrow">Member headquarters</span><strong>{me.display_name}</strong><small>Volunteer · Line Infantry</small></div></a> : <><DiscordAvatar url={null} name="Guest" /><div><span className="cg-eyebrow">Coldstream Gaming</span><strong>Welcome to Coldstream</strong><small>Sign in with Discord to open your member hub</small></div></>}</div>
+          <div className="hub-status-member">{me ? <a className="member-profile-link" href="#/profile"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><div><span className="cg-eyebrow">Member headquarters</span><strong>{me.display_name}</strong><small>{homeRank} · {homeDetachment}</small></div></a> : <><DiscordAvatar url={null} name="Guest" /><div><span className="cg-eyebrow">Coldstream Gaming</span><strong>Welcome to Coldstream</strong><small>Sign in with Discord to open your member hub</small></div></>}</div>
           <div className="hub-status-next">{nextEvent ? <><span className="cg-eyebrow">Next on the calendar</span><strong>{nextEvent.title}</strong><small><time dateTime={nextEvent.starts_at}>{new Date(nextEvent.starts_at).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</time> · {countdownLabel(nextEvent.starts_at, clock)} · Duration {nextEvent.duration_minutes} minutes</small></> : <><strong>No events on the calendar</strong><a href="#/events">Open Events</a></>}</div>
         </section>
 
-        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">The week</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">Week of {now.toLocaleDateString(undefined, { month: 'long' })}</span></header><div className="hub-weekly-grid"><div className="hub-weekly-media"><HomeFilm controls mode="normal" weekly={weekly} /><a className="hub-archive-link" href="#/gallery">Previous features <Icon name="arrow" /></a></div><aside className="hub-rail" aria-label="Weekly highlights"><article className="hub-rail-card"><p className="cg-eyebrow">Featured member</p><strong>Staff feature not set</strong><span>It will appear here when selected by staff.</span></article><article className="hub-rail-card" aria-live="polite"><p className="cg-eyebrow">Top player of the week</p>{weeklyTopPlayer ? <><strong>{weeklyTopPlayer.name}</strong><span>Leading approved stats from this week.</span><div className="hub-rail-metrics"><span><b>{weeklyTopPlayer.kills}</b>Kills</span><span><b>{weeklyTopPlayer.kdr.toFixed(2)}</b>K/D</span><span><b>{weeklyTopPlayer.mvps}</b>MVPs</span></div></> : <><strong>No approved stats yet</strong><span>Results will appear after staff approve this week's reports.</span></>}</article><div className="hub-pulse" aria-label="Weekly activity"><span><b>{weekly.length}</b> approved features</span><span><b>{nextThree.length}</b> events this week</span><span><b>Mon 12 AM</b> resets CT</span></div><article className="hub-rail-card hub-rail-submit"><p className="cg-eyebrow">Get featured</p><WeeklyUpload me={me} onSubmitted={loadWeekly} /></article></aside></div><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">Upcoming events</p></div><a className="hub-open-events" href="#/events">Full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); const type = eventTypeSlug(event.event_type); return <article className={`event-kind-${type}`} key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { weekday: 'short' })}</span></time><div><h3>{event.title}</h3><p>{starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.game || 'Community event'} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind"><EventTypeIcon type={event.event_type} />{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
+        <section className="hub-weekly" aria-labelledby="hub-weekly-title"><header className="hub-section-head"><div><p className="cg-eyebrow">The week</p><h2 id="hub-weekly-title">This Week in the Coldstream</h2></div><span className="hub-date-note">{now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'America/Chicago' })} · CT</span></header><div className="hub-weekly-grid"><div className="hub-weekly-media"><HomeFilm controls mode="normal" weekly={weekly} /><a className="hub-archive-link" href="#/gallery">Previous features <Icon name="arrow" /></a></div><aside className="hub-rail" aria-label="Weekly highlights"><article className="hub-rail-card"><p className="cg-eyebrow">Featured member</p><strong>Staff feature not set</strong><span>It will appear here when selected by staff.</span></article><article className="hub-rail-card" aria-live="polite"><p className="cg-eyebrow">Top player of the week</p>{weeklyTopPlayer ? <><strong>{weeklyTopPlayer.name}</strong><span>Leading approved stats from this week.</span><div className="hub-rail-metrics"><span><b>{weeklyTopPlayer.kills}</b>Kills</span><span><b>{weeklyTopPlayer.kdr.toFixed(2)}</b>K/D</span><span><b>{weeklyTopPlayer.mvps}</b>MVPs</span></div></> : <><strong>No approved stats yet</strong><span>Results will appear after staff approve this week's reports.</span></>}</article><div className="hub-pulse" aria-label="Weekly activity"><span><b>{weekly.length}</b> approved features</span><span><b>{nextThree.length}</b> upcoming events</span><span><b>Mon 12 AM</b> resets CT</span></div><article className="hub-rail-card hub-rail-submit"><p className="cg-eyebrow">Get featured</p><WeeklyUpload me={me} onSubmitted={loadWeekly} /></article></aside></div><div className="hub-weekly-events"><header className="hub-subhead"><div><p className="cg-eyebrow">Upcoming events</p></div><a className="hub-open-events" href="#/events">Full calendar <Icon name="arrow" /></a></header><div className="hub-next-events">{eventsLoading ? <p className="hub-empty">Loading the calendar.</p> : eventsError ? <p className="hub-empty">The calendar could not be opened right now.</p> : nextThree.length === 0 ? <p className="hub-empty">No events are on the calendar yet.</p> : <div className="hub-event-list">{nextThree.map((event) => { const starts = new Date(event.starts_at); const type = eventTypeSlug(event.event_type); return <article className={`event-kind-${type}`} key={event.id}><time dateTime={event.starts_at}><b>{starts.toLocaleDateString(undefined, { day: '2-digit' })}</b><span>{starts.toLocaleDateString(undefined, { weekday: 'short' })}</span></time><div><h3>{event.title}</h3><p>{starts.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} · {event.game || 'Community event'} · Duration {event.duration_minutes} minutes</p></div><span className="hub-event-kind"><EventTypeIcon type={event.event_type} />{event.event_type || 'Scheduled'}</span></article>; })}</div>}</div></div></section>
 
-        <section className="hub-hero-stats hub-personal" aria-labelledby="hero-statistics-title"><header><div><p className="cg-eyebrow">For the member signed in</p><h2 id="hero-statistics-title">Your Statistics</h2></div>{me && <div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div>}</header>{me ? <div className="hub-quick-stats"><div className="hub-stat-person"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><strong>{me.display_name}</strong></div><div><b>{displayStat(homeStats.kills)}</b><small>Kills</small></div><div><b>{displayStat(homeStats.kdr, homeStats.kdr === null ? '' : '×')}</b><small>K/D</small></div><div><b>{displayStat(homeStats.mvps)}</b><small>MVPs</small></div><div><b>{displayStat(homeStats.top5)}</b><small>Top 5s</small></div><div><b>{displayStat(homeStats.attendancePercent, homeStats.attendancePercent === null ? '' : '%')}</b><small>Attendance</small></div><div><b>{homeRank}</b><small>Rank</small></div><div><b>{homeDetachment}</b><small>Detachment</small></div></div> : <div className="hub-quick-signin"><span>Sign in with Discord to see your kills, K/D, MVPs, Top 5s, attendance, rank and detachment.</span><button type="button" onClick={signIn}>Sign in</button></div>}</section>
+        <section className="hub-hero-stats hub-personal" aria-labelledby="hero-statistics-title"><header><div><p className="cg-eyebrow">Approved, dated events · Chicago time</p><h2 id="hero-statistics-title">Your Statistics</h2></div>{me && <div className="hub-periods" role="group" aria-label="Personal stats period">{PERIODS.map((item) => <button key={item} type="button" className={period === item ? 'active' : ''} onClick={() => setPeriod(item)}>{item}</button>)}</div>}</header>{me ? <div className="hub-quick-stats"><div className="hub-stat-person"><DiscordAvatar url={me.avatar_url} name={me.display_name} /><strong>{me.display_name}</strong></div><div><b>{displayStat(homeStats.kills)}</b><small>Kills</small></div><div><b>{displayStat(homeStats.kdr, homeStats.kdr === null ? '' : '×')}</b><small>K/D</small></div><div><b>{displayStat(homeStats.mvps)}</b><small>MVPs</small></div><div><b>{displayStat(homeStats.top5)}</b><small>Top 5s</small></div><div><b>{displayStat(homeStats.deaths)}</b><small>Deaths</small></div><div><b>{homeRank}</b><small>Rank</small></div><div><b>{homeDetachment}</b><small>Detachment</small></div></div> : <div className="hub-quick-signin"><span>Sign in with Discord to see your kills, K/D, MVPs, Top 5s, attendance, rank and detachment.</span><button type="button" onClick={signIn}>Sign in</button></div>}</section>
 
         <nav className="hub-quick-actions" aria-label="Member shortcuts"><span className="cg-eyebrow">Quick access</span><a href="#/events"><Icon name="calendar" />View events</a><a href="#/leaderboard"><Icon name="timeline" />Leaderboard</a><a href="#/gallery"><Icon name="youtube" />Gallery</a>{me ? <a href="#/profile"><Icon name="shield" />My profile</a> : <button type="button" onClick={signIn}><Icon name="discord" />Sign in with Discord</button>}{me && (me.role === 'moderator' || me.role === 'admin') && <a className="hub-staff-action" href="#/admin"><Icon name="shield" />Staff command panel</a>}</nav>
 
         <section className="hub-community-grid"><article className="hub-leaderboard" aria-labelledby="hub-leaderboard-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Top players</p><h2 id="hub-leaderboard-title">Leaderboard</h2></div><a className="hub-open-events" href="#/leaderboard">View full leaderboard <Icon name="arrow" /></a></header>{topPlayers.length === 0 ? <p className="hub-empty">Leaderboard results will appear here as approved stat submissions arrive.</p> : <div className="hub-top-players">{topPlayers.map((player, index) => player.discord_id && me?.id === player.member_id ? <a className={`hub-top-player place-${index + 1}`} href="#/profile" key={player.member_id}><span className="hub-top-badge" aria-hidden="true" /><strong>{player.name}</strong><small>{player.kills} kills · {player.kdr.toFixed(2)} K/D · {player.mvps} MVPs · {player.top5} Top 5s</small></a> : <div className={`hub-top-player place-${index + 1}`} key={player.member_id}><span className="hub-top-badge" aria-hidden="true" /><strong>{player.name}</strong><small>{player.kills} kills · {player.kdr.toFixed(2)} K/D · {player.mvps} MVPs · {player.top5} Top 5s</small></div>)}</div>}</article><article className="hub-activity" aria-labelledby="hub-activity-title"><header className="hub-section-head"><div><p className="cg-eyebrow">Live from the community</p><h2 id="hub-activity-title">Recent activity</h2></div><a className="hub-open-events" href="#/events">View events <Icon name="arrow" /></a></header>{activityItems.length === 0 ? <p className="hub-empty">Activity will appear here as events are scheduled and weekly features are approved.</p> : <div className="hub-activity-list">{activityItems.map((item, index) => <article key={`${item.kind}-${item.title}-${index}`}><span>{item.label}</span><strong>{item.title}</strong><small>{item.detail}</small><em>{item.kind}</em></article>)}</div>}</article></section>
 
       </main>
-      <SiteFooter />
+      {!embedded && <SiteFooter />}
     </div>
   );
 }

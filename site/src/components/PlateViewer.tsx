@@ -28,6 +28,7 @@ export default function PlateViewer({
   const strip = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const step = useCallback((d: number) => {
     onIndex(Math.min(list.length - 1, Math.max(0, index + d)));
@@ -133,7 +134,19 @@ export default function PlateViewer({
         </span>
       </div>
 
-      <div className="lb-stage" onClick={(e) => e.stopPropagation()}>
+      <div className="lb-stage" onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => {
+          if (e.touches.length !== 1 || (e.target as HTMLElement).closest('button,a,video,iframe')) { touchStart.current = null; return; }
+          touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }}
+        onTouchCancel={() => { touchStart.current = null; }}
+        onTouchEnd={(e) => {
+          const start = touchStart.current; touchStart.current = null;
+          if (!start || !e.changedTouches[0]) return;
+          const dx = e.changedTouches[0].clientX - start.x;
+          const dy = e.changedTouches[0].clientY - start.y;
+          if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+        }}>
         <button className="lb-nav" onClick={() => step(-1)}
           disabled={index === 0} aria-label="Previous item">&lt;</button>
 
