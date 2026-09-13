@@ -33,7 +33,9 @@ function previewEvents(month: CalendarMonth): EventRow[] {
 export default function Calendar({ me }: { me: Me | null }) {
   const [now, setNow] = useState(() => new Date());
   const [cursor, setCursor] = useState(() => chicagoMonth());
-  const [view, setView] = useState<'agenda' | 'month'>('agenda');
+  // The month grid gives members the quickest overview of the schedule. Agenda
+  // remains available from the view switcher when a chronological list is useful.
+  const [view, setView] = useState<'agenda' | 'month'>('month');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
   const [search, setSearch] = useState('');
   const [includePast, setIncludePast] = useState(false);
