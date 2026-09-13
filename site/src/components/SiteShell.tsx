@@ -6,7 +6,7 @@ import { isStaff } from '../lib/routing';
 import DiscordAvatar from './DiscordAvatar';
 
 export const COMMUNITY_DISCORD = 'https://discord.gg/75sfq5VPY';
-const NAV = [['Home', 'home'], ['Events', 'events'], ['Leaderboard', 'leaderboard'], ['Stores', 'stores'], ['Our History', 'archive'], ['Media', 'gallery']] as const;
+const NAV = [['Home', 'home'], ['Events', 'events'], ['Leaderboard', 'leaderboard'], ['Our History', 'archive'], ['Media', 'gallery']] as const;
 
 export default function SiteShell({ me, signIn, signOut, view, demo, children }: { me: Me | null; signIn: () => void; signOut: () => void; view: string; demo: boolean; children: ReactNode }) {
   const [menu, setMenu] = useState(false);
@@ -34,7 +34,7 @@ export default function SiteShell({ me, signIn, signOut, view, demo, children }:
         {me ? <a className="hq-account" href="#/profile" onClick={() => setMenu(false)}><DiscordAvatar url={me.avatar_url} name={me.display_name} /><span>{me.display_name}</span></a> : <button className="hq-sign-in" onClick={signIn}>Sign in <FaArrowRight /></button>}
       </div>
     </header>
-    {me && <nav className="hq-member-nav" aria-label="Member navigation"><span><i /> Member headquarters</span><a href="#/home" aria-current={view === 'home' ? 'page' : undefined}>Weekly brief</a><a href="#/stores" aria-current={view === 'stores' ? 'page' : undefined}>Stores</a><a href="#/profile" aria-current={view === 'profile' ? 'page' : undefined}>Service record</a><a href="#/roster" aria-current={view === 'roster' ? 'page' : undefined}>Historical roster</a>{isStaff(me.role) && <a href="#/admin" aria-current={view === 'admin' ? 'page' : undefined}>Staff command</a>}<button onClick={signOut}>Sign out</button></nav>}
+    {me && <nav className="hq-member-nav" aria-label="Member navigation"><span><i /> Member headquarters</span><a href="#/home" aria-current={view === 'home' ? 'page' : undefined}>Weekly brief</a><a href="#/profile" aria-current={view === 'profile' ? 'page' : undefined}>Service record</a><a href="#/roster" aria-current={view === 'roster' ? 'page' : undefined}>Historical roster</a>{isStaff(me.role) && <a href="#/admin" aria-current={view === 'admin' ? 'page' : undefined}>Staff command</a>}<button onClick={signOut}>Sign out</button></nav>}
     {demo && <div className="hq-preview-note" role="status">Local design preview · sample archive · no live account or submissions</div>}
     {demo && <nav className="design-review-nav" aria-label="Local design review"><span>Draft for review</span><a href="#/landing">Landing</a><a href="#/home">Weekly brief</a><a href="#/design/profile">Display case</a><a href="#/archive">History</a><a href="#/roster">Roster</a><a href="#/events">Events</a><a href="#/admin">Admin</a></nav>}
     <div id="hq-content" tabIndex={-1} className="hq-content"><RouteMotion view={view}>{children}</RouteMotion></div>

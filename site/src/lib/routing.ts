@@ -10,6 +10,6 @@ export function routeFromLocation(hash: string, pathname = '/'): string {
   return route.startsWith('member/') || route.startsWith('design/') ? route : route.split('/')[0];
 }
 export function requiresMember(view: string): boolean {
-  return ['home', 'events', 'leaderboard', 'profile', 'stores', 'roster', 'admin'].includes(view);
+  return ['home', 'events', 'leaderboard', 'profile', 'roster', 'admin'].includes(view);
 }
 export function isStaff(role?: string): boolean { return role === 'admin' || role === 'moderator'; }

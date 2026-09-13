@@ -17,7 +17,6 @@ const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
 const ProfileDesigns = lazy(() => import('./views/ProfileDesigns'));
 const ArtworkReview = lazy(() => import('./views/ArtworkReview'));
 const Profile = lazy(() => import('./views/Profile'));
-const Economy = lazy(() => import('./views/Economy'));
 const Roster = lazy(() => import('./components/Roster'));
 
 // Routing is by hash, and coming back from authentication the session arrives in the
@@ -145,14 +144,14 @@ export default function App() {
   }, [authReady, me, view]);
 
   useEffect(() => {
-    const names: Record<string, string> = { landing: 'Second to none', home: 'Weekly brief', events: 'Events', leaderboard: 'Leaderboard', archive: 'Our History', gallery: 'Media', roster: 'Historical roster', profile: 'Service record', stores: "Quartermaster's Stores", admin: 'Staff command', join: 'Join', 'design/profile': 'Profile design review' };
+    const names: Record<string, string> = { landing: 'Second to none', home: 'Weekly brief', events: 'Events', leaderboard: 'Leaderboard', archive: 'Our History', gallery: 'Media', roster: 'Historical roster', profile: 'Service record', admin: 'Staff command', join: 'Join', 'design/profile': 'Profile design review' };
     document.title = (names[view] || 'The record') + ' | Coldstream Gaming';
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [view]);
 
   const artworkReview = import.meta.env.DEV && demo && view === 'design/artwork';
   const locked = !me && requiresMember(view);
-  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
+  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
   return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view} demo={demo}>
     {toast && <div className={'toast ' + toast.kind} role="status" onClick={() => setToast(null)}>{toast.text}</div>}
     {!authReady ? <div className="hq-loading" role="status"><img src={asset('/crest.webp')} width="64" height="65" alt="" /><p>Opening the Coldstream.</p></div>
@@ -167,7 +166,6 @@ export default function App() {
         {view === 'leaderboard' && <Leaderboard me={me} />}
         {view === 'admin' && (isStaff(me?.role) ? <Admin me={me} signOut={signOut} /> : <div className="hq-access"><p className="hq-eyebrow">Staff command</p><h1>Staff access required.</h1><p>This area is for Discord-authorised admins and moderators.</p><a className="hq-button" href="#/home">Return to headquarters</a></div>)}
         {view === 'profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
-        {view === 'stores' && me && <Economy demo={demo} />}
         {demo && view === 'design/profile' && <ProfileDesigns me={me} />}
         {artworkReview && <ArtworkReview />}
         {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
@@ -180,6 +178,6 @@ export default function App() {
 }
 
 function AccessGate({ view, signIn }: { view: string; signIn: () => void }) {
-  const label: Record<string, string> = { home: 'Your weekly brief', events: 'The calendar', leaderboard: 'The leaderboard', profile: 'Your service record', stores: "Quartermaster's Stores", admin: 'Staff command', roster: 'The roster' };
+  const label: Record<string, string> = { home: 'Your weekly brief', events: 'The calendar', leaderboard: 'The leaderboard', profile: 'Your service record', admin: 'Staff command', roster: 'The roster' };
   return <main className="hq-access"><img src={asset('/crest.webp')} width="140" height="143" alt="Coldstream crest" /><p className="hq-eyebrow">{label[view] || 'Member headquarters'}</p><h1>Your place<br />in the Coldstream.</h1><p>Sign in with Discord to see your rank, statistics, weekly brief and events.</p><button className="hq-button primary" onClick={signIn}>Continue with Discord</button><a className="hq-text-link" href="#/join">New here? Join the community →</a></main>;
 }
