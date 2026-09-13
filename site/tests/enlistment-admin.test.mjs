@@ -30,7 +30,7 @@ test('failed and stale review calls are never reported as success', async () => 
 });
 
 test('migration keeps decisions and Discord work in one database transaction', async () => {
-  const sql = await readFile(new URL('../db/0055_regiment_enlistment.sql', import.meta.url), 'utf8');
+  const sql = await readFile(new URL('../db/0057_regiment_enlistment.sql', import.meta.url), 'utf8');
   assert.match(sql, /create or replace function review_regiment_enlistment/);
   assert.match(sql, /for update/);
   assert.match(sql, /insert into discord_enlistment_action/);

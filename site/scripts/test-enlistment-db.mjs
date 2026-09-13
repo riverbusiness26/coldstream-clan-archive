@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import EmbeddedPostgres from 'embedded-postgres';
 
-const migration = readFileSync(new URL('../db/0055_regiment_enlistment.sql', import.meta.url), 'utf8');
+const migration = readFileSync(new URL('../db/0057_regiment_enlistment.sql', import.meta.url), 'utf8');
 const databaseDir = await mkdtemp(join(tmpdir(), 'coldstream-enlistment-postgres-'));
 let database;
 let checks = 0;
