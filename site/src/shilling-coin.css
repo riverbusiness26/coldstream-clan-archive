@@ -1,0 +1,13 @@
+.qm-interactive-coin{width:min(100%,280px);position:relative;z-index:1}
+.qm-coin-viewer{width:100%;aspect-ratio:1;position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:none;border-radius:50%;filter:drop-shadow(5px 12px 10px #0005)}
+.qm-coin-viewer canvas,.qm-coin-fallback{display:block;width:100%;height:100%;position:absolute;inset:0;pointer-events:none}
+.qm-coin-viewer canvas{opacity:0}
+.qm-interactive-coin.is-ready .qm-coin-viewer{cursor:grab}
+.qm-interactive-coin.is-ready .qm-coin-viewer:active{cursor:grabbing}
+.qm-interactive-coin.is-ready canvas{opacity:1}
+.qm-interactive-coin.is-ready .qm-coin-fallback{visibility:hidden}
+.qm-coin-viewer:focus-visible{outline:2px solid #d4b374;outline-offset:3px}
+.qm-coin-tools{display:flex;justify-content:center;align-items:center;gap:12px;color:#bcb69e;font-size:11px;line-height:1.5}
+.qm-coin-tools button{font:inherit;color:#e3c991;background:transparent;border:1px solid #b6a67355;border-radius:4px;min-height:36px;padding:5px 10px;cursor:pointer}
+.qm-coin-tools button:focus-visible{outline:2px solid #d4b374;outline-offset:3px}
+@media(max-width:700px){.qm-interactive-coin{width:250px;max-width:100%}.qm-coin-tools{font-size:12px}.qm-coin-tools button{min-height:44px}}

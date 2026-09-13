@@ -3731,3 +3731,11 @@ VERIFIED:    `npm run test:economy --prefix site` passed 14/14 with Luna Medium 
 UNVERIFIED:  No new live claim, purchase or equip was submitted during this repair. The current cosmetic uses placeholder art. `status.mjs` still flags delayed server/presence schedules and fails to recognize the newer main-named bundle; direct HTTP and browser checks confirmed the actual page. A temporary Discord sync failure cleared on reload without an authentication change.
 BLOCKED:     Nothing blocks the requested working unlisted page.
 NEXT:        River can use https://coldstreamgaming.com/stores/; retain the unlisted route until a public navigation launch is requested.
+
+## 2026-09-13 - Approved 3D Shilling published (Codex)
+
+DONE: Added the approved Refined Heritage interactive coin to the existing unlisted member economy header. Reuses the approved artwork on both sides with a gold reeded edge, pointer drag, keyboard rotation and Reset. The renderer is imported only with the economy page and renders only on demand; transparent image fallback remains if WebGL fails. No economy API, database, balances, ownership, navigation or bot change.
+VERIFIED: npm run build --prefix site passed TypeScript and Vite (158 modules). node --test site/tests/economy*.test.mjs passed 10/10. Production Supabase configuration is present in the build. Renderer matches the already visually approved preview implementation and its eight lifecycle/control checks.
+UNVERIFIED: Production browser and bundle hashes are verified after this push. Physical phone gestures are not hardware tested.
+BLOCKED: Nothing for this authorized coin release.
+NEXT: Verify the published /stores/ assets and interactive coin through the existing Pages deployment.
