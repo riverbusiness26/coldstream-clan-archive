@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { people } from '../lib/data';
+import { coldstreamPeople, coldstreamEntries } from '../lib/historyScope';
 import filmsSeed from '../seed/films.json';
-import summary from '../seed/summary.json';
 import Roster, { type RosterEraFilter } from '../components/Roster';
 import type { Me } from '../lib/auth';
-import { HomeFilm } from './Home';
 import '../history-redesign.css';
 
 interface Film {
@@ -28,10 +26,10 @@ interface Era {
   recordYears?: [number, number];
 }
 
-const FILMS = [...filmsSeed as Film[]].sort((a, b) => b.views - a.views);
+const FILMS = (filmsSeed as Film[]).filter((film) => ['2ndColdstreamGuards', 'Official21stPA'].includes(film.channel)).sort((a, b) => b.views - a.views);
 const CHANNELS = [...new Set(FILMS.map((film) => film.channel))];
 
-// These chapters follow the recovered community chronology in PROJECT.md.
+// This page presents the Coldstream chapters of the recovered chronology.
 // Films are selected by an existing catalogue identity, never by converting a
 // rounded "years ago" label into a claimed publication date.
 const ERAS: Era[] = [
@@ -41,19 +39,14 @@ const ERAS: Era[] = [
     filmIds: ['dqgcg0if-3U', 'ZypEBUL_hs4'],
   },
   {
-    id: 'midnight-coldstream', years: '2011–2012', shortTitle: 'The Coldstream name', title: 'Midnight Mercenaries and the 2nd Coldstream', game: 'Mount & Musket · Napoleonic Wars', recordYears: [2011, 2012],
-    story: ['Midnight Mercenaries and the 2nd Coldstream Regiment belonged to the same unit, recorded across three group pages. Mount & Musket linebattles became part of the community’s routine.', 'The move into Napoleonic Wars followed in 2012. The final Mount & Musket linebattle and footage from the new game preserve both sides of that change.'],
+    id: 'early-coldstream', years: '2011–2012', shortTitle: 'The Coldstream name', title: 'The 2nd Coldstream Regiment', game: 'Mount & Musket · Napoleonic Wars', recordYears: [2011, 2012],
+    story: ['Mount & Musket linebattles became part of the 2nd Coldstream Regiment’s routine.', 'The move into Napoleonic Wars followed in 2012. The final Mount & Musket linebattle and footage from the new game preserve both sides of that change.'],
     filmIds: ['ThhbfRP95w8', '8AU7hzl8w5M', 'OnesY-EczqY'],
   },
   {
-    id: 'nox-viator', years: '2013–2015', shortTitle: 'Nox Viator', title: 'A community beyond one game', game: 'Nox Viator · 2nd Coldstream · Napoleonic Wars', recordYears: [2013, 2015],
-    story: ['Nox Viator became the wider community, with the 2nd Coldstream as its regiment. The preserved announcements, roster entries and films connect the two.', 'The regiment became inactive in 2014 and returned in 2015, before another inactive period in 2016. The 2015 footage remains part of that story, alongside the earlier linebattles.'],
+    id: 'coldstream-napoleonic-wars', years: '2013–2015', shortTitle: 'The regiment', title: 'Coldstream in Napoleonic Wars', game: 'Napoleonic Wars', recordYears: [2013, 2015],
+    story: ['The regiment became inactive in 2014 and returned in 2015, before another inactive period in 2016. The 2015 footage remains part of that story, alongside the earlier linebattles.'],
     filmIds: ['QgziRNt4nnM'],
-  },
-  {
-    id: 'roar', years: '2017–2018', shortTitle: 'RoaR Gaming', title: 'The Counter-Strike years', game: 'Counter-Strike · ESEA · FACEIT', recordYears: [2017, 2018],
-    story: ['RoaR Gaming carried the community into Counter-Strike, with ESEA and FACEIT in the recovered record.', 'This chapter is represented by dated roster and announcement evidence. The current film catalogue does not include a verified video from this era.'],
-    filmIds: [],
   },
   {
     id: 'return-2020', years: '2020', shortTitle: 'Back in formation', title: 'The 2nd Coldstream returns', game: 'Holdfast: Nations at War', recordYears: [2020, 2020],
@@ -91,10 +84,10 @@ export default function Archive({ me: _me }: { me: Me | null }) {
     <main className="history-page">
       <header className="history-masthead">
         <div className="history-masthead-copy"><p className="history-eyebrow">Coldstream Gaming · The living archive</p><h1>Same people.<br /><em>Different eras.</em></h1><p>Our story starts in 2011. Follow the games, the names and the nights that brought us here.</p><div className="history-masthead-actions"><button type="button" onClick={() => scrollToSection('history-timeline')}>Explore the eras <span aria-hidden="true">↓</span></button><button type="button" onClick={() => scrollToSection('historical-roster')}>Find an old name</button></div></div>
-        <div className="history-foundation"><span>On the record since</span><strong>2011</strong><p>Six chapters.<br />One gaming community.</p><i aria-hidden="true" /></div>
+        <div className="history-foundation"><span>On the record since</span><strong>2011</strong><p>{ERAS.length} chapters.<br />One gaming community.</p><i aria-hidden="true" /></div>
       </header>
 
-      <div className="history-ledger" aria-label="Archive catalogue totals"><div><b>{people.length}</b><span>names in the roster</span></div><div><b>{summary.events}</b><span>catalogued events</span></div><div><b>{FILMS.length}</b><span>surviving videos</span></div><p>From the recovered community archives.<br />Catalogue totals, not current membership.</p></div>
+      <div className="history-ledger" aria-label="Archive catalogue totals"><div><b>{coldstreamPeople.length}</b><span>names in this roster</span></div><div><b>{ERAS.length}</b><span>history chapters</span></div><div><b>{FILMS.length}</b><span>surviving videos</span></div><p>From the Coldstream and 21stPA records.<br />Catalogue totals, not current membership.</p></div>
 
       <section className="history-timeline" id="history-timeline" aria-labelledby="history-timeline-title" tabIndex={-1}>
         <header className="history-section-heading"><div><p className="history-eyebrow">Choose a chapter</p><h2 id="history-timeline-title">The eras</h2></div><span className="history-count">2011 to today</span></header>
@@ -105,9 +98,8 @@ export default function Archive({ me: _me }: { me: Me | null }) {
         </article>
       </section>
 
-      <Roster era={rosterEra} onClearEra={() => setRosterEra(null)} />
+      <Roster era={rosterEra} onClearEra={() => setRosterEra(null)} rosterPeople={coldstreamPeople} sourceEntries={coldstreamEntries} />
 
-      <section className="history-screening" aria-labelledby="history-screening-title"><div><p className="history-eyebrow">Play the memories</p><h2 id="history-screening-title">A window into the record.</h2><p>The archive player remains here. Browse the complete film catalogue below for individual titles and original channels.</p></div><div className="history-screening-player"><HomeFilm controls /></div></section>
 
       <section className="history-catalogue" id="history-film-catalogue" aria-labelledby="history-film-catalogue-title" tabIndex={-1}>
         <header className="history-section-heading"><div><p className="history-eyebrow">The films, kept together</p><h2 id="history-film-catalogue-title">Every surviving video</h2></div><span className="history-count">{FILMS.length} catalogued films</span></header>

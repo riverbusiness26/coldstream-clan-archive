@@ -1,4 +1,5 @@
 export interface WeeklyFeature {
+  member?: { display_name: string } | { display_name: string }[] | null;
   id: string;
   url: string;
   title: string;
@@ -9,6 +10,7 @@ export interface WeeklyFeature {
 }
 
 export interface WeeklyMedia {
+  submitter?: string;
   key: string;
   type: 'video' | 'image' | 'youtube' | 'link';
   src: string;
@@ -33,7 +35,7 @@ export function weeklyMediaItems(features: WeeklyFeature[], getYoutubeId: (url: 
       : /\.(png|jpe?g|webp|gif|avif)$/i.test(url.pathname) || item.provider === 'image' ? 'image'
       : 'link';
     return [{ key: item.id, type, src: youtube || item.url, label: item.title || 'Community highlight',
-      description: item.description, submitted_at: item.submitted_at, approved_at: item.approved_at, source: 'weekly' as const }];
+      description: item.description, submitter: (Array.isArray(item.member) ? item.member[0]?.display_name : item.member?.display_name) || 'Community member', submitted_at: item.submitted_at, approved_at: item.approved_at, source: 'weekly' as const }];
   });
 }
 

@@ -31,6 +31,8 @@ export const EMPTY_COMBAT_STATS: CombatStats = {
 type TotalsRow = { kills?: unknown; deaths?: unknown; mvps?: unknown; top5?: unknown };
 type SubmissionRow = {
   id: string;
+  created_at?: string;
+  event?: { starts_at?: string | null } | null;
   stat_round?: Array<{ kills?: unknown; deaths?: unknown; is_mvp?: unknown; is_top5?: unknown }>;
 };
 const SUBMISSION_PAGE_SIZE = 250;
@@ -56,16 +58,14 @@ function countTotal(rows: TotalsRow[], field: keyof TotalsRow): number | null {
 async function periodRows(db: SupabaseClient, memberId: string, range: CombatPeriodRange): Promise<TotalsRow[] | null> {
   const rows: TotalsRow[] = [];
   let afterId: string | null = null;
-  // The nullable event link is the only occurrence timestamp in this schema.
-  // Undated legacy submissions remain in all-time totals, not guessed into a
-  // day or week using the time somebody uploaded their proof.
+  // River's reporting rule: event date when known, submission date otherwise.
+  // Page approved reports before filtering so undated events are not lost in
+  // an inner join. Creation dates are never presented as played dates.
   while (true) {
     let query = db.from('stat_submission')
-      .select('id,event!inner(starts_at),stat_round(kills,deaths,is_mvp,is_top5)')
+      .select('id,created_at,event(starts_at),stat_round(kills,deaths,is_mvp,is_top5)')
       .eq('submitter_id', memberId)
       .eq('status', 'approved')
-      .gte('event.starts_at', range.start)
-      .lt('event.starts_at', range.end)
       .order('id', { ascending: true })
       .limit(SUBMISSION_PAGE_SIZE);
     if (afterId) query = query.gt('id', afterId);
@@ -74,6 +74,8 @@ async function periodRows(db: SupabaseClient, memberId: string, range: CombatPer
     const submissions = result.data as unknown as SubmissionRow[];
     for (const submission of submissions) {
       if (!submission || typeof submission.id !== 'string' || !Array.isArray(submission.stat_round)) return null;
+      const recordedAt = Date.parse(submission.event?.starts_at ?? submission.created_at ?? '');
+      if (!Number.isFinite(recordedAt) || recordedAt < Date.parse(range.start) || recordedAt >= Date.parse(range.end)) continue;
       for (const round of submission.stat_round) {
         if (!round || typeof round !== 'object') return null;
         rows.push({
@@ -104,7 +106,7 @@ async function sampledAllTimeHours(db: SupabaseClient, memberId: string): Promis
   return result.error ? null : numberOrNull(result.data);
 }
 
-export async function loadCombatStats(db: SupabaseClient, memberId: string, period: CombatPeriod = 'All time'): Promise<CombatStats> {
+export async function loadCombatStats(db: SupabaseClient, memberId: string, period: CombatPeriod = 'All time', reportErrors = false): Promise<CombatStats> {
   if (!memberId.trim()) return { ...EMPTY_COMBAT_STATS };
   const range = combatPeriodRange(period);
   const [rows, attendanceHours, activity] = await Promise.all([
@@ -115,6 +117,7 @@ export async function loadCombatStats(db: SupabaseClient, memberId: string, peri
     range ? Promise.resolve(null) : Promise.resolve().then(() => db.rpc('member_profile_activity', { target_member: memberId })).then((result) => result.error ? null : result.data).catch(() => null),
   ]);
   const hasRows = rows !== null && rows.length > 0;
+  if (reportErrors && rows === null) throw new Error('Statistics could not be loaded.');
   const kills = hasRows ? countTotal(rows, 'kills') : null;
   const deaths = hasRows ? countTotal(rows, 'deaths') : null;
   return {

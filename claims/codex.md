@@ -1,3 +1,3 @@
-Holding: release build, site/src/views/Admin.tsx, HANDOFF.md
-Doing:   Final reviewed production release, approved by River; preserving unrelated files.
+Holding: index.html, assets/, HANDOFF.md and reviewed local website fixes
+Doing:   River-approved production release, verification and live asset checks.
 Since:   2026-09-12

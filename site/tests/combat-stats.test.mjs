@@ -140,9 +140,8 @@ test('Filtered totals use linked event occurrence, not submission creation or RS
   assert.equal(result.eventsAttended, null);
   assert.equal(result.attendancePercent, null);
   assert.equal(fake.calls.length, 0, 'Do not ask an all-time hours RPC for a monthly card');
-  assert.ok(fake.queries[0].fields.includes('event!inner(starts_at)'));
-  assert.ok(!fake.queries[0].fields.includes('created_at'));
-  assert.deepEqual(fake.queries[0].filters.slice(-2), [['gte', 'event.starts_at', current.start], ['lt', 'event.starts_at', current.end]]);
+  assert.ok(fake.queries[0].fields.includes('event(starts_at)'));
+  assert.ok(fake.queries[0].fields.includes('created_at'));
   assert.ok(fake.queries.every((query) => !/rsvp|presence/.test(query.table)));
 });
 test('Keyset pagination totals more than the default 1,000-row API cap', async () => {
@@ -152,6 +151,24 @@ test('Keyset pagination totals more than the default 1,000-row API cap', async (
   assert.equal(result.deaths, 1003);
   assert.equal(fake.queries.length, 5);
   assert.deepEqual(fake.queries[1].filters.at(-1), ['gt', 'id', '00000000-0000-0000-0000-000000000250']);
+});
+
+test('Undated approved reports count by submission date, without moving dated events', async () => {
+  const now = new Date().toISOString();
+  const fake = mockClient({ submissions: [
+    submission(1, { event: null, created_at: now, stat_round: [round(9,6,false,true)] }),
+    submission(2, { event: { starts_at: '1900-01-01T00:00:00Z' }, created_at: now }),
+  ] });
+  const result = await loadCombatStats(fake.client, 'member-fixture', 'Month');
+  assert.equal(result.kills, 9);
+  assert.equal(result.deaths, 6);
+  assert.equal(result.kdr, 1.5);
+});
+
+test('Homepage distinguishes query failure from an empty reporting period', async () => {
+  await assert.rejects(loadCombatStats(mockClient({statsError:true}).client, 'member-fixture', 'Month', true));
+  const empty = await loadCombatStats(mockClient().client, 'member-fixture', 'Month', true);
+  assert.equal(empty.kills, null);
 });
 test('Failure on a later page returns unknown, never a partial statistic', async () => {
   const fake = mockClient({ submissions: Array.from({ length: 251 }, (_, index) => submission(index + 1)), failedSubmissionPage: 2 });

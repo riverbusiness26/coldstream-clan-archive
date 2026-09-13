@@ -3,6 +3,13 @@ import assert from 'node:assert/strict';
 import { weeklyMediaItems, nextMediaIndex } from '../src/lib/weeklyMedia.ts';
 
 const item = (id, url, provider = 'stream') => ({ id, url, provider, title: 'A highlight', description: 'Member caption' });
+test('Weekly captions preserve the submitting member and submitted information', () => {
+  const result = weeklyMediaItems([{ ...item('credit','https://example.com/clip.mp4'), member:{display_name:'[2ndCS] SLUG'}, submitted_at:'2026-09-12T12:00:00Z' }],()=>null);
+  assert.equal(result[0].submitter,'[2ndCS] SLUG');
+  assert.equal(result[0].description,'Member caption');
+  assert.equal(result[0].source,'weekly');
+  assert.equal(result[0].submitted_at,'2026-09-12T12:00:00Z');
+});
 test('approved items are deduplicated by submission id', () => {
   const a = item('a', 'https://example.com/video.mp4');
   assert.equal(weeklyMediaItems([a, a], () => null).length, 1);

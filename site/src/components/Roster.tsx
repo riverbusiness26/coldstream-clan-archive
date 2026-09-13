@@ -14,7 +14,7 @@ const isIdentifier = (value: string) => /^\d{17}$/.test(value.trim());
 const recordedName = (value: string) => isIdentifier(value) ? 'Name not preserved' : value;
 const gameName = (value: string) => value === 'GEN' ? 'Community record' : GAME_NAMES[value] ?? value;
 
-export default function Roster({ era, onClearEra }: { era?: RosterEraFilter | null; onClearEra?: () => void }) {
+export default function Roster({ era, onClearEra, rosterPeople = people, sourceEntries = rosterEntries }: { era?: RosterEraFilter | null; onClearEra?: () => void; rosterPeople?: typeof people; sourceEntries?: typeof rosterEntries }) {
   const [year, setYear] = useState('all');
   const [game, setGame] = useState('all');
   const [query, setQuery] = useState('');
@@ -24,19 +24,19 @@ export default function Roster({ era, onClearEra }: { era?: RosterEraFilter | nu
 
   const records = useMemo(() => {
     const byPerson = new Map<string, typeof rosterEntries>();
-    for (const entry of rosterEntries) {
+    for (const entry of sourceEntries) {
       const entries = byPerson.get(entry.person_key) ?? [];
       entries.push(entry);
       byPerson.set(entry.person_key, entries);
     }
-    return people.map((person, index) => {
+    return rosterPeople.map((person, index) => {
       const entries = [...(byPerson.get(person.key) ?? [])].sort((a, b) => (a.year ?? Infinity) - (b.year ?? Infinity));
       const years = [...new Set(entries.flatMap((entry) => entry.year == null ? [] : [entry.year]))].sort((a, b) => a - b);
       return { person, index, entries, years, first: years[0] ?? null, last: years.at(-1) ?? null };
     });
-  }, []);
+  }, [rosterPeople, sourceEntries]);
   const years = useMemo(() => [...new Set(records.flatMap((record) => record.years))].sort((a, b) => a - b), [records]);
-  const games = useMemo(() => [...new Set(people.flatMap((person) => person.games))].sort((a, b) => gameName(a).localeCompare(gameName(b))), []);
+  const games = useMemo(() => [...new Set(rosterPeople.flatMap((person) => person.games))].sort((a, b) => gameName(a).localeCompare(gameName(b))), [rosterPeople]);
 
   useEffect(() => {
     setYear('all');
@@ -75,7 +75,7 @@ export default function Roster({ era, onClearEra }: { era?: RosterEraFilter | nu
     <section className="history-roster" id="historical-roster" aria-labelledby="historical-roster-title" tabIndex={-1}>
       <header className="history-section-heading">
         <div><p className="history-eyebrow">The people in the record</p><h2 id="historical-roster-title">Historical roster</h2></div>
-        <span className="history-count">{people.length} archived names</span>
+        <span className="history-count">{rosterPeople.length} archived names</span>
       </header>
       <p className="history-roster-context">Find a name, a game or a year. Dates below come from surviving records, not a complete service history.</p>
       <div className="history-roster-toolbar">

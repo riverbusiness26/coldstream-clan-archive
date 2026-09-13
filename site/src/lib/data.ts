@@ -39,8 +39,15 @@ export interface ServerInfo {
   player_names?: string[];
 }
 
-export const people = (rosterSeed as { people: Person[] }).people;
-export const rosterEntries = (rosterSeed as { entries: RosterEntry[] }).entries;
+// River confirmed the 2020 group rolls belong to Holdfast, not Warband.
+// Preserve the recovered source JSON; correct the displayed classification.
+export const rosterEntries = (rosterSeed as { entries: RosterEntry[] }).entries.map((entry) =>
+  entry.year === 2020 && /On the rolls of the .*Steam group/.test(entry.source_detail)
+    ? { ...entry, game: 'HOL' } : entry);
+export const people = (rosterSeed as { people: Person[] }).people.map((person) => {
+  const entries = rosterEntries.filter((entry) => entry.person_key === person.key);
+  return entries.length ? { ...person, games: [...new Set(entries.map((entry) => entry.game))] } : person;
+});
 export const eventStats = eventsSeed as EventStat[];
 export const news = newsSeed as NewsItem[];
 export const servers = serversSeed as ServerInfo[];
