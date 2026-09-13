@@ -1,3 +1,3 @@
-Holding: index.html, assets/, HANDOFF.md and reviewed local website fixes
-Doing:   River-approved production release, verification and live asset checks.
+Holding: nothing
+Doing:   Release 784d214 published and verified on coldstreamgaming.com; no submission decisions made.
 Since:   2026-09-12

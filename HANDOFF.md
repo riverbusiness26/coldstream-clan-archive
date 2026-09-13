@@ -3684,3 +3684,11 @@ VERIFIED: node --test site/tests/*.test.mjs passed 91/91; npm run build --prefix
 UNVERIFIED: Real approval, upload, role-specific saves and Discord event attendance are not exercised by publishing. No submission decisions made.
 BLOCKED: No release blocker found. Status check separately flags delayed server-status and steam-presence schedules, outside this frontend release.
 NEXT: Verify deployed index and bundle contents against the production build.
+
+## 2026-09-12 - Production verification receipt (Codex)
+
+DONE: Published release 784d214 to main with River approval. Progress-board commit f219c06 followed and was fast-forwarded locally. Claims released.
+VERIFIED: House rules run 34737681681 succeeded. Pages run 34737695957 on f219c06 succeeded after superseding the earlier deployment. Live domain returns index-3bryJDxE.js. Main JS, Admin JS/CSS, global CSS and Archive JS all returned 200 and exact SHA-256 matches with site/dist. node scripts/status.mjs confirms live bundle, authentication endpoint guards, database table availability and current checkout. All 91 tests passed; authored source whitespace check passed. Generated upstream bundle contains whitespace in string content, retained unchanged.
+UNVERIFIED: No real submission approved or rejected, no uploads or staff saves tested by this release. Wrangler deployment listing remains older than the verified live domain and GitHub Pages receipt; no alternate deploy was attempted.
+BLOCKED: No publishing blocker. Server-status and steam-presence scheduled jobs remain delayed by several hours, separately reported to River.
+NEXT: River can review the live weekly inbox, then test a deliberate approval and confirm homepage rotation.
