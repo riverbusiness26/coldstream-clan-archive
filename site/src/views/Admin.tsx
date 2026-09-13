@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaChevronLeft, FaChevronRight, FaClipboardCheck, FaCog, FaFlag, FaHistory, FaHome, FaImage, FaMedal, FaSearch, FaShieldAlt, FaSignOutAlt, FaUsers } from 'react-icons/fa';
+import { FaArrowsAltV, FaAward, FaBars, FaCalendarCheck, FaChevronLeft, FaChevronRight, FaClipboardCheck, FaCog, FaFlag, FaHistory, FaHome, FaImage, FaMedal, FaSearch, FaShieldAlt, FaSignOutAlt, FaUserPlus, FaUsers } from 'react-icons/fa';
 import { supa, DEMO } from '../lib/supa';
 import type { Me } from '../lib/auth';
 import { loadAdminSections, mergeDetachmentDrafts, parseRoundCount, readAdminRows } from '../lib/adminData';
@@ -7,10 +7,12 @@ import DiscordAvatar from '../components/DiscordAvatar';
 import ArtworkPicker from '../components/ArtworkPicker';
 import WeeklyReview from '../components/WeeklyReview';
 import { reviewWeeklyContent } from '../lib/adminWeekly';
+import EnlistmentReview, { type EnlistmentRow } from '../components/EnlistmentReview';
+import { reviewRegimentEnlistment, type EnlistmentDecision } from '../lib/enlistmentAdmin';
 import DetachmentEmblem from '../components/DetachmentEmblem';
 import { CALENDAR_TIME_ZONE, addCalendarDays, chicagoDateKey, chicagoDateTimeCandidates, chicagoDateTimeInput, chicagoDateTimeToIso, type ChicagoTimeOccurrence } from '../lib/calendarTime';
 import '../admin-redesign.css';
-type Tab = 'overview' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'gallery' | 'weekly' | 'audit' | 'settings';
+type Tab = 'overview' | 'enlistment' | 'catalogue' | 'detachments' | 'assignments' | 'members' | 'attendance' | 'evidence' | 'gallery' | 'weekly' | 'audit' | 'settings';
 type ItemKind = 'rank' | 'medal';
 interface PersonnelItem { id: string; kind: ItemKind; name: string; description: string | null; storage_key: string | null; image_mime: string | null; active: boolean; sort_order: number; created_at: string }
 interface MemberRow { id: string; display_name: string; avatar_url: string | null; discord_id: string | null; role: string; company_id: string | null; status: string; notes: string | null; joined_year: number | null; enlisted_at: string | null; discharged_at: string | null; steam_id64: string | null }
@@ -35,8 +37,10 @@ const PREVIEW_MEMBERS: MemberRow[] = [{ id: 'preview-member', display_name: 'Dis
 const PREVIEW_COMPANIES: CompanyRow[] = [{ id: 'preview-company', name: '2nd Coldstream Guards', tag: '2ndCS', color: null, emblem_storage_key: null, emblem_image_mime: null, sort_order: 0 }];
 const PREVIEW_EVENTS: EventRow[] = [{ id: 'preview-event', title: 'Example Linebattle', body: 'Form up 15 minutes before the event.', game: 'Holdfast: Nations At War', starts_at: new Date(Date.now() + 86_400_000).toISOString(), duration_minutes: 90, cancelled: false, event_type: 'linebattle', deleted_at: null }];
 const PREVIEW_STAT_SUBMISSIONS: StatSubmissionRow[] = [{ id: 'preview-report', submitter_id: 'preview-member', category: 'public_linebattle', event_name: 'Example report: Linebattle', status: 'submitted', created_at: new Date().toISOString(), stat_round: [{ round_number: 1, kills: 0, deaths: 0, is_mvp: false, is_top5: false, stat_proof: [] }] }];
+const PREVIEW_ENLISTMENTS: EnlistmentRow[] = [{ id: 'preview-enlistment', member_id: null, display_name: 'Example Volunteer', body: 'Discord regiment application', created_at: new Date().toISOString(), answers: { age: 21, holdfast_name: 'Example Volunteer', region: 'NA', found_us: 'A friend invited me.', leadership_interest: 'Yes, once I know the group.' }, status: 'pending', reviewed_by: null, review_note: null, reviewed_at: null, discord_id: 'preview', discord_username: 'example', guild_id: 'preview', discord_status: 'not_synced', discord_last_error: null, discord_processed_at: null }];
 const SECTION_INFO: Record<Tab, { title: string; description: string }> = {
   overview: { title: 'Staff overview', description: 'Review the queues, manage member records and prepare for the next event.' },
+  enlistment: { title: 'Regiment applications', description: 'Review 2nd Coldstream Guard applications and send one clear decision back through Discord.' },
   evidence: { title: 'Stat review', description: 'Open a report, inspect every round and its proof, then make one clear decision.' },
   gallery: { title: 'Gallery review', description: 'View member uploads before accepting them into the gallery.' },
   weekly: { title: 'Weekly content', description: 'Review features and manage the approved weekly rotation.' },
@@ -86,7 +90,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const canUpload = me?.role === 'admin';
   const [tab, setTab] = useState<Tab>(() => {
     const saved = window.localStorage.getItem('coldstream-admin-section') as Tab | null;
-    return saved === 'assignments' ? 'members' : saved && ['overview', 'catalogue', 'detachments', 'members', 'attendance', 'evidence', 'gallery', 'weekly', 'audit', 'settings'].includes(saved) ? saved : 'overview';
+    return saved === 'assignments' ? 'members' : saved && ['overview', 'enlistment', 'catalogue', 'detachments', 'members', 'attendance', 'evidence', 'gallery', 'weekly', 'audit', 'settings'].includes(saved) ? saved : 'overview';
   });
   const [navOpen, setNavOpen] = useState(false);
   const [items, setItems] = useState<PersonnelItem[]>([]);
@@ -155,6 +159,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const proofDialog = useRef<HTMLDialogElement>(null);
   const [statRoundDrafts, setStatRoundDrafts] = useState<Record<string, { kills: string; deaths: string; is_mvp: boolean; is_top5: boolean }>>({});
   const [weeklySubmissions, setWeeklySubmissions] = useState<WeeklySubmissionRow[]>([]);
+  const [enlistments, setEnlistments] = useState<EnlistmentRow[]>([]);
   const [busy, setBusy] = useState(false);
   const actionLock = useRef(false);
   const [auditWarning, setAuditWarning] = useState<string | null>(null);
@@ -185,7 +190,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     const version = ++loadVersion.current;
     setLoading(true);
     if (!supa) {
-      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAssignmentHistory([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setGallerySubmissions([]); setStatSubmissions(PREVIEW_STAT_SUBMISSIONS); setWeeklySubmissions([]);
+      setItems(PREVIEW_ITEMS); setMembers(PREVIEW_MEMBERS); setCompanies(PREVIEW_COMPANIES); setAssignments([]); setAssignmentHistory([]); setAudit([]); setEvents(PREVIEW_EVENTS); setRsvps([]); setPresenceRoll([]); setPresenceWindows([]); setGalleryPending(0); setGallerySubmissions([]); setStatSubmissions(PREVIEW_STAT_SUBMISSIONS); setWeeklySubmissions([]); setEnlistments(PREVIEW_ENLISTMENTS);
       setLoading(false);
       return;
     }
@@ -242,6 +247,11 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       { name: 'Weekly content', run: async () => {
         const result = await readAdminRows((from, to) => db.from('weekly_content_submission').select('id,submitter_id,url,provider,title,description,status,rejection_reason,submitted_at,approved_at').order('submitted_at', { ascending: false }).order('id').range(from, to));
         if (!result.error && current()) setWeeklySubmissions(result.data as WeeklySubmissionRow[]);
+        return result;
+      } },
+      { name: 'Regiment applications', run: async () => {
+        const result = await readAdminRows((from, to) => db.from('enlistment').select('id,member_id,display_name,body,created_at,answers,status,reviewed_by,review_note,reviewed_at,discord_id,discord_username,guild_id,discord_status,discord_last_error,discord_processed_at').not('discord_id', 'is', null).order('created_at', { ascending: false }).order('id').range(from, to));
+        if (!result.error && current()) setEnlistments(result.data as EnlistmentRow[]);
         return result;
       } },
       { name: 'Events', run: async () => {
@@ -363,7 +373,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const pendingStats = statSubmissions.filter((submission) => submission.status === 'submitted').length;
   const pendingWeekly = weeklySubmissions.filter((submission) => submission.status === 'pending').length;
   const pendingGallery = gallerySubmissions.filter((submission) => !submission.approved).length;
-  const reviewTotal = pendingStats + pendingWeekly + pendingGallery;
+  const pendingEnlistments = enlistments.filter((application) => application.status === 'pending').length;
+  const reviewTotal = pendingEnlistments + pendingStats + pendingWeekly + pendingGallery;
   const sectionInfo = SECTION_INFO[tab];
   useEffect(() => { setEditingStatId(null); setConfirmStatDelete(null); }, [selectedStat?.id]);
   function openTab(next: Tab) {
@@ -802,6 +813,22 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     if (result.error) setAuditWarning('The change was saved, but its audit entry failed. Tell an admin before making more changes.');
     } catch { setAuditWarning('The change was saved, but its audit entry could not be confirmed.'); }
   }
+  async function reviewEnlistmentApplication(id: string, decision: EnlistmentDecision, reason: string) {
+    if (actionLock.current) return;
+    actionLock.current = true;
+    setBusy(true);
+    setError(null); setDone(null);
+    try {
+      if (!supa) { setDone('Preview only. No application was changed.'); return; }
+      await reviewRegimentEnlistment(supa, id, decision, reason);
+      setDone(decision === 'accepted'
+        ? 'Application accepted. Discord role, nickname, and confirmation work is queued for the bot.'
+        : 'Application denied. The private reason is queued for delivery by the bot.');
+      await load();
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'The application decision could not be saved. Refresh the inbox before retrying.');
+    } finally { actionLock.current = false; setBusy(false); }
+  }
   async function reviewStatSubmission(id: string, status: 'approved' | 'rejected') {
     if (actionLock.current) return;
     actionLock.current = true;
@@ -1087,6 +1114,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
           <nav aria-label="Admin Panel sections">
             <button className={tab === 'overview' ? 'active' : ''} aria-current={tab === 'overview' ? 'page' : undefined} onClick={() => openTab('overview')}><FaHome /><span>Overview</span>{reviewTotal > 0 && <small>{reviewTotal}</small>}</button>
             <p>Review inbox</p>
+            <button className={tab === 'enlistment' ? 'active' : ''} aria-current={tab === 'enlistment' ? 'page' : undefined} onClick={() => openTab('enlistment')}><FaUserPlus /><span>Regiment applications</span><small>{pendingEnlistments}</small></button>
             <button className={tab === 'evidence' ? 'active' : ''} aria-current={tab === 'evidence' ? 'page' : undefined} onClick={() => openTab('evidence')}><FaClipboardCheck /><span>Stat reports</span><small>{pendingStats}</small></button>
             <button className={tab === 'gallery' ? 'active' : ''} aria-current={tab === 'gallery' ? 'page' : undefined} onClick={() => openTab('gallery')}><FaImage /><span>Gallery</span><small>{pendingGallery}</small></button>
             <button className={tab === 'weekly' ? 'active' : ''} aria-current={tab === 'weekly' ? 'page' : undefined} onClick={() => openTab('weekly')}><FaImage /><span>Weekly content</span><small>{pendingWeekly}</small></button>
@@ -1117,6 +1145,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       {tab === 'overview' && <section className="admin-overview">
         <div className="admin-welcome"><div><span>Review inbox</span><h2>What needs attention</h2><p>Review submissions, check attendance and keep member records current. Counts reflect the records loaded in this workspace.</p></div><FaShieldAlt /></div>
         <div className="admin-attention-grid">
+          <article><header><FaUserPlus /><span>Regiment applications</span><b>{pendingEnlistments}</b></header><h3>{pendingEnlistments ? 'Applicants waiting for review' : 'Enlistment inbox is clear'}</h3><p>Read each answer before queuing roles, nickname, and a private decision.</p><button onClick={() => openTab('enlistment')}>Review applications</button></article>
           <article><header><FaClipboardCheck /><span>Stat reports</span><b>{pendingStats}</b></header><h3>{pendingStats ? 'Reports waiting for review' : 'Stat inbox is clear'}</h3><p>Inspect each round and its proof before accepted results reach the leaderboard.</p><button onClick={() => openTab('evidence')}>Review stat reports</button></article>
           <article><header><FaImage /><span>Gallery</span><b>{pendingGallery}</b></header><h3>{pendingGallery ? 'Media waiting for review' : 'Gallery inbox is clear'}</h3><p>Open submitted images and videos before they appear in the gallery.</p><button onClick={() => openTab('gallery')}>Review gallery</button></article>
           <article><header><FaImage /><span>Weekly content</span><b>{pendingWeekly}</b></header><h3>{pendingWeekly ? 'Features waiting for review' : 'Weekly inbox is clear'}</h3><p>Review the next community highlights and manage approved features.</p><button onClick={() => openTab('weekly')}>Review weekly content</button></article>
@@ -1124,6 +1153,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </div>
         <div className="admin-summary-grid"><article><span>Members</span><b>{members.length}</b><small>Discord roster records</small></article><article><span>Ranks & medals</span><b>{items.length}</b><small>{items.filter((item) => item.active).length} available</small></article><article><span>Detachments</span><b>{companies.length}</b><small>Regiment structure</small></article><article><span>Upcoming events</span><b>{upcomingEventCount}</b><small>Current calendar</small></article></div>
       </section>}
+      {tab === 'enlistment' && <EnlistmentReview applications={enlistments} busy={busy} loading={loading} error={loadErrors['Regiment applications']} onRefresh={() => void load()} onReview={(id, decision, reason) => void reviewEnlistmentApplication(id, decision, reason)} />}
       {(tab === 'catalogue' || tab === 'detachments') && <nav className="admin-subnav" aria-label="Regiment tools"><button className={tab === 'catalogue' ? 'active' : ''} onClick={() => openTab('catalogue')}>Ranks & medals</button><button className={tab === 'detachments' ? 'active' : ''} onClick={() => openTab('detachments')}>Detachments</button></nav>}
       {tab === 'catalogue' && <section className="command-workspace">
         <div className="catalogue-list">
