@@ -215,12 +215,59 @@
 .staff-workspace .staff-proof-dialog > img { display: block; width: 100%; max-height: 72dvh; object-fit: contain; }
 .staff-workspace .staff-proof-dialog > a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: #e6d0a7; font-size: 13px; }
 .staff-workspace .staff-nav-backdrop { display: none; }
+.staff-workspace .enlistment-review-shell { overflow: hidden; border: 1px solid var(--staff-line); border-radius: 6px; background: #121417; }
+.staff-workspace .enlistment-review-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; padding: 16px; border-bottom: 1px solid var(--staff-line); background: #171a1e; }
+.staff-workspace .enlistment-review-toolbar label { display: grid; flex: 1 1 150px; gap: 5px; color: #c4c7cb; font-size: 11px; line-height: 1.5; }
+.staff-workspace .enlistment-review-toolbar label:first-child { flex-basis: 260px; }
+.staff-workspace .enlistment-review-toolbar :is(input, select) { width: 100%; min-width: 0; min-height: 42px; padding: 9px 11px; border: 1px solid #44484d; border-radius: 4px; background: #0d0f11; color: #efefed; font: 13px/1.4 var(--cg-body); }
+.staff-workspace .enlistment-review-toolbar > span { min-height: 42px; display: inline-flex; align-items: center; padding: 0 12px; border: 1px solid #574c39; border-radius: 4px; color: #e0c58f; font-size: 12px; }
+.staff-workspace .enlistment-review-columns { display: grid; grid-template-columns: minmax(250px, .72fr) minmax(0, 1.55fr); align-items: start; gap: 16px; padding: 16px; }
+.staff-workspace .enlistment-applicant-list { min-width: 0; border: 1px solid var(--staff-line); background: #101215; }
+.staff-workspace .enlistment-applicant-list > header { display: flex; justify-content: space-between; gap: 10px; padding: 15px; border-bottom: 1px solid var(--staff-line); font-size: 13px; }
+.staff-workspace .enlistment-applicant-list > header span { color: var(--staff-muted); font-size: 11px; }
+.staff-workspace .enlistment-applicant-list > button { position: relative; display: grid; gap: 8px; width: 100%; padding: 16px; border: 0; border-bottom: 1px solid var(--staff-line); background: transparent; color: #e9e8e3; text-align: left; cursor: pointer; }
+.staff-workspace .enlistment-applicant-list > button:hover { background: #202328; }
+.staff-workspace .enlistment-applicant-list > button.selected { background: #292720; box-shadow: inset 3px 0 #ba9a60; }
+.staff-workspace .enlistment-applicant-list > button > span { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.staff-workspace .enlistment-applicant-list > button > span:first-child { justify-content: flex-start; }
+.staff-workspace .enlistment-applicant-list > button svg { flex: 0 0 auto; color: #bba06f; }
+.staff-workspace .enlistment-applicant-list > button b { overflow-wrap: anywhere; font: 650 14px/1.4 var(--cg-body); }
+.staff-workspace .enlistment-applicant-list > button :is(small, em, time) { color: var(--staff-muted); font: 11px/1.45 var(--cg-body); }
+.staff-workspace .enlistment-applicant-list > button em { color: #d7c49e; font-style: normal; }
+.staff-workspace .enlistment-application-detail { min-width: 0; padding: 22px; border: 1px solid var(--staff-line); background: #171a1e; }
+.staff-workspace .enlistment-application-detail > header { display: flex; align-items: start; justify-content: space-between; gap: 15px; }
+.staff-workspace .enlistment-application-detail h2 { margin: 8px 0; font: 650 25px/1.3 var(--cg-body); letter-spacing: -.025em; overflow-wrap: anywhere; }
+.staff-workspace .enlistment-application-detail header p { margin: 0; color: var(--staff-muted); font-size: 12px; }
+.staff-workspace .enlistment-status { align-self: start; padding: 5px 8px; border: 1px solid #595b60; border-radius: 999px; color: #dadcdf; font: 700 10px/1.3 var(--cg-body); text-transform: capitalize; }
+.staff-workspace .enlistment-status-pending { border-color: #7e683f; background: #332b1d; color: #f0d49d; }
+.staff-workspace .enlistment-status-accepted { border-color: #4c7962; background: #1d3026; color: #bce6cb; }
+.staff-workspace .enlistment-status-denied { border-color: #86505b; background: #321d23; color: #f1bdc7; }
+.staff-workspace .enlistment-identity-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 22px 0; border: 1px solid var(--staff-line); background: var(--staff-line); }
+.staff-workspace .enlistment-identity-strip > span { display: grid; grid-template-columns: 24px 1fr; gap: 2px 8px; min-width: 0; padding: 14px; background: #111417; }
+.staff-workspace .enlistment-identity-strip svg { grid-row: 1 / 3; align-self: center; color: #ba9a60; }
+.staff-workspace .enlistment-identity-strip small { color: var(--staff-muted); font-size: 10px; }
+.staff-workspace .enlistment-identity-strip b { overflow-wrap: anywhere; font-size: 12px; }
+.staff-workspace .enlistment-answer-list { display: grid; gap: 10px; margin: 0; }
+.staff-workspace .enlistment-answer-list > div { padding: 15px; border: 1px solid var(--staff-line); background: #111316; }
+.staff-workspace .enlistment-answer-list dt { margin-bottom: 7px; color: #cdb98f; font: 650 11px/1.5 var(--cg-body); }
+.staff-workspace .enlistment-answer-list dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: #ecebe6; font: 13px/1.65 var(--cg-body); }
+.staff-workspace .enlistment-decision-panel { margin-top: 20px; padding-top: 17px; border-top: 1px solid var(--staff-line); }
+.staff-workspace .enlistment-decision-panel > p { color: var(--staff-muted); font-size: 12px; line-height: 1.65; }
+.staff-workspace .enlistment-decision-panel > div, .staff-workspace .enlistment-denial-form > div { display: flex; flex-wrap: wrap; gap: 9px; }
+.staff-workspace .enlistment-denial-form { display: grid !important; gap: 10px; padding: 14px; border: 1px solid #7b434d; background: #281a1e; }
+.staff-workspace .enlistment-denial-form label { display: grid; gap: 6px; color: #efd4d9; font-size: 11px; }
+.staff-workspace .enlistment-denial-form textarea { min-height: 110px; resize: vertical; padding: 10px; border: 1px solid #6d4750; border-radius: 4px; background: #0d0f11; color: #fff; font: 13px/1.55 var(--cg-body); }
+.staff-workspace .enlistment-delivery-warning { padding: 10px; border: 1px solid #7d6040; background: #30261a; color: #f0d4a2 !important; }
+.staff-workspace .enlistment-empty { display: grid; min-height: 350px; place-content: center; text-align: center; }
+.staff-workspace .enlistment-empty svg { width: 34px; height: 34px; margin: 0 auto 16px; color: #b49d75; }
+.staff-workspace .enlistment-empty p { max-width: 380px; color: var(--staff-muted); font-size: 13px; line-height: 1.7; }
 @media (max-width: 1180px) {
   .staff-workspace .admin-shell { grid-template-columns: 206px minmax(0, 1fr); }
   .staff-workspace .member-command-list > article { grid-template-columns: 32px minmax(0, 1fr) minmax(130px, .6fr); }
   .staff-workspace .member-detachment-control { grid-column: 2 / -1; grid-row: auto; grid-template-columns: 1.3fr 1fr 1fr 1fr; }
   .staff-workspace .member-detachment-control select { grid-column: auto; }
   .staff-workspace .staff-review-columns { grid-template-columns: minmax(210px, .7fr) minmax(0, 1.2fr); }
+  .staff-workspace .enlistment-review-columns { grid-template-columns: minmax(220px, .72fr) minmax(0, 1.35fr); }
   .staff-workspace .staff-report-detail { padding: 17px; }
   .staff-workspace .staff-report-header { flex-wrap: wrap; }
   .staff-workspace .staff-proof-grid { grid-template-columns: 1fr; }
@@ -233,12 +280,17 @@
   .staff-workspace .admin-sidebar-toggle { min-width: 40px; min-height: 40px; }
   .staff-workspace .staff-nav-backdrop { position: fixed; inset: 0; z-index: 100; display: block; border: 0; background: rgb(0 0 0 / 65%); }
   .staff-workspace .staff-review-columns { grid-template-columns: minmax(220px, .8fr) minmax(0, 1.4fr); }
+  .staff-workspace .enlistment-review-columns { grid-template-columns: minmax(220px, .8fr) minmax(0, 1.35fr); }
   .staff-workspace .admin-main { padding: 18px; }
 }
 @media (max-width: 700px) {
   .staff-workspace .admin-attention-grid { grid-template-columns: 1fr; }
   .staff-workspace .command-head { align-items: start; }
   .staff-workspace .staff-review-columns { grid-template-columns: 1fr; }
+  .staff-workspace .enlistment-review-columns { grid-template-columns: 1fr; padding: 10px; }
+  .staff-workspace .enlistment-applicant-list { max-height: 330px; overflow-y: auto; }
+  .staff-workspace .enlistment-application-detail { padding: 16px; }
+  .staff-workspace .enlistment-identity-strip { grid-template-columns: 1fr; }
   .staff-workspace .staff-report-list { max-height: 320px; overflow-y: auto; }
   .staff-workspace .staff-report-detail { padding: 17px; }
   .staff-workspace .staff-report-header h2 { font-size: 22px; }
