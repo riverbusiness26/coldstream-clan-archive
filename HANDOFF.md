@@ -3739,3 +3739,10 @@ VERIFIED: npm run build --prefix site passed TypeScript and Vite (158 modules). 
 UNVERIFIED: Production browser and bundle hashes are verified after this push. Physical phone gestures are not hardware tested.
 BLOCKED: Nothing for this authorized coin release.
 NEXT: Verify the published /stores/ assets and interactive coin through the existing Pages deployment.
+## 2026-09-13 - Daily, weekly and monthly events (Codex)
+
+DONE: Added Repeats and 2-to-104 occurrence count to Admin event creation, with a Chicago date preview, ending date and per-occurrence labels. The default remains a single event. Monthly dates clamp to month end without drifting in later months. Each row retains independent RSVP, attendance, edit, delete and optional Discord posting behavior. Applied 0055_recurring_events.sql in production: staff-only atomic creation, retry request identity, series metadata and a uniqueness constraint.
+VERIFIED: All 106 website tests passed. Isolated PostgreSQL test covers calendar anchoring, retries, mismatched retry rejection, audit counts, rollback on DST gaps, fall-back time selection, moderator creation and member/anon denial. Production rollback-only test created January/February/March dates, verified repeat retry and no Discord action, then rolled back every test record. Local signed-in Admin preview displays all repeat choices, occurrence count and the correct January 31 / February 28 / March 31 preview at 7 PM Central. Type check and production build passed.
+UNVERIFIED: No real recurring schedule created or posted to Discord. This version creates a finite series; edits and removals apply to individual occurrences, not the whole series.
+BLOCKED: None for the requested daily, weekly and monthly options.
+NEXT: Publish the configured build through main and verify live admin assets.
