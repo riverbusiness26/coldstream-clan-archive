@@ -3699,3 +3699,15 @@ VERIFIED: Public active-feature query returned approved submission a5ebd46e-ed63
 UNVERIFIED: Browser-rendered signed-in live layout not rechecked in this small correction; live file check follows publishing.
 BLOCKED: Nothing for this correction. No submission records changed.
 NEXT: Verify the live domain serves the corrected bundle.
+
+## 2026-09-13 - Shared Shillings economy release candidate (Codex)
+
+DONE: Added the server-authoritative Shillings economy, Quartermaster's Stores member page, private balance, ledger, inventory and equipped-cosmetic views, daily issue, and confirmed purchases. Installed migration 0053 in production with 10 daily Shillings, America/Chicago day boundaries, zero starting balance and the 40-Shilling Engraved Frame. Root publishing assets now contain the configured production build.
+
+VERIFIED: The isolated PostgreSQL suite passed 14/14, all website tests passed 101/101, and the TypeScript/Vite production build passed with 152 modules. Rollback-only production checks confirmed the Discord service boundary, member RLS, append-only ledger, catalogue seed and empty retained state. Desktop and 390px member-gate previews had no document overflow. Production dependencies report zero known vulnerabilities.
+
+UNVERIFIED: The root assets are not public until pushed and the existing Pages workflow completes. A real member has not yet claimed or purchased in production; the production transaction exercise was rolled back.
+
+BLOCKED: No website release blocker remains. Discord command deployment is tracked separately and does not block publishing the shared website surface.
+
+NEXT: Push through the existing main-branch Pages path, verify the public domain serves the new configured bundle and Stores chunk, then record the production receipt without invoking another deploy path.
