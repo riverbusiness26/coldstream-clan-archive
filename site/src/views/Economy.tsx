@@ -1,3 +1,4 @@
+import Quartermaster from './Quartermaster';
 import ShillingCoin from '../components/ShillingCoin';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DEMO, supa } from '../lib/supa';
@@ -25,7 +26,9 @@ const knownFailure: Record<string, string> = {
   ECONOMY_REQUEST_KEY_INVALID: 'That request was rejected. Please refresh Shillings and try again.',
 };
 
-export default function Economy({ demo = DEMO }: { demo?: boolean }) {
+export default function Economy({ demo = DEMO }: { demo?: boolean }) { return <Quartermaster demo={demo} />; }
+
+export function LegacyEconomy({ demo = DEMO }: { demo?: boolean }) {
   const [snapshot, setSnapshot] = useState<EconomySnapshot | null>(demo ? demoSnapshot : null);
   const [loading, setLoading] = useState(!demo);
   const [error, setError] = useState<string | null>(null);

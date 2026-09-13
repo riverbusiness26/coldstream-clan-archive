@@ -1,0 +1,67 @@
+{
+  "currency": { "unit": "shilling", "pound_size": 20 },
+  "duty": {
+    "cooldown_seconds": 7200,
+    "payout_min": 8,
+    "payout_max": 18,
+    "boost_multiplier": 1.5,
+    "boost_cap": 28
+  },
+  "ration": {
+    "cooldown_seconds": 72000,
+    "base": 12,
+    "streak_bonus_per_day": 1,
+    "streak_bonus_cap": 14,
+    "bonus_day_7_medal": "medal_present",
+    "bonus_day_30_medal": "medal_month",
+    "bonus_day_30_shillings": 40
+  },
+  "parade": {
+    "amount": 15,
+    "active_days": 7,
+    "cron": "0 18 * * 0"
+  },
+  "forage": {
+    "cooldown_seconds": 43200,
+    "min_target_purse": 15,
+    "success_chance_min": 0.25,
+    "success_chance_max": 0.65,
+    "take_min_pct": 0.12,
+    "take_max_pct": 0.28,
+    "take_cap": 80,
+    "fail_fine_min_pct": 0.08,
+    "fail_fine_max_pct": 0.16,
+    "fail_fine_cap": 40,
+    "caltrop_chance": 0.4,
+    "caltrop_fine_min": 10,
+    "caltrop_fine_max": 25
+  },
+  "billet": {
+    "off_delay_seconds": 21600
+  },
+  "withdraw": {
+    "cooldown_seconds": 600
+  },
+  "vingt": {
+    "min_stake": 5,
+    "max_stake": 100,
+    "natural_multiplier": 2.5,
+    "win_multiplier": 2.0,
+    "dealer_stand": 17,
+    "turn_timeout_seconds": 90,
+    "command_cooldown_seconds": 15
+  },
+  "anchor": {
+    "min_stake": 5,
+    "max_stake": 80,
+    "payouts": { "1": 2, "2": 3, "3": 4 }
+  },
+  "gambling": {
+    "loss_cap_24h": 150
+  },
+  "messnight": {
+    "duration_seconds": 3600,
+    "duty_multiplier": 1.25,
+    "cooldown_seconds": 86400
+  }
+}

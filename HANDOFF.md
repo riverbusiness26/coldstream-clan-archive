@@ -3748,3 +3748,11 @@ BLOCKED: None for the requested daily, weekly and monthly options.
 NEXT: Publish the configured build through main and verify live admin assets.
 
 RELEASE VERIFIED: Release 1eb9e84 is live. Main-BXhHtJN3 and Admin-BRqWsoqj returned 200 with exact build hashes. Signed-in production Admin displayed Repeats with Does not repeat, Daily, Weekly and Monthly under Add event. The new form is open for River. No real events were saved during browser verification.
+
+## 2026-09-13 - Full Quartermaster website launch (Codex)
+
+DONE: Replaced the old economy landing with the complete approved Shillings page: work, rations, Wallet, Pay Chest, transfers, forage, protection, Lucky Dice, Blackjack, catalogue, inventory, titles, boards and history, plus the approved 3D coin. Uses the authenticated production service at panel.coldstreamgaming.com/quartermaster-api. Existing Supabase identity remains authoritative; Discord membership is freshly verified using the existing community bot. Existing collection/equipment and earlier ledger remain accessible.
+VERIFIED: Build passed TypeScript/Vite; 57 Quartermaster tests, 14 adapter checks, 12 database checks including concurrent exactly-once balance import, 18 legacy transition PostgreSQL checks and 10 website economy checks passed. Applied 0056 transition to Supabase; existing 10 Shillings and one legacy ledger entry retained, no decorations existed, browser export privilege false. Production API health 200, unsigned and preview requests 401, foreign origin 403. VPS release 20260913T232848Z runs coldstream-quartermaster-website.service on loopback 3459. Backup /var/backups/coldstream-quartermaster/quartermaster-20260913T232848Z.dump retained before installation.
+UNVERIFIED: Final live browser and hashes follow this push. Discord Quartermaster remains in CSG Updates pending River's main-server scope response. Website production uses guild 669723836165521413; test guild 1539873232545513504 remains separate. No production game or payment test was submitted.
+BLOCKED: No website blocker. Activating Quartermaster itself in main Discord is pending the scope answer and bot installation/access verification.
+NEXT: Verify full live page, production balance carryover, sections and asset hashes.
