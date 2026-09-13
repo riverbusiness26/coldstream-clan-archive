@@ -3715,3 +3715,11 @@ NEXT: Push through the existing main-branch Pages path, verify the public domain
 RELEASE PROOF: Pushed `e2f44a6` to `main`. House Rules run 34741959786 and Pages run 34741973375 completed successfully. The public domain serves `index-GZ0NT-Qu.js`, `index-DID8_qCD.css`, `Economy-c-2eytO4.js` and `Economy-DrSbOcuJ.css` with exact SHA-256 matches to the configured build. A fresh live browser opened `#/stores`, showed the Stores navigation and member sign-in gate, and reported the correct page title. Progress-board commit `ea372af` was fast-forwarded locally. No alternate deployment path was invoked.
 
 FOLLOW-UP DECISION: River asked to keep the economy off the website for now while production work continues. The prepared member page is renamed Shillings in source, with Quartermaster's Stores retained only as its future catalogue section, but the import, route, access gate and both navigation entries are removed from the published application. The production database foundation remains installed for the Discord rollout. The replacement build contains no Economy chunk; public withdrawal proof follows deployment.
+
+## 2026-09-13 - Unlisted Shillings page prepared (Codex)
+
+DONE:        Restored the Shillings member interface only at the unlisted `stores` route. Added a dedicated `/stores` production entry with `noindex, nofollow`; both public and signed-in navigation remain unchanged with no Stores or Shillings link. The existing Discord sign-in gate and database RLS still protect member balances, ledgers, inventory and equipment.
+VERIFIED:    `npm run test:economy --prefix site` passed 14/14 isolated PostgreSQL checks, `node --test site/tests/*.test.mjs` passed 102/102, `npm run build --prefix site` passed TypeScript and a 153-module Vite build, and source `git diff --check` passed. Direct local `/stores` preview opened with the Shillings title and member gate while showing no navigation link.
+UNVERIFIED:  The direct production URL and deployed asset hashes remain unverified until the existing main-branch Pages workflow completes.
+BLOCKED:     Nothing blocks this approved unlisted release.
+NEXT:        Push through the existing Pages path, then verify `/stores`, the authentication gate, noindex metadata, absent navigation, and exact generated asset hashes on the public domain.
