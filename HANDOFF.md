@@ -3711,3 +3711,5 @@ UNVERIFIED: The root assets are not public until pushed and the existing Pages w
 BLOCKED: No website release blocker remains. Discord command deployment is tracked separately and does not block publishing the shared website surface.
 
 NEXT: Push through the existing main-branch Pages path, verify the public domain serves the new configured bundle and Stores chunk, then record the production receipt without invoking another deploy path.
+
+RELEASE PROOF: Pushed `e2f44a6` to `main`. House Rules run 34741959786 and Pages run 34741973375 completed successfully. The public domain serves `index-GZ0NT-Qu.js`, `index-DID8_qCD.css`, `Economy-c-2eytO4.js` and `Economy-DrSbOcuJ.css` with exact SHA-256 matches to the configured build. A fresh live browser opened `#/stores`, showed the Stores navigation and member sign-in gate, and reported the correct page title. Progress-board commit `ea372af` was fast-forwarded locally. No alternate deployment path was invoked.
