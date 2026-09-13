@@ -3723,3 +3723,11 @@ VERIFIED:    `npm run test:economy --prefix site` passed 14/14 isolated PostgreS
 UNVERIFIED:  The direct production URL and deployed asset hashes remain unverified until the existing main-branch Pages workflow completes.
 BLOCKED:     Nothing blocks this approved unlisted release.
 NEXT:        Push through the existing Pages path, then verify `/stores`, the authentication gate, noindex metadata, absent navigation, and exact generated asset hashes on the public domain.
+
+## 2026-09-13 - Unlisted Shillings page working in production (Codex)
+
+DONE:        Published `/stores/` without a public or member navigation link. Corrected all four economy self RPCs to resolve identity from `public.member` under their pinned search path. Added `site/db/0054_economy_self_identity.sql` for existing installations, aligned `0053`, and made the isolated test use the production helper definition. Applied the lookup correction and restored authenticated execute grants in production.
+VERIFIED:    `npm run test:economy --prefix site` passed 14/14 with Luna Medium independently reviewing the SQL. Production function checks returned four qualified lookups and zero legacy helper calls; all four self RPCs allow authenticated execution and deny anon. `/stores/` returned HTTP 200 with noindex/nofollow and `main-CE6QMjil.js`. Live browser signed in as River rendered the existing 10-Shilling balance, 40-Shilling Engraved Frame, empty collection and equipment slots, and existing +10 daily ledger entry. Inspect control worked. Both navigation menus have no Stores or Shillings entry. The earlier release build and 102 website tests passed; the release's four public JS/CSS assets matched build SHA-256 hashes.
+UNVERIFIED:  No new live claim, purchase or equip was submitted during this repair. The current cosmetic uses placeholder art. `status.mjs` still flags delayed server/presence schedules and fails to recognize the newer main-named bundle; direct HTTP and browser checks confirmed the actual page. A temporary Discord sync failure cleared on reload without an authentication change.
+BLOCKED:     Nothing blocks the requested working unlisted page.
+NEXT:        River can use https://coldstreamgaming.com/stores/; retain the unlisted route until a public navigation launch is requested.

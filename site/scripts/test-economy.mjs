@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import EmbeddedPostgres from 'embedded-postgres';
 
 const migration = readFileSync(new URL('../db/0053_economy.sql', import.meta.url), 'utf8');
+const identityFix = readFileSync(new URL('../db/0054_economy_self_identity.sql', import.meta.url), 'utf8');
 const databaseDir = await mkdtemp(join(tmpdir(), 'coldstream-economy-postgres-'));
 let database;
 let checks = 0;
@@ -98,7 +99,7 @@ try {
     );
     create function public.current_member_id() returns uuid
     language sql stable as $$
-      select id from public.member where auth_user_id = auth.uid()
+      select id from member where auth_user_id = auth.uid()
     $$;
   `);
   for (const [index, memberId] of Object.values(ids).entries()) {
@@ -110,9 +111,11 @@ try {
 
   await admin.query(migration);
   await admin.query(migration);
+  await admin.query(identityFix);
+  await admin.query(identityFix);
   assert.equal((await admin.query("select value #>> '{}' as value from public.economy_config where key = 'daily_reward'")).rows[0].value, '10');
   assert.equal((await admin.query("select price from public.economy_catalog_item where slug = 'engraved-frame'")).rows[0].price, 40);
-  pass('actual 0053 migration applies and re-applies with approved configuration');
+  pass('actual 0053 and 0054 migrations apply and re-apply with approved configuration');
 
   const boundary = await admin.query(`
     select

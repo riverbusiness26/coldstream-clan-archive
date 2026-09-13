@@ -516,7 +516,13 @@ security definer
 set search_path = pg_catalog
 as $$
   select public.economy_read_member(
-    public.current_member_id(), p_ledger_limit, p_ledger_before
+    (
+      select id
+      from public.member
+      where auth_user_id = auth.uid()
+    ),
+    p_ledger_limit,
+    p_ledger_before
   )
 $$;
 
@@ -528,7 +534,13 @@ security definer
 set search_path = pg_catalog
 as $$
   select public.economy_claim_daily_member(
-    public.current_member_id(), p_request_key, pg_catalog.clock_timestamp()
+    (
+      select id
+      from public.member
+      where auth_user_id = auth.uid()
+    ),
+    p_request_key,
+    pg_catalog.clock_timestamp()
   )
 $$;
 
@@ -543,7 +555,13 @@ security definer
 set search_path = pg_catalog
 as $$
   select public.economy_purchase_member(
-    public.current_member_id(), p_item_slug, p_request_key
+    (
+      select id
+      from public.member
+      where auth_user_id = auth.uid()
+    ),
+    p_item_slug,
+    p_request_key
   )
 $$;
 
@@ -558,7 +576,13 @@ security definer
 set search_path = pg_catalog
 as $$
   select public.economy_equip_member(
-    public.current_member_id(), p_item_slug, p_slot
+    (
+      select id
+      from public.member
+      where auth_user_id = auth.uid()
+    ),
+    p_item_slug,
+    p_slot
   )
 $$;
 
