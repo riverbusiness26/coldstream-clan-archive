@@ -42,3 +42,7 @@ export function weeklyMediaItems(features: WeeklyFeature[], getYoutubeId: (url: 
 export function nextMediaIndex(index: number, direction: number, length: number): number {
   return length > 0 ? ((index + direction) % length + length) % length : 0;
 }
+
+export function featuredMemberName(media?: WeeklyMedia): string | null {
+  return media?.source === 'weekly' ? media.submitter || 'Community member' : null;
+}

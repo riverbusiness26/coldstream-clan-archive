@@ -1,8 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { weeklyMediaItems, nextMediaIndex } from '../src/lib/weeklyMedia.ts';
+import { weeklyMediaItems, nextMediaIndex, featuredMemberName } from '../src/lib/weeklyMedia.ts';
 
 const item = (id, url, provider = 'stream') => ({ id, url, provider, title: 'A highlight', description: 'Member caption' });
+test('featured member follows the playing submission and clears for archive media', () => {
+  const media = weeklyMediaItems([
+    { ...item('slug', 'https://example.com/slug.mp4'), member: { display_name: '[2ndCS] SLUG' } },
+    { ...item('river', 'https://example.com/river.mp4'), member: [{ display_name: '[CSG] river' }] },
+  ], () => null);
+  assert.equal(featuredMemberName(media[0]), '[2ndCS] SLUG');
+  assert.equal(featuredMemberName(media[nextMediaIndex(0, 1, media.length)]), '[CSG] river');
+  assert.equal(featuredMemberName({ ...media[0], source: 'archive' }), null);
+  assert.equal(featuredMemberName(undefined), null);
+});
 test('Weekly captions preserve the submitting member and submitted information', () => {
   const result = weeklyMediaItems([{ ...item('credit','https://example.com/clip.mp4'), member:{display_name:'[2ndCS] SLUG'}, submitted_at:'2026-09-12T12:00:00Z' }],()=>null);
   assert.equal(result[0].submitter,'[2ndCS] SLUG');

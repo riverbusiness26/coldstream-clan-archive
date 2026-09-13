@@ -3692,3 +3692,10 @@ VERIFIED: House rules run 34737681681 succeeded. Pages run 34737695957 on f219c0
 UNVERIFIED: No real submission approved or rejected, no uploads or staff saves tested by this release. Wrangler deployment listing remains older than the verified live domain and GitHub Pages receipt; no alternate deploy was attempted.
 BLOCKED: No publishing blocker. Server-status and steam-presence scheduled jobs remain delayed by several hours, separately reported to River.
 NEXT: River can review the live weekly inbox, then test a deliberate approval and confirm homepage rotation.
+## 2026-09-12 - Featured member connected to weekly playback (Codex)
+
+DONE: Removed the hard-coded staff-feature placeholder. HomeFilm reports the active approved submission's member to the featured-member card; switching media updates credit and archive fallback clears it.
+VERIFIED: Public active-feature query returned approved submission a5ebd46e-ed63-47b4-862d-8f81e528dd66 with member [2ndCS] SLUG. All 92 tests and production build passed; source diff check passed. New bundle index-OiB98-c3.js.
+UNVERIFIED: Browser-rendered signed-in live layout not rechecked in this small correction; live file check follows publishing.
+BLOCKED: Nothing for this correction. No submission records changed.
+NEXT: Verify the live domain serves the corrected bundle.
