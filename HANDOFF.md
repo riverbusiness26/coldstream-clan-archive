@@ -3746,3 +3746,5 @@ VERIFIED: All 106 website tests passed. Isolated PostgreSQL test covers calendar
 UNVERIFIED: No real recurring schedule created or posted to Discord. This version creates a finite series; edits and removals apply to individual occurrences, not the whole series.
 BLOCKED: None for the requested daily, weekly and monthly options.
 NEXT: Publish the configured build through main and verify live admin assets.
+
+RELEASE VERIFIED: Release 1eb9e84 is live. Main-BXhHtJN3 and Admin-BRqWsoqj returned 200 with exact build hashes. Signed-in production Admin displayed Repeats with Does not repeat, Daily, Weekly and Monthly under Add event. The new form is open for River. No real events were saved during browser verification.
