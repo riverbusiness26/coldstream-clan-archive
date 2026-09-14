@@ -9,10 +9,11 @@ export type Honour = string | { id: string; name: string };
 export type CatalogueItem = { slug: string; name: string; category: string; price: number; effect: string; max_stack: number; charges?: number; description?: string; title_id?: string };
 export type KitItem = { slug: string; name: string; qty: number; effect: string };
 export type Profile = { discordId: string; displayName: string; purse: number; chest: number; net: number; lifetimeEarned: number; streak: number; dutiesWeek: number; title: string; billet: boolean; billetUntil: string | null; frozen: boolean; lanternCharges: number; caltropCharges: number; warrantCharges: number; dutyBoost: boolean; streakSaver: boolean; medals: Honour[]; titles: Honour[] };
-export type LedgerEntry = { id: number | string; type: string; purseDelta: number; chestDelta: number; balanceAfter: number; createdAt: string; description: string };
+export type LedgerEntry = { id: number | string; type: string; purseDelta: number; chestDelta: number; balanceAfter: number; createdAt: string; description: string; gamblingNet?: number; gameId?: string };
+export type ForageAlert = { id: number | string; createdAt: string; description: string; attackerName: string; outcome: 'taken' | 'failed' | 'blocked'; taken: number; recovered: number };
 export type BoardMember = Pick<Profile, 'discordId' | 'displayName' | 'purse' | 'chest' | 'net' | 'streak' | 'dutiesWeek' | 'title'>;
-export type VingtGame = { id: string; player: number[]; dealer: number[]; playerTotal: number; dealerTotal: number; stake: number; status: string; expiresAt: string; canDouble: boolean };
-export type QuartermasterSnapshot = { profile: Profile; cooldowns: Partial<Record<'work' | 'daily' | 'steal' | 'withdraw' | 'gamble', string | null>>; catalogue: CatalogueItem[]; inventory: KitItem[]; ledger: LedgerEntry[]; leaderboard: BoardMember[]; game: VingtGame | null; config: QuartermasterConfig; serverTime: string; preview: boolean };
+export type VingtGame = { id: string; player: number[]; dealer: number[]; playerTotal: number; dealerTotal: number; stake: number; status: string; expiresAt: string; canDouble: boolean; net?: number; payout?: number };
+export type QuartermasterSnapshot = { profile: Profile; cooldowns: Partial<Record<'work' | 'daily' | 'steal' | 'withdraw' | 'gamble', string | null>>; catalogue: CatalogueItem[]; inventory: KitItem[]; ledger: LedgerEntry[]; forageAlerts?: ForageAlert[]; leaderboard: BoardMember[]; game: VingtGame | null; config: QuartermasterConfig; serverTime: string; preview: boolean };
 export type ActionKey = 'duty' | 'ration' | 'deposit' | 'withdraw' | 'transfer' | 'forage' | 'billet' | 'anchor' | 'vingt' | 'buy' | 'use' | 'title';
 export type ActionArgs = Record<string, string | number | boolean>;
 export type QuartermasterResult = { message: string; snapshot: QuartermasterSnapshot; game?: Record<string, unknown> | VingtGame | null; replayed?: boolean };
@@ -52,7 +53,7 @@ async function request(path: string, demo: boolean, body?: unknown) {
   } finally { window.clearTimeout(timeout); }
 }
 
-export async function readQuartermaster(demo: boolean): Promise<QuartermasterSnapshot> { return request('/me', demo); }
+export async function readQuartermaster(demo: boolean, updates = false): Promise<QuartermasterSnapshot> { return request(updates ? '/updates' : '/me', demo); }
 export async function actQuartermaster(action: ActionKey, args: ActionArgs, requestId: string, demo: boolean): Promise<QuartermasterResult> { return request('/action', demo, { action, args, requestId }); }
 export const newRequestId = () => crypto.randomUUID();
 export const isVingtActive = (game: VingtGame | null) => Boolean(game && ['active', 'playing', 'player_turn', 'pending'].includes(game.status));
@@ -125,7 +126,7 @@ export function actPreview(current: QuartermasterSnapshot, action: ActionKey, ar
       if (isVingtActive(snapshot.game)) reject('Finish your current hand first.'); ready('gamble'); const value = stake('vingt'); p.purse -= value;
       const player = [card(), card()]; const dealer = [card()]; snapshot.game = { id: newRequestId(), player, dealer, playerTotal: total(player), dealerTotal: total(dealer), stake: value, status: 'active', expiresAt: new Date(now + c.vingt.turn_timeout_seconds * 1000).toISOString(), canDouble: p.purse >= value };
       message = 'The dealer deals. Draw, stand, or double.';
-      if (snapshot.game.playerTotal === 21) { p.purse += Math.floor(value * c.vingt.natural_multiplier); snapshot.game.status = 'natural'; message = 'Twenty-one! Your winnings have been added to your Wallet.'; cooldown('gamble', c.vingt.command_cooldown_seconds); }
+      if (snapshot.game.playerTotal === 21) { p.purse += Math.floor(value * c.vingt.natural_multiplier); snapshot.game.status = 'natural'; snapshot.game.payout = Math.floor(value * c.vingt.natural_multiplier); snapshot.game.net = snapshot.game.payout - value; message = 'Twenty-one! Your winnings have been added to your Wallet.'; cooldown('gamble', c.vingt.command_cooldown_seconds); }
     } else {
       const game = snapshot.game; if (!game || !isVingtActive(game) || game.id !== args.gameId) reject('There is no open hand to play.');
       if (new Date(game!.expiresAt).getTime() <= now) reject('The hand has expired. Refresh your account.');
@@ -134,13 +135,16 @@ export function actPreview(current: QuartermasterSnapshot, action: ActionKey, ar
       if (game!.playerTotal > 21 || args.move === 'stand' || args.move === 'double' || game!.playerTotal === 21) {
         while (total(game!.dealer) < c.vingt.dealer_stand) game!.dealer.push(card()); game!.dealerTotal = total(game!.dealer);
         const won = game!.playerTotal <= 21 && (game!.dealerTotal > 21 || game!.playerTotal > game!.dealerTotal); const push = game!.playerTotal <= 21 && game!.playerTotal === game!.dealerTotal;
-        game!.status = won ? 'won' : push ? 'push' : 'lost'; p.purse += won ? game!.stake * c.vingt.win_multiplier : push ? game!.stake : 0; cooldown('gamble', c.vingt.command_cooldown_seconds); message = won ? 'You won. Your winnings have been added to your Wallet.' : push ? 'An even hand. Your stake is returned.' : 'You lost this hand. Your bet has been spent.';
+        game!.status = won ? 'won' : push ? 'push' : 'lost'; game!.payout = won ? game!.stake * c.vingt.win_multiplier : push ? game!.stake : 0; game!.net = game!.payout - game!.stake; p.purse += game!.payout; cooldown('gamble', c.vingt.command_cooldown_seconds); message = won ? 'You won. Your winnings have been added to your Wallet.' : push ? 'An even hand. Your stake is returned.' : 'You lost this hand. Your bet has been spent.';
       } else message = 'A fresh card. Draw again or stand.';
     }
     resultGame = snapshot.game!;
   }
   p.net = p.purse + p.chest; snapshot.leaderboard = snapshot.leaderboard.map((entry) => entry.discordId === p.discordId ? { ...p } : entry);
-  snapshot.ledger.unshift({ id: newRequestId(), type: action, purseDelta: p.purse - before.purse, chestDelta: p.chest - before.chest, balanceAfter: p.net, createdAt: new Date(now).toISOString(), description: message });
+  const settled = action === 'vingt' && snapshot.game && !isVingtActive(snapshot.game);
+  const entryType = action === 'anchor' ? 'anchor_settle' : action === 'forage' ? 'forage_win' : settled ? 'vingt_settle' : action;
+  const gamblingNet = action === 'anchor' ? p.purse - before.purse : settled ? snapshot.game!.net : undefined;
+  snapshot.ledger.unshift({ id: newRequestId(), type: entryType, ...(gamblingNet === undefined ? {} : { gamblingNet }), purseDelta: p.purse - before.purse, chestDelta: p.chest - before.chest, balanceAfter: p.net, createdAt: new Date(now).toISOString(), description: message });
   snapshot.serverTime = new Date(now).toISOString();
   return { snapshot, message: `${message} (Test data.)`, game: resultGame };
 }

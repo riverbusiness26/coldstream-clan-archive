@@ -1,12 +1,31 @@
 import type { ActionKey, LedgerEntry, QuartermasterResult } from './quartermaster';
 
+export type RewardLocation = 'duty' | 'ration' | 'forage' | 'anchor' | 'vingt' | 'account' | 'defence';
+export type Reward = { id: string; location: RewardLocation; title: string; net: number; earned: number };
+
+export function rewardEvents(previous: LedgerEntry[], ledger: LedgerEntry[]): Reward[] {
+  const known = new Set(previous.map(entry => String(entry.id)));
+  const groups = new Map<RewardLocation, { ids: string[]; net: number }>();
+  for (const entry of ledger) {
+    if (known.has(String(entry.id))) continue;
+    let location: RewardLocation | undefined, net = entry.purseDelta + entry.chestDelta;
+    if (['anchor_settle', 'vingt_settle'].includes(entry.type) && Number.isSafeInteger(entry.gamblingNet)) {
+      location = entry.type === 'anchor_settle' ? 'anchor' : 'vingt'; net = entry.gamblingNet!;
+    } else if (entry.type === 'duty' || entry.type === 'ration') location = entry.type;
+    else if (['forage_win', 'forage_lose', 'forage_blocked', 'forage_fine'].includes(entry.type)) location = 'forage';
+    else if (['forage_taken', 'forage_trap'].includes(entry.type)) location = 'defence';
+    else if (['transfer', 'grant', 'parade', 'payparade'].includes(entry.type) && net > 0) location = 'account';
+    if (!location) continue;
+    const group = groups.get(location) ?? { ids: [], net: 0 };
+    group.ids.push(String(entry.id)); group.net += net; groups.set(location, group);
+  }
+  return [...groups].map(([location, { ids, net }]) => {
+    const titles = { duty: 'Duty complete', ration: 'Daily Ration collected', forage: net > 0 ? 'Forage profit' : net < 0 ? 'Forage loss' : 'No Shillings gained', anchor: net > 0 ? 'You won!' : net < 0 ? 'You lost this roll' : 'Your bet was returned', vingt: net > 0 ? 'You won!' : net < 0 ? 'You lost this hand' : 'Your bet was returned', account: 'Shillings received', defence: net >= 0 ? 'Shillings recovered' : 'Shillings taken' };
+    return { id: ids.sort().join(':'), location, title: titles[location], net, earned: Math.max(0, net) };
+  });
+}
+
 export function actionFeedback(action: ActionKey, previous: LedgerEntry[], result: QuartermasterResult) {
-  // A replay confirms an old receipt, so it must not look like a second reward.
   if (result.replayed) return null;
-  const titles: Record<ActionKey, string> = { duty: 'Duty complete', ration: 'Daily Ration collected', buy: 'Added to your kit', deposit: 'Savings secured', withdraw: 'Wallet ready', transfer: 'Shillings sent', forage: 'Forage complete', billet: 'Protection updated', anchor: 'Dice settled', vingt: 'Hand updated', use: 'Item used', title: 'Title updated' };
-  const known = new Set(previous.map(entry => entry.id));
-  const earned = action === 'duty' || action === 'ration'
-    ? result.snapshot.ledger.filter(entry => entry.type === action && !known.has(entry.id)).reduce((sum, entry) => sum + Math.max(0, entry.purseDelta), 0)
-    : 0;
-  return { title: titles[action], earned };
+  return rewardEvents(previous, result.snapshot.ledger).find(event => event.location === action) ?? null;
 }

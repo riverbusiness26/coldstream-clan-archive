@@ -32,6 +32,49 @@
   background: #20261af5; color: #efe4cd; border: 1px solid #c4a366; border-radius: 5px;
   box-shadow: 0 10px 35px #0005; font-size: 14px;
 }
+
+.qm-sound-toggle { border:1px solid #c4a36655; border-radius:4px; background:transparent; color:inherit; padding:7px 10px; font:inherit; cursor:pointer; }
+.qm-forage-ping { position:fixed; right:max(16px,env(safe-area-inset-right)); bottom:max(20px,env(safe-area-inset-bottom)); z-index:90; display:flex; align-items:center; gap:12px; padding:16px; max-width:calc(100vw - 32px); background:#252b20; color:#f0ddb3; border:1px solid #d2b06b; border-radius:5px; box-shadow:0 8px 28px #0008; font-size:13px; }
+.qm-forage-ping strong { display:block; margin-bottom:6px; }
+.qm-forage-ping .qm-text-button { font-size:12px!important; }
+.qm-sound-toggle:focus-visible { outline:2px solid #e3bf7b; outline-offset:3px; }
+.qm-outcome { position:relative; display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; margin-top:16px; padding:14px 16px; border:1px solid #baa67970; border-radius:5px; background:#292c22; color:#e6d6b5; }
+.qm-outcome strong { font-size:15px; }
+.qm-outcome>span { font-size:15px; font-variant-numeric:tabular-nums; }
+.qm-outcome.won { border-color:#d7b66b; background:linear-gradient(110deg,#69542450,#333021); color:#ffe3a0; }
+.qm-outcome.lost { border-color:#bd7867; background:#713a322d; color:#ffc1ad; }
+.qm-coin-rise { position:absolute; bottom:28px; left:50%; display:flex; align-items:center; gap:8px; z-index:5; pointer-events:none; opacity:0; transform:translateX(-50%); white-space:nowrap; }
+.qm-coin-rise img { width:58px; height:58px; object-fit:contain; filter:drop-shadow(0 3px 8px #0008); }
+.qm-coin-rise b { color:#ffe19a; font-size:32px; font-weight:800; text-shadow:0 2px 5px #000; }
+.qm-inline-notice { margin-top:12px; padding:10px 12px; border-left:2px solid #baa67970; font-size:12px; line-height:1.6; }
+.qm-inline-notice p { margin:0!important; }
+.qm-inline-notice.error { color:#ffc1ad; border-color:#bd7867; }
+.qm-forage-feedback { grid-column:1/-1; min-width:0; }
+.qm-forage-feedback:empty { display:none; }
+.qm-live-forage { margin:0 0 22px; padding:16px 20px; border:1px solid #c4a36655; border-radius:5px; background:#20271f; }
+.qm-live-heading { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; color:#e3d2ad; font-size:13px; }
+.qm-live-heading>span { margin-left:auto; font-size:11px; color:#baa789; }
+.qm-live-heading>span.connected { color:#b1cf9f; }
+.qm-live-heading b { margin-left:8px; padding:3px 7px; background:#d7b66b; color:#232619; border-radius:4px; }
+.qm-live-forage details { margin-top:12px; font-size:12px; line-height:1.65; }
+.qm-live-forage summary { cursor:pointer; }
+.qm-live-forage ul { margin:12px 0 0; padding:0; list-style:none; max-height:290px; overflow:auto; }
+.qm-live-forage li { padding:10px 0; border-top:1px solid #c4a36633; }
+.qm-live-forage li strong { display:block; font-weight:500; }
+.qm-live-forage time { font-size:11px; color:#b6b49b; }
+.qm-live-new { margin-top:12px; border-left:3px solid #dfb769; padding:4px 14px; color:#f0ddad; font-size:13px; line-height:1.6; }
+@media(prefers-reduced-motion:no-preference) {
+  .qm-coin-rise { animation:qm-coin-float 2200ms ease-out both; }
+  .qm-coin-rise img { animation:qm-coin-turn 900ms ease-out both; }
+  .qm-outcome { animation:qm-arrive 220ms ease-out; }
+  .qm-outcome.lost { animation:qm-loss-nudge 320ms ease-out; }
+  .qm-live-new { animation:qm-alert-arrive 650ms ease-out; }
+}
+@keyframes qm-coin-float { 0% { opacity:0; transform:translate(-50%,12px) scale(.65); } 15% { opacity:1; } 55% { opacity:1; } 100% { opacity:0; transform:translate(-50%,-115px) scale(1.08); } }
+@keyframes qm-coin-turn { from { transform:rotateY(0deg) rotate(-12deg); } to { transform:rotateY(360deg) rotate(8deg); } }
+@keyframes qm-loss-nudge { 20%,60% { transform:translateX(-3px); } 40%,80% { transform:translateX(3px); } }
+@keyframes qm-alert-arrive { from { opacity:.25; transform:translateY(5px); } to { opacity:1; transform:none; } }
+@media(max-width:480px) { .qm-live-heading>span { margin-left:0; width:100%; } .qm-live-forage { padding:14px; } .qm-coin-rise b { font-size:27px; } }
 .qm-feedback>svg { grid-row: span 2; color: #d9b974; width: 27px; height: 27px; }
 .qm-feedback>span { grid-column: 2; color: #e3bf7b; font-size: 18px; font-weight: 600; }
 @media (prefers-reduced-motion: no-preference) {

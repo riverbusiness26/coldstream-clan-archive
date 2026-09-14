@@ -22,7 +22,7 @@
     "cron": "0 18 * * 0"
   },
   "forage": {
-    "cooldown_seconds": 43200,
+    "cooldown_seconds": 3600,
     "min_target_purse": 15,
     "success_chance_min": 0.25,
     "success_chance_max": 0.65,
