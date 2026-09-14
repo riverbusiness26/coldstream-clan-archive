@@ -2,7 +2,8 @@ import { supa } from './supa';
 import economyConfig from '../quartermaster-data/economy.json';
 import seed from '../quartermaster-data/seed.json';
 
-export const QUARTERMASTER_API_URL = (import.meta.env.VITE_QUARTERMASTER_API_URL as string | undefined)?.replace(/\/$/, '') ?? '';
+// Production rebuilds must retain the public API address when no override is set.
+export const QUARTERMASTER_API_URL = (import.meta.env.VITE_QUARTERMASTER_API_URL as string | undefined)?.trim().replace(/\/$/, '') || 'https://panel.coldstreamgaming.com/quartermaster-api';
 export type QuartermasterConfig = typeof economyConfig;
 export type Honour = string | { id: string; name: string };
 export type CatalogueItem = { slug: string; name: string; category: string; price: number; effect: string; max_stack: number; charges?: number; description?: string; title_id?: string };
