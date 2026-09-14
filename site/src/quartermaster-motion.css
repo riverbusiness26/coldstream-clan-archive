@@ -1,0 +1,46 @@
+.qm-duty-art>img { display: block; width: 100%; max-width: 210px; height: auto; object-fit: contain; }
+.qm-feedback {
+  position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(22px, env(safe-area-inset-bottom));
+  z-index: 90; pointer-events: none; max-width: calc(100vw - 36px); padding: 18px 24px;
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 14px;
+  background: #20261af5; color: #efe4cd; border: 1px solid #c4a366; border-radius: 5px;
+  box-shadow: 0 10px 35px #0005; font-size: 14px;
+}
+.qm-feedback>svg { grid-row: span 2; color: #d9b974; width: 27px; height: 27px; }
+.qm-feedback>span { grid-column: 2; color: #e3bf7b; font-size: 18px; font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) {
+  .qm-hero-copy { animation: qm-arrive 450ms ease-out both; }
+  .qm-content { animation: qm-arrive 240ms ease-out both; }
+  .qm-notice { animation: qm-arrive 180ms ease-out both; }
+  .qm-dialog[open] { animation: qm-dialog-enter 180ms ease-out both; }
+  .qm-dialog[open]::backdrop { animation: qm-backdrop-enter 180ms ease-out both; }
+  .qm-purse>strong { animation: qm-balance-confirm 650ms ease-out; }
+  .qm-feedback { animation: qm-stamp 280ms cubic-bezier(.2,.8,.25,1) both; }
+  .qm-feedback>span { animation: qm-reward-rise 550ms 100ms ease-out both; }
+  .qm-button>svg, .qm-text-button>svg, .qm-item-art, .qm-duty-art, .qm-ration-heading>svg {
+    transition: transform 220ms ease, filter 220ms ease;
+  }
+  .qm-page :is(.qm-product, .qm-game, .qm-duty-card, .qm-ration-card) {
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+  .qm-tabs button, .qm-symbols button { transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease; }
+  .qm-symbols button[aria-pressed="true"] { animation: qm-select 200ms ease-out; }
+  @media (hover: hover) and (pointer: fine) {
+    .qm-page :is(.qm-product, .qm-game, .qm-duty-card, .qm-ration-card):hover {
+      transform: translateY(-3px); border-color: #c0a36d80; box-shadow: 0 8px 22px #0002;
+    }
+    .qm-product:hover .qm-item-art, .qm-duty-card:hover .qm-duty-art { transform: scale(1.035) rotate(-2deg); }
+    .qm-ration-card:hover .qm-ration-heading>svg { transform: rotate(18deg); }
+    .qm-button:not(:disabled):hover>svg, .qm-text-button:hover>svg { transform: translateX(3px); }
+  }
+}
+@keyframes qm-arrive { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+@keyframes qm-dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes qm-backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
+@keyframes qm-balance-confirm { 35% { color: #f3d392; text-shadow: 0 0 16px #dbb56b55; } }
+@keyframes qm-stamp { from { opacity: 0; transform: translateY(10px) scale(1.04); } to { opacity: 1; transform: none; } }
+@keyframes qm-reward-rise { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+@keyframes qm-select { 50% { transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) {
+  .qm-feedback, .qm-feedback * { animation: none!important; transition: none!important; }
+}
