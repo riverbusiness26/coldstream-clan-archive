@@ -3855,3 +3855,11 @@ NEXT: None.
 - Shared engine rules use one-hour crime and forage timers, 30-minute counter window, equal stakes, ten-minute challenge expiry, 90-second heist lobby, and ticket-funded daily lottery pots.
 - Discord now registers 28 guild-only commands in both authorized guilds. The main #quartermaster guide post was updated in place with the new command page.
 - Verified with 71 bot tests, 13 PostgreSQL restart/persistence checks, 14 website economy database checks, a production website build, and an interactive synthetic two-member preview. No production member gameplay action was used for testing.
+
+## 2026-09-14 - Archived Weekly Coldstream controls
+
+DONE: Added Reinstate to review queue and Delete permanently controls for archived weekly submissions in site/src/components/WeeklyReview.tsx, with guarded staff helpers in site/src/lib/adminWeekly.ts and audited deletion in site/src/views/Admin.tsx. Delete requires an explicit confirmation and only targets rows still marked archived. Reinstate changes archived content back to pending and does not publish it automatically.
+VERIFIED: npm run build --prefix site passed TypeScript/Vite. node --test site/tests/*.test.mjs passed 113/113, including reinstate and archived-only deletion tests. Published f1459db after rebasing on current main. Live main-DGK0o5Am.js and Admin-D8mfop7Y.js returned HTTP 200 with exact local SHA-256 matches; the live Admin bundle contains both new control labels.
+UNVERIFIED: No real archived submission was reinstated or deleted during verification.
+BLOCKED: None.
+NEXT: Staff can open Admin, choose Weekly content, filter Archived, and use the new controls.
