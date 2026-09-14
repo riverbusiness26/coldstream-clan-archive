@@ -3786,3 +3786,11 @@ BLOCKED: None.
 NEXT: Verify production asset hashes, selected graphic and current account load.
 
 LIVE VERIFIED: Release 43394c2: main-C-hCdqMN.js, main-Df1ZQrgD.css, Economy-BWl2mVB1.js, Economy-dPsnDLSY.css and duty-regimental-badge-v1.webp all matched local build SHA256. Fresh signed-in page loaded the actual current account (16 Shillings), displayed the new badge, and switched between stores and Pay Chest. No live account action was submitted. Discord release 20260914T004614Z retained both guilds and updated existing guide message 1548846933890695279; REST read-back confirmed all six emoji cues, both button emojis and the private-help explanation.
+
+## 2026-09-13 - Shillings coin beside Join (Codex)
+
+DONE: Added a compact coin emoji immediately right of Join in primary navigation. Accessible Shillings label, tooltip, current-page indicator and visible keyboard focus. The pair stays together in the mobile menu and navigation closes when the link is used. Existing member sign-in gate remains authoritative.
+VERIFIED: TypeScript/Vite build and 10 economy tests passed. Updated the obsolete unlisted-navigation test to reflect River's explicit request to expose this link.
+UNVERIFIED: Final live click and responsive placement follow publication.
+BLOCKED: None.
+NEXT: Check the published navigation and Shillings destination.
