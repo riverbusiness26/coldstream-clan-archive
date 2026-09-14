@@ -20,7 +20,7 @@ interface MemberRow { id: string; display_name: string; avatar_url: string | nul
 interface CompanyRow { id: string; name: string; tag: string | null; color: string | null; emblem_storage_key: string | null; emblem_image_mime: string | null; sort_order: number }
 interface AssignmentRow { id: string; member_id: string; item_id: string; item_kind: ItemKind; assigned_by: string; assigned_at: string; note: string | null; removed_at: string | null }
 interface AuditRow { id: number; actor_id: string | null; action: string; member_id: string | null; item_id: string | null; detail: Record<string, unknown> | null; created_at: string }
-interface EventRow { series_id?: string | null; series_position?: number | null; id: string; title: string; body: string | null; game: string | null; starts_at: string; duration_minutes: number; cancelled: boolean; event_type: string; deleted_at: string | null }
+interface EventRow { series?: { repeat_kind: string; stopped_at: string | null } | null; series_id?: string | null; series_position?: number | null; id: string; title: string; body: string | null; game: string | null; starts_at: string; duration_minutes: number; cancelled: boolean; event_type: string; deleted_at: string | null }
 interface RsvpRow { event_id: string; member_id: string; status: string | null; attendance: 'attended' | 'no_show' | null }
 interface PresenceRollRow { event_id: string; discord_id: string; samples: number; first_seen: string; last_seen: string }
 interface PresenceWindowRow { event_id: string; samples_taken: number; people_seen: number; first_sample: string; last_sample: string }
@@ -143,7 +143,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const [eventDuration, setEventDuration] = useState('90');
   const [eventKind, setEventKind] = useState('other');
   const [eventRepeat, setEventRepeat] = useState<EventRepeat>('none');
-  const [eventRepeatCount, setEventRepeatCount] = useState('12');
+  const [confirmSeriesStop, setConfirmSeriesStop] = useState(false);
   const seriesRequest = useRef<{ signature: string; id: string } | null>(null);
   const [confirmEventDelete, setConfirmEventDelete] = useState(false);
   const [galleryPending, setGalleryPending] = useState<number | null>(null);
@@ -259,8 +259,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         return result;
       } },
       { name: 'Events', run: async () => {
-        const result = await readAdminRows((from, to) => db.from('event').select('id,title,body,game,starts_at,duration_minutes,cancelled,event_type,deleted_at,series_id,series_position').eq('historic', false).is('deleted_at', null).order('starts_at', { ascending: false }).order('id').range(from, to));
-        if (!result.error && current()) setEvents(result.data as EventRow[]);
+        const result = await readAdminRows((from, to) => db.from('event').select('id,title,body,game,starts_at,duration_minutes,cancelled,event_type,deleted_at,series_id,series_position,series:event_series!series_id(repeat_kind,stopped_at)').eq('historic', false).is('deleted_at', null).order('starts_at', { ascending: false }).order('id').range(from, to));
+        if (!result.error && current()) setEvents((result.data ?? []).map((event) => ({ ...event, series: Array.isArray(event.series) ? event.series[0] ?? null : event.series })) as EventRow[]);
         return result;
       } },
       { name: 'RSVPs', run: async () => {
@@ -344,6 +344,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       : null;
   const companyArtworkUrl = (company: CompanyRow) => !company.emblem_storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(company.emblem_storage_key).data.publicUrl;
   const currentEvent = events.find((event) => event.id === selectedEvent) ?? null;
+  useEffect(() => { setConfirmSeriesStop(false); setConfirmEventDelete(false); }, [selectedEvent]);
   const currentRsvps = rsvps.filter((row) => row.event_id === selectedEvent);
   const currentPresence = presenceRoll.filter((row) => row.event_id === selectedEvent);
   const currentWindow = presenceWindows.find((row) => row.event_id === selectedEvent) ?? null;
@@ -426,7 +427,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setConfirmEventDelete(false);
     setEditingEvent(false);
     setEventRepeat('none');
-    setEventRepeatCount('12');
+    setConfirmSeriesStop(false);
     seriesRequest.current = null;
     setCreatingEvent(true);
   }
@@ -462,9 +463,9 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   }, [eventStartValue, eventOccurrence]);
   const recurrence = useMemo(() => {
     if (!eventTiming.iso) return { starts: [] as string[], error: null as string | null };
-    try { return { starts: recurringEventStarts(eventTiming.iso, eventRepeat, Number(eventRepeatCount)), error: null }; }
+    try { return { starts: recurringEventStarts(eventTiming.iso, eventRepeat), error: null }; }
     catch (cause) { return { starts: [] as string[], error: cause instanceof Error ? cause.message : 'Check the repeat settings.' }; }
-  }, [eventTiming.iso, eventRepeat, eventRepeatCount]);
+  }, [eventTiming.iso, eventRepeat]);
   const eventStartPreview = eventTiming.iso ? eventDateTimeLabel(eventTiming.iso) : null;
   async function createEvent() {
     if (actionLock.current) return;
@@ -496,15 +497,15 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       event_duration_minutes: duration,
       event_kind: eventKind,
     };
-    const signature = JSON.stringify([details, eventRepeat, eventRepeatCount]);
+    const signature = JSON.stringify([details, eventRepeat]);
     if (seriesRequest.current?.signature !== signature) seriesRequest.current = { signature, id: crypto.randomUUID() };
     const result = eventRepeat === 'none'
       ? await supa.rpc('create_website_event', details)
-      : await supa.rpc('create_recurring_website_events', { ...details, request_id: seriesRequest.current.id, repeat_kind: eventRepeat, occurrence_count: Number(eventRepeatCount) });
+      : await supa.rpc('create_repeating_website_event', { ...details, request_id: seriesRequest.current.id, repeat_kind: eventRepeat });
     if (result.error) { setError(result.error.message); return; }
     setCreatingEvent(false);
     setSelectedEvent(Array.isArray(result.data) ? result.data[0] : result.data as string);
-    setDone(eventRepeat === 'none' ? 'Event saved. Choose Post to Discord when it is ready to share.' : `${recurrence.starts.length} recurring events saved. Each occurrence can be edited or posted to Discord separately.`);
+    setDone(eventRepeat === 'none' ? 'Event saved. Choose Post to Discord when it is ready to share.' : `Repeating schedule saved. It repeats ${eventRepeat} until stopped. Choose Post to Discord when ready.`);
     await load();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'The request could not be completed. Refresh records before retrying.');
@@ -613,6 +614,22 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     setDone('Event removed. The Discord posts are queued for removal.');
     } catch (error) {
       setError(error instanceof Error ? error.message : 'The request could not be completed. Refresh records before retrying.');
+    } finally { actionLock.current = false; setBusy(false); }
+  }
+  async function stopRepeating() {
+    if (actionLock.current || !currentEvent?.series_id || !confirmSeriesStop) return;
+    actionLock.current = true;
+    setBusy(true); setError(null); setDone(null);
+    try {
+      if (!supa) { setDone('Preview only. No repeating schedule changed.'); return; }
+      if (!await confirmDiscordRole()) return;
+      const result = await supa.rpc('stop_repeating_event', { target_series: currentEvent.series_id });
+      if (result.error) { setError(result.error.message); return; }
+      setConfirmSeriesStop(false); setSelectedEvent(''); setEditingEvent(false);
+      setDone('Repeating stopped. Future dates were removed; past events and attendance were kept.');
+      await load();
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not stop repeating. Please refresh and try again.');
     } finally { actionLock.current = false; setBusy(false); }
   }
   async function confirmDiscordRole() {
@@ -1281,14 +1298,15 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
               <label>Game<input value={eventGame} maxLength={80} onChange={(event) => setEventGame(event.target.value)} /></label>
               {eventScheduleFields}
               <label>Repeats<select value={eventRepeat} onChange={(event) => setEventRepeat(event.target.value as EventRepeat)}><option value="none">Does not repeat</option><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></label>
-              {eventRepeat !== 'none' && <><label>Number of occurrences<input type="number" min="2" max="104" step="1" value={eventRepeatCount} onChange={(event) => setEventRepeatCount(event.target.value)} /><small>Includes the first event. Between 2 and 104.</small></label><div className="event-details-field" aria-live="polite">{recurrence.error ? <p role="alert">{recurrence.error}</p> : recurrence.starts.length > 0 && <><strong>{recurrence.starts.length} events · Ends {eventDateTimeLabel(recurrence.starts[recurrence.starts.length - 1])}</strong><p>{recurrence.starts.slice(0, 3).map(eventDateTimeLabel).join(' · ')}{recurrence.starts.length > 3 ? ' …' : ''}</p></>}<p>Repeats at the same Chicago time. Monthly dates use the last day of shorter months. Repeated fall-back times use the second occurrence; missing spring-forward times must be rescheduled.</p><p>Each occurrence has its own RSVP and attendance records. Edit or remove occurrences individually. Use Post to Discord or the schedule button after saving.</p></div></>}
+              {eventRepeat !== 'none' && <div className="event-details-field" aria-live="polite"><strong>Repeats {eventRepeat} until stopped. No end date.</strong>{recurrence.error ? <p role="alert">{recurrence.error}</p> : recurrence.starts.length > 0 && <p>First dates: {recurrence.starts.map(eventDateTimeLabel).join(' · ')}</p>}<p>Future dates are added automatically. Each date has its own RSVPs and attendance. Editing or removing one date does not change the others.</p><details><summary>Chicago time and calendar details</summary><p>Repeats at the same Chicago time. Monthly dates use the last day of shorter months. If clocks skip the selected time in spring, that date moves one hour later. Repeated fall times use the second occurrence. The calendar stays filled a year ahead.</p></details><p>Use Post to Discord or the schedule button after saving.</p></div>}
               <label>Duration in minutes<input type="number" min="15" max="1440" value={eventDuration} onChange={(event) => setEventDuration(event.target.value)} /></label>
               <label>Event type<select value={eventKind} onChange={(event) => setEventKind(event.target.value)}><option value="public_server">Public Server</option><option value="linebattle">Linebattle Event</option><option value="competitive">Competitive</option></select></label>
               <label className="event-details-field">Details<textarea value={eventBody} maxLength={500} onChange={(event) => setEventBody(event.target.value)} placeholder="Maps, rules, or other notes" /></label>
               <div className="event-form-actions"><button className="command-primary" disabled={busy} onClick={createEvent}>{busy ? 'Creating' : eventRepeat === 'none' ? 'Create event' : 'Create recurring events'}</button><button className="command-secondary" disabled={busy} onClick={() => setCreatingEvent(false)}>Cancel</button></div>
             </div>
           </div>}
-          {currentEvent?.series_id && !creatingEvent && <p>Recurring event, occurrence {currentEvent.series_position}. Changes here affect only this occurrence.</p>}
+          {currentEvent?.series_id && !creatingEvent && <div><p>{currentEvent.series?.stopped_at ? 'This repeating schedule has been stopped.' : `Repeats ${currentEvent.series?.repeat_kind ?? 'automatically'} until stopped.`} Changes here affect only this event.</p>{currentEvent.series && !currentEvent.series.stopped_at && <button className="command-danger ghost" disabled={busy} onClick={() => { setConfirmEventDelete(false); setConfirmSeriesStop(true); }}>Stop repeating</button>}</div>}
+          {confirmSeriesStop && currentEvent && !creatingEvent && <div className="event-delete-confirm" role="alertdialog" aria-labelledby="series-stop-title"><div><h3 id="series-stop-title">Stop repeating {currentEvent.title}?</h3><p>This stops the whole schedule and removes its future dates, including individually edited future dates. Past events and attendance stay on record. Any posted future events are queued for removal from Discord.</p></div><div><button className="command-danger" disabled={busy} onClick={stopRepeating}>{busy ? 'Stopping' : 'Stop repeating and remove future dates'}</button><button className="command-secondary" disabled={busy} onClick={() => setConfirmSeriesStop(false)}>Keep repeating</button></div></div>}
           {editingEvent && currentEvent && <div className="event-edit-form">
             <div className="command-section-head"><div><span>Discord synchronized</span><h3>Edit event</h3></div></div>
             <div className="command-form event-form-grid">
