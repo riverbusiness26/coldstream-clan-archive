@@ -3794,3 +3794,5 @@ VERIFIED: TypeScript/Vite build and 10 economy tests passed. Updated the obsolet
 UNVERIFIED: Final live click and responsive placement follow publication.
 BLOCKED: None.
 NEXT: Check the published navigation and Shillings destination.
+
+LIVE VERIFIED: Release 89c1680 main JS/CSS matched build hashes. Desktop coin is immediately right of Join; live click from Join reached Coldstream Shillings. At 390px viewport, Join and coin share the same row, each has a 44px-tall touch area, and clicking the coin closes the menu. Original viewport restored. No economy action submitted.
