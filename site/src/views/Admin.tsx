@@ -344,6 +344,29 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       : null;
   const companyArtworkUrl = (company: CompanyRow) => !company.emblem_storage_key || !supa ? null : supa.storage.from('personnel-artwork').getPublicUrl(company.emblem_storage_key).data.publicUrl;
   const currentEvent = events.find((event) => event.id === selectedEvent) ?? null;
+  // Keep every generated occurrence in `events` for RSVP and attendance
+  // lookups, but present one representative row per recurring schedule to
+  // staff. The representative is the next upcoming occurrence whenever one
+  // exists, so the detail panel stays useful without flooding the queue.
+  const adminEvents = useMemo(() => {
+    const now = Date.now();
+    const representatives = new Map<string, EventRow>();
+    const isPreferred = (candidate: EventRow, current: EventRow | undefined) => {
+      if (!current) return true;
+      if (!candidate.series_id) return false;
+      const candidateFuture = Date.parse(candidate.starts_at) >= now;
+      const currentFuture = Date.parse(current.starts_at) >= now;
+      if (candidateFuture !== currentFuture) return candidateFuture;
+      const candidateTime = Date.parse(candidate.starts_at);
+      const currentTime = Date.parse(current.starts_at);
+      return candidateFuture ? candidateTime < currentTime : candidateTime > currentTime;
+    };
+    for (const event of events) {
+      const key = event.series_id ? `series:${event.series_id}` : `event:${event.id}`;
+      if (isPreferred(event, representatives.get(key))) representatives.set(key, event);
+    }
+    return Array.from(representatives.values()).sort((a, b) => Date.parse(b.starts_at) - Date.parse(a.starts_at));
+  }, [events]);
   useEffect(() => { setConfirmSeriesStop(false); setConfirmEventDelete(false); }, [selectedEvent]);
   const currentRsvps = rsvps.filter((row) => row.event_id === selectedEvent);
   const currentPresence = presenceRoll.filter((row) => row.event_id === selectedEvent);
@@ -361,7 +384,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
   const globalResults = globalSearch.trim().length < 2 ? [] : [
     ...members.filter((member) => member.display_name.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((member) => ({ id: member.id, kind: 'Member', label: member.display_name, tab: 'members' as Tab })),
     ...items.filter((item) => item.name.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((item) => ({ id: item.id, kind: item.kind === 'rank' ? 'Rank' : 'Medal', label: item.name, tab: 'catalogue' as Tab })),
-    ...events.filter((event) => event.title.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((event) => ({ id: event.id, kind: 'Event', label: event.title, tab: 'attendance' as Tab })),
+    ...adminEvents.filter((event) => event.title.toLowerCase().includes(globalSearch.trim().toLowerCase())).slice(0, 4).map((event) => ({ id: event.id, kind: 'Event', label: event.title, tab: 'attendance' as Tab })),
   ].slice(0, 8);
   const attendanceReviewCount = events.filter((event) => !event.cancelled && new Date(event.starts_at).getTime() < Date.now() && rsvps.some((row) => row.event_id === event.id && !row.attendance)).length;
   const upcomingEventCount = events.filter((event) => !event.cancelled && new Date(event.starts_at).getTime() >= Date.now()).length;
@@ -1296,8 +1319,8 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       </section>}
       {tab === 'attendance' && <section className="command-panel-grid attendance-grid">
         <aside className="command-card attendance-events">
-          <div className="command-section-head"><div><span>Event record</span><h2>Attendance</h2></div><div className="event-list-actions"><b>{events.length}</b><button className="command-primary" onClick={openEventCreator}>Add event</button></div></div>
-          <div className="attendance-event-list">{events.length === 0 && <div className="command-empty">No events are on the calendar yet.</div>}{events.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{eventDateLabel(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}{event.series_id ? ` · Recurring #${event.series_position}` : ''}</small></div></button>)}</div>
+          <div className="command-section-head"><div><span>Event record</span><h2>Attendance</h2></div><div className="event-list-actions"><b>{adminEvents.length}</b><button className="command-primary" onClick={openEventCreator}>Add event</button></div></div>
+          <div className="attendance-event-list">{adminEvents.length === 0 && <div className="command-empty">No events are on the calendar yet.</div>}{adminEvents.map((event) => <button className={selectedEvent === event.id && !creatingEvent ? 'active' : ''} key={event.id} onClick={() => { setCreatingEvent(false); setSelectedEvent(event.id); }}><time>{eventDateLabel(event.starts_at)}</time><div><b>{event.title}</b><small>{event.event_type} · {event.duration_minutes} minutes{event.cancelled ? ' · Cancelled' : ''}{event.series_id ? ` · Recurring ${event.series?.repeat_kind ?? 'schedule'} · Next occurrence` : ''}</small></div></button>)}</div>
         </aside>
         <div className="command-card attendance-review">
           <div className="command-section-head"><div><span>Event management</span><h2>{creatingEvent ? 'Add an event' : currentEvent?.title ?? 'Choose an event'}</h2></div>{currentEvent && !creatingEvent ? <div className="event-manage-actions"><button className="command-secondary" onClick={openEventEditor}>{editingEvent ? 'Reset form' : 'Edit event'}</button><button className="command-danger ghost" onClick={() => { setEditingEvent(false); setConfirmEventDelete(true); }}>Remove event</button></div> : <FaCalendarCheck />}</div>
