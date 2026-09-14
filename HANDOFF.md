@@ -3776,3 +3776,11 @@ BLOCKED: None. Existing site status findings about scheduled server/presence pol
 NEXT: Verify the live account opens and retains the existing balance.
 
 LIVE VERIFIED: Release 785dd2a serves main-Dfed1JOf.js and Economy-CNQCA2Q0.js with exact build SHA256 matches. A fresh signed-in browser reload opened the full account with 10 Shillings, 0 Pay Chest and the existing migration transaction. No production gameplay or financial action was submitted. Private /howtoplay and announcement-button replies are deployed with Discord flags 64; ordinary game replies remain public.
+
+## 2026-09-13 - Subtle site motion and duty artwork (Codex)
+
+DONE: Added restrained navigation underlines, social/crest hover responses and button press feedback across the site. Shillings adds section/dialog entrances, card/art hover, symbol selection, wallet highlights and short confirmation stamps. Confirmed duty/ration rewards use new server ledger entries only; replayed receipts do not celebrate again. Integrated approved transparent gold badge A into Report for duty. User also requested emoji cues on the existing Discord guide; updated that message in place, preserving private guide replies.
+VERIFIED: TypeScript/Vite build passed. 13 focused website tests passed, including accurate reward amounts and replay suppression. Disposable local preview verified +13 duty, +18 ration, purchase feedback, section changes, selected badge and a phone-width dialog with no horizontal overflow. CSS movement is gated by prefers-reduced-motion; hover lifts only apply with a fine pointer. Bot: 60 tests and 14 adapter checks passed; service and guild commands verified after installation.
+UNVERIFIED: Final published assets and signed-in live layout follow this push. Physical phone input and OS reduced-motion toggling were not exercised. No production gameplay, purchase, transfer or reward was used for testing.
+BLOCKED: None.
+NEXT: Verify production asset hashes, selected graphic and current account load.
