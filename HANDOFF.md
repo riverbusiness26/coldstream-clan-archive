@@ -3816,3 +3816,11 @@ BLOCKED: None for the interface update; actual gameplay eligibility depends on t
 NEXT: Verify the live card and asset hashes.
 
 LIVE VERIFIED: Release b3b4020 main JS, Economy JS and Economy CSS matched build SHA256. Fresh authenticated page displays Forage for Shillings above duty, compass icon, own cooldown explanation and an independent target dropdown with Starz's current Wallet. Refresh balance control is present. No production forage, transfer or protection change submitted. Test preview closed.
+
+## 2026-09-13 - Immediate Billet protection (Codex)
+DONE: Removed the Billet exit timer at River's explicit request. Bot and website API deployed together as 20260914T022752Z; stored legacy exit timers no longer protect, current on switches stay protected. Updated website and Discord help.
+VERIFIED: 61 bot tests, 14 HTTP adapter checks, 17 website checks, production build, local UI on/off and forage eligibility; both live services healthy and engine SHA256 matches local.
+UNVERIFIED: Frontend CDN publication pending. No production gameplay tests performed.
+BLOCKED: None.
+NEXT: Verify live website assets and account copy.
+
