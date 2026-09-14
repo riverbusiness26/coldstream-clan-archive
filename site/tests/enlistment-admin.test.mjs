@@ -39,6 +39,17 @@ test('migration keeps decisions and Discord work in one database transaction', a
   assert.match(sql, /where processed_at is null/);
 });
 
+test('Discord review function is service-role-only and keeps reviewer identity in the transaction', async () => {
+  const sql = await readFile(new URL('../db/0058_discord_enlistment_review.sql', import.meta.url), 'utf8');
+  assert.match(sql, /auth\.role\(\) <> 'service_role'/);
+  assert.match(sql, /reviewer_discord_id/);
+  assert.match(sql, /where id = reviewer_member\s+and discord_id = reviewer_discord_id/);
+  assert.match(sql, /insert into discord_enlistment_action/);
+  assert.match(sql, /'source', 'discord'/);
+  assert.match(sql, /revoke all on function review_regiment_enlistment_for_discord[^;]+from public, anon, authenticated/);
+  assert.match(sql, /grant execute on function review_regiment_enlistment_for_discord[^;]+to service_role/);
+});
+
 test('Admin Panel exposes the enlistment review inbox', async () => {
   const admin = await readFile(new URL('../src/views/Admin.tsx', import.meta.url), 'utf8');
   assert.match(admin, /EnlistmentReview/);

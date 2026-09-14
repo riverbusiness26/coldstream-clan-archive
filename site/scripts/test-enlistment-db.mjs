@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import EmbeddedPostgres from 'embedded-postgres';
 
 const migration = readFileSync(new URL('../db/0057_regiment_enlistment.sql', import.meta.url), 'utf8');
+const discordReviewMigration = readFileSync(new URL('../db/0058_discord_enlistment_review.sql', import.meta.url), 'utf8');
 const databaseDir = await mkdtemp(join(tmpdir(), 'coldstream-enlistment-postgres-'));
 let database;
 let checks = 0;
@@ -17,6 +18,7 @@ const ids = {
   application: '00000000-0000-4000-8000-000000000010',
   denial: '00000000-0000-4000-8000-000000000011',
   forbidden: '00000000-0000-4000-8000-000000000012',
+  discordReview: '00000000-0000-4000-8000-000000000013',
 };
 
 function pass(label) {
@@ -46,6 +48,7 @@ async function asRole(client, role, authUserId, text, values = []) {
   await client.query('begin');
   try {
     await client.query("select set_config('request.jwt.claim.sub', $1, true)", [authUserId ?? '']);
+    await client.query("select set_config('request.jwt.claim.role', $1, true)", [role]);
     await client.query(`set local role ${role}`);
     const result = await client.query(text, values);
     await client.query('commit');
@@ -100,10 +103,14 @@ try {
     create function auth.uid() returns uuid language sql stable as $$
       select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid
     $$;
+    create function auth.role() returns text language sql stable as $$
+      select nullif(current_setting('request.jwt.claim.role', true), '')
+    $$;
     create table member (
       id uuid primary key,
       auth_user_id uuid unique,
-      role text not null
+      role text not null,
+      discord_id text unique
     );
     create function current_member_id() returns uuid language sql stable as $$
       select id from member where auth_user_id = auth.uid()
@@ -140,15 +147,17 @@ try {
       member_id uuid references member(id),
       detail jsonb not null default '{}'::jsonb
     );
-    insert into member(id, auth_user_id, role) values
-      ('${ids.admin}', '${ids.admin}', 'admin'),
-      ('${ids.moderator}', '${ids.moderator}', 'moderator'),
-      ('${ids.member}', '${ids.member}', 'member');
+    insert into member(id, auth_user_id, role, discord_id) values
+      ('${ids.admin}', '${ids.admin}', 'admin', 'discord-admin'),
+      ('${ids.moderator}', '${ids.moderator}', 'moderator', 'discord-moderator'),
+      ('${ids.member}', '${ids.member}', 'member', 'discord-member');
   `);
 
   await admin.query(migration);
   await admin.query(migration);
-  pass('migration applies and re-applies cleanly');
+  await admin.query(discordReviewMigration);
+  await admin.query(discordReviewMigration);
+  pass('website and Discord review migrations apply and re-apply cleanly');
 
   await admin.query(`
     insert into enlistment(id, member_id, display_name, body, answers, status, discord_id, discord_username, guild_id)
@@ -201,8 +210,25 @@ try {
   );
   pass('members cannot review applications, update decisions, or read the private action queue');
 
+  await admin.query(`insert into enlistment(id, member_id, display_name, body, answers, status, discord_id, discord_username, guild_id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)`, applicationRow(ids.discordReview, 'discord-button-applicant'));
   await expectError(
-    admin.query(`insert into enlistment(id, member_id, display_name, body, answers, status, discord_id, discord_username, guild_id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)`, applicationRow('00000000-0000-4000-8000-000000000013', 'discord-forbidden')),
+    asRole(admin, 'authenticated', ids.admin,
+      'select review_regiment_enlistment_for_discord($1, $2, $3, $4, $5)',
+      [ids.discordReview, 'accepted', null, ids.admin, 'discord-admin']),
+    /permission denied/,
+  );
+  const discordReviewed = await asRole(admin, 'service_role', null,
+    'select review_regiment_enlistment_for_discord($1, $2, $3, $4, $5) as id',
+    [ids.discordReview, 'accepted', null, ids.moderator, 'discord-moderator']);
+  assert.equal(discordReviewed.rows[0].id, ids.discordReview);
+  const discordDecision = (await admin.query('select status, reviewed_by, discord_status from enlistment where id = $1', [ids.discordReview])).rows[0];
+  assert.deepEqual(discordDecision, { status: 'accepted', reviewed_by: ids.moderator, discord_status: 'queued' });
+  const discordAudit = (await admin.query('select detail from personnel_audit where entity_id = $1', [ids.discordReview])).rows[0];
+  assert.equal(discordAudit.detail.source, 'discord');
+  pass('only the service role can record a Discord button review and its staff identity is audited');
+
+  await expectError(
+    admin.query(`insert into enlistment(id, member_id, display_name, body, answers, status, discord_id, discord_username, guild_id) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)`, applicationRow('00000000-0000-4000-8000-000000000014', 'discord-forbidden')),
     /duplicate key/,
   );
   pass('one pending application per Discord member is enforced by the database');
