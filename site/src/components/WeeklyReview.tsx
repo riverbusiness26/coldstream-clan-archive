@@ -11,24 +11,26 @@ interface Props {
   memberName: (id: string) => string;
   busy: boolean; loading: boolean; error?: string;
   onRefresh: () => void;
-  onReview: (id: string, status: 'approved' | 'rejected' | 'archived') => void;
+  onReview: (id: string, status: 'approved' | 'rejected' | 'archived' | 'pending') => void;
+  onDelete: (id: string) => void;
   onPublish: () => void;
 }
 const label = (status: string) => ({ pending: 'Needs review', approved: 'Approved', archived: 'Archived' }[status] ?? status);
 const timestamp = (value: string) => new Date(value).toLocaleString('en-US', { timeZone: 'America/Chicago', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
 
-export default function WeeklyReview({ submissions, memberName, busy, loading, error, onRefresh, onReview, onPublish }: Props) {
+export default function WeeklyReview({ submissions, memberName, busy, loading, error, onRefresh, onReview, onDelete, onPublish }: Props) {
   const [filter, setFilter] = useState('pending');
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [confirmReject, setConfirmReject] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [previewFailed, setPreviewFailed] = useState(false);
   const rows = submissions.filter((row) => row.status !== 'rejected' && (filter === 'all' || row.status === filter))
     .filter((row) => `${row.title} ${memberName(row.submitter_id)} ${row.description ?? ''}`.toLowerCase().includes(search.trim().toLowerCase()))
     .sort((a, b) => Date.parse(b.submitted_at) - Date.parse(a.submitted_at));
   const selected = rows.find((row) => row.id === selectedId) ?? rows[0];
   const media = selected ? weeklyMediaItems([selected], youtubeId)[0] : null;
-  useEffect(() => { setConfirmReject(false); setPreviewFailed(false); }, [selected?.id]);
+  useEffect(() => { setConfirmReject(false); setConfirmDelete(false); setPreviewFailed(false); }, [selected?.id]);
 
   return <section className="weekly-review" aria-label="Weekly content review">
     <div className="weekly-review-toolbar">
@@ -58,7 +60,7 @@ export default function WeeklyReview({ submissions, memberName, busy, loading, e
           {selected.status === 'pending' ? <><p>Accepting publishes this content to the homepage rotation immediately. Review the media first.</p><div className="weekly-review-actions"><button className="command-primary" type="button" disabled={busy || !media} onClick={() => onReview(selected.id, 'approved')}>{busy ? 'Working…' : 'Accept and publish'}</button><button className="command-secondary" type="button" disabled={busy} onClick={() => setConfirmReject(true)}>Reject submission</button></div>
             {confirmReject && <div className="weekly-reject-confirm" role="alert"><p>Reject and permanently remove this submission from the queue?</p><button className="command-danger" type="button" disabled={busy} onClick={() => onReview(selected.id, 'rejected')}>Confirm rejection</button><button className="command-secondary" type="button" disabled={busy} onClick={() => setConfirmReject(false)}>Keep reviewing</button></div>}</>
             : selected.status === 'approved' ? <><p>Approved content takes priority over archive placeholders. Use retry if publication previously failed.</p><div className="weekly-review-actions"><button className="command-secondary" disabled={busy} onClick={onPublish}>Retry publication</button><button className="command-secondary" disabled={busy} onClick={() => onReview(selected.id, 'archived')}>Archive from rotation</button></div></>
-            : <p>This submission is archived and no longer appears in the weekly rotation.</p>}
+            : <><p>This submission is archived and no longer appears in the weekly rotation.</p><div className="weekly-review-actions"><button className="command-primary" type="button" disabled={busy} onClick={() => onReview(selected.id, 'pending')}>Reinstate to review queue</button><button className="command-danger ghost" type="button" disabled={busy} onClick={() => setConfirmDelete(true)}>Delete permanently</button></div>{confirmDelete && <div className="weekly-reject-confirm" role="alert"><p>Delete this archived submission permanently? This cannot be undone.</p><button className="command-danger" type="button" disabled={busy} onClick={() => onDelete(selected.id)}>Confirm permanent delete</button><button className="command-secondary" type="button" disabled={busy} onClick={() => setConfirmDelete(false)}>Keep archived</button></div>}</>}
         </footer>
       </article> : <div className="weekly-review-detail"><h2>No submission selected</h2><p>Choose content from the inbox to watch it and review the member’s details.</p></div>}
     </div>}

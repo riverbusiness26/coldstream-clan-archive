@@ -1,0 +1,1 @@
+import{j as i}from"./main-D_I88khp.js";import{P as s}from"./ProfileDisplayCase-yEoL7FEm.js";function e({me:r,signIn:o}){return i.jsx(s,{member:r,viewer:r,signIn:o},(r==null?void 0:r.id)??"signed-out")}export{e as default};

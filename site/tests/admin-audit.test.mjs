@@ -9,7 +9,7 @@ async function moduleAt(path) {
   return import(`data:text/javascript;base64,${Buffer.from(result.outputFiles[0].text).toString('base64')}`);
 }
 const { readAdminRows, loadAdminSections, mergeDetachmentDrafts, parseRoundCount } = await moduleAt('../src/lib/adminData.ts');
-const { reviewWeeklyContent } = await moduleAt('../src/lib/adminWeekly.ts');
+const { reviewWeeklyContent, deleteArchivedWeeklyContent } = await moduleAt('../src/lib/adminWeekly.ts');
 const success = (data) => ({ data, error: null });
 
 test('admin queues load every page, including submissions past the old 200-row limit', async () => {
@@ -84,6 +84,20 @@ test('rejection only removes pending content; archive only changes approved cont
     assert.ok(db.calls.some((row) => row.join(':') === `eq:status:${status === 'archived' ? 'approved' : 'pending'}`));
     assert.ok(!db.calls.some((row) => row[0] === 'rpc'));
   }
+});
+test('archived content can be reinstated to the review queue', async () => {
+  const db = weeklyDb();
+  await reviewWeeklyContent(db, 'test', 'pending', 'staff');
+  assert.ok(db.calls.some((row) => row.join(':') === 'eq:status:archived'));
+  assert.deepEqual(db.calls[0], ['update', 'pending']);
+});
+test('only archived content can be permanently deleted', async () => {
+  const db = weeklyDb();
+  assert.equal(await deleteArchivedWeeklyContent(db, 'test'), 'test');
+  assert.deepEqual(db.calls[0], ['delete']);
+  assert.ok(db.calls.some((row) => row.join(':') === 'eq:status:archived'));
+  const stale = weeklyDb({ missing: true });
+  await assert.rejects(deleteArchivedWeeklyContent(stale, 'test'), /no longer available/);
 });
 test('legacy CSS must not hide the weekly and gallery submission lists', async () => {
   const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');

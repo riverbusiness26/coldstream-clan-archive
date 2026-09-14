@@ -7,7 +7,7 @@ import { loadAdminSections, mergeDetachmentDrafts, parseRoundCount, readAdminRow
 import DiscordAvatar from '../components/DiscordAvatar';
 import ArtworkPicker from '../components/ArtworkPicker';
 import WeeklyReview from '../components/WeeklyReview';
-import { reviewWeeklyContent } from '../lib/adminWeekly';
+import { deleteArchivedWeeklyContent, reviewWeeklyContent } from '../lib/adminWeekly';
 import EnlistmentReview, { type EnlistmentRow } from '../components/EnlistmentReview';
 import { reviewRegimentEnlistment, type EnlistmentDecision } from '../lib/enlistmentAdmin';
 import DetachmentEmblem from '../components/DetachmentEmblem';
@@ -932,7 +932,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
     } catch { setError('Publication failed. Approved content is retained; retry when the connection is restored.'); }
     finally { actionLock.current = false; setBusy(false); }
   }
-  async function reviewWeeklySubmission(id: string, status: 'approved' | 'rejected' | 'archived') {
+  async function reviewWeeklySubmission(id: string, status: 'approved' | 'rejected' | 'archived' | 'pending') {
     if (actionLock.current) return;
     actionLock.current = true;
     setBusy(true);
@@ -949,10 +949,22 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
       setError('Approved, but publication failed. The item is saved under Approved; use Retry publication before expecting it on the homepage.');
       return;
     }
-    setDone(status === 'rejected' ? 'Weekly submission rejected and removed from the queue.' : status === 'approved' ? 'Weekly submission approved and published to the rotation.' : 'Weekly submission archived.'); await load();
+    setDone(status === 'rejected' ? 'Weekly submission rejected and removed from the queue.' : status === 'approved' ? 'Weekly submission approved and published to the rotation.' : status === 'pending' ? 'Weekly submission reinstated in the review queue.' : 'Weekly submission archived.'); await load();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'The request could not be completed. Refresh records before retrying.');
     } finally { actionLock.current = false; setBusy(false); }
+  }
+  async function deleteWeeklySubmission(id: string) {
+    if (actionLock.current) return;
+    actionLock.current = true; setBusy(true); setError(null); setDone(null);
+    try {
+      if (!supa) { setDone('Preview only. No submission was deleted.'); return; }
+      const submission = weeklySubmissions.find((row) => row.id === id);
+      await deleteArchivedWeeklyContent(supa, id);
+      await recordStaffAudit('weekly.delete', 'weekly_content_submission', id, submission?.submitter_id ?? null, { removed: true, status: 'archived' });
+      setDone('Archived weekly submission deleted.'); await load();
+    } catch (error) { setError(error instanceof Error ? error.message : 'The archived submission could not be deleted. Refresh records before trying again.'); }
+    finally { actionLock.current = false; setBusy(false); }
   }
   async function reviewGallerySubmission(id: string, approve: boolean) {
     if (actionLock.current) return;
@@ -1411,7 +1423,7 @@ export default function Admin({ me, signOut }: { me: Me | null; signOut: () => v
         </div>
       </section>}
       {tab === 'audit' && <section className="command-card"><div className="command-section-head"><div><span>Accountability</span><h2>Audit log</h2></div><b>{audit.length}</b></div><div className="audit-list">{audit.length === 0 && <div className="command-empty">Changes will appear here after the first artwork upload or member record change.</div>}{auditPageRows.map((row) => <article key={row.id}><FaHistory /><div><b>{labelAction(row.action)}</b><span>{row.member_id ? memberById.get(row.member_id)?.display_name ?? 'Member' : 'Catalogue'}{row.item_id ? ` · ${itemById.get(row.item_id)?.name ?? 'Item'}` : ''}</span>{auditDetail(row.detail) && <small>{auditDetail(row.detail)}</small>}</div><time>{date(row.created_at)}</time></article>)}</div>{audit.length > 0 && <nav className="audit-pagination" aria-label="Audit log pages"><button className="command-secondary" type="button" disabled={auditPage === 1} onClick={() => setAuditPage((page) => Math.max(1, page - 1))}>Previous</button><div>{Array.from({ length: auditPageCount }, (_, index) => index + 1).map((page) => <button key={page} className={page === auditPage ? 'active' : ''} type="button" aria-current={page === auditPage ? 'page' : undefined} onClick={() => setAuditPage(page)}>{page}</button>)}</div><button className="command-secondary" type="button" disabled={auditPage === auditPageCount} onClick={() => setAuditPage((page) => Math.min(auditPageCount, page + 1))}>Next</button></nav>}</section>}
-      {tab === 'weekly' && <WeeklyReview submissions={weeklySubmissions} memberName={(id) => memberById.get(id)?.display_name ?? 'Member'} busy={busy} loading={loading} error={loadErrors['Weekly content']} onRefresh={() => void load()} onReview={(id, status) => void reviewWeeklySubmission(id, status)} onPublish={() => void publishWeekly()} />}
+      {tab === 'weekly' && <WeeklyReview submissions={weeklySubmissions} memberName={(id) => memberById.get(id)?.display_name ?? 'Member'} busy={busy} loading={loading} error={loadErrors['Weekly content']} onRefresh={() => void load()} onReview={(id, status) => void reviewWeeklySubmission(id, status)} onDelete={(id) => void deleteWeeklySubmission(id)} onPublish={() => void publishWeekly()} />}
       {tab === 'settings' && <section className="command-card settings-shell">
         <div className="command-section-head"><div><span>Access and data</span><h2>Workspace permissions</h2></div><FaCog /></div>
         <div className="staff-settings-grid"><article><h3>Your access</h3><p><strong>{me!.display_name}</strong> is signed in as <strong>{me!.role}</strong>.</p><p>Discord synchronization controls the account identity. The database checks permission for each saved change.</p></article><article><h3>Member records</h3><p>Admins and moderators manage member records and review submissions. Artwork creation, replacement and deletion are restricted to admins.</p><button className="command-secondary" onClick={() => openTab('members')}>Open Members</button></article><article><h3>Audit history</h3><p>The workspace displays the latest 75 records. Each page shows up to 25 entries.</p><button className="command-secondary" onClick={() => openTab('audit')}>Open audit log</button></article><article><h3>Integration settings</h3><p>Discord role mappings, synchronization schedules and backend event defaults are not editable here yet. No unsaved controls are presented.</p></article></div>
