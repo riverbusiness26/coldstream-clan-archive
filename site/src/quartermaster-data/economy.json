@@ -39,6 +39,12 @@
   "billet": {
     "off_delay_seconds": 0
   },
+  "crime": { "cooldown_seconds": 3600, "success_chance": 0.55, "payout_min": 8, "payout_max": 30, "fine_min": 4, "fine_max": 15 },
+  "countersteal": { "window_seconds": 1800, "success_chance": 0.55, "recover_pct": 0.5 },
+  "duel": { "min_stake": 5, "max_stake": 50, "expiry_seconds": 600 },
+  "splitsteal": { "min_stake": 5, "max_stake": 50, "expiry_seconds": 600 },
+  "heist": { "entry_fee": 5, "lobby_seconds": 90, "max_players": 20, "success_chance": 0.6 },
+  "lottery": { "ticket_price": 2, "max_tickets_per_member": 10, "draw_seconds": 86400 },
   "withdraw": {
     "cooldown_seconds": 600
   },

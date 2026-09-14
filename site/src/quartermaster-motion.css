@@ -113,3 +113,45 @@
 @media (prefers-reduced-motion: reduce) {
   .qm-feedback, .qm-feedback * { animation: none!important; transition: none!important; }
 }
+
+/* Field Games */
+.qm-social-wallet { display:flex; align-items:center; gap:10px; padding:10px 14px; border:1px solid #bfa36a55; border-radius:4px; color:#cdbd9e; font-size:12px; }
+.qm-social-wallet strong { color:#f0d99e; font-size:14px; }
+.qm-social-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.qm-social-card { position:relative; min-height:270px; overflow:hidden; padding:26px; border-color:#bfa36a55; background:linear-gradient(145deg,#292c23,#20241e); }
+.qm-social-card.wide { min-height:350px; }
+.qm-social-card>h3 { margin:3px 0 10px; font:500 28px/1.1 var(--font-display,serif); color:#f0e1c2; }
+.qm-social-card>p:not(.qm-eyebrow,.qm-social-result) { max-width:580px; min-height:48px; color:#c9c0aa; font-size:13px; line-height:1.65; }
+.qm-social-card>.qm-button { margin-top:14px; }
+.qm-social-icon { float:right; display:grid; place-items:center; width:54px; height:54px; margin-left:16px; border:1px solid #c5a66566; border-radius:50%; color:#dfbd77; background:#af8e4a18; font-size:25px; }
+.qm-social-icon svg { width:25px; height:25px; }
+.qm-social-form { display:grid; grid-template-columns:minmax(150px,1.3fr) minmax(120px,.7fr); gap:12px; align-items:end; margin-top:18px; }
+.qm-social-form>.qm-button { grid-column:1/-1; justify-self:start; }
+.qm-social-form .qm-field { margin:0; }
+.qm-choice { display:flex; align-self:stretch; padding-top:20px; }
+.qm-choice button { flex:1; min-height:43px; border:1px solid #a9906255; background:#1d211c; color:#cfbea0; cursor:pointer; }
+.qm-choice button:first-child { border-radius:4px 0 0 4px; }
+.qm-choice button:last-child { border-radius:0 4px 4px 0; }
+.qm-choice button.active { color:#1c211a; background:#d6b66e; border-color:#e4c983; font-weight:700; }
+.qm-choice button.active.danger { color:#f3d2c6; background:#743b32; border-color:#b66a55; }
+.qm-social-callout { margin-top:18px; padding:16px; border-left:3px solid #d0ad67; background:#171c1870; }
+.qm-social-callout>strong,.qm-social-callout>span { display:block; line-height:1.5; }
+.qm-social-callout>span { margin-top:5px; color:#bdb39f; font-size:12px; }
+.qm-social-callout>div { display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; }
+.qm-social-result { margin:14px 0 0; padding:10px 12px; border:1px solid #bfa36a44; border-radius:3px; color:#dfcca5; background:#322d205c; font-size:12px; line-height:1.55; }
+.qm-social-timer { display:flex; align-items:center; gap:7px; margin:13px 0 2px; color:#d9bf85; font-size:12px; }
+.qm-ticket-form { display:flex; gap:10px; align-items:flex-end; margin-top:14px; }
+.qm-ticket-form .qm-field { flex:0 0 100px; margin:0; }
+.qm-wanted ol,.qm-social-card.wanted ol { list-style:none; padding:0; margin:16px 0 0; }
+.qm-social-card.wanted li { display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid #bfa36a2b; color:#d8c9aa; font-size:12px; }
+.qm-social-card.wanted li strong { color:#e4c477; white-space:nowrap; }
+.qm-social-footnote { margin:20px 0 0; text-align:center; color:#aba590; font-size:11px; }
+@media(prefers-reduced-motion:no-preference) {
+  .qm-social-card { animation:qm-arrive 300ms ease-out both; transition:transform 220ms ease,border-color 220ms ease; }
+  .qm-social-card:nth-child(2n) { animation-delay:70ms; }
+  .qm-social-icon { animation:qm-social-pulse 3.2s ease-in-out infinite; }
+  @media(hover:hover) and (pointer:fine) { .qm-social-card:hover { transform:translateY(-3px); border-color:#c7aa7077; } }
+}
+@keyframes qm-social-pulse { 0%,100% { box-shadow:0 0 0 0 #c6a56600; } 45% { box-shadow:0 0 0 7px #c6a56612; } }
+@media(max-width:760px) { .qm-social-grid { grid-template-columns:1fr; } .qm-social-card,.qm-social-card.wide { min-height:0; padding:21px; } .qm-social-form { grid-template-columns:1fr; } .qm-social-form>.qm-button { grid-column:auto; justify-self:stretch; } }
+@media(max-width:460px) { .qm-ticket-form { align-items:stretch; flex-direction:column; } .qm-ticket-form .qm-field { flex:auto; } .qm-social-callout>div .qm-button { flex:1 1 auto; } }

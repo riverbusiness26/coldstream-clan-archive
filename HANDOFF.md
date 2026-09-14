@@ -3848,3 +3848,10 @@ UNVERIFIED: No production member actions or Discord test messages sent. Sound sy
 BLOCKED: None.
 NEXT: None.
 
+
+## 2026-09-13 - Quartermaster social games
+- Added Field Games to the live Shillings page: Crime, Counter-steal, Duel, Split or Steal, Supply-wagon Heist, Shillings Lottery, and Most Wanted.
+- Website controls show open challenges, secret choices, lobby and draw timers, live results, Wallet checks, and coin feedback inside each game card.
+- Shared engine rules use one-hour crime and forage timers, 30-minute counter window, equal stakes, ten-minute challenge expiry, 90-second heist lobby, and ticket-funded daily lottery pots.
+- Discord now registers 28 guild-only commands in both authorized guilds. The main #quartermaster guide post was updated in place with the new command page.
+- Verified with 71 bot tests, 13 PostgreSQL restart/persistence checks, 14 website economy database checks, a production website build, and an interactive synthetic two-member preview. No production member gameplay action was used for testing.
