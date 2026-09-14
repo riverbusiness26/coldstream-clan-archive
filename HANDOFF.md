@@ -3832,3 +3832,11 @@ UNVERIFIED: No real member actions sent during testing.
 BLOCKED: None.
 NEXT: None.
 
+
+## 2026-09-13 - Live rewards and hourly forage (Codex)
+DONE: Gold coin +amount effects and optional synthesized coin sound for duty, ration, net game/forage profit, incoming transfers, grants, parade and caltrop recovery. Results and errors stay in their activity. Forage is hourly, including existing waits. Recipient alerts persist and update every five seconds on visible pages using an authenticated read-only endpoint; notification links to alert details.
+VERIFIED: 21 website tests, build, 64 bot tests and 14 adapter checks, 13 isolated PostgreSQL checks. Browser test accounts confirmed duty +11, ration +12, both game losses, no top game banners, failed/successful incoming alerts without refresh, mobile no overflow. Sound scheduling tested; no live member actions tested.
+UNVERIFIED: Frontend publication pending; physical phone speaker playback not directly heard. Broader status script still flags root bundle parser and unrelated server/Steam scheduled workflows.
+BLOCKED: None.
+NEXT: Verify deployed assets and live authenticated polling.
+
