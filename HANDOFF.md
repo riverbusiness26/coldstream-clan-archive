@@ -3804,3 +3804,5 @@ VERIFIED: TypeScript/Vite build passed. Source no longer mixes right-edge and sc
 UNVERIFIED: Final browser geometry and live assets follow publication.
 BLOCKED: None.
 NEXT: Verify aligned desktop and mobile indicators.
+
+LIVE VERIFIED: Release e31a6be main JS and CSS match build SHA256. Browser computed geometry confirms all seven desktop nav links are 78px tall with the exact same underline baseline, full-width left/right zero. Screenshot shows Home line directly below its label. At 390px, Join and coin both have 44px touch areas and identical underline positions, 6px above the bottom. Viewport restored.
