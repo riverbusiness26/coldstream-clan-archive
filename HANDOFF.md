@@ -3774,3 +3774,5 @@ VERIFIED: Reproduced the signed-in live error and confirmed the failed live econ
 UNVERIFIED: Final published bundle and signed-in page will be checked after this push. No production game, purchase, transfer or reward was used as a test.
 BLOCKED: None. Existing site status findings about scheduled server/presence polling are outside this repair.
 NEXT: Verify the live account opens and retains the existing balance.
+
+LIVE VERIFIED: Release 785dd2a serves main-Dfed1JOf.js and Economy-CNQCA2Q0.js with exact build SHA256 matches. A fresh signed-in browser reload opened the full account with 10 Shillings, 0 Pay Chest and the existing migration transaction. No production gameplay or financial action was submitted. Private /howtoplay and announcement-button replies are deployed with Discord flags 64; ordinary game replies remain public.
