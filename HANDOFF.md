@@ -3806,3 +3806,11 @@ BLOCKED: None.
 NEXT: Verify aligned desktop and mobile indicators.
 
 LIVE VERIFIED: Release e31a6be main JS and CSS match build SHA256. Browser computed geometry confirms all seven desktop nav links are 78px tall with the exact same underline baseline, full-width left/right zero. Screenshot shows Home line directly below its label. At 390px, Join and coin both have 44px touch areas and identical underline positions, 6px above the bottom. Viewport restored.
+
+## 2026-09-13 - Prominent forage and eligibility explanations (Codex)
+
+DONE: Moved forage above the earning section with a compass icon, finite reduced-motion-aware animation, independent target selector showing Wallet balances, Refresh balances, and explicit reasons for disabled attempts. Added a shortcut to protection controls. Transfers retain their own selector. No rules, cooldowns, balances or member protection settings changed.
+VERIFIED: Read-only production diagnosis at 02:04 UTC found Starz protected by billet and River Wallet at 14, below the configured 15 minimum. 17 focused tests passed including both simultaneous blockers, minimum boundary, leaving protection, cooldown and unknown requests. TypeScript/Vite build passed. Disposable preview verified eligibility enables a confirmation dialog, billet disables it with an explanation, and a 390px layout fits without horizontal overflow.
+UNVERIFIED: Final published assets and signed-in card follow publication. Target Discord role protection and target billet remain checked by the server when confirming. No production forage or protection toggle was used as a test.
+BLOCKED: None for the interface update; actual gameplay eligibility depends on the existing rules.
+NEXT: Verify the live card and asset hashes.
