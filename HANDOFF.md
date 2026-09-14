@@ -3756,3 +3756,11 @@ VERIFIED: Build passed TypeScript/Vite; 57 Quartermaster tests, 14 adapter check
 UNVERIFIED: Final live browser and hashes follow this push. Discord Quartermaster remains in CSG Updates pending River's main-server scope response. Website production uses guild 669723836165521413; test guild 1539873232545513504 remains separate. No production game or payment test was submitted.
 BLOCKED: No website blocker. Activating Quartermaster itself in main Discord is pending the scope answer and bot installation/access verification.
 NEXT: Verify full live page, production balance carryover, sections and asset hashes.
+
+## 2026-09-13 - Indefinite repeating schedules (Codex)
+
+DONE: Removed the recurrence count and end-date UI. Daily, weekly and monthly now continue until staff stop them. Added stop confirmation, preserving past events and attendance while removing future dates through the existing Discord-aware event management path. Applied 0057_indefinite_recurring_events.sql: staff-only retry-safe creation, a service-only rolling year-ahead generator, and active daily pg_cron replenishment. Old clients also create indefinite schedules. Individual date edits/removals are never overwritten. Month-end anchors and Chicago daylight-saving behavior are explicit.
+VERIFIED: npm run build --prefix site passed TypeScript/Vite after rebasing on the approved enlistment admin changes. node --test site/tests/*.test.mjs passed 111/111. node site/scripts/test-recurring-events.mjs passed finite-to-indefinite conversion, daily/weekly/monthly creation, retry safety, legacy compatibility, replenishment, DST, preserved edits/removals, stop idempotency, and role restrictions. Production rollback-only creation/retry/replenishment/stop test passed; all test rows rolled back. cron.job confirms coldstream-recurring-events active daily. Local signed-in form shows Weekly, first three dates, and no count or end date.
+UNVERIFIED: A future timed cron run has not elapsed yet; the same worker was run successfully now. No real recurring schedule or Discord post created for testing. Existing status.mjs still flags delayed server/presence workflows and does not recognize main-named bundles; release assets are checked directly after publishing.
+BLOCKED: No recurrence blocker.
+NEXT: Publish and compare the live main/Admin bundles, then verify the signed-in production form.
