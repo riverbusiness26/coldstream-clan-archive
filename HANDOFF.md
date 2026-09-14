@@ -3840,3 +3840,11 @@ UNVERIFIED: Frontend publication pending; physical phone speaker playback not di
 BLOCKED: None.
 NEXT: Verify deployed assets and live authenticated polling.
 
+
+## 2026-09-13 - Reward release live verification (Codex)
+DONE: 9c70c11 published. Both VPS services run 20260914T031142Z. Main Discord name verified as 2nd Coldstream Guards on unchanged guild ID; startup expectation corrected after first deploy rolled back.
+VERIFIED: /stores/ references main-D6cNBv7-.js. Main JS, Economy-BT_RlxuZ.js and Economy-Dwx8BPYE.css match local SHA256. Authenticated production UI shows Every 1 hour, coin sound control and Live checks every 5 seconds; browser error log empty. Public updates endpoint refuses unauthenticated access (401). Both services active; 21 commands in each authorized guild and zero global.
+UNVERIFIED: No production member actions or Discord test messages sent. Sound synthesized and scheduling tested, physical device audio not heard directly.
+BLOCKED: None.
+NEXT: None.
+
