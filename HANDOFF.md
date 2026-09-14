@@ -3765,6 +3765,8 @@ UNVERIFIED: A future timed cron run has not elapsed yet; the same worker was run
 BLOCKED: No recurrence blocker.
 NEXT: Publish and compare the live main/Admin bundles, then verify the signed-in production form.
 
+RELEASE VERIFIED: d9c72fa was verified live. main-B2_D3ncZ.js and Admin-DFdPCxlI.js both returned HTTP 200 with exact SHA-256 build matches. Signed-in production Admin shows Weekly with "Repeats weekly until stopped. No end date." and no count field. No real events or Discord posts were submitted. Recurrence claim released. The subsequent Quartermaster repair below retains the indefinite event changes.
+
 ## 2026-09-13 - Quartermaster connection survives later builds (Codex)
 
 DONE: Fixed the public API default in site/src/lib/quartermaster.ts. A later deployment built without VITE_QUARTERMASTER_API_URL and produced an empty address, sending /me to the static website and failing JSON parsing. The known production API is now the default for absent or blank overrides. Existing latest enlistment and indefinite event changes retained before rebuilding.
