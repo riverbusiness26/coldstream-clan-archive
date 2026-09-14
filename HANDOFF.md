@@ -3796,3 +3796,11 @@ BLOCKED: None.
 NEXT: Check the published navigation and Shillings destination.
 
 LIVE VERIFIED: Release 89c1680 main JS/CSS matched build hashes. Desktop coin is immediately right of Join; live click from Join reached Coldstream Shillings. At 390px viewport, Join and coin share the same row, each has a 44px-tall touch area, and clicking the coin closes the menu. Original viewport restored. No economy action submitted.
+
+## 2026-09-13 - Header underline alignment (Codex)
+
+DONE: Removed competing underline geometry from site-motion.css. One base rule now controls the full link-width gold line, centered scale animation and desktop/mobile vertical offsets. Fixed text and coin links to the same 20px line height so indicators share a baseline. Keyboard focus retains an underline; reduced motion gets the static state.
+VERIFIED: TypeScript/Vite build passed. Source no longer mixes right-edge and scale animations or competing 3px/20px desktop offsets.
+UNVERIFIED: Final browser geometry and live assets follow publication.
+BLOCKED: None.
+NEXT: Verify aligned desktop and mobile indicators.

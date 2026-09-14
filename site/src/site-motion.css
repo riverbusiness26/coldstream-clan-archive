@@ -3,12 +3,7 @@
   .living-hq :where(button, .hq-navigation a, .hq-memberbar a, .hq-footer a) {
     transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
   }
-  .hq-navigation nav a { position: relative; }
-  .hq-navigation nav a::after {
-    content: ''; position: absolute; bottom: 3px; left: 15%; right: 15%; height: 1px;
-    background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 200ms ease;
-  }
-  .hq-navigation nav a:is(:hover, :focus-visible, [aria-current="page"])::after { transform: scaleX(1); }
+  .hq-navigation nav a::after { transition: transform 200ms ease; }
   .hq-social a svg, .hq-brand img { transition: transform 220ms ease; }
   .hq-social a:is(:hover, :focus-visible) svg { transform: translateY(-2px); }
   .hq-brand:is(:hover, :focus-visible) img { transform: rotate(-3deg); }
