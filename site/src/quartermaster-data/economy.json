@@ -37,7 +37,7 @@
     "caltrop_fine_max": 25
   },
   "billet": {
-    "off_delay_seconds": 21600
+    "off_delay_seconds": 0
   },
   "withdraw": {
     "cooldown_seconds": 600
