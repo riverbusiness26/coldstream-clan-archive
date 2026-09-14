@@ -3784,3 +3784,5 @@ VERIFIED: TypeScript/Vite build passed. 13 focused website tests passed, includi
 UNVERIFIED: Final published assets and signed-in live layout follow this push. Physical phone input and OS reduced-motion toggling were not exercised. No production gameplay, purchase, transfer or reward was used for testing.
 BLOCKED: None.
 NEXT: Verify production asset hashes, selected graphic and current account load.
+
+LIVE VERIFIED: Release 43394c2: main-C-hCdqMN.js, main-Df1ZQrgD.css, Economy-BWl2mVB1.js, Economy-dPsnDLSY.css and duty-regimental-badge-v1.webp all matched local build SHA256. Fresh signed-in page loaded the actual current account (16 Shillings), displayed the new badge, and switched between stores and Pay Chest. No live account action was submitted. Discord release 20260914T004614Z retained both guilds and updated existing guide message 1548846933890695279; REST read-back confirmed all six emoji cues, both button emojis and the private-help explanation.
