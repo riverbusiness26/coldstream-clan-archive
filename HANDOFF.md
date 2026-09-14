@@ -3824,3 +3824,11 @@ UNVERIFIED: Frontend CDN publication pending. No production gameplay tests perfo
 BLOCKED: None.
 NEXT: Verify live website assets and account copy.
 
+
+## 2026-09-13 - Billet release verified (Codex)
+DONE: Published 226d554 with immediate Billet switching.
+VERIFIED: Live /stores/ HTML uses main-Bfnp95e8.js; main and Economy-Bw663ivb.js SHA256 exactly match built files. Authenticated live account displays no-wait instructions. Public API health OK.
+UNVERIFIED: No real member actions sent during testing.
+BLOCKED: None.
+NEXT: None.
+
