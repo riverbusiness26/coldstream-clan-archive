@@ -3764,3 +3764,11 @@ VERIFIED: npm run build --prefix site passed TypeScript/Vite after rebasing on t
 UNVERIFIED: A future timed cron run has not elapsed yet; the same worker was run successfully now. No real recurring schedule or Discord post created for testing. Existing status.mjs still flags delayed server/presence workflows and does not recognize main-named bundles; release assets are checked directly after publishing.
 BLOCKED: No recurrence blocker.
 NEXT: Publish and compare the live main/Admin bundles, then verify the signed-in production form.
+
+## 2026-09-13 - Quartermaster connection survives later builds (Codex)
+
+DONE: Fixed the public API default in site/src/lib/quartermaster.ts. A later deployment built without VITE_QUARTERMASTER_API_URL and produced an empty address, sending /me to the static website and failing JSON parsing. The known production API is now the default for absent or blank overrides. Existing latest enlistment and indefinite event changes retained before rebuilding.
+VERIFIED: Reproduced the signed-in live error and confirmed the failed live economy bundle contained an empty API address. TypeScript/Vite production build passed with the override explicitly blank; the output includes the correct API URL. 10 website economy tests passed. API health and CORS preflight passed. Discord private-guide change separately deployed as VPS release 20260914T001635Z, 60 bot tests plus 14 adapter checks passed; both configured guilds remain online.
+UNVERIFIED: Final published bundle and signed-in page will be checked after this push. No production game, purchase, transfer or reward was used as a test.
+BLOCKED: None. Existing site status findings about scheduled server/presence polling are outside this repair.
+NEXT: Verify the live account opens and retains the existing balance.
