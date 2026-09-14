@@ -1,0 +1,1 @@
+import{j as i}from"./main-DGK0o5Am.js";import{P as s}from"./ProfileDisplayCase-DSEx8Cpg.js";function e({me:r,signIn:o}){return i.jsx(s,{member:r,viewer:r,signIn:o},(r==null?void 0:r.id)??"signed-out")}export{e as default};
