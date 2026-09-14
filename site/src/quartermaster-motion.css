@@ -1,4 +1,30 @@
 .qm-duty-art>img { display: block; width: 100%; max-width: 210px; height: auto; object-fit: contain; }
+.qm-forage-feature { display:grid; grid-template-columns:76px minmax(0,1fr) minmax(220px, .8fr); gap:22px; padding:26px; margin-bottom:32px; border:1px solid #c0a36d70; border-radius:5px; background:linear-gradient(120deg,#303326,#1c241e); box-shadow:inset 3px 0 #bea16b; }
+.qm-forage-emblem { width:72px; height:72px; display:grid; place-items:center; border:1px solid #c9ac7166; border-radius:50%; color:#e2bd79; background:radial-gradient(circle,#bda16820,transparent 70%); }
+.qm-forage-emblem>svg { width:43px; height:43px; }
+.qm-forage-copy h2 { font-size:34px; margin:0 0 12px; }
+.qm-forage-copy>p:not(.qm-eyebrow) { font-size:13px; line-height:1.7; margin:0; }
+.qm-forage-rules { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:16px; font-size:11px; color:#d6c8a8; }
+.qm-forage-rules>span { display:flex; align-items:center; gap:7px; }
+.qm-forage-controls { display:flex; flex-direction:column; gap:12px; min-width:0; }
+.qm-forage-controls .qm-field { margin:0; }
+.qm-forage-controls select { width:100%; min-width:0; }
+.qm-forage-controls>.qm-button { justify-content:center; }
+.qm-forage-controls>.qm-text-button { align-self:flex-start; font-size:11px!important; }
+.qm-forage-status { grid-column:1/-1; display:flex; align-items:flex-start; gap:10px; border-top:1px solid #c4ac7038; padding-top:16px; font-size:12px; line-height:1.7; color:#e2d0ad; }
+.qm-forage-status>svg { flex:none; margin-top:3px; }
+.qm-forage-status ul { padding-left:17px; margin:0; }
+.qm-forage-status li+li { margin-top:5px; }
+.qm-forage-status p { margin:0; }
+.qm-forage-status>.qm-text-button { flex-shrink:0; margin-left:auto; font-size:11px!important; }
+.qm-forage-status.ready { color:#b9cba4; }
+@media(prefers-reduced-motion:no-preference) {
+  .qm-forage-emblem>svg { animation:qm-compass-settle 900ms ease-out both; transition:transform 260ms ease; }
+  @media(hover:hover) and (pointer:fine) { .qm-forage-feature:hover .qm-forage-emblem>svg { animation:none; transform:rotate(18deg); } }
+}
+@keyframes qm-compass-settle { from { transform:rotate(-40deg); opacity:.3; } to { transform:rotate(0); opacity:1; } }
+@media(max-width:850px) { .qm-forage-feature { grid-template-columns:58px minmax(0,1fr); gap:16px; padding:22px; } .qm-forage-emblem { width:54px; height:54px; } .qm-forage-emblem>svg { width:34px; height:34px; } .qm-forage-controls { grid-column:1/-1; } .qm-forage-status { flex-wrap:wrap; } .qm-forage-status ul { flex:1; } .qm-forage-status>.qm-text-button { margin-left:26px; } }
+@media(max-width:480px) { .qm-forage-feature { padding:18px; gap:13px; } .qm-forage-copy h2 { font-size:28px; } .qm-forage-copy>p:not(.qm-eyebrow) { font-size:12px; } .qm-forage-rules { grid-column:1/-1; font-size:10px; } }
 .qm-feedback {
   position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(22px, env(safe-area-inset-bottom));
   z-index: 90; pointer-events: none; max-width: calc(100vw - 36px); padding: 18px 24px;
