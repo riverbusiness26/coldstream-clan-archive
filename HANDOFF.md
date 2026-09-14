@@ -3814,3 +3814,5 @@ VERIFIED: Read-only production diagnosis at 02:04 UTC found Starz protected by b
 UNVERIFIED: Final published assets and signed-in card follow publication. Target Discord role protection and target billet remain checked by the server when confirming. No production forage or protection toggle was used as a test.
 BLOCKED: None for the interface update; actual gameplay eligibility depends on the existing rules.
 NEXT: Verify the live card and asset hashes.
+
+LIVE VERIFIED: Release b3b4020 main JS, Economy JS and Economy CSS matched build SHA256. Fresh authenticated page displays Forage for Shillings above duty, compass icon, own cooldown explanation and an independent target dropdown with Starz's current Wallet. Refresh balance control is present. No production forage, transfer or protection change submitted. Test preview closed.
