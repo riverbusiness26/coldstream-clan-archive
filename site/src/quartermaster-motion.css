@@ -25,6 +25,18 @@
 @keyframes qm-compass-settle { from { transform:rotate(-40deg); opacity:.3; } to { transform:rotate(0); opacity:1; } }
 @media(max-width:850px) { .qm-forage-feature { grid-template-columns:58px minmax(0,1fr); gap:16px; padding:22px; } .qm-forage-emblem { width:54px; height:54px; } .qm-forage-emblem>svg { width:34px; height:34px; } .qm-forage-controls { grid-column:1/-1; } .qm-forage-status { flex-wrap:wrap; } .qm-forage-status ul { flex:1; } .qm-forage-status>.qm-text-button { margin-left:26px; } }
 @media(max-width:480px) { .qm-forage-feature { padding:18px; gap:13px; } .qm-forage-copy h2 { font-size:28px; } .qm-forage-copy>p:not(.qm-eyebrow) { font-size:12px; } .qm-forage-rules { grid-column:1/-1; font-size:10px; } }
+.qm-forage-feature.qm-forage-compact { grid-template-columns:42px minmax(0,1fr); gap:12px; padding:20px; margin:0; border-radius:0; box-shadow:inset 2px 0 #bea16b; }
+.qm-forage-compact .qm-forage-emblem { width:40px; height:40px; }
+.qm-forage-compact .qm-forage-emblem>svg { width:24px; height:24px; }
+.qm-forage-compact .qm-forage-copy h2 { margin-bottom:6px; font-size:28px; }
+.qm-forage-compact .qm-forage-copy>p:not(.qm-eyebrow) { display:none; }
+.qm-forage-compact .qm-forage-rules { gap:5px 10px; margin-top:8px; font-size:9px; }
+.qm-forage-compact .qm-forage-controls,.qm-forage-compact .qm-forage-status,.qm-forage-compact .qm-forage-feedback { grid-column:1/-1; }
+.qm-forage-compact .qm-forage-controls { gap:8px; }
+.qm-forage-compact .qm-forage-controls>.qm-text-button { font-size:9px!important; }
+.qm-forage-compact .qm-forage-status { gap:7px; padding-top:10px; font-size:9px; line-height:1.45; }
+@media(max-width:1050px) { .qm-forage-feature.qm-forage-compact { grid-template-columns:42px minmax(0,1fr) minmax(220px,.8fr); } .qm-forage-compact .qm-forage-controls { grid-column:3; grid-row:1/3; } .qm-forage-compact .qm-forage-status,.qm-forage-compact .qm-forage-feedback { grid-column:1/-1; } }
+@media(max-width:680px) { .qm-forage-feature.qm-forage-compact { grid-template-columns:38px minmax(0,1fr); padding:18px; } .qm-forage-compact .qm-forage-controls { grid-column:1/-1; grid-row:auto; } }
 .qm-feedback {
   position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(22px, env(safe-area-inset-bottom));
   z-index: 90; pointer-events: none; max-width: calc(100vw - 36px); padding: 18px 24px;
