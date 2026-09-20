@@ -76,7 +76,7 @@ must still reconcile, and you must say so on the page.
 
 | Thing | Where |
 |---|---|
-| Site | Cloudflare Pages, static from repo root, `coldstreamgaming.com` |
+| Site | Cloudflare Worker static assets from repo root, `coldstreamgaming.com`; GitHub Pages mirror |
 | DB, auth, storage, functions | Supabase, project `zcpbpcktinlqnxmqddzc`, free tier |
 | Repo | GitHub `riverbusiness26/coldstream-clan-archive`, public |
 | Game servers | OVH VPS-3, Ubuntu 24.04, Pterodactyl panel at `panel.coldstreamgaming.com` |
@@ -115,11 +115,16 @@ claims/                   who is holding what, see below
   Deploy in place from the function's own Code tab instead. After any
   deploy, curl it with no auth header: 302 is healthy for steam-auth, 401
   means the toggle came back on and every member is locked out.
-- **One deploy path only.** The site publishes from the repo root on push.
-  A second path (`wrangler pages deploy`) alongside it once silently broke
-  the push based build for ninety minutes. If the domain looks stale, run
-  `npx wrangler pages deployment list --project-name=coldstreamgaming`
-  before assuming the build failed.
+- **Verify the actual production host.** As checked on 20 Sep 2026, the apex
+  and www custom domains attach to the existing `coldstream-clan-archive`
+  Cloudflare Worker. The checked-in `wrangler.jsonc` publishes static assets
+  from the repository root. Build, copy the complete release, commit and push,
+  then run `npx wrangler deploy` using that existing configuration. GitHub
+  Pages builds a mirror; a green GitHub Pages run alone does not update the
+  Worker. The older `coldstreamgaming` Pages project is not the domain host.
+  Do not publish to that separate Pages project as a workaround. Verify the
+  Worker version and live asset hashes. Keep `.assetsignore` active so source,
+  private metadata and dependencies are not uploaded.
 - **There is a second checkout of this repo on River's machine**, left at the
   old path when the directory moved on 22 Aug:
   `CSG History & Archive\2nd Coldstream Guards\CSG Archive Project\coldstream-research`.

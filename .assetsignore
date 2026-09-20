@@ -53,3 +53,11 @@
 # Earlier generated pages, superseded by the site itself. Kept in git, not served.
 /coldstream-*.html
 /thumb-compare.png
+
+# A worktree has a .git file rather than a directory. Never publish it.
+/.git
+/claims/
+/briefs/
+/scripts/
+/infra/
+/supabase/

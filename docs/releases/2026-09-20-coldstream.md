@@ -25,4 +25,6 @@ No real member gameplay, debit, reward, profile assignment, Discord announcement
 
 The generated Three.js chunk retains its existing size warning. Campaign cosmetics, further encounters/world detail, real-account card collections/PvP and the TV broadcast pipeline remain WIP.
 
-The main website follows the existing Git main push to Cloudflare Pages. TV uses a separate static Worker/custom domain, version a83437bb-c0de-42a6-97d8-60365af9e861. Backend rollout retains the old release, environment backups and a database dump; rollback must not erase live balances.
+The live domain is attached to the existing coldstream-clan-archive Worker with static assets. This was verified through the live custom-domain mapping and Worker version metadata. Git main updates the source and GitHub Pages mirror; the existing Wrangler configuration publishes the production Worker. The prior Pages-only deployment note was outdated. TV uses a separate static Worker/custom domain, version a83437bb-c0de-42a6-97d8-60365af9e861. Backend rollout retains the old release, environment backups and a database dump; rollback must not erase live balances.
+
+Backend release 20260920T055243Z is installed with both units healthy. Existing 704 ledger entries and 646 receipts were preserved, and the main-only campaign is initialized at population 5. All 28 command definitions were read back in the two already-enabled guilds. No Discord announcement was sent.
