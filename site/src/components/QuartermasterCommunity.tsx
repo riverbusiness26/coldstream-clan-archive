@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { FiMessageCircle, FiSend, FiUsers, FiX } from 'react-icons/fi';
 import DiscordAvatar from './DiscordAvatar';
 import { supa } from '../lib/supa';
@@ -42,6 +43,13 @@ export default function QuartermasterCommunity({ snapshot, directory }: { snapsh
     return () => { void supa?.removeChannel(channel); };
   }, [load, open, self]);
 
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [open]);
+
   async function send(event: FormEvent) {
     event.preventDefault();
     if (!supa || !self || !body.trim() || sending) return;
@@ -61,8 +69,8 @@ export default function QuartermasterCommunity({ snapshot, directory }: { snapsh
   }
 
   const players = [...snapshot.leaderboard].sort((a, b) => a.displayName.localeCompare(b.displayName));
-  return <>
-    <button className="qm-community-launcher" aria-expanded={open} aria-controls="qm-community-drawer" onClick={() => { setOpen(value => !value); setUnread(0); }}><FiMessageCircle /><span>Mess Chat</span>{unread > 0 && <b>{Math.min(unread, 9)}{unread > 9 ? '+' : ''}</b>}</button>
+  const widget = <div className="qm-community-widget" data-open={open ? 'true' : 'false'}>
+    <button className={`qm-community-launcher${open ? ' is-open' : ''}`} aria-label={open ? 'Close Mess Chat' : 'Open Mess Chat'} aria-expanded={open} aria-controls="qm-community-drawer" onClick={() => { setOpen(value => !value); setUnread(0); }}>{open ? <FiX /> : <FiMessageCircle />}<span>{open ? 'Close Mess' : 'Mess Chat'}</span>{unread > 0 && !open && <b>{Math.min(unread, 9)}{unread > 9 ? '+' : ''}</b>}</button>
     {open && <aside className="qm-community-drawer" id="qm-community-drawer" aria-label="Shillings social room">
       <header><div><p className="qm-eyebrow">The company mess</p><h2>Chat & players</h2></div><button aria-label="Close chat" onClick={() => setOpen(false)}><FiX /></button></header>
       <nav aria-label="Social room sections"><button className={view === 'chat' ? 'active' : ''} aria-pressed={view === 'chat'} onClick={() => setView('chat')}><FiMessageCircle /> Chat</button><button className={view === 'players' ? 'active' : ''} aria-pressed={view === 'players'} onClick={() => setView('players')}><FiUsers /> Players <small>{players.length}</small></button></nav>
@@ -73,5 +81,6 @@ export default function QuartermasterCommunity({ snapshot, directory }: { snapsh
       {view === 'players' && <div className="qm-community-players">{players.map(player => { const member = directory[player.discordId]; return <a key={player.discordId} href={member ? `#/member/${encodeURIComponent(member.id)}` : '#/stores'} aria-label={`Open ${player.displayName}'s profile`}><DiscordAvatar url={member?.avatar_url ?? null} name={player.displayName} /><span><strong>{player.displayName}</strong><small>{player.title}</small></span></a>; })}</div>}
       <footer><span>Community chat and profiles are live.</span><small>Private messages are still WIP.</small></footer>
     </aside>}
-  </>;
+  </div>;
+  return typeof document === 'undefined' ? null : createPortal(widget, document.body);
 }
