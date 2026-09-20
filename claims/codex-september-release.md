@@ -1,3 +1,3 @@
-Holding: none
-Doing: Released. All completed Coldstream work published and live verified on 2026-09-20. TV is domain-only with no main-site links. See the final HANDOFF.md entry and outputs/RELEASE-2026-09-20.md in the campaign workspace. Original dirty sources preserved.
+Holding: Quartermaster's Desk, social room and game polish
+Doing: Publish the prominent account action block, Discord avatars, members-only Mess Chat, independent five-second game timers and restored 3D coin motion. Preserve unrelated released work.
 Since: 2026-09-20

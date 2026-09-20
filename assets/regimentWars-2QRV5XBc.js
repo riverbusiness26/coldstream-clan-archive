@@ -1,0 +1,1 @@
+import{c as e,j as t,R as r}from"./asset-Bm3jNvNB.js";import o from"./RegimentWars-BUvHETwk.js";import"./index-COawc1En.js";e.createRoot(document.getElementById("root")).render(t.jsx(r.StrictMode,{children:t.jsx(o,{standalone:!0})}));

@@ -4,10 +4,11 @@ import type { CoinControls } from '../lib/shillingScene';
 
 const artwork = `${import.meta.env.BASE_URL}quartermaster/shilling-refined-heritage-v3.webp`;
 
-export default function ShillingCoin() {
+export default function ShillingCoin({ motion = true }: { motion?: boolean }) {
   const surface = useRef<HTMLDivElement>(null);
   const controls = useRef<CoinControls | null>(null);
   const [ready, setReady] = useState(false);
+  const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const helpId = useId();
 
   useEffect(() => {
@@ -21,6 +22,15 @@ export default function ShillingCoin() {
     }).catch(() => { if (live) setReady(false); });
     return () => { live = false; controls.current?.dispose(); controls.current = null; };
   }, []);
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const change = () => setReduced(query.matches);
+    query.addEventListener('change', change);
+    return () => query.removeEventListener('change', change);
+  }, []);
+
+  useEffect(() => { controls.current?.setMotion(motion && !reduced); }, [motion, reduced, ready]);
 
   return <div className={`qm-interactive-coin${ready ? ' is-ready' : ''}`}>
     <div ref={surface} className="qm-coin-viewer" role="group"

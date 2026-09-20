@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 
-export type CoinControls = { reset: () => void; dispose: () => void };
+export type CoinControls = { reset: () => void; setMotion: (enabled: boolean) => void; dispose: () => void };
 
 export function createCoinScene(host: HTMLElement, source: string, ready: () => void, failure: () => void): CoinControls {
   let renderer: THREE.WebGLRenderer | undefined;
-  let disposed = false, frame = 0, loaded = false;
+  let disposed = false, frame = 0, loaded = false, motion = false, previousFrame = 0;
   let drag: { id: number; x: number; y: number } | null = null;
   let observer: ResizeObserver | undefined;
   const geometries: THREE.BufferGeometry[] = [];
@@ -29,6 +29,7 @@ export function createCoinScene(host: HTMLElement, source: string, ready: () => 
     host.removeEventListener('pointercancel', end);
     host.removeEventListener('lostpointercapture', end);
     host.removeEventListener('keydown', key);
+    document.removeEventListener('visibilitychange', visibility);
     renderer?.domElement.removeEventListener('webglcontextlost', lost);
     geometries.forEach(value => value.dispose());
     materials.forEach(value => value.dispose());
@@ -38,14 +39,23 @@ export function createCoinScene(host: HTMLElement, source: string, ready: () => 
   }
   function fail() { dispose(); failure(); }
   function lost(event: Event) { event.preventDefault(); fail(); }
+  function render(time: number) {
+    frame = 0;
+    if (disposed || !loaded) return;
+    if (motion && !drag && document.visibilityState === 'visible') {
+      const elapsed = previousFrame ? Math.min(40, time - previousFrame) : 16;
+      coin.rotation.y += elapsed * .00042;
+    }
+    previousFrame = time;
+    try { renderer?.render(scene, camera); } catch { fail(); return; }
+    if (motion && document.visibilityState === 'visible') frame = requestAnimationFrame(render);
+  }
   function draw() {
     if (disposed || frame || !loaded) return;
-    // No continuous animation loop: an idle coin uses no render frames.
-    frame = requestAnimationFrame(() => {
-      frame = 0;
-      if (!disposed) { try { renderer?.render(scene, camera); } catch { fail(); } }
-    });
+    frame = requestAnimationFrame(render);
   }
+  function setMotion(enabled: boolean) { motion = enabled; previousFrame = 0; if (!motion && frame) { cancelAnimationFrame(frame); frame = 0; } draw(); }
+  function visibility() { if (document.visibilityState === 'visible') draw(); else if (frame) { cancelAnimationFrame(frame); frame = 0; previousFrame = 0; } }
   function reset() { coin.rotation.set(.06, -.16, -.1); draw(); }
   function down(event: PointerEvent) {
     if (!loaded || drag || !event.isPrimary || event.button !== 0) return;
@@ -167,7 +177,8 @@ export function createCoinScene(host: HTMLElement, source: string, ready: () => 
     host.addEventListener('pointercancel', end);
     host.addEventListener('lostpointercapture', end);
     host.addEventListener('keydown', key);
+    document.addEventListener('visibilitychange', visibility);
     image.src = source;
   } catch { fail(); }
-  return { reset, dispose };
+  return { reset, setMotion, dispose };
 }

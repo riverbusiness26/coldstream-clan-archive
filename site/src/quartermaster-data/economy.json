@@ -55,11 +55,12 @@
     "win_multiplier": 2.0,
     "dealer_stand": 17,
     "turn_timeout_seconds": 90,
-    "command_cooldown_seconds": 15
+    "command_cooldown_seconds": 5
   },
   "anchor": {
     "min_stake": 5,
     "max_stake": 80,
+    "command_cooldown_seconds": 5,
     "payouts": { "1": 2, "2": 3, "3": 4 }
   },
   "gambling": {
