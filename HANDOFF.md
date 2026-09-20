@@ -3967,3 +3967,11 @@ VERIFIED: Production build passed and all 178 website tests passed. Browser chec
 UNVERIFIED: Physical mobile-browser safe-area behavior was not tested on hardware. No real chat message was submitted.
 BLOCKED: None.
 NEXT: Keep the widget in the lower-right corner across Shillings sections and gather member feedback on drawer height.
+
+## 2026-09-20 - Live player presence in Mess Chat (Codex)
+
+DONE: Published a green online dot beside each player currently connected to the Coldstream website in the Shillings Mess Chat Players tab. Presence follows the signed-in Discord identity across the site and is removed automatically when the Realtime connection closes. Worker version 231854ef-e32a-41c9-9972-39b4b2f54d3d is live.
+VERIFIED: Production and campaign-preview builds passed; all 179 website tests passed. Browser checks at 1440px and 390px confirmed the signed-in player's 8px green dot, zero drawer accessibility violations, no horizontal overflow and no application errors. Live main, Economy JavaScript and Economy CSS hashes exactly match the reviewed build and contain the Presence channel, accessible online label and dot style.
+UNVERIFIED: A simultaneous two-member production session was not opened during release, and no site or Shillings action was submitted.
+BLOCKED: None.
+NEXT: Members can open Shillings, toggle Mess Chat, then choose Players to see who else has the site open.
