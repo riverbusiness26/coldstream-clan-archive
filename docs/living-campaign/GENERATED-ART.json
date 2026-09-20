@@ -1,0 +1,15 @@
+{
+  "method": "built-in image_gen",
+  "date": "2026-09-20",
+  "assets": [
+    {
+      "path": "site/public/quartermaster/campaign/expedition-valley-v1.png",
+      "prompt": "Use case: historical-scene. Asset type: wide cinematic hero illustration for the Coldstream cooperative browser campaign Road to Saint-Aubin. Create an exquisitely detailed painterly cinematic landscape, European early 19th-century fictional countryside at golden dawn. A small expedition of red-coated infantry, blue facings, white crossbelts and black shakos seen from behind on a winding dirt road, canvas supply wagon, warm campfire at the lower right foreground. River and old timber crossing in midground, apple orchards, distant windmill and a stone fortress on the hill. Rich believable material detail, oil-painted storybook realism, atmospheric mist layers and soft smoke, warm brass light against forest green shadows, restrained crimson. Wide panoramic framing, subjects concentrated in lower half, atmospheric upper-left sky and valley usable for overlaid HTML headings. Premium tabletop RPG campaign art, grounded historical expedition, no fantasy monsters, no gore, no UI, no text, no lettering, no logos or watermark. Landscape 16:9."
+    },
+    {
+      "path": "site/public/quartermaster/campaign/encounter-road-v1.png",
+      "prompt": "Use case: historical-scene. Asset type: illustration for a playable random encounter card in Coldstream Road to Saint-Aubin, a cooperative historical tabletop adventure. Exquisite painterly cinematic realism, fictional rural Europe early nineteenth century. Close scene of a wooden canvas-topped supply wagon with one wheel sunk in muddy ruts beside a small broken stone culvert on a forest road. Two red-coated infantry in blue facings, white crossbelts and black shakos examine the wagon while another studies an unfolded map. Lanterns glow warm amber against cool mossy forest and drifting blue-grey fog, rain has just stopped, wet leaves, rich timber texture and readable silhouettes. An inviting decision point, no combat or suffering. Layered scene with diagonal road leading into mysterious trees. Wide landscape composition 3:2. Premium oil-painted campaign concept art, warm brass and forest green, touches of crimson, delicate luminous mist and detailed handcrafted props. No text, no logos, no user interface, no watermark."
+    }
+  ],
+  "notes": "Original generated raster artwork, copied into the project without altering the source images. Fictional campaign setting, not a historical event record."
+}

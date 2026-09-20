@@ -1,0 +1,48 @@
+.rw-root .rw-portrait-card{display:block;position:relative;width:100%;aspect-ratio:2/3;container-type:inline-size;color:#ecdec1;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.2;text-align:center;filter:drop-shadow(0 5px 7px #0008);user-select:none}
+.rw-root .rw-pc-reference{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.rw-root .rw-pc-picture{position:absolute;inset:0;pointer-events:none}
+.rw-root .rw-pc-company{position:absolute;top:5.35%;right:4.9%;width:32%;height:3.5%;display:flex;align-items:center;justify-content:center;background:#0c1912;color:#e8d5b1;font-size:3.2cqw;letter-spacing:.6cqw;text-transform:uppercase}
+.rw-root .rw-pc-rarity{position:absolute;top:49%;right:7%;font:500 3cqw/1.4 Inter,sans-serif;letter-spacing:.4cqw;text-transform:uppercase;color:#e7d9bb;background:#0e1c13e8;border:1px solid #b1975e;padding:1% 2%;border-radius:2px}
+.rw-root .rare .rw-pc-rarity{border-color:#b8d2e1;color:#d3e8f1;background:#20322ee8}
+.rw-root .legendary .rw-pc-rarity{border-color:#e8c574;color:#ffe3a1;background:#57421ce8}
+.rw-root .rw-pc-name{position:absolute;top:54.4%;left:10%;width:80%;height:8.2%;padding:1% 2%;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(120deg,#0b1b0f,#0c170f,#182518);color:#eadcbd}
+.rw-root .rw-pc-name strong{font-size:7.8cqw;font-weight:600;text-transform:uppercase;letter-spacing:.6cqw;line-height:1;display:block}
+.rw-root .rw-pc-name small{font-size:3.1cqw;letter-spacing:.9cqw;text-transform:uppercase;margin-top:3%;display:block}
+.rw-root .rw-pc-stats{position:absolute;top:64.4%;left:8.3%;width:84%;height:7.3%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:1% 0;background:linear-gradient(125deg,#0a180e,#111b12);color:#ede0c0}
+.rw-root .rw-pc-stats>span{display:flex;flex-direction:column;justify-content:space-between;align-items:center;border-left:1px solid #927c4f77}
+.rw-root .rw-pc-stats>span:first-child{border:0}
+.rw-root .rw-pc-stats>span>span{display:flex;align-items:center;gap:2cqw}
+.rw-root .rw-pc-stats b{font-size:9cqw;font-weight:500;line-height:1}
+.rw-root .rw-pc-stats svg{width:4.5cqw;height:4.5cqw}
+.rw-root .rw-pc-stats>span:first-child svg{color:#d75b49;fill:#b93d30}
+.rw-root .rw-pc-stats small{font:500 2.7cqw/1.1 Inter,sans-serif;letter-spacing:.2cqw;color:#d9c398;text-transform:uppercase;white-space:nowrap}
+.rw-root .rw-pc-trait{position:absolute;left:23%;top:73%;width:68%;height:13%;text-align:left;background:linear-gradient(135deg,#101e14,#102116,#152318);display:flex;flex-direction:column;justify-content:space-between;padding:1.2% 1.5%;color:#e4d4b5}
+.rw-root .rw-pc-trait-icon{display:none}
+.rw-root .rw-pc-trait strong{display:block;text-transform:uppercase;letter-spacing:.4cqw;font-size:4.2cqw;line-height:1.1;margin-bottom:2%}
+.rw-root .rw-pc-trait strong small{font-size:2.8cqw;font-weight:400}
+.rw-root .rw-pc-trait>span>span{display:block;font-size:4cqw;line-height:1.15;color:#e2d8c0}
+.rw-root .rw-pc-trait q{font-size:3.7cqw;font-style:italic;display:block;text-align:center;padding-top:2%;color:#cebd98}
+.rw-root .rw-pc-motto{position:absolute;top:87.5%;left:23%;width:55%;height:3.5%;padding:.5%;background:#0c1911;color:#e0cca4;font-size:3cqw;letter-spacing:.8cqw;text-transform:uppercase}
+.rw-root .rw-pc-motto small{display:block;font-size:2.6cqw;letter-spacing:.6cqw;margin-top:2%}
+.rw-root .small .rw-pc-trait>span>span{font-size:4.3cqw}
+.rw-root .rw-card.rw-card-reference{display:block;padding:0;border:0;background:none;box-shadow:none;width:100%;border-radius:9px;overflow:visible;height:auto}
+.rw-root .rw-card-reference.unowned{opacity:.65;filter:saturate(.55)}
+.rw-root .rw-card-reference:hover{transform:translateY(-3px)}
+
+.rw-root .rw-pc-name strong{white-space:nowrap;letter-spacing:.4cqw}
+.rw-root .rw-pc-stats{top:64.1%;left:7%;width:86%;height:7.7%;padding:1% 0 1.4%}
+.rw-root .rw-pc-stats small{font-size:2.25cqw;letter-spacing:.05cqw}
+.rw-root .rw-pc-trait{left:7%;width:86%;top:72.7%;height:13.6%;padding:1.5% 2%;display:grid;grid-template-columns:14% 1fr;grid-template-rows:1fr auto;gap:1% 3%;overflow:hidden}
+.rw-root .rw-pc-trait-icon{display:grid;place-items:center;border:1px solid #b49960;border-radius:50%;width:10cqw;height:10cqw;background:#24331e;margin-top:4%;font-size:6cqw}
+.rw-root .rw-pc-trait strong{font-size:3.5cqw;letter-spacing:.35cqw;margin-bottom:2%}
+.rw-root .rw-pc-trait>span>span{font-size:3.3cqw;line-height:1.15;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rw-root .rw-pc-trait q{font-size:3cqw;grid-column:1/-1;padding-top:0;align-self:end}
+.rw-root .rw-pc-motto{top:87.5%;left:23%;width:55%;height:3.8%;font-size:2.6cqw;line-height:1.1;letter-spacing:.65cqw}
+.rw-root .rw-pc-motto small{font-size:2cqw;margin-top:2%;letter-spacing:.7cqw}
+
+.rw-root .rw-mini-frame{display:block;position:relative;width:100%;aspect-ratio:.92;overflow:hidden;border-radius:5px}
+.rw-root .rw-mini-frame .rw-portrait-card{aspect-ratio:2/3}
+.rw-root .rw-mini-frame:after{content:'';position:absolute;left:5%;right:4%;bottom:0;height:1.5%;background:#102016;border-bottom:1px solid #ad935e;pointer-events:none}
+
+.rw-root .rw-mini-frame{aspect-ratio:.9}
+.rw-root .rw-mini-frame:after{height:2%}

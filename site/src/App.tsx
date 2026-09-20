@@ -12,13 +12,14 @@ import Servers from './views/Servers';
 const Archive = lazy(() => import('./views/Archive'));
 const Calendar = lazy(() => import('./views/Calendar'));
 const Leaderboard = lazy(() => import('./views/Leaderboard'));
-const Admin = lazy(() => import('./views/Admin'));
+const Admin = lazy(() => import('./views/AdminWorkspace'));
 const PlayerProfileMock = lazy(() => import('./views/PlayerProfileMock'));
 const ProfileDesigns = lazy(() => import('./views/ProfileDesigns'));
 const ArtworkReview = lazy(() => import('./views/ArtworkReview'));
 const Profile = lazy(() => import('./views/Profile'));
 const Roster = lazy(() => import('./components/Roster'));
 const Economy = lazy(() => import('./views/Economy'));
+const RegimentWars = lazy(() => import('./views/RegimentWars'));
 
 // Routing is by hash, and coming back from authentication the session arrives in the
 // hash too: Supabase hands back "#access_token=...&refresh_token=...". Without
@@ -145,14 +146,14 @@ export default function App() {
   }, [authReady, me, view]);
 
   useEffect(() => {
-    const names: Record<string, string> = { landing: 'Second to none', home: 'Weekly brief', events: 'Events', leaderboard: 'Leaderboard', archive: 'Our History', gallery: 'Media', roster: 'Historical roster', profile: 'Service record', stores: 'Shillings', admin: 'Staff command', join: 'Join', 'design/profile': 'Profile design review' };
+    const names: Record<string, string> = { landing: 'Second to none', home: 'Weekly brief', events: 'Events', leaderboard: 'Leaderboard', archive: 'Our History', gallery: 'Media', roster: 'Historical roster', profile: 'Service record', 'regiment-wars': 'Regiment Wars', stores: 'Shillings', admin: 'Staff command', join: 'Join', 'design/profile': 'Profile design review' };
     document.title = (names[view] || 'The record') + ' | Coldstream Gaming';
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, [view]);
 
   const artworkReview = import.meta.env.DEV && demo && view === 'design/artwork';
   const locked = !me && requiresMember(view);
-  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
+  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'regiment-wars', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
   return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view} demo={demo}>
     {toast && <div className={'toast ' + toast.kind} role="status" onClick={() => setToast(null)}>{toast.text}</div>}
     {!authReady ? <div className="hq-loading" role="status"><img src={asset('/crest.webp')} width="64" height="65" alt="" /><p>Opening the Coldstream.</p></div>
@@ -168,6 +169,7 @@ export default function App() {
         {view === 'admin' && (isStaff(me?.role) ? <Admin me={me} signOut={signOut} /> : <div className="hq-access"><p className="hq-eyebrow">Staff command</p><h1>Staff access required.</h1><p>This area is for Discord-authorised admins and moderators.</p><a className="hq-button" href="#/home">Return to headquarters</a></div>)}
         {view === 'profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
         {view === 'stores' && me && <Economy demo={demo} />}
+        {view === 'regiment-wars' && <RegimentWars />}
         {demo && view === 'design/profile' && <ProfileDesigns me={me} />}
         {artworkReview && <ArtworkReview />}
         {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}

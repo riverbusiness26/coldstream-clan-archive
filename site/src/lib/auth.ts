@@ -13,7 +13,9 @@ export interface Me {
 }
 
 export function useAuth() {
-  const [me, setMe] = useState<Me | null>(null);
+  const [me, setMe] = useState<Me | null>(() => DEMO && import.meta.env.MODE === 'campaign' && ['localhost', '127.0.0.1'].includes(location.hostname)
+    ? { id: 'campaign-staging', display_name: 'Staging member', avatar_url: null, steam_id64: null, discord_id: '900000000000000001', role: 'member' }
+    : null);
   const [authReady, setAuthReady] = useState(DEMO);
   const [accessDenied, setAccessDenied] = useState(false);
   // A live session whose member row is missing. It means the edge function

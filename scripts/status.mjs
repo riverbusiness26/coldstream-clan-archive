@@ -221,7 +221,7 @@ async function siteState() {
     // "none found" as an OK line: the one check that proves the domain is
     // serving anything at all, quietly passing while telling you nothing.
     // Found by index-DQ_scNV2.js on 29 Aug.
-    const bundle = html.match(/index-[A-Za-z0-9_-]+\.js/)?.[0];
+    const bundle = html.match(/(?:index|main)-[A-Za-z0-9_-]+\.js/)?.[0];
     out.push(bundle
       ? ok(`domain serves ${bundle}`)
       : bad('domain served no bundle reference, so the root may be a stale or partial index.html'));

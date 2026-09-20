@@ -1,0 +1,4 @@
+.qm-jukebox-controls label{min-width:0;max-width:100%}
+.qm-jukebox-controls select{min-width:0;max-width:100%;width:clamp(140px,25vw,300px);background:#171d22;color:#e4d7bc;border:1px solid #af935f66;padding:.6rem;font:inherit}
+.qm-jukebox-controls strong,.qm-jukebox summary small{overflow-wrap:anywhere}
+.qm-jukebox-controls select:focus-visible{outline:2px solid #e5c281;outline-offset:3px}

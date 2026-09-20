@@ -1,0 +1,13 @@
+{
+  "expected_active_members": 5,
+  "lower_turnout_members": 4,
+  "campaign_duration_goal": "roughly one month",
+  "duration_is_validated": false,
+  "internal_encounters": "implemented_in_expedition_0_4",
+  "simulation": {
+    "fully_free_daily_four_members_days": 35,
+    "fully_free_daily_five_members_days": 29,
+    "cadence": "Each member uses available useful orders daily; all three facilities and seven destinations",
+    "caveat": "Observed synthetic runs, not player research. Less frequent visits take longer."
+  }
+}

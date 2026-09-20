@@ -18,8 +18,8 @@ export function rewardEvents(previous: LedgerEntry[], ledger: LedgerEntry[]): Re
     else if (['counter_taken'].includes(entry.type)) location = 'defence';
     else if (['crime_win', 'crime_lose'].includes(entry.type)) location = 'crime';
     else if (entry.type === 'duel_win' && Number.isSafeInteger(entry.gamblingNet)) { location = 'duel'; net = entry.gamblingNet!; }
-    else if (entry.type === 'split_win' && Number.isSafeInteger(entry.gamblingNet)) { location = 'splitsteal'; net = entry.gamblingNet!; }
-    else if (entry.type === 'heist_win' && Number.isSafeInteger(entry.gamblingNet)) { location = 'heist'; net = entry.gamblingNet!; }
+    else if (['split_win', 'split_lose'].includes(entry.type) && Number.isSafeInteger(entry.gamblingNet)) { location = 'splitsteal'; net = entry.gamblingNet!; }
+    else if (['heist_win', 'heist_lose'].includes(entry.type) && Number.isSafeInteger(entry.gamblingNet)) { location = 'heist'; net = entry.gamblingNet!; }
     else if (entry.type === 'lottery_win' && Number.isSafeInteger(entry.gamblingNet)) { location = 'lottery'; net = entry.gamblingNet!; }
     else if (['transfer', 'grant', 'parade', 'payparade'].includes(entry.type) && net > 0) location = 'account';
     if (!location) continue;

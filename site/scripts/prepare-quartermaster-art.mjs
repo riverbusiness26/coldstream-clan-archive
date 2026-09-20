@@ -1,0 +1,39 @@
+import sharp from 'sharp';
+import { fileURLToPath } from 'node:url';
+const assets=[
+  {
+    "name": "sentry-lantern-v2",
+    "prompt": "A single British Napoleonic sentry's brass and dark iron lantern, warm ivory candle inside, realistic worn brass fittings, museum artifact still life, three quarter view. No ground or backdrop, genuinely transparent alpha background, soft tightly contained shadow, isolated complete silhouette with generous margin. Square product icon for a premium navy crimson and antique brass gaming store. Crisp intricate materials, no text, no logos.",
+    "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-40ade700-4dae-4697-a498-6440a43790ea.png"
+  },
+  {
+    "name": "provost-kit-v2",
+    "prompt": "Museum artifact product icon: a tightly grouped rolled parchment warrant with deep crimson wax seal and two small dark iron caltrops beside it. British Napoleonic 1815 equipment, photoreal materials, ivory paper and antique brass details. Square, entirely isolated on genuinely transparent alpha background, no ground, complete silhouette with margin, no readable writing, no lettering or logos.",
+    "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-10a8da5b-eaac-48a8-b804-ef5001b2f8a0.png"
+  },
+  {
+    "name": "frame-laurel-v1",
+    "prompt": "A square empty portrait frame for a British Napoleonic gaming profile, refined narrow aged brass edging with small laurel sprigs at lower corners and crimson ribbon knot centered below. Front view, perfectly straight symmetrical square aperture, museum craft, detailed but restrained, genuine transparent alpha inside AND outside, no image in center, no background, no text, no crown, entire frame fully visible with generous margin.",
+    "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-fe94c46b-41bb-42c0-a66e-07662b1aeca9.png"
+  },
+  {
+    "name": "cloth-crimson-v1",
+    "prompt": "Square macro photographic texture of deep oxblood crimson British military wool with subtle damask weave, museum quality fabric, evenly lit across the image, rich dark red not bright scarlet, realistic fine fibers, no objects, no folds, no border, no writing. Intended as readable dark profile background, understated tonal detail, no strong highlights.",
+    "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-52b48c15-2a4e-43c6-b0ff-b953623d1ffe.png"
+  },
+  {
+    "name": "cloth-rifle-v1",
+    "prompt": "Square macro photographic texture of very deep rifle green British military wool with subtle damask weave, museum quality fabric, evenly lit across the image, rich almost-black green, realistic fine fibers, no objects, no folds, no border, no writing. Intended as readable dark profile background, understated tonal detail, no strong highlights.",
+    "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-1d7d61a6-a973-4638-ac64-91315a29ffa0.png"
+  },
+  {
+    "name": "display-telescope-v1",
+    "prompt": "Museum product photograph of a complete compact British Napoleonic brass telescope resting crossed over a leather-bound campaign journal with crimson ribbon bookmark, small brass compass beside it, rich aged metal details. Isolated collection trophy for profile display case. Square composition with generous margin. Genuinely transparent alpha background, no surface or backdrop, tightly contained soft shadow, no readable text, no logos.",
+    "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-9823fe85-9f35-441d-b23b-cdd3693c5b90.png"
+  }
+];
+for (const asset of assets) {
+ const dest=new URL('../public/quartermaster/'+asset.name+'.webp',import.meta.url);
+ await sharp(asset.source).resize({width:960,withoutEnlargement:true}).webp({quality:90,alphaQuality:100}).toFile(fileURLToPath(dest));
+ const meta=await sharp(asset.source).metadata(); console.log(asset.name,meta.width,meta.height,'alpha',meta.hasAlpha);
+}

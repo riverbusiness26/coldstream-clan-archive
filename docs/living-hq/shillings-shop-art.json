@@ -1,0 +1,160 @@
+{
+  "generator": "Built-in imagegen",
+  "items": [
+    {
+      "slug": "lantern",
+      "name": "Sentry lantern",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Single tall utilitarian British sentry lantern, 1815, aged brass hood, black iron cage and handle, amber candle within clear panes.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-62941f01-b420-43e5-a32d-1bcfefe56727.png",
+      "output": "site/public/quartermaster/shop/lantern-v1.webp"
+    },
+    {
+      "slug": "grog",
+      "name": "Extra-duty grog",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: One battered pewter tankard filled with amber grog beside a squat dark brown stoneware rum flask with cork and small crimson cloth tie. Compact complete still life.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-176a20de-56ae-43b4-897f-0fb6dbc38093.png",
+      "output": "site/public/quartermaster/shop/grog-v1.webp"
+    },
+    {
+      "slug": "caltrops",
+      "name": "Caltrops",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Three authentic blackened forged-iron four-point caltrops, one upright and two turned naturally, compact grouping, crisp pointed silhouette, scuffed steel, no parchment.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-ac4cbab1-bf14-4dad-84e8-45ebd20b2f38.png",
+      "output": "site/public/quartermaster/shop/caltrops-v1.webp"
+    },
+    {
+      "slug": "warrant",
+      "name": "Provost warrant",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A formal rolled ivory parchment warrant, partly opened, dark navy braided cord, a large crimson wax seal with simple crown impression, short illegible ink strokes, no legible words, no caltrops.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-ea92b277-d868-4921-aa08-cc1fc9d1f49d.png",
+      "output": "site/public/quartermaster/shop/warrant-v1.webp"
+    },
+    {
+      "slug": "snuff",
+      "name": "Snuff box",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A small opened oval Georgian brass snuff box, embossed subtle acanthus lid, dark tortoiseshell inset, visible fine brown snuff within, no loose clouds.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-7ad581a6-ff10-4f65-b023-9b418fe14f49.png",
+      "output": "site/public/quartermaster/shop/snuff-v1.webp"
+    },
+    {
+      "slug": "hard_tack",
+      "name": "Hard tack",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Three square thick golden-brown military hardtack biscuits, orderly punched holes, one biscuit broken to show dry crumb, resting on a small folded natural linen ration cloth.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-6942644b-7923-42f7-addf-7177a9d3b935.png",
+      "output": "site/public/quartermaster/shop/hard_tack-v1.webp"
+    },
+    {
+      "slug": "pack_cards",
+      "name": "Pack of cards",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: One weathered early nineteenth century pack of ivory playing cards tied loosely with crimson ribbon, three face cards fanned beside it with elegant black and red suit marks, no modern casino branding.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-faee82cf-9140-49f3-8a1e-ebe996f9f3a1.png",
+      "output": "site/public/quartermaster/shop/pack_cards-v1.webp"
+    },
+    {
+      "slug": "title_mess",
+      "name": "Title: Terror of the Mess",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Original horizontal honorary title insignia, a pewter drinking tankard with crossed playing cards in embossed aged brass relief on oxblood enamel, compact laurel edges, small blank ivory ribbon underneath. No text, no real military rank symbols.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-2417893c-0dd7-4e79-99a5-28867a467e67.png",
+      "output": "site/public/quartermaster/shop/title_mess-v1.webp"
+    },
+    {
+      "slug": "title_forager",
+      "name": "Title: Noted Forager",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Original small horizontal honorary title insignia, a bronze forage satchel relief crossed with wheat stalks on dark crimson enamel, narrow dark brass laurel border, tiny blank ivory ribbon underneath. No text, no real military rank chevrons.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-a0f208d6-ad2a-4b90-8b77-c43e1c12df9e.png",
+      "output": "site/public/quartermaster/shop/title_forager-v1.webp"
+    },
+    {
+      "slug": "title_steady",
+      "name": "Title: Steady in the Ranks",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Original horizontal honorary title insignia, three aligned upright British flintlock musket silhouettes in relief on deep navy enamel, silver rope border with restrained brass details, small blank ribbon underneath. No text, no rank chevrons.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-49506ced-ec50-43b9-a53c-84bb88f43575.png",
+      "revision": "Remove blurry background; preserve insignia; square alpha-transparent canvas with clear margins.",
+      "output": "site/public/quartermaster/shop/title_steady-v1.webp"
+    },
+    {
+      "slug": "frame_silver",
+      "name": "Silver parade frame",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Square empty British Georgian parade portrait frame, bright aged silver rope moulding, engraved oak-leaf corners, restrained small brass rosettes, NO crimson ribbon, front-facing perfectly square and straight, genuinely transparent aperture AND outside.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-06a795f4-e4ae-437a-8af7-9a9ab05f5053.png",
+      "output": "site/public/quartermaster/shop/frame_silver-v1.webp"
+    },
+    {
+      "slug": "name_plate",
+      "name": "Brass name-plate",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A British campaign engraver's rename kit: small undecorated blank rectangular aged brass plate with two rivets, one slim engraving burin placed diagonally below, a few tiny metal curls. Distinct utilitarian crafted artifact.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-a052e671-bbb4-41d9-9ab0-762494d5b134.png",
+      "output": "site/public/quartermaster/shop/name_plate-v1.webp"
+    },
+    {
+      "slug": "frame_laurel",
+      "name": "Laurel portrait frame",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: Square empty antique brass portrait frame, narrow raised moulding, beautifully modeled laurel sprigs at both lower corners and dark crimson ribbon knot underneath. Front-facing, perfectly square straight symmetrical aperture. Genuine transparency inside the aperture AND outside the frame.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-b48058da-e25d-497f-b060-d5746cf92415.png",
+      "output": "site/public/quartermaster/shop/frame_laurel-v1.webp"
+    },
+    {
+      "slug": "plate_brass",
+      "name": "Polished brass nameplate",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A luxurious polished horizontal brass profile nameplate, Georgian clipped corners, finely engraved leaf borders, four small rivets, broad clean blank central area, backed by tiny visible crimson fabric edge. No engraving tool, no letters, straight-on.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-e9d9323e-38a9-41e2-ba8e-13e14f24bf98.png",
+      "output": "site/public/quartermaster/shop/plate_brass-v1.webp"
+    },
+    {
+      "slug": "cloth_crimson",
+      "name": "Crimson dress cloth",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A neatly folded swatch of rich deep oxblood crimson military wool, subtle woven damask, two thick folds revealing quality and tactile fibres, subtle ivory stitched hem. This is a cloth PRODUCT object cutout, not an edge-to-edge texture.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-132c8416-30a8-476c-af93-98ce4c518f7a.png",
+      "output": "site/public/quartermaster/shop/cloth_crimson-v1.webp"
+    },
+    {
+      "slug": "case_campaign",
+      "name": "Campaign display trim",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A miniature British campaign display cabinet in dark mahogany and antique brass, front-on very slight three-quarter angle, six empty square velvet-lined recesses in a 3-column 2-row grid, brass corner fittings and thin beaded trim. Complete cabinet isolated, no writing.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-110d7e80-f8c9-4bfb-a9f3-fb0e2c52d871.png",
+      "output": "site/public/quartermaster/shop/case_campaign-v1.webp"
+    },
+    {
+      "slug": "cloth_rifle",
+      "name": "Rifle-green cloth",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A neatly folded swatch of almost-black rifle-green military wool, finely visible textured weave, three gentle folded layers, black braided stitched hem. This is a cloth PRODUCT object cutout, not an edge-to-edge texture.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-be40a1ac-c8cd-4905-acbe-897212fdcd50.png",
+      "output": "site/public/quartermaster/shop/cloth_rifle-v1.webp"
+    },
+    {
+      "slug": "effect_mist",
+      "name": "Morning campaign mist",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A collectible miniature British campaign scene on a narrow dark oval timber plinth: rolled navy blanket, small brass bugle, three restrained translucent silver wisps of morning mist curling behind and above. Museum diorama, not magical, NO glowing potion. Mist fades gradually into transparent alpha.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-a9075d84-2c2d-44ae-869c-ce7d1fcb063e.png",
+      "output": "site/public/quartermaster/shop/effect_mist-v1.webp"
+    },
+    {
+      "slug": "effect_candle",
+      "name": "Candlelit display",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: An elegant low Georgian brass chamberstick with an ivory candle burning steadily, delicate contained amber light aura and a tiny clean curl of smoke, tiny crimson cloth coaster. Represents a warm lighting cosmetic. Entire flame visible.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-4f65627c-e20e-45ff-8d19-9f6d55da4b15.png",
+      "output": "site/public/quartermaster/shop/effect_candle-v1.webp"
+    },
+    {
+      "slug": "campaign_telescope",
+      "name": "Campaign telescope",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A complete extended compact 1815 brass spyglass diagonally resting over a closed burgundy leather campaign journal, a small accurate brass pocket compass beside it. Fine patina, leather grain, ivory page edges, no readable writing.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-bef6fdea-85b5-44fe-a096-69554f937f04.png",
+      "output": "site/public/quartermaster/shop/campaign_telescope-v1.webp"
+    },
+    {
+      "slug": "sentry_keepsake",
+      "name": "Sentry's keepsake",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A decorative miniature square sentry lantern on a small dark mahogany commemorative base with a BLANK brass plate, bronze handle and ornate crimson-enamel crown-shaped finial, unlit ivory candle inside. Clearly distinct collectible from plain utilitarian sentry lantern.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-9723a05c-d0c6-476b-aab7-6fbbad6ceb88.png",
+      "output": "site/public/quartermaster/shop/sentry_keepsake-v1.webp"
+    },
+    {
+      "slug": "sealed_dispatch",
+      "name": "Sealed dispatch",
+      "prompt": "Use case: product-mockup. Asset type: individual Coldstream Shillings shop product image. Generate ONE original high quality museum-grade photoreal artifact illustration, British Napoleonic circa 1815, cohesive subdued aged brass, charcoal iron, rich crimson, navy and warm ivory. Crisp realistic material details with soft neutral studio highlights, not orange golden-hour. Center the complete item in a SQUARE image. Subject fills approximately 75% of the square, generous clear margin on ALL sides. No cropping, no cut-off handles, no labels, no captions, no price, no watermark, no extra border around the image. GENUINELY TRANSPARENT ALPHA background: no black backdrop, no green backdrop, no checkerboard drawn into image, no room or table. Very soft tightly contained contact shadow only. Clean silhouette reads beautifully as a small catalogue thumbnail. Subject: A tightly folded small ivory campaign letter tied with dark crimson ribbon and one heavy gold-red wax seal, resting diagonally on a slim burgundy dispatch wallet. No readable writing, no scrolls, no caltrops.",
+      "source": "C:\\Users\\thegr\\.codex\\generated_images\\01a06a36-5380-7a71-9541-d6b08c339447\\exec-657d2922-fe31-4879-9530-a5dd4168d3f7.png",
+      "output": "site/public/quartermaster/shop/sealed_dispatch-v1.webp"
+    }
+  ]
+}

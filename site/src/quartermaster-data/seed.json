@@ -1,48 +1,337 @@
 {
   "jobs": [
-    { "id": "kit", "line": "You square your kit on the barrack board." },
-    { "id": "sentry", "line": "You stand sentry on the gate until the relief comes." },
-    { "id": "fatigue", "line": "Fatigue party: wood, water, and a sergeant's opinions." },
-    { "id": "drill", "line": "The yard again. The sergeant finds the line crooked." },
-    { "id": "baggage", "line": "You escort the baggage carts a mile and back." },
-    { "id": "ticket", "line": "Legal forage with a written ticket. The farmers still glare." },
-    { "id": "returns", "line": "You copy returns for the adjutant until the ink blurs." },
-    { "id": "firelocks", "line": "Rain last night. You clean firelocks with the rest of the file." },
-    { "id": "picket", "line": "You walk the picket line at dusk." },
-    { "id": "surgeon", "line": "The surgeon's mate needs linen carried. You draw the short straw." },
-    { "id": "chest_guard", "line": "You guard the pay-chest. Nobody is amused but you are paid." },
-    { "id": "draught", "line": "Extra drill for the new draught. They will thank you never." }
+    {
+      "id": "kit",
+      "line": "You square your kit on the barrack board."
+    },
+    {
+      "id": "sentry",
+      "line": "You stand sentry on the gate until the relief comes."
+    },
+    {
+      "id": "fatigue",
+      "line": "Fatigue party: wood, water, and a sergeant's opinions."
+    },
+    {
+      "id": "drill",
+      "line": "The yard again. The sergeant finds the line crooked."
+    },
+    {
+      "id": "baggage",
+      "line": "You escort the baggage carts a mile and back."
+    },
+    {
+      "id": "ticket",
+      "line": "Legal forage with a written ticket. The farmers still glare."
+    },
+    {
+      "id": "returns",
+      "line": "You copy returns for the adjutant until the ink blurs."
+    },
+    {
+      "id": "firelocks",
+      "line": "Rain last night. You clean firelocks with the rest of the file."
+    },
+    {
+      "id": "picket",
+      "line": "You walk the picket line at dusk."
+    },
+    {
+      "id": "surgeon",
+      "line": "The surgeon's mate needs linen carried. You draw the short straw."
+    },
+    {
+      "id": "chest_guard",
+      "line": "You guard the pay-chest. Nobody is amused but you are paid."
+    },
+    {
+      "id": "draught",
+      "line": "Extra drill for the new draught. They will thank you never."
+    }
   ],
   "items": [
-    { "slug": "lantern", "name": "Sentry lantern", "category": "kit", "price": 45, "effect": "lantern", "max_stack": 3, "charges": 2 },
-    { "slug": "caltrops", "name": "Caltrops", "category": "kit", "price": 35, "effect": "caltrops", "max_stack": 5, "charges": 1 },
-    { "slug": "warrant", "name": "Provost warrant", "category": "kit", "price": 60, "effect": "warrant", "max_stack": 2, "charges": 1 },
-    { "slug": "grog", "name": "Extra-duty grog", "category": "kit", "price": 20, "effect": "duty_boost", "max_stack": 5 },
-    { "slug": "hard_tack", "name": "Hard tack", "category": "kit", "price": 25, "effect": "streak_saver", "max_stack": 2 },
-    { "slug": "snuff", "name": "Snuff box", "category": "mess", "price": 30, "effect": "flavour", "max_stack": 10 },
-    { "slug": "pack_cards", "name": "Pack of cards", "category": "mess", "price": 15, "effect": "flavour", "max_stack": 5 },
-    { "slug": "title_forager", "name": "Title: Noted Forager", "category": "honours", "price": 80, "effect": "title_unlock", "title_id": "forager", "max_stack": 1 },
-    { "slug": "title_steady", "name": "Title: Steady in the Ranks", "category": "honours", "price": 80, "effect": "title_unlock", "title_id": "steady", "max_stack": 1 },
-    { "slug": "title_mess", "name": "Title: Terror of the Mess", "category": "honours", "price": 120, "effect": "title_unlock", "title_id": "mess_terror", "max_stack": 1 },
-    { "slug": "name_plate", "name": "Brass name-plate", "category": "honours", "price": 150, "effect": "rename", "max_stack": 3 }
+    {
+      "slug": "lantern",
+      "name": "Sentry lantern",
+      "category": "kit",
+      "price": 45,
+      "effect": "lantern",
+      "max_stack": 3,
+      "charges": 2
+    },
+    {
+      "slug": "caltrops",
+      "name": "Caltrops",
+      "category": "kit",
+      "price": 35,
+      "effect": "caltrops",
+      "max_stack": 5,
+      "charges": 1
+    },
+    {
+      "slug": "warrant",
+      "name": "Provost warrant",
+      "category": "kit",
+      "price": 60,
+      "effect": "warrant",
+      "max_stack": 2,
+      "charges": 1
+    },
+    {
+      "slug": "grog",
+      "name": "Extra-duty grog",
+      "category": "kit",
+      "price": 20,
+      "effect": "duty_boost",
+      "max_stack": 5
+    },
+    {
+      "slug": "hard_tack",
+      "name": "Hard tack",
+      "category": "kit",
+      "price": 25,
+      "effect": "streak_saver",
+      "max_stack": 2
+    },
+    {
+      "slug": "snuff",
+      "name": "Snuff box",
+      "category": "mess",
+      "price": 30,
+      "effect": "flavour",
+      "max_stack": 10
+    },
+    {
+      "slug": "pack_cards",
+      "name": "Pack of cards",
+      "category": "mess",
+      "price": 15,
+      "effect": "flavour",
+      "max_stack": 5
+    },
+    {
+      "slug": "title_forager",
+      "name": "Title: Noted Forager",
+      "category": "honours",
+      "price": 80,
+      "effect": "title_unlock",
+      "title_id": "forager",
+      "max_stack": 1
+    },
+    {
+      "slug": "title_steady",
+      "name": "Title: Steady in the Ranks",
+      "category": "honours",
+      "price": 80,
+      "effect": "title_unlock",
+      "title_id": "steady",
+      "max_stack": 1
+    },
+    {
+      "slug": "title_mess",
+      "name": "Title: Terror of the Mess",
+      "category": "honours",
+      "price": 120,
+      "effect": "title_unlock",
+      "title_id": "mess_terror",
+      "max_stack": 1
+    },
+    {
+      "slug": "name_plate",
+      "name": "Brass name-plate",
+      "category": "honours",
+      "price": 150,
+      "effect": "rename",
+      "max_stack": 3
+    },
+    {
+      "slug": "frame_laurel",
+      "name": "Laurel portrait frame",
+      "category": "cosmetics",
+      "price": 90,
+      "effect": "cosmetic",
+      "slot": "frame",
+      "max_stack": 1,
+      "description": "Antique brass and crimson ribbon around your portrait. Permanent; equip from Your Profile."
+    },
+    {
+      "slug": "frame_silver",
+      "name": "Silver parade frame",
+      "category": "cosmetics",
+      "price": 120,
+      "effect": "cosmetic",
+      "slot": "frame",
+      "max_stack": 1,
+      "description": "A restrained silver finish for your portrait. Permanent cosmetic."
+    },
+    {
+      "slug": "cloth_crimson",
+      "name": "Crimson dress cloth",
+      "category": "cosmetics",
+      "price": 65,
+      "effect": "cosmetic",
+      "slot": "cloth",
+      "max_stack": 1,
+      "description": "Deep crimson woven cloth across your profile. Permanent; no gameplay advantage."
+    },
+    {
+      "slug": "cloth_rifle",
+      "name": "Rifle-green cloth",
+      "category": "cosmetics",
+      "price": 65,
+      "effect": "cosmetic",
+      "slot": "cloth",
+      "max_stack": 1,
+      "description": "Deep rifle-green fabric for your profile display. Permanent cosmetic."
+    },
+    {
+      "slug": "plate_brass",
+      "name": "Polished brass nameplate",
+      "category": "cosmetics",
+      "price": 70,
+      "effect": "cosmetic",
+      "slot": "nameplate",
+      "max_stack": 1,
+      "description": "Set your existing name and title on a polished brass plate. Permanent cosmetic."
+    },
+    {
+      "slug": "case_campaign",
+      "name": "Campaign display trim",
+      "category": "cosmetics",
+      "price": 95,
+      "effect": "cosmetic",
+      "slot": "decoration",
+      "max_stack": 1,
+      "description": "Brass edging and dark timber for your six display positions. Permanent cosmetic."
+    },
+    {
+      "slug": "effect_candle",
+      "name": "Candlelit display",
+      "category": "cosmetics",
+      "price": 110,
+      "effect": "cosmetic",
+      "slot": "effect",
+      "max_stack": 1,
+      "description": "A subtle breathing candle glow on your profile. Respects reduced motion."
+    },
+    {
+      "slug": "effect_mist",
+      "name": "Morning campaign mist",
+      "category": "cosmetics",
+      "price": 140,
+      "effect": "cosmetic",
+      "slot": "effect",
+      "max_stack": 1,
+      "description": "Slow seamless drifting mist behind your profile. Respects reduced motion."
+    },
+    {
+      "slug": "campaign_telescope",
+      "name": "Campaign telescope",
+      "category": "collectibles",
+      "price": 100,
+      "effect": "collectible",
+      "max_stack": 1,
+      "description": "A brass telescope, journal and compass for one of your six display positions."
+    },
+    {
+      "slug": "sentry_keepsake",
+      "name": "Sentry's keepsake",
+      "category": "collectibles",
+      "price": 55,
+      "effect": "collectible",
+      "max_stack": 1,
+      "description": "A display lantern for your collection. Decorative only; does not block forage."
+    },
+    {
+      "slug": "sealed_dispatch",
+      "name": "Sealed dispatch",
+      "category": "collectibles",
+      "price": 45,
+      "effect": "collectible",
+      "max_stack": 1,
+      "description": "A wax-sealed campaign keepsake. Decorative only; does not counter protection."
+    }
   ],
   "titles": [
-    { "id": "recruit", "name": "Recruit", "auto": "default" },
-    { "id": "private", "name": "Private", "auto": "lifetime>=50" },
-    { "id": "steady", "name": "Steady in the Ranks", "auto": "streak>=14" },
-    { "id": "forager", "name": "Noted Forager", "auto": "forage_wins>=5" },
-    { "id": "mess_terror", "name": "Terror of the Mess", "auto": "games_played>=20" },
-    { "id": "corporal", "name": "Acting Corporal", "auto": "duties_lifetime>=100" },
-    { "id": "upper_crust", "name": "On the Strength, Comfortably", "auto": "net>=400" },
-    { "id": "sovereign", "name": "Prize Agent", "auto": "net>=1500" },
-    { "id": "pay_favourite", "name": "The Paymaster's Favourite", "auto": "grant" }
+    {
+      "id": "recruit",
+      "name": "Recruit",
+      "auto": "default"
+    },
+    {
+      "id": "private",
+      "name": "Private",
+      "auto": "lifetime>=50"
+    },
+    {
+      "id": "steady",
+      "name": "Steady in the Ranks",
+      "auto": "streak>=14"
+    },
+    {
+      "id": "forager",
+      "name": "Noted Forager",
+      "auto": "forage_wins>=5"
+    },
+    {
+      "id": "mess_terror",
+      "name": "Terror of the Mess",
+      "auto": "games_played>=20"
+    },
+    {
+      "id": "corporal",
+      "name": "Acting Corporal",
+      "auto": "duties_lifetime>=100"
+    },
+    {
+      "id": "upper_crust",
+      "name": "On the Strength, Comfortably",
+      "auto": "net>=400"
+    },
+    {
+      "id": "sovereign",
+      "name": "Prize Agent",
+      "auto": "net>=1500"
+    },
+    {
+      "id": "pay_favourite",
+      "name": "The Paymaster's Favourite",
+      "auto": "grant"
+    }
   ],
   "medals": [
-    { "id": "medal_present", "name": "Present at Issue", "emoji": "🥉" },
-    { "id": "medal_month", "name": "Thirty Days' Biscuit", "emoji": "🥈" },
-    { "id": "medal_drill", "name": "Mentioned in Dispatches", "emoji": "🎖️" },
-    { "id": "medal_forlorn", "name": "Forlorn Hope", "emoji": "⚔️" },
-    { "id": "medal_paymaster", "name": "Crossed Quills", "emoji": "✒️" }
+    {
+      "id": "medal_present",
+      "name": "Present at Issue",
+      "emoji": "🥉"
+    },
+    {
+      "id": "medal_month",
+      "name": "Thirty Days' Biscuit",
+      "emoji": "🥈"
+    },
+    {
+      "id": "medal_drill",
+      "name": "Mentioned in Dispatches",
+      "emoji": "🎖️"
+    },
+    {
+      "id": "medal_forlorn",
+      "name": "Forlorn Hope",
+      "emoji": "⚔️"
+    },
+    {
+      "id": "medal_paymaster",
+      "name": "Crossed Quills",
+      "emoji": "✒️"
+    }
   ],
-  "anchor_symbols": ["crown", "anchor", "heart", "club", "diamond", "spade"]
+  "anchor_symbols": [
+    "crown",
+    "anchor",
+    "heart",
+    "club",
+    "diamond",
+    "spade"
+  ]
 }

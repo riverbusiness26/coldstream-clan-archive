@@ -1,0 +1,375 @@
+{
+  "rules_version": "living-campaign-standalone-0.3",
+  "status": "proposal_not_live",
+  "campaign": {
+    "title": "Road to Saint-Aubin",
+    "fictional_setting": true,
+    "production_enabled": false,
+    "active_operations_max": 1,
+    "automatic_inactivity_losses": false,
+    "fixed_expiry": null
+  },
+  "cycle": {
+    "timezone": "America/Chicago",
+    "local_cutoff": "05:00",
+    "max_operation_resolutions": 1,
+    "max_project_completions": 1,
+    "no_same_cycle_successor_resolution": true
+  },
+  "population": {
+    "baseline": 10,
+    "pilot_expected_active_members": 10,
+    "minimum_scale": 0.25,
+    "rounding": "ceil_per_requirement",
+    "freeze_on_target_activation": true,
+    "distinct_campaign_members_max": 4
+  },
+  "orders": {
+    "join_grant": 3,
+    "per_cycle": 3,
+    "bank_cap": 6,
+    "cash_refills": false,
+    "jobs": {
+      "scout": {
+        "cost": 1,
+        "recon": 2
+      },
+      "escort": {
+        "cost": 1,
+        "supplies": 4
+      },
+      "prepare": {
+        "cost": 1,
+        "readiness": 2
+      },
+      "gather": {
+        "cost": 1,
+        "materials": 10
+      },
+      "build": {
+        "cost": 1,
+        "work": 1
+      }
+    },
+    "operation_participant_qualifying_jobs": [
+      "scout",
+      "escort",
+      "prepare"
+    ]
+  },
+  "contributions": {
+    "purse_only": true,
+    "per_member_cycle_cap": 30,
+    "pending_counts_against_cap": true,
+    "refund_releases_same_cycle_allowance": false,
+    "presets": [
+      5,
+      10,
+      25
+    ],
+    "supply_packet": {
+      "price": 5,
+      "units": 2,
+      "max_paid_share": 0.25,
+      "rounding": "floor_units_then_whole_packets",
+      "target": "active_operation"
+    },
+    "materials": {
+      "price_per_unit": 1,
+      "max_paid_share": 0.5,
+      "rounding": "floor_units",
+      "target": "active_project"
+    },
+    "consume_on_target_completion": true,
+    "refund_unconsumed_on_target_cancel": true,
+    "refund_unconsumed_on_campaign_close": true
+  },
+  "camp": {
+    "active_projects_max": 1,
+    "initial_project": "kitchen",
+    "benefits_effective": "cycle_after_completion",
+    "bonuses_expire_at_campaign_end": true,
+    "preserve_memorial_and_cosmetics": true,
+    "projects": [
+      {
+        "id": "kitchen",
+        "name": "Field Kitchen",
+        "requirements": {
+          "materials": 160,
+          "work": 12
+        },
+        "benefit": {
+          "job": "escort",
+          "set_output": {
+            "supplies": 5
+          }
+        }
+      },
+      {
+        "id": "workshop",
+        "name": "Engineer Workshop",
+        "requirements": {
+          "materials": 240,
+          "work": 18
+        },
+        "benefit": {
+          "job": "gather",
+          "set_output": {
+            "materials": 12
+          }
+        }
+      },
+      {
+        "id": "signal_post",
+        "name": "Signal Post",
+        "requirements": {
+          "materials": 300,
+          "work": 20
+        },
+        "benefit": {
+          "job": "scout",
+          "set_output": {
+            "recon": 3
+          }
+        }
+      }
+    ]
+  },
+  "map": {
+    "nodes": [
+      {
+        "id": "camp",
+        "name": "Camp",
+        "owned_at_start": true
+      },
+      {
+        "id": "crossing",
+        "name": "River Crossing",
+        "plans": {
+          "prepared_assault": {
+            "recon": 12,
+            "supplies": 40,
+            "readiness": 24
+          },
+          "flank_approach": {
+            "recon": 18,
+            "supplies": 32,
+            "readiness": 20
+          }
+        }
+      },
+      {
+        "id": "orchard",
+        "name": "Orchard",
+        "plans": {
+          "prepared_assault": {
+            "recon": 10,
+            "supplies": 32,
+            "readiness": 20
+          },
+          "flank_approach": {
+            "recon": 16,
+            "supplies": 24,
+            "readiness": 18
+          }
+        },
+        "capture_boon": {
+          "kind": "start_supplies",
+          "value": 4,
+          "stacking": "maximum"
+        }
+      },
+      {
+        "id": "windmill",
+        "name": "Windmill",
+        "plans": {
+          "prepared_assault": {
+            "recon": 18,
+            "supplies": 32,
+            "readiness": 18
+          },
+          "flank_approach": {
+            "recon": 24,
+            "supplies": 24,
+            "readiness": 16
+          }
+        },
+        "capture_boon": {
+          "kind": "start_recon",
+          "value": 2,
+          "stacking": "maximum"
+        }
+      },
+      {
+        "id": "village",
+        "name": "Village",
+        "plans": {
+          "prepared_assault": {
+            "recon": 16,
+            "supplies": 48,
+            "readiness": 32
+          },
+          "flank_approach": {
+            "recon": 24,
+            "supplies": 40,
+            "readiness": 28
+          }
+        }
+      },
+      {
+        "id": "depot",
+        "name": "Supply Depot",
+        "plans": {
+          "prepared_assault": {
+            "recon": 18,
+            "supplies": 56,
+            "readiness": 34
+          },
+          "flank_approach": {
+            "recon": 26,
+            "supplies": 48,
+            "readiness": 30
+          }
+        },
+        "capture_boon": {
+          "kind": "start_supplies",
+          "value": 8,
+          "stacking": "maximum"
+        }
+      },
+      {
+        "id": "redoubt",
+        "name": "Redoubt",
+        "plans": {
+          "prepared_assault": {
+            "recon": 24,
+            "supplies": 64,
+            "readiness": 44
+          },
+          "flank_approach": {
+            "recon": 34,
+            "supplies": 52,
+            "readiness": 38
+          }
+        }
+      },
+      {
+        "id": "fort",
+        "name": "Fort Saint-Aubin",
+        "plans": {
+          "prepared_assault": {
+            "recon": 32,
+            "supplies": 80,
+            "readiness": 60
+          },
+          "flank_approach": {
+            "recon": 44,
+            "supplies": 68,
+            "readiness": 50
+          }
+        },
+        "requires_owned": [
+          "redoubt"
+        ]
+      }
+    ],
+    "edges": [
+      [
+        "camp",
+        "crossing"
+      ],
+      [
+        "crossing",
+        "orchard"
+      ],
+      [
+        "crossing",
+        "windmill"
+      ],
+      [
+        "orchard",
+        "village"
+      ],
+      [
+        "windmill",
+        "village"
+      ],
+      [
+        "village",
+        "depot"
+      ],
+      [
+        "village",
+        "redoubt"
+      ],
+      [
+        "depot",
+        "redoubt"
+      ],
+      [
+        "redoubt",
+        "fort"
+      ]
+    ],
+    "edge_semantics": "directed_prerequisite_route; candidate must have an owned predecessor and satisfy requires_owned",
+    "initial_operation": {
+      "node_id": "crossing",
+      "plan": "prepared_assault"
+    },
+    "victory_node": "fort",
+    "default_node_priority": [
+      "orchard",
+      "windmill",
+      "village",
+      "depot",
+      "redoubt",
+      "fort"
+    ],
+    "default_plan_priority": [
+      "prepared_assault",
+      "flank_approach"
+    ]
+  },
+  "ballots": {
+    "votes_per_member": 1,
+    "change_vote_before_close": true,
+    "weight_by_spending": false,
+    "close_on_active_target_completion": true,
+    "tie_break": "published_priority",
+    "no_votes": "published_default"
+  },
+  "profile": {
+    "pin_slots": 3,
+    "balances_public": false,
+    "individual_contribution_amounts_public_by_default": false,
+    "honours_are_game_cosmetics_not_personnel_rank": true
+  },
+  "economy": {
+    "repeatable_campaign_shilling_payouts": false,
+    "additional_spendable_currency": false,
+    "cash_campaign_power_purchases": false
+  },
+  "scope": {
+    "mode": "standalone_website_campaign",
+    "shared_services": [
+      "identity",
+      "shillings_purse",
+      "account_ledger",
+      "profile_showcase"
+    ],
+    "progress_sources": [
+      "campaign_orders",
+      "campaign_contributions",
+      "campaign_territory_boons"
+    ],
+    "action_modifiers": [
+      "campaign_facilities"
+    ],
+    "outcome_authority": "campaign_rules",
+    "clock_authority": "campaign_cycle",
+    "participant_source": "campaign_orders",
+    "population_source": "campaign_participation",
+    "dispatch_surface": "campaign_website",
+    "earnings_provenance_filter": false
+  }
+}

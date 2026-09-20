@@ -1,24 +1,25 @@
 import { supa } from './supa';
 import economyConfig from '../quartermaster-data/economy.json';
 import seed from '../quartermaster-data/seed.json';
+import type { ActivityLevel } from './activityLevels';
 
 // Production rebuilds must retain the public API address when no override is set.
 export const QUARTERMASTER_API_URL = (import.meta.env.VITE_QUARTERMASTER_API_URL as string | undefined)?.trim().replace(/\/$/, '') || 'https://panel.coldstreamgaming.com/quartermaster-api';
 export type QuartermasterConfig = typeof economyConfig;
 export type Honour = string | { id: string; name: string };
-export type CatalogueItem = { slug: string; name: string; category: string; price: number; effect: string; max_stack: number; charges?: number; description?: string; title_id?: string };
+export type CatalogueItem = { slug: string; name: string; category: string; price: number; effect: string; max_stack: number; charges?: number; description?: string; title_id?: string; slot?: string };
 export type KitItem = { slug: string; name: string; qty: number; effect: string };
-export type Profile = { discordId: string; displayName: string; purse: number; chest: number; net: number; lifetimeEarned: number; streak: number; dutiesWeek: number; title: string; billet: boolean; billetUntil: string | null; frozen: boolean; lanternCharges: number; caltropCharges: number; warrantCharges: number; dutyBoost: boolean; streakSaver: boolean; medals: Honour[]; titles: Honour[] };
+export type Profile = { activityLevels?: ActivityLevel[]; equipment?: Record<string, string>; gameRecord?: Record<string, {wins: number; played: number}>; discordId: string; displayName: string; purse: number; chest: number; net: number; lifetimeEarned: number; streak: number; dutiesWeek: number; title: string; billet: boolean; billetUntil: string | null; frozen: boolean; lanternCharges: number; caltropCharges: number; warrantCharges: number; dutyBoost: boolean; streakSaver: boolean; medals: Honour[]; titles: Honour[] };
 export type LedgerEntry = { id: number | string; type: string; purseDelta: number; chestDelta: number; balanceAfter: number; createdAt: string; description: string; gamblingNet?: number; gameId?: string };
 export type ForageAlert = { id: number | string; createdAt: string; description: string; attackerName: string; outcome: 'taken' | 'failed' | 'blocked'; taken: number; recovered: number };
 export type BoardMember = Pick<Profile, 'discordId' | 'displayName' | 'purse' | 'chest' | 'net' | 'streak' | 'dutiesWeek' | 'title'> & { forageWins: number };
-export type VingtGame = { id: string; player: number[]; dealer: number[]; playerTotal: number; dealerTotal: number; stake: number; status: string; expiresAt: string; canDouble: boolean; net?: number; payout?: number };
-export type SocialGame = { id: string; status: string; challengerId: string; challengerName: string; targetId: string; targetName: string; stake: number; createdAt: string; expiresAt: string; winnerId?: string; winnerName?: string; targetChoice?: 'split' | 'steal'; result?: string };
-export type Heist = { id: string; status: string; creatorId: string; creatorName: string; participants: { discordId: string; displayName: string }[]; pot: number; createdAt: string; expiresAt: string; winners?: { discordId: string; displayName: string }[] };
-export type Lottery = { drawId: string; pot: number; drawsAt: string; ownTickets: number; lastResult: { drawId: string; winnerId: string | null; winnerName: string | null; pot: number; resolvedAt: string } | null };
-export type SocialSnapshot = { counterAvailable: { noticeId: string; attackerName: string; taken: number; createdAt: string } | null; duels: SocialGame[]; splitGames: SocialGame[]; heist: Heist | null; lottery: Lottery | null };
-export type QuartermasterSnapshot = { profile: Profile; cooldowns: Partial<Record<'work' | 'daily' | 'steal' | 'crime' | 'withdraw' | 'gamble', string | null>>; catalogue: CatalogueItem[]; inventory: KitItem[]; ledger: LedgerEntry[]; forageAlerts?: ForageAlert[]; leaderboard: BoardMember[]; game: VingtGame | null; social: SocialSnapshot; config: QuartermasterConfig; serverTime: string; preview: boolean };
-export type ActionKey = 'duty' | 'ration' | 'deposit' | 'withdraw' | 'transfer' | 'forage' | 'countersteal' | 'crime' | 'duel' | 'splitsteal' | 'heist' | 'lottery' | 'mostwanted' | 'billet' | 'anchor' | 'vingt' | 'buy' | 'use' | 'title';
+export type VingtGame = { playerCards?: {rank: string; suit: string | null}[]; dealerCards?: ({rank: string; suit: string | null} | null)[]; id: string; player: number[]; dealer: number[]; playerTotal: number; dealerTotal: number; stake: number; status: string; expiresAt: string; canDouble: boolean; net?: number; payout?: number };
+export type SocialGame = { rewardPot?: number; id: string; status: string; challengerId: string; challengerName: string; targetId: string; targetName: string; stake: number; createdAt: string; expiresAt: string; winnerId?: string; winnerName?: string; targetChoice?: 'split' | 'steal'; result?: string };
+export type Heist = { version?: number; result?: string; payoutEach?: number; rules?: QuartermasterConfig['heist']; id: string; status: string; creatorId: string; creatorName: string; participants: { discordId: string; displayName: string }[]; pot: number; createdAt: string; expiresAt: string; winners?: { discordId: string; displayName: string }[] };
+export type Lottery = { entrants?: number; totalTickets?: number; rolloverReason?: string | null; drawId: string; pot: number; drawsAt: string; ownTickets: number; lastResult: { drawId: string; winnerId: string | null; winnerName: string | null; pot: number; resolvedAt: string } | null };
+export type SocialSnapshot = { splitFreeAvailable?: boolean; counterAvailable: { noticeId: string; attackerName: string; taken: number; createdAt: string } | null; duels: SocialGame[]; splitGames: SocialGame[]; heist: Heist | null; lottery: Lottery | null };
+export type QuartermasterSnapshot = { profile: Profile; cooldowns: Partial<Record<'work' | 'daily' | 'steal' | 'crime' | 'withdraw' | 'gamble' | 'heist', string | null>>; catalogue: CatalogueItem[]; inventory: KitItem[]; ledger: LedgerEntry[]; forageAlerts?: ForageAlert[]; leaderboard: BoardMember[]; game: VingtGame | null; social: SocialSnapshot; config: QuartermasterConfig; serverTime: string; preview: boolean };
+export type ActionKey = 'duty' | 'ration' | 'deposit' | 'withdraw' | 'transfer' | 'forage' | 'countersteal' | 'crime' | 'duel' | 'splitsteal' | 'heist' | 'lottery' | 'mostwanted' | 'billet' | 'anchor' | 'vingt' | 'buy' | 'use' | 'equip' | 'title';
 export type ActionArgs = Record<string, string | number | boolean>;
 export type QuartermasterResult = { message: string; snapshot: QuartermasterSnapshot; game?: Record<string, unknown> | VingtGame | null; replayed?: boolean };
 
@@ -26,7 +27,7 @@ export class QuartermasterError extends Error {
   constructor(message: string, public retryable = false, public code = 'UNAVAILABLE') { super(message); }
 }
 
-function localPreviewAllowed(demo: boolean) {
+export function localPreviewAllowed(demo: boolean) {
   if (!demo || !QUARTERMASTER_API_URL) return false;
   try {
     const hostname = new URL(QUARTERMASTER_API_URL).hostname;
@@ -74,6 +75,8 @@ export const itemDescription = (item: CatalogueItem | KitItem) => ('description'
   streak_saver: 'Protects your daily streak if you miss one Daily Ration. Use it from your inventory.',
   flavour: 'A small comfort for the mess. Kept in your collection.',
   title_unlock: 'A name worth putting on the record. Unlocks a profile title.',
+  cosmetic: 'A permanent profile decoration. Equip it from Your Profile.',
+  collectible: 'A permanent keepsake for one of your six profile display positions.',
   rename: 'Have a title of your own engraved, up to 32 characters. Changes your Pay Chest title.',
 } as Record<string, string>)[item.effect] || 'Issued by the Quartermaster.';
 
@@ -143,7 +146,7 @@ export function actPreview(current: QuartermasterSnapshot, action: ActionKey, ar
       } else message = 'A fresh card. Draw again or stand.';
     }
     resultGame = snapshot.game!;
-  }
+  } else reject('This action needs the connected local game server. This disconnected preview cannot save or settle it.');
   p.net = p.purse + p.chest; snapshot.leaderboard = snapshot.leaderboard.map((entry) => entry.discordId === p.discordId ? { ...p, forageWins: entry.forageWins } : entry);
   const settled = action === 'vingt' && snapshot.game && !isVingtActive(snapshot.game);
   const entryType = action === 'anchor' ? 'anchor_settle' : action === 'forage' ? 'forage_win' : settled ? 'vingt_settle' : action;

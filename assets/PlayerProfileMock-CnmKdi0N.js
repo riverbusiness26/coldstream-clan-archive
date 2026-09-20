@@ -1,0 +1,1 @@
+import{j as i}from"./asset-Bm3jNvNB.js";import{P as t}from"./ProfileDisplayCase-Dz6CEUYJ.js";import"./main-DxDr54US.js";function f({me:r,signIn:o}){return i.jsx(t,{member:r,viewer:r,signIn:o},(r==null?void 0:r.id)??"signed-out")}export{f as default};

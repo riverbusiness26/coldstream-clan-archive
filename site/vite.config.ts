@@ -13,6 +13,7 @@ export default defineConfig({
       input: {
         main: resolve(siteRoot, 'index.html'),
         stores: resolve(siteRoot, 'stores/index.html'),
+        regimentWars: resolve(siteRoot, 'regiment-wars.html'),
       },
     },
   },
