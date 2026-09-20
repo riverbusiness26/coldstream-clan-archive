@@ -153,15 +153,16 @@ export default function App() {
   }, [view]);
 
   const artworkReview = import.meta.env.DEV && demo && view === 'design/artwork';
+  const localPreview = import.meta.env.DEV && demo;
   const locked = !me && requiresMember(view);
-  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'regiment-wars', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
-  return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view} demo={demo}>
+  const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'regiment-wars', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || localPreview && view === 'design/profile';
+  return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view}>
     <SitePresence member={me} />
     {toast && <div className={'toast ' + toast.kind} role="status" onClick={() => setToast(null)}>{toast.text}</div>}
     {!authReady ? <div className="hq-loading" role="status"><img src={asset('/crest.webp')} width="64" height="65" alt="" /><p>Opening the Coldstream.</p></div>
       : locked || view === 'login' ? <AccessGate view={view} signIn={signIn} />
       : <Suspense fallback={<div className="hq-loading" role="status">Opening the record.</div>}>
-        {view === 'landing' && <Landing me={me} go={go} signIn={signIn} preview={demo} />}
+        {view === 'landing' && <Landing me={me} go={go} signIn={signIn} />}
         {view === 'home' && <Home me={me} go={go} signIn={signIn} signOut={signOut} embedded />}
         {view === 'join' && <Join signIn={signIn} />}
         {(view === 'archive' || view === 'members') && <Archive me={me} />}
@@ -170,9 +171,9 @@ export default function App() {
         {view === 'leaderboard' && <Leaderboard me={me} />}
         {view === 'admin' && (isStaff(me?.role) ? <Admin me={me} signOut={signOut} /> : <div className="hq-access"><p className="hq-eyebrow">Staff command</p><h1>Staff access required.</h1><p>This area is for Discord-authorised admins and moderators.</p><a className="hq-button" href="#/home">Return to headquarters</a></div>)}
         {view === 'profile' && <PlayerProfileMock me={me} signIn={signIn} refresh={refresh} />}
-        {view === 'stores' && me && <Economy demo={demo} />}
+        {view === 'stores' && me && <Economy demo={localPreview} />}
         {view === 'regiment-wars' && <RegimentWars />}
-        {demo && view === 'design/profile' && <ProfileDesigns me={me} />}
+        {localPreview && view === 'design/profile' && <ProfileDesigns me={me} />}
         {artworkReview && <ArtworkReview />}
         {view.startsWith('member/') && <Profile personKey={decodeURIComponent(view.slice(7))} me={me} go={go} />}
         {view === 'gallery' && <Gallery me={me} signIn={signIn} />}

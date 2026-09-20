@@ -8,7 +8,7 @@ import DiscordAvatar from './DiscordAvatar';
 export const COMMUNITY_DISCORD = 'https://discord.gg/75sfq5VPY';
 const NAV = [['Home', 'home'], ['Events', 'events'], ['Leaderboard', 'leaderboard'], ['Our History', 'archive'], ['Media', 'gallery']] as const;
 
-export default function SiteShell({ me, signIn, signOut, view, demo, children }: { me: Me | null; signIn: () => void; signOut: () => void; view: string; demo: boolean; children: ReactNode }) {
+export default function SiteShell({ me, signIn, signOut, view, children }: { me: Me | null; signIn: () => void; signOut: () => void; view: string; children: ReactNode }) {
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -35,8 +35,6 @@ export default function SiteShell({ me, signIn, signOut, view, demo, children }:
       </div>
     </header>
     {me && <nav className="hq-member-nav" aria-label="Member navigation"><span><i /> Member headquarters</span><a href="#/home" aria-current={view === 'home' ? 'page' : undefined}>Weekly brief</a><a href="#/profile" aria-current={view === 'profile' ? 'page' : undefined}>Service record</a><a href="#/roster" aria-current={view === 'roster' ? 'page' : undefined}>Historical roster</a>{isStaff(me.role) && <a href="#/admin" aria-current={view === 'admin' ? 'page' : undefined}>Staff command</a>}<button onClick={signOut}>Sign out</button></nav>}
-    {demo && <div className="hq-preview-note" role="status">Local design preview · sample archive · no live account or submissions</div>}
-    {demo && <nav className="design-review-nav" aria-label="Local design review"><span>Draft for review</span><a href="#/landing">Landing</a><a href="#/home">Weekly brief</a><a href="#/design/profile">Display case</a><a href="#/archive">History</a><a href="#/roster">Roster</a><a href="#/events">Events</a><a href="#/admin">Admin</a></nav>}
     <div id="hq-content" tabIndex={-1} className="hq-content"><RouteMotion view={view}>{children}</RouteMotion></div>
     <footer className="hq-footer"><div><a className="hq-footer-name" href={me ? '#/home' : '#/landing'}>Coldstream Gaming</a><p>A gaming community, since 2011.</p></div><em>Nulli Secundus.</em><nav aria-label="Footer"><a href="#/join">Join us</a><a href="#/archive">Our History</a><a href="mailto:contact@coldstreamgaming.com">Contact</a></nav><small>© 2011–{new Date().getFullYear()} Coldstream Gaming<span className="hq-powered-by">Powered by Bannerforge Studios</span></small></footer>
   </div>;

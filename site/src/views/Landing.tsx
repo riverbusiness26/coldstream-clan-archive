@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { FaArrowDown, FaArrowRight, FaDiscord } from 'react-icons/fa6';
 import { asset } from '../lib/asset';
 import type { Me } from '../lib/auth';
@@ -16,8 +16,7 @@ const destinations = [
   { name: 'Member HQ', tag: 'Your weekly brief', text: 'Your service record, statistics and weekly brief.', route: 'home', emblem: 'profile', access: 'Continue with Discord' },
 ];
 
-export default function Landing({ me, go, signIn, preview = false }: { me: Me | null; go: (v: string) => void; signIn: () => void; preview?: boolean }) {
-  const [layout, setLayout] = useState<'split' | 'panorama' | 'compact'>('panorama');
+export default function Landing({ me, go, signIn }: { me: Me | null; go: (v: string) => void; signIn: () => void; preview?: boolean }) {
   const landscape = useRef<HTMLPictureElement>(null);
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -31,10 +30,9 @@ export default function Landing({ me, go, signIn, preview = false }: { me: Me | 
     return () => { window.removeEventListener('scroll', update); reduced.removeEventListener('change', update); finePointer.removeEventListener('change', update); cancelAnimationFrame(frame); };
   }, []);
   const shots = gallery.slice(0, 3);
-  return <main className={`hq-landing landing-layout-${layout}`}>
-    {preview && <div className="landing-design-options" aria-label="Landing design options"><span>Landing study</span>{(['split', 'panorama', 'compact'] as const).map(option => <button type="button" key={option} aria-pressed={layout === option} onClick={() => setLayout(option)}>{option === 'split' ? '01 · Quiet split' : option === 'panorama' ? '02 · Full photograph' : '03 · Compact banner'}</button>)}</div>}
+  return <main className="hq-landing landing-layout-panorama">
     <section className="hq-hero" aria-labelledby="hq-hero-title">
-      <picture className="hq-landscape" ref={landscape}><source media="(max-width: 640px)" srcSet={asset('/museum/landing-mobile-v3.png')} /><img src={asset('/museum/landing-campaign-v3.png')} alt="" fetchPriority="high" width="1672" height="941" /></picture>
+      <picture className="hq-landscape" ref={landscape}><img src={asset('/museum/landing-coldstream-formation-v1.jpg')} alt="" fetchPriority="high" width="1024" height="576" /></picture>
       <div className="hq-hero-shade" />
       <div className="hq-hero-body">
         <div className="hq-hero-copy"><p className="hq-eyebrow">EST. 2011 <span /> THE 2ND COLDSTREAM GUARDS</p><h1 id="hq-hero-title">Second<br />to <em>none.</em></h1><p className="hq-hero-description">A place in the line.<br />{' '}A gaming community beyond it.</p><div className="hq-hero-actions"><a className="hq-button primary" href="#/join">Join the Coldstream <FaArrowRight className="hq-button-tail" /></a><button className="hq-button" onClick={() => me ? go('home') : signIn()}><FaDiscord />{me ? 'Open headquarters' : 'Continue with Discord'}</button></div><small>Home of the 2nd Coldstream Guards. Together since 2011.</small></div>
