@@ -3983,3 +3983,11 @@ VERIFIED: Main-site build passed, 180/180 website tests passed, and the producti
 UNVERIFIED: Physical phone hardware was not tested. No administrator upload or schedule mutation was made during this visual release.
 BLOCKED: None. The unrelated workflow scheduler delays reported by status.mjs were not part of this change.
 NEXT: Use the Programme Desk for approved media uploads and schedule changes. Claim released.
+
+## 2026-09-20 - Normal production site and formation landing (Codex)
+
+DONE: Replaced the public landing hero with the approved Coldstream formation photograph, fixed the layout to Full photograph, removed site-wide local design chrome, and limited design-only routes to local development.
+VERIFIED: The production build completed, all 183 website tests passed, main was pushed at 8e44d50, and Cloudflare Worker version 1942ee85-c4db-4f2b-b00e-11bba924910e was deployed. Live inspection confirmed the real Supabase build, the new photograph, the normal sign-in gate, and no public member-preview or landing-study controls.
+UNVERIFIED: A signed-in member session was not changed or impersonated during release verification. Existing signed-in users should retain their own session and member record.
+BLOCKED: None.
+NEXT: Members can reload coldstreamgaming.com normally. Claim released.
