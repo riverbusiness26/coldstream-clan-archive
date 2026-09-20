@@ -3959,3 +3959,11 @@ VERIFIED: Production build passed; all 177 website tests passed. Browser review 
 UNVERIFIED: No real duty, ration or forage action was submitted during release. Physical phone interaction was not performed.
 BLOCKED: None.
 NEXT: Gather member feedback on the compact density and keep the three immediate actions ahead of account management.
+
+## 2026-09-20 - Mess Chat pinned to the viewport (Codex)
+
+DONE: Published Mess Chat as a body-level floating widget fixed to the bottom-right of the browser window. The launcher toggles the drawer in place, changes to Close Mess while open, closes with Escape or either close control, and retains a floating inset drawer on mobile. Worker version bca666d4-dcd0-4f77-a586-92cb0db3ee44 is live.
+VERIFIED: Production build passed and all 178 website tests passed. Browser checks at 1440px and 390px confirmed the launcher kept identical viewport coordinates after scrolling, the drawer remained fixed to the right edge, open and close toggles worked, and the drawer had zero Axe violations. Live main, Economy JavaScript and Economy CSS hashes exactly match the reviewed build.
+UNVERIFIED: Physical mobile-browser safe-area behavior was not tested on hardware. No real chat message was submitted.
+BLOCKED: None.
+NEXT: Keep the widget in the lower-right corner across Shillings sections and gather member feedback on drawer height.
