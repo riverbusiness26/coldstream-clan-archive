@@ -1,3 +1,3 @@
-Holding: consolidated production release
-Doing: River authorized all completed Coldstream work on 2026-09-20. Isolated integration of Shillings/jukebox, Living Campaign and Regiment Wars. WIP labels on the new experiences, TV is separate subdomain-only. Original dirty source preserved.
+Holding: none
+Doing: Released. All completed Coldstream work published and live verified on 2026-09-20. TV is domain-only with no main-site links. See the final HANDOFF.md entry and outputs/RELEASE-2026-09-20.md in the campaign workspace. Original dirty sources preserved.
 Since: 2026-09-20
