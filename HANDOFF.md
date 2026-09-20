@@ -3951,3 +3951,11 @@ VERIFIED: Website build passed and 177/177 website tests passed. Backend 123/123
 UNVERIFIED: A signed-in production member message round trip and physical-phone interaction were not submitted during release. Private messages remain visibly marked WIP; the released social surface is company chat, player discovery and existing member profiles.
 BLOCKED: None. The first backend attempt stopped safely before cutover because its recorded live baseline predated the previous release; current live hashes were collected, matched to the reviewed source, and used for the successful drift-guarded deployment.
 NEXT: Members can use Mess Chat and the Players tab from any Shillings section. Gather member feedback before adding private messages or changing chat retention.
+
+## 2026-09-20 - Primary Quartermaster actions moved above money management (Codex)
+
+DONE: Published Report for Duty, Daily Ration and Forage as one compact responsive action group above Manage your Shillings. Desktop uses a three-card row; narrow screens stack the same three actions in order. Existing payouts, timers, forage eligibility and confirmation behavior are unchanged. Worker version 2292180e-fefe-44af-99ee-83b0a35fc47f is live.
+VERIFIED: Production build passed; all 177 website tests passed. Browser review at 1440px and 390px confirmed the action group is above the money block, has no horizontal overflow, produces no application errors and has zero Axe violations. Live main, Economy JavaScript and Economy CSS hashes exactly match the reviewed build, and live bundle order confirms all three actions precede Manage your Shillings.
+UNVERIFIED: No real duty, ration or forage action was submitted during release. Physical phone interaction was not performed.
+BLOCKED: None.
+NEXT: Gather member feedback on the compact density and keep the three immediate actions ahead of account management.
