@@ -3975,3 +3975,11 @@ VERIFIED: Production and campaign-preview builds passed; all 179 website tests p
 UNVERIFIED: A simultaneous two-member production session was not opened during release, and no site or Shillings action was submitted.
 BLOCKED: None.
 NEXT: Members can open Shillings, toggle Mess Chat, then choose Players to see who else has the site open.
+
+## 2026-09-20 - Coldstream TV header shortcut (Codex)
+
+DONE: Published a small Coldstream TV icon immediately to the right of the Shillings coin in the main navigation. It links to https://tv.coldstreamgaming.com/ and shares the exact underline geometry used by the text links and coin. The separate TV site also received its new original emblem, Napoleonic dawn artwork and modern live-channel interface.
+VERIFIED: Main-site build passed, 180/180 website tests passed, and the production HTML now serves main-DLJFYlVP.js. Live browser inspection confirmed the accessible Coldstream TV link, correct coin then TV order and level desktop header placement. The TV domain returned HTTP 200 for its page, emblem and hero artwork; live browser inspection confirmed the streaming player, guide data, logo and corrected remaining-time display.
+UNVERIFIED: Physical phone hardware was not tested. No administrator upload or schedule mutation was made during this visual release.
+BLOCKED: None. The unrelated workflow scheduler delays reported by status.mjs were not part of this change.
+NEXT: Use the Programme Desk for approved media uploads and schedule changes. Claim released.
