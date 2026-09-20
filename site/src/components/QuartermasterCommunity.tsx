@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { FiMessageCircle, FiSend, FiUsers, FiX } from 'react-icons/fi';
 import DiscordAvatar from './DiscordAvatar';
 import { supa } from '../lib/supa';
+import { useOnlineDiscordIds } from '../lib/sitePresence';
 import type { QuartermasterSnapshot } from '../lib/quartermaster';
 import type { QuartermasterDirectory, QuartermasterMember } from '../lib/quartermasterMembers';
 
@@ -20,6 +21,7 @@ export default function QuartermasterCommunity({ snapshot, directory }: { snapsh
   const [error, setError] = useState('');
   const [unread, setUnread] = useState(0);
   const self = directory[snapshot.profile.discordId];
+  const onlineDiscordIds = useOnlineDiscordIds();
 
   const load = useCallback(async () => {
     if (!supa || !self) return;
@@ -78,7 +80,7 @@ export default function QuartermasterCommunity({ snapshot, directory }: { snapsh
         <div className="qm-chat-lines" aria-live="polite">{loading && !messages.length ? <p className="qm-chat-empty">Opening the Mess Chat…</p> : !supa ? <p className="qm-chat-empty">Chat connects when you open the live Shillings page as a signed-in member.</p> : !self ? <p className="qm-chat-empty">Connecting your Discord profile…</p> : messages.length ? messages.map(message => { const author = authorOf(message.author); return <article key={message.id}><a href={author ? `#/member/${encodeURIComponent(author.id)}` : '#/stores'}><DiscordAvatar url={author?.avatar_url ?? null} name={author?.display_name ?? 'Member'} /></a><div><span><strong>{author?.display_name ?? 'Member'}</strong><time dateTime={message.created_at}>{new Date(message.created_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</time>{message.author_id === self.id && <button onClick={() => void remove(message.id)} aria-label="Remove your message"><FiX /></button>}</span><p>{message.body}</p></div></article>; }) : <p className="qm-chat-empty">No messages yet. Pull up a chair.</p>}</div>
         <form onSubmit={send}><label htmlFor="qm-chat-message">Message the mess</label><div><input id="qm-chat-message" value={body} onChange={event => setBody(event.target.value)} maxLength={500} placeholder="Write a message" disabled={!supa || !self || sending} /><button aria-label="Send message" disabled={!body.trim() || !supa || !self || sending}><FiSend /></button></div>{error && <p role="alert">{error}</p>}<small>{body.length}/500 · members only</small></form>
       </div>}
-      {view === 'players' && <div className="qm-community-players">{players.map(player => { const member = directory[player.discordId]; return <a key={player.discordId} href={member ? `#/member/${encodeURIComponent(member.id)}` : '#/stores'} aria-label={`Open ${player.displayName}'s profile`}><DiscordAvatar url={member?.avatar_url ?? null} name={player.displayName} /><span><strong>{player.displayName}</strong><small>{player.title}</small></span></a>; })}</div>}
+      {view === 'players' && <div className="qm-community-players">{players.map(player => { const member = directory[player.discordId]; const online = onlineDiscordIds.has(player.discordId); return <a key={player.discordId} href={member ? `#/member/${encodeURIComponent(member.id)}` : '#/stores'} aria-label={`Open ${player.displayName}'s profile`} data-online={online ? 'true' : 'false'}><DiscordAvatar url={member?.avatar_url ?? null} name={player.displayName} /><span><strong>{online && <i className="qm-online-dot" role="img" aria-label={`${player.displayName} is online on the site`} title="Online on the site" />}{player.displayName}</strong><small>{player.title}</small></span></a>; })}</div>}
       <footer><span>Community chat and profiles are live.</span><small>Private messages are still WIP.</small></footer>
     </aside>}
   </div>;

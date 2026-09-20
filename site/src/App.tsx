@@ -1,6 +1,7 @@
 // Site shell and hash routing.
 import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { useAuth } from './lib/auth';
+import SitePresence from './lib/sitePresence';
 import Home from './views/Home';
 import SiteShell from './components/SiteShell';
 import Join from './views/Join';
@@ -155,6 +156,7 @@ export default function App() {
   const locked = !me && requiresMember(view);
   const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'regiment-wars', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || demo && view === 'design/profile';
   return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view} demo={demo}>
+    <SitePresence member={me} />
     {toast && <div className={'toast ' + toast.kind} role="status" onClick={() => setToast(null)}>{toast.text}</div>}
     {!authReady ? <div className="hq-loading" role="status"><img src={asset('/crest.webp')} width="64" height="65" alt="" /><p>Opening the Coldstream.</p></div>
       : locked || view === 'login' ? <AccessGate view={view} signIn={signIn} />
