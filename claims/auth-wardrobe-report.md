@@ -1,0 +1,5 @@
+DONE: Auth recovery and visual profile wardrobe deployed from 11cc5f3, Worker 651f8c82-eba7-4721-a237-554c938c27a5. Existing Discord testing cards now render cosmetics and a keepsake shelf. No balances or inventories changed.
+VERIFIED: npm run build --prefix site passed. node scripts/status.mjs confirms live main-BGaSDV9b.js and protected Discord member sync. Browser Sign in reaches Discord authorization. Bot test-service-records.mjs and test-wardrobe.mjs pass; live testing messages 1553791767583654011 and 1553791773468397629 updated with both images and null errors. API health is OK.
+UNVERIFIED: User completion of Discord authorization and an authenticated equip action were not performed. Existing server-status and steam-presence workflows are delayed; unrelated to this release.
+BLOCKED: None for deployment. Account authorization requires the member.
+NEXT: River can inspect the private testing cards and equip an owned cosmetic through Open my Quartermaster. Claim released. No slash command registration needed.
