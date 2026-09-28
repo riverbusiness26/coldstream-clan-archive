@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react';
 import { FaArrowRight, FaCamera, FaChevronDown, FaDiscord, FaEye, FaEyeSlash, FaMedal, FaShieldAlt, FaTimes } from 'react-icons/fa';
 import DiscordAvatar from './DiscordAvatar';
 import ProfileLive from './ProfileLive';
+import ProfileWardrobe from './ProfileWardrobe';
 import type { Me } from '../lib/auth';
 import { asset } from '../lib/asset';
 import { supa } from '../lib/supa';
@@ -144,6 +145,7 @@ export default function ProfileDisplayCase({ member, viewer, signIn, forcePrevie
     {preview && <div className='pd-provenance pdc-preview-note' role='status'><strong>Local display preview.</strong> Twenty copies of the supplied round patch test a large collection. They are reference artwork, not awarded medals. Hide/Show changes only this preview.</div>}
     <section className='pd-identity pd-identity-compact' aria-label='Member overview'><div className='pd-avatar'><DiscordAvatar url={member?.avatar_url ?? viewer?.avatar_url ?? null} name={name} /></div><div className='pd-identity-copy'><span className='pd-eyebrow'>Coldstream Gaming · Member record</span><h1 id='pdc-title'>{name}</h1><p>{preview ? 'A place for your part in the community.' : record.detachment ?? 'Gaming community member'}</p><div className='pd-identity-meta'><span>{rankItem?.name ?? (loading ? 'Opening record' : 'Rank not recorded')}</span>{!preview && <span>{member?.role === 'admin' ? 'Admin' : member?.role === 'moderator' ? 'Moderator' : 'Member'}</span>}</div></div>{!member && !preview && signIn && <button type='button' className='pdc-button' onClick={signIn}><FaDiscord />Sign in through Discord</button>}</section>
     {recordError && <div className='pdc-error' role='alert'>{recordError}<button type='button' onClick={() => setReload((value) => value + 1)}>Try again</button></div>}
+    {!preview && member && <ProfileWardrobe discordId={member.discord_id} name={name} avatar={member.avatar_url} own={viewer?.id===member.id} />}
     <div className='pd-display-grid'>
       <section className='pd-honours' aria-labelledby='pdc-honours-title' style={{ '--pd-cloth': `url("${asset('/textures/coldstream-felt-tile.png')}")` } as CSSProperties}>
         <header className='pd-section-head'><div><span className='pd-eyebrow'>The regimental display</span><h2 id='pdc-honours-title'>Rank &amp; medals</h2></div><FaShieldAlt aria-hidden='true' /></header>

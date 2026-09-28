@@ -49,7 +49,7 @@ export default function Quartermaster({ demo }: { demo: boolean }) {
   // account try to authenticate against production and left previews blank.
   const local = demo && !localPreviewAllowed(demo);
   const [snapshot, setSnapshot] = useState<QuartermasterSnapshot | null>(() => local ? makePreviewSnapshot() : null);
-  const [tab, setTab] = useState<Tab>(() => CAMPAIGN_ENABLED && new URLSearchParams(location.search).get('quartermaster') === 'campaign' ? 'campaign' : 'hub'); const [loading, setLoading] = useState(!local); const [loadError, setLoadError] = useState('');
+  const [tab, setTab] = useState<Tab>(() => location.hash === '#/stores/profile' ? 'billet' : CAMPAIGN_ENABLED && new URLSearchParams(location.search).get('quartermaster') === 'campaign' ? 'campaign' : 'hub'); const [loading, setLoading] = useState(!local); const [loadError, setLoadError] = useState('');
   const [notice, setNotice] = useState(''); const [failure, setFailure] = useState(false); const [busy, setBusy] = useState(false); const [unknown, setUnknown] = useState<Pending | null>(null);
   const [rewards, setRewards] = useState<Partial<Record<RewardLocation, Reward>>>({});
   const [noticeLocation, setNoticeLocation] = useState<ActionKey | null>(null);

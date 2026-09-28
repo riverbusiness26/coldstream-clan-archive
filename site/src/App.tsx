@@ -46,7 +46,7 @@ const CAME_FROM_AUTH = AUTH_HASH.test(location.hash);
 const AUTH_RETURN = sessionStorage.getItem('coldstream-auth-return') || '#/home';
 
 export default function App() {
-  const { me, signIn, signOut, refresh, demo, orphanSession, authReady, accessDenied } = useAuth();
+  const { me, signIn, signOut, refresh, demo, orphanSession, authReady, accessDenied, authError } = useAuth();
 
   // Feedback the moment the session lands or the sign in fails.
   const [toast, setToast] = useState<{ kind: 'ok' | 'err'; text: string; ms?: number } | null>(null);
@@ -158,6 +158,7 @@ export default function App() {
   const known = ['landing', 'home', 'members', 'gallery', 'events', 'leaderboard', 'servers', 'archive', 'admin', 'profile', 'stores', 'regiment-wars', 'roster', 'join', 'login', 'progress'].includes(view) || view.startsWith('member/') || localPreview && view === 'design/profile';
   return <SiteShell me={me} signIn={signIn} signOut={signOut} view={view}>
     <SitePresence member={me} />
+    {authError && <div className="toast err" role="alert">{authError}</div>}
     {toast && <div className={'toast ' + toast.kind} role="status" onClick={() => setToast(null)}>{toast.text}</div>}
     {!authReady ? <div className="hq-loading" role="status"><img src={asset('/crest.webp')} width="64" height="65" alt="" /><p>Opening the Coldstream.</p></div>
       : locked || view === 'login' ? <AccessGate view={view} signIn={signIn} />

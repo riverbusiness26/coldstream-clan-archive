@@ -18,6 +18,7 @@ export function useAuth() {
     : null);
   const [authReady, setAuthReady] = useState(DEMO);
   const [accessDenied, setAccessDenied] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   // A live session whose member row is missing. It means the edge function
   // issued the session but its member upsert did not land, and without this
   // the site would render a signed-in person as a guest and say nothing.
@@ -66,7 +67,7 @@ export function useAuth() {
       // A token refresh keeps the same member session. Re-running Discord
       // guild sync on every refresh made mobile sessions look like repeated
       // logins and could race the initial member lookup.
-      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED') void load();
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED') setTimeout(() => void load(), 0);
     });
     return () => sub.subscription.unsubscribe();
   }, []);
@@ -100,15 +101,18 @@ export function useAuth() {
       setAuthReady(true);
       return;
     }
-    const { data: { session } } = await supa!.auth.getSession();
-    // A persisted session may still be loading its member row. Never sign it
-    // out just because React has not received `me` yet, especially on mobile.
-    if (session) { setAuthReady(true); return; }
-    sessionStorage.setItem('coldstream-auth-return', location.hash.startsWith('#/') ? location.hash : '#/home');
-    await supa!.auth.signInWithOAuth({
-      provider: 'discord',
-      options: { redirectTo: `${location.origin}${location.pathname}` },
-    });
+    setAuthError(null);
+    try {
+      // An explicit sign-in must also recover a saved session whose member sync failed.
+      sessionStorage.setItem('coldstream-auth-return', location.hash.startsWith('#/') ? location.hash : '#/home');
+      const { error } = await supa!.auth.signInWithOAuth({
+        provider: 'discord',
+        options: { redirectTo: `${location.origin}${location.pathname}` },
+      });
+      if (error) throw error;
+    } catch {
+      setAuthError('Discord sign-in could not open. Please try again.');
+    }
   };
   const signOut = () => {
     if (DEMO) { setMe(null); return; }
@@ -117,5 +121,5 @@ export function useAuth() {
     supa!.auth.signOut();
   };
 
-  return { me, signIn, signOut, refresh, demo: DEMO, orphanSession, authReady, accessDenied };
+  return { me, signIn, signOut, refresh, demo: DEMO, orphanSession, authReady, accessDenied, authError };
 }
