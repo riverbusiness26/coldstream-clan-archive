@@ -1,3 +1,3 @@
-Holding: site/supabase/config.toml, site/supabase/functions/discord-member-sync, site/src/lib/auth.ts, auth verification tests, root release assets
-Doing: Repair Discord session gateway compatibility and investigate staff role mapping.
+Holding: nothing
+Doing: Login compatibility, current Discord admin role and explicit failure messages deployed. See HANDOFF.md.
 Since: 2026-09-29

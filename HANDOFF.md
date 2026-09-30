@@ -3991,3 +3991,11 @@ VERIFIED: The production build completed, all 183 website tests passed, main was
 UNVERIFIED: A signed-in member session was not changed or impersonated during release verification. Existing signed-in users should retain their own session and member record.
 BLOCKED: None.
 NEXT: Members can reload coldstreamgaming.com normally. Claim released.
+
+## 2026-09-29 - Discord login and current admin role repair (Codex)
+
+DONE: Deployed discord-member-sync with handler-level auth.getUser verification and verify_jwt=false for asymmetric Auth keys. Mapped current Discord administrator role 1548897236782555176, confirmed on River and kre8v2 through live Discord API. Published specific member-sync errors instead of the misleading blanket membership denial. Frontend commit 3c6e654, Worker 1d6142f6-ca14-4a80-9bf5-99becf5d6bd1.
+VERIFIED: npm run build --prefix site passed; 183 existing tests and four new discord-login tests passed. Live domain serves main-BESU1Vxq.js. Invalid token returns handler 401 Sign in required. River's member sync advanced to 2026-09-30 02:19:27 UTC with role admin. Updated scripts/status.mjs validates the handler rejection rather than requiring the incompatible gateway verifier.
+UNVERIFIED: River's final browser view and Starz's next login/admin view require their confirmation. Earlier retry failed before the role repair was confirmed. Starz's last observed sync still predates the updated role mapping. Existing server-status and steam-presence scheduler delays remain unrelated.
+BLOCKED: No deployment blocker. Do not declare both users' browser sessions verified from the successful backend check alone.
+NEXT: River refreshes the live site; Starz signs in again to sync the corrected Discord admin role. No Discord roles, balances or inventory changed.

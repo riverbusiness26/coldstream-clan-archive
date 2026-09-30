@@ -238,22 +238,21 @@ async function siteState() {
 // member row that already exists. This section used to check steam-auth alone,
 // back when Steam was the way in.
 //
-// Each function is asked with no Authorization header, the way a signed out
-// browser would. For the two that require a member, 401 is the healthy answer:
-// the gateway refused before the function ran. 403 is the function's own "only
-// accepts the Coldstream site" reply, which is only reachable if the gateway
-// let an unauthenticated request through, so it means Verify JWT is off. That
-// distinction is the whole reason this asks without a token: a curl carrying a
-// key looks fine either way.
+// Discord sync validates callers through Auth itself so asymmetric signing
+// keys work. Send the real origin to reach that check; without it, the origin
+// guard responds first and tells us nothing about authentication.
 async function authState(key) {
   const out = [];
 
   for (const name of ['discord-member-sync', 'steam-link']) {
     try {
-      const res = await fetch(`${FNS}/${name}`, { method: 'POST', redirect: 'manual' });
-      if (res.status === 401) out.push(ok(`${name} is deployed and refuses an unsigned request`));
+      const res = await fetch(`${FNS}/${name}`, { method: 'POST', redirect: 'manual', headers: { Origin: SITE } });
+      const body = await res.json().catch(() => null);
+      if (name === 'discord-member-sync' && res.status === 401 && body?.error === 'Sign in required') out.push(ok(`${name} authenticates in the handler and refuses an unsigned request`));
+      else if (name === 'discord-member-sync' && res.status === 401) out.push(bad(`${name} was rejected before its Auth check; check legacy gateway JWT verification`));
+      else if (res.status === 401) out.push(ok(`${name} is deployed and refuses an unsigned request`));
       else if (res.status === 404) out.push(bad(`${name} is not deployed`));
-      else if (res.status === 403) out.push(bad(`${name} answered 403 with no token: Verify JWT is off`));
+      else if (res.status === 403) out.push(bad(`${name} rejected the site origin before authentication`));
       else out.push(bad(`${name} returned ${res.status}`));
     } catch (e) {
       out.push(bad(`${name} unreachable: ${e.message}`));
