@@ -37,9 +37,15 @@ export function useAuth() {
         const { error: syncError } = await sb.functions.invoke('discord-member-sync', { body: {} });
         if (syncError) {
           console.warn('Discord member sync failed:', syncError.message);
+          let message = 'Your Discord login succeeded, but your member profile could not load. Please contact staff.';
+          if (syncError.context instanceof Response) {
+            const failure = await syncError.context.clone().json().catch(() => null);
+            if (typeof failure?.error === 'string') message = failure.error;
+          }
+          setAuthError(message);
           setMe(null);
           setOrphanSession(false);
-          setAccessDenied(true);
+          setAccessDenied(false);
           setAuthReady(true);
           return;
         }
@@ -51,6 +57,7 @@ export function useAuth() {
         .eq('auth_user_id', session.user.id).maybeSingle();
       if (error) console.warn('member row lookup failed:', error.message);
       setMe((data as Me | null) ?? null);
+      setAuthError(error ? 'Your member profile could not be loaded. Please try again.' : null);
       setOrphanSession(!error && !data);
       setAccessDenied(false);
       setAuthReady(true);

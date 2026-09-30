@@ -1,0 +1,5 @@
+# The gateway's legacy JWT verifier rejects asymmetric Auth signing keys.
+# This function authenticates each caller through auth.getUser() before any
+# Discord lookup or privileged database write. Do not remove that check.
+[functions.discord-member-sync]
+verify_jwt = false

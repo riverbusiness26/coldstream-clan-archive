@@ -14,6 +14,10 @@ const ids = (name: string) => new Set(
   (Deno.env.get(name) ?? "").split(",").map((value) => value.trim()).filter(Boolean),
 );
 const ADMIN_ROLES = ids("DISCORD_ADMIN_ROLE_IDS");
+// The current Discord administrator role is shared by the community leads.
+// Keep this exact role mapped after the server's role rotation, alongside
+// configured roles. Never infer staff access from a nickname or rank name.
+ADMIN_ROLES.add("1548897236782555176");
 const MODERATOR_ROLES = ids("DISCORD_MODERATOR_ROLE_IDS");
 const MEMBER_ROLES = ids("DISCORD_MEMBER_ROLE_IDS");
 // This is the current Coldstream member role. Keep the environment override
