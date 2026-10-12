@@ -1,0 +1,20 @@
+[
+  {
+    "name": "gallery-v2",
+    "source": "C:/Users/thegr/.codex/generated_images/01a100a2-467d-7472-a581-f7b807c70c96/exec-f5641472-79b9-48b3-8b73-832c305fc6ef.png",
+    "role": "gallery hero",
+    "path": "art/visuals/gallery-v2-v1.webp"
+  },
+  {
+    "name": "archive-v2",
+    "source": "C:/Users/thegr/.codex/generated_images/01a100a2-467d-7472-a581-f7b807c70c96/exec-6daac67c-3ffb-40b3-b806-e9e501293852.png",
+    "role": "archive hero",
+    "path": "art/visuals/archive-v2-v1.webp"
+  },
+  {
+    "name": "staff-v2",
+    "source": "C:/Users/thegr/.codex/generated_images/01a100a2-467d-7472-a581-f7b807c70c96/exec-5f68c400-af7e-4b1a-bb1a-8cf44811d0d9.png",
+    "role": "staff desk hero",
+    "path": "art/visuals/staff-v2-v1.webp"
+  }
+]

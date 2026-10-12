@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-12T01:03:16Z",
+  "source": "Direct read-only game queries",
+  "servers": [
+    {
+      "id": "holdfast-dev",
+      "name": "Coldstream Gaming Holdfast DEV",
+      "game": "Holdfast: Nations at War",
+      "status": "online",
+      "server_title": "Aristocrat",
+      "map": "DrillGrounds",
+      "players": 6,
+      "max_players": 64,
+      "address": "40.160.84.169:20100"
+    },
+    {
+      "id": "valheim-dev",
+      "name": "Coldstream Valheim DEV",
+      "game": "Valheim",
+      "status": "no-response",
+      "query_note": "No reply to the direct query"
+    },
+    {
+      "id": "minecraft-dev",
+      "name": "Coldstream Minecraft DEV",
+      "game": "Minecraft",
+      "status": "no-response",
+      "query_note": "No reply to the direct query"
+    }
+  ],
+  "legacy_placeholders": [
+    { "id": "ttt", "name": "Coldstream TTT", "game": "Garry's Mod", "address": "TBA" },
+    { "id": "css", "name": "Coldstream CS:S", "game": "Counter-Strike: Source", "address": "TBA" },
+    { "id": "cs16", "name": "Coldstream 1.6", "game": "Counter-Strike 1.6", "address": "TBA" },
+    { "id": "mc", "name": "Coldstream SMP", "game": "Minecraft", "address": "TBA" }
+  ]
+}

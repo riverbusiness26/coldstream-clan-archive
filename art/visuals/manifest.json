@@ -1,0 +1,152 @@
+[
+  {
+    "name": "blackjack",
+    "path": "art/visuals/blackjack-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-6b56d80f-a671-48fe-8e33-0607446040f6.png"
+  },
+  {
+    "name": "dice",
+    "path": "art/visuals/dice-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-d1b9af21-f73e-4c4b-9672-511f5612b699.png"
+  },
+  {
+    "name": "steal",
+    "path": "art/visuals/steal-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-18016a7d-dba7-42b5-b8eb-f9dbcf500a2c.png"
+  },
+  {
+    "name": "errand",
+    "path": "art/visuals/errand-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-3426eb9e-a7b2-4064-a960-4ec7e6be4616.png"
+  },
+  {
+    "name": "duel",
+    "path": "art/visuals/duel-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-baa15f17-257f-4cba-b654-fc24dbfe0471.png"
+  },
+  {
+    "name": "split",
+    "path": "art/visuals/split-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-03cf1323-cd3d-4e51-84f2-455b9b24752e.png"
+  },
+  {
+    "name": "heist",
+    "path": "art/visuals/heist-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-86f40d25-2891-4d6c-87a3-d340fd6cf454.png"
+  },
+  {
+    "name": "lottery",
+    "path": "art/visuals/lottery-v1.webp",
+    "role": "game cover",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-afda0360-7ae2-4075-855f-48975073c39a.png"
+  },
+  {
+    "name": "headquarters",
+    "path": "art/visuals/headquarters-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-5001586e-e424-4efd-a6fc-d02d0bd5abd3.png"
+  },
+  {
+    "name": "records",
+    "path": "art/visuals/records-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-65edc2e3-7b9c-4a55-b710-6953e308e60f.png"
+  },
+  {
+    "name": "events",
+    "path": "art/visuals/events-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-12ff5467-2163-418d-a423-b3c5c881a726.png"
+  },
+  {
+    "name": "honours",
+    "path": "art/visuals/honours-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-c2d48a12-c240-4443-b0f9-7b4f673c1195.png"
+  },
+  {
+    "name": "quartermaster",
+    "path": "art/visuals/quartermaster-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-c39938f1-8643-478f-811a-57ef52337701.png"
+  },
+  {
+    "name": "archive",
+    "path": "art/visuals/archive-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-dca992e1-2f2e-41cf-b2b8-e4569ee3f9df.png"
+  },
+  {
+    "name": "staff",
+    "path": "art/visuals/staff-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-c37450c5-d842-4f25-8545-e76c714625b1.png"
+  },
+  {
+    "name": "games",
+    "path": "art/visuals/games-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-2c8ec27d-d789-4cef-8b8d-3020328c3434.png"
+  },
+  {
+    "name": "leaderboard",
+    "path": "art/visuals/leaderboard-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-00201f53-59c0-4a89-a446-39399b0e3613.png"
+  },
+  {
+    "name": "gallery",
+    "path": "art/visuals/gallery-v1.webp",
+    "role": "page header",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-960339d2-505b-437a-bbbf-2d3afd5ece68.png"
+  },
+  {
+    "name": "ration-object",
+    "path": "art/visuals/ration-object-v1.webp",
+    "role": "reward object",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-473a5621-16b6-44c3-8a96-25766ee1c844.png"
+  },
+  {
+    "name": "duty-object",
+    "path": "art/visuals/duty-object-v1.webp",
+    "role": "reward object",
+    "original": "C:\\Users\\thegr\\.codex\\generated_images\\01a100a2-467d-7472-a581-f7b807c70c96\\exec-24f5d2d4-cc6b-4e3d-b15e-35fb4dfb87c5.png"
+  },
+  {
+    "name": "blackjack-progression",
+    "path": "art/visuals/blackjack-progression-v1.webp",
+    "role": "progression icon",
+    "original": "C:\\Users\\thegr\\Desktop\\AI Projects\\coldstream-unified-site-preview\\source-art\\blackjack-object.png"
+  },
+  {
+    "name": "lucky-dice-progression",
+    "path": "art/visuals/lucky-dice-progression-v1.webp",
+    "role": "progression icon",
+    "original": "C:\\Users\\thegr\\Desktop\\AI Projects\\coldstream-unified-site-preview\\source-art\\lucky-dice-object.png"
+  },
+  {
+    "name": "supply-wagon-progression",
+    "path": "art/visuals/supply-wagon-progression-v1.webp",
+    "role": "progression icon",
+    "original": "C:\\Users\\thegr\\Desktop\\AI Projects\\coldstream-unified-site-preview\\source-art\\supply-wagon-object.png"
+  },
+  {
+    "name": "duty-progression",
+    "path": "art/visuals/duty-progression-v1.webp",
+    "role": "progression icon",
+    "original": "C:\\Users\\thegr\\Desktop\\AI Projects\\coldstream-unified-site-preview\\source-art\\duty-object.png"
+  },
+  {
+    "name": "ration-progression",
+    "path": "art/visuals/ration-progression-v1.webp",
+    "role": "progression icon",
+    "original": "C:\\Users\\thegr\\Desktop\\AI Projects\\coldstream-unified-site-preview\\source-art\\ration-object.png"
+  }
+]
