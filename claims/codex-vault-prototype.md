@@ -1,3 +1,3 @@
-Holding: design/vault-breakin/, HANDOFF.md (append only)
-Doing: Isolated Vault Break-in prototype and Opus integration handoff. No production wiring or deployment.
-Since: 2026-10-13
+Holding: nothing
+Done: Isolated Vault Break-in prototype on codex/vault-breakin-prototype. Opus handoff in design/vault-breakin/OPUS-HANDOFF.md. No live integration or deployment.
+Released: 2026-10-13

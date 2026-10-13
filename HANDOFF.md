@@ -3999,3 +3999,11 @@ VERIFIED: npm run build --prefix site passed; 183 existing tests and four new di
 UNVERIFIED: River's final browser view and Starz's next login/admin view require their confirmation. Earlier retry failed before the role repair was confirmed. Starz's last observed sync still predates the updated role mapping. Existing server-status and steam-presence scheduler delays remain unrelated.
 BLOCKED: No deployment blocker. Do not declare both users' browser sessions verified from the successful backend check alone.
 NEXT: River refreshes the live site; Starz signs in again to sync the corrected Discord admin role. No Discord roles, balances or inventory changed.
+
+## 2026-10-13 - Isolated Vault Break-in prototype for Opus
+
+DONE: Added design/vault-breakin on feature branch codex/vault-breakin-prototype, with a mountable page, fictional adapter, original CSS vault art, offline checks and desktop handoff. No production entry points, actions, seeds or bundles changed.
+VERIFIED: node --test design/vault-breakin/model.test.mjs passed 16 tests; engine-check.mjs passed 8 groups including 576 odds vectors against the separate website engine. Browser success, scouting, smoke, alarm, uncertainty and narrow layout checks passed. Existing .assetsignore excludes design.
+UNVERIFIED: Live transactions, service concurrency, cross-tab receipt recovery and physical phone testing. Engine checkout is not bundled in the prototype.
+BLOCKED: Before live release, preserve request IDs/error codes and review the public member projection for hidden-defense leakage. River must approve rollout.
+NEXT: Opus reads design/vault-breakin/OPUS-HANDOFF.md, refines the prototype and prepares integration. Claim released.
