@@ -42,3 +42,10 @@
 # To tighten later: turn off Cloudflare Web Analytics in the dashboard, then
 # the only inline script left is the origin guard in index.html and its hash
 # can be pinned.
+
+# Hashed bundles never change under the same name; artwork changes rarely.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/art/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
