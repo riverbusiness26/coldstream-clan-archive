@@ -4,6 +4,8 @@
 
 River wants this finished far enough for you to refine and implement. This delivery is isolated in website Git and as a desktop folder/ZIP. It is NOT authorization to enable server actions, change live balances, post to Discord or deploy. Keep the canonical Quartermaster purse, chest, inventory and receipts. No shadow wallet, purchasable regimental ranks or medals.
 
+Git adoption: the prototype implementation is commit `ace5d173b0902fab5851eb167245b2cd1cf1f4c2`. Another worker's shop commit (`f014569`) appeared on the shared branch during this session and was preserved. Do not merge the whole branch blindly. Review or copy only `design/vault-breakin/`, or cherry-pick the prototype commit and this handoff note as appropriate. The desktop package contains only this Vault work.
+
 ## Reference review, 13 October 2026
 
 Read-only inspection of the signed-in live Paybook, Games and Shop established:
