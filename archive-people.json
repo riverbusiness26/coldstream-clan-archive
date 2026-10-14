@@ -896,7 +896,10 @@
             "HOL"
         ],
         "rank": "Private",
-        "entries": 6
+        "entries": 6,
+        "discordIds": [
+            "257034097191419905"
+        ]
     },
     {
         "key": "james",
@@ -2312,7 +2315,10 @@
             "HOL"
         ],
         "rank": null,
-        "entries": 3
+        "entries": 3,
+        "discordIds": [
+            "1007020105361801338"
+        ]
     },
     {
         "key": "kriegbrah",
@@ -2780,7 +2786,10 @@
             "HOL"
         ],
         "rank": null,
-        "entries": 1
+        "entries": 1,
+        "discordIds": [
+            "1243798504887812163"
+        ]
     },
     {
         "key": "l",
@@ -2792,7 +2801,10 @@
             "HOL"
         ],
         "rank": null,
-        "entries": 1
+        "entries": 1,
+        "discordIds": [
+            "690014256502014100"
+        ]
     },
     {
         "key": "richardson",
@@ -2804,7 +2816,10 @@
             "HOL"
         ],
         "rank": null,
-        "entries": 1
+        "entries": 1,
+        "discordIds": [
+            "164444632179015680"
+        ]
     },
     {
         "key": "raburn",
@@ -2816,6 +2831,9 @@
             "HOL"
         ],
         "rank": null,
-        "entries": 1
+        "entries": 1,
+        "discordIds": [
+            "937155175565635604"
+        ]
     }
 ]
