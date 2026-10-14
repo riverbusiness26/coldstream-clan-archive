@@ -1,2773 +1,2821 @@
 [
-  {
-    "key": "mmmidnightmercenaries",
-    "name": ".:]MM[:. | Midnight Mercenaries",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "mmsmuggler",
-    "name": ".:]MM[:.Smuggler",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "exoahernt",
-    "name": "=EXO=Ahern.T",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "",
-    "name": "⛧𝕸𝖚𝖗𝕸𝖚𝖗⛧",
-    "aka": [
-      ":/"
-    ],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "76561198027926849",
-    "name": "76561198027926849",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "agentofchaos",
-    "name": "AgentOfChaos",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "batestroy",
-    "name": "Bates Troy",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "blaboon",
-    "name": "Blaboon",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "blakeagl",
-    "name": "Blakeagl",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "bonj",
-    "name": "BonJ",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "buttchug",
-    "name": "buttchug",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "capitulatedmagik",
-    "name": "Capitulated Magik",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2012,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "dimeybagz",
-    "name": "Dimeybagz",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "djdisturbedsoviet",
-    "name": "DJ Disturbed Soviet",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "dominosman",
-    "name": "dominos man",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2011,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "dspgamingreal",
-    "name": "DSPGamingREAL",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "eldialectico",
-    "name": "El Dialectico",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "firestreak",
-    "name": "Firestreak",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "gorf",
-    "name": "Gorf",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "grim",
-    "name": "Grim",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "grimreaper",
-    "name": "GrimReaper",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "harry885",
-    "name": "harry885",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "huggybear",
-    "name": "Huggy Bear",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "jables",
-    "name": "Jables",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "jizzypants",
-    "name": "Jizzypants",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "kaiserreed",
-    "name": "Kaiser Reed",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "kingmeech",
-    "name": "King_Meech",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "lethomcgrady",
-    "name": "Letho McGrady",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "muntron",
-    "name": "Muntron",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "nochatteronwire",
-    "name": "NoChatterOnWire",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "notyet",
-    "name": "not yet",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "noxvdavid",
-    "name": "NoxV ' DaviD",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "obscurenerd",
-    "name": "Obscure Nerd",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "pacothetaco",
-    "name": "PACOTHETACO",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "pockets",
-    "name": "Pockets",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "rambo",
-    "name": "Rambo",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "reclu",
-    "name": "reclu",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2011,
-    "games": [
-      "NW"
-    ],
-    "rank": "Corporal",
-    "entries": 1
-  },
-  {
-    "key": "robertbaratheon",
-    "name": "Robert_Baratheon",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "robtimusprime",
-    "name": "Robtimus Prime",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "sgtwilly",
-    "name": "Sgt.Willy",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "shotmaster",
-    "name": "shotmaster",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "shu216",
-    "name": "Shu216",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "shyguy71",
-    "name": "Shyguy71",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "sirsmokes",
-    "name": "Sir Smokes",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "smoothbrain",
-    "name": "Smooth Brain",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "swisha",
-    "name": "swisha",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "tangledtheporno",
-    "name": "TangledThePorno",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "teabbagins",
-    "name": "Teabbagins",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thechosenone",
-    "name": "The Chosen One",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thewaterchicken",
-    "name": "The Water Chicken",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thetindog",
-    "name": "thetindog",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2015,
-    "games": [
-      "NW",
-      "HOL"
-    ],
-    "rank": "Private",
-    "entries": 3
-  },
-  {
-    "key": "theultimatesheepz",
-    "name": "TheUltimateSheepz",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "timmy9000",
-    "name": "Timmy9000",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 3
-  },
-  {
-    "key": "tonythetiger",
-    "name": "Tony the Tiger",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "truenn",
-    "name": "Truenn",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "umami",
-    "name": "Umami 自殺",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "vincentvintsansvin",
-    "name": "Vincent vint sans vin",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "welcomer",
-    "name": "WelcomER",
-    "aka": [],
-    "firstYear": 2011,
-    "datedYear": null,
-    "games": [
-      "BG2"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "2ndcsg00ber",
-    "name": "[2ndCS] g00ber",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 3
-  },
-  {
-    "key": "hegrandemperorvandheer",
-    "name": "[H.E.] ✟ GrandEmperorVandheer ✟",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "1989tiananmensquare",
-    "name": "1989 Tiananmen Square",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "600pingadreamcrazyconfident",
-    "name": "600PING&ADream CRAZY CONFIDENT",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "alexjnd",
-    "name": "Alexjnd",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "alicereverie",
-    "name": "Alice_Reverie",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "baron",
-    "name": "Baron",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "battlejesus",
-    "name": "BattleJesus",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "caeden1",
-    "name": "caeden1",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "crawdaddy",
-    "name": "Crawdaddy",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "crow368",
-    "name": "Crow368",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "cut67",
-    "name": "Cut67",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "dlpz2005",
-    "name": "dlpz2005",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "finbar",
-    "name": "Finbar",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "gloryhonor",
-    "name": "GloryHonor",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "ironhide650",
-    "name": "Ironhide650",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2015,
-    "games": [
-      "NW",
-      "HOL"
-    ],
-    "rank": "Private",
-    "entries": 4
-  },
-  {
-    "key": "james",
-    "name": "James",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "jihadjoe",
-    "name": "jihad joe",
-    "aka": [
-      "JihadJoe"
-    ],
-    "firstYear": 2012,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Lieutenant",
-    "entries": 2
-  },
-  {
-    "key": "joseph4lakers",
-    "name": "Joseph4Lakers",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "kavcav",
-    "name": "kavcav",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "kidcharlemagne",
-    "name": "Kid Charlemagne",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "lindsey",
-    "name": "Lindsey",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "ltspeirs",
-    "name": "Lt.Speirs",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "metrofc820",
-    "name": "metrofc820",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "mike12096",
-    "name": "Mike12096",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "mint",
-    "name": "Mint",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "mishap",
-    "name": "Mishap",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "mosquitojoe",
-    "name": "Mosquito Joe",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "moz",
-    "name": "Moz",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "n2deep",
-    "name": "n2deep",
-    "aka": [
-      "N2Deep"
-    ],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "noob1322",
-    "name": "noob1322",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "number4",
-    "name": "Number4",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "oogenheim",
-    "name": "Oogenheim",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "HOL",
-      "NW"
-    ],
-    "rank": null,
-    "entries": 3
-  },
-  {
-    "key": "pontiffscrunglus",
-    "name": "Pontiff_Scrunglus",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "poosoo",
-    "name": "Poosoo",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "ralof",
-    "name": "Ralof",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "rebel",
-    "name": "REBEL",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 2
-  },
-  {
-    "key": "richard",
-    "name": "Richard",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "rintohsakafanclubmember1",
-    "name": "Rin Tohsaka Fan Club Member #1",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "rivenx",
-    "name": "RivenX",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "river",
-    "name": "RiveR",
-    "aka": [
-      "Crawford"
-    ],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "HOL"
-    ],
-    "rank": "Colonel",
-    "entries": 2
-  },
-  {
-    "key": "scattman",
-    "name": "Scattman",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "scipio",
-    "name": "Scipio",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "seorgirth",
-    "name": "SeÑor Girth",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "shawarmapizza",
-    "name": "Shawarma Pizza",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "siwi",
-    "name": "Siwi",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "smashmeatchunk",
-    "name": "Smash Meatchunk",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "staic",
-    "name": "Staic",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "stoicsin",
-    "name": "Stoic Sin",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "stouty",
-    "name": "STOUTY",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thelonespoon",
-    "name": "The Lone Spoon",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thebigh",
-    "name": "TheBigH",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "toad",
-    "name": "Toad",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "tortuga",
-    "name": "Tortuga",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "trabzon",
-    "name": "Trabzon",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "truckinggoose",
-    "name": "TruckingGoose",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "venomousaffliction",
-    "name": "Venomous Affliction",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "viveleqc",
-    "name": "Vive le QC",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "vizofromthe0",
-    "name": "VizoFromThe0",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "williambinette",
-    "name": "WilliamBinette",
-    "aka": [
-      "williambinette"
-    ],
-    "firstYear": 2012,
-    "datedYear": 2012,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "yureikuzi",
-    "name": "YureiKuzi",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "zarrinspired",
-    "name": "ZarR Inspired",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "zucc",
-    "name": "Zucc",
-    "aka": [],
-    "firstYear": 2012,
-    "datedYear": null,
-    "games": [
-      "NW"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "bigh",
-    "name": "BigH",
-    "aka": [],
-    "firstYear": 2013,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "evoke",
-    "name": "Evoke",
-    "aka": [],
-    "firstYear": 2013,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "mrcanada",
-    "name": "MrCanada",
-    "aka": [],
-    "firstYear": 2013,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "potpie",
-    "name": "PotPie",
-    "aka": [],
-    "firstYear": 2013,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "samuel",
-    "name": "Samuel",
-    "aka": [],
-    "firstYear": 2013,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "sonofagun",
-    "name": "SonOfAGun",
-    "aka": [],
-    "firstYear": 2013,
-    "datedYear": 2013,
-    "games": [
-      "NW"
-    ],
-    "rank": "Recruit",
-    "entries": 1
-  },
-  {
-    "key": "uno",
-    "name": "Uno ;)",
-    "aka": [
-      "UNO"
-    ],
-    "firstYear": 2013,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "beanbean",
-    "name": "beanbean",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "captaincrunch",
-    "name": "CaptainCrunch",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "carrie",
-    "name": "Carrie",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "cheddarbob8365",
-    "name": "Cheddarbob8365",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "cheesyg",
-    "name": "CheesyG",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "crazy",
-    "name": "Crazy",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Major",
-    "entries": 1
-  },
-  {
-    "key": "crazyrussianman",
-    "name": "CrazyRussianMan",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "darman74",
-    "name": "Darman74",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Private",
-    "entries": 1
-  },
-  {
-    "key": "jakarta",
-    "name": "Jakarta",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Reserve",
-    "entries": 1
-  },
-  {
-    "key": "joe",
-    "name": "Joe",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Private",
-    "entries": 1
-  },
-  {
-    "key": "netstalker",
-    "name": "Netstalker",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Private",
-    "entries": 1
-  },
-  {
-    "key": "osca32",
-    "name": "Osca32",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "raven",
-    "name": "Raven",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Private",
-    "entries": 1
-  },
-  {
-    "key": "scholar",
-    "name": "Scholar",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "snickers",
-    "name": "Snickers",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "swiss",
-    "name": "Swiss",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "ulmnh",
-    "name": "Ulmnh",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Cadet",
-    "entries": 1
-  },
-  {
-    "key": "zemohc",
-    "name": "Zemohc",
-    "aka": [],
-    "firstYear": 2015,
-    "datedYear": 2015,
-    "games": [
-      "NW"
-    ],
-    "rank": "Corporal",
-    "entries": 1
-  },
-  {
-    "key": "dvst",
-    "name": "DVST",
-    "aka": [],
-    "firstYear": 2017,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "patches",
-    "name": "Patches",
-    "aka": [],
-    "firstYear": 2017,
-    "datedYear": 2020,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "aperfectname",
-    "name": "A Perfect Name",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "alfred",
-    "name": "Alfred",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "andres",
-    "name": "Andres",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "azino3",
-    "name": "Azino3",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "bean",
-    "name": "Bean",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "blue",
-    "name": "Blue",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "bobthebuilder",
-    "name": "Bob The Builder",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "brammers1968",
-    "name": "Brammers1968",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "britishtsar",
-    "name": "BritishTsar",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "brodoswaggins",
-    "name": "Brodo Swaggins",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "bullup31",
-    "name": "Bullup31",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "bumper",
-    "name": "Bumper",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "ceasejm",
-    "name": "ceasejm",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "cedrickhighsmith",
-    "name": "Cedrick Highsmith",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "chadiusmaximus",
-    "name": "Chadius Maximus",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "cloneengineer",
-    "name": "CloneEngineer",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "commando",
-    "name": "Commando",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "consul",
-    "name": "Consul",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "daddywalrus",
-    "name": "DaddyWalrus",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "daleparky1012",
-    "name": "daleparky1012",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "dartharris",
-    "name": "Dartharris",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "docb9110",
-    "name": "Docb9110",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "doctorplaguescp049",
-    "name": "DoctorPlague_SCP-049",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "einbertalstein",
-    "name": "Einbert Alstein",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "ericbloodaxe",
-    "name": "EricBloodaxe",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "evatco5",
-    "name": "Evatco5",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "freefroger",
-    "name": "freefroger",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "freelyboy",
-    "name": "freelyboy",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "fritzel",
-    "name": "Fritzel",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "garethpyoung",
-    "name": "garethpyoung",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "hawaiianpunch",
-    "name": "Hawaiian_Punch",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "hectorleadz",
-    "name": "HECTORLEADZ",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "hobospider96",
-    "name": "Hobospider96",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "hockeybob8",
-    "name": "hockeybob8",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "hypnotoad",
-    "name": "Hypnotoad",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "issythepup",
-    "name": "issythepup",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "jeremybriz",
-    "name": "Jeremybriz",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "juliuscheesar",
-    "name": "Juliuscheesar",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "kaavale",
-    "name": "Kaavale",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "karta",
-    "name": "Karta",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "keb",
-    "name": "keb",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "krakennwhackin",
-    "name": "KrakenNWhackin",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "kre8starz",
-    "name": "Kre8 (Starz)",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "kriegbrah",
-    "name": "Kriegbrah",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "lazo91",
-    "name": "Lazo91",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "lemonysucc",
-    "name": "lemonysucc",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "lordnevilleshortbottom",
-    "name": "Lord Neville Shortbottom",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "lordm0ld",
-    "name": "LordM0ld",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "magnumd",
-    "name": "MagnumD",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "maj",
-    "name": "maj",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "medtek",
-    "name": "MedTek",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "meegul",
-    "name": "Meegul",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "mrfredeuc23",
-    "name": "MrFredeuc23",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "mrscat",
-    "name": "MrScat",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "mushroombuddy",
-    "name": "Mushroom Buddy",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "nice",
-    "name": "Nice",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "nighthaunter",
-    "name": "Night Haunter",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "nugget",
-    "name": "nugget",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "pigeonmilk",
-    "name": "Pigeon Milk",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "plainandunlucky",
-    "name": "Plain and Unlucky",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "poopoopeepee",
-    "name": "PooPooPeePee",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "pvtpanda",
-    "name": "Pvt.Panda",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "rphn",
-    "name": "R𝟙p𝕡𝟛ℝ -Hn",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "railer69",
-    "name": "RAILER69",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "redcenter",
-    "name": "Red Center",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "rokey",
-    "name": "Rokey",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "roomayne",
-    "name": "Roomayne",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 2
-  },
-  {
-    "key": "rumzy",
-    "name": "rumzy",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "saerl",
-    "name": "Saerl",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "shell",
-    "name": "Shell",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "sirlarry",
-    "name": "Sir Larry",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "snafutheserb",
-    "name": "Snafu the serb",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "spencer1",
-    "name": "Spencer-1",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "th3fork",
-    "name": "th3fork",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thauma",
-    "name": "Thauma",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "thunderdragonemperorjoebiden",
-    "name": "Thunder Dragon Emperor Joe Biden",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "upstartpizza",
-    "name": "upstartpizza",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "veusdolt",
-    "name": "VeusDolt",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "wartiger",
-    "name": "war.tiger",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "winstar",
-    "name": "Winstar",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  },
-  {
-    "key": "winter",
-    "name": "Winter",
-    "aka": [],
-    "firstYear": 2020,
-    "datedYear": null,
-    "games": [
-      "HOL"
-    ],
-    "rank": null,
-    "entries": 1
-  }
+    {
+        "key": "mmmidnightmercenaries",
+        "name": ".:]MM[:. | Midnight Mercenaries",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "mmsmuggler",
+        "name": ".:]MM[:.Smuggler",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "exoahernt",
+        "name": "=EXO=Ahern.T",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "",
+        "name": "⛧𝕸𝖚𝖗𝕸𝖚𝖗⛧",
+        "aka": [
+            ":/"
+        ],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "76561198027926849",
+        "name": "76561198027926849",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "agentofchaos",
+        "name": "AgentOfChaos",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "batestroy",
+        "name": "Bates Troy",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "blaboon",
+        "name": "Blaboon",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "blakeagl",
+        "name": "Blakeagl",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "bonj",
+        "name": "BonJ",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "buttchug",
+        "name": "buttchug",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "capitulatedmagik",
+        "name": "Capitulated Magik",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2012,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "dimeybagz",
+        "name": "Dimeybagz",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "djdisturbedsoviet",
+        "name": "DJ Disturbed Soviet",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "dominosman",
+        "name": "dominos man",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2011,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "dspgamingreal",
+        "name": "DSPGamingREAL",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "eldialectico",
+        "name": "El Dialectico",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "firestreak",
+        "name": "Firestreak",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "gorf",
+        "name": "Gorf",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "grim",
+        "name": "Grim",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "grimreaper",
+        "name": "GrimReaper",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "harry885",
+        "name": "harry885",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "huggybear",
+        "name": "Huggy Bear",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "jables",
+        "name": "Jables",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "jizzypants",
+        "name": "Jizzypants",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "kaiserreed",
+        "name": "Kaiser Reed",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "kingmeech",
+        "name": "King_Meech",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "lethomcgrady",
+        "name": "Letho McGrady",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "muntron",
+        "name": "Muntron",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "nochatteronwire",
+        "name": "NoChatterOnWire",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "notyet",
+        "name": "not yet",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "noxvdavid",
+        "name": "NoxV ' DaviD",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "obscurenerd",
+        "name": "Obscure Nerd",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "pacothetaco",
+        "name": "PACOTHETACO",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "pockets",
+        "name": "Pockets",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "rambo",
+        "name": "Rambo",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "reclu",
+        "name": "reclu",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2011,
+        "games": [
+            "NW"
+        ],
+        "rank": "Corporal",
+        "entries": 1
+    },
+    {
+        "key": "robertbaratheon",
+        "name": "Robert_Baratheon",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "robtimusprime",
+        "name": "Robtimus Prime",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "sgtwilly",
+        "name": "Sgt.Willy",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "shotmaster",
+        "name": "shotmaster",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "shu216",
+        "name": "Shu216",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "shyguy71",
+        "name": "Shyguy71",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "sirsmokes",
+        "name": "Sir Smokes",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "smoothbrain",
+        "name": "Smooth Brain",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "swisha",
+        "name": "swisha",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "tangledtheporno",
+        "name": "TangledThePorno",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "teabbagins",
+        "name": "Teabbagins",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thechosenone",
+        "name": "The Chosen One",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thewaterchicken",
+        "name": "The Water Chicken",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thetindog",
+        "name": "thetindog",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2015,
+        "games": [
+            "NW",
+            "HOL"
+        ],
+        "rank": "Private",
+        "entries": 3
+    },
+    {
+        "key": "theultimatesheepz",
+        "name": "TheUltimateSheepz",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "timmy9000",
+        "name": "Timmy9000",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 3
+    },
+    {
+        "key": "tonythetiger",
+        "name": "Tony the Tiger",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "truenn",
+        "name": "Truenn",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "umami",
+        "name": "Umami 自殺",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "vincentvintsansvin",
+        "name": "Vincent vint sans vin",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "welcomer",
+        "name": "WelcomER",
+        "aka": [],
+        "firstYear": 2011,
+        "datedYear": null,
+        "games": [
+            "BG2"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "2ndcsg00ber",
+        "name": "[2ndCS] g00ber",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 3
+    },
+    {
+        "key": "hegrandemperorvandheer",
+        "name": "[H.E.] ✟ GrandEmperorVandheer ✟",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "1989tiananmensquare",
+        "name": "1989 Tiananmen Square",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "600pingadreamcrazyconfident",
+        "name": "600PING&ADream CRAZY CONFIDENT",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "alexjnd",
+        "name": "Alexjnd",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "alicereverie",
+        "name": "Alice_Reverie",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "baron",
+        "name": "Baron",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "battlejesus",
+        "name": "BattleJesus",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "caeden1",
+        "name": "caeden1",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "crawdaddy",
+        "name": "Crawdaddy",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "crow368",
+        "name": "Crow368",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "cut67",
+        "name": "Cut67",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "dlpz2005",
+        "name": "dlpz2005",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "finbar",
+        "name": "Finbar",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "gloryhonor",
+        "name": "GloryHonor",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "ironhide650",
+        "name": "Ironhide650",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW",
+            "HOL"
+        ],
+        "rank": "Private",
+        "entries": 6
+    },
+    {
+        "key": "james",
+        "name": "James",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "jihadjoe",
+        "name": "jihad joe",
+        "aka": [
+            "JihadJoe"
+        ],
+        "firstYear": 2012,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Lieutenant",
+        "entries": 2
+    },
+    {
+        "key": "joseph4lakers",
+        "name": "Joseph4Lakers",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "kavcav",
+        "name": "kavcav",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "kidcharlemagne",
+        "name": "Kid Charlemagne",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "lindsey",
+        "name": "Lindsey",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "ltspeirs",
+        "name": "Lt.Speirs",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "metrofc820",
+        "name": "metrofc820",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "mike12096",
+        "name": "Mike12096",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "mint",
+        "name": "Mint",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "mishap",
+        "name": "Mishap",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "mosquitojoe",
+        "name": "Mosquito Joe",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "moz",
+        "name": "Moz",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "n2deep",
+        "name": "n2deep",
+        "aka": [
+            "N2Deep"
+        ],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "noob1322",
+        "name": "noob1322",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "number4",
+        "name": "Number4",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "oogenheim",
+        "name": "Oogenheim",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "HOL",
+            "NW"
+        ],
+        "rank": null,
+        "entries": 3
+    },
+    {
+        "key": "pontiffscrunglus",
+        "name": "Pontiff_Scrunglus",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "poosoo",
+        "name": "Poosoo",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "ralof",
+        "name": "Ralof",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "rebel",
+        "name": "REBEL",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 2
+    },
+    {
+        "key": "richard",
+        "name": "Richard",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "rintohsakafanclubmember1",
+        "name": "Rin Tohsaka Fan Club Member #1",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "rivenx",
+        "name": "RivenX",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "river",
+        "name": "RiveR",
+        "aka": [
+            "Crawford"
+        ],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "HOL"
+        ],
+        "rank": "Colonel",
+        "entries": 2
+    },
+    {
+        "key": "scattman",
+        "name": "Scattman",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "scipio",
+        "name": "Scipio",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "seorgirth",
+        "name": "SeÑor Girth",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "shawarmapizza",
+        "name": "Shawarma Pizza",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "siwi",
+        "name": "Siwi",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "smashmeatchunk",
+        "name": "Smash Meatchunk",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "staic",
+        "name": "Staic",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "stoicsin",
+        "name": "Stoic Sin",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "stouty",
+        "name": "STOUTY",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thelonespoon",
+        "name": "The Lone Spoon",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thebigh",
+        "name": "TheBigH",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "toad",
+        "name": "Toad",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "tortuga",
+        "name": "Tortuga",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "trabzon",
+        "name": "Trabzon",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "truckinggoose",
+        "name": "TruckingGoose",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "venomousaffliction",
+        "name": "Venomous Affliction",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "viveleqc",
+        "name": "Vive le QC",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "vizofromthe0",
+        "name": "VizoFromThe0",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "williambinette",
+        "name": "WilliamBinette",
+        "aka": [
+            "williambinette"
+        ],
+        "firstYear": 2012,
+        "datedYear": 2012,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "yureikuzi",
+        "name": "YureiKuzi",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "zarrinspired",
+        "name": "ZarR Inspired",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "zucc",
+        "name": "Zucc",
+        "aka": [],
+        "firstYear": 2012,
+        "datedYear": null,
+        "games": [
+            "NW"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "bigh",
+        "name": "BigH",
+        "aka": [],
+        "firstYear": 2013,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "evoke",
+        "name": "Evoke",
+        "aka": [],
+        "firstYear": 2013,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "mrcanada",
+        "name": "MrCanada",
+        "aka": [],
+        "firstYear": 2013,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "potpie",
+        "name": "PotPie",
+        "aka": [],
+        "firstYear": 2013,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "samuel",
+        "name": "Samuel",
+        "aka": [],
+        "firstYear": 2013,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "sonofagun",
+        "name": "SonOfAGun",
+        "aka": [],
+        "firstYear": 2013,
+        "datedYear": 2013,
+        "games": [
+            "NW"
+        ],
+        "rank": "Recruit",
+        "entries": 1
+    },
+    {
+        "key": "uno",
+        "name": "Uno ;)",
+        "aka": [
+            "UNO"
+        ],
+        "firstYear": 2013,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "beanbean",
+        "name": "beanbean",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "captaincrunch",
+        "name": "CaptainCrunch",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "carrie",
+        "name": "Carrie",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "cheddarbob8365",
+        "name": "Cheddarbob8365",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "cheesyg",
+        "name": "CheesyG",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "crazy",
+        "name": "Crazy",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Major",
+        "entries": 1
+    },
+    {
+        "key": "crazyrussianman",
+        "name": "CrazyRussianMan",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "darman74",
+        "name": "Darman74",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Private",
+        "entries": 1
+    },
+    {
+        "key": "jakarta",
+        "name": "Jakarta",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Reserve",
+        "entries": 1
+    },
+    {
+        "key": "joe",
+        "name": "Joe",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Private",
+        "entries": 1
+    },
+    {
+        "key": "netstalker",
+        "name": "Netstalker",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Private",
+        "entries": 1
+    },
+    {
+        "key": "osca32",
+        "name": "Osca32",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "raven",
+        "name": "Raven",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Private",
+        "entries": 1
+    },
+    {
+        "key": "scholar",
+        "name": "Scholar",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "snickers",
+        "name": "Snickers",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "swiss",
+        "name": "Swiss",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "ulmnh",
+        "name": "Ulmnh",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Cadet",
+        "entries": 1
+    },
+    {
+        "key": "zemohc",
+        "name": "Zemohc",
+        "aka": [],
+        "firstYear": 2015,
+        "datedYear": 2015,
+        "games": [
+            "NW"
+        ],
+        "rank": "Corporal",
+        "entries": 1
+    },
+    {
+        "key": "dvst",
+        "name": "DVST",
+        "aka": [],
+        "firstYear": 2017,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "patches",
+        "name": "Patches",
+        "aka": [],
+        "firstYear": 2017,
+        "datedYear": 2020,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "aperfectname",
+        "name": "A Perfect Name",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "alfred",
+        "name": "Alfred",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "andres",
+        "name": "Andres",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "azino3",
+        "name": "Azino3",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "bean",
+        "name": "Bean",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "blue",
+        "name": "Blue",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "bobthebuilder",
+        "name": "Bob The Builder",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "brammers1968",
+        "name": "Brammers1968",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "britishtsar",
+        "name": "BritishTsar",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "brodoswaggins",
+        "name": "Brodo Swaggins",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "bullup31",
+        "name": "Bullup31",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "bumper",
+        "name": "Bumper",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "ceasejm",
+        "name": "ceasejm",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "cedrickhighsmith",
+        "name": "Cedrick Highsmith",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "chadiusmaximus",
+        "name": "Chadius Maximus",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "cloneengineer",
+        "name": "CloneEngineer",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "commando",
+        "name": "Commando",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "consul",
+        "name": "Consul",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "daddywalrus",
+        "name": "DaddyWalrus",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "daleparky1012",
+        "name": "daleparky1012",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "dartharris",
+        "name": "Dartharris",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "docb9110",
+        "name": "Docb9110",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "doctorplaguescp049",
+        "name": "DoctorPlague_SCP-049",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "einbertalstein",
+        "name": "Einbert Alstein",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "ericbloodaxe",
+        "name": "EricBloodaxe",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "evatco5",
+        "name": "Evatco5",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "freefroger",
+        "name": "freefroger",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "freelyboy",
+        "name": "freelyboy",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "fritzel",
+        "name": "Fritzel",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "garethpyoung",
+        "name": "garethpyoung",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "hawaiianpunch",
+        "name": "Hawaiian_Punch",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "hectorleadz",
+        "name": "HECTORLEADZ",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "hobospider96",
+        "name": "Hobospider96",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "hockeybob8",
+        "name": "hockeybob8",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "hypnotoad",
+        "name": "Hypnotoad",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "issythepup",
+        "name": "issythepup",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "jeremybriz",
+        "name": "Jeremybriz",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "juliuscheesar",
+        "name": "Juliuscheesar",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "kaavale",
+        "name": "Kaavale",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "karta",
+        "name": "Karta",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "keb",
+        "name": "keb",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "krakennwhackin",
+        "name": "KrakenNWhackin",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "kre8starz",
+        "name": "Kre8 (Starz)",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": 2020,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 3
+    },
+    {
+        "key": "kriegbrah",
+        "name": "Kriegbrah",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "lazo91",
+        "name": "Lazo91",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "lemonysucc",
+        "name": "lemonysucc",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "lordnevilleshortbottom",
+        "name": "Lord Neville Shortbottom",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "lordm0ld",
+        "name": "LordM0ld",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "magnumd",
+        "name": "MagnumD",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "maj",
+        "name": "maj",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "medtek",
+        "name": "MedTek",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "meegul",
+        "name": "Meegul",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "mrfredeuc23",
+        "name": "MrFredeuc23",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "mrscat",
+        "name": "MrScat",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "mushroombuddy",
+        "name": "Mushroom Buddy",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "nice",
+        "name": "Nice",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "nighthaunter",
+        "name": "Night Haunter",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "nugget",
+        "name": "nugget",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "pigeonmilk",
+        "name": "Pigeon Milk",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "plainandunlucky",
+        "name": "Plain and Unlucky",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "poopoopeepee",
+        "name": "PooPooPeePee",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "pvtpanda",
+        "name": "Pvt.Panda",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "rphn",
+        "name": "R𝟙p𝕡𝟛ℝ -Hn",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "railer69",
+        "name": "RAILER69",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "redcenter",
+        "name": "Red Center",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "rokey",
+        "name": "Rokey",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "roomayne",
+        "name": "Roomayne",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 2
+    },
+    {
+        "key": "rumzy",
+        "name": "rumzy",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "saerl",
+        "name": "Saerl",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "shell",
+        "name": "Shell",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "sirlarry",
+        "name": "Sir Larry",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "snafutheserb",
+        "name": "Snafu the serb",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "spencer1",
+        "name": "Spencer-1",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "th3fork",
+        "name": "th3fork",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thauma",
+        "name": "Thauma",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "thunderdragonemperorjoebiden",
+        "name": "Thunder Dragon Emperor Joe Biden",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "upstartpizza",
+        "name": "upstartpizza",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "veusdolt",
+        "name": "VeusDolt",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "wartiger",
+        "name": "war.tiger",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "winstar",
+        "name": "Winstar",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "winter",
+        "name": "Winter",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": null,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "slug",
+        "name": "SLUG",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": 2020,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "l",
+        "name": "L",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": 2020,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "richardson",
+        "name": "Richardson",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": 2020,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    },
+    {
+        "key": "raburn",
+        "name": "Raburn",
+        "aka": [],
+        "firstYear": 2020,
+        "datedYear": 2020,
+        "games": [
+            "HOL"
+        ],
+        "rank": null,
+        "entries": 1
+    }
 ]
